@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 
 namespace Steamworks {
@@ -15,7 +15,6 @@ namespace Steamworks {
 	[AttributeUsage(AttributeTargets.Struct, AllowMultiple = false)]
 	internal class CallbackIdentityAttribute : System.Attribute {
 		public int Identity { get; set; }
-
 		public CallbackIdentityAttribute(int callbackNum) {
 			Identity = callbackNum;
 		}
