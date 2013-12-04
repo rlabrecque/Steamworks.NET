@@ -17,8 +17,11 @@ The included CSteamworks.dll was built with VS2010, and as such requires [Micros
 
 [![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.1.0/dist/gittip.png)](https://www.gittip.com/rlabrecque/)
 [![Support via Paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2QWKYXPRH6GJW)
+
 [![Support via Flattr](https://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=rlabrecque&url=https%3A%2F%2Fgithub.com%2Frlabrecque%2FSteamworks.NET)
+
 Support via Bitcoin: 1svQRtNjCFthihzY5NN89aTan9WUua9GZ
+
 Support via Litecoin: LPSyg4uJYSUdmFLEMLe85rKw6G7aQkmTak
 
 
