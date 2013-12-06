@@ -52,8 +52,11 @@ namespace Steamworks {
 		public uint m_rtimeUpdated;
 		public uint m_rtimeAddedToUserList;
 		public ERemoteStoragePublishedFileVisibility m_eVisibility;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bBanned;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bAcceptedForUse;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bTagsTruncated;
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchTagListMax)]
 		public string m_rgchTags;

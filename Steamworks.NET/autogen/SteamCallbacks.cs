@@ -127,7 +127,9 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 40;
 		public ulong m_steamIDClanChat;
 		public ulong m_steamIDUser;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bKicked;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bDropped;
 	}
 
@@ -135,6 +137,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 41)]
 	public struct DownloadClanActivityCountsResult_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 41;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bSuccess;
 	}
 
@@ -169,6 +172,7 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 45;
 		public EResult m_eResult;
 		public ulong m_steamID;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bIsFollowing;
 	}
 
@@ -187,7 +191,9 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 47)]
 	public struct SetPersonaNameResponse_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 47;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bSuccess;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bLocalSuccess;
 		public EResult m_result;
 	}
@@ -238,6 +244,7 @@ namespace Steamworks {
 		public ulong m_SteamID;
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
 		public string m_pchAchievement;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bUnlocked;
 	}
 
@@ -264,7 +271,9 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 8;
 		public ulong m_SteamIDUser;
 		public ulong m_SteamIDGroup;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bMember;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bOfficer;
 	}
 
@@ -274,6 +283,7 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 9;
 		public EResult m_eResult;
 		public uint m_unReputationScore;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bBanned;
 		public uint m_unBannedIP;
 		public ushort m_usBannedPort;
@@ -328,6 +338,7 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iClientHTTPCallbacks + 1;
 		public uint m_hRequest;
 		public ulong m_ulContextValue;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bRequestSuccessful;
 		public EHTTPStatusCode m_eStatusCode;
 	}
@@ -359,6 +370,7 @@ namespace Steamworks {
 		public uint m_nConnPort;
 		public uint m_nAppID;
 		public uint m_nFlags;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bAdd;
 	}
 
@@ -377,6 +389,7 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 4;
 		public ulong m_ulSteamIDLobby;
 		public uint m_rgfChatPermissions;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bLocked;
 		public uint m_EChatRoomEnterResponse;
 	}
@@ -448,6 +461,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 15)]
 	public struct PSNGameBootInviteResult_t {
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 15;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bGameBootInviteExists;
 		public ulong m_steamIDLobby;
 	}
@@ -504,6 +518,7 @@ namespace Steamworks {
 		public uint m_nAppID;
 		public uint m_uBytesTransferredThisChunk;
 		public double m_dAppPercentComplete;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bUploading;
 	}
 
@@ -537,6 +552,7 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 9;
 		public EResult m_eResult;
 		public ulong m_nPublishedFileId;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
 	}
 
@@ -594,6 +610,7 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 16;
 		public EResult m_eResult;
 		public ulong m_nPublishedFileId;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
 	}
 
@@ -628,9 +645,11 @@ namespace Steamworks {
 		public uint m_rtimeCreated;
 		public uint m_rtimeUpdated;
 		public ERemoteStoragePublishedFileVisibility m_eVisibility;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bBanned;
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchTagListMax)]
 		public string m_rgchTags;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bTagsTruncated;
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchFilenameMax)]
 		public string m_pchFileName;
@@ -639,6 +658,7 @@ namespace Steamworks {
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchPublishedFileURLMax)]
 		public string m_rgchURL;
 		public EWorkshopFileType m_eFileType;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bAcceptedForUse;
 	}
 
@@ -749,6 +769,7 @@ namespace Steamworks {
 	public struct RemoteStoragePublishFileProgress_t {
 		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 29;
 		public double m_dPercentFile;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bPreview;
 	}
 
@@ -907,6 +928,7 @@ namespace Steamworks {
 	public struct UserAchievementStored_t {
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 3;
 		public ulong m_nGameID;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bGroupAchievement;
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchStatNameMax)]
 		public string m_rgchAchievementName;
@@ -965,6 +987,7 @@ namespace Steamworks {
 		public GameID_t m_nGameID;
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchStatNameMax)]
 		public string m_rgchAchievementName;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bAchieved;
 		public int m_nIconHandle;
 	}
@@ -1070,6 +1093,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 12)]
 	public struct PS3PSNStatusChange_t {
 		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 12;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bPSNOnline;
 	}
 
@@ -1077,6 +1101,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 14)]
 	public struct GamepadTextInputDismissed_t {
 		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 14;
+		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bSubmitted;
 		public uint m_unSubmittedText;
 	}
