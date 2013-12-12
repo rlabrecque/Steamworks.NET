@@ -1,7 +1,7 @@
 Steamworks.NET
 =======
 
-_Steamworks.NET_ is a barebones C# Wrapper for Valve's Steamworks API intended for use with Unity. This project relys on dynamic libraries created by [CSteamworks](https://github.com/rlabrecque/CSteamworks). (Prebuilt and included for ease of use)
+_Steamworks.NET_ is a C# Wrapper for Valve's Steamworks API, it is intended for use with Unity. This project relies on dynamic libraries created by [CSteamworks](https://github.com/rlabrecque/CSteamworks). (Prebuilt and included for ease of use)
 
 _Steamworks.NET_ was designed to be as close as possible to the original C++ API, as such the documentation provided from Valve largely covers usage of _Steamworks.NET_.
 Niceties and C# Idioms can be implemented on top of _Steamworks.NET_ easily.
@@ -28,15 +28,15 @@ Usage
 
 To use _Steamworks.NET_ you must be a Steamworks developer. _Steamworks.NET_ Requires Unity Pro for the plugin functionality.
 
-* Clone _Steamworks.NET_ into your %UnityProject%/Assets/Plugins
+* Clone _Steamworks.NET_ into your %UnityProject%/Assets/Plugins folder.
 * - Alternatively there is a [Zip](https://github.com/rlabrecque/Steamworks.NET/archive/master.zip) available.
 * Create a file called `steam_appid.txt` within the root of your Unity Project, place your Steam AppID within this file.
 * If you run the Unity Editor on Windows - copy `steam_api.dll` from the Steamworks SDK into the root of your Unity Project.
 
 
 Check out these example projects to get started:
-[Steamworks.NET Example](https://github.com/rlabrecque/Steamworks.NET-Example)
-[Steamworks.NET Test](https://github.com/rlabrecque/Steamworks.NET-Test)
+* [Steamworks.NET Example](https://github.com/rlabrecque/Steamworks.NET-Example)
+* [Steamworks.NET Test](https://github.com/rlabrecque/Steamworks.NET-Test)
 
 
 Realease Instructions
