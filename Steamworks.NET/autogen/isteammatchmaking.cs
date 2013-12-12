@@ -92,8 +92,8 @@ namespace Steamworks {
 		public static bool GetLobbyDataByIndex(ulong steamIDLobby, int iLobbyData, out string pchKey, int cchKeyBufferSize, out string pchValue, int cchValueBufferSize) {
 			IntPtr pchKey2 = Marshal.AllocHGlobal(cchKeyBufferSize);
 			IntPtr pchValue2 = Marshal.AllocHGlobal(cchValueBufferSize);
-			bool ret = NativeMethods.ISteamMatchmaking_GetLobbyDataByIndex(steamIDLobby, iLobbyData, out pchKey2, cchKeyBufferSize, out pchValue2, cchValueBufferSize);
-			pchName = InteropHelp.PtrToStringUTF8(pchKey2);
+			bool ret = NativeMethods.ISteamMatchmaking_GetLobbyDataByIndex(steamIDLobby, iLobbyData, pchKey2, cchKeyBufferSize, pchValue2, cchValueBufferSize);
+			pchKey = InteropHelp.PtrToStringUTF8(pchKey2);
 			pchValue = InteropHelp.PtrToStringUTF8(pchValue2);
 			Marshal.FreeHGlobal(pchKey2);
 			Marshal.FreeHGlobal(pchValue2);
