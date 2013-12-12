@@ -49,8 +49,12 @@ namespace Steamworks {
 			return NativeMethods.ISteamApps_GetDLCCount();
 		}
 
-		public static bool BGetDLCDataByIndex(int iDLC, out uint pAppID, out bool pbAvailable, IntPtr pchName, int cchNameBufferSize) {
-			return NativeMethods.ISteamApps_BGetDLCDataByIndex(iDLC, out pAppID, out pbAvailable, pchName, cchNameBufferSize);
+		public static bool BGetDLCDataByIndex(int iDLC, out uint pAppID, out bool pbAvailable, out string pchName, int cchNameBufferSize) {
+			IntPtr pchName2 = Marshal.AllocHGlobal(cchNameBufferSize);
+			bool ret = NativeMethods.ISteamApps_BGetDLCDataByIndex(iDLC, out pAppID, out pbAvailable, out pchName2, cchNameBufferSize);
+			pchName = InteropHelp.PtrToStringUTF8(pchName2);
+			Marshal.FreeHGlobal(pchName2);
+			return ret;
 		}
 
 		public static void InstallDLC(uint nAppID) {
@@ -65,8 +69,12 @@ namespace Steamworks {
 			NativeMethods.ISteamApps_RequestAppProofOfPurchaseKey(nAppID);
 		}
 
-		public static bool GetCurrentBetaName(IntPtr pchName, int cchNameBufferSize) {
-			return NativeMethods.ISteamApps_GetCurrentBetaName(pchName, cchNameBufferSize);
+		public static bool GetCurrentBetaName(out string pchName, int cchNameBufferSize) {
+			IntPtr pchName2 = Marshal.AllocHGlobal(cchNameBufferSize);
+			bool ret = NativeMethods.ISteamApps_GetCurrentBetaName(out pchName2, cchNameBufferSize);
+			pchName = InteropHelp.PtrToStringUTF8(pchName2);
+			Marshal.FreeHGlobal(pchName2);
+			return ret;
 		}
 
 		public static bool MarkContentCorrupt(bool bMissingFilesOnly) {
@@ -77,8 +85,12 @@ namespace Steamworks {
 			return NativeMethods.ISteamApps_GetInstalledDepots(appID, pvecDepots, cMaxDepots);
 		}
 
-		public static uint GetAppInstallDir(uint appID, IntPtr pchFolder, uint cchFolderBufferSize) {
-			return NativeMethods.ISteamApps_GetAppInstallDir(appID, pchFolder, cchFolderBufferSize);
+		public static uint GetAppInstallDir(uint appID, out string pchFolder, uint cchFolderBufferSize) {
+			IntPtr pchFolder2 = Marshal.AllocHGlobal(cchNameBufferSize);
+			bool ret = NativeMethods.ISteamApps_GetAppInstallDir(appID, out pchFolder2, cchFolderBufferSize);
+			pchFolder = InteropHelp.PtrToStringUTF8(pchFolder2);
+			Marshal.FreeHGlobal(pchFolder2);
+			return ret;
 		}
 
 		public static bool BIsAppInstalled(uint appID) {

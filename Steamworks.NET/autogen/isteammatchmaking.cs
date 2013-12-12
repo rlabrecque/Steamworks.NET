@@ -89,8 +89,15 @@ namespace Steamworks {
 			return NativeMethods.ISteamMatchmaking_GetLobbyDataCount(steamIDLobby);
 		}
 
-		public static bool GetLobbyDataByIndex(ulong steamIDLobby, int iLobbyData, IntPtr pchKey, int cchKeyBufferSize, IntPtr pchValue, int cchValueBufferSize) {
-			return NativeMethods.ISteamMatchmaking_GetLobbyDataByIndex(steamIDLobby, iLobbyData, pchKey, cchKeyBufferSize, pchValue, cchValueBufferSize);
+		public static bool GetLobbyDataByIndex(ulong steamIDLobby, int iLobbyData, out string pchKey, int cchKeyBufferSize, out string pchValue, int cchValueBufferSize) {
+			IntPtr pchKey2 = Marshal.AllocHGlobal(cchKeyBufferSize);
+			IntPtr pchValue2 = Marshal.AllocHGlobal(cchValueBufferSize);
+			bool ret = NativeMethods.ISteamMatchmaking_GetLobbyDataByIndex(steamIDLobby, iLobbyData, out pchKey2, cchKeyBufferSize, out pchValue2, cchValueBufferSize);
+			pchName = InteropHelp.PtrToStringUTF8(pchKey2);
+			pchValue = InteropHelp.PtrToStringUTF8(pchValue2);
+			Marshal.FreeHGlobal(pchKey2);
+			Marshal.FreeHGlobal(pchValue2);
+			return ret;
 		}
 
 		public static bool DeleteLobbyData(ulong steamIDLobby, string pchKey) {

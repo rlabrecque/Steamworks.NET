@@ -145,12 +145,20 @@ namespace Steamworks {
 			return NativeMethods.ISteamUserStats_RequestGlobalAchievementPercentages();
 		}
 
-		public static int GetMostAchievedAchievementInfo(IntPtr pchName, uint unNameBufLen, out float pflPercent, out bool pbAchieved) {
-			return NativeMethods.ISteamUserStats_GetMostAchievedAchievementInfo(pchName, unNameBufLen, out pflPercent, out pbAchieved);
+		public static int GetMostAchievedAchievementInfo(out string pchName, uint unNameBufLen, out float pflPercent, out bool pbAchieved) {
+			IntPtr pchName2 = Marshal.AllocHGlobal(unNameBufLen);
+			bool ret = NativeMethods.ISteamUserStats_GetMostAchievedAchievementInfo(out pchName2, unNameBufLen, out pflPercent, out pbAchieved);
+			pchName = InteropHelp.PtrToStringUTF8(pchName2);
+			Marshal.FreeHGlobal(pchName2);
+			return ret;
 		}
 
-		public static int GetNextMostAchievedAchievementInfo(int iIteratorPrevious, IntPtr pchName, uint unNameBufLen, out float pflPercent, out bool pbAchieved) {
-			return NativeMethods.ISteamUserStats_GetNextMostAchievedAchievementInfo(iIteratorPrevious, pchName, unNameBufLen, out pflPercent, out pbAchieved);
+		public static int GetNextMostAchievedAchievementInfo(int iIteratorPrevious, out string pchName, uint unNameBufLen, out float pflPercent, out bool pbAchieved) {
+			IntPtr pchName2 = Marshal.AllocHGlobal(unNameBufLen);
+			bool ret = NativeMethods.ISteamUserStats_GetNextMostAchievedAchievementInfo(iIteratorPrevious, out pchName, unNameBufLen, out pflPercent, out pbAchieved);
+			pchName = InteropHelp.PtrToStringUTF8(pchName2);
+			Marshal.FreeHGlobal(pchName2);
+			return ret;
 		}
 
 		public static bool GetAchievementAchievedPercent(string pchName, out float pflPercent) {

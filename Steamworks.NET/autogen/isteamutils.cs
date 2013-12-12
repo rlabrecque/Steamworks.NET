@@ -110,8 +110,12 @@ namespace Steamworks {
 			return NativeMethods.ISteamUtils_GetEnteredGamepadTextLength();
 		}
 
-		public static bool GetEnteredGamepadTextInput(IntPtr pchText, uint cchText) {
-			return NativeMethods.ISteamUtils_GetEnteredGamepadTextInput(pchText, cchText);
+		public static bool GetEnteredGamepadTextInput(out string pchText, uint cchText) {
+			IntPtr pchText2 = Marshal.AllocHGlobal(cchText);
+			bool ret = NativeMethods.ISteamUtils_GetEnteredGamepadTextInput(out pchText2, cchText);
+			pchText = InteropHelp.PtrToStringUTF8(pchText2);
+			Marshal.FreeHGlobal(pchText2);
+			return ret;
 		}
 
 		public static string GetSteamUILanguage() {

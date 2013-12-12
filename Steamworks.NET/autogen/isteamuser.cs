@@ -29,8 +29,12 @@ namespace Steamworks {
 			NativeMethods.ISteamUser_TrackAppUsageEvent(gameID, eAppUsageEvent);
 		}
 
-		public static bool GetUserDataFolder(IntPtr pchBuffer, int cubBuffer) {
-			return NativeMethods.ISteamUser_GetUserDataFolder(pchBuffer, cubBuffer);
+		public static bool GetUserDataFolder(out string pchBuffer, int cubBuffer) {
+			IntPtr pchBuffer2 = Marshal.AllocHGlobal(cubBuffer);
+			bool ret = NativeMethods.ISteamUser_GetUserDataFolder(pchBuffer2, cubBuffer);
+			pchBuffer = InteropHelp.PtrToStringUTF8(pchBuffer2);
+			Marshal.FreeHGlobal(pchBuffer2);
+			return ret;
 		}
 
 		public static void StartVoiceRecording() {
