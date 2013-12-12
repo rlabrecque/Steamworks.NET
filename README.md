@@ -29,7 +29,7 @@ Usage
 To use _Steamworks.NET_ you must be a Steamworks developer. _Steamworks.NET_ Requires Unity Pro for the plugin functionality.
 
 * Clone _Steamworks.NET_ into your %UnityProject%/Assets/Plugins folder.
-* - Alternatively there is a [Zip](https://github.com/rlabrecque/Steamworks.NET/archive/master.zip) available.
+ * Alternatively there is a Zip Archives are available: [Stable (1.0.1)](https://github.com/rlabrecque/Steamworks.NET/archive/1.0.1.zip) -- [Master (Development branch)](https://github.com/rlabrecque/Steamworks.NET/archive/master.zip)
 * Create a file called `steam_appid.txt` within the root of your Unity Project, place your Steam AppID within this file.
 * If you run the Unity Editor on Windows - copy `steam_api.dll` from the Steamworks SDK into the root of your Unity Project.
 
