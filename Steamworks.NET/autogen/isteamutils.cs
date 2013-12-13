@@ -113,7 +113,7 @@ namespace Steamworks {
 		public static bool GetEnteredGamepadTextInput(out string pchText, uint cchText) {
 			IntPtr pchText2 = Marshal.AllocHGlobal((int)cchText);
 			bool ret = NativeMethods.ISteamUtils_GetEnteredGamepadTextInput(pchText2, cchText);
-			pchText = InteropHelp.PtrToStringUTF8(pchText2);
+			pchText = ret ? InteropHelp.PtrToStringUTF8(pchText2) : null;
 			Marshal.FreeHGlobal(pchText2);
 			return ret;
 		}

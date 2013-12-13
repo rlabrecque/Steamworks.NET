@@ -32,7 +32,7 @@ namespace Steamworks {
 		public static bool GetUserDataFolder(out string pchBuffer, int cubBuffer) {
 			IntPtr pchBuffer2 = Marshal.AllocHGlobal(cubBuffer);
 			bool ret = NativeMethods.ISteamUser_GetUserDataFolder(pchBuffer2, cubBuffer);
-			pchBuffer = InteropHelp.PtrToStringUTF8(pchBuffer2);
+			pchBuffer = ret ? InteropHelp.PtrToStringUTF8(pchBuffer2) : null;
 			Marshal.FreeHGlobal(pchBuffer2);
 			return ret;
 		}
