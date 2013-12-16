@@ -273,7 +273,7 @@ namespace Steamworks {
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamFriends_GetFriendGamePlayed(ulong steamIDFriend, ref FriendGameInfo_t pFriendGameInfo);
+		public static extern bool ISteamFriends_GetFriendGamePlayed(ulong steamIDFriend, out FriendGameInfo_t pFriendGameInfo);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr ISteamFriends_GetFriendPersonaNameHistory(ulong steamIDFriend, int iPersonaName);

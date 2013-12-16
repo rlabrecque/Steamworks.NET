@@ -37,8 +37,8 @@ namespace Steamworks {
 			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamFriends_GetFriendPersonaName(steamIDFriend));
 		}
 
-		public static bool GetFriendGamePlayed(ulong steamIDFriend, ref FriendGameInfo_t pFriendGameInfo) {
-			return NativeMethods.ISteamFriends_GetFriendGamePlayed(steamIDFriend, ref pFriendGameInfo);
+		public static bool GetFriendGamePlayed(ulong steamIDFriend, out FriendGameInfo_t pFriendGameInfo) {
+			return NativeMethods.ISteamFriends_GetFriendGamePlayed(steamIDFriend, out pFriendGameInfo);
 		}
 
 		public static string GetFriendPersonaNameHistory(ulong steamIDFriend, int iPersonaName) {
