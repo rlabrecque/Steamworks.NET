@@ -182,7 +182,7 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 46;
 		public EResult m_eResult;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cEnumerateFollowersMax)]
-		public ulong m_rgSteamID;
+		public ulong[] m_rgSteamID;
 		public int m_nResultsReturned;
 		public int m_nTotalResultCount;
 	}
@@ -572,7 +572,7 @@ namespace Steamworks {
 		public int m_nResultsReturned;
 		public int m_nTotalResultCount;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
-		public ulong m_rgPublishedFileId;
+		public ulong[] m_rgPublishedFileId;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -591,9 +591,9 @@ namespace Steamworks {
 		public int m_nResultsReturned;
 		public int m_nTotalResultCount;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
-		public ulong m_rgPublishedFileId;
+		public ulong[] m_rgPublishedFileId;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
-		public uint m_rgRTimeSubscribed;
+		public uint[] m_rgRTimeSubscribed;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -670,9 +670,9 @@ namespace Steamworks {
 		public int m_nResultsReturned;
 		public int m_nTotalResultCount;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
-		public ulong m_rgPublishedFileId;
+		public ulong[] m_rgPublishedFileId;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
-		public float m_rgScore;
+		public float[] m_rgScore;
 		public uint m_nAppId;
 		public uint m_unStartIndex;
 	}
@@ -738,7 +738,7 @@ namespace Steamworks {
 		public int m_nResultsReturned;
 		public int m_nTotalResultCount;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
-		public ulong m_rgPublishedFileId;
+		public ulong[] m_rgPublishedFileId;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -759,9 +759,9 @@ namespace Steamworks {
 		public int m_nResultsReturned;
 		public int m_nTotalResultCount;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
-		public ulong m_rgPublishedFileId;
+		public ulong[] m_rgPublishedFileId;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
-		public uint m_rgRTimeUpdated;
+		public uint[] m_rgRTimeUpdated;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
