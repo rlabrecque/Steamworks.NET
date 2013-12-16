@@ -13,8 +13,8 @@ namespace Steamworks {
 			return NativeMethods.ISteamNetworking_IsP2PPacketAvailable(out pcubMsgSize);
 		}
 
-		public static bool ReadP2PPacket(IntPtr pubDest, uint cubDest, out uint pcubMsgSize, IntPtr psteamIDRemote) {
-			return NativeMethods.ISteamNetworking_ReadP2PPacket(pubDest, cubDest, out pcubMsgSize, psteamIDRemote);
+		public static bool ReadP2PPacket(IntPtr pubDest, uint cubDest, out uint pcubMsgSize, out ulong psteamIDRemote) {
+			return NativeMethods.ISteamNetworking_ReadP2PPacket(pubDest, cubDest, out pcubMsgSize, out psteamIDRemote);
 		}
 
 		public static bool AcceptP2PSessionWithUser(ulong steamIDRemote) {
@@ -77,8 +77,8 @@ namespace Steamworks {
 			return NativeMethods.ISteamNetworking_RetrieveData(hListenSocket, pubDest, cubDest, out pcubMsgSize, out phSocket);
 		}
 
-		public static bool GetSocketInfo(uint hSocket, IntPtr pSteamIDRemote, out int peSocketStatus, out uint punIPRemote, out ushort punPortRemote) {
-			return NativeMethods.ISteamNetworking_GetSocketInfo(hSocket, pSteamIDRemote, out peSocketStatus, out punIPRemote, out punPortRemote);
+		public static bool GetSocketInfo(uint hSocket, out ulong pSteamIDRemote, out int peSocketStatus, out uint punIPRemote, out ushort punPortRemote) {
+			return NativeMethods.ISteamNetworking_GetSocketInfo(hSocket, out pSteamIDRemote, out peSocketStatus, out punIPRemote, out punPortRemote);
 		}
 
 		public static bool GetListenSocketInfo(uint hListenSocket, out uint pnIP, out ushort pnPort) {

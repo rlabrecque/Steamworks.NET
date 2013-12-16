@@ -121,7 +121,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamUserStats_DownloadLeaderboardEntries(hSteamLeaderboard, eLeaderboardDataRequest, nRangeStart, nRangeEnd);
 		}
 
-		public static ulong DownloadLeaderboardEntriesForUsers(ulong hSteamLeaderboard, IntPtr prgUsers, int cUsers) {
+		public static ulong DownloadLeaderboardEntriesForUsers(ulong hSteamLeaderboard, ulong[] prgUsers, int cUsers) {
 			return NativeMethods.ISteamUserStats_DownloadLeaderboardEntriesForUsers(hSteamLeaderboard, prgUsers, cUsers);
 		}
 

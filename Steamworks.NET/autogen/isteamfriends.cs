@@ -73,7 +73,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamFriends_GetClanActivityCounts(steamIDClan, out pnOnline, out pnInGame, out pnChatting);
 		}
 
-		public static ulong DownloadClanActivityCounts(IntPtr psteamIDClans, int cClansToRequest) {
+		public static ulong DownloadClanActivityCounts(ulong[] psteamIDClans, int cClansToRequest) {
 			return NativeMethods.ISteamFriends_DownloadClanActivityCounts(psteamIDClans, cClansToRequest);
 		}
 
@@ -217,8 +217,8 @@ namespace Steamworks {
 			return NativeMethods.ISteamFriends_SendClanChatMessage(steamIDClanChat, new InteropHelp.UTF8String(pchText));
 		}
 
-		public static int GetClanChatMessage(ulong steamIDClanChat, int iMessage, IntPtr prgchText, int cchTextMax, out EChatEntryType peChatEntryType, IntPtr psteamidChatter) {
-			return NativeMethods.ISteamFriends_GetClanChatMessage(steamIDClanChat, iMessage, prgchText, cchTextMax, out peChatEntryType, psteamidChatter);
+		public static int GetClanChatMessage(ulong steamIDClanChat, int iMessage, IntPtr prgchText, int cchTextMax, out EChatEntryType peChatEntryType, out ulong psteamidChatter) {
+			return NativeMethods.ISteamFriends_GetClanChatMessage(steamIDClanChat, iMessage, prgchText, cchTextMax, out peChatEntryType, out psteamidChatter);
 		}
 
 		public static bool IsClanChatAdmin(ulong steamIDClanChat, ulong steamIDUser) {

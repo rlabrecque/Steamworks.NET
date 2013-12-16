@@ -302,7 +302,7 @@ namespace Steamworks {
 		public static extern bool ISteamFriends_GetClanActivityCounts(ulong steamIDClan, out int pnOnline, out int pnInGame, out int pnChatting);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamFriends_DownloadClanActivityCounts(IntPtr psteamIDClans, int cClansToRequest);
+		public static extern ulong ISteamFriends_DownloadClanActivityCounts(ulong[] psteamIDClans, int cClansToRequest);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int ISteamFriends_GetFriendCountFromSource(ulong steamIDSource);
@@ -416,7 +416,7 @@ namespace Steamworks {
 		public static extern bool ISteamFriends_SendClanChatMessage(ulong steamIDClanChat, IntPtr pchText);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamFriends_GetClanChatMessage(ulong steamIDClanChat, int iMessage, IntPtr prgchText, int cchTextMax, out EChatEntryType peChatEntryType, IntPtr psteamidChatter);
+		public static extern int ISteamFriends_GetClanChatMessage(ulong steamIDClanChat, int iMessage, IntPtr prgchText, int cchTextMax, out EChatEntryType peChatEntryType, out ulong psteamidChatter);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -609,7 +609,7 @@ namespace Steamworks {
 		public static extern bool ISteamMatchmaking_SendLobbyChatMsg(ulong steamIDLobby, IntPtr pvMsgBody, int cubMsgBody);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamMatchmaking_GetLobbyChatEntry(ulong steamIDLobby, int iChatID, IntPtr pSteamIDUser, IntPtr pvData, int cubData, out EChatEntryType peChatEntryType);
+		public static extern int ISteamMatchmaking_GetLobbyChatEntry(ulong steamIDLobby, int iChatID, out ulong pSteamIDUser, IntPtr pvData, int cubData, out EChatEntryType peChatEntryType);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -620,7 +620,7 @@ namespace Steamworks {
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamMatchmaking_GetLobbyGameServer(ulong steamIDLobby, out uint punGameServerIP, out ushort punGameServerPort, IntPtr psteamIDGameServer);
+		public static extern bool ISteamMatchmaking_GetLobbyGameServer(ulong steamIDLobby, out uint punGameServerIP, out ushort punGameServerPort, out ulong psteamIDGameServer);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -716,7 +716,7 @@ namespace Steamworks {
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamNetworking_ReadP2PPacket(IntPtr pubDest, uint cubDest, out uint pcubMsgSize, IntPtr psteamIDRemote);
+		public static extern bool ISteamNetworking_ReadP2PPacket(IntPtr pubDest, uint cubDest, out uint pcubMsgSize, out ulong psteamIDRemote);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -777,7 +777,7 @@ namespace Steamworks {
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamNetworking_GetSocketInfo(uint hSocket, IntPtr pSteamIDRemote, out int peSocketStatus, out uint punIPRemote, out ushort punPortRemote);
+		public static extern bool ISteamNetworking_GetSocketInfo(uint hSocket, out ulong pSteamIDRemote, out int peSocketStatus, out uint punIPRemote, out ushort punPortRemote);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -874,7 +874,7 @@ namespace Steamworks {
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamRemoteStorage_GetUGCDetails(ulong hContent, out uint pnAppID, IntPtr ppchName, out int pnFileSizeInBytes, IntPtr pSteamIDOwner);
+		public static extern bool ISteamRemoteStorage_GetUGCDetails(ulong hContent, out uint pnAppID, IntPtr ppchName, out int pnFileSizeInBytes, out ulong pSteamIDOwner);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int ISteamRemoteStorage_UGCRead(ulong hContent, IntPtr pvData, int cubDataToRead, uint cOffset, EUGCReadAction eAction);
@@ -1284,7 +1284,7 @@ namespace Steamworks {
 		public static extern ulong ISteamUserStats_DownloadLeaderboardEntries(ulong hSteamLeaderboard, ELeaderboardDataRequest eLeaderboardDataRequest, int nRangeStart, int nRangeEnd);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamUserStats_DownloadLeaderboardEntriesForUsers(ulong hSteamLeaderboard, IntPtr prgUsers, int cUsers);
+		public static extern ulong ISteamUserStats_DownloadLeaderboardEntriesForUsers(ulong hSteamLeaderboard, ulong[] prgUsers, int cUsers);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]

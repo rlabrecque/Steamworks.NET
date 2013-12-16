@@ -116,8 +116,8 @@ namespace Steamworks {
 			return NativeMethods.ISteamMatchmaking_SendLobbyChatMsg(steamIDLobby, pvMsgBody, cubMsgBody);
 		}
 
-		public static int GetLobbyChatEntry(ulong steamIDLobby, int iChatID, IntPtr pSteamIDUser, IntPtr pvData, int cubData, out EChatEntryType peChatEntryType) {
-			return NativeMethods.ISteamMatchmaking_GetLobbyChatEntry(steamIDLobby, iChatID, pSteamIDUser, pvData, cubData, out peChatEntryType);
+		public static int GetLobbyChatEntry(ulong steamIDLobby, int iChatID, out ulong pSteamIDUser, IntPtr pvData, int cubData, out EChatEntryType peChatEntryType) {
+			return NativeMethods.ISteamMatchmaking_GetLobbyChatEntry(steamIDLobby, iChatID, out pSteamIDUser, pvData, cubData, out peChatEntryType);
 		}
 
 		public static bool RequestLobbyData(ulong steamIDLobby) {
@@ -128,8 +128,8 @@ namespace Steamworks {
 			NativeMethods.ISteamMatchmaking_SetLobbyGameServer(steamIDLobby, unGameServerIP, unGameServerPort, steamIDGameServer);
 		}
 
-		public static bool GetLobbyGameServer(ulong steamIDLobby, out uint punGameServerIP, out ushort punGameServerPort, IntPtr psteamIDGameServer) {
-			return NativeMethods.ISteamMatchmaking_GetLobbyGameServer(steamIDLobby, out punGameServerIP, out punGameServerPort, psteamIDGameServer);
+		public static bool GetLobbyGameServer(ulong steamIDLobby, out uint punGameServerIP, out ushort punGameServerPort, out ulong psteamIDGameServer) {
+			return NativeMethods.ISteamMatchmaking_GetLobbyGameServer(steamIDLobby, out punGameServerIP, out punGameServerPort, out psteamIDGameServer);
 		}
 
 		public static bool SetLobbyMemberLimit(ulong steamIDLobby, int cMaxMembers) {

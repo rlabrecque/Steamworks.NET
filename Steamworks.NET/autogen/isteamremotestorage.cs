@@ -97,8 +97,8 @@ namespace Steamworks {
 			return NativeMethods.ISteamRemoteStorage_GetUGCDownloadProgress(hContent, out pnBytesDownloaded, out pnBytesExpected);
 		}
 
-		public static bool GetUGCDetails(ulong hContent, out uint pnAppID, IntPtr ppchName, out int pnFileSizeInBytes, IntPtr pSteamIDOwner) {
-			return NativeMethods.ISteamRemoteStorage_GetUGCDetails(hContent, out pnAppID, ppchName, out pnFileSizeInBytes, pSteamIDOwner);
+		public static bool GetUGCDetails(ulong hContent, out uint pnAppID, IntPtr ppchName, out int pnFileSizeInBytes, out ulong pSteamIDOwner) {
+			return NativeMethods.ISteamRemoteStorage_GetUGCDetails(hContent, out pnAppID, ppchName, out pnFileSizeInBytes, out pSteamIDOwner);
 		}
 
 		public static int UGCRead(ulong hContent, IntPtr pvData, int cubDataToRead, uint cOffset, EUGCReadAction eAction) {
