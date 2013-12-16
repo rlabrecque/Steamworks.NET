@@ -67,6 +67,7 @@ namespace Steamworks {
 		k_EOverlayToStoreFlag_AddToCartAndShow = 2,
 	}
 
+	[Flags]
 	public enum EPersonaChange : int {
 		k_EPersonaChangeName		= 0x0001,
 		k_EPersonaChangeStatus		= 0x0002,

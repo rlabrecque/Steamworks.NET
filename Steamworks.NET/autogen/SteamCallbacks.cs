@@ -40,7 +40,7 @@ namespace Steamworks {
 	public struct PersonaStateChange_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 4;
 		public ulong m_ulSteamID;
-		public int m_nChangeFlags;
+		public EPersonaChange m_nChangeFlags;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
