@@ -217,8 +217,12 @@ namespace Steamworks {
 			return NativeMethods.ISteamFriends_SendClanChatMessage(steamIDClanChat, new InteropHelp.UTF8String(pchText));
 		}
 
-		public static int GetClanChatMessage(ulong steamIDClanChat, int iMessage, IntPtr prgchText, int cchTextMax, out EChatEntryType peChatEntryType, out ulong psteamidChatter) {
-			return NativeMethods.ISteamFriends_GetClanChatMessage(steamIDClanChat, iMessage, prgchText, cchTextMax, out peChatEntryType, out psteamidChatter);
+		public static int GetClanChatMessage(ulong steamIDClanChat, int iMessage, out string prgchText, int cchTextMax, out EChatEntryType peChatEntryType, out ulong psteamidChatter) {
+			IntPtr prgchText2 = Marshal.AllocHGlobal(cchTextMax);
+			int ret = NativeMethods.ISteamFriends_GetClanChatMessage(steamIDClanChat, iMessage, prgchText2, cchTextMax, out peChatEntryType, out psteamidChatter);
+			prgchText = ret != 0 ? InteropHelp.PtrToStringUTF8(prgchText2) : null;
+			Marshal.FreeHGlobal(prgchText2);
+			return ret;
 		}
 
 		public static bool IsClanChatAdmin(ulong steamIDClanChat, ulong steamIDUser) {
@@ -245,8 +249,12 @@ namespace Steamworks {
 			return NativeMethods.ISteamFriends_ReplyToFriendMessage(steamIDFriend, new InteropHelp.UTF8String(pchMsgToSend));
 		}
 
-		public static int GetFriendMessage(ulong steamIDFriend, int iMessageID, IntPtr pvData, int cubData, out EChatEntryType peChatEntryType) {
-			return NativeMethods.ISteamFriends_GetFriendMessage(steamIDFriend, iMessageID, pvData, cubData, out peChatEntryType);
+		public static int GetFriendMessage(ulong steamIDFriend, int iMessageID, out string pvData, int cubData, out EChatEntryType peChatEntryType) {
+			IntPtr pvData2 = Marshal.AllocHGlobal(cubData);
+			int ret = NativeMethods.ISteamFriends_GetFriendMessage(steamIDFriend, iMessageID, pvData2, cubData, out peChatEntryType);
+			pvData = ret != 0 ? InteropHelp.PtrToStringUTF8(pvData2) : null;
+			Marshal.FreeHGlobal(pvData2);
+			return ret;
 		}
 
 		public static ulong GetFollowerCount(ulong steamID) {
