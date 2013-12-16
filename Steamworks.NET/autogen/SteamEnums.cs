@@ -35,6 +35,7 @@ namespace Steamworks {
 		k_EPersonaStateMax,
 	}
 
+	[Flags]
 	public enum EFriendFlags : int {
 		k_EFriendFlagNone			= 0x00,
 		k_EFriendFlagBlocked		= 0x01,

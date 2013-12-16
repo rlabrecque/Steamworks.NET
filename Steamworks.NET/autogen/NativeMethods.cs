@@ -257,10 +257,10 @@ namespace Steamworks {
 		public static extern EPersonaState ISteamFriends_GetPersonaState();
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamFriends_GetFriendCount(int iFriendFlags);
+		public static extern int ISteamFriends_GetFriendCount(EFriendFlags iFriendFlags);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamFriends_GetFriendByIndex(int iFriend, int iFriendFlags);
+		public static extern ulong ISteamFriends_GetFriendByIndex(int iFriend, EFriendFlags iFriendFlags);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern EFriendRelationship ISteamFriends_GetFriendRelationship(ulong steamIDFriend);
@@ -283,7 +283,7 @@ namespace Steamworks {
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamFriends_HasFriend(ulong steamIDFriend, int iFriendFlags);
+		public static extern bool ISteamFriends_HasFriend(ulong steamIDFriend, EFriendFlags iFriendFlags);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int ISteamFriends_GetClanCount();

@@ -17,11 +17,11 @@ namespace Steamworks {
 			return NativeMethods.ISteamFriends_GetPersonaState();
 		}
 
-		public static int GetFriendCount(int iFriendFlags) {
+		public static int GetFriendCount(EFriendFlags iFriendFlags) {
 			return NativeMethods.ISteamFriends_GetFriendCount(iFriendFlags);
 		}
 
-		public static ulong GetFriendByIndex(int iFriend, int iFriendFlags) {
+		public static ulong GetFriendByIndex(int iFriend, EFriendFlags iFriendFlags) {
 			return NativeMethods.ISteamFriends_GetFriendByIndex(iFriend, iFriendFlags);
 		}
 
@@ -49,7 +49,7 @@ namespace Steamworks {
 			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamFriends_GetPlayerNickname(steamIDPlayer));
 		}
 
-		public static bool HasFriend(ulong steamIDFriend, int iFriendFlags) {
+		public static bool HasFriend(ulong steamIDFriend, EFriendFlags iFriendFlags) {
 			return NativeMethods.ISteamFriends_HasFriend(steamIDFriend, iFriendFlags);
 		}
 
