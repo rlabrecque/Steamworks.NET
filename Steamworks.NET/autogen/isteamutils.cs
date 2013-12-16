@@ -29,8 +29,8 @@ namespace Steamworks {
 			return NativeMethods.ISteamUtils_GetImageSize(iImage, out pnWidth, out pnHeight);
 		}
 
-		public static bool GetImageRGBA(int iImage, ref byte pubDest, int nDestBufferSize) {
-			return NativeMethods.ISteamUtils_GetImageRGBA(iImage, ref pubDest, nDestBufferSize);
+		public static bool GetImageRGBA(int iImage, byte[] pubDest, int nDestBufferSize) {
+			return NativeMethods.ISteamUtils_GetImageRGBA(iImage, pubDest, nDestBufferSize);
 		}
 
 		public static bool GetCSERIPPort(out uint unIP, out ushort usPort) {

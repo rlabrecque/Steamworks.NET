@@ -496,7 +496,7 @@ namespace Steamworks {
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamHTTP_GetHTTPResponseHeaderValue(uint hRequest, IntPtr pchHeaderName, ref byte pHeaderValueBuffer, uint unBufferSize);
+		public static extern bool ISteamHTTP_GetHTTPResponseHeaderValue(uint hRequest, IntPtr pchHeaderName, byte[] pHeaderValueBuffer, uint unBufferSize);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -504,11 +504,11 @@ namespace Steamworks {
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamHTTP_GetHTTPResponseBodyData(uint hRequest, ref byte pBodyDataBuffer, uint unBufferSize);
+		public static extern bool ISteamHTTP_GetHTTPResponseBodyData(uint hRequest, byte[] pBodyDataBuffer, uint unBufferSize);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamHTTP_GetHTTPStreamingResponseBodyData(uint hRequest, uint cOffset, ref byte pBodyDataBuffer, uint unBufferSize);
+		public static extern bool ISteamHTTP_GetHTTPStreamingResponseBodyData(uint hRequest, uint cOffset, byte[] pBodyDataBuffer, uint unBufferSize);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -520,7 +520,7 @@ namespace Steamworks {
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamHTTP_SetHTTPRequestRawPostBody(uint hRequest, IntPtr pchContentType, ref byte pubBody, uint unBodyLen);
+		public static extern bool ISteamHTTP_SetHTTPRequestRawPostBody(uint hRequest, IntPtr pchContentType, byte[] pubBody, uint unBodyLen);
 #endregion
 #region SteamMatchmaking
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
@@ -1367,7 +1367,7 @@ namespace Steamworks {
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamUtils_GetImageRGBA(int iImage, ref byte pubDest, int nDestBufferSize);
+		public static extern bool ISteamUtils_GetImageRGBA(int iImage, byte[] pubDest, int nDestBufferSize);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]

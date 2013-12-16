@@ -45,20 +45,20 @@ namespace Steamworks {
 			return NativeMethods.ISteamHTTP_GetHTTPResponseHeaderSize(hRequest, new InteropHelp.UTF8String(pchHeaderName), out unResponseHeaderSize);
 		}
 
-		public static bool GetHTTPResponseHeaderValue(uint hRequest, string pchHeaderName, ref byte pHeaderValueBuffer, uint unBufferSize) {
-			return NativeMethods.ISteamHTTP_GetHTTPResponseHeaderValue(hRequest, new InteropHelp.UTF8String(pchHeaderName), ref pHeaderValueBuffer, unBufferSize);
+		public static bool GetHTTPResponseHeaderValue(uint hRequest, string pchHeaderName, byte[] pHeaderValueBuffer, uint unBufferSize) {
+			return NativeMethods.ISteamHTTP_GetHTTPResponseHeaderValue(hRequest, new InteropHelp.UTF8String(pchHeaderName), pHeaderValueBuffer, unBufferSize);
 		}
 
 		public static bool GetHTTPResponseBodySize(uint hRequest, out uint unBodySize) {
 			return NativeMethods.ISteamHTTP_GetHTTPResponseBodySize(hRequest, out unBodySize);
 		}
 
-		public static bool GetHTTPResponseBodyData(uint hRequest, ref byte pBodyDataBuffer, uint unBufferSize) {
-			return NativeMethods.ISteamHTTP_GetHTTPResponseBodyData(hRequest, ref pBodyDataBuffer, unBufferSize);
+		public static bool GetHTTPResponseBodyData(uint hRequest, byte[] pBodyDataBuffer, uint unBufferSize) {
+			return NativeMethods.ISteamHTTP_GetHTTPResponseBodyData(hRequest, pBodyDataBuffer, unBufferSize);
 		}
 
-		public static bool GetHTTPStreamingResponseBodyData(uint hRequest, uint cOffset, ref byte pBodyDataBuffer, uint unBufferSize) {
-			return NativeMethods.ISteamHTTP_GetHTTPStreamingResponseBodyData(hRequest, cOffset, ref pBodyDataBuffer, unBufferSize);
+		public static bool GetHTTPStreamingResponseBodyData(uint hRequest, uint cOffset, byte[] pBodyDataBuffer, uint unBufferSize) {
+			return NativeMethods.ISteamHTTP_GetHTTPStreamingResponseBodyData(hRequest, cOffset, pBodyDataBuffer, unBufferSize);
 		}
 
 		public static bool ReleaseHTTPRequest(uint hRequest) {
@@ -69,8 +69,8 @@ namespace Steamworks {
 			return NativeMethods.ISteamHTTP_GetHTTPDownloadProgressPct(hRequest, out pflPercentOut);
 		}
 
-		public static bool SetHTTPRequestRawPostBody(uint hRequest, string pchContentType, ref byte pubBody, uint unBodyLen) {
-			return NativeMethods.ISteamHTTP_SetHTTPRequestRawPostBody(hRequest, new InteropHelp.UTF8String(pchContentType), ref pubBody, unBodyLen);
+		public static bool SetHTTPRequestRawPostBody(uint hRequest, string pchContentType, byte[] pubBody, uint unBodyLen) {
+			return NativeMethods.ISteamHTTP_SetHTTPRequestRawPostBody(hRequest, new InteropHelp.UTF8String(pchContentType), pubBody, unBodyLen);
 		}
 	}
 }
