@@ -49,11 +49,11 @@ namespace Steamworks {
 			return NativeMethods.ISteamUser_GetAvailableVoice(out pcbCompressed, out pcbUncompressed, nUncompressedVoiceDesiredSampleRate);
 		}
 
-		public static EVoiceResult GetVoice(bool bWantCompressed, IntPtr pDestBuffer, uint cbDestBufferSize, out uint nBytesWritten, bool bWantUncompressed, IntPtr pUncompressedDestBuffer, uint cbUncompressedDestBufferSize, out uint nUncompressBytesWritten, uint nUncompressedVoiceDesiredSampleRate) {
+		public static EVoiceResult GetVoice(bool bWantCompressed, byte[] pDestBuffer, uint cbDestBufferSize, out uint nBytesWritten, bool bWantUncompressed, byte[] pUncompressedDestBuffer, uint cbUncompressedDestBufferSize, out uint nUncompressBytesWritten, uint nUncompressedVoiceDesiredSampleRate) {
 			return NativeMethods.ISteamUser_GetVoice(bWantCompressed, pDestBuffer, cbDestBufferSize, out nBytesWritten, bWantUncompressed, pUncompressedDestBuffer, cbUncompressedDestBufferSize, out nUncompressBytesWritten, nUncompressedVoiceDesiredSampleRate);
 		}
 
-		public static EVoiceResult DecompressVoice(IntPtr pCompressed, uint cbCompressed, IntPtr pDestBuffer, uint cbDestBufferSize, out uint nBytesWritten, uint nDesiredSampleRate) {
+		public static EVoiceResult DecompressVoice(byte[] pCompressed, uint cbCompressed, byte[] pDestBuffer, uint cbDestBufferSize, out uint nBytesWritten, uint nDesiredSampleRate) {
 			return NativeMethods.ISteamUser_DecompressVoice(pCompressed, cbCompressed, pDestBuffer, cbDestBufferSize, out nBytesWritten, nDesiredSampleRate);
 		}
 
@@ -61,11 +61,11 @@ namespace Steamworks {
 			return NativeMethods.ISteamUser_GetVoiceOptimalSampleRate();
 		}
 
-		public static uint GetAuthSessionTicket(IntPtr pTicket, int cbMaxTicket, out uint pcbTicket) {
+		public static uint GetAuthSessionTicket(byte[] pTicket, int cbMaxTicket, out uint pcbTicket) {
 			return NativeMethods.ISteamUser_GetAuthSessionTicket(pTicket, cbMaxTicket, out pcbTicket);
 		}
 
-		public static EBeginAuthSessionResult BeginAuthSession(IntPtr pAuthTicket, int cbAuthTicket, ulong steamID) {
+		public static EBeginAuthSessionResult BeginAuthSession(byte[] pAuthTicket, int cbAuthTicket, ulong steamID) {
 			return NativeMethods.ISteamUser_BeginAuthSession(pAuthTicket, cbAuthTicket, steamID);
 		}
 
@@ -89,11 +89,11 @@ namespace Steamworks {
 			NativeMethods.ISteamUser_AdvertiseGame(steamIDGameServer, unIPServer, usPortServer);
 		}
 
-		public static ulong RequestEncryptedAppTicket(IntPtr pDataToInclude, int cbDataToInclude) {
+		public static ulong RequestEncryptedAppTicket(byte[] pDataToInclude, int cbDataToInclude) {
 			return NativeMethods.ISteamUser_RequestEncryptedAppTicket(pDataToInclude, cbDataToInclude);
 		}
 
-		public static bool GetEncryptedAppTicket(IntPtr pTicket, int cbMaxTicket, out uint pcbTicket) {
+		public static bool GetEncryptedAppTicket(byte[] pTicket, int cbMaxTicket, out uint pcbTicket) {
 			return NativeMethods.ISteamUser_GetEncryptedAppTicket(pTicket, cbMaxTicket, out pcbTicket);
 		}
 
