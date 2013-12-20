@@ -47,7 +47,7 @@ Realease Instructions
 * Windows: Copy `steam_api.dll` from the Steamworks SDK into the root of your built game, next to the .exe.
 * Linux: You must launch the game with the following bash script.
 ```#!/bin/sh
-export LD_LIBRARY_PATH="./YOURGAME_Data/Plugins:$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="./YOURGAME_Data/Plugins/x86/:$LD_LIBRARY_PATH"
 exec ./YOURGAME.x86```
     
 * OSX: No Additional Steps Required!
