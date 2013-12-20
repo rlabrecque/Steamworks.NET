@@ -66,6 +66,35 @@ namespace Steamworks {
 		public static extern int SteamGameServer_GetHSteamUser();
 #endif
 #endregion
+#region steamencryptedappticket.h
+		[DllImport("sdkencryptedappticket", CallingConvention = CallingConvention.Cdecl, EntryPoint = "SteamEncryptedAppTicket_BDecryptTicket")]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool BDecryptTicket(byte[] rgubTicketEncrypted, uint cubTicketEncrypted, byte[] rgubTicketDecrypted, out uint pcubTicketDecrypted, [MarshalAs(UnmanagedType.LPArray, SizeConst=Constants.k_nSteamEncryptedAppTicketSymmetricKeyLen)] byte[] rgubKey, int cubKey);
+
+		[DllImport("sdkencryptedappticket", CallingConvention = CallingConvention.Cdecl, EntryPoint = "SteamEncryptedAppTicket_BIsTicketForApp")]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool BIsTicketForApp(byte[] rgubTicketDecrypted, uint cubTicketDecrypted, uint nAppID);
+
+		[DllImport("sdkencryptedappticket", CallingConvention = CallingConvention.Cdecl, EntryPoint = "SteamEncryptedAppTicket_GetTicketIssueTime")]
+		public static extern uint GetTicketIssueTime(byte[] rgubTicketDecrypted, uint cubTicketDecrypted);
+
+		[DllImport("sdkencryptedappticket", CallingConvention = CallingConvention.Cdecl, EntryPoint = "SteamEncryptedAppTicket_GetTicketSteamID")]
+		public static extern void GetTicketSteamID(byte[] rgubTicketDecrypted, uint cubTicketDecrypted, out ulong psteamID);
+
+		[DllImport("sdkencryptedappticket", CallingConvention = CallingConvention.Cdecl, EntryPoint = "SteamEncryptedAppTicket_GetTicketAppID")]
+		public static extern uint GetTicketAppID(byte[] rgubTicketDecrypted, uint cubTicketDecrypted);
+
+		[DllImport("sdkencryptedappticket", CallingConvention = CallingConvention.Cdecl, EntryPoint = "SteamEncryptedAppTicket_BUserOwnsAppInTicket")]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool BUserOwnsAppInTicket(byte[] rgubTicketDecrypted, uint cubTicketDecrypted, uint nAppID);
+
+		[DllImport("sdkencryptedappticket", CallingConvention = CallingConvention.Cdecl, EntryPoint = "SteamEncryptedAppTicket_BUserIsVacBanned")]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool BUserIsVacBanned(byte[] rgubTicketDecrypted, uint cubTicketDecrypted);
+
+		[DllImport("sdkencryptedappticket", CallingConvention = CallingConvention.Cdecl, EntryPoint = "SteamEncryptedAppTicket_GetUserVariableData")]
+		public static extern System.IntPtr GetUserVariableData(byte[] rgubTicketDecrypted, uint cubTicketDecrypted, out uint pcubUserData);
+#endregion
 #region SteamClient Internals
 		// These are private wrapper functions for steamclient.dll calls that allow us to reimplement SteamAPI_RunCallbacks() in C#
 		[DllImport("CSteamworks", EntryPoint = "Steam_BGetCallback2", CallingConvention = CallingConvention.Cdecl)]

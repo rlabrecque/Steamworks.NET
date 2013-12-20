@@ -116,6 +116,7 @@ namespace Steamworks {
 		public const int k_unSteamUserConsoleInstance = 2;
 		public const int k_unSteamUserWebInstance = 4;
 		public const int k_cchGameExtraInfoMax = 64;
+		public const int k_nSteamEncryptedAppTicketSymmetricKeyLen = 32;
 		public const int k_cubSaltSize = 8;
 		public const ulong k_GIDNil = 0xffffffffffffffff;
 		public const ulong k_TxnIDNil = k_GIDNil;
