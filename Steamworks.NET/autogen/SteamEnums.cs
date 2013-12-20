@@ -12,6 +12,11 @@ namespace Steamworks {
 		k_ERegisterActivationCodeAlreadyOwned = 4,
 	}
 
+	public enum ESteamControllerPad : int {
+		k_ESteamControllerPad_Left,
+		k_ESteamControllerPad_Right
+	}
+
 	public enum EFriendRelationship : int {
 		k_EFriendRelationshipNone = 0,
 		k_EFriendRelationshipBlocked = 1,
@@ -425,6 +430,7 @@ namespace Steamworks {
 		k_EResultDisabled = 80,
 		k_EResultInvalidCEGSubmission = 81,
 		k_EResultRestrictedDevice = 82,
+		k_EResultRegionLocked = 83,
 	}
 
 	public enum EVoiceResult : int {
@@ -577,15 +583,17 @@ namespace Steamworks {
 	}
 
 	public enum EAppOwernshipFlags : int {
-		k_EAppOwernshipFlags_None				= 0,
-		k_EAppOwernshipFlags_OwnsLicense		= 1,
-		k_EAppOwernshipFlags_FreeLicense		= 2,
-		k_EAppOwernshipFlags_RegionRestricted	= 4,
-		k_EAppOwernshipFlags_LowViolence		= 8,
-		k_EAppOwernshipFlags_InvalidPlatform	= 16,
-		k_EAppOwernshipFlags_SharedLicense		= 32,
-		k_EAppOwernshipFlags_FreeWeekend		= 64,
-		k_EAppOwernshipFlags_LicenseLocked		= 128,
+		k_EAppOwernshipFlags_None				= 0x000,
+		k_EAppOwernshipFlags_OwnsLicense		= 0x001,
+		k_EAppOwernshipFlags_FreeLicense		= 0x002,
+		k_EAppOwernshipFlags_RegionRestricted	= 0x004,
+		k_EAppOwernshipFlags_LowViolence		= 0x008,
+		k_EAppOwernshipFlags_InvalidPlatform	= 0x010,
+		k_EAppOwernshipFlags_SharedLicense		= 0x020,
+		k_EAppOwernshipFlags_FreeWeekend		= 0x040,
+		k_EAppOwernshipFlags_LicenseLocked		= 0x080,
+		k_EAppOwernshipFlags_LicensePending		= 0x100,
+		k_EAppOwernshipFlags_LicenseExpired		= 0x200,
 	}
 
 	public enum EAppType : int {

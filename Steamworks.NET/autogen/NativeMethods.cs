@@ -275,6 +275,28 @@ namespace Steamworks {
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr ISteamClient_GetISteamUGC(int hSteamUser, int hSteamPipe, IntPtr pchVersion);
 #endregion
+#region SteamController
+		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamController_Init(IntPtr pchAbsolutePathToControllerConfigVDF);
+
+		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamController_Shutdown();
+
+		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamController_RunFrame();
+
+		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamController_GetControllerState(uint unControllerIndex, out SteamControllerState_t pState);
+
+		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamController_TriggerHapticPulse(uint unControllerIndex, ESteamControllerPad eTargetPad, ushort usDurationMicroSec);
+
+		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamController_SetOverrideMode(IntPtr pchMode);
+#endregion
 #region SteamFriends
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr ISteamFriends_GetPersonaName();

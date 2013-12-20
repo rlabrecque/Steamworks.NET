@@ -93,4 +93,13 @@ namespace Steamworks {
 	public struct MatchMakingKeyValuePair_t {
 	}
 
+	public struct SteamControllerState_t {
+		public uint unPacketNum;
+		public ulong ulButtons;
+		public short sLeftPadX;
+		public short sLeftPadY;
+		public short sRightPadX;
+		public short sRightPadY;
+	}
+
 }
