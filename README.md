@@ -12,7 +12,7 @@ The included CSteamworks.dll was built with VS2010, and as such requires [Micros
 * License: [MIT](http://www.opensource.org/licenses/mit-license.php)
 * [Github Project](https://github.com/rlabrecque/Steamworks.NET)
 * [Reporting Issues](https://github.com/rlabrecque/Steamworks.NET/issues)
-* Currently supports Steamworks SDK v1.26a
+* Currently supports Steamworks SDK v1.27
 
 
 [![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.1.0/dist/gittip.png)](https://www.gittip.com/rlabrecque/)
@@ -34,6 +34,13 @@ To use _Steamworks.NET_ you must be a Steamworks developer. _Steamworks.NET_ Req
 * If you run the Unity Editor on Windows - copy `steam_api.dll` from the Steamworks SDK into the root of your Unity Project.
 
 
+If you wish to use the functions from `sdkencryptedappticket.dll` then you will need to manually place the dll/so/dylib in the following location:
+* Windows: Next to steam_api.dll
+* OSX: ???
+* Linux: Next to CSteamworks.so
+
+`sdkencryptedappticket.dll` can be found in the Steamworks SDK under `sdk\public\steam\lib`
+
 Check out these example projects to get started:
 * [Steamworks.NET Example](https://github.com/rlabrecque/Steamworks.NET-Example)
 * [Steamworks.NET Test](https://github.com/rlabrecque/Steamworks.NET-Test)
@@ -46,9 +53,11 @@ Realease Instructions
 
 * Windows: Copy `steam_api.dll` from the Steamworks SDK into the root of your built game, next to the .exe.
 * Linux: You must launch the game with the following bash script.
-```#!/bin/sh
+```
+#!/bin/sh
 export LD_LIBRARY_PATH="./YOURGAME_Data/Plugins/x86/:$LD_LIBRARY_PATH"
-exec ./YOURGAME.x86```
+exec ./YOURGAME.x86
+```
     
 * OSX: No Additional Steps Required!
 * NOTE: If you wish to test your game without launching through steam then you MUST place steam_appid.txt next to the game executable.
