@@ -36,7 +36,7 @@ To use _Steamworks.NET_ you must be a Steamworks developer. _Steamworks.NET_ Req
 
 If you wish to use the functions from `sdkencryptedappticket.dll` then you will need to manually place the dll/so/dylib in the following location:
 * Windows: Next to steam_api.dll
-* OSX: ???
+* OSX: In `\Contents\Frameworks\MonoEmbedRuntime\osx\`
 * Linux: Next to CSteamworks.so
 
 `sdkencryptedappticket.dll` can be found in the Steamworks SDK under `sdk\public\steam\lib`
