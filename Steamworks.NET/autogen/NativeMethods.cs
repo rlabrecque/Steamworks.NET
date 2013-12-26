@@ -925,7 +925,7 @@ namespace Steamworks {
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamRemoteStorage_GetUGCDetails(ulong hContent, out uint pnAppID, IntPtr ppchName, out int pnFileSizeInBytes, out ulong pSteamIDOwner);
+		public static extern bool ISteamRemoteStorage_GetUGCDetails(ulong hContent, out uint pnAppID, out IntPtr ppchName, out int pnFileSizeInBytes, out ulong pSteamIDOwner);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int ISteamRemoteStorage_UGCRead(ulong hContent, IntPtr pvData, int cubDataToRead, uint cOffset, EUGCReadAction eAction);
