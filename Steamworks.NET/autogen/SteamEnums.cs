@@ -171,6 +171,7 @@ namespace Steamworks {
 		k_EResolveConflictKeepServer = 2,
 	}
 
+	[Flags]
 	public enum ERemoteStoragePlatform : int {
 		k_ERemoteStoragePlatformNone		= 0,
 		k_ERemoteStoragePlatformWindows		= (1 << 0),
