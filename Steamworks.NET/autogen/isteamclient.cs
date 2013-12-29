@@ -5,31 +5,31 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks {
 	public static class SteamClient {
-		public static int CreateSteamPipe() {
+		public static HSteamPipe CreateSteamPipe() {
 			return NativeMethods.ISteamClient_CreateSteamPipe();
 		}
 
-		public static bool BReleaseSteamPipe(int hSteamPipe) {
+		public static bool BReleaseSteamPipe(HSteamPipe hSteamPipe) {
 			return NativeMethods.ISteamClient_BReleaseSteamPipe(hSteamPipe);
 		}
 
-		public static int ConnectToGlobalUser(int hSteamPipe) {
+		public static HSteamUser ConnectToGlobalUser(HSteamPipe hSteamPipe) {
 			return NativeMethods.ISteamClient_ConnectToGlobalUser(hSteamPipe);
 		}
 
-		public static int CreateLocalUser(out int phSteamPipe, EAccountType eAccountType) {
+		public static HSteamUser CreateLocalUser(out HSteamPipe phSteamPipe, EAccountType eAccountType) {
 			return NativeMethods.ISteamClient_CreateLocalUser(out phSteamPipe, eAccountType);
 		}
 
-		public static void ReleaseUser(int hSteamPipe, int hUser) {
+		public static void ReleaseUser(HSteamPipe hSteamPipe, HSteamUser hUser) {
 			NativeMethods.ISteamClient_ReleaseUser(hSteamPipe, hUser);
 		}
 
-		public static IntPtr GetISteamUser(int hSteamUser, int hSteamPipe, string pchVersion) {
+		public static IntPtr GetISteamUser(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			return NativeMethods.ISteamClient_GetISteamUser(hSteamUser, hSteamPipe, new InteropHelp.UTF8String(pchVersion));
 		}
 
-		public static IntPtr GetISteamGameServer(int hSteamUser, int hSteamPipe, string pchVersion) {
+		public static IntPtr GetISteamGameServer(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			return NativeMethods.ISteamClient_GetISteamGameServer(hSteamUser, hSteamPipe, new InteropHelp.UTF8String(pchVersion));
 		}
 
@@ -37,47 +37,47 @@ namespace Steamworks {
 			NativeMethods.ISteamClient_SetLocalIPBinding(unIP, usPort);
 		}
 
-		public static IntPtr GetISteamFriends(int hSteamUser, int hSteamPipe, string pchVersion) {
+		public static IntPtr GetISteamFriends(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			return NativeMethods.ISteamClient_GetISteamFriends(hSteamUser, hSteamPipe, new InteropHelp.UTF8String(pchVersion));
 		}
 
-		public static IntPtr GetISteamUtils(int hSteamPipe, string pchVersion) {
+		public static IntPtr GetISteamUtils(HSteamPipe hSteamPipe, string pchVersion) {
 			return NativeMethods.ISteamClient_GetISteamUtils(hSteamPipe, new InteropHelp.UTF8String(pchVersion));
 		}
 
-		public static IntPtr GetISteamMatchmaking(int hSteamUser, int hSteamPipe, string pchVersion) {
+		public static IntPtr GetISteamMatchmaking(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			return NativeMethods.ISteamClient_GetISteamMatchmaking(hSteamUser, hSteamPipe, new InteropHelp.UTF8String(pchVersion));
 		}
 
-		public static IntPtr GetISteamMatchmakingServers(int hSteamUser, int hSteamPipe, string pchVersion) {
+		public static IntPtr GetISteamMatchmakingServers(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			return NativeMethods.ISteamClient_GetISteamMatchmakingServers(hSteamUser, hSteamPipe, new InteropHelp.UTF8String(pchVersion));
 		}
 
-		public static IntPtr GetISteamGenericInterface(int hSteamUser, int hSteamPipe, string pchVersion) {
+		public static IntPtr GetISteamGenericInterface(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			return NativeMethods.ISteamClient_GetISteamGenericInterface(hSteamUser, hSteamPipe, new InteropHelp.UTF8String(pchVersion));
 		}
 
-		public static IntPtr GetISteamUserStats(int hSteamUser, int hSteamPipe, string pchVersion) {
+		public static IntPtr GetISteamUserStats(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			return NativeMethods.ISteamClient_GetISteamUserStats(hSteamUser, hSteamPipe, new InteropHelp.UTF8String(pchVersion));
 		}
 
-		public static IntPtr GetISteamGameServerStats(int hSteamuser, int hSteamPipe, string pchVersion) {
+		public static IntPtr GetISteamGameServerStats(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			return NativeMethods.ISteamClient_GetISteamGameServerStats(hSteamuser, hSteamPipe, new InteropHelp.UTF8String(pchVersion));
 		}
 
-		public static IntPtr GetISteamApps(int hSteamUser, int hSteamPipe, string pchVersion) {
+		public static IntPtr GetISteamApps(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			return NativeMethods.ISteamClient_GetISteamApps(hSteamUser, hSteamPipe, new InteropHelp.UTF8String(pchVersion));
 		}
 
-		public static IntPtr GetISteamNetworking(int hSteamUser, int hSteamPipe, string pchVersion) {
+		public static IntPtr GetISteamNetworking(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			return NativeMethods.ISteamClient_GetISteamNetworking(hSteamUser, hSteamPipe, new InteropHelp.UTF8String(pchVersion));
 		}
 
-		public static IntPtr GetISteamRemoteStorage(int hSteamuser, int hSteamPipe, string pchVersion) {
+		public static IntPtr GetISteamRemoteStorage(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			return NativeMethods.ISteamClient_GetISteamRemoteStorage(hSteamuser, hSteamPipe, new InteropHelp.UTF8String(pchVersion));
 		}
 
-		public static IntPtr GetISteamScreenshots(int hSteamuser, int hSteamPipe, string pchVersion) {
+		public static IntPtr GetISteamScreenshots(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			return NativeMethods.ISteamClient_GetISteamScreenshots(hSteamuser, hSteamPipe, new InteropHelp.UTF8String(pchVersion));
 		}
 
@@ -101,19 +101,19 @@ namespace Steamworks {
 			return NativeMethods.ISteamClient_GetISteamPS3OverlayRender();
 		}
 #endif
-		public static IntPtr GetISteamHTTP(int hSteamuser, int hSteamPipe, string pchVersion) {
+		public static IntPtr GetISteamHTTP(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			return NativeMethods.ISteamClient_GetISteamHTTP(hSteamuser, hSteamPipe, new InteropHelp.UTF8String(pchVersion));
 		}
 
-		public static IntPtr GetISteamUnifiedMessages(int hSteamuser, int hSteamPipe, string pchVersion) {
+		public static IntPtr GetISteamUnifiedMessages(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			return NativeMethods.ISteamClient_GetISteamUnifiedMessages(hSteamuser, hSteamPipe, new InteropHelp.UTF8String(pchVersion));
 		}
 
-		public static IntPtr GetISteamController(int hSteamUser, int hSteamPipe, string pchVersion) {
+		public static IntPtr GetISteamController(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			return NativeMethods.ISteamClient_GetISteamController(hSteamUser, hSteamPipe, new InteropHelp.UTF8String(pchVersion));
 		}
 
-		public static IntPtr GetISteamUGC(int hSteamUser, int hSteamPipe, string pchVersion) {
+		public static IntPtr GetISteamUGC(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			return NativeMethods.ISteamClient_GetISteamUGC(hSteamUser, hSteamPipe, new InteropHelp.UTF8String(pchVersion));
 		}
 	}

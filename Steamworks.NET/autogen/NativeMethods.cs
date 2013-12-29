@@ -34,16 +34,16 @@ namespace Steamworks {
 #endif
 
 		[DllImport("CSteamworks", EntryPoint = "Steam_GetHSteamUserCurrent_", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int Steam_GetHSteamUserCurrent();
+		public static extern HSteamUser Steam_GetHSteamUserCurrent();
 
 		[DllImport("CSteamworks", EntryPoint = "GetSteamInstallPath", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SteamAPI_GetSteamInstallPath();
 
 		[DllImport("CSteamworks", EntryPoint = "GetHSteamPipe_", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int SteamAPI_GetHSteamPipe();
+		public static extern HSteamPipe SteamAPI_GetHSteamPipe();
 
 		[DllImport("CSteamworks", EntryPoint = "GetHSteamUser_", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int SteamAPI_GetHSteamUser();
+		public static extern HSteamUser SteamAPI_GetHSteamUser();
 #endregion
 #region steam_gameserver.h
 #if DISABLED
@@ -60,10 +60,10 @@ namespace Steamworks {
 		public static extern ulong SteamGameServer_GetSteamID();
 
 		[DllImport("CSteamworks", EntryPoint = "GameServer_GetHSteamPipe", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int SteamGameServer_GetHSteamPipe();
+		public static extern HSteamPipe SteamGameServer_GetHSteamPipe();
 
 		[DllImport("CSteamworks", EntryPoint = "GameServer_GetHSteamUser", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int SteamGameServer_GetHSteamUser();
+		public static extern HSteamUser SteamGameServer_GetHSteamUser();
 #endif
 #endregion
 #region steamencryptedappticket.h
@@ -98,13 +98,13 @@ namespace Steamworks {
 #region SteamClient Internals
 		// These are private wrapper functions for steamclient.dll calls that allow us to reimplement SteamAPI_RunCallbacks() in C#
 		[DllImport("CSteamworks", EntryPoint = "Steam_BGetCallback2", CallingConvention = CallingConvention.Cdecl)]
-		public static extern bool Steam_BGetCallback(int hSteamPipe, ref CallbackMsg_t pCallbackMsg);
+		public static extern bool Steam_BGetCallback(HSteamPipe hSteamPipe, ref CallbackMsg_t pCallbackMsg);
 
 		[DllImport("CSteamworks", EntryPoint = "Steam_FreeLastCallback2", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Steam_FreeLastCallback(int hSteamPipe);
+		public static extern void Steam_FreeLastCallback(HSteamPipe hSteamPipe);
 
 		[DllImport("CSteamworks", EntryPoint = "Steam_GetAPICallResult2", CallingConvention = CallingConvention.Cdecl)]
-		public static extern bool Steam_GetAPICallResult(int hSteamPipe, ulong hSteamAPICall, IntPtr pCallback, int cubCallback, int iCallbackExpected, ref bool pbFailed);
+		public static extern bool Steam_GetAPICallResult(HSteamPipe hSteamPipe, ulong hSteamAPICall, IntPtr pCallback, int cubCallback, int iCallbackExpected, ref bool pbFailed);
 #endregion
 #region SteamApps
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
@@ -190,62 +190,62 @@ namespace Steamworks {
 #endregion
 #region SteamClient
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamClient_CreateSteamPipe();
+		public static extern HSteamPipe ISteamClient_CreateSteamPipe();
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamClient_BReleaseSteamPipe(int hSteamPipe);
+		public static extern bool ISteamClient_BReleaseSteamPipe(HSteamPipe hSteamPipe);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamClient_ConnectToGlobalUser(int hSteamPipe);
+		public static extern HSteamUser ISteamClient_ConnectToGlobalUser(HSteamPipe hSteamPipe);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamClient_CreateLocalUser(out int phSteamPipe, EAccountType eAccountType);
+		public static extern HSteamUser ISteamClient_CreateLocalUser(out HSteamPipe phSteamPipe, EAccountType eAccountType);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamClient_ReleaseUser(int hSteamPipe, int hUser);
+		public static extern void ISteamClient_ReleaseUser(HSteamPipe hSteamPipe, HSteamUser hUser);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamClient_GetISteamUser(int hSteamUser, int hSteamPipe, IntPtr pchVersion);
+		public static extern IntPtr ISteamClient_GetISteamUser(HSteamUser hSteamUser, HSteamPipe hSteamPipe, IntPtr pchVersion);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamClient_GetISteamGameServer(int hSteamUser, int hSteamPipe, IntPtr pchVersion);
+		public static extern IntPtr ISteamClient_GetISteamGameServer(HSteamUser hSteamUser, HSteamPipe hSteamPipe, IntPtr pchVersion);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ISteamClient_SetLocalIPBinding(uint unIP, ushort usPort);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamClient_GetISteamFriends(int hSteamUser, int hSteamPipe, IntPtr pchVersion);
+		public static extern IntPtr ISteamClient_GetISteamFriends(HSteamUser hSteamUser, HSteamPipe hSteamPipe, IntPtr pchVersion);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamClient_GetISteamUtils(int hSteamPipe, IntPtr pchVersion);
+		public static extern IntPtr ISteamClient_GetISteamUtils(HSteamPipe hSteamPipe, IntPtr pchVersion);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamClient_GetISteamMatchmaking(int hSteamUser, int hSteamPipe, IntPtr pchVersion);
+		public static extern IntPtr ISteamClient_GetISteamMatchmaking(HSteamUser hSteamUser, HSteamPipe hSteamPipe, IntPtr pchVersion);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamClient_GetISteamMatchmakingServers(int hSteamUser, int hSteamPipe, IntPtr pchVersion);
+		public static extern IntPtr ISteamClient_GetISteamMatchmakingServers(HSteamUser hSteamUser, HSteamPipe hSteamPipe, IntPtr pchVersion);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamClient_GetISteamGenericInterface(int hSteamUser, int hSteamPipe, IntPtr pchVersion);
+		public static extern IntPtr ISteamClient_GetISteamGenericInterface(HSteamUser hSteamUser, HSteamPipe hSteamPipe, IntPtr pchVersion);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamClient_GetISteamUserStats(int hSteamUser, int hSteamPipe, IntPtr pchVersion);
+		public static extern IntPtr ISteamClient_GetISteamUserStats(HSteamUser hSteamUser, HSteamPipe hSteamPipe, IntPtr pchVersion);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamClient_GetISteamGameServerStats(int hSteamuser, int hSteamPipe, IntPtr pchVersion);
+		public static extern IntPtr ISteamClient_GetISteamGameServerStats(HSteamUser hSteamuser, HSteamPipe hSteamPipe, IntPtr pchVersion);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamClient_GetISteamApps(int hSteamUser, int hSteamPipe, IntPtr pchVersion);
+		public static extern IntPtr ISteamClient_GetISteamApps(HSteamUser hSteamUser, HSteamPipe hSteamPipe, IntPtr pchVersion);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamClient_GetISteamNetworking(int hSteamUser, int hSteamPipe, IntPtr pchVersion);
+		public static extern IntPtr ISteamClient_GetISteamNetworking(HSteamUser hSteamUser, HSteamPipe hSteamPipe, IntPtr pchVersion);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamClient_GetISteamRemoteStorage(int hSteamuser, int hSteamPipe, IntPtr pchVersion);
+		public static extern IntPtr ISteamClient_GetISteamRemoteStorage(HSteamUser hSteamuser, HSteamPipe hSteamPipe, IntPtr pchVersion);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamClient_GetISteamScreenshots(int hSteamuser, int hSteamPipe, IntPtr pchVersion);
+		public static extern IntPtr ISteamClient_GetISteamScreenshots(HSteamUser hSteamuser, HSteamPipe hSteamPipe, IntPtr pchVersion);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ISteamClient_RunFrame();
@@ -264,16 +264,16 @@ namespace Steamworks {
 		public static extern IntPtr ISteamClient_GetISteamPS3OverlayRender();
 #endif
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamClient_GetISteamHTTP(int hSteamuser, int hSteamPipe, IntPtr pchVersion);
+		public static extern IntPtr ISteamClient_GetISteamHTTP(HSteamUser hSteamuser, HSteamPipe hSteamPipe, IntPtr pchVersion);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamClient_GetISteamUnifiedMessages(int hSteamuser, int hSteamPipe, IntPtr pchVersion);
+		public static extern IntPtr ISteamClient_GetISteamUnifiedMessages(HSteamUser hSteamuser, HSteamPipe hSteamPipe, IntPtr pchVersion);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamClient_GetISteamController(int hSteamUser, int hSteamPipe, IntPtr pchVersion);
+		public static extern IntPtr ISteamClient_GetISteamController(HSteamUser hSteamUser, HSteamPipe hSteamPipe, IntPtr pchVersion);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamClient_GetISteamUGC(int hSteamUser, int hSteamPipe, IntPtr pchVersion);
+		public static extern IntPtr ISteamClient_GetISteamUGC(HSteamUser hSteamUser, HSteamPipe hSteamPipe, IntPtr pchVersion);
 #endregion
 #region SteamController
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
@@ -1567,7 +1567,7 @@ namespace Steamworks {
 #endregion
 #region SteamUser
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamUser_GetHSteamUser();
+		public static extern HSteamUser ISteamUser_GetHSteamUser();
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]

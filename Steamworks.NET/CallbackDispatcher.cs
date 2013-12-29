@@ -102,7 +102,7 @@ namespace Steamworks {
 		private static Dictionary<int, ICallback> registeredCallbacks = new Dictionary<int, ICallback>();
 		private static Dictionary<UInt64, ICallResult> registeredAPICallbacks = new Dictionary<UInt64, ICallResult>();
 
-		public static int LastActivePipe { get; private set; }
+		public static HSteamPipe LastActivePipe { get; private set; }
 		public static Callback<SteamAPICallCompleted_t> APICallbackCompleted = new Callback<SteamAPICallCompleted_t>(RunAPICallback);
 
 
@@ -126,7 +126,7 @@ namespace Steamworks {
 
 		public static void RunCallbacks() {
 			CallbackMsg_t callbackmsg = new CallbackMsg_t();
-			int pipe = SteamAPI.GetHSteamPipe();
+			HSteamPipe pipe = SteamAPI.GetHSteamPipe();
 
 			// This needs to be called every frame to process matchmaking results
 			SteamUtils.RunFrame();

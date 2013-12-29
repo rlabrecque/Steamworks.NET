@@ -19,15 +19,15 @@ namespace Steamworks {
 			return NativeMethods.SteamAPI_IsSteamRunning();
 		}
 
-		public static int GetHSteamUserCurrent() {
+		public static HSteamUser GetHSteamUserCurrent() {
 			return NativeMethods.Steam_GetHSteamUserCurrent();
 		}
 		
-		public static int GetHSteamPipe() {
+		public static HSteamPipe GetHSteamPipe() {
 			return NativeMethods.SteamAPI_GetHSteamPipe();
 		}
 
-		public static int GetHSteamUser() {
+		public static HSteamUser GetHSteamUser() {
 			return NativeMethods.SteamAPI_GetHSteamUser();
 		}
 	}

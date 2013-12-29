@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks {
 	public static class SteamUser {
-		public static int GetHSteamUser() {
+		public static HSteamUser GetHSteamUser() {
 			return NativeMethods.ISteamUser_GetHSteamUser();
 		}
 
