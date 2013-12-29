@@ -800,7 +800,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iClientUGCCallbacks + 1)]
 	public struct SteamUGCQueryCompleted_t {
 		public const int k_iCallback = Constants.k_iClientUGCCallbacks + 1;
-		public ulong m_handle;
+		public UGCQueryHandle_t m_handle;
 		public EResult m_eResult;
 		public uint m_unNumResultsReturned;
 		public uint m_unTotalMatchingResults;

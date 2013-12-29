@@ -5,55 +5,55 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks {
 	public static class SteamUGC {
-		public static ulong CreateQueryUserUGCRequest(uint unAccountID, EUserUGCList eListType, EUGCMatchingUGCType eMatchingUGCType, EUserUGCListSortOrder eSortOrder, uint nCreatorAppID, uint nConsumerAppID, uint unPage) {
+		public static UGCQueryHandle_t CreateQueryUserUGCRequest(uint unAccountID, EUserUGCList eListType, EUGCMatchingUGCType eMatchingUGCType, EUserUGCListSortOrder eSortOrder, uint nCreatorAppID, uint nConsumerAppID, uint unPage) {
 			return NativeMethods.ISteamUGC_CreateQueryUserUGCRequest(unAccountID, eListType, eMatchingUGCType, eSortOrder, nCreatorAppID, nConsumerAppID, unPage);
 		}
 
-		public static ulong CreateQueryAllUGCRequest(EUGCQuery eQueryType, EUGCMatchingUGCType eMatchingeMatchingUGCTypeFileType, uint nCreatorAppID, uint nConsumerAppID, uint unPage) {
+		public static UGCQueryHandle_t CreateQueryAllUGCRequest(EUGCQuery eQueryType, EUGCMatchingUGCType eMatchingeMatchingUGCTypeFileType, uint nCreatorAppID, uint nConsumerAppID, uint unPage) {
 			return NativeMethods.ISteamUGC_CreateQueryAllUGCRequest(eQueryType, eMatchingeMatchingUGCTypeFileType, nCreatorAppID, nConsumerAppID, unPage);
 		}
 
-		public static ulong SendQueryUGCRequest(ulong handle) {
+		public static ulong SendQueryUGCRequest(UGCQueryHandle_t handle) {
 			return NativeMethods.ISteamUGC_SendQueryUGCRequest(handle);
 		}
 
-		public static bool GetQueryUGCResult(ulong handle, uint index, ref SteamUGCDetails_t pDetails) {
+		public static bool GetQueryUGCResult(UGCQueryHandle_t handle, uint index, ref SteamUGCDetails_t pDetails) {
 			return NativeMethods.ISteamUGC_GetQueryUGCResult(handle, index, ref pDetails);
 		}
 
-		public static bool ReleaseQueryUGCRequest(ulong handle) {
+		public static bool ReleaseQueryUGCRequest(UGCQueryHandle_t handle) {
 			return NativeMethods.ISteamUGC_ReleaseQueryUGCRequest(handle);
 		}
 
-		public static bool AddRequiredTag(ulong handle, string pTagName) {
+		public static bool AddRequiredTag(UGCQueryHandle_t handle, string pTagName) {
 			return NativeMethods.ISteamUGC_AddRequiredTag(handle, new InteropHelp.UTF8String(pTagName));
 		}
 
-		public static bool AddExcludedTag(ulong handle, string pTagName) {
+		public static bool AddExcludedTag(UGCQueryHandle_t handle, string pTagName) {
 			return NativeMethods.ISteamUGC_AddExcludedTag(handle, new InteropHelp.UTF8String(pTagName));
 		}
 
-		public static bool SetReturnLongDescription(ulong handle, bool bReturnLongDescription) {
+		public static bool SetReturnLongDescription(UGCQueryHandle_t handle, bool bReturnLongDescription) {
 			return NativeMethods.ISteamUGC_SetReturnLongDescription(handle, bReturnLongDescription);
 		}
 
-		public static bool SetReturnTotalOnly(ulong handle, bool bReturnTotalOnly) {
+		public static bool SetReturnTotalOnly(UGCQueryHandle_t handle, bool bReturnTotalOnly) {
 			return NativeMethods.ISteamUGC_SetReturnTotalOnly(handle, bReturnTotalOnly);
 		}
 
-		public static bool SetCloudFileNameFilter(ulong handle, string pMatchCloudFileName) {
+		public static bool SetCloudFileNameFilter(UGCQueryHandle_t handle, string pMatchCloudFileName) {
 			return NativeMethods.ISteamUGC_SetCloudFileNameFilter(handle, new InteropHelp.UTF8String(pMatchCloudFileName));
 		}
 
-		public static bool SetMatchAnyTag(ulong handle, bool bMatchAnyTag) {
+		public static bool SetMatchAnyTag(UGCQueryHandle_t handle, bool bMatchAnyTag) {
 			return NativeMethods.ISteamUGC_SetMatchAnyTag(handle, bMatchAnyTag);
 		}
 
-		public static bool SetSearchText(ulong handle, string pSearchText) {
+		public static bool SetSearchText(UGCQueryHandle_t handle, string pSearchText) {
 			return NativeMethods.ISteamUGC_SetSearchText(handle, new InteropHelp.UTF8String(pSearchText));
 		}
 
-		public static bool SetRankedByTrendDays(ulong handle, uint unDays) {
+		public static bool SetRankedByTrendDays(UGCQueryHandle_t handle, uint unDays) {
 			return NativeMethods.ISteamUGC_SetRankedByTrendDays(handle, unDays);
 		}
 

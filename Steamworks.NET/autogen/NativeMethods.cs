@@ -1494,53 +1494,53 @@ namespace Steamworks {
 #endregion
 #region SteamUGC
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamUGC_CreateQueryUserUGCRequest(uint unAccountID, EUserUGCList eListType, EUGCMatchingUGCType eMatchingUGCType, EUserUGCListSortOrder eSortOrder, uint nCreatorAppID, uint nConsumerAppID, uint unPage);
+		public static extern UGCQueryHandle_t ISteamUGC_CreateQueryUserUGCRequest(uint unAccountID, EUserUGCList eListType, EUGCMatchingUGCType eMatchingUGCType, EUserUGCListSortOrder eSortOrder, uint nCreatorAppID, uint nConsumerAppID, uint unPage);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamUGC_CreateQueryAllUGCRequest(EUGCQuery eQueryType, EUGCMatchingUGCType eMatchingeMatchingUGCTypeFileType, uint nCreatorAppID, uint nConsumerAppID, uint unPage);
+		public static extern UGCQueryHandle_t ISteamUGC_CreateQueryAllUGCRequest(EUGCQuery eQueryType, EUGCMatchingUGCType eMatchingeMatchingUGCTypeFileType, uint nCreatorAppID, uint nConsumerAppID, uint unPage);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamUGC_SendQueryUGCRequest(ulong handle);
-
-		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamUGC_GetQueryUGCResult(ulong handle, uint index, ref SteamUGCDetails_t pDetails);
+		public static extern ulong ISteamUGC_SendQueryUGCRequest(UGCQueryHandle_t handle);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamUGC_ReleaseQueryUGCRequest(ulong handle);
+		public static extern bool ISteamUGC_GetQueryUGCResult(UGCQueryHandle_t handle, uint index, ref SteamUGCDetails_t pDetails);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamUGC_AddRequiredTag(ulong handle, IntPtr pTagName);
+		public static extern bool ISteamUGC_ReleaseQueryUGCRequest(UGCQueryHandle_t handle);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamUGC_AddExcludedTag(ulong handle, IntPtr pTagName);
+		public static extern bool ISteamUGC_AddRequiredTag(UGCQueryHandle_t handle, IntPtr pTagName);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamUGC_SetReturnLongDescription(ulong handle, [MarshalAs(UnmanagedType.I1)] bool bReturnLongDescription);
+		public static extern bool ISteamUGC_AddExcludedTag(UGCQueryHandle_t handle, IntPtr pTagName);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamUGC_SetReturnTotalOnly(ulong handle, [MarshalAs(UnmanagedType.I1)] bool bReturnTotalOnly);
+		public static extern bool ISteamUGC_SetReturnLongDescription(UGCQueryHandle_t handle, [MarshalAs(UnmanagedType.I1)] bool bReturnLongDescription);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamUGC_SetCloudFileNameFilter(ulong handle, IntPtr pMatchCloudFileName);
+		public static extern bool ISteamUGC_SetReturnTotalOnly(UGCQueryHandle_t handle, [MarshalAs(UnmanagedType.I1)] bool bReturnTotalOnly);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamUGC_SetMatchAnyTag(ulong handle, [MarshalAs(UnmanagedType.I1)] bool bMatchAnyTag);
+		public static extern bool ISteamUGC_SetCloudFileNameFilter(UGCQueryHandle_t handle, IntPtr pMatchCloudFileName);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamUGC_SetSearchText(ulong handle, IntPtr pSearchText);
+		public static extern bool ISteamUGC_SetMatchAnyTag(UGCQueryHandle_t handle, [MarshalAs(UnmanagedType.I1)] bool bMatchAnyTag);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamUGC_SetRankedByTrendDays(ulong handle, uint unDays);
+		public static extern bool ISteamUGC_SetSearchText(UGCQueryHandle_t handle, IntPtr pSearchText);
+
+		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamUGC_SetRankedByTrendDays(UGCQueryHandle_t handle, uint unDays);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong ISteamUGC_RequestUGCDetails(PublishedFileId_t nPublishedFileID);

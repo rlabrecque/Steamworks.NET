@@ -95,7 +95,6 @@ namespace Steamworks {
 		public const int k_cubUFSTagTypeMax = 255;
 		public const int k_cubUFSTagValueMax = 255;
 		public const int k_ScreenshotThumbWidth = 200;
-		public const ulong k_UGCQueryHandleInvalid = 0xffffffffffffffff;
 		public const int kNumUGCResultsPerPage = 50;
 		public const int k_cchStatNameMax = 128;
 		public const int k_cchLeaderboardNameMax = 128;
