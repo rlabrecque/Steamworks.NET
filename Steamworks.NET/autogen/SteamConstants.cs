@@ -82,9 +82,6 @@ namespace Steamworks {
 		public const int k_unFavoriteFlagFavorite = 0x01;
 		public const int k_unFavoriteFlagHistory = 0x02;
 		public const int k_unMaxCloudFileChunkSize = 100 * 1024 * 1024;
-		public const ulong k_UGCHandleInvalid = 0xffffffffffffffff;
-		public const ulong k_PublishedFileUpdateHandleInvalid = 0xffffffffffffffff;
-		public const ulong k_UGCFileStreamHandleInvalid = 0xffffffffffffffff;
 		public const int k_cchPublishedDocumentTitleMax = 128 + 1;
 		public const int k_cchPublishedDocumentDescriptionMax = 8000;
 		public const int k_cchPublishedDocumentChangeDescriptionMax = 8000;

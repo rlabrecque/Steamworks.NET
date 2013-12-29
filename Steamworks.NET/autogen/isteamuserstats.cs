@@ -133,7 +133,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamUserStats_UploadLeaderboardScore(hSteamLeaderboard, eLeaderboardUploadScoreMethod, nScore, pScoreDetails, cScoreDetailsCount);
 		}
 
-		public static ulong AttachLeaderboardUGC(ulong hSteamLeaderboard, ulong hUGC) {
+		public static ulong AttachLeaderboardUGC(ulong hSteamLeaderboard, UGCHandle_t hUGC) {
 			return NativeMethods.ISteamUserStats_AttachLeaderboardUGC(hSteamLeaderboard, hUGC);
 		}
 

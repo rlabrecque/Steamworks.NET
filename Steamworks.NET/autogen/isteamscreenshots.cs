@@ -29,7 +29,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamScreenshots_TagUser(hScreenshot, steamID);
 		}
 
-		public static bool TagPublishedFile(uint hScreenshot, ulong unPublishedFileID) {
+		public static bool TagPublishedFile(uint hScreenshot, PublishedFileId_t unPublishedFileID) {
 			return NativeMethods.ISteamScreenshots_TagPublishedFile(hScreenshot, unPublishedFileID);
 		}
 	}

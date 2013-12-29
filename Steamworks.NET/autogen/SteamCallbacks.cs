@@ -543,7 +543,7 @@ namespace Steamworks {
 	public struct RemoteStorageFileShareResult_t {
 		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 7;
 		public EResult m_eResult;
-		public ulong m_hFile;
+		public UGCHandle_t m_hFile;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -551,7 +551,7 @@ namespace Steamworks {
 	public struct RemoteStoragePublishFileResult_t {
 		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 9;
 		public EResult m_eResult;
-		public ulong m_nPublishedFileId;
+		public PublishedFileId_t m_nPublishedFileId;
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
 	}
@@ -561,7 +561,7 @@ namespace Steamworks {
 	public struct RemoteStorageDeletePublishedFileResult_t {
 		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 11;
 		public EResult m_eResult;
-		public ulong m_nPublishedFileId;
+		public PublishedFileId_t m_nPublishedFileId;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -572,7 +572,7 @@ namespace Steamworks {
 		public int m_nResultsReturned;
 		public int m_nTotalResultCount;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
-		public ulong[] m_rgPublishedFileId;
+		public PublishedFileId_t[] m_rgPublishedFileId;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -580,7 +580,7 @@ namespace Steamworks {
 	public struct RemoteStorageSubscribePublishedFileResult_t {
 		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 13;
 		public EResult m_eResult;
-		public ulong m_nPublishedFileId;
+		public PublishedFileId_t m_nPublishedFileId;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -591,7 +591,7 @@ namespace Steamworks {
 		public int m_nResultsReturned;
 		public int m_nTotalResultCount;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
-		public ulong[] m_rgPublishedFileId;
+		public PublishedFileId_t[] m_rgPublishedFileId;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
 		public uint[] m_rgRTimeSubscribed;
 	}
@@ -601,7 +601,7 @@ namespace Steamworks {
 	public struct RemoteStorageUnsubscribePublishedFileResult_t {
 		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 15;
 		public EResult m_eResult;
-		public ulong m_nPublishedFileId;
+		public PublishedFileId_t m_nPublishedFileId;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -609,7 +609,7 @@ namespace Steamworks {
 	public struct RemoteStorageUpdatePublishedFileResult_t {
 		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 16;
 		public EResult m_eResult;
-		public ulong m_nPublishedFileId;
+		public PublishedFileId_t m_nPublishedFileId;
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
 	}
@@ -619,7 +619,7 @@ namespace Steamworks {
 	public struct RemoteStorageDownloadUGCResult_t {
 		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 17;
 		public EResult m_eResult;
-		public ulong m_hFile;
+		public UGCHandle_t m_hFile;
 		public uint m_nAppID;
 		public int m_nSizeInBytes;
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchFilenameMax)]
@@ -632,15 +632,15 @@ namespace Steamworks {
 	public struct RemoteStorageGetPublishedFileDetailsResult_t {
 		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 18;
 		public EResult m_eResult;
-		public ulong m_nPublishedFileId;
+		public PublishedFileId_t m_nPublishedFileId;
 		public uint m_nCreatorAppID;
 		public uint m_nConsumerAppID;
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchPublishedDocumentTitleMax)]
 		public string m_rgchTitle;
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchPublishedDocumentDescriptionMax)]
 		public string m_rgchDescription;
-		public ulong m_hFile;
-		public ulong m_hPreviewFile;
+		public UGCHandle_t m_hFile;
+		public UGCHandle_t m_hPreviewFile;
 		public ulong m_ulSteamIDOwner;
 		public uint m_rtimeCreated;
 		public uint m_rtimeUpdated;
@@ -670,7 +670,7 @@ namespace Steamworks {
 		public int m_nResultsReturned;
 		public int m_nTotalResultCount;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
-		public ulong[] m_rgPublishedFileId;
+		public PublishedFileId_t[] m_rgPublishedFileId;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
 		public float[] m_rgScore;
 		public uint m_nAppId;
@@ -682,7 +682,7 @@ namespace Steamworks {
 	public struct RemoteStorageGetPublishedItemVoteDetailsResult_t {
 		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 20;
 		public EResult m_eResult;
-		public ulong m_unPublishedFileId;
+		public PublishedFileId_t m_unPublishedFileId;
 		public int m_nVotesFor;
 		public int m_nVotesAgainst;
 		public int m_nReports;
@@ -693,7 +693,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iClientRemoteStorageCallbacks + 21)]
 	public struct RemoteStoragePublishedFileSubscribed_t {
 		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 21;
-		public ulong m_nPublishedFileId;
+		public PublishedFileId_t m_nPublishedFileId;
 		public uint m_nAppID;
 	}
 
@@ -701,7 +701,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iClientRemoteStorageCallbacks + 22)]
 	public struct RemoteStoragePublishedFileUnsubscribed_t {
 		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 22;
-		public ulong m_nPublishedFileId;
+		public PublishedFileId_t m_nPublishedFileId;
 		public uint m_nAppID;
 	}
 
@@ -709,7 +709,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iClientRemoteStorageCallbacks + 23)]
 	public struct RemoteStoragePublishedFileDeleted_t {
 		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 23;
-		public ulong m_nPublishedFileId;
+		public PublishedFileId_t m_nPublishedFileId;
 		public uint m_nAppID;
 	}
 
@@ -718,7 +718,7 @@ namespace Steamworks {
 	public struct RemoteStorageUpdateUserPublishedItemVoteResult_t {
 		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 24;
 		public EResult m_eResult;
-		public ulong m_nPublishedFileId;
+		public PublishedFileId_t m_nPublishedFileId;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -726,7 +726,7 @@ namespace Steamworks {
 	public struct RemoteStorageUserVoteDetails_t {
 		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 25;
 		public EResult m_eResult;
-		public ulong m_nPublishedFileId;
+		public PublishedFileId_t m_nPublishedFileId;
 		public EWorkshopVote m_eVote;
 	}
 
@@ -738,7 +738,7 @@ namespace Steamworks {
 		public int m_nResultsReturned;
 		public int m_nTotalResultCount;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
-		public ulong[] m_rgPublishedFileId;
+		public PublishedFileId_t[] m_rgPublishedFileId;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -746,7 +746,7 @@ namespace Steamworks {
 	public struct RemoteStorageSetUserPublishedFileActionResult_t {
 		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 27;
 		public EResult m_eResult;
-		public ulong m_nPublishedFileId;
+		public PublishedFileId_t m_nPublishedFileId;
 		public EWorkshopFileAction m_eAction;
 	}
 
@@ -759,7 +759,7 @@ namespace Steamworks {
 		public int m_nResultsReturned;
 		public int m_nTotalResultCount;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
-		public ulong[] m_rgPublishedFileId;
+		public PublishedFileId_t[] m_rgPublishedFileId;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
 		public uint[] m_rgRTimeUpdated;
 	}
@@ -777,9 +777,9 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iClientRemoteStorageCallbacks + 30)]
 	public struct RemoteStoragePublishedFileUpdated_t {
 		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 30;
-		public ulong m_nPublishedFileId;
+		public PublishedFileId_t m_nPublishedFileId;
 		public uint m_nAppID;
-		public ulong m_hFile;
+		public UGCHandle_t m_hFile;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]

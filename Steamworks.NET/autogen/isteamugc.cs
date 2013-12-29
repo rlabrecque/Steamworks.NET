@@ -57,7 +57,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamUGC_SetRankedByTrendDays(handle, unDays);
 		}
 
-		public static ulong RequestUGCDetails(ulong nPublishedFileID) {
+		public static ulong RequestUGCDetails(PublishedFileId_t nPublishedFileID) {
 			return NativeMethods.ISteamUGC_RequestUGCDetails(nPublishedFileID);
 		}
 	}

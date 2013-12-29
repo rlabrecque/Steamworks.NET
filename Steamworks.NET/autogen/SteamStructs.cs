@@ -38,7 +38,7 @@ namespace Steamworks {
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	public struct SteamUGCDetails_t {
-		public ulong m_nPublishedFileId;
+		public PublishedFileId_t m_nPublishedFileId;
 		public EResult m_eResult;
 		public EWorkshopFileType m_eFileType;
 		public uint m_nCreatorAppID;
@@ -60,8 +60,8 @@ namespace Steamworks {
 		public bool m_bTagsTruncated;
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchTagListMax)]
 		public string m_rgchTags;
-		public ulong m_hFile;
-		public ulong m_hPreviewFile;
+		public UGCHandle_t m_hFile;
+		public UGCHandle_t m_hPreviewFile;
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchFilenameMax)]
 		public string m_pchFileName;
 		public int m_nFileSize;
@@ -87,7 +87,7 @@ namespace Steamworks {
 		public int m_nGlobalRank;
 		public int m_nScore;
 		public int m_cDetails;
-		public ulong m_hUGC;
+		public UGCHandle_t m_hUGC;
 	}
 
 	public struct MatchMakingKeyValuePair_t {
