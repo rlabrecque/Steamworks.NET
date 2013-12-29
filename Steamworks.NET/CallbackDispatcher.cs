@@ -6,7 +6,6 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace Steamworks {
 	public interface ICallback {
@@ -99,31 +98,9 @@ namespace Steamworks {
 		}
 	}
 
-	public class CallbackUnhandled {
-		public delegate void DispatchDelegate(CallbackMsg_t msg);
-		public event DispatchDelegate OnRun;
-
-		public CallbackUnhandled() {
-			CallbackDispatcher.SetUnhandledCallback(this);
-		}
-
-		public CallbackUnhandled(DispatchDelegate myFunc)
-			: this() {
-			this.OnRun += myFunc;
-		}
-
-		public void Run(CallbackMsg_t msg) {
-			if (this.OnRun != null)
-				this.OnRun(msg);
-		}
-	}
-
 	public class CallbackDispatcher {
 		private static Dictionary<int, ICallback> registeredCallbacks = new Dictionary<int, ICallback>();
 		private static Dictionary<UInt64, ICallResult> registeredAPICallbacks = new Dictionary<UInt64, ICallResult>();
-		private static CallbackUnhandled unhandledCallback = null;
-
-		//private static Dictionary<int, Thread> managedThreads = new Dictionary<int, Thread>();
 
 		public static int LastActivePipe { get; private set; }
 		public static Callback<SteamAPICallCompleted_t> APICallbackCompleted = new Callback<SteamAPICallCompleted_t>(RunAPICallback);
@@ -147,10 +124,6 @@ namespace Steamworks {
 			registeredAPICallbacks.Remove(callhandle);
 		}
 
-		public static void SetUnhandledCallback(CallbackUnhandled callback) {
-			unhandledCallback = callback;
-		}
-
 		public static void RunCallbacks() {
 			CallbackMsg_t callbackmsg = new CallbackMsg_t();
 			int pipe = SteamAPI.GetHSteamPipe();
@@ -164,9 +137,6 @@ namespace Steamworks {
 				ICallback callback;
 				if (registeredCallbacks.TryGetValue(callbackmsg.m_iCallback, out callback)) {
 					callback.Run(callbackmsg.m_pubParam);
-				}
-				else if (unhandledCallback != null) {
-					unhandledCallback.Run(callbackmsg);
 				}
 
 				NativeMethods.Steam_FreeLastCallback(pipe);
@@ -182,7 +152,7 @@ namespace Steamworks {
 			IntPtr pData = IntPtr.Zero;
 			bool bFailed = false;
 
-			try { //change this to using?
+			try {
 				pData = Marshal.AllocHGlobal(apiCallback.GetExpectedSize());
 
 				if (!NativeMethods.Steam_GetAPICallResult(LastActivePipe, apicall.m_hAsyncCall, pData, apiCallback.GetExpectedSize(), apiCallback.GetExpectedCallback(), ref bFailed))
@@ -199,35 +169,5 @@ namespace Steamworks {
 				Marshal.FreeHGlobal(pData);
 			}
 		}
-
-		/*private static void DispatchThread(object param) {
-			int pipe = (int)param;
-
-			while (true) {
-				RunCallbacks(pipe);
-				Thread.Sleep(1);
-			}
-		}
-
-		public static void SpawnDispatchThread(int pipe) {
-			if (managedThreads.ContainsKey(pipe))
-				return;
-
-			Thread dispatchThread = new Thread(DispatchThread);
-			dispatchThread.Start(pipe);
-
-			managedThreads[pipe] = dispatchThread;
-		}
-
-		public static void StopDispatchThread(int pipe) {
-			Thread dispatchThread;
-
-			if (managedThreads.TryGetValue(pipe, out dispatchThread)) {
-				dispatchThread.Abort();
-				dispatchThread.Join(2500);
-
-				managedThreads.Remove(pipe);
-			}
-		}*/
 	}
 }
