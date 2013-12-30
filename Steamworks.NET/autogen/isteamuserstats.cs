@@ -101,27 +101,27 @@ namespace Steamworks {
 			return NativeMethods.ISteamUserStats_FindLeaderboard(new InteropHelp.UTF8String(pchLeaderboardName));
 		}
 
-		public static string GetLeaderboardName(ulong hSteamLeaderboard) {
+		public static string GetLeaderboardName(SteamLeaderboard_t hSteamLeaderboard) {
 			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamUserStats_GetLeaderboardName(hSteamLeaderboard));
 		}
 
-		public static int GetLeaderboardEntryCount(ulong hSteamLeaderboard) {
+		public static int GetLeaderboardEntryCount(SteamLeaderboard_t hSteamLeaderboard) {
 			return NativeMethods.ISteamUserStats_GetLeaderboardEntryCount(hSteamLeaderboard);
 		}
 
-		public static ELeaderboardSortMethod GetLeaderboardSortMethod(ulong hSteamLeaderboard) {
+		public static ELeaderboardSortMethod GetLeaderboardSortMethod(SteamLeaderboard_t hSteamLeaderboard) {
 			return NativeMethods.ISteamUserStats_GetLeaderboardSortMethod(hSteamLeaderboard);
 		}
 
-		public static ELeaderboardDisplayType GetLeaderboardDisplayType(ulong hSteamLeaderboard) {
+		public static ELeaderboardDisplayType GetLeaderboardDisplayType(SteamLeaderboard_t hSteamLeaderboard) {
 			return NativeMethods.ISteamUserStats_GetLeaderboardDisplayType(hSteamLeaderboard);
 		}
 
-		public static ulong DownloadLeaderboardEntries(ulong hSteamLeaderboard, ELeaderboardDataRequest eLeaderboardDataRequest, int nRangeStart, int nRangeEnd) {
+		public static ulong DownloadLeaderboardEntries(SteamLeaderboard_t hSteamLeaderboard, ELeaderboardDataRequest eLeaderboardDataRequest, int nRangeStart, int nRangeEnd) {
 			return NativeMethods.ISteamUserStats_DownloadLeaderboardEntries(hSteamLeaderboard, eLeaderboardDataRequest, nRangeStart, nRangeEnd);
 		}
 
-		public static ulong DownloadLeaderboardEntriesForUsers(ulong hSteamLeaderboard, ulong[] prgUsers, int cUsers) {
+		public static ulong DownloadLeaderboardEntriesForUsers(SteamLeaderboard_t hSteamLeaderboard, ulong[] prgUsers, int cUsers) {
 			return NativeMethods.ISteamUserStats_DownloadLeaderboardEntriesForUsers(hSteamLeaderboard, prgUsers, cUsers);
 		}
 
@@ -129,11 +129,11 @@ namespace Steamworks {
 			return NativeMethods.ISteamUserStats_GetDownloadedLeaderboardEntry(hSteamLeaderboardEntries, index, out pLeaderboardEntry, out pDetails, cDetailsMax);
 		}
 
-		public static ulong UploadLeaderboardScore(ulong hSteamLeaderboard, ELeaderboardUploadScoreMethod eLeaderboardUploadScoreMethod, int nScore, IntPtr pScoreDetails, int cScoreDetailsCount) {
+		public static ulong UploadLeaderboardScore(SteamLeaderboard_t hSteamLeaderboard, ELeaderboardUploadScoreMethod eLeaderboardUploadScoreMethod, int nScore, IntPtr pScoreDetails, int cScoreDetailsCount) {
 			return NativeMethods.ISteamUserStats_UploadLeaderboardScore(hSteamLeaderboard, eLeaderboardUploadScoreMethod, nScore, pScoreDetails, cScoreDetailsCount);
 		}
 
-		public static ulong AttachLeaderboardUGC(ulong hSteamLeaderboard, UGCHandle_t hUGC) {
+		public static ulong AttachLeaderboardUGC(SteamLeaderboard_t hSteamLeaderboard, UGCHandle_t hUGC) {
 			return NativeMethods.ISteamUserStats_AttachLeaderboardUGC(hSteamLeaderboard, hUGC);
 		}
 

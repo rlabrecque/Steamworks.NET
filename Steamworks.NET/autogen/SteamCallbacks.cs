@@ -940,7 +940,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 4)]
 	public struct LeaderboardFindResult_t {
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 4;
-		public ulong m_hSteamLeaderboard;
+		public SteamLeaderboard_t m_hSteamLeaderboard;
 		public byte m_bLeaderboardFound;
 	}
 
@@ -948,7 +948,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 5)]
 	public struct LeaderboardScoresDownloaded_t {
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 5;
-		public ulong m_hSteamLeaderboard;
+		public SteamLeaderboard_t m_hSteamLeaderboard;
 		public ulong m_hSteamLeaderboardEntries;
 		public int m_cEntryCount;
 	}
@@ -958,7 +958,7 @@ namespace Steamworks {
 	public struct LeaderboardScoreUploaded_t {
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 6;
 		public byte m_bSuccess;
-		public ulong m_hSteamLeaderboard;
+		public SteamLeaderboard_t m_hSteamLeaderboard;
 		public int m_nScore;
 		public byte m_bScoreChanged;
 		public int m_nGlobalRankNew;
@@ -1005,7 +1005,7 @@ namespace Steamworks {
 	public struct LeaderboardUGCSet_t {
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 11;
 		public EResult m_eResult;
-		public ulong m_hSteamLeaderboard;
+		public SteamLeaderboard_t m_hSteamLeaderboard;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
