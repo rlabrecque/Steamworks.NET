@@ -89,7 +89,7 @@ namespace Steamworks {
 			NativeMethods.ISteamUser_AdvertiseGame(steamIDGameServer, unIPServer, usPortServer);
 		}
 
-		public static ulong RequestEncryptedAppTicket(byte[] pDataToInclude, int cbDataToInclude) {
+		public static SteamAPICall_t RequestEncryptedAppTicket(byte[] pDataToInclude, int cbDataToInclude) {
 			return NativeMethods.ISteamUser_RequestEncryptedAppTicket(pDataToInclude, cbDataToInclude);
 		}
 

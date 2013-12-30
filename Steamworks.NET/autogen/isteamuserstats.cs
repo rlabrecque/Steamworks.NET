@@ -69,7 +69,7 @@ namespace Steamworks {
 			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamUserStats_GetAchievementName(iAchievement));
 		}
 
-		public static ulong RequestUserStats(ulong steamIDUser) {
+		public static SteamAPICall_t RequestUserStats(ulong steamIDUser) {
 			return NativeMethods.ISteamUserStats_RequestUserStats(steamIDUser);
 		}
 
@@ -93,11 +93,11 @@ namespace Steamworks {
 			return NativeMethods.ISteamUserStats_ResetAllStats(bAchievementsToo);
 		}
 
-		public static ulong FindOrCreateLeaderboard(string pchLeaderboardName, ELeaderboardSortMethod eLeaderboardSortMethod, ELeaderboardDisplayType eLeaderboardDisplayType) {
+		public static SteamAPICall_t FindOrCreateLeaderboard(string pchLeaderboardName, ELeaderboardSortMethod eLeaderboardSortMethod, ELeaderboardDisplayType eLeaderboardDisplayType) {
 			return NativeMethods.ISteamUserStats_FindOrCreateLeaderboard(new InteropHelp.UTF8String(pchLeaderboardName), eLeaderboardSortMethod, eLeaderboardDisplayType);
 		}
 
-		public static ulong FindLeaderboard(string pchLeaderboardName) {
+		public static SteamAPICall_t FindLeaderboard(string pchLeaderboardName) {
 			return NativeMethods.ISteamUserStats_FindLeaderboard(new InteropHelp.UTF8String(pchLeaderboardName));
 		}
 
@@ -117,11 +117,11 @@ namespace Steamworks {
 			return NativeMethods.ISteamUserStats_GetLeaderboardDisplayType(hSteamLeaderboard);
 		}
 
-		public static ulong DownloadLeaderboardEntries(SteamLeaderboard_t hSteamLeaderboard, ELeaderboardDataRequest eLeaderboardDataRequest, int nRangeStart, int nRangeEnd) {
+		public static SteamAPICall_t DownloadLeaderboardEntries(SteamLeaderboard_t hSteamLeaderboard, ELeaderboardDataRequest eLeaderboardDataRequest, int nRangeStart, int nRangeEnd) {
 			return NativeMethods.ISteamUserStats_DownloadLeaderboardEntries(hSteamLeaderboard, eLeaderboardDataRequest, nRangeStart, nRangeEnd);
 		}
 
-		public static ulong DownloadLeaderboardEntriesForUsers(SteamLeaderboard_t hSteamLeaderboard, ulong[] prgUsers, int cUsers) {
+		public static SteamAPICall_t DownloadLeaderboardEntriesForUsers(SteamLeaderboard_t hSteamLeaderboard, ulong[] prgUsers, int cUsers) {
 			return NativeMethods.ISteamUserStats_DownloadLeaderboardEntriesForUsers(hSteamLeaderboard, prgUsers, cUsers);
 		}
 
@@ -129,19 +129,19 @@ namespace Steamworks {
 			return NativeMethods.ISteamUserStats_GetDownloadedLeaderboardEntry(hSteamLeaderboardEntries, index, out pLeaderboardEntry, out pDetails, cDetailsMax);
 		}
 
-		public static ulong UploadLeaderboardScore(SteamLeaderboard_t hSteamLeaderboard, ELeaderboardUploadScoreMethod eLeaderboardUploadScoreMethod, int nScore, IntPtr pScoreDetails, int cScoreDetailsCount) {
+		public static SteamAPICall_t UploadLeaderboardScore(SteamLeaderboard_t hSteamLeaderboard, ELeaderboardUploadScoreMethod eLeaderboardUploadScoreMethod, int nScore, IntPtr pScoreDetails, int cScoreDetailsCount) {
 			return NativeMethods.ISteamUserStats_UploadLeaderboardScore(hSteamLeaderboard, eLeaderboardUploadScoreMethod, nScore, pScoreDetails, cScoreDetailsCount);
 		}
 
-		public static ulong AttachLeaderboardUGC(SteamLeaderboard_t hSteamLeaderboard, UGCHandle_t hUGC) {
+		public static SteamAPICall_t AttachLeaderboardUGC(SteamLeaderboard_t hSteamLeaderboard, UGCHandle_t hUGC) {
 			return NativeMethods.ISteamUserStats_AttachLeaderboardUGC(hSteamLeaderboard, hUGC);
 		}
 
-		public static ulong GetNumberOfCurrentPlayers() {
+		public static SteamAPICall_t GetNumberOfCurrentPlayers() {
 			return NativeMethods.ISteamUserStats_GetNumberOfCurrentPlayers();
 		}
 
-		public static ulong RequestGlobalAchievementPercentages() {
+		public static SteamAPICall_t RequestGlobalAchievementPercentages() {
 			return NativeMethods.ISteamUserStats_RequestGlobalAchievementPercentages();
 		}
 
@@ -165,7 +165,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamUserStats_GetAchievementAchievedPercent(new InteropHelp.UTF8String(pchName), out pflPercent);
 		}
 
-		public static ulong RequestGlobalStats(int nHistoryDays) {
+		public static SteamAPICall_t RequestGlobalStats(int nHistoryDays) {
 			return NativeMethods.ISteamUserStats_RequestGlobalStats(nHistoryDays);
 		}
 

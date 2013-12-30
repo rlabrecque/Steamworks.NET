@@ -1042,7 +1042,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 3)]
 	public struct SteamAPICallCompleted_t {
 		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 3;
-		public ulong m_hAsyncCall;
+		public SteamAPICall_t m_hAsyncCall;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]

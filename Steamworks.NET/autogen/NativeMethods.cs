@@ -104,7 +104,7 @@ namespace Steamworks {
 		public static extern void Steam_FreeLastCallback(HSteamPipe hSteamPipe);
 
 		[DllImport("CSteamworks", EntryPoint = "Steam_GetAPICallResult2", CallingConvention = CallingConvention.Cdecl)]
-		public static extern bool Steam_GetAPICallResult(HSteamPipe hSteamPipe, ulong hSteamAPICall, IntPtr pCallback, int cubCallback, int iCallbackExpected, ref bool pbFailed);
+		public static extern bool Steam_GetAPICallResult(HSteamPipe hSteamPipe, SteamAPICall_t hSteamAPICall, IntPtr pCallback, int cubCallback, int iCallbackExpected, ref bool pbFailed);
 #endregion
 #region SteamApps
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
@@ -185,7 +185,7 @@ namespace Steamworks {
 		public static extern IntPtr ISteamApps_GetLaunchQueryParam(IntPtr pchKey);
 #if _PS3
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamApps_RegisterActivationCode(IntPtr pchActivationCode);
+		public static extern SteamAPICall_t ISteamApps_RegisterActivationCode(IntPtr pchActivationCode);
 #endif
 #endregion
 #region SteamClient
@@ -302,7 +302,7 @@ namespace Steamworks {
 		public static extern IntPtr ISteamFriends_GetPersonaName();
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamFriends_SetPersonaName(IntPtr pchPersonaName);
+		public static extern SteamAPICall_t ISteamFriends_SetPersonaName(IntPtr pchPersonaName);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern EPersonaState ISteamFriends_GetPersonaState();
@@ -353,7 +353,7 @@ namespace Steamworks {
 		public static extern bool ISteamFriends_GetClanActivityCounts(ulong steamIDClan, out int pnOnline, out int pnInGame, out int pnChatting);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamFriends_DownloadClanActivityCounts(ulong[] psteamIDClans, int cClansToRequest);
+		public static extern SteamAPICall_t ISteamFriends_DownloadClanActivityCounts(ulong[] psteamIDClans, int cClansToRequest);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int ISteamFriends_GetFriendCountFromSource(ulong steamIDSource);
@@ -400,7 +400,7 @@ namespace Steamworks {
 		public static extern bool ISteamFriends_RequestUserInformation(ulong steamIDUser, [MarshalAs(UnmanagedType.I1)] bool bRequireNameOnly);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamFriends_RequestClanOfficerList(ulong steamIDClan);
+		public static extern SteamAPICall_t ISteamFriends_RequestClanOfficerList(ulong steamIDClan);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong ISteamFriends_GetClanOwner(ulong steamIDClan);
@@ -450,7 +450,7 @@ namespace Steamworks {
 		public static extern AppId_t ISteamFriends_GetFriendCoplayGame(ulong steamIDFriend);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamFriends_JoinClanChatRoom(ulong steamIDClan);
+		public static extern SteamAPICall_t ISteamFriends_JoinClanChatRoom(ulong steamIDClan);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -497,13 +497,13 @@ namespace Steamworks {
 		public static extern int ISteamFriends_GetFriendMessage(ulong steamIDFriend, int iMessageID, IntPtr pvData, int cubData, out EChatEntryType peChatEntryType);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamFriends_GetFollowerCount(ulong steamID);
+		public static extern SteamAPICall_t ISteamFriends_GetFollowerCount(ulong steamID);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamFriends_IsFollowing(ulong steamID);
+		public static extern SteamAPICall_t ISteamFriends_IsFollowing(ulong steamID);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamFriends_EnumerateFollowingList(uint unStartIndex);
+		public static extern SteamAPICall_t ISteamFriends_EnumerateFollowingList(uint unStartIndex);
 #endregion
 #region SteamGameServer
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
@@ -616,7 +616,7 @@ namespace Steamworks {
 		public static extern void ISteamGameServer_GetGameplayStats();
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamGameServer_GetServerReputation();
+		public static extern SteamAPICall_t ISteamGameServer_GetServerReputation();
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint ISteamGameServer_GetPublicIP();
@@ -638,10 +638,10 @@ namespace Steamworks {
 		public static extern void ISteamGameServer_ForceHeartbeat();
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamGameServer_AssociateWithClan(ulong steamIDClan);
+		public static extern SteamAPICall_t ISteamGameServer_AssociateWithClan(ulong steamIDClan);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamGameServer_ComputeNewPlayerCompatibility(ulong steamIDNewPlayer);
+		public static extern SteamAPICall_t ISteamGameServer_ComputeNewPlayerCompatibility(ulong steamIDNewPlayer);
 #endregion
 #region SteamGameServerHTTP
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
@@ -665,11 +665,11 @@ namespace Steamworks {
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_SendHTTPRequest(HTTPRequestHandle hRequest, ref ulong pCallHandle);
+		public static extern bool ISteamGameServerHTTP_SendHTTPRequest(HTTPRequestHandle hRequest, ref SteamAPICall_t pCallHandle);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_SendHTTPRequestAndStreamResponse(HTTPRequestHandle hRequest, ref ulong pCallHandle);
+		public static extern bool ISteamGameServerHTTP_SendHTTPRequestAndStreamResponse(HTTPRequestHandle hRequest, ref SteamAPICall_t pCallHandle);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -797,7 +797,7 @@ namespace Steamworks {
 #endregion
 #region SteamGameServerStats
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamGameServerStats_RequestUserStats(ulong steamIDUser);
+		public static extern SteamAPICall_t ISteamGameServerStats_RequestUserStats(ulong steamIDUser);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -832,7 +832,7 @@ namespace Steamworks {
 		public static extern bool ISteamGameServerStats_ClearUserAchievement(ulong steamIDUser, IntPtr pchName);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamGameServerStats_StoreUserStats(ulong steamIDUser);
+		public static extern SteamAPICall_t ISteamGameServerStats_StoreUserStats(ulong steamIDUser);
 #endregion
 #region SteamGameServerUtils
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
@@ -873,14 +873,14 @@ namespace Steamworks {
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerUtils_IsAPICallCompleted(ulong hSteamAPICall, out bool pbFailed);
+		public static extern bool ISteamGameServerUtils_IsAPICallCompleted(SteamAPICall_t hSteamAPICall, out bool pbFailed);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ESteamAPICallFailure ISteamGameServerUtils_GetAPICallFailureReason(ulong hSteamAPICall);
+		public static extern ESteamAPICallFailure ISteamGameServerUtils_GetAPICallFailureReason(SteamAPICall_t hSteamAPICall);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerUtils_GetAPICallResult(ulong hSteamAPICall, IntPtr pCallback, int cubCallback, int iCallbackExpected, out bool pbFailed);
+		public static extern bool ISteamGameServerUtils_GetAPICallResult(SteamAPICall_t hSteamAPICall, IntPtr pCallback, int cubCallback, int iCallbackExpected, out bool pbFailed);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ISteamGameServerUtils_RunFrame();
@@ -900,7 +900,7 @@ namespace Steamworks {
 		public static extern bool ISteamGameServerUtils_BOverlayNeedsPresent();
 #if ! _PS3
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamGameServerUtils_CheckFileSignature(IntPtr szFileName);
+		public static extern SteamAPICall_t ISteamGameServerUtils_CheckFileSignature(IntPtr szFileName);
 #endif
 #if _PS3
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
@@ -953,11 +953,11 @@ namespace Steamworks {
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamHTTP_SendHTTPRequest(HTTPRequestHandle hRequest, ref ulong pCallHandle);
+		public static extern bool ISteamHTTP_SendHTTPRequest(HTTPRequestHandle hRequest, ref SteamAPICall_t pCallHandle);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamHTTP_SendHTTPRequestAndStreamResponse(HTTPRequestHandle hRequest, ref ulong pCallHandle);
+		public static extern bool ISteamHTTP_SendHTTPRequestAndStreamResponse(HTTPRequestHandle hRequest, ref SteamAPICall_t pCallHandle);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -1012,7 +1012,7 @@ namespace Steamworks {
 		public static extern bool ISteamMatchmaking_RemoveFavoriteGame(AppId_t nAppID, uint nIP, ushort nConnPort, ushort nQueryPort, uint unFlags);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamMatchmaking_RequestLobbyList();
+		public static extern SteamAPICall_t ISteamMatchmaking_RequestLobbyList();
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ISteamMatchmaking_AddRequestLobbyListStringFilter(IntPtr pchKeyToMatch, IntPtr pchValueToMatch, ELobbyComparison eComparisonType);
@@ -1039,10 +1039,10 @@ namespace Steamworks {
 		public static extern ulong ISteamMatchmaking_GetLobbyByIndex(int iLobby);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamMatchmaking_CreateLobby(ELobbyType eLobbyType, int cMaxMembers);
+		public static extern SteamAPICall_t ISteamMatchmaking_CreateLobby(ELobbyType eLobbyType, int cMaxMembers);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamMatchmaking_JoinLobby(ulong steamIDLobby);
+		public static extern SteamAPICall_t ISteamMatchmaking_JoinLobby(ulong steamIDLobby);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ISteamMatchmaking_LeaveLobby(ulong steamIDLobby);
@@ -1283,7 +1283,7 @@ namespace Steamworks {
 		public static extern bool ISteamRemoteStorage_FileDelete(IntPtr pchFile);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamRemoteStorage_FileShare(IntPtr pchFile);
+		public static extern SteamAPICall_t ISteamRemoteStorage_FileShare(IntPtr pchFile);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -1343,7 +1343,7 @@ namespace Steamworks {
 		public static extern void ISteamRemoteStorage_SetCloudEnabledForApp([MarshalAs(UnmanagedType.I1)] bool bEnabled);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamRemoteStorage_UGCDownload(UGCHandle_t hContent, uint unPriority);
+		public static extern SteamAPICall_t ISteamRemoteStorage_UGCDownload(UGCHandle_t hContent, uint unPriority);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -1386,7 +1386,7 @@ namespace Steamworks {
 		public static extern bool ISteamRemoteStorage_ResetFileRequestState();
 #endif
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamRemoteStorage_PublishWorkshopFile(IntPtr pchFile, IntPtr pchPreviewFile, AppId_t nConsumerAppId, IntPtr pchTitle, IntPtr pchDescription, ERemoteStoragePublishedFileVisibility eVisibility, IntPtr pTags, EWorkshopFileType eWorkshopFileType);
+		public static extern SteamAPICall_t ISteamRemoteStorage_PublishWorkshopFile(IntPtr pchFile, IntPtr pchPreviewFile, AppId_t nConsumerAppId, IntPtr pchTitle, IntPtr pchDescription, ERemoteStoragePublishedFileVisibility eVisibility, IntPtr pTags, EWorkshopFileType eWorkshopFileType);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern PublishedFileUpdateHandle_t ISteamRemoteStorage_CreatePublishedFileUpdateRequest(PublishedFileId_t unPublishedFileId);
@@ -1416,56 +1416,56 @@ namespace Steamworks {
 		public static extern bool ISteamRemoteStorage_UpdatePublishedFileTags(PublishedFileUpdateHandle_t updateHandle, IntPtr pTags);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamRemoteStorage_CommitPublishedFileUpdate(PublishedFileUpdateHandle_t updateHandle);
+		public static extern SteamAPICall_t ISteamRemoteStorage_CommitPublishedFileUpdate(PublishedFileUpdateHandle_t updateHandle);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamRemoteStorage_GetPublishedFileDetails(PublishedFileId_t unPublishedFileId, uint unMaxSecondsOld);
+		public static extern SteamAPICall_t ISteamRemoteStorage_GetPublishedFileDetails(PublishedFileId_t unPublishedFileId, uint unMaxSecondsOld);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamRemoteStorage_DeletePublishedFile(PublishedFileId_t unPublishedFileId);
+		public static extern SteamAPICall_t ISteamRemoteStorage_DeletePublishedFile(PublishedFileId_t unPublishedFileId);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamRemoteStorage_EnumerateUserPublishedFiles(uint unStartIndex);
+		public static extern SteamAPICall_t ISteamRemoteStorage_EnumerateUserPublishedFiles(uint unStartIndex);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamRemoteStorage_SubscribePublishedFile(PublishedFileId_t unPublishedFileId);
+		public static extern SteamAPICall_t ISteamRemoteStorage_SubscribePublishedFile(PublishedFileId_t unPublishedFileId);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamRemoteStorage_EnumerateUserSubscribedFiles(uint unStartIndex);
+		public static extern SteamAPICall_t ISteamRemoteStorage_EnumerateUserSubscribedFiles(uint unStartIndex);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamRemoteStorage_UnsubscribePublishedFile(PublishedFileId_t unPublishedFileId);
+		public static extern SteamAPICall_t ISteamRemoteStorage_UnsubscribePublishedFile(PublishedFileId_t unPublishedFileId);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamRemoteStorage_UpdatePublishedFileSetChangeDescription(PublishedFileUpdateHandle_t updateHandle, IntPtr pchChangeDescription);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamRemoteStorage_GetPublishedItemVoteDetails(PublishedFileId_t unPublishedFileId);
+		public static extern SteamAPICall_t ISteamRemoteStorage_GetPublishedItemVoteDetails(PublishedFileId_t unPublishedFileId);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamRemoteStorage_UpdateUserPublishedItemVote(PublishedFileId_t unPublishedFileId, [MarshalAs(UnmanagedType.I1)] bool bVoteUp);
+		public static extern SteamAPICall_t ISteamRemoteStorage_UpdateUserPublishedItemVote(PublishedFileId_t unPublishedFileId, [MarshalAs(UnmanagedType.I1)] bool bVoteUp);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamRemoteStorage_GetUserPublishedItemVoteDetails(PublishedFileId_t unPublishedFileId);
+		public static extern SteamAPICall_t ISteamRemoteStorage_GetUserPublishedItemVoteDetails(PublishedFileId_t unPublishedFileId);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamRemoteStorage_EnumerateUserSharedWorkshopFiles(ulong steamId, uint unStartIndex, IntPtr pRequiredTags, IntPtr pExcludedTags);
+		public static extern SteamAPICall_t ISteamRemoteStorage_EnumerateUserSharedWorkshopFiles(ulong steamId, uint unStartIndex, IntPtr pRequiredTags, IntPtr pExcludedTags);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamRemoteStorage_PublishVideo(EWorkshopVideoProvider eVideoProvider, IntPtr pchVideoAccount, IntPtr pchVideoIdentifier, IntPtr pchPreviewFile, AppId_t nConsumerAppId, IntPtr pchTitle, IntPtr pchDescription, ERemoteStoragePublishedFileVisibility eVisibility, IntPtr pTags);
+		public static extern SteamAPICall_t ISteamRemoteStorage_PublishVideo(EWorkshopVideoProvider eVideoProvider, IntPtr pchVideoAccount, IntPtr pchVideoIdentifier, IntPtr pchPreviewFile, AppId_t nConsumerAppId, IntPtr pchTitle, IntPtr pchDescription, ERemoteStoragePublishedFileVisibility eVisibility, IntPtr pTags);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamRemoteStorage_SetUserPublishedFileAction(PublishedFileId_t unPublishedFileId, EWorkshopFileAction eAction);
+		public static extern SteamAPICall_t ISteamRemoteStorage_SetUserPublishedFileAction(PublishedFileId_t unPublishedFileId, EWorkshopFileAction eAction);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamRemoteStorage_EnumeratePublishedFilesByUserAction(EWorkshopFileAction eAction, uint unStartIndex);
+		public static extern SteamAPICall_t ISteamRemoteStorage_EnumeratePublishedFilesByUserAction(EWorkshopFileAction eAction, uint unStartIndex);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamRemoteStorage_EnumeratePublishedWorkshopFiles(EWorkshopEnumerationType eEnumerationType, uint unStartIndex, uint unCount, uint unDays, IntPtr pTags, IntPtr pUserTags);
+		public static extern SteamAPICall_t ISteamRemoteStorage_EnumeratePublishedWorkshopFiles(EWorkshopEnumerationType eEnumerationType, uint unStartIndex, uint unCount, uint unDays, IntPtr pTags, IntPtr pUserTags);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamRemoteStorage_UGCDownloadToLocation(UGCHandle_t hContent, IntPtr pchLocation, uint unPriority);
+		public static extern SteamAPICall_t ISteamRemoteStorage_UGCDownloadToLocation(UGCHandle_t hContent, IntPtr pchLocation, uint unPriority);
 #endregion
 #region SteamScreenshots
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
@@ -1500,7 +1500,7 @@ namespace Steamworks {
 		public static extern UGCQueryHandle_t ISteamUGC_CreateQueryAllUGCRequest(EUGCQuery eQueryType, EUGCMatchingUGCType eMatchingeMatchingUGCTypeFileType, AppId_t nCreatorAppID, AppId_t nConsumerAppID, uint unPage);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamUGC_SendQueryUGCRequest(UGCQueryHandle_t handle);
+		public static extern SteamAPICall_t ISteamUGC_SendQueryUGCRequest(UGCQueryHandle_t handle);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -1543,7 +1543,7 @@ namespace Steamworks {
 		public static extern bool ISteamUGC_SetRankedByTrendDays(UGCQueryHandle_t handle, uint unDays);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamUGC_RequestUGCDetails(PublishedFileId_t nPublishedFileID);
+		public static extern SteamAPICall_t ISteamUGC_RequestUGCDetails(PublishedFileId_t nPublishedFileID);
 #endregion
 #region SteamUnifiedMessages
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
@@ -1630,7 +1630,7 @@ namespace Steamworks {
 		public static extern void ISteamUser_AdvertiseGame(ulong steamIDGameServer, uint unIPServer, ushort usPortServer);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamUser_RequestEncryptedAppTicket(byte[] pDataToInclude, int cbDataToInclude);
+		public static extern SteamAPICall_t ISteamUser_RequestEncryptedAppTicket(byte[] pDataToInclude, int cbDataToInclude);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -1717,7 +1717,7 @@ namespace Steamworks {
 		public static extern IntPtr ISteamUserStats_GetAchievementName(uint iAchievement);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamUserStats_RequestUserStats(ulong steamIDUser);
+		public static extern SteamAPICall_t ISteamUserStats_RequestUserStats(ulong steamIDUser);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -1740,10 +1740,10 @@ namespace Steamworks {
 		public static extern bool ISteamUserStats_ResetAllStats([MarshalAs(UnmanagedType.I1)] bool bAchievementsToo);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamUserStats_FindOrCreateLeaderboard(IntPtr pchLeaderboardName, ELeaderboardSortMethod eLeaderboardSortMethod, ELeaderboardDisplayType eLeaderboardDisplayType);
+		public static extern SteamAPICall_t ISteamUserStats_FindOrCreateLeaderboard(IntPtr pchLeaderboardName, ELeaderboardSortMethod eLeaderboardSortMethod, ELeaderboardDisplayType eLeaderboardDisplayType);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamUserStats_FindLeaderboard(IntPtr pchLeaderboardName);
+		public static extern SteamAPICall_t ISteamUserStats_FindLeaderboard(IntPtr pchLeaderboardName);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr ISteamUserStats_GetLeaderboardName(SteamLeaderboard_t hSteamLeaderboard);
@@ -1758,26 +1758,26 @@ namespace Steamworks {
 		public static extern ELeaderboardDisplayType ISteamUserStats_GetLeaderboardDisplayType(SteamLeaderboard_t hSteamLeaderboard);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamUserStats_DownloadLeaderboardEntries(SteamLeaderboard_t hSteamLeaderboard, ELeaderboardDataRequest eLeaderboardDataRequest, int nRangeStart, int nRangeEnd);
+		public static extern SteamAPICall_t ISteamUserStats_DownloadLeaderboardEntries(SteamLeaderboard_t hSteamLeaderboard, ELeaderboardDataRequest eLeaderboardDataRequest, int nRangeStart, int nRangeEnd);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamUserStats_DownloadLeaderboardEntriesForUsers(SteamLeaderboard_t hSteamLeaderboard, ulong[] prgUsers, int cUsers);
+		public static extern SteamAPICall_t ISteamUserStats_DownloadLeaderboardEntriesForUsers(SteamLeaderboard_t hSteamLeaderboard, ulong[] prgUsers, int cUsers);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamUserStats_GetDownloadedLeaderboardEntry(SteamLeaderboardEntries_t hSteamLeaderboardEntries, int index, out LeaderboardEntry_t pLeaderboardEntry, out int pDetails, int cDetailsMax);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamUserStats_UploadLeaderboardScore(SteamLeaderboard_t hSteamLeaderboard, ELeaderboardUploadScoreMethod eLeaderboardUploadScoreMethod, int nScore, IntPtr pScoreDetails, int cScoreDetailsCount);
+		public static extern SteamAPICall_t ISteamUserStats_UploadLeaderboardScore(SteamLeaderboard_t hSteamLeaderboard, ELeaderboardUploadScoreMethod eLeaderboardUploadScoreMethod, int nScore, IntPtr pScoreDetails, int cScoreDetailsCount);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamUserStats_AttachLeaderboardUGC(SteamLeaderboard_t hSteamLeaderboard, UGCHandle_t hUGC);
+		public static extern SteamAPICall_t ISteamUserStats_AttachLeaderboardUGC(SteamLeaderboard_t hSteamLeaderboard, UGCHandle_t hUGC);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamUserStats_GetNumberOfCurrentPlayers();
+		public static extern SteamAPICall_t ISteamUserStats_GetNumberOfCurrentPlayers();
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamUserStats_RequestGlobalAchievementPercentages();
+		public static extern SteamAPICall_t ISteamUserStats_RequestGlobalAchievementPercentages();
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int ISteamUserStats_GetMostAchievedAchievementInfo(IntPtr pchName, uint unNameBufLen, out float pflPercent, out bool pbAchieved);
@@ -1790,7 +1790,7 @@ namespace Steamworks {
 		public static extern bool ISteamUserStats_GetAchievementAchievedPercent(IntPtr pchName, out float pflPercent);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamUserStats_RequestGlobalStats(int nHistoryDays);
+		public static extern SteamAPICall_t ISteamUserStats_RequestGlobalStats(int nHistoryDays);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -1861,14 +1861,14 @@ namespace Steamworks {
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamUtils_IsAPICallCompleted(ulong hSteamAPICall, out bool pbFailed);
+		public static extern bool ISteamUtils_IsAPICallCompleted(SteamAPICall_t hSteamAPICall, out bool pbFailed);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ESteamAPICallFailure ISteamUtils_GetAPICallFailureReason(ulong hSteamAPICall);
+		public static extern ESteamAPICallFailure ISteamUtils_GetAPICallFailureReason(SteamAPICall_t hSteamAPICall);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamUtils_GetAPICallResult(ulong hSteamAPICall, IntPtr pCallback, int cubCallback, int iCallbackExpected, out bool pbFailed);
+		public static extern bool ISteamUtils_GetAPICallResult(SteamAPICall_t hSteamAPICall, IntPtr pCallback, int cubCallback, int iCallbackExpected, out bool pbFailed);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ISteamUtils_RunFrame();
@@ -1888,7 +1888,7 @@ namespace Steamworks {
 		public static extern bool ISteamUtils_BOverlayNeedsPresent();
 #if ! _PS3
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamUtils_CheckFileSignature(IntPtr szFileName);
+		public static extern SteamAPICall_t ISteamUtils_CheckFileSignature(IntPtr szFileName);
 #endif
 #if _PS3
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]

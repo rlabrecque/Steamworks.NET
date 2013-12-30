@@ -120,7 +120,6 @@ namespace Steamworks {
 		public const ulong k_ulAssetClassIdInvalid = 0x0;
 		public const uint k_uPhysicalItemIdInvalid = 0x0;
 		public const uint k_uCellIDInvalid = 0xFFFFFFFF;
-		public const ulong k_uAPICallInvalid = 0x0;
 		public const uint k_uPartnerIdInvalid = 0;
 	}
 }

@@ -17,7 +17,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamMatchmaking_RemoveFavoriteGame(nAppID, nIP, nConnPort, nQueryPort, unFlags);
 		}
 
-		public static ulong RequestLobbyList() {
+		public static SteamAPICall_t RequestLobbyList() {
 			return NativeMethods.ISteamMatchmaking_RequestLobbyList();
 		}
 
@@ -53,11 +53,11 @@ namespace Steamworks {
 			return NativeMethods.ISteamMatchmaking_GetLobbyByIndex(iLobby);
 		}
 
-		public static ulong CreateLobby(ELobbyType eLobbyType, int cMaxMembers) {
+		public static SteamAPICall_t CreateLobby(ELobbyType eLobbyType, int cMaxMembers) {
 			return NativeMethods.ISteamMatchmaking_CreateLobby(eLobbyType, cMaxMembers);
 		}
 
-		public static ulong JoinLobby(ulong steamIDLobby) {
+		public static SteamAPICall_t JoinLobby(ulong steamIDLobby) {
 			return NativeMethods.ISteamMatchmaking_JoinLobby(steamIDLobby);
 		}
 

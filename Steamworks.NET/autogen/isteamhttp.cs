@@ -25,11 +25,11 @@ namespace Steamworks {
 			return NativeMethods.ISteamHTTP_SetHTTPRequestGetOrPostParameter(hRequest, new InteropHelp.UTF8String(pchParamName), new InteropHelp.UTF8String(pchParamValue));
 		}
 
-		public static bool SendHTTPRequest(HTTPRequestHandle hRequest, ref ulong pCallHandle) {
+		public static bool SendHTTPRequest(HTTPRequestHandle hRequest, ref SteamAPICall_t pCallHandle) {
 			return NativeMethods.ISteamHTTP_SendHTTPRequest(hRequest, ref pCallHandle);
 		}
 
-		public static bool SendHTTPRequestAndStreamResponse(HTTPRequestHandle hRequest, ref ulong pCallHandle) {
+		public static bool SendHTTPRequestAndStreamResponse(HTTPRequestHandle hRequest, ref SteamAPICall_t pCallHandle) {
 			return NativeMethods.ISteamHTTP_SendHTTPRequestAndStreamResponse(hRequest, ref pCallHandle);
 		}
 

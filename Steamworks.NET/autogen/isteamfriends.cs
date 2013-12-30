@@ -9,7 +9,7 @@ namespace Steamworks {
 			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamFriends_GetPersonaName());
 		}
 
-		public static ulong SetPersonaName(string pchPersonaName) {
+		public static SteamAPICall_t SetPersonaName(string pchPersonaName) {
 			return NativeMethods.ISteamFriends_SetPersonaName(new InteropHelp.UTF8String(pchPersonaName));
 		}
 
@@ -73,7 +73,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamFriends_GetClanActivityCounts(steamIDClan, out pnOnline, out pnInGame, out pnChatting);
 		}
 
-		public static ulong DownloadClanActivityCounts(ulong[] psteamIDClans, int cClansToRequest) {
+		public static SteamAPICall_t DownloadClanActivityCounts(ulong[] psteamIDClans, int cClansToRequest) {
 			return NativeMethods.ISteamFriends_DownloadClanActivityCounts(psteamIDClans, cClansToRequest);
 		}
 
@@ -133,7 +133,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamFriends_RequestUserInformation(steamIDUser, bRequireNameOnly);
 		}
 
-		public static ulong RequestClanOfficerList(ulong steamIDClan) {
+		public static SteamAPICall_t RequestClanOfficerList(ulong steamIDClan) {
 			return NativeMethods.ISteamFriends_RequestClanOfficerList(steamIDClan);
 		}
 
@@ -197,7 +197,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamFriends_GetFriendCoplayGame(steamIDFriend);
 		}
 
-		public static ulong JoinClanChatRoom(ulong steamIDClan) {
+		public static SteamAPICall_t JoinClanChatRoom(ulong steamIDClan) {
 			return NativeMethods.ISteamFriends_JoinClanChatRoom(steamIDClan);
 		}
 
@@ -257,15 +257,15 @@ namespace Steamworks {
 			return ret;
 		}
 
-		public static ulong GetFollowerCount(ulong steamID) {
+		public static SteamAPICall_t GetFollowerCount(ulong steamID) {
 			return NativeMethods.ISteamFriends_GetFollowerCount(steamID);
 		}
 
-		public static ulong IsFollowing(ulong steamID) {
+		public static SteamAPICall_t IsFollowing(ulong steamID) {
 			return NativeMethods.ISteamFriends_IsFollowing(steamID);
 		}
 
-		public static ulong EnumerateFollowingList(uint unStartIndex) {
+		public static SteamAPICall_t EnumerateFollowingList(uint unStartIndex) {
 			return NativeMethods.ISteamFriends_EnumerateFollowingList(unStartIndex);
 		}
 	}

@@ -105,7 +105,7 @@ namespace Steamworks {
 			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamApps_GetLaunchQueryParam(new InteropHelp.UTF8String(pchKey)));
 		}
 #if _PS3
-		public static ulong RegisterActivationCode(string pchActivationCode) {
+		public static SteamAPICall_t RegisterActivationCode(string pchActivationCode) {
 			return NativeMethods.ISteamApps_RegisterActivationCode(new InteropHelp.UTF8String(pchActivationCode));
 		}
 #endif

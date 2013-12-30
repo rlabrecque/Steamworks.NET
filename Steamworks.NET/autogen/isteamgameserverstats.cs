@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks {
 	public static class SteamGameServerStats {
-		public static ulong RequestUserStats(ulong steamIDUser) {
+		public static SteamAPICall_t RequestUserStats(ulong steamIDUser) {
 			return NativeMethods.ISteamGameServerStats_RequestUserStats(steamIDUser);
 		}
 
@@ -41,7 +41,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamGameServerStats_ClearUserAchievement(steamIDUser, new InteropHelp.UTF8String(pchName));
 		}
 
-		public static ulong StoreUserStats(ulong steamIDUser) {
+		public static SteamAPICall_t StoreUserStats(ulong steamIDUser) {
 			return NativeMethods.ISteamGameServerStats_StoreUserStats(steamIDUser);
 		}
 	}

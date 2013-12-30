@@ -49,15 +49,15 @@ namespace Steamworks {
 			NativeMethods.ISteamGameServerUtils_SetOverlayNotificationPosition(eNotificationPosition);
 		}
 
-		public static bool IsAPICallCompleted(ulong hSteamAPICall, out bool pbFailed) {
+		public static bool IsAPICallCompleted(SteamAPICall_t hSteamAPICall, out bool pbFailed) {
 			return NativeMethods.ISteamGameServerUtils_IsAPICallCompleted(hSteamAPICall, out pbFailed);
 		}
 
-		public static ESteamAPICallFailure GetAPICallFailureReason(ulong hSteamAPICall) {
+		public static ESteamAPICallFailure GetAPICallFailureReason(SteamAPICall_t hSteamAPICall) {
 			return NativeMethods.ISteamGameServerUtils_GetAPICallFailureReason(hSteamAPICall);
 		}
 
-		public static bool GetAPICallResult(ulong hSteamAPICall, IntPtr pCallback, int cubCallback, int iCallbackExpected, out bool pbFailed) {
+		public static bool GetAPICallResult(SteamAPICall_t hSteamAPICall, IntPtr pCallback, int cubCallback, int iCallbackExpected, out bool pbFailed) {
 			return NativeMethods.ISteamGameServerUtils_GetAPICallResult(hSteamAPICall, pCallback, cubCallback, iCallbackExpected, out pbFailed);
 		}
 
@@ -81,7 +81,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamGameServerUtils_BOverlayNeedsPresent();
 		}
 #if ! _PS3
-		public static ulong CheckFileSignature(string szFileName) {
+		public static SteamAPICall_t CheckFileSignature(string szFileName) {
 			return NativeMethods.ISteamGameServerUtils_CheckFileSignature(new InteropHelp.UTF8String(szFileName));
 		}
 #endif

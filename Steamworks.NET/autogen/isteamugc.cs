@@ -13,7 +13,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamUGC_CreateQueryAllUGCRequest(eQueryType, eMatchingeMatchingUGCTypeFileType, nCreatorAppID, nConsumerAppID, unPage);
 		}
 
-		public static ulong SendQueryUGCRequest(UGCQueryHandle_t handle) {
+		public static SteamAPICall_t SendQueryUGCRequest(UGCQueryHandle_t handle) {
 			return NativeMethods.ISteamUGC_SendQueryUGCRequest(handle);
 		}
 
@@ -57,7 +57,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamUGC_SetRankedByTrendDays(handle, unDays);
 		}
 
-		public static ulong RequestUGCDetails(PublishedFileId_t nPublishedFileID) {
+		public static SteamAPICall_t RequestUGCDetails(PublishedFileId_t nPublishedFileID) {
 			return NativeMethods.ISteamUGC_RequestUGCDetails(nPublishedFileID);
 		}
 	}

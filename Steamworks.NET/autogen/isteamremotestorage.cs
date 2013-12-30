@@ -21,7 +21,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamRemoteStorage_FileDelete(new InteropHelp.UTF8String(pchFile));
 		}
 
-		public static ulong FileShare(string pchFile) {
+		public static SteamAPICall_t FileShare(string pchFile) {
 			return NativeMethods.ISteamRemoteStorage_FileShare(new InteropHelp.UTF8String(pchFile));
 		}
 
@@ -89,7 +89,7 @@ namespace Steamworks {
 			NativeMethods.ISteamRemoteStorage_SetCloudEnabledForApp(bEnabled);
 		}
 
-		public static ulong UGCDownload(UGCHandle_t hContent, uint unPriority) {
+		public static SteamAPICall_t UGCDownload(UGCHandle_t hContent, uint unPriority) {
 			return NativeMethods.ISteamRemoteStorage_UGCDownload(hContent, unPriority);
 		}
 
@@ -140,7 +140,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamRemoteStorage_ResetFileRequestState();
 		}
 #endif
-		public static ulong PublishWorkshopFile(string pchFile, string pchPreviewFile, AppId_t nConsumerAppId, string pchTitle, string pchDescription, ERemoteStoragePublishedFileVisibility eVisibility, System.Collections.Generic.IList<string> pTags, EWorkshopFileType eWorkshopFileType) {
+		public static SteamAPICall_t PublishWorkshopFile(string pchFile, string pchPreviewFile, AppId_t nConsumerAppId, string pchTitle, string pchDescription, ERemoteStoragePublishedFileVisibility eVisibility, System.Collections.Generic.IList<string> pTags, EWorkshopFileType eWorkshopFileType) {
 			return NativeMethods.ISteamRemoteStorage_PublishWorkshopFile(new InteropHelp.UTF8String(pchFile), new InteropHelp.UTF8String(pchPreviewFile), nConsumerAppId, new InteropHelp.UTF8String(pchTitle), new InteropHelp.UTF8String(pchDescription), eVisibility, new InteropHelp.SteamParamStringArray(pTags), eWorkshopFileType);
 		}
 
@@ -172,31 +172,31 @@ namespace Steamworks {
 			return NativeMethods.ISteamRemoteStorage_UpdatePublishedFileTags(updateHandle, new InteropHelp.SteamParamStringArray(pTags));
 		}
 
-		public static ulong CommitPublishedFileUpdate(PublishedFileUpdateHandle_t updateHandle) {
+		public static SteamAPICall_t CommitPublishedFileUpdate(PublishedFileUpdateHandle_t updateHandle) {
 			return NativeMethods.ISteamRemoteStorage_CommitPublishedFileUpdate(updateHandle);
 		}
 
-		public static ulong GetPublishedFileDetails(PublishedFileId_t unPublishedFileId, uint unMaxSecondsOld) {
+		public static SteamAPICall_t GetPublishedFileDetails(PublishedFileId_t unPublishedFileId, uint unMaxSecondsOld) {
 			return NativeMethods.ISteamRemoteStorage_GetPublishedFileDetails(unPublishedFileId, unMaxSecondsOld);
 		}
 
-		public static ulong DeletePublishedFile(PublishedFileId_t unPublishedFileId) {
+		public static SteamAPICall_t DeletePublishedFile(PublishedFileId_t unPublishedFileId) {
 			return NativeMethods.ISteamRemoteStorage_DeletePublishedFile(unPublishedFileId);
 		}
 
-		public static ulong EnumerateUserPublishedFiles(uint unStartIndex) {
+		public static SteamAPICall_t EnumerateUserPublishedFiles(uint unStartIndex) {
 			return NativeMethods.ISteamRemoteStorage_EnumerateUserPublishedFiles(unStartIndex);
 		}
 
-		public static ulong SubscribePublishedFile(PublishedFileId_t unPublishedFileId) {
+		public static SteamAPICall_t SubscribePublishedFile(PublishedFileId_t unPublishedFileId) {
 			return NativeMethods.ISteamRemoteStorage_SubscribePublishedFile(unPublishedFileId);
 		}
 
-		public static ulong EnumerateUserSubscribedFiles(uint unStartIndex) {
+		public static SteamAPICall_t EnumerateUserSubscribedFiles(uint unStartIndex) {
 			return NativeMethods.ISteamRemoteStorage_EnumerateUserSubscribedFiles(unStartIndex);
 		}
 
-		public static ulong UnsubscribePublishedFile(PublishedFileId_t unPublishedFileId) {
+		public static SteamAPICall_t UnsubscribePublishedFile(PublishedFileId_t unPublishedFileId) {
 			return NativeMethods.ISteamRemoteStorage_UnsubscribePublishedFile(unPublishedFileId);
 		}
 
@@ -204,39 +204,39 @@ namespace Steamworks {
 			return NativeMethods.ISteamRemoteStorage_UpdatePublishedFileSetChangeDescription(updateHandle, new InteropHelp.UTF8String(pchChangeDescription));
 		}
 
-		public static ulong GetPublishedItemVoteDetails(PublishedFileId_t unPublishedFileId) {
+		public static SteamAPICall_t GetPublishedItemVoteDetails(PublishedFileId_t unPublishedFileId) {
 			return NativeMethods.ISteamRemoteStorage_GetPublishedItemVoteDetails(unPublishedFileId);
 		}
 
-		public static ulong UpdateUserPublishedItemVote(PublishedFileId_t unPublishedFileId, bool bVoteUp) {
+		public static SteamAPICall_t UpdateUserPublishedItemVote(PublishedFileId_t unPublishedFileId, bool bVoteUp) {
 			return NativeMethods.ISteamRemoteStorage_UpdateUserPublishedItemVote(unPublishedFileId, bVoteUp);
 		}
 
-		public static ulong GetUserPublishedItemVoteDetails(PublishedFileId_t unPublishedFileId) {
+		public static SteamAPICall_t GetUserPublishedItemVoteDetails(PublishedFileId_t unPublishedFileId) {
 			return NativeMethods.ISteamRemoteStorage_GetUserPublishedItemVoteDetails(unPublishedFileId);
 		}
 
-		public static ulong EnumerateUserSharedWorkshopFiles(ulong steamId, uint unStartIndex, System.Collections.Generic.IList<string> pRequiredTags, System.Collections.Generic.IList<string> pExcludedTags) {
+		public static SteamAPICall_t EnumerateUserSharedWorkshopFiles(ulong steamId, uint unStartIndex, System.Collections.Generic.IList<string> pRequiredTags, System.Collections.Generic.IList<string> pExcludedTags) {
 			return NativeMethods.ISteamRemoteStorage_EnumerateUserSharedWorkshopFiles(steamId, unStartIndex, new InteropHelp.SteamParamStringArray(pRequiredTags), new InteropHelp.SteamParamStringArray(pExcludedTags));
 		}
 
-		public static ulong PublishVideo(EWorkshopVideoProvider eVideoProvider, string pchVideoAccount, string pchVideoIdentifier, string pchPreviewFile, AppId_t nConsumerAppId, string pchTitle, string pchDescription, ERemoteStoragePublishedFileVisibility eVisibility, System.Collections.Generic.IList<string> pTags) {
+		public static SteamAPICall_t PublishVideo(EWorkshopVideoProvider eVideoProvider, string pchVideoAccount, string pchVideoIdentifier, string pchPreviewFile, AppId_t nConsumerAppId, string pchTitle, string pchDescription, ERemoteStoragePublishedFileVisibility eVisibility, System.Collections.Generic.IList<string> pTags) {
 			return NativeMethods.ISteamRemoteStorage_PublishVideo(eVideoProvider, new InteropHelp.UTF8String(pchVideoAccount), new InteropHelp.UTF8String(pchVideoIdentifier), new InteropHelp.UTF8String(pchPreviewFile), nConsumerAppId, new InteropHelp.UTF8String(pchTitle), new InteropHelp.UTF8String(pchDescription), eVisibility, new InteropHelp.SteamParamStringArray(pTags));
 		}
 
-		public static ulong SetUserPublishedFileAction(PublishedFileId_t unPublishedFileId, EWorkshopFileAction eAction) {
+		public static SteamAPICall_t SetUserPublishedFileAction(PublishedFileId_t unPublishedFileId, EWorkshopFileAction eAction) {
 			return NativeMethods.ISteamRemoteStorage_SetUserPublishedFileAction(unPublishedFileId, eAction);
 		}
 
-		public static ulong EnumeratePublishedFilesByUserAction(EWorkshopFileAction eAction, uint unStartIndex) {
+		public static SteamAPICall_t EnumeratePublishedFilesByUserAction(EWorkshopFileAction eAction, uint unStartIndex) {
 			return NativeMethods.ISteamRemoteStorage_EnumeratePublishedFilesByUserAction(eAction, unStartIndex);
 		}
 
-		public static ulong EnumeratePublishedWorkshopFiles(EWorkshopEnumerationType eEnumerationType, uint unStartIndex, uint unCount, uint unDays, System.Collections.Generic.IList<string> pTags, System.Collections.Generic.IList<string> pUserTags) {
+		public static SteamAPICall_t EnumeratePublishedWorkshopFiles(EWorkshopEnumerationType eEnumerationType, uint unStartIndex, uint unCount, uint unDays, System.Collections.Generic.IList<string> pTags, System.Collections.Generic.IList<string> pUserTags) {
 			return NativeMethods.ISteamRemoteStorage_EnumeratePublishedWorkshopFiles(eEnumerationType, unStartIndex, unCount, unDays, new InteropHelp.SteamParamStringArray(pTags), new InteropHelp.SteamParamStringArray(pUserTags));
 		}
 
-		public static ulong UGCDownloadToLocation(UGCHandle_t hContent, string pchLocation, uint unPriority) {
+		public static SteamAPICall_t UGCDownloadToLocation(UGCHandle_t hContent, string pchLocation, uint unPriority) {
 			return NativeMethods.ISteamRemoteStorage_UGCDownloadToLocation(hContent, new InteropHelp.UTF8String(pchLocation), unPriority);
 		}
 	}

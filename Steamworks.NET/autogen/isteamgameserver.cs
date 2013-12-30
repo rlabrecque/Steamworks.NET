@@ -141,7 +141,7 @@ namespace Steamworks {
 			NativeMethods.ISteamGameServer_GetGameplayStats();
 		}
 
-		public static ulong GetServerReputation() {
+		public static SteamAPICall_t GetServerReputation() {
 			return NativeMethods.ISteamGameServer_GetServerReputation();
 		}
 
@@ -169,11 +169,11 @@ namespace Steamworks {
 			NativeMethods.ISteamGameServer_ForceHeartbeat();
 		}
 
-		public static ulong AssociateWithClan(ulong steamIDClan) {
+		public static SteamAPICall_t AssociateWithClan(ulong steamIDClan) {
 			return NativeMethods.ISteamGameServer_AssociateWithClan(steamIDClan);
 		}
 
-		public static ulong ComputeNewPlayerCompatibility(ulong steamIDNewPlayer) {
+		public static SteamAPICall_t ComputeNewPlayerCompatibility(ulong steamIDNewPlayer) {
 			return NativeMethods.ISteamGameServer_ComputeNewPlayerCompatibility(steamIDNewPlayer);
 		}
 	}

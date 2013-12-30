@@ -48,9 +48,9 @@ namespace Steamworks {
 	public class CallResult<CallbackType> : ICallResult {
 		private int callback;
 		private int size;
-		private UInt64 callhandle = 0;
+		private SteamAPICall_t callhandle = SteamAPICall_t.Invalid;
 
-		public delegate void APIDispatchDelegate(ulong callHandle, CallbackType param);
+		public delegate void APIDispatchDelegate(SteamAPICall_t callHandle, CallbackType param);
 		public event APIDispatchDelegate OnRun;
 
 		public CallResult() {
@@ -63,7 +63,7 @@ namespace Steamworks {
 			this.OnRun += myFunc;
 		}
 
-		public CallResult(APIDispatchDelegate myFunc, UInt64 apicallhandle)
+		public CallResult(APIDispatchDelegate myFunc, SteamAPICall_t apicallhandle)
 			: this(myFunc) {
 			SetAPICallHandle(apicallhandle);
 		}
@@ -72,8 +72,8 @@ namespace Steamworks {
 			ClearAPICallHandle();
 		}
 
-		public void SetAPICallHandle(UInt64 newcallhandle) {
-			if (callhandle != 0)
+		public void SetAPICallHandle(SteamAPICall_t newcallhandle) {
+			if (callhandle != SteamAPICall_t.Invalid)
 				ClearAPICallHandle();
 
 			callhandle = newcallhandle;
@@ -100,7 +100,7 @@ namespace Steamworks {
 
 	public class CallbackDispatcher {
 		private static Dictionary<int, ICallback> registeredCallbacks = new Dictionary<int, ICallback>();
-		private static Dictionary<UInt64, ICallResult> registeredAPICallbacks = new Dictionary<UInt64, ICallResult>();
+		private static Dictionary<SteamAPICall_t, ICallResult> registeredAPICallbacks = new Dictionary<SteamAPICall_t, ICallResult>();
 
 		public static HSteamPipe LastActivePipe { get; private set; }
 		public static Callback<SteamAPICallCompleted_t> APICallbackCompleted = new Callback<SteamAPICallCompleted_t>(RunAPICallback);
@@ -116,11 +116,11 @@ namespace Steamworks {
 			}
 		}
 
-		public static void RegisterCallResult(ICallResult callback, UInt64 callhandle) {
+		public static void RegisterCallResult(ICallResult callback, SteamAPICall_t callhandle) {
 			registeredAPICallbacks.Add(callhandle, callback);
 		}
 
-		public static void ClearCallResult(ICallResult callback, UInt64 callhandle) {
+		public static void ClearCallResult(ICallResult callback, SteamAPICall_t callhandle) {
 			registeredAPICallbacks.Remove(callhandle);
 		}
 
