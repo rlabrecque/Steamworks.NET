@@ -748,14 +748,14 @@ namespace Steamworks {
 		public static extern uint ISteamGameServerNetworking_CreateListenSocket(int nVirtualP2PPort, uint nIP, ushort nPort, [MarshalAs(UnmanagedType.I1)] bool bAllowUseOfPacketRelay);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamGameServerNetworking_CreateP2PConnectionSocket(ulong steamIDTarget, int nVirtualPort, int nTimeoutSec, [MarshalAs(UnmanagedType.I1)] bool bAllowUseOfPacketRelay);
+		public static extern SNetSocket_t ISteamGameServerNetworking_CreateP2PConnectionSocket(ulong steamIDTarget, int nVirtualPort, int nTimeoutSec, [MarshalAs(UnmanagedType.I1)] bool bAllowUseOfPacketRelay);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamGameServerNetworking_CreateConnectionSocket(uint nIP, ushort nPort, int nTimeoutSec);
+		public static extern SNetSocket_t ISteamGameServerNetworking_CreateConnectionSocket(uint nIP, ushort nPort, int nTimeoutSec);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_DestroySocket(uint hSocket, [MarshalAs(UnmanagedType.I1)] bool bNotifyRemoteEnd);
+		public static extern bool ISteamGameServerNetworking_DestroySocket(SNetSocket_t hSocket, [MarshalAs(UnmanagedType.I1)] bool bNotifyRemoteEnd);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -763,37 +763,37 @@ namespace Steamworks {
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_SendDataOnSocket(uint hSocket, IntPtr pubData, uint cubData, [MarshalAs(UnmanagedType.I1)] bool bReliable);
+		public static extern bool ISteamGameServerNetworking_SendDataOnSocket(SNetSocket_t hSocket, IntPtr pubData, uint cubData, [MarshalAs(UnmanagedType.I1)] bool bReliable);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_IsDataAvailableOnSocket(uint hSocket, out uint pcubMsgSize);
+		public static extern bool ISteamGameServerNetworking_IsDataAvailableOnSocket(SNetSocket_t hSocket, out uint pcubMsgSize);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_RetrieveDataFromSocket(uint hSocket, IntPtr pubDest, uint cubDest, out uint pcubMsgSize);
+		public static extern bool ISteamGameServerNetworking_RetrieveDataFromSocket(SNetSocket_t hSocket, IntPtr pubDest, uint cubDest, out uint pcubMsgSize);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_IsDataAvailable(uint hListenSocket, out uint pcubMsgSize, out uint phSocket);
+		public static extern bool ISteamGameServerNetworking_IsDataAvailable(uint hListenSocket, out uint pcubMsgSize, out SNetSocket_t phSocket);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_RetrieveData(uint hListenSocket, IntPtr pubDest, uint cubDest, out uint pcubMsgSize, out uint phSocket);
+		public static extern bool ISteamGameServerNetworking_RetrieveData(uint hListenSocket, IntPtr pubDest, uint cubDest, out uint pcubMsgSize, out SNetSocket_t phSocket);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_GetSocketInfo(uint hSocket, out ulong pSteamIDRemote, out int peSocketStatus, out uint punIPRemote, out ushort punPortRemote);
+		public static extern bool ISteamGameServerNetworking_GetSocketInfo(SNetSocket_t hSocket, out ulong pSteamIDRemote, out int peSocketStatus, out uint punIPRemote, out ushort punPortRemote);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamGameServerNetworking_GetListenSocketInfo(uint hListenSocket, out uint pnIP, out ushort pnPort);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ESNetSocketConnectionType ISteamGameServerNetworking_GetSocketConnectionType(uint hSocket);
+		public static extern ESNetSocketConnectionType ISteamGameServerNetworking_GetSocketConnectionType(SNetSocket_t hSocket);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamGameServerNetworking_GetMaxPacketSize(uint hSocket);
+		public static extern int ISteamGameServerNetworking_GetMaxPacketSize(SNetSocket_t hSocket);
 #endregion
 #region SteamGameServerStats
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
@@ -1219,14 +1219,14 @@ namespace Steamworks {
 		public static extern uint ISteamNetworking_CreateListenSocket(int nVirtualP2PPort, uint nIP, ushort nPort, [MarshalAs(UnmanagedType.I1)] bool bAllowUseOfPacketRelay);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamNetworking_CreateP2PConnectionSocket(ulong steamIDTarget, int nVirtualPort, int nTimeoutSec, [MarshalAs(UnmanagedType.I1)] bool bAllowUseOfPacketRelay);
+		public static extern SNetSocket_t ISteamNetworking_CreateP2PConnectionSocket(ulong steamIDTarget, int nVirtualPort, int nTimeoutSec, [MarshalAs(UnmanagedType.I1)] bool bAllowUseOfPacketRelay);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamNetworking_CreateConnectionSocket(uint nIP, ushort nPort, int nTimeoutSec);
+		public static extern SNetSocket_t ISteamNetworking_CreateConnectionSocket(uint nIP, ushort nPort, int nTimeoutSec);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamNetworking_DestroySocket(uint hSocket, [MarshalAs(UnmanagedType.I1)] bool bNotifyRemoteEnd);
+		public static extern bool ISteamNetworking_DestroySocket(SNetSocket_t hSocket, [MarshalAs(UnmanagedType.I1)] bool bNotifyRemoteEnd);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -1234,37 +1234,37 @@ namespace Steamworks {
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamNetworking_SendDataOnSocket(uint hSocket, IntPtr pubData, uint cubData, [MarshalAs(UnmanagedType.I1)] bool bReliable);
+		public static extern bool ISteamNetworking_SendDataOnSocket(SNetSocket_t hSocket, IntPtr pubData, uint cubData, [MarshalAs(UnmanagedType.I1)] bool bReliable);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamNetworking_IsDataAvailableOnSocket(uint hSocket, out uint pcubMsgSize);
+		public static extern bool ISteamNetworking_IsDataAvailableOnSocket(SNetSocket_t hSocket, out uint pcubMsgSize);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamNetworking_RetrieveDataFromSocket(uint hSocket, IntPtr pubDest, uint cubDest, out uint pcubMsgSize);
+		public static extern bool ISteamNetworking_RetrieveDataFromSocket(SNetSocket_t hSocket, IntPtr pubDest, uint cubDest, out uint pcubMsgSize);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamNetworking_IsDataAvailable(uint hListenSocket, out uint pcubMsgSize, out uint phSocket);
+		public static extern bool ISteamNetworking_IsDataAvailable(uint hListenSocket, out uint pcubMsgSize, out SNetSocket_t phSocket);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamNetworking_RetrieveData(uint hListenSocket, IntPtr pubDest, uint cubDest, out uint pcubMsgSize, out uint phSocket);
+		public static extern bool ISteamNetworking_RetrieveData(uint hListenSocket, IntPtr pubDest, uint cubDest, out uint pcubMsgSize, out SNetSocket_t phSocket);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamNetworking_GetSocketInfo(uint hSocket, out ulong pSteamIDRemote, out int peSocketStatus, out uint punIPRemote, out ushort punPortRemote);
+		public static extern bool ISteamNetworking_GetSocketInfo(SNetSocket_t hSocket, out ulong pSteamIDRemote, out int peSocketStatus, out uint punIPRemote, out ushort punPortRemote);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamNetworking_GetListenSocketInfo(uint hListenSocket, out uint pnIP, out ushort pnPort);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ESNetSocketConnectionType ISteamNetworking_GetSocketConnectionType(uint hSocket);
+		public static extern ESNetSocketConnectionType ISteamNetworking_GetSocketConnectionType(SNetSocket_t hSocket);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamNetworking_GetMaxPacketSize(uint hSocket);
+		public static extern int ISteamNetworking_GetMaxPacketSize(SNetSocket_t hSocket);
 #endregion
 #region SteamRemoteStorage
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
