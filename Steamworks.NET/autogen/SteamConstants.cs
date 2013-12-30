@@ -77,7 +77,6 @@ namespace Steamworks {
 		public const int k_unServerFlagLinux = 0x08;
 		public const int k_unServerFlagPassworded = 0x10;
 		public const int k_unServerFlagPrivate = 0x20;
-		public const int HSERVERQUERY_INVALID = -1;
 		public const int k_unFavoriteFlagNone = 0x00;
 		public const int k_unFavoriteFlagFavorite = 0x01;
 		public const int k_unFavoriteFlagHistory = 0x02;

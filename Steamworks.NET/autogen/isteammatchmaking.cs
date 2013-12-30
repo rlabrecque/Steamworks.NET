@@ -218,19 +218,19 @@ namespace Steamworks {
 			NativeMethods.ISteamMatchmakingServers_RefreshServer(hRequest, iServer);
 		}
 
-		public static int PingServer(uint unIP, ushort usPort, IntPtr pRequestServersResponse) {
+		public static HServerQuery PingServer(uint unIP, ushort usPort, IntPtr pRequestServersResponse) {
 			return NativeMethods.ISteamMatchmakingServers_PingServer(unIP, usPort, pRequestServersResponse);
 		}
 
-		public static int PlayerDetails(uint unIP, ushort usPort, IntPtr pRequestServersResponse) {
+		public static HServerQuery PlayerDetails(uint unIP, ushort usPort, IntPtr pRequestServersResponse) {
 			return NativeMethods.ISteamMatchmakingServers_PlayerDetails(unIP, usPort, pRequestServersResponse);
 		}
 
-		public static int ServerRules(uint unIP, ushort usPort, IntPtr pRequestServersResponse) {
+		public static HServerQuery ServerRules(uint unIP, ushort usPort, IntPtr pRequestServersResponse) {
 			return NativeMethods.ISteamMatchmakingServers_ServerRules(unIP, usPort, pRequestServersResponse);
 		}
 
-		public static void CancelServerQuery(int hServerQuery) {
+		public static void CancelServerQuery(HServerQuery hServerQuery) {
 			NativeMethods.ISteamMatchmakingServers_CancelServerQuery(hServerQuery);
 		}
 	}

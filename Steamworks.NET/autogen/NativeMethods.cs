@@ -1171,16 +1171,16 @@ namespace Steamworks {
 		public static extern void ISteamMatchmakingServers_RefreshServer(HServerListRequest hRequest, int iServer);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamMatchmakingServers_PingServer(uint unIP, ushort usPort, IntPtr pRequestServersResponse);
+		public static extern HServerQuery ISteamMatchmakingServers_PingServer(uint unIP, ushort usPort, IntPtr pRequestServersResponse);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamMatchmakingServers_PlayerDetails(uint unIP, ushort usPort, IntPtr pRequestServersResponse);
+		public static extern HServerQuery ISteamMatchmakingServers_PlayerDetails(uint unIP, ushort usPort, IntPtr pRequestServersResponse);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamMatchmakingServers_ServerRules(uint unIP, ushort usPort, IntPtr pRequestServersResponse);
+		public static extern HServerQuery ISteamMatchmakingServers_ServerRules(uint unIP, ushort usPort, IntPtr pRequestServersResponse);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamMatchmakingServers_CancelServerQuery(int hServerQuery);
+		public static extern void ISteamMatchmakingServers_CancelServerQuery(HServerQuery hServerQuery);
 #endregion
 #region SteamNetworking
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
