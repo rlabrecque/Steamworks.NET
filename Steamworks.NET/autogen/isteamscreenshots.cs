@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks {
 	public static class SteamScreenshots {
-		public static uint WriteScreenshot(IntPtr pubRGB, uint cubRGB, int nWidth, int nHeight) {
+		public static ScreenshotHandle WriteScreenshot(IntPtr pubRGB, uint cubRGB, int nWidth, int nHeight) {
 			return NativeMethods.ISteamScreenshots_WriteScreenshot(pubRGB, cubRGB, nWidth, nHeight);
 		}
 
-		public static uint AddScreenshotToLibrary(string pchFilename, string pchThumbnailFilename, int nWidth, int nHeight) {
+		public static ScreenshotHandle AddScreenshotToLibrary(string pchFilename, string pchThumbnailFilename, int nWidth, int nHeight) {
 			return NativeMethods.ISteamScreenshots_AddScreenshotToLibrary(new InteropHelp.UTF8String(pchFilename), new InteropHelp.UTF8String(pchThumbnailFilename), nWidth, nHeight);
 		}
 
@@ -21,15 +21,15 @@ namespace Steamworks {
 			NativeMethods.ISteamScreenshots_HookScreenshots(bHook);
 		}
 
-		public static bool SetLocation(uint hScreenshot, string pchLocation) {
+		public static bool SetLocation(ScreenshotHandle hScreenshot, string pchLocation) {
 			return NativeMethods.ISteamScreenshots_SetLocation(hScreenshot, new InteropHelp.UTF8String(pchLocation));
 		}
 
-		public static bool TagUser(uint hScreenshot, ulong steamID) {
+		public static bool TagUser(ScreenshotHandle hScreenshot, ulong steamID) {
 			return NativeMethods.ISteamScreenshots_TagUser(hScreenshot, steamID);
 		}
 
-		public static bool TagPublishedFile(uint hScreenshot, PublishedFileId_t unPublishedFileID) {
+		public static bool TagPublishedFile(ScreenshotHandle hScreenshot, PublishedFileId_t unPublishedFileID) {
 			return NativeMethods.ISteamScreenshots_TagPublishedFile(hScreenshot, unPublishedFileID);
 		}
 	}

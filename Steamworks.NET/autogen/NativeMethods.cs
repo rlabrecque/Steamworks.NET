@@ -1469,10 +1469,10 @@ namespace Steamworks {
 #endregion
 #region SteamScreenshots
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamScreenshots_WriteScreenshot(IntPtr pubRGB, uint cubRGB, int nWidth, int nHeight);
+		public static extern ScreenshotHandle ISteamScreenshots_WriteScreenshot(IntPtr pubRGB, uint cubRGB, int nWidth, int nHeight);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamScreenshots_AddScreenshotToLibrary(IntPtr pchFilename, IntPtr pchThumbnailFilename, int nWidth, int nHeight);
+		public static extern ScreenshotHandle ISteamScreenshots_AddScreenshotToLibrary(IntPtr pchFilename, IntPtr pchThumbnailFilename, int nWidth, int nHeight);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ISteamScreenshots_TriggerScreenshot();
@@ -1482,15 +1482,15 @@ namespace Steamworks {
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamScreenshots_SetLocation(uint hScreenshot, IntPtr pchLocation);
+		public static extern bool ISteamScreenshots_SetLocation(ScreenshotHandle hScreenshot, IntPtr pchLocation);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamScreenshots_TagUser(uint hScreenshot, ulong steamID);
+		public static extern bool ISteamScreenshots_TagUser(ScreenshotHandle hScreenshot, ulong steamID);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamScreenshots_TagPublishedFile(uint hScreenshot, PublishedFileId_t unPublishedFileID);
+		public static extern bool ISteamScreenshots_TagPublishedFile(ScreenshotHandle hScreenshot, PublishedFileId_t unPublishedFileID);
 #endregion
 #region SteamUGC
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]

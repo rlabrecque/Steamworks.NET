@@ -786,7 +786,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamScreenshotsCallbacks + 1)]
 	public struct ScreenshotReady_t {
 		public const int k_iCallback = Constants.k_iSteamScreenshotsCallbacks + 1;
-		public uint m_hLocal;
+		public ScreenshotHandle m_hLocal;
 		public EResult m_eResult;
 	}
 
