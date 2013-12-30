@@ -486,7 +486,7 @@ namespace Steamworks {
 	public struct SocketStatusCallback_t {
 		public const int k_iCallback = Constants.k_iSteamNetworkingCallbacks + 1;
 		public SNetSocket_t m_hSocket;
-		public uint m_hListenSocket;
+		public SNetListenSocket_t m_hListenSocket;
 		public ulong m_steamIDRemote;
 		public int m_eSNetSocketState;
 	}
