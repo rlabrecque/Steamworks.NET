@@ -117,7 +117,6 @@ namespace Steamworks {
 		public const ulong k_TxnIDUnknown = 0;
 		public const uint k_uPackageIdFreeSub = 0x0;
 		public const uint k_uPackageIdInvalid = 0xFFFFFFFF;
-		public const uint k_uAppIdInvalid = 0x0;
 		public const ulong k_ulAssetClassIdInvalid = 0x0;
 		public const uint k_uPhysicalItemIdInvalid = 0x0;
 		public const uint k_uDepotIdInvalid = 0x0;

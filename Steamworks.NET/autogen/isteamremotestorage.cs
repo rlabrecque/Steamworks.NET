@@ -97,7 +97,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamRemoteStorage_GetUGCDownloadProgress(hContent, out pnBytesDownloaded, out pnBytesExpected);
 		}
 
-		public static bool GetUGCDetails(UGCHandle_t hContent, out uint pnAppID, out string ppchName, out int pnFileSizeInBytes, out ulong pSteamIDOwner) {
+		public static bool GetUGCDetails(UGCHandle_t hContent, out AppId_t pnAppID, out string ppchName, out int pnFileSizeInBytes, out ulong pSteamIDOwner) {
 			IntPtr ppchName2;
 			bool ret = NativeMethods.ISteamRemoteStorage_GetUGCDetails(hContent, out pnAppID, out ppchName2, out pnFileSizeInBytes, out pSteamIDOwner);
 			ppchName = ret ? InteropHelp.PtrToStringUTF8(ppchName2) : null;
@@ -140,7 +140,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamRemoteStorage_ResetFileRequestState();
 		}
 #endif
-		public static ulong PublishWorkshopFile(string pchFile, string pchPreviewFile, uint nConsumerAppId, string pchTitle, string pchDescription, ERemoteStoragePublishedFileVisibility eVisibility, System.Collections.Generic.IList<string> pTags, EWorkshopFileType eWorkshopFileType) {
+		public static ulong PublishWorkshopFile(string pchFile, string pchPreviewFile, AppId_t nConsumerAppId, string pchTitle, string pchDescription, ERemoteStoragePublishedFileVisibility eVisibility, System.Collections.Generic.IList<string> pTags, EWorkshopFileType eWorkshopFileType) {
 			return NativeMethods.ISteamRemoteStorage_PublishWorkshopFile(new InteropHelp.UTF8String(pchFile), new InteropHelp.UTF8String(pchPreviewFile), nConsumerAppId, new InteropHelp.UTF8String(pchTitle), new InteropHelp.UTF8String(pchDescription), eVisibility, new InteropHelp.SteamParamStringArray(pTags), eWorkshopFileType);
 		}
 
@@ -220,7 +220,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamRemoteStorage_EnumerateUserSharedWorkshopFiles(steamId, unStartIndex, new InteropHelp.SteamParamStringArray(pRequiredTags), new InteropHelp.SteamParamStringArray(pExcludedTags));
 		}
 
-		public static ulong PublishVideo(EWorkshopVideoProvider eVideoProvider, string pchVideoAccount, string pchVideoIdentifier, string pchPreviewFile, uint nConsumerAppId, string pchTitle, string pchDescription, ERemoteStoragePublishedFileVisibility eVisibility, System.Collections.Generic.IList<string> pTags) {
+		public static ulong PublishVideo(EWorkshopVideoProvider eVideoProvider, string pchVideoAccount, string pchVideoIdentifier, string pchPreviewFile, AppId_t nConsumerAppId, string pchTitle, string pchDescription, ERemoteStoragePublishedFileVisibility eVisibility, System.Collections.Generic.IList<string> pTags) {
 			return NativeMethods.ISteamRemoteStorage_PublishVideo(eVideoProvider, new InteropHelp.UTF8String(pchVideoAccount), new InteropHelp.UTF8String(pchVideoIdentifier), new InteropHelp.UTF8String(pchPreviewFile), nConsumerAppId, new InteropHelp.UTF8String(pchTitle), new InteropHelp.UTF8String(pchDescription), eVisibility, new InteropHelp.SteamParamStringArray(pTags));
 		}
 

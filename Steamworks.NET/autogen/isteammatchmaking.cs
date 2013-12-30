@@ -9,11 +9,11 @@ namespace Steamworks {
 			return NativeMethods.ISteamMatchmaking_GetFavoriteGameCount();
 		}
 
-		public static bool GetFavoriteGame(int iGame, out uint pnAppID, out uint pnIP, out ushort pnConnPort, out ushort pnQueryPort, out uint punFlags, out uint pRTime32LastPlayedOnServer) {
+		public static bool GetFavoriteGame(int iGame, out AppId_t pnAppID, out uint pnIP, out ushort pnConnPort, out ushort pnQueryPort, out uint punFlags, out uint pRTime32LastPlayedOnServer) {
 			return NativeMethods.ISteamMatchmaking_GetFavoriteGame(iGame, out pnAppID, out pnIP, out pnConnPort, out pnQueryPort, out punFlags, out pRTime32LastPlayedOnServer);
 		}
 
-		public static bool RemoveFavoriteGame(uint nAppID, uint nIP, ushort nConnPort, ushort nQueryPort, uint unFlags) {
+		public static bool RemoveFavoriteGame(AppId_t nAppID, uint nIP, ushort nConnPort, ushort nQueryPort, uint unFlags) {
 			return NativeMethods.ISteamMatchmaking_RemoveFavoriteGame(nAppID, nIP, nConnPort, nQueryPort, unFlags);
 		}
 
@@ -166,27 +166,27 @@ namespace Steamworks {
 #endif
 	}
 	public static class SteamMatchmakingServers {
-		public static HServerListRequest RequestInternetServerList(uint iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse) {
+		public static HServerListRequest RequestInternetServerList(AppId_t iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse) {
 			return NativeMethods.ISteamMatchmakingServers_RequestInternetServerList(iApp, ppchFilters, nFilters, pRequestServersResponse);
 		}
 
-		public static HServerListRequest RequestLANServerList(uint iApp, IntPtr pRequestServersResponse) {
+		public static HServerListRequest RequestLANServerList(AppId_t iApp, IntPtr pRequestServersResponse) {
 			return NativeMethods.ISteamMatchmakingServers_RequestLANServerList(iApp, pRequestServersResponse);
 		}
 
-		public static HServerListRequest RequestFriendsServerList(uint iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse) {
+		public static HServerListRequest RequestFriendsServerList(AppId_t iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse) {
 			return NativeMethods.ISteamMatchmakingServers_RequestFriendsServerList(iApp, ppchFilters, nFilters, pRequestServersResponse);
 		}
 
-		public static HServerListRequest RequestFavoritesServerList(uint iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse) {
+		public static HServerListRequest RequestFavoritesServerList(AppId_t iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse) {
 			return NativeMethods.ISteamMatchmakingServers_RequestFavoritesServerList(iApp, ppchFilters, nFilters, pRequestServersResponse);
 		}
 
-		public static HServerListRequest RequestHistoryServerList(uint iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse) {
+		public static HServerListRequest RequestHistoryServerList(AppId_t iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse) {
 			return NativeMethods.ISteamMatchmakingServers_RequestHistoryServerList(iApp, ppchFilters, nFilters, pRequestServersResponse);
 		}
 
-		public static HServerListRequest RequestSpectatorServerList(uint iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse) {
+		public static HServerListRequest RequestSpectatorServerList(AppId_t iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse) {
 			return NativeMethods.ISteamMatchmakingServers_RequestSpectatorServerList(iApp, ppchFilters, nFilters, pRequestServersResponse);
 		}
 

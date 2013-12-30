@@ -41,8 +41,8 @@ namespace Steamworks {
 		public PublishedFileId_t m_nPublishedFileId;
 		public EResult m_eResult;
 		public EWorkshopFileType m_eFileType;
-		public uint m_nCreatorAppID;
-		public uint m_nConsumerAppID;
+		public AppId_t m_nCreatorAppID;
+		public AppId_t m_nConsumerAppID;
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchPublishedDocumentTitleMax)]
 		public string m_rgchTitle;
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchPublishedDocumentDescriptionMax)]

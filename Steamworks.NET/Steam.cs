@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks {
 	public static class SteamAPI {
-		public static bool RestartAppIfNecessary(uint unOwnAppID) {
+		public static bool RestartAppIfNecessary(AppId_t unOwnAppID) {
 			return NativeMethods.SteamAPI_RestartAppIfNecessary(unOwnAppID);
 		}
 
@@ -37,7 +37,7 @@ namespace Steamworks {
 			return NativeMethods.BDecryptTicket(rgubTicketEncrypted, cubTicketEncrypted, rgubTicketDecrypted, out pcubTicketDecrypted, rgubKey, cubKey);
 		}
 
-		public static bool BIsTicketForApp(byte[] rgubTicketDecrypted, uint cubTicketDecrypted, uint nAppID) {
+		public static bool BIsTicketForApp(byte[] rgubTicketDecrypted, uint cubTicketDecrypted, AppId_t nAppID) {
 			return NativeMethods.BIsTicketForApp(rgubTicketDecrypted, cubTicketDecrypted, nAppID);
 		}
 
@@ -53,7 +53,7 @@ namespace Steamworks {
 			return NativeMethods.GetTicketAppID(rgubTicketDecrypted, cubTicketDecrypted);
 		}
 
-		public static bool BUserOwnsAppInTicket(byte[] rgubTicketDecrypted, uint cubTicketDecrypted, uint nAppID) {
+		public static bool BUserOwnsAppInTicket(byte[] rgubTicketDecrypted, uint cubTicketDecrypted, AppId_t nAppID) {
 			return NativeMethods.BUserOwnsAppInTicket(rgubTicketDecrypted, cubTicketDecrypted, nAppID);
 		}
 

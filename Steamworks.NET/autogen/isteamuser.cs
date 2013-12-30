@@ -77,7 +77,7 @@ namespace Steamworks {
 			NativeMethods.ISteamUser_CancelAuthTicket(hAuthTicket);
 		}
 
-		public static EUserHasLicenseForAppResult UserHasLicenseForApp(ulong steamID, uint appID) {
+		public static EUserHasLicenseForAppResult UserHasLicenseForApp(ulong steamID, AppId_t appID) {
 			return NativeMethods.ISteamUser_UserHasLicenseForApp(steamID, appID);
 		}
 

@@ -105,7 +105,7 @@ namespace Steamworks {
 			NativeMethods.ISteamFriends_ActivateGameOverlayToWebPage(new InteropHelp.UTF8String(pchURL));
 		}
 
-		public static void ActivateGameOverlayToStore(uint nAppID, EOverlayToStoreFlag eFlag) {
+		public static void ActivateGameOverlayToStore(AppId_t nAppID, EOverlayToStoreFlag eFlag) {
 			NativeMethods.ISteamFriends_ActivateGameOverlayToStore(nAppID, eFlag);
 		}
 
@@ -193,7 +193,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamFriends_GetFriendCoplayTime(steamIDFriend);
 		}
 
-		public static uint GetFriendCoplayGame(ulong steamIDFriend) {
+		public static AppId_t GetFriendCoplayGame(ulong steamIDFriend) {
 			return NativeMethods.ISteamFriends_GetFriendCoplayGame(steamIDFriend);
 		}
 

@@ -29,15 +29,15 @@ namespace Steamworks {
 			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamApps_GetAvailableGameLanguages());
 		}
 
-		public static bool BIsSubscribedApp(uint appID) {
+		public static bool BIsSubscribedApp(AppId_t appID) {
 			return NativeMethods.ISteamApps_BIsSubscribedApp(appID);
 		}
 
-		public static bool BIsDlcInstalled(uint appID) {
+		public static bool BIsDlcInstalled(AppId_t appID) {
 			return NativeMethods.ISteamApps_BIsDlcInstalled(appID);
 		}
 
-		public static uint GetEarliestPurchaseUnixTime(uint nAppID) {
+		public static uint GetEarliestPurchaseUnixTime(AppId_t nAppID) {
 			return NativeMethods.ISteamApps_GetEarliestPurchaseUnixTime(nAppID);
 		}
 
@@ -49,7 +49,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamApps_GetDLCCount();
 		}
 
-		public static bool BGetDLCDataByIndex(int iDLC, out uint pAppID, out bool pbAvailable, out string pchName, int cchNameBufferSize) {
+		public static bool BGetDLCDataByIndex(int iDLC, out AppId_t pAppID, out bool pbAvailable, out string pchName, int cchNameBufferSize) {
 			IntPtr pchName2 = Marshal.AllocHGlobal(cchNameBufferSize);
 			bool ret = NativeMethods.ISteamApps_BGetDLCDataByIndex(iDLC, out pAppID, out pbAvailable, pchName2, cchNameBufferSize);
 			pchName = ret ? InteropHelp.PtrToStringUTF8(pchName2) : null;
@@ -57,15 +57,15 @@ namespace Steamworks {
 			return ret;
 		}
 
-		public static void InstallDLC(uint nAppID) {
+		public static void InstallDLC(AppId_t nAppID) {
 			NativeMethods.ISteamApps_InstallDLC(nAppID);
 		}
 
-		public static void UninstallDLC(uint nAppID) {
+		public static void UninstallDLC(AppId_t nAppID) {
 			NativeMethods.ISteamApps_UninstallDLC(nAppID);
 		}
 
-		public static void RequestAppProofOfPurchaseKey(uint nAppID) {
+		public static void RequestAppProofOfPurchaseKey(AppId_t nAppID) {
 			NativeMethods.ISteamApps_RequestAppProofOfPurchaseKey(nAppID);
 		}
 
@@ -81,11 +81,11 @@ namespace Steamworks {
 			return NativeMethods.ISteamApps_MarkContentCorrupt(bMissingFilesOnly);
 		}
 
-		public static uint GetInstalledDepots(uint appID, uint[] pvecDepots, uint cMaxDepots) {
+		public static uint GetInstalledDepots(AppId_t appID, uint[] pvecDepots, uint cMaxDepots) {
 			return NativeMethods.ISteamApps_GetInstalledDepots(appID, pvecDepots, cMaxDepots);
 		}
 
-		public static uint GetAppInstallDir(uint appID, out string pchFolder, uint cchFolderBufferSize) {
+		public static uint GetAppInstallDir(AppId_t appID, out string pchFolder, uint cchFolderBufferSize) {
 			IntPtr pchFolder2 = Marshal.AllocHGlobal((int)cchFolderBufferSize);
 			uint ret = NativeMethods.ISteamApps_GetAppInstallDir(appID, pchFolder2, cchFolderBufferSize);
 			pchFolder = ret != 0 ? InteropHelp.PtrToStringUTF8(pchFolder2) : null;
@@ -93,7 +93,7 @@ namespace Steamworks {
 			return ret;
 		}
 
-		public static bool BIsAppInstalled(uint appID) {
+		public static bool BIsAppInstalled(AppId_t appID) {
 			return NativeMethods.ISteamApps_BIsAppInstalled(appID);
 		}
 

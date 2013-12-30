@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks {
 	public static class SteamGameServer {
-		public static bool InitGameServer(uint unIP, ushort usGamePort, ushort usQueryPort, uint unFlags, uint nGameAppId, string pchVersionString) {
+		public static bool InitGameServer(uint unIP, ushort usGamePort, ushort usQueryPort, uint unFlags, AppId_t nGameAppId, string pchVersionString) {
 			return NativeMethods.ISteamGameServer_InitGameServer(unIP, usGamePort, usQueryPort, unFlags, nGameAppId, new InteropHelp.UTF8String(pchVersionString));
 		}
 
@@ -129,7 +129,7 @@ namespace Steamworks {
 			NativeMethods.ISteamGameServer_CancelAuthTicket(hAuthTicket);
 		}
 
-		public static EUserHasLicenseForAppResult UserHasLicenseForApp(ulong steamID, uint appID) {
+		public static EUserHasLicenseForAppResult UserHasLicenseForApp(ulong steamID, AppId_t appID) {
 			return NativeMethods.ISteamGameServer_UserHasLicenseForApp(steamID, appID);
 		}
 

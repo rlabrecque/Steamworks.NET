@@ -41,7 +41,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamUtils_GetCurrentBatteryPower();
 		}
 
-		public static uint GetAppID() {
+		public static AppId_t GetAppID() {
 			return NativeMethods.ISteamUtils_GetAppID();
 		}
 
