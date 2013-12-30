@@ -894,7 +894,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 63)]
 	public struct GetAuthSessionTicketResponse_t {
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 63;
-		public uint m_hAuthTicket;
+		public HAuthTicket m_hAuthTicket;
 		public EResult m_eResult;
 	}
 

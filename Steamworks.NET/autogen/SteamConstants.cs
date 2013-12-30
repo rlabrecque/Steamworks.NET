@@ -104,7 +104,6 @@ namespace Steamworks {
 		public const int k_cbMaxGameServerName = 64;
 		public const int k_cbMaxGameServerTags = 128;
 		public const int k_cbMaxGameServerGameData = 2048;
-		public const uint k_HAuthTicketInvalid = 0;
 		public const int k_unSteamAccountIDMask = -1;
 		public const int k_unSteamAccountInstanceMask = 0x000FFFFF;
 		public const int k_unSteamUserDesktopInstance = 1;

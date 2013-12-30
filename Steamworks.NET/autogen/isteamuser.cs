@@ -61,7 +61,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamUser_GetVoiceOptimalSampleRate();
 		}
 
-		public static uint GetAuthSessionTicket(byte[] pTicket, int cbMaxTicket, out uint pcbTicket) {
+		public static HAuthTicket GetAuthSessionTicket(byte[] pTicket, int cbMaxTicket, out uint pcbTicket) {
 			return NativeMethods.ISteamUser_GetAuthSessionTicket(pTicket, cbMaxTicket, out pcbTicket);
 		}
 
@@ -73,7 +73,7 @@ namespace Steamworks {
 			NativeMethods.ISteamUser_EndAuthSession(steamID);
 		}
 
-		public static void CancelAuthTicket(uint hAuthTicket) {
+		public static void CancelAuthTicket(HAuthTicket hAuthTicket) {
 			NativeMethods.ISteamUser_CancelAuthTicket(hAuthTicket);
 		}
 

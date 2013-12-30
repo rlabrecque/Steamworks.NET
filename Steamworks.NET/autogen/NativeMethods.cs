@@ -594,7 +594,7 @@ namespace Steamworks {
 		public static extern bool ISteamGameServer_BUpdateUserData(ulong steamIDUser, IntPtr pchPlayerName, uint uScore);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamGameServer_GetAuthSessionTicket(IntPtr pTicket, int cbMaxTicket, out uint pcbTicket);
+		public static extern HAuthTicket ISteamGameServer_GetAuthSessionTicket(IntPtr pTicket, int cbMaxTicket, out uint pcbTicket);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern EBeginAuthSessionResult ISteamGameServer_BeginAuthSession(IntPtr pAuthTicket, int cbAuthTicket, ulong steamID);
@@ -603,7 +603,7 @@ namespace Steamworks {
 		public static extern void ISteamGameServer_EndAuthSession(ulong steamID);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamGameServer_CancelAuthTicket(uint hAuthTicket);
+		public static extern void ISteamGameServer_CancelAuthTicket(HAuthTicket hAuthTicket);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern EUserHasLicenseForAppResult ISteamGameServer_UserHasLicenseForApp(ulong steamID, uint appID);
@@ -1608,7 +1608,7 @@ namespace Steamworks {
 		public static extern uint ISteamUser_GetVoiceOptimalSampleRate();
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamUser_GetAuthSessionTicket(byte[] pTicket, int cbMaxTicket, out uint pcbTicket);
+		public static extern HAuthTicket ISteamUser_GetAuthSessionTicket(byte[] pTicket, int cbMaxTicket, out uint pcbTicket);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern EBeginAuthSessionResult ISteamUser_BeginAuthSession(byte[] pAuthTicket, int cbAuthTicket, ulong steamID);
@@ -1617,7 +1617,7 @@ namespace Steamworks {
 		public static extern void ISteamUser_EndAuthSession(ulong steamID);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamUser_CancelAuthTicket(uint hAuthTicket);
+		public static extern void ISteamUser_CancelAuthTicket(HAuthTicket hAuthTicket);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern EUserHasLicenseForAppResult ISteamUser_UserHasLicenseForApp(ulong steamID, uint appID);

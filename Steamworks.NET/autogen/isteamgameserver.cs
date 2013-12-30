@@ -113,7 +113,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamGameServer_BUpdateUserData(steamIDUser, new InteropHelp.UTF8String(pchPlayerName), uScore);
 		}
 
-		public static uint GetAuthSessionTicket(IntPtr pTicket, int cbMaxTicket, out uint pcbTicket) {
+		public static HAuthTicket GetAuthSessionTicket(IntPtr pTicket, int cbMaxTicket, out uint pcbTicket) {
 			return NativeMethods.ISteamGameServer_GetAuthSessionTicket(pTicket, cbMaxTicket, out pcbTicket);
 		}
 
@@ -125,7 +125,7 @@ namespace Steamworks {
 			NativeMethods.ISteamGameServer_EndAuthSession(steamID);
 		}
 
-		public static void CancelAuthTicket(uint hAuthTicket) {
+		public static void CancelAuthTicket(HAuthTicket hAuthTicket) {
 			NativeMethods.ISteamGameServer_CancelAuthTicket(hAuthTicket);
 		}
 
