@@ -1583,7 +1583,7 @@ namespace Steamworks {
 		public static extern void ISteamUser_TerminateGameConnection(uint unIPServer, ushort usPortServer);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamUser_TrackAppUsageEvent(ulong gameID, int eAppUsageEvent);
+		public static extern void ISteamUser_TrackAppUsageEvent(CGameID gameID, int eAppUsageEvent);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]

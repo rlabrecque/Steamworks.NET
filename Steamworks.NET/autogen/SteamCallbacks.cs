@@ -984,7 +984,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 9)]
 	public struct UserAchievementIconFetched_t {
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 9;
-		public GameID_t m_nGameID;
+		public CGameID m_nGameID;
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchStatNameMax)]
 		public string m_rgchAchievementName;
 		[MarshalAs(UnmanagedType.I1)]

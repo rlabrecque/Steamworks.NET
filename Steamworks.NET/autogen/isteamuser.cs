@@ -25,7 +25,7 @@ namespace Steamworks {
 			NativeMethods.ISteamUser_TerminateGameConnection(unIPServer, usPortServer);
 		}
 
-		public static void TrackAppUsageEvent(ulong gameID, int eAppUsageEvent) {
+		public static void TrackAppUsageEvent(CGameID gameID, int eAppUsageEvent) {
 			NativeMethods.ISteamUser_TrackAppUsageEvent(gameID, eAppUsageEvent);
 		}
 

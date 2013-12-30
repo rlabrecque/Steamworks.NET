@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 namespace Steamworks {
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	public struct FriendGameInfo_t {
-		public GameID_t m_gameID;
+		public CGameID m_gameID;
 		public uint m_unGameIP;
 		public ushort m_usGamePort;
 		public ushort m_usQueryPort;
