@@ -1131,44 +1131,44 @@ namespace Steamworks {
 #endregion
 #region SteamMatchmakingServers
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamMatchmakingServers_RequestInternetServerList(uint iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse);
+		public static extern HServerListRequest ISteamMatchmakingServers_RequestInternetServerList(uint iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamMatchmakingServers_RequestLANServerList(uint iApp, IntPtr pRequestServersResponse);
+		public static extern HServerListRequest ISteamMatchmakingServers_RequestLANServerList(uint iApp, IntPtr pRequestServersResponse);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamMatchmakingServers_RequestFriendsServerList(uint iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse);
+		public static extern HServerListRequest ISteamMatchmakingServers_RequestFriendsServerList(uint iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamMatchmakingServers_RequestFavoritesServerList(uint iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse);
+		public static extern HServerListRequest ISteamMatchmakingServers_RequestFavoritesServerList(uint iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamMatchmakingServers_RequestHistoryServerList(uint iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse);
+		public static extern HServerListRequest ISteamMatchmakingServers_RequestHistoryServerList(uint iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamMatchmakingServers_RequestSpectatorServerList(uint iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse);
+		public static extern HServerListRequest ISteamMatchmakingServers_RequestSpectatorServerList(uint iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamMatchmakingServers_ReleaseRequest(IntPtr hServerListRequest);
+		public static extern void ISteamMatchmakingServers_ReleaseRequest(HServerListRequest hServerListRequest);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamMatchmakingServers_GetServerDetails(IntPtr hRequest, int iServer);
+		public static extern IntPtr ISteamMatchmakingServers_GetServerDetails(HServerListRequest hRequest, int iServer);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamMatchmakingServers_CancelQuery(IntPtr hRequest);
+		public static extern void ISteamMatchmakingServers_CancelQuery(HServerListRequest hRequest);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamMatchmakingServers_RefreshQuery(IntPtr hRequest);
+		public static extern void ISteamMatchmakingServers_RefreshQuery(HServerListRequest hRequest);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamMatchmakingServers_IsRefreshing(IntPtr hRequest);
+		public static extern bool ISteamMatchmakingServers_IsRefreshing(HServerListRequest hRequest);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamMatchmakingServers_GetServerCount(IntPtr hRequest);
+		public static extern int ISteamMatchmakingServers_GetServerCount(HServerListRequest hRequest);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamMatchmakingServers_RefreshServer(IntPtr hRequest, int iServer);
+		public static extern void ISteamMatchmakingServers_RefreshServer(HServerListRequest hRequest, int iServer);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int ISteamMatchmakingServers_PingServer(uint unIP, ushort usPort, IntPtr pRequestServersResponse);
