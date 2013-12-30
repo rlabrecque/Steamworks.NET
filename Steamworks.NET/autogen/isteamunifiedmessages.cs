@@ -5,19 +5,19 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks {
 	public static class SteamUnifiedMessages {
-		public static ulong SendMethod(string pchServiceMethod, IntPtr pRequestBuffer, uint unRequestBufferSize, ulong unContext) {
+		public static ClientUnifiedMessageHandle SendMethod(string pchServiceMethod, IntPtr pRequestBuffer, uint unRequestBufferSize, ulong unContext) {
 			return NativeMethods.ISteamUnifiedMessages_SendMethod(new InteropHelp.UTF8String(pchServiceMethod), pRequestBuffer, unRequestBufferSize, unContext);
 		}
 
-		public static bool GetMethodResponseInfo(ulong hHandle, out uint punResponseSize, out EResult peResult) {
+		public static bool GetMethodResponseInfo(ClientUnifiedMessageHandle hHandle, out uint punResponseSize, out EResult peResult) {
 			return NativeMethods.ISteamUnifiedMessages_GetMethodResponseInfo(hHandle, out punResponseSize, out peResult);
 		}
 
-		public static bool GetMethodResponseData(ulong hHandle, IntPtr pResponseBuffer, uint unResponseBufferSize, bool bAutoRelease) {
+		public static bool GetMethodResponseData(ClientUnifiedMessageHandle hHandle, IntPtr pResponseBuffer, uint unResponseBufferSize, bool bAutoRelease) {
 			return NativeMethods.ISteamUnifiedMessages_GetMethodResponseData(hHandle, pResponseBuffer, unResponseBufferSize, bAutoRelease);
 		}
 
-		public static bool ReleaseMethod(ulong hHandle) {
+		public static bool ReleaseMethod(ClientUnifiedMessageHandle hHandle) {
 			return NativeMethods.ISteamUnifiedMessages_ReleaseMethod(hHandle);
 		}
 

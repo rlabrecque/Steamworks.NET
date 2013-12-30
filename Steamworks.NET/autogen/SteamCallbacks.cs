@@ -817,7 +817,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iClientUnifiedMessagesCallbacks + 1)]
 	public struct SteamUnifiedMessagesSendMethodResult_t {
 		public const int k_iCallback = Constants.k_iClientUnifiedMessagesCallbacks + 1;
-		public ulong m_hHandle;
+		public ClientUnifiedMessageHandle m_hHandle;
 		public ulong m_unContext;
 		public EResult m_eResult;
 		public uint m_unResponseSize;

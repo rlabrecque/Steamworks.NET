@@ -1547,19 +1547,19 @@ namespace Steamworks {
 #endregion
 #region SteamUnifiedMessages
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamUnifiedMessages_SendMethod(IntPtr pchServiceMethod, IntPtr pRequestBuffer, uint unRequestBufferSize, ulong unContext);
+		public static extern ClientUnifiedMessageHandle ISteamUnifiedMessages_SendMethod(IntPtr pchServiceMethod, IntPtr pRequestBuffer, uint unRequestBufferSize, ulong unContext);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamUnifiedMessages_GetMethodResponseInfo(ulong hHandle, out uint punResponseSize, out EResult peResult);
+		public static extern bool ISteamUnifiedMessages_GetMethodResponseInfo(ClientUnifiedMessageHandle hHandle, out uint punResponseSize, out EResult peResult);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamUnifiedMessages_GetMethodResponseData(ulong hHandle, IntPtr pResponseBuffer, uint unResponseBufferSize, [MarshalAs(UnmanagedType.I1)] bool bAutoRelease);
+		public static extern bool ISteamUnifiedMessages_GetMethodResponseData(ClientUnifiedMessageHandle hHandle, IntPtr pResponseBuffer, uint unResponseBufferSize, [MarshalAs(UnmanagedType.I1)] bool bAutoRelease);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamUnifiedMessages_ReleaseMethod(ulong hHandle);
+		public static extern bool ISteamUnifiedMessages_ReleaseMethod(ClientUnifiedMessageHandle hHandle);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
