@@ -336,7 +336,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iClientHTTPCallbacks + 1)]
 	public struct HTTPRequestCompleted_t {
 		public const int k_iCallback = Constants.k_iClientHTTPCallbacks + 1;
-		public uint m_hRequest;
+		public HTTPRequestHandle m_hRequest;
 		public ulong m_ulContextValue;
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bRequestSuccessful;
@@ -347,7 +347,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iClientHTTPCallbacks + 2)]
 	public struct HTTPRequestHeadersReceived_t {
 		public const int k_iCallback = Constants.k_iClientHTTPCallbacks + 2;
-		public uint m_hRequest;
+		public HTTPRequestHandle m_hRequest;
 		public ulong m_ulContextValue;
 	}
 
@@ -355,7 +355,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iClientHTTPCallbacks + 3)]
 	public struct HTTPRequestDataReceived_t {
 		public const int k_iCallback = Constants.k_iClientHTTPCallbacks + 3;
-		public uint m_hRequest;
+		public HTTPRequestHandle m_hRequest;
 		public ulong m_ulContextValue;
 		public uint m_cOffset;
 		public uint m_cBytesReceived;
