@@ -169,7 +169,7 @@ namespace Steamworks {
 		public static extern bool ISteamApps_MarkContentCorrupt([MarshalAs(UnmanagedType.I1)] bool bMissingFilesOnly);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamApps_GetInstalledDepots(AppId_t appID, uint[] pvecDepots, uint cMaxDepots);
+		public static extern uint ISteamApps_GetInstalledDepots(AppId_t appID, DepotId_t[] pvecDepots, uint cMaxDepots);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint ISteamApps_GetAppInstallDir(AppId_t appID, IntPtr pchFolder, uint cchFolderBufferSize);

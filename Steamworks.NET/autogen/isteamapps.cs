@@ -81,7 +81,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamApps_MarkContentCorrupt(bMissingFilesOnly);
 		}
 
-		public static uint GetInstalledDepots(AppId_t appID, uint[] pvecDepots, uint cMaxDepots) {
+		public static uint GetInstalledDepots(AppId_t appID, DepotId_t[] pvecDepots, uint cMaxDepots) {
 			return NativeMethods.ISteamApps_GetInstalledDepots(appID, pvecDepots, cMaxDepots);
 		}
 
