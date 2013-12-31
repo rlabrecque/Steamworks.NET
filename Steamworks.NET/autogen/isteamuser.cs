@@ -13,11 +13,11 @@ namespace Steamworks {
 			return NativeMethods.ISteamUser_BLoggedOn();
 		}
 
-		public static ulong GetSteamID() {
+		public static CSteamID GetSteamID() {
 			return NativeMethods.ISteamUser_GetSteamID();
 		}
 
-		public static int InitiateGameConnection(IntPtr pAuthBlob, int cbMaxAuthBlob, ulong steamIDGameServer, uint unIPServer, ushort usPortServer, bool bSecure) {
+		public static int InitiateGameConnection(IntPtr pAuthBlob, int cbMaxAuthBlob, CSteamID steamIDGameServer, uint unIPServer, ushort usPortServer, bool bSecure) {
 			return NativeMethods.ISteamUser_InitiateGameConnection(pAuthBlob, cbMaxAuthBlob, steamIDGameServer, unIPServer, usPortServer, bSecure);
 		}
 
@@ -65,11 +65,11 @@ namespace Steamworks {
 			return NativeMethods.ISteamUser_GetAuthSessionTicket(pTicket, cbMaxTicket, out pcbTicket);
 		}
 
-		public static EBeginAuthSessionResult BeginAuthSession(byte[] pAuthTicket, int cbAuthTicket, ulong steamID) {
+		public static EBeginAuthSessionResult BeginAuthSession(byte[] pAuthTicket, int cbAuthTicket, CSteamID steamID) {
 			return NativeMethods.ISteamUser_BeginAuthSession(pAuthTicket, cbAuthTicket, steamID);
 		}
 
-		public static void EndAuthSession(ulong steamID) {
+		public static void EndAuthSession(CSteamID steamID) {
 			NativeMethods.ISteamUser_EndAuthSession(steamID);
 		}
 
@@ -77,7 +77,7 @@ namespace Steamworks {
 			NativeMethods.ISteamUser_CancelAuthTicket(hAuthTicket);
 		}
 
-		public static EUserHasLicenseForAppResult UserHasLicenseForApp(ulong steamID, AppId_t appID) {
+		public static EUserHasLicenseForAppResult UserHasLicenseForApp(CSteamID steamID, AppId_t appID) {
 			return NativeMethods.ISteamUser_UserHasLicenseForApp(steamID, appID);
 		}
 
@@ -85,7 +85,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamUser_BIsBehindNAT();
 		}
 
-		public static void AdvertiseGame(ulong steamIDGameServer, uint unIPServer, ushort usPortServer) {
+		public static void AdvertiseGame(CSteamID steamIDGameServer, uint unIPServer, ushort usPortServer) {
 			NativeMethods.ISteamUser_AdvertiseGame(steamIDGameServer, unIPServer, usPortServer);
 		}
 
@@ -117,7 +117,7 @@ namespace Steamworks {
 			NativeMethods.ISteamUser_LogOnAndCreateNewSteamAccountIfNeeded(bInteractive);
 		}
 
-		public static ulong GetConsoleSteamID() {
+		public static CSteamID GetConsoleSteamID() {
 			return NativeMethods.ISteamUser_GetConsoleSteamID();
 		}
 #endif

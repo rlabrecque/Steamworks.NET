@@ -10,7 +10,7 @@ namespace Steamworks {
 		public uint m_unGameIP;
 		public ushort m_usGamePort;
 		public ushort m_usQueryPort;
-		public ulong m_steamIDLobby;
+		public CSteamID m_steamIDLobby;
 	}
 
 	public struct FriendSessionStateInfo_t {
@@ -83,7 +83,7 @@ namespace Steamworks {
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	public struct LeaderboardEntry_t {
-		public ulong m_steamIDUser;
+		public CSteamID m_steamIDUser;
 		public int m_nGlobalRank;
 		public int m_nScore;
 		public int m_cDetails;

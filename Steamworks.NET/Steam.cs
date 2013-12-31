@@ -45,7 +45,7 @@ namespace Steamworks {
 			return NativeMethods.GetTicketIssueTime(rgubTicketDecrypted, cubTicketDecrypted);
 		}
 
-		public static void GetTicketSteamID(byte[] rgubTicketDecrypted, uint cubTicketDecrypted, out ulong psteamID) {
+		public static void GetTicketSteamID(byte[] rgubTicketDecrypted, uint cubTicketDecrypted, out CSteamID psteamID) {
 			NativeMethods.GetTicketSteamID(rgubTicketDecrypted, cubTicketDecrypted, out psteamID);
 		}
 

@@ -69,23 +69,23 @@ namespace Steamworks {
 			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamUserStats_GetAchievementName(iAchievement));
 		}
 
-		public static SteamAPICall_t RequestUserStats(ulong steamIDUser) {
+		public static SteamAPICall_t RequestUserStats(CSteamID steamIDUser) {
 			return NativeMethods.ISteamUserStats_RequestUserStats(steamIDUser);
 		}
 
-		public static bool GetUserStat(ulong steamIDUser, string pchName, out int pData) {
+		public static bool GetUserStat(CSteamID steamIDUser, string pchName, out int pData) {
 			return NativeMethods.ISteamUserStats_GetUserStat(steamIDUser, new InteropHelp.UTF8String(pchName), out pData);
 		}
 
-		public static bool GetUserStat(ulong steamIDUser, string pchName, out float pData) {
+		public static bool GetUserStat(CSteamID steamIDUser, string pchName, out float pData) {
 			return NativeMethods.ISteamUserStats_GetUserStat_(steamIDUser, new InteropHelp.UTF8String(pchName), out pData);
 		}
 
-		public static bool GetUserAchievement(ulong steamIDUser, string pchName, out bool pbAchieved) {
+		public static bool GetUserAchievement(CSteamID steamIDUser, string pchName, out bool pbAchieved) {
 			return NativeMethods.ISteamUserStats_GetUserAchievement(steamIDUser, new InteropHelp.UTF8String(pchName), out pbAchieved);
 		}
 
-		public static bool GetUserAchievementAndUnlockTime(ulong steamIDUser, string pchName, out bool pbAchieved, out uint punUnlockTime) {
+		public static bool GetUserAchievementAndUnlockTime(CSteamID steamIDUser, string pchName, out bool pbAchieved, out uint punUnlockTime) {
 			return NativeMethods.ISteamUserStats_GetUserAchievementAndUnlockTime(steamIDUser, new InteropHelp.UTF8String(pchName), out pbAchieved, out punUnlockTime);
 		}
 
@@ -121,7 +121,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamUserStats_DownloadLeaderboardEntries(hSteamLeaderboard, eLeaderboardDataRequest, nRangeStart, nRangeEnd);
 		}
 
-		public static SteamAPICall_t DownloadLeaderboardEntriesForUsers(SteamLeaderboard_t hSteamLeaderboard, ulong[] prgUsers, int cUsers) {
+		public static SteamAPICall_t DownloadLeaderboardEntriesForUsers(SteamLeaderboard_t hSteamLeaderboard, CSteamID[] prgUsers, int cUsers) {
 			return NativeMethods.ISteamUserStats_DownloadLeaderboardEntriesForUsers(hSteamLeaderboard, prgUsers, cUsers);
 		}
 

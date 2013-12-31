@@ -97,7 +97,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamApps_BIsAppInstalled(appID);
 		}
 
-		public static ulong GetAppOwner() {
+		public static CSteamID GetAppOwner() {
 			return NativeMethods.ISteamApps_GetAppOwner();
 		}
 

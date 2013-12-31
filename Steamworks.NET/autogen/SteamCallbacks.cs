@@ -64,15 +64,15 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 33)]
 	public struct GameLobbyJoinRequested_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 33;
-		public ulong m_steamIDLobby;
-		public ulong m_steamIDFriend;
+		public CSteamID m_steamIDLobby;
+		public CSteamID m_steamIDFriend;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 34)]
 	public struct AvatarImageLoaded_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 34;
-		public ulong m_steamID;
+		public CSteamID m_steamID;
 		public int m_iImage;
 		public int m_iWide;
 		public int m_iTall;
@@ -82,7 +82,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 35)]
 	public struct ClanOfficerListResponse_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 35;
-		public ulong m_steamIDClan;
+		public CSteamID m_steamIDClan;
 		public int m_cOfficers;
 		public byte m_bSuccess;
 	}
@@ -91,7 +91,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 36)]
 	public struct FriendRichPresenceUpdate_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 36;
-		public ulong m_steamIDFriend;
+		public CSteamID m_steamIDFriend;
 		public AppId_t m_nAppID;
 	}
 
@@ -99,7 +99,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 37)]
 	public struct GameRichPresenceJoinRequested_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 37;
-		public ulong m_steamIDFriend;
+		public CSteamID m_steamIDFriend;
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchMaxRichPresenceValueLength)]
 		public string m_rgchConnect;
 	}
@@ -108,8 +108,8 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 38)]
 	public struct GameConnectedClanChatMsg_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 38;
-		public ulong m_steamIDClanChat;
-		public ulong m_steamIDUser;
+		public CSteamID m_steamIDClanChat;
+		public CSteamID m_steamIDUser;
 		public int m_iMessageID;
 	}
 
@@ -117,16 +117,16 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 39)]
 	public struct GameConnectedChatJoin_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 39;
-		public ulong m_steamIDClanChat;
-		public ulong m_steamIDUser;
+		public CSteamID m_steamIDClanChat;
+		public CSteamID m_steamIDUser;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 40)]
 	public struct GameConnectedChatLeave_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 40;
-		public ulong m_steamIDClanChat;
-		public ulong m_steamIDUser;
+		public CSteamID m_steamIDClanChat;
+		public CSteamID m_steamIDUser;
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bKicked;
 		[MarshalAs(UnmanagedType.I1)]
@@ -145,7 +145,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 42)]
 	public struct JoinClanChatRoomCompletionResult_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 42;
-		public ulong m_steamIDClanChat;
+		public CSteamID m_steamIDClanChat;
 		public EChatRoomEnterResponse m_eChatRoomEnterResponse;
 	}
 
@@ -153,7 +153,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 43)]
 	public struct GameConnectedFriendChatMsg_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 43;
-		public ulong m_steamIDUser;
+		public CSteamID m_steamIDUser;
 		public int m_iMessageID;
 	}
 
@@ -162,7 +162,7 @@ namespace Steamworks {
 	public struct FriendsGetFollowerCount_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 44;
 		public EResult m_eResult;
-		public ulong m_steamID;
+		public CSteamID m_steamID;
 		public int m_nCount;
 	}
 
@@ -171,7 +171,7 @@ namespace Steamworks {
 	public struct FriendsIsFollowing_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 45;
 		public EResult m_eResult;
-		public ulong m_steamID;
+		public CSteamID m_steamID;
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bIsFollowing;
 	}
@@ -182,7 +182,7 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 46;
 		public EResult m_eResult;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cEnumerateFollowersMax)]
-		public ulong[] m_rgSteamID;
+		public CSteamID[] m_rgSteamID;
 		public int m_nResultsReturned;
 		public int m_nTotalResultCount;
 	}
@@ -215,15 +215,15 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 1)]
 	public struct GSClientApprove_t {
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 1;
-		public ulong m_SteamID;
-		public ulong m_OwnerSteamID;
+		public CSteamID m_SteamID;
+		public CSteamID m_OwnerSteamID;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 2)]
 	public struct GSClientDeny_t {
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 2;
-		public ulong m_SteamID;
+		public CSteamID m_SteamID;
 		public EDenyReason m_eDenyReason;
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
 		public string m_rgchOptionalText;
@@ -233,7 +233,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 3)]
 	public struct GSClientKick_t {
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 3;
-		public ulong m_SteamID;
+		public CSteamID m_SteamID;
 		public EDenyReason m_eDenyReason;
 	}
 
@@ -269,8 +269,8 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 8)]
 	public struct GSClientGroupStatus_t {
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 8;
-		public ulong m_SteamIDUser;
-		public ulong m_SteamIDGroup;
+		public CSteamID m_SteamIDUser;
+		public CSteamID m_SteamIDGroup;
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bMember;
 		[MarshalAs(UnmanagedType.I1)]
@@ -306,7 +306,7 @@ namespace Steamworks {
 		public int m_cPlayersThatDontLikeCandidate;
 		public int m_cPlayersThatCandidateDoesntLike;
 		public int m_cClanPlayersThatDontLikeCandidate;
-		public ulong m_SteamIDCandidate;
+		public CSteamID m_SteamIDCandidate;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -314,7 +314,7 @@ namespace Steamworks {
 	public struct GSStatsReceived_t {
 		public const int k_iCallback = Constants.k_iSteamGameServerStatsCallbacks;
 		public EResult m_eResult;
-		public ulong m_steamIDUser;
+		public CSteamID m_steamIDUser;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -322,14 +322,14 @@ namespace Steamworks {
 	public struct GSStatsStored_t {
 		public const int k_iCallback = Constants.k_iSteamGameServerStatsCallbacks + 1;
 		public EResult m_eResult;
-		public ulong m_steamIDUser;
+		public CSteamID m_steamIDUser;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 8)]
 	public struct GSStatsUnloaded_t {
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 8;
-		public ulong m_steamIDUser;
+		public CSteamID m_steamIDUser;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -463,21 +463,21 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 15;
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bGameBootInviteExists;
-		public ulong m_steamIDLobby;
+		public CSteamID m_steamIDLobby;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamNetworkingCallbacks + 2)]
 	public struct P2PSessionRequest_t {
 		public const int k_iCallback = Constants.k_iSteamNetworkingCallbacks + 2;
-		public ulong m_steamIDRemote;
+		public CSteamID m_steamIDRemote;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamNetworkingCallbacks + 3)]
 	public struct P2PSessionConnectFail_t {
 		public const int k_iCallback = Constants.k_iSteamNetworkingCallbacks + 3;
-		public ulong m_steamIDRemote;
+		public CSteamID m_steamIDRemote;
 		public byte m_eP2PSessionError;
 	}
 
@@ -487,7 +487,7 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamNetworkingCallbacks + 1;
 		public SNetSocket_t m_hSocket;
 		public SNetListenSocket_t m_hListenSocket;
-		public ulong m_steamIDRemote;
+		public CSteamID m_steamIDRemote;
 		public int m_eSNetSocketState;
 	}
 
@@ -869,9 +869,9 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 43)]
 	public struct ValidateAuthTicketResponse_t {
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 43;
-		public ulong m_SteamID;
+		public CSteamID m_SteamID;
 		public EAuthSessionResponse m_eAuthSessionResponse;
-		public ulong m_OwnerSteamID;
+		public CSteamID m_OwnerSteamID;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -912,7 +912,7 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 1;
 		public ulong m_nGameID;
 		public EResult m_eResult;
-		public ulong m_steamIDUser;
+		public CSteamID m_steamIDUser;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -977,7 +977,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 8)]
 	public struct UserStatsUnloaded_t {
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 8;
-		public ulong m_steamIDUser;
+		public CSteamID m_steamIDUser;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]

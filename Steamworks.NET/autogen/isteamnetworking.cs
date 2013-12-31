@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks {
 	public static class SteamNetworking {
-		public static bool SendP2PPacket(ulong steamIDRemote, IntPtr pubData, uint cubData, EP2PSend eP2PSendType) {
+		public static bool SendP2PPacket(CSteamID steamIDRemote, IntPtr pubData, uint cubData, EP2PSend eP2PSendType) {
 			return NativeMethods.ISteamNetworking_SendP2PPacket(steamIDRemote, pubData, cubData, eP2PSendType);
 		}
 
@@ -13,23 +13,23 @@ namespace Steamworks {
 			return NativeMethods.ISteamNetworking_IsP2PPacketAvailable(out pcubMsgSize);
 		}
 
-		public static bool ReadP2PPacket(IntPtr pubDest, uint cubDest, out uint pcubMsgSize, out ulong psteamIDRemote) {
+		public static bool ReadP2PPacket(IntPtr pubDest, uint cubDest, out uint pcubMsgSize, out CSteamID psteamIDRemote) {
 			return NativeMethods.ISteamNetworking_ReadP2PPacket(pubDest, cubDest, out pcubMsgSize, out psteamIDRemote);
 		}
 
-		public static bool AcceptP2PSessionWithUser(ulong steamIDRemote) {
+		public static bool AcceptP2PSessionWithUser(CSteamID steamIDRemote) {
 			return NativeMethods.ISteamNetworking_AcceptP2PSessionWithUser(steamIDRemote);
 		}
 
-		public static bool CloseP2PSessionWithUser(ulong steamIDRemote) {
+		public static bool CloseP2PSessionWithUser(CSteamID steamIDRemote) {
 			return NativeMethods.ISteamNetworking_CloseP2PSessionWithUser(steamIDRemote);
 		}
 
-		public static bool CloseP2PChannelWithUser(ulong steamIDRemote, int nChannel) {
+		public static bool CloseP2PChannelWithUser(CSteamID steamIDRemote, int nChannel) {
 			return NativeMethods.ISteamNetworking_CloseP2PChannelWithUser(steamIDRemote, nChannel);
 		}
 
-		public static bool GetP2PSessionState(ulong steamIDRemote, IntPtr pConnectionState) {
+		public static bool GetP2PSessionState(CSteamID steamIDRemote, IntPtr pConnectionState) {
 			return NativeMethods.ISteamNetworking_GetP2PSessionState(steamIDRemote, pConnectionState);
 		}
 
@@ -41,7 +41,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamNetworking_CreateListenSocket(nVirtualP2PPort, nIP, nPort, bAllowUseOfPacketRelay);
 		}
 
-		public static SNetSocket_t CreateP2PConnectionSocket(ulong steamIDTarget, int nVirtualPort, int nTimeoutSec, bool bAllowUseOfPacketRelay) {
+		public static SNetSocket_t CreateP2PConnectionSocket(CSteamID steamIDTarget, int nVirtualPort, int nTimeoutSec, bool bAllowUseOfPacketRelay) {
 			return NativeMethods.ISteamNetworking_CreateP2PConnectionSocket(steamIDTarget, nVirtualPort, nTimeoutSec, bAllowUseOfPacketRelay);
 		}
 
@@ -77,7 +77,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamNetworking_RetrieveData(hListenSocket, pubDest, cubDest, out pcubMsgSize, out phSocket);
 		}
 
-		public static bool GetSocketInfo(SNetSocket_t hSocket, out ulong pSteamIDRemote, out int peSocketStatus, out uint punIPRemote, out ushort punPortRemote) {
+		public static bool GetSocketInfo(SNetSocket_t hSocket, out CSteamID pSteamIDRemote, out int peSocketStatus, out uint punIPRemote, out ushort punPortRemote) {
 			return NativeMethods.ISteamNetworking_GetSocketInfo(hSocket, out pSteamIDRemote, out peSocketStatus, out punIPRemote, out punPortRemote);
 		}
 

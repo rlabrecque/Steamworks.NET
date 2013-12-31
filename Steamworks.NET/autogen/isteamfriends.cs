@@ -21,35 +21,35 @@ namespace Steamworks {
 			return NativeMethods.ISteamFriends_GetFriendCount(iFriendFlags);
 		}
 
-		public static ulong GetFriendByIndex(int iFriend, EFriendFlags iFriendFlags) {
+		public static CSteamID GetFriendByIndex(int iFriend, EFriendFlags iFriendFlags) {
 			return NativeMethods.ISteamFriends_GetFriendByIndex(iFriend, iFriendFlags);
 		}
 
-		public static EFriendRelationship GetFriendRelationship(ulong steamIDFriend) {
+		public static EFriendRelationship GetFriendRelationship(CSteamID steamIDFriend) {
 			return NativeMethods.ISteamFriends_GetFriendRelationship(steamIDFriend);
 		}
 
-		public static EPersonaState GetFriendPersonaState(ulong steamIDFriend) {
+		public static EPersonaState GetFriendPersonaState(CSteamID steamIDFriend) {
 			return NativeMethods.ISteamFriends_GetFriendPersonaState(steamIDFriend);
 		}
 
-		public static string GetFriendPersonaName(ulong steamIDFriend) {
+		public static string GetFriendPersonaName(CSteamID steamIDFriend) {
 			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamFriends_GetFriendPersonaName(steamIDFriend));
 		}
 
-		public static bool GetFriendGamePlayed(ulong steamIDFriend, out FriendGameInfo_t pFriendGameInfo) {
+		public static bool GetFriendGamePlayed(CSteamID steamIDFriend, out FriendGameInfo_t pFriendGameInfo) {
 			return NativeMethods.ISteamFriends_GetFriendGamePlayed(steamIDFriend, out pFriendGameInfo);
 		}
 
-		public static string GetFriendPersonaNameHistory(ulong steamIDFriend, int iPersonaName) {
+		public static string GetFriendPersonaNameHistory(CSteamID steamIDFriend, int iPersonaName) {
 			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamFriends_GetFriendPersonaNameHistory(steamIDFriend, iPersonaName));
 		}
 
-		public static string GetPlayerNickname(ulong steamIDPlayer) {
+		public static string GetPlayerNickname(CSteamID steamIDPlayer) {
 			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamFriends_GetPlayerNickname(steamIDPlayer));
 		}
 
-		public static bool HasFriend(ulong steamIDFriend, EFriendFlags iFriendFlags) {
+		public static bool HasFriend(CSteamID steamIDFriend, EFriendFlags iFriendFlags) {
 			return NativeMethods.ISteamFriends_HasFriend(steamIDFriend, iFriendFlags);
 		}
 
@@ -57,39 +57,39 @@ namespace Steamworks {
 			return NativeMethods.ISteamFriends_GetClanCount();
 		}
 
-		public static ulong GetClanByIndex(int iClan) {
+		public static CSteamID GetClanByIndex(int iClan) {
 			return NativeMethods.ISteamFriends_GetClanByIndex(iClan);
 		}
 
-		public static string GetClanName(ulong steamIDClan) {
+		public static string GetClanName(CSteamID steamIDClan) {
 			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamFriends_GetClanName(steamIDClan));
 		}
 
-		public static string GetClanTag(ulong steamIDClan) {
+		public static string GetClanTag(CSteamID steamIDClan) {
 			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamFriends_GetClanTag(steamIDClan));
 		}
 
-		public static bool GetClanActivityCounts(ulong steamIDClan, out int pnOnline, out int pnInGame, out int pnChatting) {
+		public static bool GetClanActivityCounts(CSteamID steamIDClan, out int pnOnline, out int pnInGame, out int pnChatting) {
 			return NativeMethods.ISteamFriends_GetClanActivityCounts(steamIDClan, out pnOnline, out pnInGame, out pnChatting);
 		}
 
-		public static SteamAPICall_t DownloadClanActivityCounts(ulong[] psteamIDClans, int cClansToRequest) {
+		public static SteamAPICall_t DownloadClanActivityCounts(CSteamID[] psteamIDClans, int cClansToRequest) {
 			return NativeMethods.ISteamFriends_DownloadClanActivityCounts(psteamIDClans, cClansToRequest);
 		}
 
-		public static int GetFriendCountFromSource(ulong steamIDSource) {
+		public static int GetFriendCountFromSource(CSteamID steamIDSource) {
 			return NativeMethods.ISteamFriends_GetFriendCountFromSource(steamIDSource);
 		}
 
-		public static ulong GetFriendFromSourceByIndex(ulong steamIDSource, int iFriend) {
+		public static CSteamID GetFriendFromSourceByIndex(CSteamID steamIDSource, int iFriend) {
 			return NativeMethods.ISteamFriends_GetFriendFromSourceByIndex(steamIDSource, iFriend);
 		}
 
-		public static bool IsUserInSource(ulong steamIDUser, ulong steamIDSource) {
+		public static bool IsUserInSource(CSteamID steamIDUser, CSteamID steamIDSource) {
 			return NativeMethods.ISteamFriends_IsUserInSource(steamIDUser, steamIDSource);
 		}
 
-		public static void SetInGameVoiceSpeaking(ulong steamIDUser, bool bSpeaking) {
+		public static void SetInGameVoiceSpeaking(CSteamID steamIDUser, bool bSpeaking) {
 			NativeMethods.ISteamFriends_SetInGameVoiceSpeaking(steamIDUser, bSpeaking);
 		}
 
@@ -97,7 +97,7 @@ namespace Steamworks {
 			NativeMethods.ISteamFriends_ActivateGameOverlay(new InteropHelp.UTF8String(pchDialog));
 		}
 
-		public static void ActivateGameOverlayToUser(string pchDialog, ulong steamID) {
+		public static void ActivateGameOverlayToUser(string pchDialog, CSteamID steamID) {
 			NativeMethods.ISteamFriends_ActivateGameOverlayToUser(new InteropHelp.UTF8String(pchDialog), steamID);
 		}
 
@@ -109,43 +109,43 @@ namespace Steamworks {
 			NativeMethods.ISteamFriends_ActivateGameOverlayToStore(nAppID, eFlag);
 		}
 
-		public static void SetPlayedWith(ulong steamIDUserPlayedWith) {
+		public static void SetPlayedWith(CSteamID steamIDUserPlayedWith) {
 			NativeMethods.ISteamFriends_SetPlayedWith(steamIDUserPlayedWith);
 		}
 
-		public static void ActivateGameOverlayInviteDialog(ulong steamIDLobby) {
+		public static void ActivateGameOverlayInviteDialog(CSteamID steamIDLobby) {
 			NativeMethods.ISteamFriends_ActivateGameOverlayInviteDialog(steamIDLobby);
 		}
 
-		public static int GetSmallFriendAvatar(ulong steamIDFriend) {
+		public static int GetSmallFriendAvatar(CSteamID steamIDFriend) {
 			return NativeMethods.ISteamFriends_GetSmallFriendAvatar(steamIDFriend);
 		}
 
-		public static int GetMediumFriendAvatar(ulong steamIDFriend) {
+		public static int GetMediumFriendAvatar(CSteamID steamIDFriend) {
 			return NativeMethods.ISteamFriends_GetMediumFriendAvatar(steamIDFriend);
 		}
 
-		public static int GetLargeFriendAvatar(ulong steamIDFriend) {
+		public static int GetLargeFriendAvatar(CSteamID steamIDFriend) {
 			return NativeMethods.ISteamFriends_GetLargeFriendAvatar(steamIDFriend);
 		}
 
-		public static bool RequestUserInformation(ulong steamIDUser, bool bRequireNameOnly) {
+		public static bool RequestUserInformation(CSteamID steamIDUser, bool bRequireNameOnly) {
 			return NativeMethods.ISteamFriends_RequestUserInformation(steamIDUser, bRequireNameOnly);
 		}
 
-		public static SteamAPICall_t RequestClanOfficerList(ulong steamIDClan) {
+		public static SteamAPICall_t RequestClanOfficerList(CSteamID steamIDClan) {
 			return NativeMethods.ISteamFriends_RequestClanOfficerList(steamIDClan);
 		}
 
-		public static ulong GetClanOwner(ulong steamIDClan) {
+		public static CSteamID GetClanOwner(CSteamID steamIDClan) {
 			return NativeMethods.ISteamFriends_GetClanOwner(steamIDClan);
 		}
 
-		public static int GetClanOfficerCount(ulong steamIDClan) {
+		public static int GetClanOfficerCount(CSteamID steamIDClan) {
 			return NativeMethods.ISteamFriends_GetClanOfficerCount(steamIDClan);
 		}
 
-		public static ulong GetClanOfficerByIndex(ulong steamIDClan, int iOfficer) {
+		public static CSteamID GetClanOfficerByIndex(CSteamID steamIDClan, int iOfficer) {
 			return NativeMethods.ISteamFriends_GetClanOfficerByIndex(steamIDClan, iOfficer);
 		}
 
@@ -161,23 +161,23 @@ namespace Steamworks {
 			NativeMethods.ISteamFriends_ClearRichPresence();
 		}
 
-		public static string GetFriendRichPresence(ulong steamIDFriend, string pchKey) {
+		public static string GetFriendRichPresence(CSteamID steamIDFriend, string pchKey) {
 			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamFriends_GetFriendRichPresence(steamIDFriend, new InteropHelp.UTF8String(pchKey)));
 		}
 
-		public static int GetFriendRichPresenceKeyCount(ulong steamIDFriend) {
+		public static int GetFriendRichPresenceKeyCount(CSteamID steamIDFriend) {
 			return NativeMethods.ISteamFriends_GetFriendRichPresenceKeyCount(steamIDFriend);
 		}
 
-		public static string GetFriendRichPresenceKeyByIndex(ulong steamIDFriend, int iKey) {
+		public static string GetFriendRichPresenceKeyByIndex(CSteamID steamIDFriend, int iKey) {
 			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamFriends_GetFriendRichPresenceKeyByIndex(steamIDFriend, iKey));
 		}
 
-		public static void RequestFriendRichPresence(ulong steamIDFriend) {
+		public static void RequestFriendRichPresence(CSteamID steamIDFriend) {
 			NativeMethods.ISteamFriends_RequestFriendRichPresence(steamIDFriend);
 		}
 
-		public static bool InviteUserToGame(ulong steamIDFriend, string pchConnectString) {
+		public static bool InviteUserToGame(CSteamID steamIDFriend, string pchConnectString) {
 			return NativeMethods.ISteamFriends_InviteUserToGame(steamIDFriend, new InteropHelp.UTF8String(pchConnectString));
 		}
 
@@ -185,39 +185,39 @@ namespace Steamworks {
 			return NativeMethods.ISteamFriends_GetCoplayFriendCount();
 		}
 
-		public static ulong GetCoplayFriend(int iCoplayFriend) {
+		public static CSteamID GetCoplayFriend(int iCoplayFriend) {
 			return NativeMethods.ISteamFriends_GetCoplayFriend(iCoplayFriend);
 		}
 
-		public static int GetFriendCoplayTime(ulong steamIDFriend) {
+		public static int GetFriendCoplayTime(CSteamID steamIDFriend) {
 			return NativeMethods.ISteamFriends_GetFriendCoplayTime(steamIDFriend);
 		}
 
-		public static AppId_t GetFriendCoplayGame(ulong steamIDFriend) {
+		public static AppId_t GetFriendCoplayGame(CSteamID steamIDFriend) {
 			return NativeMethods.ISteamFriends_GetFriendCoplayGame(steamIDFriend);
 		}
 
-		public static SteamAPICall_t JoinClanChatRoom(ulong steamIDClan) {
+		public static SteamAPICall_t JoinClanChatRoom(CSteamID steamIDClan) {
 			return NativeMethods.ISteamFriends_JoinClanChatRoom(steamIDClan);
 		}
 
-		public static bool LeaveClanChatRoom(ulong steamIDClan) {
+		public static bool LeaveClanChatRoom(CSteamID steamIDClan) {
 			return NativeMethods.ISteamFriends_LeaveClanChatRoom(steamIDClan);
 		}
 
-		public static int GetClanChatMemberCount(ulong steamIDClan) {
+		public static int GetClanChatMemberCount(CSteamID steamIDClan) {
 			return NativeMethods.ISteamFriends_GetClanChatMemberCount(steamIDClan);
 		}
 
-		public static ulong GetChatMemberByIndex(ulong steamIDClan, int iUser) {
+		public static CSteamID GetChatMemberByIndex(CSteamID steamIDClan, int iUser) {
 			return NativeMethods.ISteamFriends_GetChatMemberByIndex(steamIDClan, iUser);
 		}
 
-		public static bool SendClanChatMessage(ulong steamIDClanChat, string pchText) {
+		public static bool SendClanChatMessage(CSteamID steamIDClanChat, string pchText) {
 			return NativeMethods.ISteamFriends_SendClanChatMessage(steamIDClanChat, new InteropHelp.UTF8String(pchText));
 		}
 
-		public static int GetClanChatMessage(ulong steamIDClanChat, int iMessage, out string prgchText, int cchTextMax, out EChatEntryType peChatEntryType, out ulong psteamidChatter) {
+		public static int GetClanChatMessage(CSteamID steamIDClanChat, int iMessage, out string prgchText, int cchTextMax, out EChatEntryType peChatEntryType, out CSteamID psteamidChatter) {
 			IntPtr prgchText2 = Marshal.AllocHGlobal(cchTextMax);
 			int ret = NativeMethods.ISteamFriends_GetClanChatMessage(steamIDClanChat, iMessage, prgchText2, cchTextMax, out peChatEntryType, out psteamidChatter);
 			prgchText = ret != 0 ? InteropHelp.PtrToStringUTF8(prgchText2) : null;
@@ -225,19 +225,19 @@ namespace Steamworks {
 			return ret;
 		}
 
-		public static bool IsClanChatAdmin(ulong steamIDClanChat, ulong steamIDUser) {
+		public static bool IsClanChatAdmin(CSteamID steamIDClanChat, CSteamID steamIDUser) {
 			return NativeMethods.ISteamFriends_IsClanChatAdmin(steamIDClanChat, steamIDUser);
 		}
 
-		public static bool IsClanChatWindowOpenInSteam(ulong steamIDClanChat) {
+		public static bool IsClanChatWindowOpenInSteam(CSteamID steamIDClanChat) {
 			return NativeMethods.ISteamFriends_IsClanChatWindowOpenInSteam(steamIDClanChat);
 		}
 
-		public static bool OpenClanChatWindowInSteam(ulong steamIDClanChat) {
+		public static bool OpenClanChatWindowInSteam(CSteamID steamIDClanChat) {
 			return NativeMethods.ISteamFriends_OpenClanChatWindowInSteam(steamIDClanChat);
 		}
 
-		public static bool CloseClanChatWindowInSteam(ulong steamIDClanChat) {
+		public static bool CloseClanChatWindowInSteam(CSteamID steamIDClanChat) {
 			return NativeMethods.ISteamFriends_CloseClanChatWindowInSteam(steamIDClanChat);
 		}
 
@@ -245,11 +245,11 @@ namespace Steamworks {
 			return NativeMethods.ISteamFriends_SetListenForFriendsMessages(bInterceptEnabled);
 		}
 
-		public static bool ReplyToFriendMessage(ulong steamIDFriend, string pchMsgToSend) {
+		public static bool ReplyToFriendMessage(CSteamID steamIDFriend, string pchMsgToSend) {
 			return NativeMethods.ISteamFriends_ReplyToFriendMessage(steamIDFriend, new InteropHelp.UTF8String(pchMsgToSend));
 		}
 
-		public static int GetFriendMessage(ulong steamIDFriend, int iMessageID, out string pvData, int cubData, out EChatEntryType peChatEntryType) {
+		public static int GetFriendMessage(CSteamID steamIDFriend, int iMessageID, out string pvData, int cubData, out EChatEntryType peChatEntryType) {
 			IntPtr pvData2 = Marshal.AllocHGlobal(cubData);
 			int ret = NativeMethods.ISteamFriends_GetFriendMessage(steamIDFriend, iMessageID, pvData2, cubData, out peChatEntryType);
 			pvData = ret != 0 ? InteropHelp.PtrToStringUTF8(pvData2) : null;
@@ -257,11 +257,11 @@ namespace Steamworks {
 			return ret;
 		}
 
-		public static SteamAPICall_t GetFollowerCount(ulong steamID) {
+		public static SteamAPICall_t GetFollowerCount(CSteamID steamID) {
 			return NativeMethods.ISteamFriends_GetFollowerCount(steamID);
 		}
 
-		public static SteamAPICall_t IsFollowing(ulong steamID) {
+		public static SteamAPICall_t IsFollowing(CSteamID steamID) {
 			return NativeMethods.ISteamFriends_IsFollowing(steamID);
 		}
 

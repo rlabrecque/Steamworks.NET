@@ -41,7 +41,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamGameServer_BSecure();
 		}
 
-		public static ulong GetSteamID() {
+		public static CSteamID GetSteamID() {
 			return NativeMethods.ISteamGameServer_GetSteamID();
 		}
 
@@ -97,19 +97,19 @@ namespace Steamworks {
 			NativeMethods.ISteamGameServer_SetRegion(new InteropHelp.UTF8String(pszRegion));
 		}
 
-		public static bool SendUserConnectAndAuthenticate(uint unIPClient, IntPtr pvAuthBlob, uint cubAuthBlobSize, out ulong pSteamIDUser) {
+		public static bool SendUserConnectAndAuthenticate(uint unIPClient, IntPtr pvAuthBlob, uint cubAuthBlobSize, out CSteamID pSteamIDUser) {
 			return NativeMethods.ISteamGameServer_SendUserConnectAndAuthenticate(unIPClient, pvAuthBlob, cubAuthBlobSize, out pSteamIDUser);
 		}
 
-		public static ulong CreateUnauthenticatedUserConnection() {
+		public static CSteamID CreateUnauthenticatedUserConnection() {
 			return NativeMethods.ISteamGameServer_CreateUnauthenticatedUserConnection();
 		}
 
-		public static void SendUserDisconnect(ulong steamIDUser) {
+		public static void SendUserDisconnect(CSteamID steamIDUser) {
 			NativeMethods.ISteamGameServer_SendUserDisconnect(steamIDUser);
 		}
 
-		public static bool BUpdateUserData(ulong steamIDUser, string pchPlayerName, uint uScore) {
+		public static bool BUpdateUserData(CSteamID steamIDUser, string pchPlayerName, uint uScore) {
 			return NativeMethods.ISteamGameServer_BUpdateUserData(steamIDUser, new InteropHelp.UTF8String(pchPlayerName), uScore);
 		}
 
@@ -117,11 +117,11 @@ namespace Steamworks {
 			return NativeMethods.ISteamGameServer_GetAuthSessionTicket(pTicket, cbMaxTicket, out pcbTicket);
 		}
 
-		public static EBeginAuthSessionResult BeginAuthSession(IntPtr pAuthTicket, int cbAuthTicket, ulong steamID) {
+		public static EBeginAuthSessionResult BeginAuthSession(IntPtr pAuthTicket, int cbAuthTicket, CSteamID steamID) {
 			return NativeMethods.ISteamGameServer_BeginAuthSession(pAuthTicket, cbAuthTicket, steamID);
 		}
 
-		public static void EndAuthSession(ulong steamID) {
+		public static void EndAuthSession(CSteamID steamID) {
 			NativeMethods.ISteamGameServer_EndAuthSession(steamID);
 		}
 
@@ -129,11 +129,11 @@ namespace Steamworks {
 			NativeMethods.ISteamGameServer_CancelAuthTicket(hAuthTicket);
 		}
 
-		public static EUserHasLicenseForAppResult UserHasLicenseForApp(ulong steamID, AppId_t appID) {
+		public static EUserHasLicenseForAppResult UserHasLicenseForApp(CSteamID steamID, AppId_t appID) {
 			return NativeMethods.ISteamGameServer_UserHasLicenseForApp(steamID, appID);
 		}
 
-		public static bool RequestUserGroupStatus(ulong steamIDUser, ulong steamIDGroup) {
+		public static bool RequestUserGroupStatus(CSteamID steamIDUser, CSteamID steamIDGroup) {
 			return NativeMethods.ISteamGameServer_RequestUserGroupStatus(steamIDUser, steamIDGroup);
 		}
 
@@ -169,11 +169,11 @@ namespace Steamworks {
 			NativeMethods.ISteamGameServer_ForceHeartbeat();
 		}
 
-		public static SteamAPICall_t AssociateWithClan(ulong steamIDClan) {
+		public static SteamAPICall_t AssociateWithClan(CSteamID steamIDClan) {
 			return NativeMethods.ISteamGameServer_AssociateWithClan(steamIDClan);
 		}
 
-		public static SteamAPICall_t ComputeNewPlayerCompatibility(ulong steamIDNewPlayer) {
+		public static SteamAPICall_t ComputeNewPlayerCompatibility(CSteamID steamIDNewPlayer) {
 			return NativeMethods.ISteamGameServer_ComputeNewPlayerCompatibility(steamIDNewPlayer);
 		}
 	}

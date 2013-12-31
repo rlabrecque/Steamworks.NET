@@ -25,7 +25,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamScreenshots_SetLocation(hScreenshot, new InteropHelp.UTF8String(pchLocation));
 		}
 
-		public static bool TagUser(ScreenshotHandle hScreenshot, ulong steamID) {
+		public static bool TagUser(ScreenshotHandle hScreenshot, CSteamID steamID) {
 			return NativeMethods.ISteamScreenshots_TagUser(hScreenshot, steamID);
 		}
 
