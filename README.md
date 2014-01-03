@@ -16,11 +16,9 @@ The included CSteamworks.dll was built with VS2010, and as such requires [Micros
 
 
 [![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.1.0/dist/gittip.png)](https://www.gittip.com/rlabrecque/)
-[![Support via Paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2QWKYXPRH6GJW)
+[![Support via Paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QHK4A3CWJDK3N)
 
 [![Support via Flattr](https://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=rlabrecque&url=https%3A%2F%2Fgithub.com%2Frlabrecque%2FSteamworks.NET)
-* Donate via Bitcoin: 1svQRtNjCFthihzY5NN89aTan9WUua9GZ
-* Donate via Litecoin: LPSyg4uJYSUdmFLEMLe85rKw6G7aQkmTak
 
 
 Usage
@@ -29,7 +27,7 @@ Usage
 To use _Steamworks.NET_ you must be a Steamworks developer. _Steamworks.NET_ Requires Unity Pro for the plugin functionality.
 
 * Clone _Steamworks.NET_ into your %UnityProject%/Assets/Plugins folder.
- * Alternatively there is a Zip Archives are available: [Stable (1.0.1)](https://github.com/rlabrecque/Steamworks.NET/archive/1.0.1.zip) -- [Master (Development branch)](https://github.com/rlabrecque/Steamworks.NET/archive/master.zip)
+ * Alternatively Zip Archives are available: [Stable (1.0.1)](https://github.com/rlabrecque/Steamworks.NET/archive/1.0.1.zip) -- [Master (Development branch)](https://github.com/rlabrecque/Steamworks.NET/archive/master.zip)
 * Create a file called `steam_appid.txt` within the root of your Unity Project, place your Steam AppID within this file.
 * If you run the Unity Editor on Windows - copy `steam_api.dll` from the Steamworks SDK into the root of your Unity Project.
 
