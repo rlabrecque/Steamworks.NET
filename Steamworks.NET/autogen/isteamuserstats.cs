@@ -129,7 +129,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamUserStats_GetDownloadedLeaderboardEntry(hSteamLeaderboardEntries, index, out pLeaderboardEntry, out pDetails, cDetailsMax);
 		}
 
-		public static SteamAPICall_t UploadLeaderboardScore(SteamLeaderboard_t hSteamLeaderboard, ELeaderboardUploadScoreMethod eLeaderboardUploadScoreMethod, int nScore, IntPtr pScoreDetails, int cScoreDetailsCount) {
+		public static SteamAPICall_t UploadLeaderboardScore(SteamLeaderboard_t hSteamLeaderboard, ELeaderboardUploadScoreMethod eLeaderboardUploadScoreMethod, int nScore, int[] pScoreDetails, int cScoreDetailsCount) {
 			return NativeMethods.ISteamUserStats_UploadLeaderboardScore(hSteamLeaderboard, eLeaderboardUploadScoreMethod, nScore, pScoreDetails, cScoreDetailsCount);
 		}
 
@@ -177,12 +177,12 @@ namespace Steamworks {
 			return NativeMethods.ISteamUserStats_GetGlobalStat_(new InteropHelp.UTF8String(pchStatName), out pData);
 		}
 
-		public static int GetGlobalStatHistory(string pchStatName, out long pData, uint cubData) {
-			return NativeMethods.ISteamUserStats_GetGlobalStatHistory(new InteropHelp.UTF8String(pchStatName), out pData, cubData);
+		public static int GetGlobalStatHistory(string pchStatName, long[] pData, uint cubData) {
+			return NativeMethods.ISteamUserStats_GetGlobalStatHistory(new InteropHelp.UTF8String(pchStatName), pData, cubData);
 		}
 
-		public static int GetGlobalStatHistory(string pchStatName, out double pData, uint cubData) {
-			return NativeMethods.ISteamUserStats_GetGlobalStatHistory_(new InteropHelp.UTF8String(pchStatName), out pData, cubData);
+		public static int GetGlobalStatHistory(string pchStatName, double[] pData, uint cubData) {
+			return NativeMethods.ISteamUserStats_GetGlobalStatHistory_(new InteropHelp.UTF8String(pchStatName), pData, cubData);
 		}
 #if _PS3
 		public static bool InstallPS3Trophies() {

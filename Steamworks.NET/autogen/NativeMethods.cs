@@ -1768,7 +1768,7 @@ namespace Steamworks {
 		public static extern bool ISteamUserStats_GetDownloadedLeaderboardEntry(SteamLeaderboardEntries_t hSteamLeaderboardEntries, int index, out LeaderboardEntry_t pLeaderboardEntry, out int pDetails, int cDetailsMax);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern SteamAPICall_t ISteamUserStats_UploadLeaderboardScore(SteamLeaderboard_t hSteamLeaderboard, ELeaderboardUploadScoreMethod eLeaderboardUploadScoreMethod, int nScore, IntPtr pScoreDetails, int cScoreDetailsCount);
+		public static extern SteamAPICall_t ISteamUserStats_UploadLeaderboardScore(SteamLeaderboard_t hSteamLeaderboard, ELeaderboardUploadScoreMethod eLeaderboardUploadScoreMethod, int nScore, int[] pScoreDetails, int cScoreDetailsCount);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern SteamAPICall_t ISteamUserStats_AttachLeaderboardUGC(SteamLeaderboard_t hSteamLeaderboard, UGCHandle_t hUGC);
@@ -1801,10 +1801,10 @@ namespace Steamworks {
 		public static extern bool ISteamUserStats_GetGlobalStat_(IntPtr pchStatName, out double pData);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamUserStats_GetGlobalStatHistory(IntPtr pchStatName, out long pData, uint cubData);
+		public static extern int ISteamUserStats_GetGlobalStatHistory(IntPtr pchStatName, long[] pData, uint cubData);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamUserStats_GetGlobalStatHistory_(IntPtr pchStatName, out double pData, uint cubData);
+		public static extern int ISteamUserStats_GetGlobalStatHistory_(IntPtr pchStatName, double[] pData, uint cubData);
 #if _PS3
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
