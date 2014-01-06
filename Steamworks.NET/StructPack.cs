@@ -26,7 +26,7 @@ namespace Steamworks {
 			if (sentinelSize != 32 || subscribedFilesSize != (1 + 1 + 1 + 50 + 100) * 4 + 4)
 				return false;
 #elif VALVE_CALLBACK_PACK_SMALL
-			if (sentinelSize != 24 || size != (1 + 1 + 1 + 50 + 100) * 4)
+			if (sentinelSize != 24 || subscribedFilesSize != (1 + 1 + 1 + 50 + 100) * 4)
 				return false;
 #endif
 			return true;
