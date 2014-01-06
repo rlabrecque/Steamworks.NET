@@ -3,8 +3,8 @@ Steamworks.NET
 
 _Steamworks.NET_ is a C# Wrapper for Valve's Steamworks API, it is intended for use with Unity. This project relies on dynamic libraries created by [CSteamworks](https://github.com/rlabrecque/CSteamworks). (Prebuilt and included for ease of use)
 
-_Steamworks.NET_ was designed to be as close as possible to the original C++ API, as such the documentation provided from Valve largely covers usage of _Steamworks.NET_.
-Niceties and C# Idioms can be implemented on top of _Steamworks.NET_ easily.
+_Steamworks.NET_ was designed to be as close as possible to the original C++ API, as such the documentation provided from Valve largely covers usage of _Steamworks.NET_. 
+Niceties and C# Idioms can be easily implemented on top of _Steamworks.NET_.
 
 The included CSteamworks.dll was built with VS2010, and as such requires [Microsoft Visual C++ 2010 Redistributable Package (x86)](http://www.microsoft.com/en-us/download/details.aspx?id=5555). You must also ship this to customers via Installation -> Installers on the Steam Partner Website.
 
@@ -27,7 +27,7 @@ Usage
 To use _Steamworks.NET_ you must be a Steamworks developer. _Steamworks.NET_ Requires Unity Pro for the plugin functionality.
 
 * Clone _Steamworks.NET_ into your %UnityProject%/Assets/Plugins folder.
- * Alternatively Zip Archives are available: [Stable (1.0.1)](https://github.com/rlabrecque/Steamworks.NET/archive/1.0.1.zip) -- [Master (Development branch)](https://github.com/rlabrecque/Steamworks.NET/archive/master.zip)
+ * Alternatively Zip Archives are available: [Stable (1.1.0)](https://github.com/rlabrecque/Steamworks.NET/archive/1.1.0.zip) -- [Master (Development branch)](https://github.com/rlabrecque/Steamworks.NET/archive/master.zip)
 * Create a file called `steam_appid.txt` within the root of your Unity Project, place your Steam AppID within this file.
 * If you run the Unity Editor on Windows - copy `steam_api.dll` from the Steamworks SDK into the root of your Unity Project.
 
@@ -65,6 +65,22 @@ Limitations
 -----------
 
 * _Steamworks.NET_ does not currently support ISteamAppTicket or ISteamGameCoordinator.
-* SteamGameServer is temporarily unsupported.
+* The following Interfaces are largely untested:
+
+* ```
+ISteamController
+ISteamHTTP
+ISteamMatchmaking
+ISteamNetworking
+ISteamScreenshots
+ISteamUGC
+ISteamUnifiedMessages
+ISteamGameServer
+ISteamGameServerHttp
+ISteamGameServerNetworking
+ISteamGameServerStats
+ISteamGameServerUtils
+```
+
 * When used from within the Unity Editor, Steam will think you are in game constantly. This is normal and does not effect usage.
 * Does not currently support 64bit builds.
