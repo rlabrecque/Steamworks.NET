@@ -122,6 +122,7 @@ namespace Steamworks {
 		k_ELobbyDistanceFilterWorldwide,
 	}
 
+	[Flags]
 	public enum EChatMemberStateChange : int {
 		k_EChatMemberStateChangeEntered			= 0x0001,
 		k_EChatMemberStateChangeLeft			= 0x0002,
@@ -583,6 +584,7 @@ namespace Steamworks {
 		k_EAppReleaseState_Released			= 4,
 	}
 
+	[Flags]
 	public enum EAppOwernshipFlags : int {
 		k_EAppOwernshipFlags_None				= 0x000,
 		k_EAppOwernshipFlags_OwnsLicense		= 0x001,
@@ -597,6 +599,7 @@ namespace Steamworks {
 		k_EAppOwernshipFlags_LicenseExpired		= 0x200,
 	}
 
+	[Flags]
 	public enum EAppType : int {
 		k_EAppType_Invalid				= 0x000,
 		k_EAppType_Game					= 0x001,
@@ -657,6 +660,7 @@ namespace Steamworks {
 		k_EStatusDepotVersionCurrent = 3,
 	}
 
+	[Flags]
 	public enum EChatSteamIDInstanceFlags : int {
 		k_EChatAccountInstanceMask = 0x00000FFF,
 		k_EChatInstanceFlagClan = ( Constants.k_unSteamAccountInstanceMask + 1 ) >> 1,
@@ -664,6 +668,7 @@ namespace Steamworks {
 		k_EChatInstanceFlagMMSLobby = ( Constants.k_unSteamAccountInstanceMask + 1 ) >> 3,
 	}
 
+	[Flags]
 	public enum EMarketingMessageFlags : int {
 		k_EMarketingMessageFlagsNone = 0,
 		k_EMarketingMessageFlagsHighPriority = 1 << 0,
