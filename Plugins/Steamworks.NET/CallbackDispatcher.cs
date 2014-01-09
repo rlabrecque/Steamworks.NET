@@ -128,8 +128,9 @@ namespace Steamworks {
 			CallbackMsg_t callbackmsg = new CallbackMsg_t();
 			HSteamPipe pipe = SteamAPI.GetHSteamPipe();
 
-			// This needs to be called every frame to process matchmaking results
+			// These needs to be called every frame to process matchmaking results and poll the controller
 			SteamUtils.RunFrame();
+			SteamController.RunFrame();
 
 			while (NativeMethods.Steam_BGetCallback(pipe, ref callbackmsg)) {
 				LastActivePipe = pipe;
