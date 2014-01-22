@@ -714,15 +714,15 @@ namespace Steamworks {
 #region SteamGameServerNetworking
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_SendP2PPacket(CSteamID steamIDRemote, IntPtr pubData, uint cubData, EP2PSend eP2PSendType);
+		public static extern bool ISteamGameServerNetworking_SendP2PPacket(CSteamID steamIDRemote, byte[] pubData, uint cubData, EP2PSend eP2PSendType, int nChannel);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_IsP2PPacketAvailable(out uint pcubMsgSize);
+		public static extern bool ISteamGameServerNetworking_IsP2PPacketAvailable(out uint pcubMsgSize, int nChannel = 0);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_ReadP2PPacket(IntPtr pubDest, uint cubDest, out uint pcubMsgSize, out CSteamID psteamIDRemote);
+		public static extern bool ISteamGameServerNetworking_ReadP2PPacket(byte[] pubDest, uint cubDest, out uint pcubMsgSize, out CSteamID psteamIDRemote, int nChannel);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -1185,15 +1185,15 @@ namespace Steamworks {
 #region SteamNetworking
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamNetworking_SendP2PPacket(CSteamID steamIDRemote, IntPtr pubData, uint cubData, EP2PSend eP2PSendType);
+		public static extern bool ISteamNetworking_SendP2PPacket(CSteamID steamIDRemote, byte[] pubData, uint cubData, EP2PSend eP2PSendType, int nChannel);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamNetworking_IsP2PPacketAvailable(out uint pcubMsgSize);
+		public static extern bool ISteamNetworking_IsP2PPacketAvailable(out uint pcubMsgSize, int nChannel = 0);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamNetworking_ReadP2PPacket(IntPtr pubDest, uint cubDest, out uint pcubMsgSize, out CSteamID psteamIDRemote);
+		public static extern bool ISteamNetworking_ReadP2PPacket(byte[] pubDest, uint cubDest, out uint pcubMsgSize, out CSteamID psteamIDRemote, int nChannel);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -1583,7 +1583,7 @@ namespace Steamworks {
 		public static extern void ISteamUser_TerminateGameConnection(uint unIPServer, ushort usPortServer);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamUser_TrackAppUsageEvent(CGameID gameID, int eAppUsageEvent);
+		public static extern void ISteamUser_TrackAppUsageEvent(CGameID gameID, int eAppUsageEvent, IntPtr pchExtraInfo);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]

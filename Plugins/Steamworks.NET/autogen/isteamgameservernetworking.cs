@@ -5,16 +5,16 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks {
 	public static class SteamGameServerNetworking {
-		public static bool SendP2PPacket(CSteamID steamIDRemote, IntPtr pubData, uint cubData, EP2PSend eP2PSendType) {
-			return NativeMethods.ISteamGameServerNetworking_SendP2PPacket(steamIDRemote, pubData, cubData, eP2PSendType);
+		public static bool SendP2PPacket(CSteamID steamIDRemote, byte[] pubData, uint cubData, EP2PSend eP2PSendType, int nChannel = 0) {
+			return NativeMethods.ISteamNetworking_SendP2PPacket(steamIDRemote, pubData, cubData, eP2PSendType, nChannel);
 		}
 
-		public static bool IsP2PPacketAvailable(out uint pcubMsgSize) {
-			return NativeMethods.ISteamGameServerNetworking_IsP2PPacketAvailable(out pcubMsgSize);
+		public static bool IsP2PPacketAvailable(out uint pcubMsgSize, int nChannel = 0) {
+			return NativeMethods.ISteamNetworking_IsP2PPacketAvailable(out pcubMsgSize, nChannel);
 		}
 
-		public static bool ReadP2PPacket(IntPtr pubDest, uint cubDest, out uint pcubMsgSize, out CSteamID psteamIDRemote) {
-			return NativeMethods.ISteamGameServerNetworking_ReadP2PPacket(pubDest, cubDest, out pcubMsgSize, out psteamIDRemote);
+		public static bool ReadP2PPacket(byte[] pubDest, uint cubDest, out uint pcubMsgSize, out CSteamID psteamIDRemote, int nChannel = 0) {
+			return NativeMethods.ISteamNetworking_ReadP2PPacket(pubDest, cubDest, out pcubMsgSize, out psteamIDRemote, nChannel);
 		}
 
 		public static bool AcceptP2PSessionWithUser(CSteamID steamIDRemote) {

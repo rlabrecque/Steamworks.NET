@@ -25,8 +25,8 @@ namespace Steamworks {
 			NativeMethods.ISteamUser_TerminateGameConnection(unIPServer, usPortServer);
 		}
 
-		public static void TrackAppUsageEvent(CGameID gameID, int eAppUsageEvent) {
-			NativeMethods.ISteamUser_TrackAppUsageEvent(gameID, eAppUsageEvent);
+		public static void TrackAppUsageEvent(CGameID gameID, int eAppUsageEvent, string pchExtraInfo = "") {
+			NativeMethods.ISteamUser_TrackAppUsageEvent(gameID, eAppUsageEvent, new InteropHelp.UTF8String(pchExtraInfo));
 		}
 
 		public static bool GetUserDataFolder(out string pchBuffer, int cubBuffer) {
