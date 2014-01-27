@@ -93,6 +93,7 @@ namespace Steamworks {
 	public struct MatchMakingKeyValuePair_t {
 	}
 
+	[StructLayout(LayoutKind.Sequential, Pack = 1)]
 	public struct SteamControllerState_t {
 		public uint unPacketNum;
 		public ulong ulButtons;
