@@ -25,6 +25,10 @@ namespace Steamworks {
 		public const string STEAMUSERSTATS_INTERFACE_VERSION = "STEAMUSERSTATS_INTERFACE_VERSION011";
 		public const string STEAMUTILS_INTERFACE_VERSION = "SteamUtils006";
 		public const int k_cubAppProofOfPurchaseKeyMax = 64;
+		//-----------------------------------------------------------------------------
+		// Purpose: Base values for callback identifiers, each callback must
+		//			have a unique ID.
+		//-----------------------------------------------------------------------------
 		public const int k_iSteamUserCallbacks = 100;
 		public const int k_iSteamGameServerCallbacks = 200;
 		public const int k_iSteamFriendsCallbacks = 300;
@@ -61,15 +65,23 @@ namespace Steamworks {
 		public const int k_iClientUGCCallbacks = 3400;
 		public const int k_iSteamStreamClientCallbacks = 3500;
 		public const int k_IClientProductBuilderCallbacks = 3600;
+		// maximum length of friend group name (not including terminating nul!)
 		public const int k_cchMaxFriendsGroupName = 64;
+		// maximum number of groups a single user is allowed
 		public const int k_cFriendsGroupLimit = 100;
 		public const int k_cEnumerateFollowersMax = 50;
+		// maximum number of characters in a user's name. Two flavors; one for UTF-8 and one for UTF-16.
+		// The UTF-8 version has to be very generous to accomodate characters that get large when encoded
+		// in UTF-8.
 		public const int k_cchPersonaNameMax = 128;
 		public const int k_cwchPersonaNameMax = 32;
+		// size limit on chat room or member metadata
 		public const int k_cubChatMetadataMax = 8192;
+		// size limits on Rich Presence data
 		public const int k_cchMaxRichPresenceKeys = 20;
 		public const int k_cchMaxRichPresenceKeyLength = 64;
 		public const int k_cchMaxRichPresenceValueLength = 256;
+		// game server flags
 		public const int k_unServerFlagNone = 0x00;
 		public const int k_unServerFlagActive = 0x01;
 		public const int k_unServerFlagSecure = 0x02;
@@ -77,9 +89,14 @@ namespace Steamworks {
 		public const int k_unServerFlagLinux = 0x08;
 		public const int k_unServerFlagPassworded = 0x10;
 		public const int k_unServerFlagPrivate = 0x20;
+		// game server flags
 		public const int k_unFavoriteFlagNone = 0x00;
 		public const int k_unFavoriteFlagFavorite = 0x01;
 		public const int k_unFavoriteFlagHistory = 0x02;
+		//-----------------------------------------------------------------------------
+		// Purpose: Defines the largest allowed file size. Cloud files cannot be written
+		// in a single chunk over 100MB (and cannot be over 200MB total.)
+		//-----------------------------------------------------------------------------
 		public const int k_unMaxCloudFileChunkSize = 100 * 1024 * 1024;
 		public const int k_cchPublishedDocumentTitleMax = 128 + 1;
 		public const int k_cchPublishedDocumentDescriptionMax = 8000;
@@ -93,11 +110,20 @@ namespace Steamworks {
 		public const int k_nScreenshotMaxTaggedPublishedFiles = 32;
 		public const int k_cubUFSTagTypeMax = 255;
 		public const int k_cubUFSTagValueMax = 255;
+		// Required with of a thumbnail provided to AddScreenshotToLibrary.  If you do not provide a thumbnail
+		// one will be generated.
 		public const int k_ScreenshotThumbWidth = 200;
 		public const int kNumUGCResultsPerPage = 50;
+		// size limit on stat or achievement name (UTF-8 encoded)
 		public const int k_cchStatNameMax = 128;
+		// maximum number of bytes for a leaderboard name (UTF-8 encoded)
 		public const int k_cchLeaderboardNameMax = 128;
+		// maximum number of details int32's storable for a single leaderboard entry
 		public const int k_cLeaderboardDetailsMax = 64;
+		//
+		// Max size (in bytes of UTF-8 data, not in characters) of server fields, including null terminator.
+		// WARNING: These cannot be changed easily, without breaking clients using old interfaces.
+		//
 		public const int k_cbMaxGameServerGameDir = 32;
 		public const int k_cbMaxGameServerMapName = 32;
 		public const int k_cbMaxGameServerGameDescription = 64;
@@ -106,6 +132,7 @@ namespace Steamworks {
 		public const int k_cbMaxGameServerGameData = 2048;
 		public const int k_unSteamAccountIDMask = -1;
 		public const int k_unSteamAccountInstanceMask = 0x000FFFFF;
+		// we allow 3 simultaneous user account instances right now, 1= desktop, 2 = console, 4 = web, 0 = all
 		public const int k_unSteamUserDesktopInstance = 1;
 		public const int k_unSteamUserConsoleInstance = 2;
 		public const int k_unSteamUserWebInstance = 4;
@@ -121,5 +148,42 @@ namespace Steamworks {
 		public const uint k_uPhysicalItemIdInvalid = 0x0;
 		public const uint k_uCellIDInvalid = 0xFFFFFFFF;
 		public const uint k_uPartnerIdInvalid = 0;
+		public const short MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE = -1;
+		public const byte INVALID_HTTPREQUEST_HANDLE = 0;
+
+		// maximum number of characters a lobby metadata key can be
+		public const byte k_nMaxLobbyKeyLength = 255;
+
+		//-----------------------------------------------------------------------------
+		// Constants used for query ports.
+		//-----------------------------------------------------------------------------
+		public const int QUERY_PORT_NOT_INITIALIZED =   0xFFFF;  // We haven't asked the GS for this query port's actual value yet.
+		public const int QUERY_PORT_ERROR =             0xFFFE;  // We were unable to get the query port for this server.
+
+		// Safe to add new bitfields at the end of this list for new buttons/actions,
+		// but never re-use or re-number an existing flag as old client code will be
+		// confused.
+		public const ulong STEAM_RIGHT_TRIGGER_MASK =           0x0000000000000001;
+		public const ulong STEAM_LEFT_TRIGGER_MASK =            0x0000000000000002;
+		public const ulong STEAM_RIGHT_BUMPER_MASK =            0x0000000000000004;
+		public const ulong STEAM_LEFT_BUMPER_MASK =             0x0000000000000008;
+		public const ulong STEAM_BUTTON_0_MASK =                0x0000000000000010;
+		public const ulong STEAM_BUTTON_1_MASK =                0x0000000000000020;
+		public const ulong STEAM_BUTTON_2_MASK =                0x0000000000000040;
+		public const ulong STEAM_BUTTON_3_MASK =                0x0000000000000080;
+		public const ulong STEAM_TOUCH_0_MASK =                 0x0000000000000100;
+		public const ulong STEAM_TOUCH_1_MASK =                 0x0000000000000200;
+		public const ulong STEAM_TOUCH_2_MASK =                 0x0000000000000400;
+		public const ulong STEAM_TOUCH_3_MASK =                 0x0000000000000800;
+		public const ulong STEAM_BUTTON_MENU_MASK =             0x0000000000001000;
+		public const ulong STEAM_BUTTON_STEAM_MASK =            0x0000000000002000;
+		public const ulong STEAM_BUTTON_ESCAPE_MASK =           0x0000000000004000;
+		public const ulong STEAM_BUTTON_BACK_LEFT_MASK =        0x0000000000008000;
+		public const ulong STEAM_BUTTON_BACK_RIGHT_MASK =       0x0000000000010000;
+		public const ulong STEAM_BUTTON_LEFTPAD_CLICKED_MASK =  0x0000000000020000;
+		public const ulong STEAM_BUTTON_RIGHTPAD_CLICKED_MASK = 0x0000000000040000;
+		public const ulong STEAM_LEFTPAD_FINGERDOWN_MASK =      0x0000000000080000;
+		public const ulong STEAM_RIGHTPAD_FINGERDOWN_MASK =     0x0000000000100000;
+		public const byte MAX_STEAM_CONTROLLERS = 8;
 	}
 }
