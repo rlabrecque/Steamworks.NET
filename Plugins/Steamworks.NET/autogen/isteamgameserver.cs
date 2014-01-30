@@ -234,16 +234,12 @@ namespace Steamworks {
 			return NativeMethods.ISteamGameServer_RequestUserGroupStatus(steamIDUser, steamIDGroup);
 		}
 
-	//
-	// Query steam for server data
-	//
-		// Ask for the gameplay stats for the server. Results returned in a callback
+		// these two functions s are deprecated, and will not return results
+		// they will be removed in a future version of the SDK
 		public static void GetGameplayStats() {
 			NativeMethods.ISteamGameServer_GetGameplayStats();
 		}
 
-		// Gets the reputation score for the game server. This API also checks if the server or some
-		// other server on the same IP is banned from the Steam master servers.
 		public static SteamAPICall_t GetServerReputation() {
 			return NativeMethods.ISteamGameServer_GetServerReputation();
 		}

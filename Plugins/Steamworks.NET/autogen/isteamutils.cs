@@ -171,5 +171,10 @@ namespace Steamworks {
 		public static string GetSteamUILanguage() {
 			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamUtils_GetSteamUILanguage());
 		}
+
+		// returns true if Steam itself is running in VR mode
+		public static bool IsSteamRunningInVR() {
+			return NativeMethods.ISteamUtils_IsSteamRunningInVR();
+		}
 	}
 }

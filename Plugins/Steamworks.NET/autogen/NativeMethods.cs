@@ -932,6 +932,10 @@ namespace Steamworks {
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr ISteamGameServerUtils_GetSteamUILanguage();
+
+		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerUtils_IsSteamRunningInVR();
 #endregion
 #region SteamHTTP
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
@@ -1920,6 +1924,10 @@ namespace Steamworks {
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr ISteamUtils_GetSteamUILanguage();
+
+		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamUtils_IsSteamRunningInVR();
 #endregion
 	}
 }

@@ -65,6 +65,7 @@ namespace Steamworks {
 		public const int k_iClientUGCCallbacks = 3400;
 		public const int k_iSteamStreamClientCallbacks = 3500;
 		public const int k_IClientProductBuilderCallbacks = 3600;
+		public const int k_iClientShortcutsCallbacks = 3700;
 		// maximum length of friend group name (not including terminating nul!)
 		public const int k_cchMaxFriendsGroupName = 64;
 		// maximum number of groups a single user is allowed

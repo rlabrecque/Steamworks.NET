@@ -534,6 +534,7 @@ namespace Steamworks {
 		k_EResultInvalidCEGSubmission = 81,			// The set of files submitted to the CEG server are not valid !
 		k_EResultRestrictedDevice = 82,				// The device being used is not allowed to perform this action
 		k_EResultRegionLocked = 83,					// The action could not be complete because it is region restricted
+		k_EResultRateLimitExceeded = 84,			// Temporary rate limit exceeded, try again later, different from k_EResultLimitExceeded which may be permanent
 	}
 
 	// Error codes for use with the voice functions
