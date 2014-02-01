@@ -26,8 +26,7 @@ namespace Steamworks {
 			CallbackDispatcher.RegisterCallback(this, CallbackIdentities.GetCallbackIdentity(typeof(CallbackType)));
 		}
 
-		public Callback(DispatchDelegate myFunc)
-			: this() {
+		public Callback(DispatchDelegate myFunc) : this() {
 			this.OnRun += myFunc;
 		}
 
@@ -58,13 +57,11 @@ namespace Steamworks {
 			size = Marshal.SizeOf(typeof(CallbackType));
 		}
 
-		public CallResult(APIDispatchDelegate myFunc)
-			: this() {
+		public CallResult(APIDispatchDelegate myFunc) : this() {
 			this.OnRun += myFunc;
 		}
 
-		public CallResult(APIDispatchDelegate myFunc, SteamAPICall_t apicallhandle)
-			: this(myFunc) {
+		public CallResult(APIDispatchDelegate myFunc, SteamAPICall_t apicallhandle) : this(myFunc) {
 			SetAPICallHandle(apicallhandle);
 		}
 
@@ -107,7 +104,12 @@ namespace Steamworks {
 
 
 		public static void RegisterCallback(ICallback callback, int iCallback) {
-			registeredCallbacks.Add(iCallback, callback);
+			try {
+				registeredCallbacks.Add(iCallback, callback);
+			}
+			catch (ArgumentException e) {
+				UnityEngine.Debug.LogError("You tried to register a specific Callback multiple times.\nIf you need a callback to end up in multiple places then register it once and delegate it elsewhere from there.\n" + e);
+			}
 		}
 
 		public static void UnRegisterCallback(ICallback callback, int iCallback) {
@@ -117,7 +119,12 @@ namespace Steamworks {
 		}
 
 		public static void RegisterCallResult(ICallResult callback, SteamAPICall_t callhandle) {
-			registeredAPICallbacks.Add(callhandle, callback);
+			try {
+				registeredAPICallbacks.Add(callhandle, callback);
+			}
+			catch (ArgumentException e) {
+				UnityEngine.Debug.LogError("You tried to register a CallResult multiple times.\nIf you need a callresult to end up in multiple places then register it once and delegate it elsewhere from there.\n" + e);
+			}
 		}
 
 		public static void ClearCallResult(ICallResult callback, SteamAPICall_t callhandle) {
