@@ -32,7 +32,7 @@ namespace Steamworks {
 			return NativeMethods.SteamAPI_InitSafe();
 		}
 
-		// This is for Ease of use, since we don't need to care about the differences between them in C#.
+		// [Steamworks.NET] This is for Ease of use, since we don't need to care about the differences between them in C#.
 		public static bool Init() {
 			return NativeMethods.SteamAPI_InitSafe();
 		}
@@ -44,6 +44,19 @@ namespace Steamworks {
 
 		public static void Shutdown() {
 			NativeMethods.SteamAPI_Shutdown();
+		}
+
+		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
+		//	steam callback helper functions
+		//
+		//	The following classes/macros are used to be able to easily multiplex callbacks 
+		//	from the Steam API into various objects in the app in a thread-safe manner
+		//
+		//	These functors are triggered via the SteamAPI_RunCallbacks() function, mapping the callback
+		//  to as many functions/objects as are registered to it
+		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
+		public static void RunCallbacks() {
+			CallbackDispatcher.RunCallbacks();
 		}
 
 		// checks if a local Steam client is running

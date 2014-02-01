@@ -45,7 +45,7 @@ If you wish to use the functions from `sdkencryptedappticket.dll` then you will 
 
 `sdkencryptedappticket.dll` can be found in the Steamworks SDK.
 
-Check out these example projects to get started:
+Check out these sample projects to get started:
 * [Steamworks.NET Example](https://github.com/rlabrecque/Steamworks.NET-Example)
 * [Steamworks.NET Test](https://github.com/rlabrecque/Steamworks.NET-Test)
 
