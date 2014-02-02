@@ -100,13 +100,13 @@ namespace Steamworks {
 #region SteamClient Internals
 		// These are private wrapper functions for steamclient.dll calls that allow us to reimplement SteamAPI_RunCallbacks() in C#
 		[DllImport("CSteamworks", EntryPoint = "Steam_BGetCallback2", CallingConvention = CallingConvention.Cdecl)]
-		public static extern bool Steam_BGetCallback(HSteamPipe hSteamPipe, ref CallbackMsg_t pCallbackMsg);
+		public static extern bool Steam_BGetCallback(HSteamPipe hSteamPipe, out CallbackMsg_t pCallbackMsg);
 
 		[DllImport("CSteamworks", EntryPoint = "Steam_FreeLastCallback2", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Steam_FreeLastCallback(HSteamPipe hSteamPipe);
 
 		[DllImport("CSteamworks", EntryPoint = "Steam_GetAPICallResult2", CallingConvention = CallingConvention.Cdecl)]
-		public static extern bool Steam_GetAPICallResult(HSteamPipe hSteamPipe, SteamAPICall_t hSteamAPICall, IntPtr pCallback, int cubCallback, int iCallbackExpected, ref bool pbFailed);
+		public static extern bool Steam_GetAPICallResult(HSteamPipe hSteamPipe, SteamAPICall_t hSteamAPICall, IntPtr pCallback, int cubCallback, int iCallbackExpected, out bool pbFailed);
 #endregion
 #region SteamApps
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
