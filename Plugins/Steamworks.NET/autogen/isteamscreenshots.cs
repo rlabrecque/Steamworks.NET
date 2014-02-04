@@ -7,7 +7,7 @@ namespace Steamworks {
 	public static class SteamScreenshots {
 		// Writes a screenshot to the user's screenshot library given the raw image data, which must be in RGB format.
 		// The return value is a handle that is valid for the duration of the game process and can be used to apply tags.
-		public static ScreenshotHandle WriteScreenshot(IntPtr pubRGB, uint cubRGB, int nWidth, int nHeight) {
+		public static ScreenshotHandle WriteScreenshot(byte[] pubRGB, uint cubRGB, int nWidth, int nHeight) {
 			return NativeMethods.ISteamScreenshots_WriteScreenshot(pubRGB, cubRGB, nWidth, nHeight);
 		}
 

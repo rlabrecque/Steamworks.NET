@@ -1475,7 +1475,7 @@ namespace Steamworks {
 #endregion
 #region SteamScreenshots
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ScreenshotHandle ISteamScreenshots_WriteScreenshot(IntPtr pubRGB, uint cubRGB, int nWidth, int nHeight);
+		public static extern ScreenshotHandle ISteamScreenshots_WriteScreenshot(byte[] pubRGB, uint cubRGB, int nWidth, int nHeight);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern ScreenshotHandle ISteamScreenshots_AddScreenshotToLibrary(IntPtr pchFilename, IntPtr pchThumbnailFilename, int nWidth, int nHeight);
