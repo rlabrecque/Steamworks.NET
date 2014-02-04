@@ -1,0 +1,5 @@
+*.user
+*.suo
+
+Steamworks/Steamworks/bin
+Steamworks/Steamworks/obj
