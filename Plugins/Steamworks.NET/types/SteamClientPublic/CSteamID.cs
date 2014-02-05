@@ -66,35 +66,35 @@ namespace Steamworks {
 		//-----------------------------------------------------------------------------
 		// Purpose: Is this an anonymous game server login that will be filled in?
 		//-----------------------------------------------------------------------------
-		bool BBlankAnonAccount() {
+		public bool BBlankAnonAccount() {
 			return GetAccountID() == new AccountID_t(0) && BAnonAccount() && GetUnAccountInstance() == 0;
 		}
 
 		//-----------------------------------------------------------------------------
 		// Purpose: Is this a game server account id?  (Either persistent or anonymous)
 		//-----------------------------------------------------------------------------
-		bool BGameServerAccount() {
+		public bool BGameServerAccount() {
 			return GetEAccountType() == EAccountType.k_EAccountTypeGameServer || GetEAccountType() == EAccountType.k_EAccountTypeAnonGameServer;
 		}
 
 		//-----------------------------------------------------------------------------
 		// Purpose: Is this a persistent (not anonymous) game server account id?
 		//-----------------------------------------------------------------------------
-		bool BPersistentGameServerAccount() {
+		public bool BPersistentGameServerAccount() {
 			return GetEAccountType() == EAccountType.k_EAccountTypeGameServer;
 		}
 
 		//-----------------------------------------------------------------------------
 		// Purpose: Is this an anonymous game server account id?
 		//-----------------------------------------------------------------------------
-		bool BAnonGameServerAccount() {
+		public bool BAnonGameServerAccount() {
 			return GetEAccountType() == EAccountType.k_EAccountTypeAnonGameServer;
 		}
 
 		//-----------------------------------------------------------------------------
 		// Purpose: Is this a content server account id?
 		//-----------------------------------------------------------------------------
-		bool BContentServerAccount() {
+		public bool BContentServerAccount() {
 			return GetEAccountType() == EAccountType.k_EAccountTypeContentServer;
 		}
 
@@ -102,7 +102,7 @@ namespace Steamworks {
 		//-----------------------------------------------------------------------------
 		// Purpose: Is this a clan account id?
 		//-----------------------------------------------------------------------------
-		bool BClanAccount() {
+		public bool BClanAccount() {
 			return GetEAccountType() == EAccountType.k_EAccountTypeClan;
 		}
 
@@ -110,14 +110,14 @@ namespace Steamworks {
 		//-----------------------------------------------------------------------------
 		// Purpose: Is this a chat account id?
 		//-----------------------------------------------------------------------------
-		bool BChatAccount() {
+		public bool BChatAccount() {
 			return GetEAccountType() == EAccountType.k_EAccountTypeChat;
 		}
 
 		//-----------------------------------------------------------------------------
 		// Purpose: Is this a chat account id?
 		//-----------------------------------------------------------------------------
-		bool IsLobby() {
+		public bool IsLobby() {
 			return (GetEAccountType() == EAccountType.k_EAccountTypeChat)
 				&& (GetUnAccountInstance() & (int)EChatSteamIDInstanceFlags.k_EChatInstanceFlagLobby) != 0;
 		}
@@ -126,7 +126,7 @@ namespace Steamworks {
 		//-----------------------------------------------------------------------------
 		// Purpose: Is this an individual user account id?
 		//-----------------------------------------------------------------------------
-		bool BIndividualAccount() {
+		public bool BIndividualAccount() {
 			return GetEAccountType() == EAccountType.k_EAccountTypeIndividual || GetEAccountType() == EAccountType.k_EAccountTypeConsoleUser;
 		}
 
@@ -134,21 +134,21 @@ namespace Steamworks {
 		//-----------------------------------------------------------------------------
 		// Purpose: Is this an anonymous account?
 		//-----------------------------------------------------------------------------
-		bool BAnonAccount() {
+		public bool BAnonAccount() {
 			return GetEAccountType() == EAccountType.k_EAccountTypeAnonUser || GetEAccountType() == EAccountType.k_EAccountTypeAnonGameServer;
 		}
 
 		//-----------------------------------------------------------------------------
 		// Purpose: Is this an anonymous user account? ( used to create an account or reset a password )
 		//-----------------------------------------------------------------------------
-		bool BAnonUserAccount() {
+		public bool BAnonUserAccount() {
 			return GetEAccountType() == EAccountType.k_EAccountTypeAnonUser;
 		}
 
 		//-----------------------------------------------------------------------------
 		// Purpose: Is this a faked up Steam ID for a PSN friend account?
 		//-----------------------------------------------------------------------------
-		bool BConsoleUserAccount() {
+		public bool BConsoleUserAccount() {
 			return GetEAccountType() == EAccountType.k_EAccountTypeConsoleUser;
 		}
 
@@ -194,7 +194,7 @@ namespace Steamworks {
 			return (EUniverse)((m_SteamID >> 56) & 0xFFul);
 		}
 
-		bool IsValid() {
+		public bool IsValid() {
 			if (GetEAccountType() <= EAccountType.k_EAccountTypeInvalid || GetEAccountType() >= EAccountType.k_EAccountTypeMax)
 				return false;
 
