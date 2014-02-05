@@ -30,8 +30,8 @@ Usage
 To use _Steamworks.NET_ you must be a Steamworks developer. _Steamworks.NET_ Requires Unity Pro for the plugin functionality.
 
 * Clone or download a Zip Archive: [Stable (1.1.0)](https://github.com/rlabrecque/Steamworks.NET/archive/1.1.0.zip) -- [Master (Cutting-edge Development)](https://github.com/rlabrecque/Steamworks.NET/archive/master.zip)
-* Extract and copy Steamworks.NET's `Plugins` and `Editor` folders into your `Assets` folder.
-* Open `Plugins/Steamworks.NET/redist/steam_appid.txt` and replace '480' with your own AppId.
+* Extract and copy Steamworks.NET's `Plugins/` and `Editor/` folders into your `Assets/` folder.
+* Open `Plugins/Steamworks.NET/redist/steam_appid.txt` and replace `480` with your own AppId.
 * Launch your Unity project. It should copy steam_appid.txt (and steam_api.dll if your on windows) into the root of your project.
 * Close Unity and relaunch the project so that it loads the newly copied steam_appid.txt & steam_api.dll.
 
@@ -59,10 +59,8 @@ Limitations
 * _Steamworks.NET_ does not currently support ISteamAppTicket or ISteamGameCoordinator.
 * The following Interfaces are largely untested (but should be completely functional):
 ```
-ISteamHTTP
 ISteamMatchmaking (May require some work!)
 ISteamNetworking
-ISteamScreenshots
 ISteamUGC
 ISteamUnifiedMessages
 ISteamGameServer
