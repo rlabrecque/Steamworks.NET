@@ -44,15 +44,15 @@ namespace Steamworks {
 		//
 		// Note: If the user is in offline mode in Steam, then this will add a only-if-cached cache-control
 		// header and only do a local cache lookup rather than sending any actual remote request.
-		public static bool SendHTTPRequest(HTTPRequestHandle hRequest, ref SteamAPICall_t pCallHandle) {
-			return NativeMethods.ISteamGameServerHTTP_SendHTTPRequest(hRequest, ref pCallHandle);
+		public static bool SendHTTPRequest(HTTPRequestHandle hRequest, out SteamAPICall_t pCallHandle) {
+			return NativeMethods.ISteamGameServerHTTP_SendHTTPRequest(hRequest, out pCallHandle);
 		}
 
 		// Sends the HTTP request, will return false on a bad handle, otherwise use SteamCallHandle to wait on
 		// asynchronous response via callback for completion, and listen for HTTPRequestHeadersReceived_t and
 		// HTTPRequestDataReceived_t callbacks while streaming.
-		public static bool SendHTTPRequestAndStreamResponse(HTTPRequestHandle hRequest, ref SteamAPICall_t pCallHandle) {
-			return NativeMethods.ISteamGameServerHTTP_SendHTTPRequestAndStreamResponse(hRequest, ref pCallHandle);
+		public static bool SendHTTPRequestAndStreamResponse(HTTPRequestHandle hRequest, out SteamAPICall_t pCallHandle) {
+			return NativeMethods.ISteamGameServerHTTP_SendHTTPRequestAndStreamResponse(hRequest, out pCallHandle);
 		}
 
 		// Defers a request you have sent, the actual HTTP client code may have many requests queued, and this will move
