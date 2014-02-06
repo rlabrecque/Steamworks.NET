@@ -128,8 +128,14 @@ namespace Steamworks {
 			try {
 				m_RegisteredCallbacks.Add(iCallback, callback);
 			}
-			catch (ArgumentException e) {
-				UnityEngine.Debug.LogError("You tried to register a specific Callback multiple times.\nIf you need a callback to end up in multiple places then register it once and delegate it elsewhere from there.\n" + e);
+			catch (ArgumentException e)
+			{
+			    string error = "You tried to register a specific Callback multiple times.\nIf you need a callback to end up in multiple places then register it once and delegate it elsewhere from there.\n" + e;
+#if UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX
+				UnityEngine.Debug.LogError(error);
+#else
+			    Console.Error.WriteLine(error);
+#endif
 			}
 		}
 
@@ -144,7 +150,12 @@ namespace Steamworks {
 				m_RegisteredCallResults.Add(hAPICall, callback);
 			}
 			catch (ArgumentException e) {
-				UnityEngine.Debug.LogError("You tried to register a CallResult multiple times.\nIf you need a callresult to end up in multiple places then register it once and delegate it elsewhere from there.\n" + e);
+                string error = "You tried to register a specific Callback multiple times.\nIf you need a callback to end up in multiple places then register it once and delegate it elsewhere from there.\n" + e;
+#if UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX
+				UnityEngine.Debug.LogError(error);
+#else
+                Console.Error.WriteLine(error);
+#endif
 			}
 		}
 
