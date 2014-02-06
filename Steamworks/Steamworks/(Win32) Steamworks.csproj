@@ -50,59 +50,163 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="autogen\isteamapps.cs" />
-    <Compile Include="autogen\isteamclient.cs" />
-    <Compile Include="autogen\isteamcontroller.cs" />
-    <Compile Include="autogen\isteamfriends.cs" />
-    <Compile Include="autogen\isteamgameserver.cs" />
-    <Compile Include="autogen\isteamgameserverhttp.cs" />
-    <Compile Include="autogen\isteamgameservernetworking.cs" />
-    <Compile Include="autogen\isteamgameserverstats.cs" />
-    <Compile Include="autogen\isteamgameserverutils.cs" />
-    <Compile Include="autogen\isteamhttp.cs" />
-    <Compile Include="autogen\isteammatchmaking.cs" />
-    <Compile Include="autogen\isteamnetworking.cs" />
-    <Compile Include="autogen\isteamremotestorage.cs" />
-    <Compile Include="autogen\isteamscreenshots.cs" />
-    <Compile Include="autogen\isteamugc.cs" />
-    <Compile Include="autogen\isteamunifiedmessages.cs" />
-    <Compile Include="autogen\isteamuser.cs" />
-    <Compile Include="autogen\isteamuserstats.cs" />
-    <Compile Include="autogen\isteamutils.cs" />
-    <Compile Include="autogen\NativeMethods.cs" />
-    <Compile Include="autogen\SteamCallbacks.cs" />
-    <Compile Include="autogen\SteamConstants.cs" />
-    <Compile Include="autogen\SteamEnums.cs" />
-    <Compile Include="autogen\SteamStructs.cs" />
-    <Compile Include="CallbackDispatcher.cs" />
-    <Compile Include="CallbackIdentity.cs" />
-    <Compile Include="InteropHelp.cs" />
+    <Compile Include="..\..\Plugins\Steamworks.NET\autogen\isteamapps.cs">
+      <Link>autogen\isteamapps.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\autogen\isteamclient.cs">
+      <Link>autogen\isteamclient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\autogen\isteamcontroller.cs">
+      <Link>autogen\isteamcontroller.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\autogen\isteamfriends.cs">
+      <Link>autogen\isteamfriends.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\autogen\isteamgameserver.cs">
+      <Link>autogen\isteamgameserver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\autogen\isteamgameserverhttp.cs">
+      <Link>autogen\isteamgameserverhttp.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\autogen\isteamgameservernetworking.cs">
+      <Link>autogen\isteamgameservernetworking.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\autogen\isteamgameserverstats.cs">
+      <Link>autogen\isteamgameserverstats.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\autogen\isteamgameserverutils.cs">
+      <Link>autogen\isteamgameserverutils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\autogen\isteamhttp.cs">
+      <Link>autogen\isteamhttp.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\autogen\isteammatchmaking.cs">
+      <Link>autogen\isteammatchmaking.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\autogen\isteamnetworking.cs">
+      <Link>autogen\isteamnetworking.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\autogen\isteamremotestorage.cs">
+      <Link>autogen\isteamremotestorage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\autogen\isteamscreenshots.cs">
+      <Link>autogen\isteamscreenshots.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\autogen\isteamugc.cs">
+      <Link>autogen\isteamugc.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\autogen\isteamunifiedmessages.cs">
+      <Link>autogen\isteamunifiedmessages.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\autogen\isteamuser.cs">
+      <Link>autogen\isteamuser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\autogen\isteamuserstats.cs">
+      <Link>autogen\isteamuserstats.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\autogen\isteamutils.cs">
+      <Link>autogen\isteamutils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\autogen\NativeMethods.cs">
+      <Link>autogen\NativeMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\autogen\SteamCallbacks.cs">
+      <Link>autogen\SteamCallbacks.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\autogen\SteamConstants.cs">
+      <Link>autogen\SteamConstants.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\autogen\SteamEnums.cs">
+      <Link>autogen\SteamEnums.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\autogen\SteamStructs.cs">
+      <Link>autogen\SteamStructs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\CallbackDispatcher.cs">
+      <Link>CallbackDispatcher.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\CallbackIdentity.cs">
+      <Link>CallbackIdentity.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\InteropHelp.cs">
+      <Link>InteropHelp.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\Steam.cs">
+      <Link>Steam.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\StructPack.cs">
+      <Link>StructPack.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\types\SteamClientPublic\CGameID.cs">
+      <Link>types\SteamClientPublic\CGameID.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\types\SteamClientPublic\CSteamID.cs">
+      <Link>types\SteamClientPublic\CSteamID.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\types\SteamClientPublic\HAuthTicket.cs">
+      <Link>types\SteamClientPublic\HAuthTicket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\types\SteamClient\HSteamPipe.cs">
+      <Link>types\SteamClient\HSteamPipe.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\types\SteamClient\HSteamUser.cs">
+      <Link>types\SteamClient\HSteamUser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\types\SteamHTTP\HTTPRequestHandle.cs">
+      <Link>types\SteamHTTP\HTTPRequestHandle.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\types\SteamMatchmaking\HServerListRequest.cs">
+      <Link>types\SteamMatchmaking\HServerListRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\types\SteamMatchmaking\HServerQuery.cs">
+      <Link>types\SteamMatchmaking\HServerQuery.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\types\SteamNetworking\SNetListenSocket_t.cs">
+      <Link>types\SteamNetworking\SNetListenSocket_t.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\types\SteamNetworking\SNetSocket_t.cs">
+      <Link>types\SteamNetworking\SNetSocket_t.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\types\SteamRemoteStorage\PublishedFileId_t.cs">
+      <Link>types\SteamRemoteStorage\PublishedFileId_t.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\types\SteamRemoteStorage\PublishedFileUpdateHandle_t.cs">
+      <Link>types\SteamRemoteStorage\PublishedFileUpdateHandle_t.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\types\SteamRemoteStorage\UGCFileWriteStreamHandle_t.cs">
+      <Link>types\SteamRemoteStorage\UGCFileWriteStreamHandle_t.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\types\SteamRemoteStorage\UGCHandle_t.cs">
+      <Link>types\SteamRemoteStorage\UGCHandle_t.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\types\SteamScreenshots\ScreenshotHandle.cs">
+      <Link>types\SteamScreenshots\ScreenshotHandle.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\types\SteamTypes\AccountID_t.cs">
+      <Link>types\SteamTypes\AccountID_t.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\types\SteamTypes\AppId_t.cs">
+      <Link>types\SteamTypes\AppId_t.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\types\SteamTypes\DepotId_t.cs">
+      <Link>types\SteamTypes\DepotId_t.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\types\SteamTypes\SteamAPICall_t.cs">
+      <Link>types\SteamTypes\SteamAPICall_t.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\types\SteamUGC\UGCQueryHandle_t.cs">
+      <Link>types\SteamUGC\UGCQueryHandle_t.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\types\SteamUnifiedMessages\ClientUnifiedMessageHandle.cs">
+      <Link>types\SteamUnifiedMessages\ClientUnifiedMessageHandle.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\types\SteamUserStats\SteamLeaderboardEntries_t.cs">
+      <Link>types\SteamUserStats\SteamLeaderboardEntries_t.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Plugins\Steamworks.NET\types\SteamUserStats\SteamLeaderboard_t.cs">
+      <Link>types\SteamUserStats\SteamLeaderboard_t.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Steam.cs" />
-    <Compile Include="StructPack.cs" />
-    <Compile Include="types\SteamClientPublic\CGameID.cs" />
-    <Compile Include="types\SteamClientPublic\CSteamID.cs" />
-    <Compile Include="types\SteamClientPublic\HAuthTicket.cs" />
-    <Compile Include="types\SteamClient\HSteamPipe.cs" />
-    <Compile Include="types\SteamClient\HSteamUser.cs" />
-    <Compile Include="types\SteamHTTP\HTTPRequestHandle.cs" />
-    <Compile Include="types\SteamMatchmaking\HServerListRequest.cs" />
-    <Compile Include="types\SteamMatchmaking\HServerQuery.cs" />
-    <Compile Include="types\SteamNetworking\SNetListenSocket_t.cs" />
-    <Compile Include="types\SteamNetworking\SNetSocket_t.cs" />
-    <Compile Include="types\SteamRemoteStorage\PublishedFileId_t.cs" />
-    <Compile Include="types\SteamRemoteStorage\PublishedFileUpdateHandle_t.cs" />
-    <Compile Include="types\SteamRemoteStorage\UGCFileWriteStreamHandle_t.cs" />
-    <Compile Include="types\SteamRemoteStorage\UGCHandle_t.cs" />
-    <Compile Include="types\SteamScreenshots\ScreenshotHandle.cs" />
-    <Compile Include="types\SteamTypes\AccountID_t.cs" />
-    <Compile Include="types\SteamTypes\AppId_t.cs" />
-    <Compile Include="types\SteamTypes\DepotId_t.cs" />
-    <Compile Include="types\SteamTypes\SteamAPICall_t.cs" />
-    <Compile Include="types\SteamUGC\UGCQueryHandle_t.cs" />
-    <Compile Include="types\SteamUnifiedMessages\ClientUnifiedMessageHandle.cs" />
-    <Compile Include="types\SteamUserStats\SteamLeaderboardEntries_t.cs" />
-    <Compile Include="types\SteamUserStats\SteamLeaderboard_t.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="redist\" />
