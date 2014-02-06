@@ -1,0 +1,6 @@
+*.user
+*.suo
+*.nuspec
+*.ps1
+Steamworks/Steamworks/bin
+Steamworks/Steamworks/obj
