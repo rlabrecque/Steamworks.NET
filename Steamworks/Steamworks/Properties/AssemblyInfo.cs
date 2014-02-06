@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Steamworks")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("(Win32) Steamworks")]
+[assembly: AssemblyDescription("A .Net wrapper around the Valve Steamworks API")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Steamworks")]
