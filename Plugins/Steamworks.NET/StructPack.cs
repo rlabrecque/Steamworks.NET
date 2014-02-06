@@ -1,6 +1,6 @@
-#if UNITY_STANDALONE_WIN
+#if UNITY_STANDALONE_WIN || STEAMWORKS_WIN
 #define VALVE_CALLBACK_PACK_LARGE
-#elif UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX
+#elif UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_LIN || STEAMWORKS_OSX
 #define VALVE_CALLBACK_PACK_SMALL
 #else
 #error ???
@@ -15,8 +15,6 @@ namespace Steamworks {
 		public const int value = 8;
 #elif VALVE_CALLBACK_PACK_SMALL
 		public const int value = 4;
-#else
-#error ???
 #endif
 
 		public static bool Test() {
