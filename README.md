@@ -16,7 +16,7 @@ _Steamworks.NET_ currently supports Steamworks SDK 1.28.
 * [Reporting Issues](https://github.com/rlabrecque/Steamworks.NET/issues)
 * 1-on-1 support is available by donating $40 USD or greater.
  * Support can be obtained via [Email](support@rileylabrecque.com) or [Steam](http://steamcommunity.com/id/rlabrecque)
- * I can only help with Steamworks.NET specific issues, general API questions should be asked on the discussion board.
+ * I can only help with Steamworks.NET specific issues, general API questions should be asked on the Steamworks [discussion board](http://steamcommunity.com/groups/steamworks/discussions).
 
 [![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.1.0/dist/gittip.png)](https://www.gittip.com/rlabrecque/)
 [![Support via Paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QHK4A3CWJDK3N)
@@ -27,23 +27,20 @@ _Steamworks.NET_ currently supports Steamworks SDK 1.28.
 Usage
 -----
 
-To use _Steamworks.NET_ you must be a Steamworks developer. _Steamworks.NET_ Requires Unity Pro for the plugin functionality.
+To use _Steamworks.NET_ you must be a Steamworks developer. _Steamworks.NET_ requires Unity Pro for the plugin functionality.
 
-* Clone or download a Zip Archive: [Stable (1.1.0)](https://github.com/rlabrecque/Steamworks.NET/archive/1.1.0.zip) -- [Master (Cutting-edge Development)](https://github.com/rlabrecque/Steamworks.NET/archive/master.zip)
+* Clone or download a Zip Archive: [Stable (2.0.0)](https://github.com/rlabrecque/Steamworks.NET/archive/2.0.0.zip) -- [Master (Cutting-edge Development)](https://github.com/rlabrecque/Steamworks.NET/archive/master.zip)
 * Extract and copy Steamworks.NET's `Plugins/` and `Editor/` folders into your `Assets/` folder.
 * Open `Plugins/Steamworks.NET/redist/steam_appid.txt` and replace `480` with your own AppId.
 * Launch your Unity project. It should copy steam_appid.txt (and steam_api.dll if your on windows) into the root of your project.
 * Close Unity and relaunch the project so that it loads the newly copied steam_appid.txt & steam_api.dll.
 
+##### Linux
 If you plan on shipping a Linux build (do it!) then you must edit `Plugins/Steamworks.NET/redist/linux/launchscript` and replace `REPLACEWITHYOURGAMENAME` with your games name.
 
-If you wish to use the functions from `sdkencryptedappticket.dll` then you will need to manually place the dll/so/dylib in the following location:
-* Windows: Next to steam_api.dll
-* OSX: In `/Contents/Frameworks/MonoEmbedRuntime/osx/`
-* Linux: Next to CSteamworks.so
+Your game must then be launched through the script (which will be copied to the output folder and renamed to your executables name automatically.)
 
-`sdkencryptedappticket.dll` can be found in the Steamworks SDK.
-
+##### Samples
 Check out these sample projects to get started:
 * [Steamworks.NET Example](https://github.com/rlabrecque/Steamworks.NET-Example)
 * [Steamworks.NET Test](https://github.com/rlabrecque/Steamworks.NET-Test)
@@ -54,8 +51,18 @@ Not using Unity?
 If you are not using Unity then you have two routes that you could take.
 * A: Copy `Plugins/Steamworks.NET` into your C# project. In Visual Studio open your project properties, change to the Build tab and include `STEAMWORKS_WIN`, `STEAMWORKS_LIN`, or `STEAMWORKS_OSX` in `Conditional compilation symbols`.
  * This is only recommended if your binary is not portable across platforms already. If you ship on multiple platforms you must have multiple build targets for each platforms. Please prefer the second route.
-* B: The peferable route is to build the standalone assemblies, with the project file located in `Standalone/`. Alternatively you can download the [prebuilt binaries (2.0.0)](https://github.com/rlabrecque/Steamworks.NET/archive/2.0.0-standalone.zip).
+* B: The peferable route is to build the standalone assemblies, with the project file located in `Standalone/`. Alternatively you can download the [prebuilt binaries (2.0.0)](https://github.com/rlabrecque/Steamworks.NET/releases/download/2.0.0/Steamworks.NET-Standalone_2.0.0.zip).
  * Further instructions are provided by the [README.md](https://github.com/rlabrecque/Steamworks.NET/blob/master/Standalone/README.md) in the `Standalone/` folder.
+
+Using Steam Encrypted App Ticket?
+---------------------------------
+
+If you wish to use the functions from `sdkencryptedappticket.dll` then you will need to manually place the dll/so/dylib in the following location:
+* Windows: Next to steam_api.dll
+* OSX: In `/Contents/Frameworks/MonoEmbedRuntime/osx/`
+* Linux: Next to CSteamworks.so
+
+`sdkencryptedappticket.dll` can be found in the Steamworks SDK.
 
 Limitations
 -----------
