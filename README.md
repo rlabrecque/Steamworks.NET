@@ -25,7 +25,7 @@ _Steamworks.NET_ currently supports Steamworks SDK 1.28.
 
 
 Usage
---------
+-----
 
 To use _Steamworks.NET_ you must be a Steamworks developer. _Steamworks.NET_ Requires Unity Pro for the plugin functionality.
 
@@ -36,7 +36,6 @@ To use _Steamworks.NET_ you must be a Steamworks developer. _Steamworks.NET_ Req
 * Close Unity and relaunch the project so that it loads the newly copied steam_appid.txt & steam_api.dll.
 
 If you plan on shipping a Linux build (do it!) then you must edit `Plugins/Steamworks.NET/redist/linux/launchscript` and replace `REPLACEWITHYOURGAMENAME` with your games name.
-
 
 If you wish to use the functions from `sdkencryptedappticket.dll` then you will need to manually place the dll/so/dylib in the following location:
 * Windows: Next to steam_api.dll
@@ -49,13 +48,19 @@ Check out these sample projects to get started:
 * [Steamworks.NET Example](https://github.com/rlabrecque/Steamworks.NET-Example)
 * [Steamworks.NET Test](https://github.com/rlabrecque/Steamworks.NET-Test)
 
+Not using Unity?
+----------------
+
+If you are not using Unity then you have two routes that you could take.
+* A: Copy `Plugins/Steamworks.NET` into your C# project. In Visual Studio open your project properties, change to the Build tab and include `STEAMWORKS_WIN`, `STEAMWORKS_LIN`, or `STEAMWORKS_OSX` in `Conditional compilation symbols`.
+ * This is only recommended if your binary is not portable across platforms already. If you ship on multiple platforms you must have multiple build targets for each platforms. Please prefer the second route.
+* B: The peferable route is to build the standalone assemblies, with the project file located in `Standalone/`. Alternatively you can download the [prebuilt binaries (2.0.0)](https://github.com/rlabrecque/Steamworks.NET/archive/2.0.0-standalone.zip).
+ * Further instructions are provided by the [README.md](https://github.com/rlabrecque/Steamworks.NET/blob/master/Standalone/README.md) in the `Standalone/` folder.
 
 Limitations
 -----------
 
 * Only x86 builds are currently supported
-* The Overlay and Steam Controller only work when launched from Steam directly.
-* When used from within the Unity Editor, Steam will think you are in game constantly. This is normal and does not effect usage.
 * _Steamworks.NET_ does not currently support ISteamAppTicket or ISteamGameCoordinator.
 * The following Interfaces are largely untested (but should be completely functional):
 ```
@@ -68,3 +73,8 @@ ISteamGameServerHttp
 ISteamGameServerNetworking
 ISteamGameServerStats
 ISteamGameServerUtils
+```
+
+* The following are Unity specific and are out of our control, *ALL* Steamworks wrappers for Unity experience these.
+ * When used from within the Unity Editor, Steam will think you are in game constantly. This is normal and does not effect usage.
+ * The Overlay and Steam Controller only work when launched from Steam directly. (A small number of Steamworks features rely on the overlay being present. Prefer using a [Local Content Server](https://partner.steamgames.com/documentation/steampipeLCS) for testing.)
