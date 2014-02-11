@@ -27,6 +27,14 @@ namespace Steamworks {
 			return !(x == y);
 		}
 
+		public static explicit operator HAuthTicket(uint value) {
+			return new HAuthTicket(value);
+		}
+
+		public static explicit operator uint(HAuthTicket that) {
+			return that.m_HAuthTicket;
+		}
+
 		public bool Equals(HAuthTicket other) {
 			return m_HAuthTicket == other.m_HAuthTicket;
 		}

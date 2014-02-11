@@ -1,5 +1,5 @@
 namespace Steamworks {
-	public struct HServerQuery {
+	public struct HServerQuery : System.IEquatable<HServerQuery>, System.IComparable<HServerQuery> {
 		public static readonly HServerQuery Invalid = new HServerQuery(0xffffffff);
 		public uint m_HServerQuery;
 
@@ -9,6 +9,38 @@ namespace Steamworks {
 
 		public override string ToString() {
 			return m_HServerQuery.ToString();
+		}
+
+		public override bool Equals(object other) {
+			return other is HServerQuery && this == (HServerQuery)other;
+		}
+
+		public override int GetHashCode() {
+			return m_HServerQuery.GetHashCode();
+		}
+
+		public static bool operator ==(HServerQuery x, HServerQuery y) {
+			return x.m_HServerQuery == y.m_HServerQuery;
+		}
+
+		public static bool operator !=(HServerQuery x, HServerQuery y) {
+			return !(x == y);
+		}
+
+		public static explicit operator HServerQuery(uint value) {
+			return new HServerQuery(value);
+		}
+
+		public static explicit operator uint(HServerQuery that) {
+			return that.m_HServerQuery;
+		}
+
+		public bool Equals(HServerQuery other) {
+			return m_HServerQuery == other.m_HServerQuery;
+		}
+
+		public int CompareTo(HServerQuery other) {
+			return m_HServerQuery.CompareTo(other.m_HServerQuery);
 		}
 	}
 }
