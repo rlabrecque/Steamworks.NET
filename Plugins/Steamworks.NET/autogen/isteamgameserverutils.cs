@@ -95,7 +95,7 @@ namespace Steamworks {
 		// 'int' is the severity; 0 for msg, 1 for warning
 		// 'const char *' is the text of the message
 		// callbacks will occur directly after the API function is called that generated the warning or message
-		public static void SetWarningMessageHook(IntPtr pFunction) {
+		public static void SetWarningMessageHook(SteamAPIWarningMessageHook_t pFunction) {
 			NativeMethods.ISteamGameServerUtils_SetWarningMessageHook(pFunction);
 		}
 

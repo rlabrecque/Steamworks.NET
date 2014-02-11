@@ -256,7 +256,7 @@ namespace Steamworks {
 		public static extern uint ISteamClient_GetIPCCallCount();
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamClient_SetWarningMessageHook(IntPtr pFunction);
+		public static extern void ISteamClient_SetWarningMessageHook(SteamAPIWarningMessageHook_t pFunction);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -891,7 +891,7 @@ namespace Steamworks {
 		public static extern uint ISteamGameServerUtils_GetIPCCallCount();
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamGameServerUtils_SetWarningMessageHook(IntPtr pFunction);
+		public static extern void ISteamGameServerUtils_SetWarningMessageHook(SteamAPIWarningMessageHook_t pFunction);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -1883,7 +1883,7 @@ namespace Steamworks {
 		public static extern uint ISteamUtils_GetIPCCallCount();
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamUtils_SetWarningMessageHook(IntPtr pFunction);
+		public static extern void ISteamUtils_SetWarningMessageHook(SteamAPIWarningMessageHook_t pFunction);
 
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
