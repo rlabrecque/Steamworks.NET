@@ -20,6 +20,9 @@ public class RedistCopy {
 		else if (target == BuildTarget.StandaloneLinux || target == BuildTarget.StandaloneLinux64 || target == BuildTarget.StandaloneLinuxUniversal) {
 			CopyFile("linux/launchscript", strProjectName, pathToBuiltProject);
 		}
+		else {
+			Debug.Log(string.Format("[Steamworks.NET] {0} Is not a supported platform.", target));
+		}
 
 		string controllerCfg = Path.Combine(Application.dataPath, "controller.vdf");
 		if (File.Exists(controllerCfg)) {
@@ -33,7 +36,7 @@ public class RedistCopy {
 			File.Copy(controllerCfg, strFileDest);
 
 			if (!File.Exists(strFileDest)) {
-				Debug.LogWarning(System.String.Format("[Steamworks.NET] Could not copy controller.vdf into the built project. File.Copy() Failed. Place controller.vdf from the Steamworks SDK in the output dir manually."));
+				Debug.LogWarning("[Steamworks.NET] Could not copy controller.vdf into the built project. File.Copy() Failed. Place controller.vdf from the Steamworks SDK in the output dir manually.");
 			}
 		}
 #endif
@@ -49,14 +52,14 @@ public class RedistCopy {
 		}
 
 		if (!File.Exists(strSource)) {
-			Debug.LogWarning(System.String.Format("[Steamworks.NET] Could not copy {0} into the project root. {0} could not be found in '{1}'. Place {0} from the redist into the project root manually.", filename, SteamAPIRelativeLoc));
+			Debug.LogWarning(string.Format("[Steamworks.NET] Could not copy {0} into the project root. {0} could not be found in '{1}'. Place {0} from the redist into the project root manually.", filename, SteamAPIRelativeLoc));
 			return;
 		}
 
 		File.Copy(strSource, strFileDest);
 
 		if (!File.Exists(strFileDest)) {
-			Debug.LogWarning(System.String.Format("[Steamworks.NET] Could not copy {0} into the built project. File.Copy() Failed. Place {0} from the redist folder into the output dir manually.", filename));
+			Debug.LogWarning(string.Format("[Steamworks.NET] Could not copy {0} into the built project. File.Copy() Failed. Place {0} from the redist folder into the output dir manually.", filename));
 		}
 	}
 }

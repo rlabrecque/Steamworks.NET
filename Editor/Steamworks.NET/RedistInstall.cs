@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 
-// This code copys various files into their required locations to make installation a breeze.
+// This copys various files into their required locations when Unity is launched to make installation a breeze.
 [InitializeOnLoad]
 public class RedistInstall {
 	const string SteamAPIRelativeLoc = "Assets/Plugins/Steamworks.NET/redist";
