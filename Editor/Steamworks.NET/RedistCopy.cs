@@ -14,20 +14,33 @@ public class RedistCopy {
 #if !DISABLEREDISTCOPY
 		string strProjectName = Path.GetFileNameWithoutExtension(pathToBuiltProject);
 
-		if (target == BuildTarget.StandaloneWindows) {
-			CopyFile("steam_api.dll", "steam_api.dll", pathToBuiltProject);
+		switch(target) {
+			case BuildTarget.StandaloneWindows:
+				CopyFile("steam_api.dll", "steam_api.dll", pathToBuiltProject);
+				break;
+			case BuildTarget.StandaloneWindows64:
+				CopyFile("steam_api64.dll", "steam_api64.dll", pathToBuiltProject);
+				break;
+			case BuildTarget.StandaloneLinux:
+				CopyFile("linux/launchscript", strProjectName, pathToBuiltProject);
+				break;
+			case BuildTarget.StandaloneLinux64:
+				CopyFile("linux/launchscript64", strProjectName, pathToBuiltProject);
+				break;
+			case BuildTarget.StandaloneLinuxUniversal:
+				CopyFile("linux/launchscriptuniversal", strProjectName, pathToBuiltProject);
+				break;
+			case BuildTarget.StandaloneOSXIntel:
+				break;
+			default:
+				Debug.Log(string.Format("[Steamworks.NET] {0} Is not a supported platform.", target));
+				return;
 		}
-		else if (target == BuildTarget.StandaloneLinux || target == BuildTarget.StandaloneLinux64 || target == BuildTarget.StandaloneLinuxUniversal) {
-			CopyFile("linux/launchscript", strProjectName, pathToBuiltProject);
-		}
-		else {
-			Debug.Log(string.Format("[Steamworks.NET] {0} Is not a supported platform.", target));
-		}
-
+				
 		string controllerCfg = Path.Combine(Application.dataPath, "controller.vdf");
 		if (File.Exists(controllerCfg)) {
 			string dir = "_Data";
-			if (target == BuildTarget.StandaloneOSXIntel || target == BuildTarget.StandaloneOSXIntel64 || target == BuildTarget.StandaloneOSXUniversal) {
+			if (target == BuildTarget.StandaloneOSXIntel) {
 				dir = ".app/Contents";
 			}
 
