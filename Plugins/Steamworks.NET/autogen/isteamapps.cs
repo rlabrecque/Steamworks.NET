@@ -118,7 +118,7 @@ namespace Steamworks {
 
 		// returns the SteamID of the original owner. If different from current user, it's borrowed
 		public static CSteamID GetAppOwner() {
-			return NativeMethods.ISteamApps_GetAppOwner();
+			return (CSteamID)NativeMethods.ISteamApps_GetAppOwner();
 		}
 
 		// Returns the associated launch param if the game is run via steam://run/<appid>//?param1=value1;param2=value2;param3=value3 etc.
@@ -131,7 +131,7 @@ namespace Steamworks {
 #if _PS3
 		// Result returned in a RegisterActivationCodeResponse_t callresult
 		public static SteamAPICall_t RegisterActivationCode(string pchActivationCode) {
-			return NativeMethods.ISteamApps_RegisterActivationCode(new InteropHelp.UTF8String(pchActivationCode));
+			return (SteamAPICall_t)NativeMethods.ISteamApps_RegisterActivationCode(new InteropHelp.UTF8String(pchActivationCode));
 		}
 #endif
 	}

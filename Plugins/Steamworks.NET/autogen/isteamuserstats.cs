@@ -102,7 +102,7 @@ namespace Steamworks {
 		// if the other user has no stats, UserStatsReceived_t.m_eResult will be set to k_EResultFail
 		// these stats won't be auto-updated; you'll need to call RequestUserStats() again to refresh any data
 		public static SteamAPICall_t RequestUserStats(CSteamID steamIDUser) {
-			return NativeMethods.ISteamUserStats_RequestUserStats(steamIDUser);
+			return (SteamAPICall_t)NativeMethods.ISteamUserStats_RequestUserStats(steamIDUser);
 		}
 
 		// requests stat information for a user, usable after a successful call to RequestUserStats()
@@ -132,13 +132,13 @@ namespace Steamworks {
 		// asks the Steam back-end for a leaderboard by name, and will create it if it's not yet
 		// This call is asynchronous, with the result returned in LeaderboardFindResult_t
 		public static SteamAPICall_t FindOrCreateLeaderboard(string pchLeaderboardName, ELeaderboardSortMethod eLeaderboardSortMethod, ELeaderboardDisplayType eLeaderboardDisplayType) {
-			return NativeMethods.ISteamUserStats_FindOrCreateLeaderboard(new InteropHelp.UTF8String(pchLeaderboardName), eLeaderboardSortMethod, eLeaderboardDisplayType);
+			return (SteamAPICall_t)NativeMethods.ISteamUserStats_FindOrCreateLeaderboard(new InteropHelp.UTF8String(pchLeaderboardName), eLeaderboardSortMethod, eLeaderboardDisplayType);
 		}
 
 		// as above, but won't create the leaderboard if it's not found
 		// This call is asynchronous, with the result returned in LeaderboardFindResult_t
 		public static SteamAPICall_t FindLeaderboard(string pchLeaderboardName) {
-			return NativeMethods.ISteamUserStats_FindLeaderboard(new InteropHelp.UTF8String(pchLeaderboardName));
+			return (SteamAPICall_t)NativeMethods.ISteamUserStats_FindLeaderboard(new InteropHelp.UTF8String(pchLeaderboardName));
 		}
 
 		// returns the name of a leaderboard
@@ -170,14 +170,14 @@ namespace Steamworks {
 		//   e.g. DownloadLeaderboardEntries( hLeaderboard, k_ELeaderboardDataRequestGlobalAroundUser, -3, 3 ) will return 7 rows, 3 before the user, 3 after
 		// k_ELeaderboardDataRequestFriends requests all the rows for friends of the current user
 		public static SteamAPICall_t DownloadLeaderboardEntries(SteamLeaderboard_t hSteamLeaderboard, ELeaderboardDataRequest eLeaderboardDataRequest, int nRangeStart, int nRangeEnd) {
-			return NativeMethods.ISteamUserStats_DownloadLeaderboardEntries(hSteamLeaderboard, eLeaderboardDataRequest, nRangeStart, nRangeEnd);
+			return (SteamAPICall_t)NativeMethods.ISteamUserStats_DownloadLeaderboardEntries(hSteamLeaderboard, eLeaderboardDataRequest, nRangeStart, nRangeEnd);
 		}
 
 		// as above, but downloads leaderboard entries for an arbitrary set of users - ELeaderboardDataRequest is k_ELeaderboardDataRequestUsers
 		// if a user doesn't have a leaderboard entry, they won't be included in the result
 		// a max of 100 users can be downloaded at a time, with only one outstanding call at a time
 		public static SteamAPICall_t DownloadLeaderboardEntriesForUsers(SteamLeaderboard_t hSteamLeaderboard, CSteamID[] prgUsers, int cUsers) {
-			return NativeMethods.ISteamUserStats_DownloadLeaderboardEntriesForUsers(hSteamLeaderboard, prgUsers, cUsers);
+			return (SteamAPICall_t)NativeMethods.ISteamUserStats_DownloadLeaderboardEntriesForUsers(hSteamLeaderboard, prgUsers, cUsers);
 		}
 
 		// Returns data about a single leaderboard entry
@@ -203,27 +203,27 @@ namespace Steamworks {
 		// Details are extra game-defined information regarding how the user got that score
 		// pScoreDetails points to an array of int32's, cScoreDetailsCount is the number of int32's in the list
 		public static SteamAPICall_t UploadLeaderboardScore(SteamLeaderboard_t hSteamLeaderboard, ELeaderboardUploadScoreMethod eLeaderboardUploadScoreMethod, int nScore, int[] pScoreDetails, int cScoreDetailsCount) {
-			return NativeMethods.ISteamUserStats_UploadLeaderboardScore(hSteamLeaderboard, eLeaderboardUploadScoreMethod, nScore, pScoreDetails, cScoreDetailsCount);
+			return (SteamAPICall_t)NativeMethods.ISteamUserStats_UploadLeaderboardScore(hSteamLeaderboard, eLeaderboardUploadScoreMethod, nScore, pScoreDetails, cScoreDetailsCount);
 		}
 
 		// Attaches a piece of user generated content the user's entry on a leaderboard.
 		// hContent is a handle to a piece of user generated content that was shared using ISteamUserRemoteStorage::FileShare().
 		// This call is asynchronous, with the result returned in LeaderboardUGCSet_t.
 		public static SteamAPICall_t AttachLeaderboardUGC(SteamLeaderboard_t hSteamLeaderboard, UGCHandle_t hUGC) {
-			return NativeMethods.ISteamUserStats_AttachLeaderboardUGC(hSteamLeaderboard, hUGC);
+			return (SteamAPICall_t)NativeMethods.ISteamUserStats_AttachLeaderboardUGC(hSteamLeaderboard, hUGC);
 		}
 
 		// Retrieves the number of players currently playing your game (online + offline)
 		// This call is asynchronous, with the result returned in NumberOfCurrentPlayers_t
 		public static SteamAPICall_t GetNumberOfCurrentPlayers() {
-			return NativeMethods.ISteamUserStats_GetNumberOfCurrentPlayers();
+			return (SteamAPICall_t)NativeMethods.ISteamUserStats_GetNumberOfCurrentPlayers();
 		}
 
 		// Requests that Steam fetch data on the percentage of players who have received each achievement
 		// for the game globally.
 		// This call is asynchronous, with the result returned in GlobalAchievementPercentagesReady_t.
 		public static SteamAPICall_t RequestGlobalAchievementPercentages() {
-			return NativeMethods.ISteamUserStats_RequestGlobalAchievementPercentages();
+			return (SteamAPICall_t)NativeMethods.ISteamUserStats_RequestGlobalAchievementPercentages();
 		}
 
 		// Get the info on the most achieved achievement for the game, returns an iterator index you can use to fetch
@@ -258,7 +258,7 @@ namespace Steamworks {
 		// nHistoryDays specifies how many days of day-by-day history to retrieve in addition
 		// to the overall totals. The limit is 60.
 		public static SteamAPICall_t RequestGlobalStats(int nHistoryDays) {
-			return NativeMethods.ISteamUserStats_RequestGlobalStats(nHistoryDays);
+			return (SteamAPICall_t)NativeMethods.ISteamUserStats_RequestGlobalStats(nHistoryDays);
 		}
 
 		// Gets the lifetime totals for an aggregated stat

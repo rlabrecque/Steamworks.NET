@@ -11,7 +11,7 @@ namespace Steamworks {
 		// these stats will only be auto-updated for clients playing on the server. For other
 		// users you'll need to call RequestUserStats() again to refresh any data
 		public static SteamAPICall_t RequestUserStats(CSteamID steamIDUser) {
-			return NativeMethods.ISteamGameServerStats_RequestUserStats(steamIDUser);
+			return (SteamAPICall_t)NativeMethods.ISteamGameServerStats_RequestUserStats(steamIDUser);
 		}
 
 		// requests stat information for a user, usable after a successful call to RequestUserStats()
@@ -58,7 +58,7 @@ namespace Steamworks {
 		// or were out of date. In this case the server sends back updated values.
 		// The stats should be re-iterated to keep in sync.
 		public static SteamAPICall_t StoreUserStats(CSteamID steamIDUser) {
-			return NativeMethods.ISteamGameServerStats_StoreUserStats(steamIDUser);
+			return (SteamAPICall_t)NativeMethods.ISteamGameServerStats_StoreUserStats(steamIDUser);
 		}
 	}
 }

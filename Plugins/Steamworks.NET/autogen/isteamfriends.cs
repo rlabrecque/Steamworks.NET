@@ -22,7 +22,7 @@ namespace Steamworks {
 		// If the name change fails to happen on the server, then an additional global PersonaStateChange_t will be posted
 		// to change the name back, in addition to the SetPersonaNameResponse_t callback.
 		public static SteamAPICall_t SetPersonaName(string pchPersonaName) {
-			return NativeMethods.ISteamFriends_SetPersonaName(new InteropHelp.UTF8String(pchPersonaName));
+			return (SteamAPICall_t)NativeMethods.ISteamFriends_SetPersonaName(new InteropHelp.UTF8String(pchPersonaName));
 		}
 
 		// gets the status of the current user
@@ -42,7 +42,7 @@ namespace Steamworks {
 		// iFriendsFlags must be the same value as used in GetFriendCount()
 		// the returned CSteamID can then be used by all the functions below to access details about the user
 		public static CSteamID GetFriendByIndex(int iFriend, EFriendFlags iFriendFlags) {
-			return NativeMethods.ISteamFriends_GetFriendByIndex(iFriend, iFriendFlags);
+			return (CSteamID)NativeMethods.ISteamFriends_GetFriendByIndex(iFriend, iFriendFlags);
 		}
 
 		// returns a relationship to a user
@@ -91,7 +91,7 @@ namespace Steamworks {
 		}
 
 		public static CSteamID GetClanByIndex(int iClan) {
-			return NativeMethods.ISteamFriends_GetClanByIndex(iClan);
+			return (CSteamID)NativeMethods.ISteamFriends_GetClanByIndex(iClan);
 		}
 
 		public static string GetClanName(CSteamID steamIDClan) {
@@ -109,7 +109,7 @@ namespace Steamworks {
 
 		// for clans a user is a member of, they will have reasonably up-to-date information, but for others you'll have to download the info to have the latest
 		public static SteamAPICall_t DownloadClanActivityCounts(CSteamID[] psteamIDClans, int cClansToRequest) {
-			return NativeMethods.ISteamFriends_DownloadClanActivityCounts(psteamIDClans, cClansToRequest);
+			return (SteamAPICall_t)NativeMethods.ISteamFriends_DownloadClanActivityCounts(psteamIDClans, cClansToRequest);
 		}
 
 		// iterators for getting users in a chat room, lobby, game server or clan
@@ -121,7 +121,7 @@ namespace Steamworks {
 		}
 
 		public static CSteamID GetFriendFromSourceByIndex(CSteamID steamIDSource, int iFriend) {
-			return NativeMethods.ISteamFriends_GetFriendFromSourceByIndex(steamIDSource, iFriend);
+			return (CSteamID)NativeMethods.ISteamFriends_GetFriendFromSourceByIndex(steamIDSource, iFriend);
 		}
 
 		// returns true if the local user can see that steamIDUser is a member or in steamIDSource
@@ -209,13 +209,13 @@ namespace Steamworks {
 		// note that this won't download avatars automatically; if you get an officer,
 		// and no avatar image is available, call RequestUserInformation( steamID, false ) to download the avatar
 		public static SteamAPICall_t RequestClanOfficerList(CSteamID steamIDClan) {
-			return NativeMethods.ISteamFriends_RequestClanOfficerList(steamIDClan);
+			return (SteamAPICall_t)NativeMethods.ISteamFriends_RequestClanOfficerList(steamIDClan);
 		}
 
 		// iteration of clan officers - can only be done when a RequestClanOfficerList() call has completed
 		// returns the steamID of the clan owner
 		public static CSteamID GetClanOwner(CSteamID steamIDClan) {
-			return NativeMethods.ISteamFriends_GetClanOwner(steamIDClan);
+			return (CSteamID)NativeMethods.ISteamFriends_GetClanOwner(steamIDClan);
 		}
 
 		// returns the number of officers in a clan (including the owner)
@@ -225,7 +225,7 @@ namespace Steamworks {
 
 		// returns the steamID of a clan officer, by index, of range [0,GetClanOfficerCount)
 		public static CSteamID GetClanOfficerByIndex(CSteamID steamIDClan, int iOfficer) {
-			return NativeMethods.ISteamFriends_GetClanOfficerByIndex(steamIDClan, iOfficer);
+			return (CSteamID)NativeMethods.ISteamFriends_GetClanOfficerByIndex(steamIDClan, iOfficer);
 		}
 
 		// if current user is chat restricted, he can't send or receive any text/voice chat messages.
@@ -286,7 +286,7 @@ namespace Steamworks {
 		}
 
 		public static CSteamID GetCoplayFriend(int iCoplayFriend) {
-			return NativeMethods.ISteamFriends_GetCoplayFriend(iCoplayFriend);
+			return (CSteamID)NativeMethods.ISteamFriends_GetCoplayFriend(iCoplayFriend);
 		}
 
 		public static int GetFriendCoplayTime(CSteamID steamIDFriend) {
@@ -294,7 +294,7 @@ namespace Steamworks {
 		}
 
 		public static AppId_t GetFriendCoplayGame(CSteamID steamIDFriend) {
-			return NativeMethods.ISteamFriends_GetFriendCoplayGame(steamIDFriend);
+			return (AppId_t)NativeMethods.ISteamFriends_GetFriendCoplayGame(steamIDFriend);
 		}
 
 		// chat interface for games
@@ -302,7 +302,7 @@ namespace Steamworks {
 		// the behavior is somewhat sophisticated, because the user may or may not be already in the group chat from outside the game or in the overlay
 		// use ActivateGameOverlayToUser( "chat", steamIDClan ) to open the in-game overlay version of the chat
 		public static SteamAPICall_t JoinClanChatRoom(CSteamID steamIDClan) {
-			return NativeMethods.ISteamFriends_JoinClanChatRoom(steamIDClan);
+			return (SteamAPICall_t)NativeMethods.ISteamFriends_JoinClanChatRoom(steamIDClan);
 		}
 
 		public static bool LeaveClanChatRoom(CSteamID steamIDClan) {
@@ -314,7 +314,7 @@ namespace Steamworks {
 		}
 
 		public static CSteamID GetChatMemberByIndex(CSteamID steamIDClan, int iUser) {
-			return NativeMethods.ISteamFriends_GetChatMemberByIndex(steamIDClan, iUser);
+			return (CSteamID)NativeMethods.ISteamFriends_GetChatMemberByIndex(steamIDClan, iUser);
 		}
 
 		public static bool SendClanChatMessage(CSteamID steamIDClanChat, string pchText) {
@@ -366,15 +366,15 @@ namespace Steamworks {
 
 		// following apis
 		public static SteamAPICall_t GetFollowerCount(CSteamID steamID) {
-			return NativeMethods.ISteamFriends_GetFollowerCount(steamID);
+			return (SteamAPICall_t)NativeMethods.ISteamFriends_GetFollowerCount(steamID);
 		}
 
 		public static SteamAPICall_t IsFollowing(CSteamID steamID) {
-			return NativeMethods.ISteamFriends_IsFollowing(steamID);
+			return (SteamAPICall_t)NativeMethods.ISteamFriends_IsFollowing(steamID);
 		}
 
 		public static SteamAPICall_t EnumerateFollowingList(uint unStartIndex) {
-			return NativeMethods.ISteamFriends_EnumerateFollowingList(unStartIndex);
+			return (SteamAPICall_t)NativeMethods.ISteamFriends_EnumerateFollowingList(unStartIndex);
 		}
 	}
 }

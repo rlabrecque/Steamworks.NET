@@ -54,7 +54,7 @@ namespace Steamworks {
 
 		// returns the appID of the current process
 		public static AppId_t GetAppID() {
-			return NativeMethods.ISteamUtils_GetAppID();
+			return (AppId_t)NativeMethods.ISteamUtils_GetAppID();
 		}
 
 		// Sets the position where the overlay instance for the currently calling game should show notifications.
@@ -127,7 +127,7 @@ namespace Steamworks {
 		//   k_ECheckFileSignatureInvalidSignature - The file exists, and the signing tab has been set for this file, but the file is either not signed or the signature does not match.
 		//   k_ECheckFileSignatureValidSignature - The file is signed and the signature is valid.
 		public static SteamAPICall_t CheckFileSignature(string szFileName) {
-			return NativeMethods.ISteamUtils_CheckFileSignature(new InteropHelp.UTF8String(szFileName));
+			return (SteamAPICall_t)NativeMethods.ISteamUtils_CheckFileSignature(new InteropHelp.UTF8String(szFileName));
 		}
 #endif
 #if _PS3

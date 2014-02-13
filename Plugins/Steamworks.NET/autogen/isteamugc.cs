@@ -7,17 +7,17 @@ namespace Steamworks {
 	public static class SteamUGC {
 		// Query UGC associated with a user. Creator app id or consumer app id must be valid and be set to the current running app.
 		public static UGCQueryHandle_t CreateQueryUserUGCRequest(AccountID_t unAccountID, EUserUGCList eListType, EUGCMatchingUGCType eMatchingUGCType, EUserUGCListSortOrder eSortOrder, AppId_t nCreatorAppID, AppId_t nConsumerAppID, uint unPage) {
-			return NativeMethods.ISteamUGC_CreateQueryUserUGCRequest(unAccountID, eListType, eMatchingUGCType, eSortOrder, nCreatorAppID, nConsumerAppID, unPage);
+			return (UGCQueryHandle_t)NativeMethods.ISteamUGC_CreateQueryUserUGCRequest(unAccountID, eListType, eMatchingUGCType, eSortOrder, nCreatorAppID, nConsumerAppID, unPage);
 		}
 
 		// Query for all matching UGC. Creator app id or consumer app id must be valid and be set to the current running app.
 		public static UGCQueryHandle_t CreateQueryAllUGCRequest(EUGCQuery eQueryType, EUGCMatchingUGCType eMatchingeMatchingUGCTypeFileType, AppId_t nCreatorAppID, AppId_t nConsumerAppID, uint unPage) {
-			return NativeMethods.ISteamUGC_CreateQueryAllUGCRequest(eQueryType, eMatchingeMatchingUGCTypeFileType, nCreatorAppID, nConsumerAppID, unPage);
+			return (UGCQueryHandle_t)NativeMethods.ISteamUGC_CreateQueryAllUGCRequest(eQueryType, eMatchingeMatchingUGCTypeFileType, nCreatorAppID, nConsumerAppID, unPage);
 		}
 
 		// Send the query to Steam
 		public static SteamAPICall_t SendQueryUGCRequest(UGCQueryHandle_t handle) {
-			return NativeMethods.ISteamUGC_SendQueryUGCRequest(handle);
+			return (SteamAPICall_t)NativeMethods.ISteamUGC_SendQueryUGCRequest(handle);
 		}
 
 		// Retrieve an individual result after receiving the callback for querying UGC
@@ -67,7 +67,7 @@ namespace Steamworks {
 
 		// Request full details for one piece of UGC
 		public static SteamAPICall_t RequestUGCDetails(PublishedFileId_t nPublishedFileID) {
-			return NativeMethods.ISteamUGC_RequestUGCDetails(nPublishedFileID);
+			return (SteamAPICall_t)NativeMethods.ISteamUGC_RequestUGCDetails(nPublishedFileID);
 		}
 	}
 }

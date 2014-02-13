@@ -29,7 +29,7 @@ namespace Steamworks {
 		}
 
 		public static SteamAPICall_t FileShare(string pchFile) {
-			return NativeMethods.ISteamRemoteStorage_FileShare(new InteropHelp.UTF8String(pchFile));
+			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_FileShare(new InteropHelp.UTF8String(pchFile));
 		}
 
 		public static bool SetSyncPlatforms(string pchFile, ERemoteStoragePlatform eRemoteStoragePlatform) {
@@ -38,7 +38,7 @@ namespace Steamworks {
 
 			// file operations that cause network IO
 		public static UGCFileWriteStreamHandle_t FileWriteStreamOpen(string pchFile) {
-			return NativeMethods.ISteamRemoteStorage_FileWriteStreamOpen(new InteropHelp.UTF8String(pchFile));
+			return (UGCFileWriteStreamHandle_t)NativeMethods.ISteamRemoteStorage_FileWriteStreamOpen(new InteropHelp.UTF8String(pchFile));
 		}
 
 		public static bool FileWriteStreamWriteChunk(UGCFileWriteStreamHandle_t writeHandle, byte[] pvData, int cubData) {
@@ -105,7 +105,7 @@ namespace Steamworks {
 			// otherwise it will wait to download the file until all downloads with a lower priority
 			// value are completed.  Downloads with equal priority will occur simultaneously.
 		public static SteamAPICall_t UGCDownload(UGCHandle_t hContent, uint unPriority) {
-			return NativeMethods.ISteamRemoteStorage_UGCDownload(hContent, unPriority);
+			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_UGCDownload(hContent, unPriority);
 		}
 
 			// Gets the amount of data downloaded so far for a piece of content. pnBytesExpected can be 0 if function returns false
@@ -138,7 +138,7 @@ namespace Steamworks {
 		}
 
 		public static UGCHandle_t GetCachedUGCHandle(int iCachedContent) {
-			return NativeMethods.ISteamRemoteStorage_GetCachedUGCHandle(iCachedContent);
+			return (UGCHandle_t)NativeMethods.ISteamRemoteStorage_GetCachedUGCHandle(iCachedContent);
 		}
 
 			// The following functions are only necessary on the Playstation 3. On PC & Mac, the Steam client will handle these operations for you
@@ -176,11 +176,11 @@ namespace Steamworks {
 #endif
 			// publishing UGC
 		public static SteamAPICall_t PublishWorkshopFile(string pchFile, string pchPreviewFile, AppId_t nConsumerAppId, string pchTitle, string pchDescription, ERemoteStoragePublishedFileVisibility eVisibility, System.Collections.Generic.IList<string> pTags, EWorkshopFileType eWorkshopFileType) {
-			return NativeMethods.ISteamRemoteStorage_PublishWorkshopFile(new InteropHelp.UTF8String(pchFile), new InteropHelp.UTF8String(pchPreviewFile), nConsumerAppId, new InteropHelp.UTF8String(pchTitle), new InteropHelp.UTF8String(pchDescription), eVisibility, new InteropHelp.SteamParamStringArray(pTags), eWorkshopFileType);
+			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_PublishWorkshopFile(new InteropHelp.UTF8String(pchFile), new InteropHelp.UTF8String(pchPreviewFile), nConsumerAppId, new InteropHelp.UTF8String(pchTitle), new InteropHelp.UTF8String(pchDescription), eVisibility, new InteropHelp.SteamParamStringArray(pTags), eWorkshopFileType);
 		}
 
 		public static PublishedFileUpdateHandle_t CreatePublishedFileUpdateRequest(PublishedFileId_t unPublishedFileId) {
-			return NativeMethods.ISteamRemoteStorage_CreatePublishedFileUpdateRequest(unPublishedFileId);
+			return (PublishedFileUpdateHandle_t)NativeMethods.ISteamRemoteStorage_CreatePublishedFileUpdateRequest(unPublishedFileId);
 		}
 
 		public static bool UpdatePublishedFileFile(PublishedFileUpdateHandle_t updateHandle, string pchFile) {
@@ -208,35 +208,35 @@ namespace Steamworks {
 		}
 
 		public static SteamAPICall_t CommitPublishedFileUpdate(PublishedFileUpdateHandle_t updateHandle) {
-			return NativeMethods.ISteamRemoteStorage_CommitPublishedFileUpdate(updateHandle);
+			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_CommitPublishedFileUpdate(updateHandle);
 		}
 
 			// Gets published file details for the given publishedfileid.  If unMaxSecondsOld is greater than 0,
 			// cached data may be returned, depending on how long ago it was cached.  A value of 0 will force a refresh.
 			// A value of k_WorkshopForceLoadPublishedFileDetailsFromCache will use cached data if it exists, no matter how old it is.
 		public static SteamAPICall_t GetPublishedFileDetails(PublishedFileId_t unPublishedFileId, uint unMaxSecondsOld) {
-			return NativeMethods.ISteamRemoteStorage_GetPublishedFileDetails(unPublishedFileId, unMaxSecondsOld);
+			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_GetPublishedFileDetails(unPublishedFileId, unMaxSecondsOld);
 		}
 
 		public static SteamAPICall_t DeletePublishedFile(PublishedFileId_t unPublishedFileId) {
-			return NativeMethods.ISteamRemoteStorage_DeletePublishedFile(unPublishedFileId);
+			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_DeletePublishedFile(unPublishedFileId);
 		}
 
 			// enumerate the files that the current user published with this app
 		public static SteamAPICall_t EnumerateUserPublishedFiles(uint unStartIndex) {
-			return NativeMethods.ISteamRemoteStorage_EnumerateUserPublishedFiles(unStartIndex);
+			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_EnumerateUserPublishedFiles(unStartIndex);
 		}
 
 		public static SteamAPICall_t SubscribePublishedFile(PublishedFileId_t unPublishedFileId) {
-			return NativeMethods.ISteamRemoteStorage_SubscribePublishedFile(unPublishedFileId);
+			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_SubscribePublishedFile(unPublishedFileId);
 		}
 
 		public static SteamAPICall_t EnumerateUserSubscribedFiles(uint unStartIndex) {
-			return NativeMethods.ISteamRemoteStorage_EnumerateUserSubscribedFiles(unStartIndex);
+			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_EnumerateUserSubscribedFiles(unStartIndex);
 		}
 
 		public static SteamAPICall_t UnsubscribePublishedFile(PublishedFileId_t unPublishedFileId) {
-			return NativeMethods.ISteamRemoteStorage_UnsubscribePublishedFile(unPublishedFileId);
+			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_UnsubscribePublishedFile(unPublishedFileId);
 		}
 
 		public static bool UpdatePublishedFileSetChangeDescription(PublishedFileUpdateHandle_t updateHandle, string pchChangeDescription) {
@@ -244,40 +244,40 @@ namespace Steamworks {
 		}
 
 		public static SteamAPICall_t GetPublishedItemVoteDetails(PublishedFileId_t unPublishedFileId) {
-			return NativeMethods.ISteamRemoteStorage_GetPublishedItemVoteDetails(unPublishedFileId);
+			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_GetPublishedItemVoteDetails(unPublishedFileId);
 		}
 
 		public static SteamAPICall_t UpdateUserPublishedItemVote(PublishedFileId_t unPublishedFileId, bool bVoteUp) {
-			return NativeMethods.ISteamRemoteStorage_UpdateUserPublishedItemVote(unPublishedFileId, bVoteUp);
+			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_UpdateUserPublishedItemVote(unPublishedFileId, bVoteUp);
 		}
 
 		public static SteamAPICall_t GetUserPublishedItemVoteDetails(PublishedFileId_t unPublishedFileId) {
-			return NativeMethods.ISteamRemoteStorage_GetUserPublishedItemVoteDetails(unPublishedFileId);
+			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_GetUserPublishedItemVoteDetails(unPublishedFileId);
 		}
 
 		public static SteamAPICall_t EnumerateUserSharedWorkshopFiles(CSteamID steamId, uint unStartIndex, System.Collections.Generic.IList<string> pRequiredTags, System.Collections.Generic.IList<string> pExcludedTags) {
-			return NativeMethods.ISteamRemoteStorage_EnumerateUserSharedWorkshopFiles(steamId, unStartIndex, new InteropHelp.SteamParamStringArray(pRequiredTags), new InteropHelp.SteamParamStringArray(pExcludedTags));
+			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_EnumerateUserSharedWorkshopFiles(steamId, unStartIndex, new InteropHelp.SteamParamStringArray(pRequiredTags), new InteropHelp.SteamParamStringArray(pExcludedTags));
 		}
 
 		public static SteamAPICall_t PublishVideo(EWorkshopVideoProvider eVideoProvider, string pchVideoAccount, string pchVideoIdentifier, string pchPreviewFile, AppId_t nConsumerAppId, string pchTitle, string pchDescription, ERemoteStoragePublishedFileVisibility eVisibility, System.Collections.Generic.IList<string> pTags) {
-			return NativeMethods.ISteamRemoteStorage_PublishVideo(eVideoProvider, new InteropHelp.UTF8String(pchVideoAccount), new InteropHelp.UTF8String(pchVideoIdentifier), new InteropHelp.UTF8String(pchPreviewFile), nConsumerAppId, new InteropHelp.UTF8String(pchTitle), new InteropHelp.UTF8String(pchDescription), eVisibility, new InteropHelp.SteamParamStringArray(pTags));
+			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_PublishVideo(eVideoProvider, new InteropHelp.UTF8String(pchVideoAccount), new InteropHelp.UTF8String(pchVideoIdentifier), new InteropHelp.UTF8String(pchPreviewFile), nConsumerAppId, new InteropHelp.UTF8String(pchTitle), new InteropHelp.UTF8String(pchDescription), eVisibility, new InteropHelp.SteamParamStringArray(pTags));
 		}
 
 		public static SteamAPICall_t SetUserPublishedFileAction(PublishedFileId_t unPublishedFileId, EWorkshopFileAction eAction) {
-			return NativeMethods.ISteamRemoteStorage_SetUserPublishedFileAction(unPublishedFileId, eAction);
+			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_SetUserPublishedFileAction(unPublishedFileId, eAction);
 		}
 
 		public static SteamAPICall_t EnumeratePublishedFilesByUserAction(EWorkshopFileAction eAction, uint unStartIndex) {
-			return NativeMethods.ISteamRemoteStorage_EnumeratePublishedFilesByUserAction(eAction, unStartIndex);
+			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_EnumeratePublishedFilesByUserAction(eAction, unStartIndex);
 		}
 
 			// this method enumerates the public view of workshop files
 		public static SteamAPICall_t EnumeratePublishedWorkshopFiles(EWorkshopEnumerationType eEnumerationType, uint unStartIndex, uint unCount, uint unDays, System.Collections.Generic.IList<string> pTags, System.Collections.Generic.IList<string> pUserTags) {
-			return NativeMethods.ISteamRemoteStorage_EnumeratePublishedWorkshopFiles(eEnumerationType, unStartIndex, unCount, unDays, new InteropHelp.SteamParamStringArray(pTags), new InteropHelp.SteamParamStringArray(pUserTags));
+			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_EnumeratePublishedWorkshopFiles(eEnumerationType, unStartIndex, unCount, unDays, new InteropHelp.SteamParamStringArray(pTags), new InteropHelp.SteamParamStringArray(pUserTags));
 		}
 
 		public static SteamAPICall_t UGCDownloadToLocation(UGCHandle_t hContent, string pchLocation, uint unPriority) {
-			return NativeMethods.ISteamRemoteStorage_UGCDownloadToLocation(hContent, new InteropHelp.UTF8String(pchLocation), unPriority);
+			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_UGCDownloadToLocation(hContent, new InteropHelp.UTF8String(pchLocation), unPriority);
 		}
 	}
 }

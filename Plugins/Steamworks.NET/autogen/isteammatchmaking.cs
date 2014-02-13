@@ -54,7 +54,7 @@ namespace Steamworks {
 		*/
 		//
 		public static SteamAPICall_t RequestLobbyList() {
-			return NativeMethods.ISteamMatchmaking_RequestLobbyList();
+			return (SteamAPICall_t)NativeMethods.ISteamMatchmaking_RequestLobbyList();
 		}
 
 		// filters for lobbies
@@ -98,7 +98,7 @@ namespace Steamworks {
 		// iLobby is of the range [0, LobbyMatchList_t::m_nLobbiesMatching)
 		// the returned CSteamID::IsValid() will be false if iLobby is out of range
 		public static CSteamID GetLobbyByIndex(int iLobby) {
-			return NativeMethods.ISteamMatchmaking_GetLobbyByIndex(iLobby);
+			return (CSteamID)NativeMethods.ISteamMatchmaking_GetLobbyByIndex(iLobby);
 		}
 
 		// Create a lobby on the Steam servers.
@@ -108,7 +108,7 @@ namespace Steamworks {
 		// results will be returned by LobbyCreated_t callback and call result; lobby is joined & ready to use at this point
 		// a LobbyEnter_t callback will also be received (since the local user is joining their own lobby)
 		public static SteamAPICall_t CreateLobby(ELobbyType eLobbyType, int cMaxMembers) {
-			return NativeMethods.ISteamMatchmaking_CreateLobby(eLobbyType, cMaxMembers);
+			return (SteamAPICall_t)NativeMethods.ISteamMatchmaking_CreateLobby(eLobbyType, cMaxMembers);
 		}
 
 		// Joins an existing lobby
@@ -116,7 +116,7 @@ namespace Steamworks {
 		// results will be returned by LobbyEnter_t callback & call result, check m_EChatRoomEnterResponse to see if was successful
 		// lobby metadata is available to use immediately on this call completing
 		public static SteamAPICall_t JoinLobby(CSteamID steamIDLobby) {
-			return NativeMethods.ISteamMatchmaking_JoinLobby(steamIDLobby);
+			return (SteamAPICall_t)NativeMethods.ISteamMatchmaking_JoinLobby(steamIDLobby);
 		}
 
 		// Leave a lobby; this will take effect immediately on the client side
@@ -148,7 +148,7 @@ namespace Steamworks {
 		// iMember is of range [0,GetNumLobbyMembers())
 		// note that the current user must be in a lobby to retrieve CSteamIDs of other users in that lobby
 		public static CSteamID GetLobbyMemberByIndex(CSteamID steamIDLobby, int iMember) {
-			return NativeMethods.ISteamMatchmaking_GetLobbyMemberByIndex(steamIDLobby, iMember);
+			return (CSteamID)NativeMethods.ISteamMatchmaking_GetLobbyMemberByIndex(steamIDLobby, iMember);
 		}
 
 		// Get data associated with this lobby
@@ -267,7 +267,7 @@ namespace Steamworks {
 		// there always one lobby owner - if the current owner leaves, another user will become the owner
 		// it is possible (bur rare) to join a lobby just as the owner is leaving, thus entering a lobby with self as the owner
 		public static CSteamID GetLobbyOwner(CSteamID steamIDLobby) {
-			return NativeMethods.ISteamMatchmaking_GetLobbyOwner(steamIDLobby);
+			return (CSteamID)NativeMethods.ISteamMatchmaking_GetLobbyOwner(steamIDLobby);
 		}
 
 		// changes who the lobby owner is
@@ -296,27 +296,27 @@ namespace Steamworks {
 		// Each call allocates a new asynchronous request object.
 		// Request object must be released by calling ReleaseRequest( hServerListRequest )
 		public static HServerListRequest RequestInternetServerList(AppId_t iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse) {
-			return NativeMethods.ISteamMatchmakingServers_RequestInternetServerList(iApp, ppchFilters, nFilters, pRequestServersResponse);
+			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestInternetServerList(iApp, ppchFilters, nFilters, pRequestServersResponse);
 		}
 
 		public static HServerListRequest RequestLANServerList(AppId_t iApp, IntPtr pRequestServersResponse) {
-			return NativeMethods.ISteamMatchmakingServers_RequestLANServerList(iApp, pRequestServersResponse);
+			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestLANServerList(iApp, pRequestServersResponse);
 		}
 
 		public static HServerListRequest RequestFriendsServerList(AppId_t iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse) {
-			return NativeMethods.ISteamMatchmakingServers_RequestFriendsServerList(iApp, ppchFilters, nFilters, pRequestServersResponse);
+			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestFriendsServerList(iApp, ppchFilters, nFilters, pRequestServersResponse);
 		}
 
 		public static HServerListRequest RequestFavoritesServerList(AppId_t iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse) {
-			return NativeMethods.ISteamMatchmakingServers_RequestFavoritesServerList(iApp, ppchFilters, nFilters, pRequestServersResponse);
+			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestFavoritesServerList(iApp, ppchFilters, nFilters, pRequestServersResponse);
 		}
 
 		public static HServerListRequest RequestHistoryServerList(AppId_t iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse) {
-			return NativeMethods.ISteamMatchmakingServers_RequestHistoryServerList(iApp, ppchFilters, nFilters, pRequestServersResponse);
+			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestHistoryServerList(iApp, ppchFilters, nFilters, pRequestServersResponse);
 		}
 
 		public static HServerListRequest RequestSpectatorServerList(AppId_t iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse) {
-			return NativeMethods.ISteamMatchmakingServers_RequestSpectatorServerList(iApp, ppchFilters, nFilters, pRequestServersResponse);
+			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestSpectatorServerList(iApp, ppchFilters, nFilters, pRequestServersResponse);
 		}
 
 		// Releases the asynchronous request object and cancels any pending query on it if there's a pending query in progress.
@@ -440,17 +440,17 @@ namespace Steamworks {
 		//-----------------------------------------------------------------------------
 		// Request updated ping time and other details from a single server
 		public static HServerQuery PingServer(uint unIP, ushort usPort, IntPtr pRequestServersResponse) {
-			return NativeMethods.ISteamMatchmakingServers_PingServer(unIP, usPort, pRequestServersResponse);
+			return (HServerQuery)NativeMethods.ISteamMatchmakingServers_PingServer(unIP, usPort, pRequestServersResponse);
 		}
 
 		// Request the list of players currently playing on a server
 		public static HServerQuery PlayerDetails(uint unIP, ushort usPort, IntPtr pRequestServersResponse) {
-			return NativeMethods.ISteamMatchmakingServers_PlayerDetails(unIP, usPort, pRequestServersResponse);
+			return (HServerQuery)NativeMethods.ISteamMatchmakingServers_PlayerDetails(unIP, usPort, pRequestServersResponse);
 		}
 
 		// Request the list of rules that the server is running (See ISteamGameServer::SetKeyValue() to set the rules server side)
 		public static HServerQuery ServerRules(uint unIP, ushort usPort, IntPtr pRequestServersResponse) {
-			return NativeMethods.ISteamMatchmakingServers_ServerRules(unIP, usPort, pRequestServersResponse);
+			return (HServerQuery)NativeMethods.ISteamMatchmakingServers_ServerRules(unIP, usPort, pRequestServersResponse);
 		}
 
 		// Cancel an outstanding Ping/Players/Rules query from above.  You should call this to cancel

@@ -8,7 +8,7 @@ namespace Steamworks {
 		// returns the HSteamUser this interface represents
 		// this is only used internally by the API, and by a few select interfaces that support multi-user
 		public static HSteamUser GetHSteamUser() {
-			return NativeMethods.ISteamUser_GetHSteamUser();
+			return (HSteamUser)NativeMethods.ISteamUser_GetHSteamUser();
 		}
 
 		// returns true if the Steam client current has a live connection to the Steam servers.
@@ -21,7 +21,7 @@ namespace Steamworks {
 		// returns the CSteamID of the account currently logged into the Steam client
 		// a CSteamID is a unique identifier for an account, and used to differentiate users in all parts of the Steamworks API
 		public static CSteamID GetSteamID() {
-			return NativeMethods.ISteamUser_GetSteamID();
+			return (CSteamID)NativeMethods.ISteamUser_GetSteamID();
 		}
 
 		// Multiplayer Authentication functions
@@ -119,7 +119,7 @@ namespace Steamworks {
 		// Retrieve ticket to be sent to the entity who wishes to authenticate you.
 		// pcbTicket retrieves the length of the actual ticket.
 		public static HAuthTicket GetAuthSessionTicket(byte[] pTicket, int cbMaxTicket, out uint pcbTicket) {
-			return NativeMethods.ISteamUser_GetAuthSessionTicket(pTicket, cbMaxTicket, out pcbTicket);
+			return (HAuthTicket)NativeMethods.ISteamUser_GetAuthSessionTicket(pTicket, cbMaxTicket, out pcbTicket);
 		}
 
 		// Authenticate ticket from entity steamID to be sure it is valid and isnt reused
@@ -161,7 +161,7 @@ namespace Steamworks {
 		// pDataToInclude, cbDataToInclude will be encrypted into the ticket
 		// ( This is asynchronous, you must wait for the ticket to be completed by the server )
 		public static SteamAPICall_t RequestEncryptedAppTicket(byte[] pDataToInclude, int cbDataToInclude) {
-			return NativeMethods.ISteamUser_RequestEncryptedAppTicket(pDataToInclude, cbDataToInclude);
+			return (SteamAPICall_t)NativeMethods.ISteamUser_RequestEncryptedAppTicket(pDataToInclude, cbDataToInclude);
 		}
 
 		// retrieve a finished ticket
@@ -221,7 +221,7 @@ namespace Steamworks {
 		// Returns a special SteamID that represents the user's PSN information. Can be used to query the user's PSN avatar,
 		// online name, etc. through the standard Steamworks interfaces.
 		public static CSteamID GetConsoleSteamID() {
-			return NativeMethods.ISteamUser_GetConsoleSteamID();
+			return (CSteamID)NativeMethods.ISteamUser_GetConsoleSteamID();
 		}
 #endif
 	}

@@ -90,7 +90,7 @@ namespace Steamworks {
 		// unPort is the port to use
 		//		pass in 0 if you don't want users to be able to connect via IP/Port, but expect to be always peer-to-peer connections only
 		public static SNetListenSocket_t CreateListenSocket(int nVirtualP2PPort, uint nIP, ushort nPort, bool bAllowUseOfPacketRelay) {
-			return NativeMethods.ISteamNetworking_CreateListenSocket(nVirtualP2PPort, nIP, nPort, bAllowUseOfPacketRelay);
+			return (SNetListenSocket_t)NativeMethods.ISteamNetworking_CreateListenSocket(nVirtualP2PPort, nIP, nPort, bAllowUseOfPacketRelay);
 		}
 
 		// creates a socket and begin connection to a remote destination
@@ -98,11 +98,11 @@ namespace Steamworks {
 		// on success will trigger a SocketStatusCallback_t callback
 		// on failure or timeout will trigger a SocketStatusCallback_t callback with a failure code in m_eSNetSocketState
 		public static SNetSocket_t CreateP2PConnectionSocket(CSteamID steamIDTarget, int nVirtualPort, int nTimeoutSec, bool bAllowUseOfPacketRelay) {
-			return NativeMethods.ISteamNetworking_CreateP2PConnectionSocket(steamIDTarget, nVirtualPort, nTimeoutSec, bAllowUseOfPacketRelay);
+			return (SNetSocket_t)NativeMethods.ISteamNetworking_CreateP2PConnectionSocket(steamIDTarget, nVirtualPort, nTimeoutSec, bAllowUseOfPacketRelay);
 		}
 
 		public static SNetSocket_t CreateConnectionSocket(uint nIP, ushort nPort, int nTimeoutSec) {
-			return NativeMethods.ISteamNetworking_CreateConnectionSocket(nIP, nPort, nTimeoutSec);
+			return (SNetSocket_t)NativeMethods.ISteamNetworking_CreateConnectionSocket(nIP, nPort, nTimeoutSec);
 		}
 
 		// disconnects the connection to the socket, if any, and invalidates the handle

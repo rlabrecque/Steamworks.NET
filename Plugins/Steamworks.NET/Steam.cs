@@ -1,6 +1,5 @@
 #define VERSION_SAFE_STEAM_API_INTERFACES
 
-using System;
 using System.Runtime.InteropServices;
 
 namespace Steamworks {
@@ -66,16 +65,16 @@ namespace Steamworks {
 
 		// returns the HSteamUser of the last user to dispatch a callback
 		public static HSteamUser GetHSteamUserCurrent() {
-			return NativeMethods.Steam_GetHSteamUserCurrent();
+			return (HSteamUser)NativeMethods.Steam_GetHSteamUserCurrent();
 		}
 		
 		// returns the pipe we are communicating to Steam with
 		public static HSteamPipe GetHSteamPipe() {
-			return NativeMethods.SteamAPI_GetHSteamPipe();
+			return (HSteamPipe)NativeMethods.SteamAPI_GetHSteamPipe();
 		}
 
 		public static HSteamUser GetHSteamUser() {
-			return NativeMethods.SteamAPI_GetHSteamUser();
+			return (HSteamUser)NativeMethods.SteamAPI_GetHSteamUser();
 		}
 	}
 
@@ -116,15 +115,15 @@ namespace Steamworks {
 		}
 
 		public static CSteamID GetSteamID() {
-			return NativeMethods.SteamGameServer_GetSteamID();
+			return (CSteamID)NativeMethods.SteamGameServer_GetSteamID();
 		}
 
 		public static HSteamPipe GetHSteamPipe() {
-			return NativeMethods.SteamGameServer_GetHSteamPipe();
+			return (HSteamPipe)NativeMethods.SteamGameServer_GetHSteamPipe();
 		}
 
 		public static HSteamUser GetHSteamUser() {
-			return NativeMethods.SteamGameServer_GetHSteamUser();
+			return (HSteamUser)NativeMethods.SteamGameServer_GetHSteamUser();
 		}
 	}
 

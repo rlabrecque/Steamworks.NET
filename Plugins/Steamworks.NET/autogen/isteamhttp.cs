@@ -10,7 +10,7 @@ namespace Steamworks {
 		// currently supported, so this string must start with http:// or https:// and should look like http://store.steampowered.com/app/250/
 		// or such.
 		public static HTTPRequestHandle CreateHTTPRequest(EHTTPMethod eHTTPRequestMethod, string pchAbsoluteURL) {
-			return NativeMethods.ISteamHTTP_CreateHTTPRequest(eHTTPRequestMethod, new InteropHelp.UTF8String(pchAbsoluteURL));
+			return (HTTPRequestHandle)NativeMethods.ISteamHTTP_CreateHTTPRequest(eHTTPRequestMethod, new InteropHelp.UTF8String(pchAbsoluteURL));
 		}
 
 		// Set a context value for the request, which will be returned in the HTTPRequestCompleted_t callback after

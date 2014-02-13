@@ -71,7 +71,7 @@ namespace Steamworks {
 		}
 
 		public static CSteamID GetSteamID() {
-			return NativeMethods.ISteamGameServer_GetSteamID();
+			return (CSteamID)NativeMethods.ISteamGameServer_GetSteamID();
 		}
 
 		/// Returns true if the master server has requested a restart.
@@ -179,7 +179,7 @@ namespace Steamworks {
 		// Return Value: Returns a SteamID for the user to be tracked with, you should call HandleUserDisconnect()
 		// when this user leaves the server just like you would for a real user.
 		public static CSteamID CreateUnauthenticatedUserConnection() {
-			return NativeMethods.ISteamGameServer_CreateUnauthenticatedUserConnection();
+			return (CSteamID)NativeMethods.ISteamGameServer_CreateUnauthenticatedUserConnection();
 		}
 
 		// Should be called whenever a user leaves our game server, this lets Steam internally
@@ -203,7 +203,7 @@ namespace Steamworks {
 		// Retrieve ticket to be sent to the entity who wishes to authenticate you ( using BeginAuthSession API ).
 		// pcbTicket retrieves the length of the actual ticket.
 		public static HAuthTicket GetAuthSessionTicket(IntPtr pTicket, int cbMaxTicket, out uint pcbTicket) {
-			return NativeMethods.ISteamGameServer_GetAuthSessionTicket(pTicket, cbMaxTicket, out pcbTicket);
+			return (HAuthTicket)NativeMethods.ISteamGameServer_GetAuthSessionTicket(pTicket, cbMaxTicket, out pcbTicket);
 		}
 
 		// Authenticate ticket ( from GetAuthSessionTicket ) from entity steamID to be sure it is valid and isnt reused
@@ -241,7 +241,7 @@ namespace Steamworks {
 		}
 
 		public static SteamAPICall_t GetServerReputation() {
-			return NativeMethods.ISteamGameServer_GetServerReputation();
+			return (SteamAPICall_t)NativeMethods.ISteamGameServer_GetServerReputation();
 		}
 
 		// Returns the public IP of the server according to Steam, useful when the server is
@@ -299,12 +299,12 @@ namespace Steamworks {
 
 		// associate this game server with this clan for the purposes of computing player compat
 		public static SteamAPICall_t AssociateWithClan(CSteamID steamIDClan) {
-			return NativeMethods.ISteamGameServer_AssociateWithClan(steamIDClan);
+			return (SteamAPICall_t)NativeMethods.ISteamGameServer_AssociateWithClan(steamIDClan);
 		}
 
 		// ask if any of the current players dont want to play with this new player - or vice versa
 		public static SteamAPICall_t ComputeNewPlayerCompatibility(CSteamID steamIDNewPlayer) {
-			return NativeMethods.ISteamGameServer_ComputeNewPlayerCompatibility(steamIDNewPlayer);
+			return (SteamAPICall_t)NativeMethods.ISteamGameServer_ComputeNewPlayerCompatibility(steamIDNewPlayer);
 		}
 	}
 }

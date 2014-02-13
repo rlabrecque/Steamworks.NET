@@ -8,7 +8,7 @@ namespace Steamworks {
 		// Sends a service method (in binary serialized form) using the Steam Client.
 		// Returns a unified message handle (k_InvalidUnifiedMessageHandle if could not send the message).
 		public static ClientUnifiedMessageHandle SendMethod(string pchServiceMethod, IntPtr pRequestBuffer, uint unRequestBufferSize, ulong unContext) {
-			return NativeMethods.ISteamUnifiedMessages_SendMethod(new InteropHelp.UTF8String(pchServiceMethod), pRequestBuffer, unRequestBufferSize, unContext);
+			return (ClientUnifiedMessageHandle)NativeMethods.ISteamUnifiedMessages_SendMethod(new InteropHelp.UTF8String(pchServiceMethod), pRequestBuffer, unRequestBufferSize, unContext);
 		}
 
 		// Gets the size of the response and the EResult. Returns false if the response is not ready yet.

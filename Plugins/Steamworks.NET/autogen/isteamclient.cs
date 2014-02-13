@@ -7,7 +7,7 @@ namespace Steamworks {
 	public static class SteamClient {
 		// Creates a communication pipe to the Steam client
 		public static HSteamPipe CreateSteamPipe() {
-			return NativeMethods.ISteamClient_CreateSteamPipe();
+			return (HSteamPipe)NativeMethods.ISteamClient_CreateSteamPipe();
 		}
 
 		// Releases a previously created communications pipe
@@ -18,12 +18,12 @@ namespace Steamworks {
 		// connects to an existing global user, failing if none exists
 		// used by the game to coordinate with the steamUI
 		public static HSteamUser ConnectToGlobalUser(HSteamPipe hSteamPipe) {
-			return NativeMethods.ISteamClient_ConnectToGlobalUser(hSteamPipe);
+			return (HSteamUser)NativeMethods.ISteamClient_ConnectToGlobalUser(hSteamPipe);
 		}
 
 		// used by game servers, create a steam user that won't be shared with anyone else
 		public static HSteamUser CreateLocalUser(out HSteamPipe phSteamPipe, EAccountType eAccountType) {
-			return NativeMethods.ISteamClient_CreateLocalUser(out phSteamPipe, eAccountType);
+			return (HSteamUser)NativeMethods.ISteamClient_CreateLocalUser(out phSteamPipe, eAccountType);
 		}
 
 		// removes an allocated user

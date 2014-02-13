@@ -127,7 +127,7 @@ namespace Steamworks {
 		//   k_ECheckFileSignatureInvalidSignature - The file exists, and the signing tab has been set for this file, but the file is either not signed or the signature does not match.
 		//   k_ECheckFileSignatureValidSignature - The file is signed and the signature is valid.
 		public static SteamAPICall_t CheckFileSignature(string szFileName) {
-			return NativeMethods.ISteamGameServerUtils_CheckFileSignature(new InteropHelp.UTF8String(szFileName));
+			return (SteamAPICall_t)NativeMethods.ISteamGameServerUtils_CheckFileSignature(new InteropHelp.UTF8String(szFileName));
 		}
 #endif
 #if _PS3

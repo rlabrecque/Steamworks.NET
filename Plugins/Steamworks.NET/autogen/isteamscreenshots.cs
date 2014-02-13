@@ -8,7 +8,7 @@ namespace Steamworks {
 		// Writes a screenshot to the user's screenshot library given the raw image data, which must be in RGB format.
 		// The return value is a handle that is valid for the duration of the game process and can be used to apply tags.
 		public static ScreenshotHandle WriteScreenshot(byte[] pubRGB, uint cubRGB, int nWidth, int nHeight) {
-			return NativeMethods.ISteamScreenshots_WriteScreenshot(pubRGB, cubRGB, nWidth, nHeight);
+			return (ScreenshotHandle)NativeMethods.ISteamScreenshots_WriteScreenshot(pubRGB, cubRGB, nWidth, nHeight);
 		}
 
 		// Adds a screenshot to the user's screenshot library from disk.  If a thumbnail is provided, it must be 200 pixels wide and the same aspect ratio
@@ -16,7 +16,7 @@ namespace Steamworks {
 		// The return value is a handle that is valid for the duration of the game process and can be used to apply tags.
 		// JPEG, TGA, and PNG formats are supported.
 		public static ScreenshotHandle AddScreenshotToLibrary(string pchFilename, string pchThumbnailFilename, int nWidth, int nHeight) {
-			return NativeMethods.ISteamScreenshots_AddScreenshotToLibrary(new InteropHelp.UTF8String(pchFilename), new InteropHelp.UTF8String(pchThumbnailFilename), nWidth, nHeight);
+			return (ScreenshotHandle)NativeMethods.ISteamScreenshots_AddScreenshotToLibrary(new InteropHelp.UTF8String(pchFilename), new InteropHelp.UTF8String(pchThumbnailFilename), nWidth, nHeight);
 		}
 
 		// Causes the Steam overlay to take a screenshot.  If screenshots are being hooked by the game then a ScreenshotRequested_t callback is sent back to the game instead.
