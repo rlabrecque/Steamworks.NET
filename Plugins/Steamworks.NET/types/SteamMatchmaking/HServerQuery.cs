@@ -1,9 +1,9 @@
 namespace Steamworks {
 	public struct HServerQuery : System.IEquatable<HServerQuery>, System.IComparable<HServerQuery> {
-		public static readonly HServerQuery Invalid = new HServerQuery(0xffffffff);
-		public uint m_HServerQuery;
+		public static readonly HServerQuery Invalid = new HServerQuery(-1);
+		public int m_HServerQuery;
 
-		public HServerQuery(uint value) {
+		public HServerQuery(int value) {
 			m_HServerQuery = value;
 		}
 
@@ -27,11 +27,11 @@ namespace Steamworks {
 			return !(x == y);
 		}
 
-		public static explicit operator HServerQuery(uint value) {
+		public static explicit operator HServerQuery(int value) {
 			return new HServerQuery(value);
 		}
 
-		public static explicit operator uint(HServerQuery that) {
+		public static explicit operator int(HServerQuery that) {
 			return that.m_HServerQuery;
 		}
 
