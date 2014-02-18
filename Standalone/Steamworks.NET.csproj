@@ -145,6 +145,9 @@
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamClient\HSteamUser.cs">
       <Link>Steamworks.NET\types\SteamClient\HSteamUser.cs</Link>
     </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamClient\SteamAPIWarningMessageHook_t.cs">
+      <Link>Steamworks.NET\types\SteamClient\SteamAPIWarningMessageHook_t.cs</Link>
+    </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamHTTP\HTTPRequestHandle.cs">
       <Link>Steamworks.NET\types\SteamHTTP\HTTPRequestHandle.cs</Link>
     </Compile>
