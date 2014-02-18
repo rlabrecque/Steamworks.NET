@@ -1,14 +1,14 @@
 Steamworks.NET
 =======
 
-_Steamworks.NET_ is a C# Wrapper for Valve's Steamworks API, it is intended for use with Unity. This project relies on dynamic libraries created by [CSteamworks](https://github.com/rlabrecque/CSteamworks). (Prebuilt and included for ease of use)
+_Steamworks.NET_ is a C# Wrapper for Valve's Steamworks API, it can be used either with Unity or your C# based Application. This project relies on dynamic libraries created by [CSteamworks](https://github.com/rlabrecque/CSteamworks). (Prebuilt and included for ease of use)
 
 _Steamworks.NET_ was designed to be as close as possible to the original C++ API, as such the documentation provided from Valve largely covers usage of _Steamworks.NET_. 
 Niceties and C# Idioms can be easily implemented on top of _Steamworks.NET_.
 
 The included CSteamworks.dll was built with VS2010, and as such requires [Microsoft Visual C++ 2010 Redistributable Package (x86)](http://www.microsoft.com/en-us/download/details.aspx?id=5555). You must also ship this to customers via Installation -> Installers on the Steam Partner Website.
 
-_Steamworks.NET_ currently supports Steamworks SDK 1.28.
+_Steamworks.NET_ currently supports Windows, OSX, and Linux in both 32 and 64bit varieties (where available.) Currently building against Steamworks SDK 1.28.
 
 * Author: [Riley Labrecque](https://github.com/rlabrecque)
 * License: [MIT](http://www.opensource.org/licenses/mit-license.php)
@@ -29,14 +29,14 @@ Usage
 
 To use _Steamworks.NET_ you must be a Steamworks developer. _Steamworks.NET_ requires Unity Pro for the plugin functionality.
 
-* Clone or download a Zip Archive: [Stable (2.0.0)](https://github.com/rlabrecque/Steamworks.NET/archive/2.0.0.zip) -- [Master (Cutting-edge Development)](https://github.com/rlabrecque/Steamworks.NET/archive/master.zip)
+* Clone or download a Zip Archive: [Stable (2.1.0)](https://github.com/rlabrecque/Steamworks.NET/archive/2.1.0.zip) -- [Master (Cutting-edge Development)](https://github.com/rlabrecque/Steamworks.NET/archive/master.zip)
 * Extract and copy Steamworks.NET's `Plugins/` and `Editor/` folders into your `Assets/` folder.
 * Open `Plugins/Steamworks.NET/redist/steam_appid.txt` and replace `480` with your own AppId.
 * Launch your Unity project. It should copy steam_appid.txt (and steam_api.dll if your on windows) into the root of your project.
 * Close Unity and relaunch the project so that it loads the newly copied steam_appid.txt & steam_api.dll.
 
 ##### Linux
-If you plan on shipping a Linux build (do it!) then you must edit `Plugins/Steamworks.NET/redist/linux/launchscript` and replace `REPLACEWITHYOURGAMENAME` with your games name.
+If you plan on shipping a Linux build (do it!) then you must edit `Plugins/Steamworks.NET/redist/linux/launchscript[64,universal]` and replace `REPLACEWITHYOURGAMENAME` with your games name.
 
 Your game must then be launched through the script (which will be copied to the output folder and renamed to your executables name automatically.)
 
@@ -67,7 +67,6 @@ If you wish to use the functions from `sdkencryptedappticket.dll` then you will 
 Limitations
 -----------
 
-* Only x86 builds are currently supported
 * _Steamworks.NET_ does not currently support ISteamAppTicket or ISteamGameCoordinator.
 * The following Interfaces are largely untested (but should be completely functional):
 ```
@@ -76,10 +75,6 @@ ISteamNetworking
 ISteamUGC
 ISteamUnifiedMessages
 ISteamGameServer
-ISteamGameServerHttp
-ISteamGameServerNetworking
-ISteamGameServerStats
-ISteamGameServerUtils
 ```
 
 * The following are Unity specific and are out of our control, *ALL* Steamworks wrappers for Unity experience these.
