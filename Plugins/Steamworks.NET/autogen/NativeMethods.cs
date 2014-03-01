@@ -23,6 +23,9 @@ namespace Steamworks {
 		[DllImport("CSteamworks", EntryPoint = "SetMiniDumpComment", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_SetMiniDumpComment(IntPtr pchMsg);
 
+		[DllImport("CSteamworks", EntryPoint = "SteamClient_", CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr SteamClient();
+
 		[DllImport("CSteamworks", EntryPoint = "InitSafe", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool SteamAPI_InitSafe();
@@ -67,6 +70,9 @@ namespace Steamworks {
 
 		[DllImport("CSteamworks", EntryPoint = "GameServer_GetHSteamUser", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SteamGameServer_GetHSteamUser();
+
+		[DllImport("CSteamworks", EntryPoint = "SteamClientGameServer", CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr SteamClientGameServer();
 #endregion
 #region steamencryptedappticket.h
 		[DllImport("sdkencryptedappticket", CallingConvention = CallingConvention.Cdecl, EntryPoint = "SteamEncryptedAppTicket_BDecryptTicket")]
