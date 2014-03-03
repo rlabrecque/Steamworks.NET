@@ -64,10 +64,8 @@ namespace Steamworks {
 
 		public CallResult(APIDispatchDelegate myFunc)
 			: this() {
-			if (myFunc == null)
-				throw new Exception("Function must not be null.");
-			
-			this.m_Func += myFunc;
+			if (myFunc != null)
+				m_Func = myFunc;
 		}
 
 		public CallResult(APIDispatchDelegate myFunc, SteamAPICall_t hAPICall)
@@ -79,7 +77,14 @@ namespace Steamworks {
 			Cancel();
 		}
 
-		public void Set(SteamAPICall_t hAPICall) {
+		public void Set(SteamAPICall_t hAPICall, APIDispatchDelegate newFunc = null) {
+			if (newFunc != null) {
+				m_Func = newFunc;
+			}
+
+			if (m_Func == null)
+				throw new Exception("CallResult function was null, you must either set it in the Constructor or in Set()");
+
 			if (m_hAPICall != SteamAPICall_t.Invalid)
 				Cancel();
 
