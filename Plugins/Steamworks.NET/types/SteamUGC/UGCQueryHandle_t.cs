@@ -1,3 +1,9 @@
+// This file is provided under The MIT License as part of Steamworks.NET.
+// Copyright (c) 2013-2014 Riley Labrecque
+// Please see the included LICENSE.txt for additional information.
+
+// Changes to this file will be reverted when you update Steamworks.NET
+
 namespace Steamworks {
 	public struct UGCQueryHandle_t : System.IEquatable<UGCQueryHandle_t>, System.IComparable<UGCQueryHandle_t> {
 		public static readonly UGCQueryHandle_t Invalid = new UGCQueryHandle_t(0xffffffffffffffff);

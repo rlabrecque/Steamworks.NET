@@ -1,3 +1,9 @@
+// This file is provided under The MIT License as part of Steamworks.NET.
+// Copyright (c) 2013-2014 Riley Labrecque
+// Please see the included LICENSE.txt for additional information.
+
+// Changes to this file will be reverted when you update Steamworks.NET
+
 namespace Steamworks {
 	public struct HSteamUser : System.IEquatable<HSteamUser>, System.IComparable<HSteamUser> {
 		public int m_HSteamUser;

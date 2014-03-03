@@ -1,9 +1,8 @@
-// This was largely written by Ryan 'Azuisleet' Kistner for Steam4NET2
-// This file is licensed for use under the Public Domain. 
-// Where that dedication is not recognized, you are granted a perpetual,
-// irrevokable license to copy and modify this file as you see fit.
-// https://github.com/azuisleet
-// https://github.com/SteamRE/open-steamworks/tree/master/Steam4NET2/Steam4NET2
+// This file is provided under The MIT License as part of Steamworks.NET.
+// Copyright (c) 2013-2014 Riley Labrecque
+// Please see the included LICENSE.txt for additional information.
+
+// Changes to this file will be reverted when you update Steamworks.NET
 
 using System;
 using System.Runtime.InteropServices;
