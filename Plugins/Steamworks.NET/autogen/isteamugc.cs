@@ -12,66 +12,80 @@ namespace Steamworks {
 	public static class SteamUGC {
 		// Query UGC associated with a user. Creator app id or consumer app id must be valid and be set to the current running app.
 		public static UGCQueryHandle_t CreateQueryUserUGCRequest(AccountID_t unAccountID, EUserUGCList eListType, EUGCMatchingUGCType eMatchingUGCType, EUserUGCListSortOrder eSortOrder, AppId_t nCreatorAppID, AppId_t nConsumerAppID, uint unPage) {
+			InteropHelp.TestIfAvailableClient();
 			return (UGCQueryHandle_t)NativeMethods.ISteamUGC_CreateQueryUserUGCRequest(unAccountID, eListType, eMatchingUGCType, eSortOrder, nCreatorAppID, nConsumerAppID, unPage);
 		}
 
 		// Query for all matching UGC. Creator app id or consumer app id must be valid and be set to the current running app.
 		public static UGCQueryHandle_t CreateQueryAllUGCRequest(EUGCQuery eQueryType, EUGCMatchingUGCType eMatchingeMatchingUGCTypeFileType, AppId_t nCreatorAppID, AppId_t nConsumerAppID, uint unPage) {
+			InteropHelp.TestIfAvailableClient();
 			return (UGCQueryHandle_t)NativeMethods.ISteamUGC_CreateQueryAllUGCRequest(eQueryType, eMatchingeMatchingUGCTypeFileType, nCreatorAppID, nConsumerAppID, unPage);
 		}
 
 		// Send the query to Steam
 		public static SteamAPICall_t SendQueryUGCRequest(UGCQueryHandle_t handle) {
+			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_SendQueryUGCRequest(handle);
 		}
 
 		// Retrieve an individual result after receiving the callback for querying UGC
 		public static bool GetQueryUGCResult(UGCQueryHandle_t handle, uint index, ref SteamUGCDetails_t pDetails) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_GetQueryUGCResult(handle, index, ref pDetails);
 		}
 
 		// Release the request to free up memory, after retrieving results
 		public static bool ReleaseQueryUGCRequest(UGCQueryHandle_t handle) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_ReleaseQueryUGCRequest(handle);
 		}
 
 		// Options to set for querying UGC
 		public static bool AddRequiredTag(UGCQueryHandle_t handle, string pTagName) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_AddRequiredTag(handle, new InteropHelp.UTF8String(pTagName));
 		}
 
 		public static bool AddExcludedTag(UGCQueryHandle_t handle, string pTagName) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_AddExcludedTag(handle, new InteropHelp.UTF8String(pTagName));
 		}
 
 		public static bool SetReturnLongDescription(UGCQueryHandle_t handle, bool bReturnLongDescription) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_SetReturnLongDescription(handle, bReturnLongDescription);
 		}
 
 		public static bool SetReturnTotalOnly(UGCQueryHandle_t handle, bool bReturnTotalOnly) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_SetReturnTotalOnly(handle, bReturnTotalOnly);
 		}
 
 		// Options only for querying user UGC
 		public static bool SetCloudFileNameFilter(UGCQueryHandle_t handle, string pMatchCloudFileName) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_SetCloudFileNameFilter(handle, new InteropHelp.UTF8String(pMatchCloudFileName));
 		}
 
 		// Options only for querying all UGC
 		public static bool SetMatchAnyTag(UGCQueryHandle_t handle, bool bMatchAnyTag) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_SetMatchAnyTag(handle, bMatchAnyTag);
 		}
 
 		public static bool SetSearchText(UGCQueryHandle_t handle, string pSearchText) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_SetSearchText(handle, new InteropHelp.UTF8String(pSearchText));
 		}
 
 		public static bool SetRankedByTrendDays(UGCQueryHandle_t handle, uint unDays) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_SetRankedByTrendDays(handle, unDays);
 		}
 
 		// Request full details for one piece of UGC
 		public static SteamAPICall_t RequestUGCDetails(PublishedFileId_t nPublishedFileID) {
+			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_RequestUGCDetails(nPublishedFileID);
 		}
 	}

@@ -32,25 +32,30 @@ namespace Steamworks {
 		// NOTE: This function should be used only if you are using CEG or not using Steam's DRM. Once applied
 		//       to your executable, Steam's DRM will handle restarting through Steam if necessary.
 		public static bool RestartAppIfNecessary(AppId_t unOwnAppID) {
+			InteropHelp.TestIfPlatformSupported();
 			return NativeMethods.SteamAPI_RestartAppIfNecessary(unOwnAppID);
 		}
 
 #if VERSION_SAFE_STEAM_API_INTERFACES
 		public static bool InitSafe() {
+			InteropHelp.TestIfPlatformSupported();
 			return NativeMethods.SteamAPI_InitSafe();
 		}
 
 		// [Steamworks.NET] This is for Ease of use, since we don't need to care about the differences between them in C#.
 		public static bool Init() {
+			InteropHelp.TestIfPlatformSupported();
 			return NativeMethods.SteamAPI_InitSafe();
 		}
 #else
 		public static bool Init() {
+			InteropHelp.TestIfPlatformSupported();
 			return NativeMethods.SteamAPI_Init();
 		}
 #endif
 
 		public static void Shutdown() {
+			InteropHelp.TestIfPlatformSupported();
 			NativeMethods.SteamAPI_Shutdown();
 		}
 
@@ -64,25 +69,30 @@ namespace Steamworks {
 		//  to as many functions/objects as are registered to it
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
 		public static void RunCallbacks() {
+			InteropHelp.TestIfPlatformSupported();
 			CallbackDispatcher.RunCallbacks();
 		}
 
 		// checks if a local Steam client is running
 		public static bool IsSteamRunning() {
+			InteropHelp.TestIfPlatformSupported();
 			return NativeMethods.SteamAPI_IsSteamRunning();
 		}
 
 		// returns the HSteamUser of the last user to dispatch a callback
 		public static HSteamUser GetHSteamUserCurrent() {
+			InteropHelp.TestIfPlatformSupported();
 			return (HSteamUser)NativeMethods.Steam_GetHSteamUserCurrent();
 		}
 		
 		// returns the pipe we are communicating to Steam with
 		public static HSteamPipe GetHSteamPipe() {
+			InteropHelp.TestIfPlatformSupported();
 			return (HSteamPipe)NativeMethods.SteamAPI_GetHSteamPipe();
 		}
 
 		public static HSteamUser GetHSteamUser() {
+			InteropHelp.TestIfPlatformSupported();
 			return (HSteamUser)NativeMethods.SteamAPI_GetHSteamUser();
 		}
 	}
@@ -103,69 +113,85 @@ namespace Steamworks {
 		//		server is out of date.  (Only servers with the latest version will be listed.)
 #if VERSION_SAFE_STEAM_API_INTERFACES
 		public static bool InitSafe(uint unIP, ushort usSteamPort, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, string pchVersionString) {
+			InteropHelp.TestIfPlatformSupported();
 			return NativeMethods.SteamGameServer_InitSafe(unIP, usSteamPort, usGamePort, usQueryPort, eServerMode, new InteropHelp.UTF8String(pchVersionString));
 		}
 
 		// This is for Ease of use, since we don't need to care about the differences between them in C#.
 		public static bool Init(uint unIP, ushort usSteamPort, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, string pchVersionString) {
+			InteropHelp.TestIfPlatformSupported();
 			return NativeMethods.SteamGameServer_InitSafe(unIP, usSteamPort, usGamePort, usQueryPort, eServerMode, new InteropHelp.UTF8String(pchVersionString));
 		}
 #else
 		public static bool Init(uint unIP, ushort usSteamPort, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, string pchVersionString) {
+			InteropHelp.TestIfPlatformSupported();
 			return NativeMethods.SteamGameServer_Init(unIP, usSteamPort, usGamePort, usQueryPort, eServerMode, new InteropHelp.UTF8String(pchVersionString));
 		}
 #endif
 		public static void Shutdown() {
+			InteropHelp.TestIfPlatformSupported();
 			NativeMethods.SteamGameServer_Shutdown();
 		}
 
 		public static bool BSecure() {
+			InteropHelp.TestIfPlatformSupported();
 			return NativeMethods.SteamGameServer_BSecure();
 		}
 
 		public static CSteamID GetSteamID() {
+			InteropHelp.TestIfPlatformSupported();
 			return (CSteamID)NativeMethods.SteamGameServer_GetSteamID();
 		}
 
 		public static HSteamPipe GetHSteamPipe() {
+			InteropHelp.TestIfPlatformSupported();
 			return (HSteamPipe)NativeMethods.SteamGameServer_GetHSteamPipe();
 		}
 
 		public static HSteamUser GetHSteamUser() {
+			InteropHelp.TestIfPlatformSupported();
 			return (HSteamUser)NativeMethods.SteamGameServer_GetHSteamUser();
 		}
 	}
 
 	public static class SteamEncryptedAppTicket {
 		public static bool BDecryptTicket(byte[] rgubTicketEncrypted, uint cubTicketEncrypted, byte[] rgubTicketDecrypted, out uint pcubTicketDecrypted, byte[] rgubKey, int cubKey) {
+			InteropHelp.TestIfPlatformSupported();
 			return NativeMethods.BDecryptTicket(rgubTicketEncrypted, cubTicketEncrypted, rgubTicketDecrypted, out pcubTicketDecrypted, rgubKey, cubKey);
 		}
 
 		public static bool BIsTicketForApp(byte[] rgubTicketDecrypted, uint cubTicketDecrypted, AppId_t nAppID) {
+			InteropHelp.TestIfPlatformSupported();
 			return NativeMethods.BIsTicketForApp(rgubTicketDecrypted, cubTicketDecrypted, nAppID);
 		}
 
 		public static uint GetTicketIssueTime(byte[] rgubTicketDecrypted, uint cubTicketDecrypted) {
+			InteropHelp.TestIfPlatformSupported();
 			return NativeMethods.GetTicketIssueTime(rgubTicketDecrypted, cubTicketDecrypted);
 		}
 
 		public static void GetTicketSteamID(byte[] rgubTicketDecrypted, uint cubTicketDecrypted, out CSteamID psteamID) {
+			InteropHelp.TestIfPlatformSupported();
 			NativeMethods.GetTicketSteamID(rgubTicketDecrypted, cubTicketDecrypted, out psteamID);
 		}
 
 		public static uint GetTicketAppID(byte[] rgubTicketDecrypted, uint cubTicketDecrypted) {
+			InteropHelp.TestIfPlatformSupported();
 			return NativeMethods.GetTicketAppID(rgubTicketDecrypted, cubTicketDecrypted);
 		}
 
 		public static bool BUserOwnsAppInTicket(byte[] rgubTicketDecrypted, uint cubTicketDecrypted, AppId_t nAppID) {
+			InteropHelp.TestIfPlatformSupported();
 			return NativeMethods.BUserOwnsAppInTicket(rgubTicketDecrypted, cubTicketDecrypted, nAppID);
 		}
 
 		public static bool BUserIsVacBanned(byte[] rgubTicketDecrypted, uint cubTicketDecrypted) {
+			InteropHelp.TestIfPlatformSupported();
 			return NativeMethods.BUserIsVacBanned(rgubTicketDecrypted, cubTicketDecrypted);
 		}
 
 		public static byte[] GetUserVariableData(byte[] rgubTicketDecrypted, uint cubTicketDecrypted, out uint pcubUserData) {
+			InteropHelp.TestIfPlatformSupported();
 			System.IntPtr punSecretData = NativeMethods.GetUserVariableData(rgubTicketDecrypted, cubTicketDecrypted, out pcubUserData);
 			byte[] ret = new byte[pcubUserData];
 			System.Runtime.InteropServices.Marshal.Copy(punSecretData, ret, 0, (int)pcubUserData);

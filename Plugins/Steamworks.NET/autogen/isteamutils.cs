@@ -12,31 +12,37 @@ namespace Steamworks {
 	public static class SteamUtils {
 		// return the number of seconds since the user
 		public static uint GetSecondsSinceAppActive() {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUtils_GetSecondsSinceAppActive();
 		}
 
 		public static uint GetSecondsSinceComputerActive() {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUtils_GetSecondsSinceComputerActive();
 		}
 
 		// the universe this client is connecting to
 		public static EUniverse GetConnectedUniverse() {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUtils_GetConnectedUniverse();
 		}
 
 		// Steam server time - in PST, number of seconds since January 1, 1970 (i.e unix time)
 		public static uint GetServerRealTime() {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUtils_GetServerRealTime();
 		}
 
 		// returns the 2 digit ISO 3166-1-alpha-2 format country code this client is running in (as looked up via an IP-to-location database)
 		// e.g "US" or "UK".
 		public static string GetIPCountry() {
+			InteropHelp.TestIfAvailableClient();
 			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamUtils_GetIPCountry());
 		}
 
 		// returns true if the image exists, and valid sizes were filled out
 		public static bool GetImageSize(int iImage, out uint pnWidth, out uint pnHeight) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUtils_GetImageSize(iImage, out pnWidth, out pnHeight);
 		}
 
@@ -44,47 +50,56 @@ namespace Steamworks {
 		// results are returned in RGBA format
 		// the destination buffer size should be 4 * height * width * sizeof(char)
 		public static bool GetImageRGBA(int iImage, byte[] pubDest, int nDestBufferSize) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUtils_GetImageRGBA(iImage, pubDest, nDestBufferSize);
 		}
 
 		// returns the IP of the reporting server for valve - currently only used in Source engine games
 		public static bool GetCSERIPPort(out uint unIP, out ushort usPort) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUtils_GetCSERIPPort(out unIP, out usPort);
 		}
 
 		// return the amount of battery power left in the current system in % [0..100], 255 for being on AC power
 		public static byte GetCurrentBatteryPower() {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUtils_GetCurrentBatteryPower();
 		}
 
 		// returns the appID of the current process
 		public static AppId_t GetAppID() {
+			InteropHelp.TestIfAvailableClient();
 			return (AppId_t)NativeMethods.ISteamUtils_GetAppID();
 		}
 
 		// Sets the position where the overlay instance for the currently calling game should show notifications.
 		// This position is per-game and if this function is called from outside of a game context it will do nothing.
 		public static void SetOverlayNotificationPosition(ENotificationPosition eNotificationPosition) {
+			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamUtils_SetOverlayNotificationPosition(eNotificationPosition);
 		}
 
 		// API asynchronous call results
 		// can be used directly, but more commonly used via the callback dispatch API (see steam_api.h)
 		public static bool IsAPICallCompleted(SteamAPICall_t hSteamAPICall, out bool pbFailed) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUtils_IsAPICallCompleted(hSteamAPICall, out pbFailed);
 		}
 
 		public static ESteamAPICallFailure GetAPICallFailureReason(SteamAPICall_t hSteamAPICall) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUtils_GetAPICallFailureReason(hSteamAPICall);
 		}
 
 		public static bool GetAPICallResult(SteamAPICall_t hSteamAPICall, IntPtr pCallback, int cubCallback, int iCallbackExpected, out bool pbFailed) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUtils_GetAPICallResult(hSteamAPICall, pCallback, cubCallback, iCallbackExpected, out pbFailed);
 		}
 
 		// this needs to be called every frame to process matchmaking results
 		// redundant if you're already calling SteamAPI_RunCallbacks()
 		public static void RunFrame() {
+			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamUtils_RunFrame();
 		}
 
@@ -93,6 +108,7 @@ namespace Steamworks {
 		// Every IPC call is at minimum a thread context switch if not a process one so you want to rate
 		// control how often you do them.
 		public static uint GetIPCCallCount() {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUtils_GetIPCCallCount();
 		}
 
@@ -101,12 +117,14 @@ namespace Steamworks {
 		// 'const char *' is the text of the message
 		// callbacks will occur directly after the API function is called that generated the warning or message
 		public static void SetWarningMessageHook(SteamAPIWarningMessageHook_t pFunction) {
+			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamUtils_SetWarningMessageHook(pFunction);
 		}
 
 		// Returns true if the overlay is running & the user can access it. The overlay process could take a few seconds to
 		// start & hook the game process, so this function will initially return false while the overlay is loading.
 		public static bool IsOverlayEnabled() {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUtils_IsOverlayEnabled();
 		}
 
@@ -120,6 +138,7 @@ namespace Steamworks {
 		// in that case, and then you can check for this periodically (roughly 33hz is desirable) and make sure you
 		// refresh the screen with Present or SwapBuffers to allow the overlay to do it's work.
 		public static bool BOverlayNeedsPresent() {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUtils_BOverlayNeedsPresent();
 		}
 #if ! _PS3
@@ -132,39 +151,47 @@ namespace Steamworks {
 		//   k_ECheckFileSignatureInvalidSignature - The file exists, and the signing tab has been set for this file, but the file is either not signed or the signature does not match.
 		//   k_ECheckFileSignatureValidSignature - The file is signed and the signature is valid.
 		public static SteamAPICall_t CheckFileSignature(string szFileName) {
+			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUtils_CheckFileSignature(new InteropHelp.UTF8String(szFileName));
 		}
 #endif
 #if _PS3
 		public static void PostPS3SysutilCallback(ulong status, ulong param, IntPtr userdata) {
+			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamUtils_PostPS3SysutilCallback(status, param, userdata);
 		}
 
 		public static bool BIsReadyToShutdown() {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUtils_BIsReadyToShutdown();
 		}
 
 		public static bool BIsPSNOnline() {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUtils_BIsPSNOnline();
 		}
 
 		// Call this with localized strings for the language the game is running in, otherwise default english
 		// strings will be used by Steam.
 		public static void SetPSNGameBootInviteStrings(string pchSubject, string pchBody) {
+			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamUtils_SetPSNGameBootInviteStrings(new InteropHelp.UTF8String(pchSubject), new InteropHelp.UTF8String(pchBody));
 		}
 #endif
 		// Activates the Big Picture text input dialog which only supports gamepad input
 		public static bool ShowGamepadTextInput(EGamepadTextInputMode eInputMode, EGamepadTextInputLineMode eLineInputMode, string pchDescription, uint unCharMax) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUtils_ShowGamepadTextInput(eInputMode, eLineInputMode, new InteropHelp.UTF8String(pchDescription), unCharMax);
 		}
 
 		// Returns previously entered text & length
 		public static uint GetEnteredGamepadTextLength() {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUtils_GetEnteredGamepadTextLength();
 		}
 
 		public static bool GetEnteredGamepadTextInput(out string pchText, uint cchText) {
+			InteropHelp.TestIfAvailableClient();
 			IntPtr pchText2 = Marshal.AllocHGlobal((int)cchText);
 			bool ret = NativeMethods.ISteamUtils_GetEnteredGamepadTextInput(pchText2, cchText);
 			pchText = ret ? InteropHelp.PtrToStringUTF8(pchText2) : null;
@@ -174,11 +201,13 @@ namespace Steamworks {
 
 		// returns the language the steam client is running in, you probably want ISteamApps::GetCurrentGameLanguage instead, this is for very special usage cases
 		public static string GetSteamUILanguage() {
+			InteropHelp.TestIfAvailableClient();
 			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamUtils_GetSteamUILanguage());
 		}
 
 		// returns true if Steam itself is running in VR mode
 		public static bool IsSteamRunningInVR() {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUtils_IsSteamRunningInVR();
 		}
 	}

@@ -16,18 +16,21 @@ namespace Steamworks {
 	//
 		/// This is called by SteamGameServer_Init, and you will usually not need to call it directly
 		public static bool InitGameServer(uint unIP, ushort usGamePort, ushort usQueryPort, uint unFlags, AppId_t nGameAppId, string pchVersionString) {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServer_InitGameServer(unIP, usGamePort, usQueryPort, unFlags, nGameAppId, new InteropHelp.UTF8String(pchVersionString));
 		}
 
 		/// Game product identifier.  This is currently used by the master server for version checking purposes.
 		/// It's a required field, but will eventually will go away, and the AppID will be used for this purpose.
 		public static void SetProduct(string pszProduct) {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_SetProduct(new InteropHelp.UTF8String(pszProduct));
 		}
 
 		/// Description of the game.  This is a required field and is displayed in the steam server browser....for now.
 		/// This is a required field, but it will go away eventually, as the data should be determined from the AppID.
 		public static void SetGameDescription(string pszGameDescription) {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_SetGameDescription(new InteropHelp.UTF8String(pszGameDescription));
 		}
 
@@ -36,11 +39,13 @@ namespace Steamworks {
 		///
 		/// @see k_cbMaxGameServerGameDir
 		public static void SetModDir(string pszModDir) {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_SetModDir(new InteropHelp.UTF8String(pszModDir));
 		}
 
 		/// Is this is a dedicated server?  The default value is false.
 		public static void SetDedicatedServer(bool bDedicated) {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_SetDedicatedServer(bDedicated);
 		}
 
@@ -58,30 +63,36 @@ namespace Steamworks {
 		/// Note: in previous versions of the SDK, this was automatically called within SteamGameServer_Init,
 		/// but this is no longer the case.
 		public static void LogOnAnonymous() {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_LogOnAnonymous();
 		}
 
 		/// Begin process of logging game server out of steam
 		public static void LogOff() {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_LogOff();
 		}
 
 		// status functions
 		public static bool BLoggedOn() {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServer_BLoggedOn();
 		}
 
 		public static bool BSecure() {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServer_BSecure();
 		}
 
 		public static CSteamID GetSteamID() {
+			InteropHelp.TestIfAvailableGameServer();
 			return (CSteamID)NativeMethods.ISteamGameServer_GetSteamID();
 		}
 
 		/// Returns true if the master server has requested a restart.
 		/// Only returns true once per request.
 		public static bool WasRestartRequested() {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServer_WasRestartRequested();
 		}
 
@@ -90,11 +101,13 @@ namespace Steamworks {
 	//
 		/// Max player count that will be reported to server browser and client queries
 		public static void SetMaxPlayerCount(int cPlayersMax) {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_SetMaxPlayerCount(cPlayersMax);
 		}
 
 		/// Number of bots.  Default value is zero
 		public static void SetBotPlayerCount(int cBotplayers) {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_SetBotPlayerCount(cBotplayers);
 		}
 
@@ -102,6 +115,7 @@ namespace Steamworks {
 		///
 		/// @see k_cbMaxGameServerName
 		public static void SetServerName(string pszServerName) {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_SetServerName(new InteropHelp.UTF8String(pszServerName));
 		}
 
@@ -109,17 +123,20 @@ namespace Steamworks {
 		///
 		/// @see k_cbMaxGameServerName
 		public static void SetMapName(string pszMapName) {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_SetMapName(new InteropHelp.UTF8String(pszMapName));
 		}
 
 		/// Let people know if your server will require a password
 		public static void SetPasswordProtected(bool bPasswordProtected) {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_SetPasswordProtected(bPasswordProtected);
 		}
 
 		/// Spectator server.  The default value is zero, meaning the service
 		/// is not used.
 		public static void SetSpectatorPort(ushort unSpectatorPort) {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_SetSpectatorPort(unSpectatorPort);
 		}
 
@@ -127,16 +144,19 @@ namespace Steamworks {
 		///
 		/// @see k_cbMaxGameServerMapName
 		public static void SetSpectatorServerName(string pszSpectatorServerName) {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_SetSpectatorServerName(new InteropHelp.UTF8String(pszSpectatorServerName));
 		}
 
 		/// Call this to clear the whole list of key/values that are sent in rules queries.
 		public static void ClearAllKeyValues() {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_ClearAllKeyValues();
 		}
 
 		/// Call this to add/update a key/value pair.
 		public static void SetKeyValue(string pKey, string pValue) {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_SetKeyValue(new InteropHelp.UTF8String(pKey), new InteropHelp.UTF8String(pValue));
 		}
 
@@ -145,6 +165,7 @@ namespace Steamworks {
 		///
 		/// @see k_cbMaxGameServerTags
 		public static void SetGameTags(string pchGameTags) {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_SetGameTags(new InteropHelp.UTF8String(pchGameTags));
 		}
 
@@ -155,11 +176,13 @@ namespace Steamworks {
 		///
 		/// @see k_cbMaxGameServerGameData
 		public static void SetGameData(string pchGameData) {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_SetGameData(new InteropHelp.UTF8String(pchGameData));
 		}
 
 		/// Region identifier.  This is an optional field, the default value is empty, meaning the "world" region
 		public static void SetRegion(string pszRegion) {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_SetRegion(new InteropHelp.UTF8String(pszRegion));
 		}
 
@@ -176,6 +199,7 @@ namespace Steamworks {
 		// If the call succeeds then you should expect a GSClientApprove_t or GSClientDeny_t callback which will tell you whether authentication
 		// for the user has succeeded or failed (the steamid in the callback will match the one returned by this call)
 		public static bool SendUserConnectAndAuthenticate(uint unIPClient, IntPtr pvAuthBlob, uint cubAuthBlobSize, out CSteamID pSteamIDUser) {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServer_SendUserConnectAndAuthenticate(unIPClient, pvAuthBlob, cubAuthBlobSize, out pSteamIDUser);
 		}
 
@@ -184,6 +208,7 @@ namespace Steamworks {
 		// Return Value: Returns a SteamID for the user to be tracked with, you should call HandleUserDisconnect()
 		// when this user leaves the server just like you would for a real user.
 		public static CSteamID CreateUnauthenticatedUserConnection() {
+			InteropHelp.TestIfAvailableGameServer();
 			return (CSteamID)NativeMethods.ISteamGameServer_CreateUnauthenticatedUserConnection();
 		}
 
@@ -191,6 +216,7 @@ namespace Steamworks {
 		// track which users are currently on which servers for the purposes of preventing a single
 		// account being logged into multiple servers, showing who is currently on a server, etc.
 		public static void SendUserDisconnect(CSteamID steamIDUser) {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_SendUserDisconnect(steamIDUser);
 		}
 
@@ -200,6 +226,7 @@ namespace Steamworks {
 		//
 		// Return Value: true if successful, false if failure (ie, steamIDUser wasn't for an active player)
 		public static bool BUpdateUserData(CSteamID steamIDUser, string pchPlayerName, uint uScore) {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServer_BUpdateUserData(steamIDUser, new InteropHelp.UTF8String(pchPlayerName), uScore);
 		}
 
@@ -208,44 +235,52 @@ namespace Steamworks {
 		// Retrieve ticket to be sent to the entity who wishes to authenticate you ( using BeginAuthSession API ).
 		// pcbTicket retrieves the length of the actual ticket.
 		public static HAuthTicket GetAuthSessionTicket(IntPtr pTicket, int cbMaxTicket, out uint pcbTicket) {
+			InteropHelp.TestIfAvailableGameServer();
 			return (HAuthTicket)NativeMethods.ISteamGameServer_GetAuthSessionTicket(pTicket, cbMaxTicket, out pcbTicket);
 		}
 
 		// Authenticate ticket ( from GetAuthSessionTicket ) from entity steamID to be sure it is valid and isnt reused
 		// Registers for callbacks if the entity goes offline or cancels the ticket ( see ValidateAuthTicketResponse_t callback and EAuthSessionResponse )
 		public static EBeginAuthSessionResult BeginAuthSession(IntPtr pAuthTicket, int cbAuthTicket, CSteamID steamID) {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServer_BeginAuthSession(pAuthTicket, cbAuthTicket, steamID);
 		}
 
 		// Stop tracking started by BeginAuthSession - called when no longer playing game with this entity
 		public static void EndAuthSession(CSteamID steamID) {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_EndAuthSession(steamID);
 		}
 
 		// Cancel auth ticket from GetAuthSessionTicket, called when no longer playing game with the entity you gave the ticket to
 		public static void CancelAuthTicket(HAuthTicket hAuthTicket) {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_CancelAuthTicket(hAuthTicket);
 		}
 
 		// After receiving a user's authentication data, and passing it to SendUserConnectAndAuthenticate, use this function
 		// to determine if the user owns downloadable content specified by the provided AppID.
 		public static EUserHasLicenseForAppResult UserHasLicenseForApp(CSteamID steamID, AppId_t appID) {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServer_UserHasLicenseForApp(steamID, appID);
 		}
 
 		// Ask if a user in in the specified group, results returns async by GSUserGroupStatus_t
 		// returns false if we're not connected to the steam servers and thus cannot ask
 		public static bool RequestUserGroupStatus(CSteamID steamIDUser, CSteamID steamIDGroup) {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServer_RequestUserGroupStatus(steamIDUser, steamIDGroup);
 		}
 
 		// these two functions s are deprecated, and will not return results
 		// they will be removed in a future version of the SDK
 		public static void GetGameplayStats() {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_GetGameplayStats();
 		}
 
 		public static SteamAPICall_t GetServerReputation() {
+			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamGameServer_GetServerReputation();
 		}
 
@@ -253,6 +288,7 @@ namespace Steamworks {
 		// behind NAT and you want to advertise its IP in a lobby for other clients to directly
 		// connect to
 		public static uint GetPublicIP() {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServer_GetPublicIP();
 		}
 
@@ -270,6 +306,7 @@ namespace Steamworks {
 		// Call this when a packet that starts with 0xFFFFFFFF comes in. That means
 		// it's for us.
 		public static bool HandleIncomingPacket(IntPtr pData, int cbData, uint srcIP, ushort srcPort) {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServer_HandleIncomingPacket(pData, cbData, srcIP, srcPort);
 		}
 
@@ -278,6 +315,7 @@ namespace Steamworks {
 		// It returns the length of the packet it wants to send, or 0 if there are no more packets to send.
 		// Call this each frame until it returns 0.
 		public static int GetNextOutgoingPacket(IntPtr pOut, int cbMaxOut, out uint pNetAdr, out ushort pPort) {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServer_GetNextOutgoingPacket(pOut, cbMaxOut, out pNetAdr, out pPort);
 		}
 
@@ -287,6 +325,7 @@ namespace Steamworks {
 		// Call this as often as you like to tell the master server updater whether or not
 		// you want it to be active (default: off).
 		public static void EnableHeartbeats(bool bActive) {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_EnableHeartbeats(bActive);
 		}
 
@@ -294,21 +333,25 @@ namespace Steamworks {
 		// Pass -1 to use the default value for iHeartbeatInterval.
 		// Some mods change this.
 		public static void SetHeartbeatInterval(int iHeartbeatInterval) {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_SetHeartbeatInterval(iHeartbeatInterval);
 		}
 
 		// Force a heartbeat to steam at the next opportunity
 		public static void ForceHeartbeat() {
+			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServer_ForceHeartbeat();
 		}
 
 		// associate this game server with this clan for the purposes of computing player compat
 		public static SteamAPICall_t AssociateWithClan(CSteamID steamIDClan) {
+			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamGameServer_AssociateWithClan(steamIDClan);
 		}
 
 		// ask if any of the current players dont want to play with this new player - or vice versa
 		public static SteamAPICall_t ComputeNewPlayerCompatibility(CSteamID steamIDNewPlayer) {
+			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamGameServer_ComputeNewPlayerCompatibility(steamIDNewPlayer);
 		}
 	}

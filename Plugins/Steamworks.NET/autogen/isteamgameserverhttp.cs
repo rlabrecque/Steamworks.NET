@@ -15,12 +15,14 @@ namespace Steamworks {
 		// currently supported, so this string must start with http:// or https:// and should look like http://store.steampowered.com/app/250/
 		// or such.
 		public static HTTPRequestHandle CreateHTTPRequest(EHTTPMethod eHTTPRequestMethod, string pchAbsoluteURL) {
+			InteropHelp.TestIfAvailableGameServer();
 			return (HTTPRequestHandle)NativeMethods.ISteamGameServerHTTP_CreateHTTPRequest(eHTTPRequestMethod, new InteropHelp.UTF8String(pchAbsoluteURL));
 		}
 
 		// Set a context value for the request, which will be returned in the HTTPRequestCompleted_t callback after
 		// sending the request.  This is just so the caller can easily keep track of which callbacks go with which request data.
 		public static bool SetHTTPRequestContextValue(HTTPRequestHandle hRequest, ulong ulContextValue) {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServerHTTP_SetHTTPRequestContextValue(hRequest, ulContextValue);
 		}
 
@@ -28,12 +30,14 @@ namespace Steamworks {
 		// timeout is 60 seconds if you don't call this.  Returns false if the handle is invalid, or the request
 		// has already been sent.
 		public static bool SetHTTPRequestNetworkActivityTimeout(HTTPRequestHandle hRequest, uint unTimeoutSeconds) {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServerHTTP_SetHTTPRequestNetworkActivityTimeout(hRequest, unTimeoutSeconds);
 		}
 
 		// Set a request header value for the request, must be called prior to sending the request.  Will
 		// return false if the handle is invalid or the request is already sent.
 		public static bool SetHTTPRequestHeaderValue(HTTPRequestHandle hRequest, string pchHeaderName, string pchHeaderValue) {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServerHTTP_SetHTTPRequestHeaderValue(hRequest, new InteropHelp.UTF8String(pchHeaderName), new InteropHelp.UTF8String(pchHeaderValue));
 		}
 
@@ -41,6 +45,7 @@ namespace Steamworks {
 		// when creating the request.  Must be called prior to sending the request.  Will return false if the
 		// handle is invalid or the request is already sent.
 		public static bool SetHTTPRequestGetOrPostParameter(HTTPRequestHandle hRequest, string pchParamName, string pchParamValue) {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServerHTTP_SetHTTPRequestGetOrPostParameter(hRequest, new InteropHelp.UTF8String(pchParamName), new InteropHelp.UTF8String(pchParamValue));
 		}
 
@@ -50,6 +55,7 @@ namespace Steamworks {
 		// Note: If the user is in offline mode in Steam, then this will add a only-if-cached cache-control
 		// header and only do a local cache lookup rather than sending any actual remote request.
 		public static bool SendHTTPRequest(HTTPRequestHandle hRequest, out SteamAPICall_t pCallHandle) {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServerHTTP_SendHTTPRequest(hRequest, out pCallHandle);
 		}
 
@@ -57,18 +63,21 @@ namespace Steamworks {
 		// asynchronous response via callback for completion, and listen for HTTPRequestHeadersReceived_t and
 		// HTTPRequestDataReceived_t callbacks while streaming.
 		public static bool SendHTTPRequestAndStreamResponse(HTTPRequestHandle hRequest, out SteamAPICall_t pCallHandle) {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServerHTTP_SendHTTPRequestAndStreamResponse(hRequest, out pCallHandle);
 		}
 
 		// Defers a request you have sent, the actual HTTP client code may have many requests queued, and this will move
 		// the specified request to the tail of the queue.  Returns false on invalid handle, or if the request is not yet sent.
 		public static bool DeferHTTPRequest(HTTPRequestHandle hRequest) {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServerHTTP_DeferHTTPRequest(hRequest);
 		}
 
 		// Prioritizes a request you have sent, the actual HTTP client code may have many requests queued, and this will move
 		// the specified request to the head of the queue.  Returns false on invalid handle, or if the request is not yet sent.
 		public static bool PrioritizeHTTPRequest(HTTPRequestHandle hRequest) {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServerHTTP_PrioritizeHTTPRequest(hRequest);
 		}
 
@@ -76,6 +85,7 @@ namespace Steamworks {
 		// returns the size of the header value if present so the caller and allocate a correctly sized buffer for
 		// GetHTTPResponseHeaderValue.
 		public static bool GetHTTPResponseHeaderSize(HTTPRequestHandle hRequest, string pchHeaderName, out uint unResponseHeaderSize) {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServerHTTP_GetHTTPResponseHeaderSize(hRequest, new InteropHelp.UTF8String(pchHeaderName), out unResponseHeaderSize);
 		}
 
@@ -83,12 +93,14 @@ namespace Steamworks {
 		// header is not present or if your buffer is too small to contain it's value.  You should first call
 		// BGetHTTPResponseHeaderSize to check for the presence of the header and to find out the size buffer needed.
 		public static bool GetHTTPResponseHeaderValue(HTTPRequestHandle hRequest, string pchHeaderName, byte[] pHeaderValueBuffer, uint unBufferSize) {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServerHTTP_GetHTTPResponseHeaderValue(hRequest, new InteropHelp.UTF8String(pchHeaderName), pHeaderValueBuffer, unBufferSize);
 		}
 
 		// Gets the size of the body data from a HTTP response given a handle from HTTPRequestCompleted_t, will return false if the
 		// handle is invalid.
 		public static bool GetHTTPResponseBodySize(HTTPRequestHandle hRequest, out uint unBodySize) {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServerHTTP_GetHTTPResponseBodySize(hRequest, out unBodySize);
 		}
 
@@ -96,6 +108,7 @@ namespace Steamworks {
 		// handle is invalid or is to a streaming response, or if the provided buffer is not the correct size.  Use BGetHTTPResponseBodySize first to find out
 		// the correct buffer size to use.
 		public static bool GetHTTPResponseBodyData(HTTPRequestHandle hRequest, byte[] pBodyDataBuffer, uint unBufferSize) {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServerHTTP_GetHTTPResponseBodyData(hRequest, pBodyDataBuffer, unBufferSize);
 		}
 
@@ -103,12 +116,14 @@ namespace Steamworks {
 		// handle is invalid or is to a non-streaming response (meaning it wasn't sent with SendHTTPRequestAndStreamResponse), or if the buffer size and offset
 		// do not match the size and offset sent in HTTPRequestDataReceived_t.
 		public static bool GetHTTPStreamingResponseBodyData(HTTPRequestHandle hRequest, uint cOffset, byte[] pBodyDataBuffer, uint unBufferSize) {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServerHTTP_GetHTTPStreamingResponseBodyData(hRequest, cOffset, pBodyDataBuffer, unBufferSize);
 		}
 
 		// Releases an HTTP response handle, should always be called to free resources after receiving a HTTPRequestCompleted_t
 		// callback and finishing using the response.
 		public static bool ReleaseHTTPRequest(HTTPRequestHandle hRequest) {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServerHTTP_ReleaseHTTPRequest(hRequest);
 		}
 
@@ -116,6 +131,7 @@ namespace Steamworks {
 		// received which included a content-length field.  For responses that contain no content-length it will report
 		// zero for the duration of the request as the size is unknown until the connection closes.
 		public static bool GetHTTPDownloadProgressPct(HTTPRequestHandle hRequest, out float pflPercentOut) {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServerHTTP_GetHTTPDownloadProgressPct(hRequest, out pflPercentOut);
 		}
 
@@ -123,6 +139,7 @@ namespace Steamworks {
 		// have already been set for the request.  Setting this raw body makes it the only contents for the post, the pchContentType
 		// parameter will set the content-type header for the request so the server may know how to interpret the body.
 		public static bool SetHTTPRequestRawPostBody(HTTPRequestHandle hRequest, string pchContentType, byte[] pubBody, uint unBodyLen) {
+			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServerHTTP_SetHTTPRequestRawPostBody(hRequest, new InteropHelp.UTF8String(pchContentType), pubBody, unBodyLen);
 		}
 	}

@@ -13,6 +13,7 @@ namespace Steamworks {
 		// returns the HSteamUser this interface represents
 		// this is only used internally by the API, and by a few select interfaces that support multi-user
 		public static HSteamUser GetHSteamUser() {
+			InteropHelp.TestIfAvailableClient();
 			return (HSteamUser)NativeMethods.ISteamUser_GetHSteamUser();
 		}
 
@@ -20,12 +21,14 @@ namespace Steamworks {
 		// If false, it means there is no active connection due to either a networking issue on the local machine, or the Steam server is down/busy.
 		// The Steam client will automatically be trying to recreate the connection as often as possible.
 		public static bool BLoggedOn() {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUser_BLoggedOn();
 		}
 
 		// returns the CSteamID of the account currently logged into the Steam client
 		// a CSteamID is a unique identifier for an account, and used to differentiate users in all parts of the Steamworks API
 		public static CSteamID GetSteamID() {
+			InteropHelp.TestIfAvailableClient();
 			return (CSteamID)NativeMethods.ISteamUser_GetSteamID();
 		}
 
@@ -44,24 +47,28 @@ namespace Steamworks {
 		// return value - returns the number of bytes written to pBlob. If the return is 0, then the buffer passed in was too small, and the call has failed
 		// The contents of pBlob should then be sent to the game server, for it to use to complete the authentication process.
 		public static int InitiateGameConnection(IntPtr pAuthBlob, int cbMaxAuthBlob, CSteamID steamIDGameServer, uint unIPServer, ushort usPortServer, bool bSecure) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUser_InitiateGameConnection(pAuthBlob, cbMaxAuthBlob, steamIDGameServer, unIPServer, usPortServer, bSecure);
 		}
 
 		// notify of disconnect
 		// needs to occur when the game client leaves the specified game server, needs to match with the InitiateGameConnection() call
 		public static void TerminateGameConnection(uint unIPServer, ushort usPortServer) {
+			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamUser_TerminateGameConnection(unIPServer, usPortServer);
 		}
 
 		// Legacy functions
 		// used by only a few games to track usage events
 		public static void TrackAppUsageEvent(CGameID gameID, int eAppUsageEvent, string pchExtraInfo = "") {
+			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamUser_TrackAppUsageEvent(gameID, eAppUsageEvent, new InteropHelp.UTF8String(pchExtraInfo));
 		}
 
 		// get the local storage folder for current Steam account to write application data, e.g. save games, configs etc.
 		// this will usually be something like "C:\Progam Files\Steam\userdata\<SteamID>\<AppID>\local"
 		public static bool GetUserDataFolder(out string pchBuffer, int cubBuffer) {
+			InteropHelp.TestIfAvailableClient();
 			IntPtr pchBuffer2 = Marshal.AllocHGlobal(cubBuffer);
 			bool ret = NativeMethods.ISteamUser_GetUserDataFolder(pchBuffer2, cubBuffer);
 			pchBuffer = ret ? InteropHelp.PtrToStringUTF8(pchBuffer2) : null;
@@ -71,6 +78,7 @@ namespace Steamworks {
 
 		// Starts voice recording. Once started, use GetVoice() to get the data
 		public static void StartVoiceRecording() {
+			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamUser_StartVoiceRecording();
 		}
 
@@ -78,6 +86,7 @@ namespace Steamworks {
 		// a little bit after this function is called. GetVoice() should continue to be called until it returns
 		// k_eVoiceResultNotRecording
 		public static void StopVoiceRecording() {
+			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamUser_StopVoiceRecording();
 		}
 
@@ -88,6 +97,7 @@ namespace Steamworks {
 		// nUncompressedVoiceDesiredSampleRate is necessary to know the number of bytes to return in pcbUncompressed - can be set to 0 if you don't need uncompressed (the usual case)
 		// If you're upgrading from an older Steamworks API, you'll want to pass in 11025 to nUncompressedVoiceDesiredSampleRate
 		public static EVoiceResult GetAvailableVoice(out uint pcbCompressed, out uint pcbUncompressed, uint nUncompressedVoiceDesiredSampleRate) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUser_GetAvailableVoice(out pcbCompressed, out pcbUncompressed, nUncompressedVoiceDesiredSampleRate);
 		}
 
@@ -103,6 +113,7 @@ namespace Steamworks {
 		// GetAvailableVoice() can be used to determine how much data is actually available.
 		// If you're upgrading from an older Steamworks API, you'll want to pass in 11025 to nUncompressedVoiceDesiredSampleRate
 		public static EVoiceResult GetVoice(bool bWantCompressed, byte[] pDestBuffer, uint cbDestBufferSize, out uint nBytesWritten, bool bWantUncompressed, byte[] pUncompressedDestBuffer, uint cbUncompressedDestBufferSize, out uint nUncompressBytesWritten, uint nUncompressedVoiceDesiredSampleRate) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUser_GetVoice(bWantCompressed, pDestBuffer, cbDestBufferSize, out nBytesWritten, bWantUncompressed, pUncompressedDestBuffer, cbUncompressedDestBufferSize, out nUncompressBytesWritten, nUncompressedVoiceDesiredSampleRate);
 		}
 
@@ -113,45 +124,53 @@ namespace Steamworks {
 		// The output format of the data is 16-bit signed at the requested samples per second.
 		// If you're upgrading from an older Steamworks API, you'll want to pass in 11025 to nDesiredSampleRate
 		public static EVoiceResult DecompressVoice(byte[] pCompressed, uint cbCompressed, byte[] pDestBuffer, uint cbDestBufferSize, out uint nBytesWritten, uint nDesiredSampleRate) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUser_DecompressVoice(pCompressed, cbCompressed, pDestBuffer, cbDestBufferSize, out nBytesWritten, nDesiredSampleRate);
 		}
 
 		// This returns the frequency of the voice data as it's stored internally; calling DecompressVoice() with this size will yield the best results
 		public static uint GetVoiceOptimalSampleRate() {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUser_GetVoiceOptimalSampleRate();
 		}
 
 		// Retrieve ticket to be sent to the entity who wishes to authenticate you.
 		// pcbTicket retrieves the length of the actual ticket.
 		public static HAuthTicket GetAuthSessionTicket(byte[] pTicket, int cbMaxTicket, out uint pcbTicket) {
+			InteropHelp.TestIfAvailableClient();
 			return (HAuthTicket)NativeMethods.ISteamUser_GetAuthSessionTicket(pTicket, cbMaxTicket, out pcbTicket);
 		}
 
 		// Authenticate ticket from entity steamID to be sure it is valid and isnt reused
 		// Registers for callbacks if the entity goes offline or cancels the ticket ( see ValidateAuthTicketResponse_t callback and EAuthSessionResponse )
 		public static EBeginAuthSessionResult BeginAuthSession(byte[] pAuthTicket, int cbAuthTicket, CSteamID steamID) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUser_BeginAuthSession(pAuthTicket, cbAuthTicket, steamID);
 		}
 
 		// Stop tracking started by BeginAuthSession - called when no longer playing game with this entity
 		public static void EndAuthSession(CSteamID steamID) {
+			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamUser_EndAuthSession(steamID);
 		}
 
 		// Cancel auth ticket from GetAuthSessionTicket, called when no longer playing game with the entity you gave the ticket to
 		public static void CancelAuthTicket(HAuthTicket hAuthTicket) {
+			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamUser_CancelAuthTicket(hAuthTicket);
 		}
 
 		// After receiving a user's authentication data, and passing it to BeginAuthSession, use this function
 		// to determine if the user owns downloadable content specified by the provided AppID.
 		public static EUserHasLicenseForAppResult UserHasLicenseForApp(CSteamID steamID, AppId_t appID) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUser_UserHasLicenseForApp(steamID, appID);
 		}
 
 		// returns true if this users looks like they are behind a NAT device. Only valid once the user has connected to steam
 		// (i.e a SteamServersConnected_t has been issued) and may not catch all forms of NAT.
 		public static bool BIsBehindNAT() {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUser_BIsBehindNAT();
 		}
 
@@ -159,6 +178,7 @@ namespace Steamworks {
 		// CSteamID steamIDGameServer - the steamID of the game server, received from the game server by the client
 		// uint32 unIPServer, uint16 usPortServer - the IP address of the game server
 		public static void AdvertiseGame(CSteamID steamIDGameServer, uint unIPServer, ushort usPortServer) {
+			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamUser_AdvertiseGame(steamIDGameServer, unIPServer, usPortServer);
 		}
 
@@ -166,11 +186,13 @@ namespace Steamworks {
 		// pDataToInclude, cbDataToInclude will be encrypted into the ticket
 		// ( This is asynchronous, you must wait for the ticket to be completed by the server )
 		public static SteamAPICall_t RequestEncryptedAppTicket(byte[] pDataToInclude, int cbDataToInclude) {
+			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUser_RequestEncryptedAppTicket(pDataToInclude, cbDataToInclude);
 		}
 
 		// retrieve a finished ticket
 		public static bool GetEncryptedAppTicket(byte[] pTicket, int cbMaxTicket, out uint pcbTicket) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUser_GetEncryptedAppTicket(pTicket, cbMaxTicket, out pcbTicket);
 		}
 
@@ -178,11 +200,13 @@ namespace Steamworks {
 		// if you only have one set of cards, the series will be 1
 		// the user has can have two different badges for a series; the regular (max level 5) and the foil (max level 1)
 		public static int GetGameBadgeLevel(int nSeries, bool bFoil) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUser_GetGameBadgeLevel(nSeries, bFoil);
 		}
 
 		// gets the Steam Level of the user, as shown on their profile
 		public static int GetPlayerSteamLevel() {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUser_GetPlayerSteamLevel();
 		}
 #if _PS3
@@ -196,6 +220,7 @@ namespace Steamworks {
 		// then call LogOnAndLinkSteamAccountToPSN() after prompting the user for credentials to establish a link.
 		// Future calls to LogOn() after the one time link call should succeed as long as the user is connected to PSN.
 		public static void LogOn(bool bInteractive) {
+			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamUser_LogOn(bInteractive);
 		}
 
@@ -209,6 +234,7 @@ namespace Steamworks {
 		// Listen for SteamServersConnected_t or SteamServerConnectFailure_t for status.  SteamServerConnectFailure_t
 		// may return with EResult k_EResultOtherAccountAlreadyLinked if already linked to another account.
 		public static void LogOnAndLinkSteamAccountToPSN(bool bInteractive, string pchUserName, string pchPassword) {
+			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamUser_LogOnAndLinkSteamAccountToPSN(bInteractive, new InteropHelp.UTF8String(pchUserName), new InteropHelp.UTF8String(pchPassword));
 		}
 
@@ -220,12 +246,14 @@ namespace Steamworks {
 		// PARAMS: bInteractive - If set tells Steam to go ahead and show the PS3 NetStart dialog if needed to
 		// prompt the user for network setup/PSN logon before initiating the Steam side of the logon.
 		public static void LogOnAndCreateNewSteamAccountIfNeeded(bool bInteractive) {
+			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamUser_LogOnAndCreateNewSteamAccountIfNeeded(bInteractive);
 		}
 
 		// Returns a special SteamID that represents the user's PSN information. Can be used to query the user's PSN avatar,
 		// online name, etc. through the standard Steamworks interfaces.
 		public static CSteamID GetConsoleSteamID() {
+			InteropHelp.TestIfAvailableClient();
 			return (CSteamID)NativeMethods.ISteamUser_GetConsoleSteamID();
 		}
 #endif

@@ -13,6 +13,7 @@ namespace Steamworks {
 		// Writes a screenshot to the user's screenshot library given the raw image data, which must be in RGB format.
 		// The return value is a handle that is valid for the duration of the game process and can be used to apply tags.
 		public static ScreenshotHandle WriteScreenshot(byte[] pubRGB, uint cubRGB, int nWidth, int nHeight) {
+			InteropHelp.TestIfAvailableClient();
 			return (ScreenshotHandle)NativeMethods.ISteamScreenshots_WriteScreenshot(pubRGB, cubRGB, nWidth, nHeight);
 		}
 
@@ -21,11 +22,13 @@ namespace Steamworks {
 		// The return value is a handle that is valid for the duration of the game process and can be used to apply tags.
 		// JPEG, TGA, and PNG formats are supported.
 		public static ScreenshotHandle AddScreenshotToLibrary(string pchFilename, string pchThumbnailFilename, int nWidth, int nHeight) {
+			InteropHelp.TestIfAvailableClient();
 			return (ScreenshotHandle)NativeMethods.ISteamScreenshots_AddScreenshotToLibrary(new InteropHelp.UTF8String(pchFilename), new InteropHelp.UTF8String(pchThumbnailFilename), nWidth, nHeight);
 		}
 
 		// Causes the Steam overlay to take a screenshot.  If screenshots are being hooked by the game then a ScreenshotRequested_t callback is sent back to the game instead.
 		public static void TriggerScreenshot() {
+			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamScreenshots_TriggerScreenshot();
 		}
 
@@ -33,21 +36,25 @@ namespace Steamworks {
 		// then the ScreenshotRequested_t callback will be sent if the user presses the hotkey, and the game is expected to call WriteScreenshot or AddScreenshotToLibrary
 		// in response.
 		public static void HookScreenshots(bool bHook) {
+			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamScreenshots_HookScreenshots(bHook);
 		}
 
 		// Sets metadata about a screenshot's location (for example, the name of the map)
 		public static bool SetLocation(ScreenshotHandle hScreenshot, string pchLocation) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamScreenshots_SetLocation(hScreenshot, new InteropHelp.UTF8String(pchLocation));
 		}
 
 		// Tags a user as being visible in the screenshot
 		public static bool TagUser(ScreenshotHandle hScreenshot, CSteamID steamID) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamScreenshots_TagUser(hScreenshot, steamID);
 		}
 
 		// Tags a published file as being visible in the screenshot
 		public static bool TagPublishedFile(ScreenshotHandle hScreenshot, PublishedFileId_t unPublishedFileID) {
+			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamScreenshots_TagPublishedFile(hScreenshot, unPublishedFileID);
 		}
 	}
