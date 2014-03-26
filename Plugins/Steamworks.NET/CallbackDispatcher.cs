@@ -83,7 +83,7 @@ namespace Steamworks {
 			}
 
 			if (m_Func == null)
-				throw new Exception("CallResult function was null, you must either set it in the Constructor or in Set()");
+				throw new Exception("CallResult function was null, you must either set it in the CallResult Constructor or in Set()");
 
 			if (m_hAPICall != SteamAPICall_t.Invalid)
 				Cancel();
@@ -115,46 +115,72 @@ namespace Steamworks {
 		}
 
 		public void Run(IntPtr pubParam, bool bIOFailure) {
+			// We made sure that m_Func is not null in Set()
 			m_hAPICall = SteamAPICall_t.Invalid; // Caller unregisters for us.
 			this.m_Func((T)Marshal.PtrToStructure(pubParam, typeof(T)), bIOFailure);
 		}
 	}
 
 	public class CallbackDispatcher {
-		private static Dictionary<int, ICallbackBase> m_RegisteredCallbacks = new Dictionary<int, ICallbackBase>();
-		private static Dictionary<SteamAPICall_t, ICallResultBase> m_RegisteredCallResults = new Dictionary<SteamAPICall_t, ICallResultBase>();
+		private static Dictionary<int, List<ICallbackBase>> m_RegisteredCallbacks = new Dictionary<int, List<ICallbackBase>>();
+		private static Dictionary<SteamAPICall_t, List<ICallResultBase>> m_RegisteredCallResults = new Dictionary<SteamAPICall_t, List<ICallResultBase>>();
 
 		public static HSteamPipe m_LastActivePipe { get; private set; }
 		public static Callback<SteamAPICallCompleted_t> m_APICallbackCompleted = new Callback<SteamAPICallCompleted_t>(RunCallResult);
 
-
 		public static void RegisterCallback(ICallbackBase callback, int iCallback) {
-			try {
-				m_RegisteredCallbacks.Add(iCallback, callback);
+			List<ICallbackBase> callbackList;
+			if (m_RegisteredCallbacks.TryGetValue(iCallback, out callbackList)) {
+				callbackList.Add(callback);
 			}
-			catch (ArgumentException e) {
-				throw new Exception("You tried to register a specific Callback multiple times.\nIf you need a callback to end up in multiple places then register it once and delegate it elsewhere from there.\n" + e);
+			else {
+				callbackList = new List<ICallbackBase>();
+				callbackList.Add(callback);
+				m_RegisteredCallbacks.Add(iCallback, callbackList);
 			}
 		}
 
 		public static void UnRegisterCallback(ICallbackBase callback, int iCallback) {
-			if (m_RegisteredCallbacks[iCallback] == callback) {
-				m_RegisteredCallbacks.Remove(iCallback);
+			List<ICallbackBase> callbackList;
+			if (m_RegisteredCallbacks.TryGetValue(iCallback, out callbackList)) {
+				foreach (ICallbackBase c in callbackList) {
+					if (c == callback) {
+						callbackList.Remove(c);
+						break;
+					}
+				}
+
+				if (callbackList.Count == 0) {
+					m_RegisteredCallbacks.Remove(iCallback);
+				}
 			}
 		}
 
 		public static void RegisterCallResult(ICallResultBase callback, SteamAPICall_t hAPICall) {
-			try {
-				m_RegisteredCallResults.Add(hAPICall, callback);
+			List<ICallResultBase> callResultList;
+			if (m_RegisteredCallResults.TryGetValue(hAPICall, out callResultList)) {
+				callResultList.Add(callback);
 			}
-			catch (ArgumentException e) {
-				throw new Exception("You tried to register a CallResult multiple times.\nIf you need a callresult to end up in multiple places then register it once and delegate it elsewhere from there.\n" + e);
+			else {
+				callResultList = new List<ICallResultBase>();
+				callResultList.Add(callback);
+				m_RegisteredCallResults.Add(hAPICall, callResultList);
 			}
 		}
 
 		public static void UnregisterCallResult(ICallResultBase callback, SteamAPICall_t hAPICall) {
-			if (m_RegisteredCallResults[hAPICall] == callback) {
-				m_RegisteredCallResults.Remove(hAPICall);
+			List<ICallResultBase> callResultList;
+			if (m_RegisteredCallResults.TryGetValue(hAPICall, out callResultList)) {
+				foreach (ICallResultBase c in callResultList) {
+					if (c == callback) {
+						callResultList.Remove(c);
+						break;
+					}
+				}
+
+				if (callResultList.Count == 0) {
+					m_RegisteredCallResults.Remove(hAPICall);
+				}
 			}
 		}
 
@@ -165,38 +191,50 @@ namespace Steamworks {
 			while (NativeMethods.Steam_BGetCallback(pipe, out callbackmsg)) {
 				m_LastActivePipe = pipe;
 
-				ICallbackBase callback;
-				if (m_RegisteredCallbacks.TryGetValue(callbackmsg.m_iCallback, out callback)) {
-					callback.Run(callbackmsg.m_pubParam);
+				List<ICallbackBase> callbackList;
+				if (m_RegisteredCallbacks.TryGetValue(callbackmsg.m_iCallback, out callbackList)) {
+					foreach (ICallbackBase callback in callbackList) {
+						callback.Run(callbackmsg.m_pubParam);
+					}
 				}
 
 				NativeMethods.Steam_FreeLastCallback(pipe);
 			}
 
-			// These needs to be called every frame to process matchmaking results and poll the controller
+			// These need to be called every frame to process matchmaking results and poll the controller
 			SteamUtils.RunFrame();
 			SteamController.RunFrame();
 		}
 
 		public static void RunCallResult(SteamAPICallCompleted_t apicall) {
-			ICallResultBase apiCallback;
+			List<ICallResultBase> callResultList;
 
-			if (!m_RegisteredCallResults.TryGetValue(apicall.m_hAsyncCall, out apiCallback))
+			if (!m_RegisteredCallResults.TryGetValue(apicall.m_hAsyncCall, out callResultList))
 				return;
+
+			if (callResultList.Count == 0) {
+				// This should never ever happen? Jankyness.
+				m_RegisteredCallResults.Remove(apicall.m_hAsyncCall);
+				return;
+			}
 
 			IntPtr pData = IntPtr.Zero;
 			bool bFailed;
 
 			try {
+				ICallResultBase apiCallback = callResultList[0];
 				pData = Marshal.AllocHGlobal(apiCallback.GetCallbackSizeBytes());
 
 				if (!NativeMethods.Steam_GetAPICallResult(m_LastActivePipe, apicall.m_hAsyncCall, pData, apiCallback.GetCallbackSizeBytes(), apiCallback.GetICallback(), out bFailed))
 					return;
 
-				apiCallback.Run(pData, bFailed);
+				foreach (ICallResultBase c in callResultList) {
+					c.Run(pData, bFailed);
+				}
 			}
 			finally {
-				UnregisterCallResult(apiCallback, apicall.m_hAsyncCall);
+				// Unregister all 
+				m_RegisteredCallResults.Remove(apicall.m_hAsyncCall);
 
 				Marshal.FreeHGlobal(pData);
 			}
