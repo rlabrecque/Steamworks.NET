@@ -29,7 +29,11 @@ public class RedistCopy {
 				break;
 			case BuildTarget.StandaloneLinuxUniversal:
 				CopyFile("linux/launchscriptuniversal", strProjectName, pathToBuiltProject);
-				break;
+                break;
+#if !UNITY_4_0  // Unity 4.0 does not support 64bit OSX
+            case BuildTarget.StandaloneOSXIntel64:
+            case BuildTarget.StandaloneOSXUniversal:
+#endif
 			case BuildTarget.StandaloneOSXIntel:
 				break;
 			default:
