@@ -21,6 +21,7 @@ public class RedistCopy {
 			case BuildTarget.StandaloneWindows64:
 				CopyFile("steam_api64.dll", "steam_api64.dll", pathToBuiltProject);
 				break;
+#if !UNITY_3_5 // Unity 3.5 does not support Linux or 64bit OSX
 			case BuildTarget.StandaloneLinux:
 				CopyFile("linux/launchscript", strProjectName, pathToBuiltProject);
 				break;
@@ -33,6 +34,7 @@ public class RedistCopy {
 #if !UNITY_4_0  // Unity 4.0 does not support 64bit OSX
             case BuildTarget.StandaloneOSXIntel64:
             case BuildTarget.StandaloneOSXUniversal:
+#endif
 #endif
 			case BuildTarget.StandaloneOSXIntel:
 				break;
