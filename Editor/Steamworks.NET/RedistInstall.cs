@@ -33,24 +33,24 @@ public class RedistInstall {
 				}
 			}
 
-			Debug.Log(System.String.Format("[Steamworks.NET] {0} in the project root differs from the Steamworks.NET redistributable. Updating...", filename));
+			Debug.Log(string.Format("[Steamworks.NET] {0} in the project root differs from the Steamworks.NET redistributable. Updating.... Please relaunch Unity.", filename));
 		}
 		else {
-			Debug.Log(System.String.Format("[Steamworks.NET] {0} is not present in the project root. Copying...", filename));
+			Debug.Log(string.Format("[Steamworks.NET] {0} is not present in the project root. Copying...", filename));
 		}
 
 		if (!File.Exists(strSource)) {
-			Debug.LogWarning(System.String.Format("[Steamworks.NET] Could not copy {0} into the project root. {0} could not be found in '{1}'. Place {0} from the Steamworks SDK in the project root manually.", filename, Path.Combine(strCWD, SteamAPIRelativeLoc)));
+			Debug.LogWarning(string.Format("[Steamworks.NET] Could not copy {0} into the project root. {0} could not be found in '{1}'. Place {0} from the Steamworks SDK in the project root manually.", filename, Path.Combine(strCWD, SteamAPIRelativeLoc)));
 			return;
 		}
 
 		File.Copy(strSource, strDest, true);
 
 		if (File.Exists(strDest)) {
-			Debug.Log(System.String.Format("[Steamworks.NET] Successfully copied {0} into the project root. Please relaunch Unity.", filename));
+			Debug.Log(string.Format("[Steamworks.NET] Successfully copied {0} into the project root. Please relaunch Unity.", filename));
 		}
 		else {
-			Debug.LogWarning(System.String.Format("[Steamworks.NET] Could not copy {0} into the project root. File.Copy() Failed. Place {0} from the Steamworks SDK in the project root manually.", filename));
+			Debug.LogWarning(string.Format("[Steamworks.NET] Could not copy {0} into the project root. File.Copy() Failed. Place {0} from the Steamworks SDK in the project root manually.", filename));
 		}
 	}
 }
