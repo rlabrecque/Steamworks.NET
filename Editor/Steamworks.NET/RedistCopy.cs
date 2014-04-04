@@ -31,15 +31,8 @@ public class RedistCopy {
 			case BuildTarget.StandaloneLinuxUniversal:
 				CopyFile("linux/launchscriptuniversal", strProjectName, pathToBuiltProject);
                 break;
-#if !UNITY_4_0  // Unity 4.0 does not support 64bit OSX
-            case BuildTarget.StandaloneOSXIntel64:
-            case BuildTarget.StandaloneOSXUniversal:
 #endif
-#endif
-			case BuildTarget.StandaloneOSXIntel:
-				break;
 			default:
-				Debug.Log(string.Format("[Steamworks.NET] {0} Is not a supported platform.", target));
 				return;
 		}
 				
