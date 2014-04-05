@@ -46,7 +46,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	public struct SteamParamStringArray_t {
-		public IntPtr[] m_ppStrings;
+		public IntPtr m_ppStrings;
 		public int m_nNumStrings;
 	}
 

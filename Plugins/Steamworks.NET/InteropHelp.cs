@@ -75,10 +75,15 @@ namespace Steamworks {
 			}
 		}
 
-		// At somepoint this should become an IDisposable
+		// At some point this should become an IDisposable
+		// We can't use an ICustomMarshaler because Unity dies when MarshalManagedToNative() gets called with a generic type.
 		public class SteamParamStringArray {
-			IntPtr m_pSteamParamStringArray;
+			// The pointer to each AllocHGlobal() string
 			IntPtr[] m_Strings;
+			// The pointer to the condensed version of m_Strings
+			IntPtr m_ptrStrings;
+			// The pointer to the StructureToPtr version of SteamParamStringArray_t that will get marshaled
+			IntPtr m_pSteamParamStringArray;
 
 			public SteamParamStringArray(System.Collections.Generic.IList<string> strings) {
 				if (strings == null) {
@@ -87,20 +92,33 @@ namespace Steamworks {
 				}
 
 				m_Strings = new IntPtr[strings.Count];
-				for (int index = 0; index < strings.Count; ++index) {
-					m_Strings[index] = new UTF8String(strings[index]);
+				for (int i = 0; i < strings.Count; ++i) {
+					byte[] strbuf = new byte[Encoding.UTF8.GetByteCount(strings[i]) + 1];
+					Encoding.UTF8.GetBytes(strings[i], 0, strings[i].Length, strbuf, 0);
+					m_Strings[i] = Marshal.AllocHGlobal(strbuf.Length);
+					Marshal.Copy(strbuf, 0, m_Strings[i], strbuf.Length);
 				}
 
+				m_ptrStrings = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(IntPtr)) * m_Strings.Length);
 				SteamParamStringArray_t stringArray = new SteamParamStringArray_t() {
-					m_ppStrings = m_Strings,
-					m_nNumStrings = strings.Count
+					m_ppStrings = m_ptrStrings,
+					m_nNumStrings = m_Strings.Length
 				};
+				Marshal.Copy(m_Strings, 0, stringArray.m_ppStrings, m_Strings.Length);
 
 				m_pSteamParamStringArray = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(SteamParamStringArray_t)));
-				Marshal.StructureToPtr((object)stringArray, m_pSteamParamStringArray, false);
+				Marshal.StructureToPtr(stringArray, m_pSteamParamStringArray, false);
 			}
 
 			~SteamParamStringArray() {
+				foreach (IntPtr ptr in m_Strings) {
+					Marshal.FreeHGlobal(ptr);
+				}
+
+				if (m_ptrStrings != IntPtr.Zero) {
+					Marshal.FreeHGlobal(m_ptrStrings);
+				}
+
 				if (m_pSteamParamStringArray != IntPtr.Zero) {
 					Marshal.FreeHGlobal(m_pSteamParamStringArray);
 				}
