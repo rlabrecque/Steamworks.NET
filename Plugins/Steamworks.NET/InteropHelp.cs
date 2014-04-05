@@ -5,7 +5,9 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Steamworks {
 	public class InteropHelp {
@@ -21,6 +23,7 @@ namespace Steamworks {
 				throw new System.InvalidOperationException("Steamworks is not initialized.");
 			}
 		}
+
 		public static void TestIfAvailableGameServer() {
 			TestIfPlatformSupported();
 			if (NativeMethods.SteamClientGameServer() == System.IntPtr.Zero) {
@@ -37,12 +40,12 @@ namespace Steamworks {
 			while (Marshal.ReadByte(nativeUtf8, len) != 0)
 				++len;
 
-			if (len == 0) 
+			if (len == 0)
 				return string.Empty;
 
 			byte[] buffer = new byte[len];
 			Marshal.Copy(nativeUtf8, buffer, 0, buffer.Length);
-			return System.Text.Encoding.UTF8.GetString(buffer);
+			return Encoding.UTF8.GetString(buffer);
 		}
 
 		// At somepoint this should become an IDisposable
@@ -55,8 +58,8 @@ namespace Steamworks {
 					return;
 				}
 
-				byte[] buffer = new byte[System.Text.Encoding.UTF8.GetByteCount(managedString) + 1];
-				System.Text.Encoding.UTF8.GetBytes(managedString, 0, managedString.Length, buffer, 0);
+				byte[] buffer = new byte[Encoding.UTF8.GetByteCount(managedString) + 1];
+				Encoding.UTF8.GetBytes(managedString, 0, managedString.Length, buffer, 0);
 				m_NativeString = Marshal.AllocHGlobal(buffer.Length);
 				Marshal.Copy(buffer, 0, m_NativeString, buffer.Length);
 			}
