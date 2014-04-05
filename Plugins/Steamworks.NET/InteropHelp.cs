@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 namespace Steamworks {
 	public class InteropHelp {
 		public static void TestIfPlatformSupported() {
-#if !UNITY_STANDALONE_WIN && !UNITY_STANDALONE_LINUX && !UNITY_STANDALONE_OSX && !STEAMWORKS_WIN && !STEAMWORKS_LIN && !STEAMWORKS_OSX
+#if !UNITY_EDITOR && !UNITY_STANDALONE_WIN && !UNITY_STANDALONE_LINUX && !UNITY_STANDALONE_OSX && !STEAMWORKS_WIN && !STEAMWORKS_LIN_OSX
 			throw new System.InvalidOperationException("Steamworks functions can only be called on platforms that Steam is available on.");
 #endif
 		}

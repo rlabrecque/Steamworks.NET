@@ -4,10 +4,29 @@
 
 // Changes to this file will be reverted when you update Steamworks.NET
 
-#if UNITY_STANDALONE_WIN || STEAMWORKS_WIN
-#define VALVE_CALLBACK_PACK_LARGE
-#else // UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_LIN || STEAMWORKS_OSX
-#define VALVE_CALLBACK_PACK_SMALL
+// If we're running in the Unity Editor we need the editors platform.
+#if UNITY_EDITOR_WIN
+	#define VALVE_CALLBACK_PACK_LARGE
+
+#elif UNITY_EDITOR_OSX
+	#define VALVE_CALLBACK_PACK_SMALL
+
+// Otherwise we want the target platform.
+#elif UNITY_STANDALONE_WIN || STEAMWORKS_WIN
+	#define VALVE_CALLBACK_PACK_LARGE
+
+#elif UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_LIN_OSX
+	#define VALVE_CALLBACK_PACK_SMALL
+
+// We do not want to throw a warning when we're building in Unity but for an unsupported platform. So we'll silently let this slip by.
+// It would be nice if Unity itself would define 'UNITY' or something like that...
+#elif UNITY_WEBPLAYER || UNITY_WII || UNITY_IPHONE || UNITY_ANDROID || UNITY_PS3 || UNITY_XBOX360 || UNITY_NACL || UNITY_FLASH || UNITY_BLACKBERRY || UNITY_WP8 || UNITY_METRO
+	#define VALVE_CALLBACK_PACK_SMALL
+
+// But we do want to be explicit on the Standalone build for XNA/Monogame.
+#else
+	#define VALVE_CALLBACK_PACK_LARGE
+	#warning You need to define STEAMWORKS_WIN, or STEAMWORKS_LIN_OSX. Refer to the readme for more details.
 #endif
 
 using System;

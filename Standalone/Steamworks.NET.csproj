@@ -25,7 +25,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'OSX-Linux|AnyCPU' ">
     <OutputPath>bin\Release\OSX-Linux\</OutputPath>
-    <DefineConstants>TRACE;STEAMWORKS_OSX;STEAMWORKS_LIN</DefineConstants>
+    <DefineConstants>TRACE;STEAMWORKS_LIN_OSX</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
