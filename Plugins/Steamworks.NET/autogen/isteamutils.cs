@@ -37,7 +37,7 @@ namespace Steamworks {
 		// e.g "US" or "UK".
 		public static string GetIPCountry() {
 			InteropHelp.TestIfAvailableClient();
-			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamUtils_GetIPCountry());
+			return NativeMethods.ISteamUtils_GetIPCountry();
 		}
 
 		// returns true if the image exists, and valid sizes were filled out
@@ -152,7 +152,7 @@ namespace Steamworks {
 		//   k_ECheckFileSignatureValidSignature - The file is signed and the signature is valid.
 		public static SteamAPICall_t CheckFileSignature(string szFileName) {
 			InteropHelp.TestIfAvailableClient();
-			return (SteamAPICall_t)NativeMethods.ISteamUtils_CheckFileSignature(new InteropHelp.UTF8String(szFileName));
+			return (SteamAPICall_t)NativeMethods.ISteamUtils_CheckFileSignature(szFileName);
 		}
 #endif
 #if _PS3
@@ -175,13 +175,13 @@ namespace Steamworks {
 		// strings will be used by Steam.
 		public static void SetPSNGameBootInviteStrings(string pchSubject, string pchBody) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamUtils_SetPSNGameBootInviteStrings(new InteropHelp.UTF8String(pchSubject), new InteropHelp.UTF8String(pchBody));
+			NativeMethods.ISteamUtils_SetPSNGameBootInviteStrings(pchSubject, pchBody);
 		}
 #endif
 		// Activates the Big Picture text input dialog which only supports gamepad input
 		public static bool ShowGamepadTextInput(EGamepadTextInputMode eInputMode, EGamepadTextInputLineMode eLineInputMode, string pchDescription, uint unCharMax) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUtils_ShowGamepadTextInput(eInputMode, eLineInputMode, new InteropHelp.UTF8String(pchDescription), unCharMax);
+			return NativeMethods.ISteamUtils_ShowGamepadTextInput(eInputMode, eLineInputMode, pchDescription, unCharMax);
 		}
 
 		// Returns previously entered text & length
@@ -202,7 +202,7 @@ namespace Steamworks {
 		// returns the language the steam client is running in, you probably want ISteamApps::GetCurrentGameLanguage instead, this is for very special usage cases
 		public static string GetSteamUILanguage() {
 			InteropHelp.TestIfAvailableClient();
-			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamUtils_GetSteamUILanguage());
+			return NativeMethods.ISteamUtils_GetSteamUILanguage();
 		}
 
 		// returns true if Steam itself is running in VR mode

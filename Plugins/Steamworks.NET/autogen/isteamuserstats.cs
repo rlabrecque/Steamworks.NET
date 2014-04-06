@@ -19,44 +19,44 @@ namespace Steamworks {
 		// Data accessors
 		public static bool GetStat(string pchName, out int pData) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetStat(new InteropHelp.UTF8String(pchName), out pData);
+			return NativeMethods.ISteamUserStats_GetStat(pchName, out pData);
 		}
 
 		public static bool GetStat(string pchName, out float pData) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetStat_(new InteropHelp.UTF8String(pchName), out pData);
+			return NativeMethods.ISteamUserStats_GetStat_(pchName, out pData);
 		}
 
 		// Set / update data
 		public static bool SetStat(string pchName, int nData) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_SetStat(new InteropHelp.UTF8String(pchName), nData);
+			return NativeMethods.ISteamUserStats_SetStat(pchName, nData);
 		}
 
 		public static bool SetStat(string pchName, float fData) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_SetStat_(new InteropHelp.UTF8String(pchName), fData);
+			return NativeMethods.ISteamUserStats_SetStat_(pchName, fData);
 		}
 
 		public static bool UpdateAvgRateStat(string pchName, float flCountThisSession, double dSessionLength) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_UpdateAvgRateStat(new InteropHelp.UTF8String(pchName), flCountThisSession, dSessionLength);
+			return NativeMethods.ISteamUserStats_UpdateAvgRateStat(pchName, flCountThisSession, dSessionLength);
 		}
 
 		// Achievement flag accessors
 		public static bool GetAchievement(string pchName, out bool pbAchieved) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetAchievement(new InteropHelp.UTF8String(pchName), out pbAchieved);
+			return NativeMethods.ISteamUserStats_GetAchievement(pchName, out pbAchieved);
 		}
 
 		public static bool SetAchievement(string pchName) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_SetAchievement(new InteropHelp.UTF8String(pchName));
+			return NativeMethods.ISteamUserStats_SetAchievement(pchName);
 		}
 
 		public static bool ClearAchievement(string pchName) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_ClearAchievement(new InteropHelp.UTF8String(pchName));
+			return NativeMethods.ISteamUserStats_ClearAchievement(pchName);
 		}
 
 		// Get the achievement status, and the time it was unlocked if unlocked.
@@ -64,7 +64,7 @@ namespace Steamworks {
 		// began tracking achievement unlock times (December 2009). Time is seconds since January 1, 1970.
 		public static bool GetAchievementAndUnlockTime(string pchName, out bool pbAchieved, out uint punUnlockTime) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetAchievementAndUnlockTime(new InteropHelp.UTF8String(pchName), out pbAchieved, out punUnlockTime);
+			return NativeMethods.ISteamUserStats_GetAchievementAndUnlockTime(pchName, out pbAchieved, out punUnlockTime);
 		}
 
 		// Store the current data on the server, will get a callback when set
@@ -86,7 +86,7 @@ namespace Steamworks {
 		// specified achievement.
 		public static int GetAchievementIcon(string pchName) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetAchievementIcon(new InteropHelp.UTF8String(pchName));
+			return NativeMethods.ISteamUserStats_GetAchievementIcon(pchName);
 		}
 
 		// Get general attributes for an achievement. Accepts the following keys:
@@ -94,14 +94,14 @@ namespace Steamworks {
 		// - "hidden" for retrieving if an achievement is hidden (returns "0" when not hidden, "1" when hidden)
 		public static string GetAchievementDisplayAttribute(string pchName, string pchKey) {
 			InteropHelp.TestIfAvailableClient();
-			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamUserStats_GetAchievementDisplayAttribute(new InteropHelp.UTF8String(pchName), new InteropHelp.UTF8String(pchKey)));
+			return NativeMethods.ISteamUserStats_GetAchievementDisplayAttribute(pchName, pchKey);
 		}
 
 		// Achievement progress - triggers an AchievementProgress callback, that is all.
 		// Calling this w/ N out of N progress will NOT set the achievement, the game must still do that.
 		public static bool IndicateAchievementProgress(string pchName, uint nCurProgress, uint nMaxProgress) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_IndicateAchievementProgress(new InteropHelp.UTF8String(pchName), nCurProgress, nMaxProgress);
+			return NativeMethods.ISteamUserStats_IndicateAchievementProgress(pchName, nCurProgress, nMaxProgress);
 		}
 
 		// Used for iterating achievements. In general games should not need these functions because they should have a
@@ -114,7 +114,7 @@ namespace Steamworks {
 		// Get achievement name iAchievement in [0,GetNumAchievements)
 		public static string GetAchievementName(uint iAchievement) {
 			InteropHelp.TestIfAvailableClient();
-			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamUserStats_GetAchievementName(iAchievement));
+			return NativeMethods.ISteamUserStats_GetAchievementName(iAchievement);
 		}
 
 		// Friends stats & achievements
@@ -130,23 +130,23 @@ namespace Steamworks {
 		// requests stat information for a user, usable after a successful call to RequestUserStats()
 		public static bool GetUserStat(CSteamID steamIDUser, string pchName, out int pData) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetUserStat(steamIDUser, new InteropHelp.UTF8String(pchName), out pData);
+			return NativeMethods.ISteamUserStats_GetUserStat(steamIDUser, pchName, out pData);
 		}
 
 		public static bool GetUserStat(CSteamID steamIDUser, string pchName, out float pData) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetUserStat_(steamIDUser, new InteropHelp.UTF8String(pchName), out pData);
+			return NativeMethods.ISteamUserStats_GetUserStat_(steamIDUser, pchName, out pData);
 		}
 
 		public static bool GetUserAchievement(CSteamID steamIDUser, string pchName, out bool pbAchieved) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetUserAchievement(steamIDUser, new InteropHelp.UTF8String(pchName), out pbAchieved);
+			return NativeMethods.ISteamUserStats_GetUserAchievement(steamIDUser, pchName, out pbAchieved);
 		}
 
 		// See notes for GetAchievementAndUnlockTime above
 		public static bool GetUserAchievementAndUnlockTime(CSteamID steamIDUser, string pchName, out bool pbAchieved, out uint punUnlockTime) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetUserAchievementAndUnlockTime(steamIDUser, new InteropHelp.UTF8String(pchName), out pbAchieved, out punUnlockTime);
+			return NativeMethods.ISteamUserStats_GetUserAchievementAndUnlockTime(steamIDUser, pchName, out pbAchieved, out punUnlockTime);
 		}
 
 		// Reset stats
@@ -160,20 +160,20 @@ namespace Steamworks {
 		// This call is asynchronous, with the result returned in LeaderboardFindResult_t
 		public static SteamAPICall_t FindOrCreateLeaderboard(string pchLeaderboardName, ELeaderboardSortMethod eLeaderboardSortMethod, ELeaderboardDisplayType eLeaderboardDisplayType) {
 			InteropHelp.TestIfAvailableClient();
-			return (SteamAPICall_t)NativeMethods.ISteamUserStats_FindOrCreateLeaderboard(new InteropHelp.UTF8String(pchLeaderboardName), eLeaderboardSortMethod, eLeaderboardDisplayType);
+			return (SteamAPICall_t)NativeMethods.ISteamUserStats_FindOrCreateLeaderboard(pchLeaderboardName, eLeaderboardSortMethod, eLeaderboardDisplayType);
 		}
 
 		// as above, but won't create the leaderboard if it's not found
 		// This call is asynchronous, with the result returned in LeaderboardFindResult_t
 		public static SteamAPICall_t FindLeaderboard(string pchLeaderboardName) {
 			InteropHelp.TestIfAvailableClient();
-			return (SteamAPICall_t)NativeMethods.ISteamUserStats_FindLeaderboard(new InteropHelp.UTF8String(pchLeaderboardName));
+			return (SteamAPICall_t)NativeMethods.ISteamUserStats_FindLeaderboard(pchLeaderboardName);
 		}
 
 		// returns the name of a leaderboard
 		public static string GetLeaderboardName(SteamLeaderboard_t hSteamLeaderboard) {
 			InteropHelp.TestIfAvailableClient();
-			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamUserStats_GetLeaderboardName(hSteamLeaderboard));
+			return NativeMethods.ISteamUserStats_GetLeaderboardName(hSteamLeaderboard);
 		}
 
 		// returns the total number of entries in a leaderboard, as of the last request
@@ -293,7 +293,7 @@ namespace Steamworks {
 		// Returns the percentage of users who have achieved the specified achievement.
 		public static bool GetAchievementAchievedPercent(string pchName, out float pflPercent) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetAchievementAchievedPercent(new InteropHelp.UTF8String(pchName), out pflPercent);
+			return NativeMethods.ISteamUserStats_GetAchievementAchievedPercent(pchName, out pflPercent);
 		}
 
 		// Requests global stats data, which is available for stats marked as "aggregated".
@@ -308,12 +308,12 @@ namespace Steamworks {
 		// Gets the lifetime totals for an aggregated stat
 		public static bool GetGlobalStat(string pchStatName, out long pData) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetGlobalStat(new InteropHelp.UTF8String(pchStatName), out pData);
+			return NativeMethods.ISteamUserStats_GetGlobalStat(pchStatName, out pData);
 		}
 
 		public static bool GetGlobalStat(string pchStatName, out double pData) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetGlobalStat_(new InteropHelp.UTF8String(pchStatName), out pData);
+			return NativeMethods.ISteamUserStats_GetGlobalStat_(pchStatName, out pData);
 		}
 
 		// Gets history for an aggregated stat. pData will be filled with daily values, starting with today.
@@ -322,12 +322,12 @@ namespace Steamworks {
 		// elements actually set.
 		public static int GetGlobalStatHistory(string pchStatName, long[] pData, uint cubData) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetGlobalStatHistory(new InteropHelp.UTF8String(pchStatName), pData, cubData);
+			return NativeMethods.ISteamUserStats_GetGlobalStatHistory(pchStatName, pData, cubData);
 		}
 
 		public static int GetGlobalStatHistory(string pchStatName, double[] pData, uint cubData) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetGlobalStatHistory_(new InteropHelp.UTF8String(pchStatName), pData, cubData);
+			return NativeMethods.ISteamUserStats_GetGlobalStatHistory_(pchStatName, pData, cubData);
 		}
 #if _PS3
 		// Call to kick off installation of the PS3 trophies. This call is asynchronous, and the results will be returned in a PS3TrophiesInstalled_t

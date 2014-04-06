@@ -31,6 +31,7 @@ namespace Steamworks {
 			}
 		}
 		
+		// This continues to exist for 'out string' arguments.
 		public static string PtrToStringUTF8(IntPtr nativeUtf8) {
 			if (nativeUtf8 == IntPtr.Zero)
 				return string.Empty;
@@ -47,34 +48,7 @@ namespace Steamworks {
 			Marshal.Copy(nativeUtf8, buffer, 0, buffer.Length);
 			return Encoding.UTF8.GetString(buffer);
 		}
-
-		// At somepoint this should become an IDisposable
-		public class UTF8String {
-			private IntPtr m_NativeString;
-
-			public UTF8String(string managedString) {
-				if (string.IsNullOrEmpty(managedString)) {
-					m_NativeString = IntPtr.Zero;
-					return;
-				}
-
-				byte[] buffer = new byte[Encoding.UTF8.GetByteCount(managedString) + 1];
-				Encoding.UTF8.GetBytes(managedString, 0, managedString.Length, buffer, 0);
-				m_NativeString = Marshal.AllocHGlobal(buffer.Length);
-				Marshal.Copy(buffer, 0, m_NativeString, buffer.Length);
-			}
-
-			~UTF8String() {
-				if (m_NativeString != IntPtr.Zero) {
-					Marshal.FreeHGlobal(m_NativeString);
-				}
-			}
-
-			public static implicit operator IntPtr(UTF8String that) {
-				return that.m_NativeString;
-			}
-		}
-
+		
 		// At some point this should become an IDisposable
 		// We can't use an ICustomMarshaler because Unity dies when MarshalManagedToNative() gets called with a generic type.
 		public class SteamParamStringArray {
@@ -126,6 +100,74 @@ namespace Steamworks {
 
 			public static implicit operator IntPtr(SteamParamStringArray that) {
 				return that.m_pSteamParamStringArray;
+			}
+		}
+	}
+
+	public class UTF8Marshaler : ICustomMarshaler {
+		public const string DoNotFree = "DoNotFree";
+
+		private static UTF8Marshaler static_instance_free = new UTF8Marshaler(true);
+		private static UTF8Marshaler static_instance = new UTF8Marshaler(false);
+
+		private bool _freeNativeMemory;
+
+		private UTF8Marshaler(bool freenativememory) {
+			_freeNativeMemory = freenativememory;
+		}
+
+		public IntPtr MarshalManagedToNative(object managedObj) {
+			if (managedObj == null) {
+				return IntPtr.Zero;
+			}
+
+			string str = managedObj as string;
+			if (str == null) {
+				throw new MarshalDirectiveException("UTF8Marshaler must be used on a string.");
+			}
+
+			byte[] strbuf = new byte[Encoding.UTF8.GetByteCount(str) + 1];
+			Encoding.UTF8.GetBytes(str, 0, str.Length, strbuf, 0);
+			IntPtr buffer = Marshal.AllocHGlobal(strbuf.Length);
+			Marshal.Copy(strbuf, 0, buffer, strbuf.Length);
+			return buffer;
+		}
+
+		public object MarshalNativeToManaged(IntPtr pNativeData) {
+			int len = 0;
+
+			while (Marshal.ReadByte(pNativeData, len) != 0) {
+				++len;
+			}
+
+			if (len == 0) {
+				return string.Empty;
+			}
+
+			byte[] strbuf = new byte[len];
+			Marshal.Copy(pNativeData, strbuf, 0, strbuf.Length);
+			return Encoding.UTF8.GetString(strbuf);
+		}
+
+		public void CleanUpNativeData(IntPtr pNativeData) {
+			if (_freeNativeMemory) {
+				Marshal.FreeHGlobal(pNativeData);
+			}
+		}
+
+		public void CleanUpManagedData(object managedObj) {
+		}
+
+		public int GetNativeDataSize() {
+			return -1;
+		}
+
+		public static ICustomMarshaler GetInstance(string cookie) {
+			switch (cookie) {
+				case "DoNotFree":
+					return static_instance;
+				default:
+					return static_instance_free;
 			}
 		}
 	}

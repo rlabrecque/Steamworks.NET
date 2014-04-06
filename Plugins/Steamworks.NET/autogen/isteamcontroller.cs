@@ -16,7 +16,7 @@ namespace Steamworks {
 		// Must call init and shutdown when starting/ending use of the interface
 		public static bool Init(string pchAbsolutePathToControllerConfigVDF) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamController_Init(new InteropHelp.UTF8String(pchAbsolutePathToControllerConfigVDF));
+			return NativeMethods.ISteamController_Init(pchAbsolutePathToControllerConfigVDF);
 		}
 
 		public static bool Shutdown() {
@@ -46,7 +46,7 @@ namespace Steamworks {
 		// Set the override mode which is used to choose to use different base/legacy bindings from your config file
 		public static void SetOverrideMode(string pchMode) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamController_SetOverrideMode(new InteropHelp.UTF8String(pchMode));
+			NativeMethods.ISteamController_SetOverrideMode(pchMode);
 		}
 	}
 }

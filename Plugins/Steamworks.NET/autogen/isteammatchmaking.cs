@@ -71,19 +71,19 @@ namespace Steamworks {
 		// these are cleared on each call to RequestLobbyList()
 		public static void AddRequestLobbyListStringFilter(string pchKeyToMatch, string pchValueToMatch, ELobbyComparison eComparisonType) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamMatchmaking_AddRequestLobbyListStringFilter(new InteropHelp.UTF8String(pchKeyToMatch), new InteropHelp.UTF8String(pchValueToMatch), eComparisonType);
+			NativeMethods.ISteamMatchmaking_AddRequestLobbyListStringFilter(pchKeyToMatch, pchValueToMatch, eComparisonType);
 		}
 
 		// numerical comparison
 		public static void AddRequestLobbyListNumericalFilter(string pchKeyToMatch, int nValueToMatch, ELobbyComparison eComparisonType) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamMatchmaking_AddRequestLobbyListNumericalFilter(new InteropHelp.UTF8String(pchKeyToMatch), nValueToMatch, eComparisonType);
+			NativeMethods.ISteamMatchmaking_AddRequestLobbyListNumericalFilter(pchKeyToMatch, nValueToMatch, eComparisonType);
 		}
 
 		// returns results closest to the specified value. Multiple near filters can be added, with early filters taking precedence
 		public static void AddRequestLobbyListNearValueFilter(string pchKeyToMatch, int nValueToBeCloseTo) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamMatchmaking_AddRequestLobbyListNearValueFilter(new InteropHelp.UTF8String(pchKeyToMatch), nValueToBeCloseTo);
+			NativeMethods.ISteamMatchmaking_AddRequestLobbyListNearValueFilter(pchKeyToMatch, nValueToBeCloseTo);
 		}
 
 		// returns only lobbies with the specified number of slots available
@@ -179,7 +179,7 @@ namespace Steamworks {
 		// "" will be returned if no value is set, or if steamIDLobby is invalid
 		public static string GetLobbyData(CSteamID steamIDLobby, string pchKey) {
 			InteropHelp.TestIfAvailableClient();
-			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamMatchmaking_GetLobbyData(steamIDLobby, new InteropHelp.UTF8String(pchKey)));
+			return NativeMethods.ISteamMatchmaking_GetLobbyData(steamIDLobby, pchKey);
 		}
 
 		// Sets a key/value pair in the lobby metadata
@@ -189,7 +189,7 @@ namespace Steamworks {
 		// other users in the lobby will receive notification of the lobby data change via a LobbyDataUpdate_t callback
 		public static bool SetLobbyData(CSteamID steamIDLobby, string pchKey, string pchValue) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmaking_SetLobbyData(steamIDLobby, new InteropHelp.UTF8String(pchKey), new InteropHelp.UTF8String(pchValue));
+			return NativeMethods.ISteamMatchmaking_SetLobbyData(steamIDLobby, pchKey, pchValue);
 		}
 
 		// returns the number of metadata keys set on the specified lobby
@@ -214,19 +214,19 @@ namespace Steamworks {
 		// removes a metadata key from the lobby
 		public static bool DeleteLobbyData(CSteamID steamIDLobby, string pchKey) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmaking_DeleteLobbyData(steamIDLobby, new InteropHelp.UTF8String(pchKey));
+			return NativeMethods.ISteamMatchmaking_DeleteLobbyData(steamIDLobby, pchKey);
 		}
 
 		// Gets per-user metadata for someone in this lobby
 		public static string GetLobbyMemberData(CSteamID steamIDLobby, CSteamID steamIDUser, string pchKey) {
 			InteropHelp.TestIfAvailableClient();
-			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamMatchmaking_GetLobbyMemberData(steamIDLobby, steamIDUser, new InteropHelp.UTF8String(pchKey)));
+			return NativeMethods.ISteamMatchmaking_GetLobbyMemberData(steamIDLobby, steamIDUser, pchKey);
 		}
 
 		// Sets per-user metadata (for the local user implicitly)
 		public static void SetLobbyMemberData(CSteamID steamIDLobby, string pchKey, string pchValue) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamMatchmaking_SetLobbyMemberData(steamIDLobby, new InteropHelp.UTF8String(pchKey), new InteropHelp.UTF8String(pchValue));
+			NativeMethods.ISteamMatchmaking_SetLobbyMemberData(steamIDLobby, pchKey, pchValue);
 		}
 
 		// Broadcasts a chat message to the all the users in the lobby
@@ -234,7 +234,7 @@ namespace Steamworks {
 		// returns true if the message is successfully sent
 		// pvMsgBody can be binary or text data, up to 4k
 		// if pvMsgBody is text, cubMsgBody should be strlen( text ) + 1, to include the null terminator
-		public static bool SendLobbyChatMsg(CSteamID steamIDLobby, IntPtr pvMsgBody, int cubMsgBody) {
+		public static bool SendLobbyChatMsg(CSteamID steamIDLobby, byte[] pvMsgBody, int cubMsgBody) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamMatchmaking_SendLobbyChatMsg(steamIDLobby, pvMsgBody, cubMsgBody);
 		}
@@ -244,7 +244,7 @@ namespace Steamworks {
 		// *pSteamIDUser is filled in with the CSteamID of the member
 		// *pvData is filled in with the message itself
 		// return value is the number of bytes written into the buffer
-		public static int GetLobbyChatEntry(CSteamID steamIDLobby, int iChatID, out CSteamID pSteamIDUser, IntPtr pvData, int cubData, out EChatEntryType peChatEntryType) {
+		public static int GetLobbyChatEntry(CSteamID steamIDLobby, int iChatID, out CSteamID pSteamIDUser, byte[] pvData, int cubData, out EChatEntryType peChatEntryType) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamMatchmaking_GetLobbyChatEntry(steamIDLobby, iChatID, out pSteamIDUser, pvData, cubData, out peChatEntryType);
 		}

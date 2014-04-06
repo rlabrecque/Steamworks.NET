@@ -114,13 +114,13 @@ namespace Steamworks {
 #if VERSION_SAFE_STEAM_API_INTERFACES
 		public static bool InitSafe(uint unIP, ushort usSteamPort, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, string pchVersionString) {
 			InteropHelp.TestIfPlatformSupported();
-			return NativeMethods.SteamGameServer_InitSafe(unIP, usSteamPort, usGamePort, usQueryPort, eServerMode, new InteropHelp.UTF8String(pchVersionString));
+			return NativeMethods.SteamGameServer_InitSafe(unIP, usSteamPort, usGamePort, usQueryPort, eServerMode, pchVersionString);
 		}
 
-		// This is for Ease of use, since we don't need to care about the differences between them in C#.
+		// [Steamworks.NET] This is for Ease of use, since we don't need to care about the differences between them in C#.
 		public static bool Init(uint unIP, ushort usSteamPort, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, string pchVersionString) {
 			InteropHelp.TestIfPlatformSupported();
-			return NativeMethods.SteamGameServer_InitSafe(unIP, usSteamPort, usGamePort, usQueryPort, eServerMode, new InteropHelp.UTF8String(pchVersionString));
+			return NativeMethods.SteamGameServer_InitSafe(unIP, usSteamPort, usGamePort, usQueryPort, eServerMode, pchVersionString);
 		}
 #else
 		public static bool Init(uint unIP, ushort usSteamPort, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, string pchVersionString) {

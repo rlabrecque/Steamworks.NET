@@ -17,21 +17,21 @@ namespace Steamworks {
 		/// This is called by SteamGameServer_Init, and you will usually not need to call it directly
 		public static bool InitGameServer(uint unIP, ushort usGamePort, ushort usQueryPort, uint unFlags, AppId_t nGameAppId, string pchVersionString) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServer_InitGameServer(unIP, usGamePort, usQueryPort, unFlags, nGameAppId, new InteropHelp.UTF8String(pchVersionString));
+			return NativeMethods.ISteamGameServer_InitGameServer(unIP, usGamePort, usQueryPort, unFlags, nGameAppId, pchVersionString);
 		}
 
 		/// Game product identifier.  This is currently used by the master server for version checking purposes.
 		/// It's a required field, but will eventually will go away, and the AppID will be used for this purpose.
 		public static void SetProduct(string pszProduct) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_SetProduct(new InteropHelp.UTF8String(pszProduct));
+			NativeMethods.ISteamGameServer_SetProduct(pszProduct);
 		}
 
 		/// Description of the game.  This is a required field and is displayed in the steam server browser....for now.
 		/// This is a required field, but it will go away eventually, as the data should be determined from the AppID.
 		public static void SetGameDescription(string pszGameDescription) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_SetGameDescription(new InteropHelp.UTF8String(pszGameDescription));
+			NativeMethods.ISteamGameServer_SetGameDescription(pszGameDescription);
 		}
 
 		/// If your game is a "mod," pass the string that identifies it.  The default is an empty string, meaning
@@ -40,7 +40,7 @@ namespace Steamworks {
 		/// @see k_cbMaxGameServerGameDir
 		public static void SetModDir(string pszModDir) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_SetModDir(new InteropHelp.UTF8String(pszModDir));
+			NativeMethods.ISteamGameServer_SetModDir(pszModDir);
 		}
 
 		/// Is this is a dedicated server?  The default value is false.
@@ -116,7 +116,7 @@ namespace Steamworks {
 		/// @see k_cbMaxGameServerName
 		public static void SetServerName(string pszServerName) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_SetServerName(new InteropHelp.UTF8String(pszServerName));
+			NativeMethods.ISteamGameServer_SetServerName(pszServerName);
 		}
 
 		/// Set name of map to report in the server browser
@@ -124,7 +124,7 @@ namespace Steamworks {
 		/// @see k_cbMaxGameServerName
 		public static void SetMapName(string pszMapName) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_SetMapName(new InteropHelp.UTF8String(pszMapName));
+			NativeMethods.ISteamGameServer_SetMapName(pszMapName);
 		}
 
 		/// Let people know if your server will require a password
@@ -145,7 +145,7 @@ namespace Steamworks {
 		/// @see k_cbMaxGameServerMapName
 		public static void SetSpectatorServerName(string pszSpectatorServerName) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_SetSpectatorServerName(new InteropHelp.UTF8String(pszSpectatorServerName));
+			NativeMethods.ISteamGameServer_SetSpectatorServerName(pszSpectatorServerName);
 		}
 
 		/// Call this to clear the whole list of key/values that are sent in rules queries.
@@ -157,7 +157,7 @@ namespace Steamworks {
 		/// Call this to add/update a key/value pair.
 		public static void SetKeyValue(string pKey, string pValue) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_SetKeyValue(new InteropHelp.UTF8String(pKey), new InteropHelp.UTF8String(pValue));
+			NativeMethods.ISteamGameServer_SetKeyValue(pKey, pValue);
 		}
 
 		/// Sets a string defining the "gametags" for this server, this is optional, but if it is set
@@ -166,7 +166,7 @@ namespace Steamworks {
 		/// @see k_cbMaxGameServerTags
 		public static void SetGameTags(string pchGameTags) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_SetGameTags(new InteropHelp.UTF8String(pchGameTags));
+			NativeMethods.ISteamGameServer_SetGameTags(pchGameTags);
 		}
 
 		/// Sets a string defining the "gamedata" for this server, this is optional, but if it is set
@@ -177,13 +177,13 @@ namespace Steamworks {
 		/// @see k_cbMaxGameServerGameData
 		public static void SetGameData(string pchGameData) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_SetGameData(new InteropHelp.UTF8String(pchGameData));
+			NativeMethods.ISteamGameServer_SetGameData(pchGameData);
 		}
 
 		/// Region identifier.  This is an optional field, the default value is empty, meaning the "world" region
 		public static void SetRegion(string pszRegion) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_SetRegion(new InteropHelp.UTF8String(pszRegion));
+			NativeMethods.ISteamGameServer_SetRegion(pszRegion);
 		}
 
 	//
@@ -227,7 +227,7 @@ namespace Steamworks {
 		// Return Value: true if successful, false if failure (ie, steamIDUser wasn't for an active player)
 		public static bool BUpdateUserData(CSteamID steamIDUser, string pchPlayerName, uint uScore) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServer_BUpdateUserData(steamIDUser, new InteropHelp.UTF8String(pchPlayerName), uScore);
+			return NativeMethods.ISteamGameServer_BUpdateUserData(steamIDUser, pchPlayerName, uScore);
 		}
 
 		// New auth system APIs - do not mix with the old auth system APIs.

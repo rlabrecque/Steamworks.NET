@@ -43,12 +43,12 @@ namespace Steamworks {
 		// Options to set for querying UGC
 		public static bool AddRequiredTag(UGCQueryHandle_t handle, string pTagName) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUGC_AddRequiredTag(handle, new InteropHelp.UTF8String(pTagName));
+			return NativeMethods.ISteamUGC_AddRequiredTag(handle, pTagName);
 		}
 
 		public static bool AddExcludedTag(UGCQueryHandle_t handle, string pTagName) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUGC_AddExcludedTag(handle, new InteropHelp.UTF8String(pTagName));
+			return NativeMethods.ISteamUGC_AddExcludedTag(handle, pTagName);
 		}
 
 		public static bool SetReturnLongDescription(UGCQueryHandle_t handle, bool bReturnLongDescription) {
@@ -64,7 +64,7 @@ namespace Steamworks {
 		// Options only for querying user UGC
 		public static bool SetCloudFileNameFilter(UGCQueryHandle_t handle, string pMatchCloudFileName) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUGC_SetCloudFileNameFilter(handle, new InteropHelp.UTF8String(pMatchCloudFileName));
+			return NativeMethods.ISteamUGC_SetCloudFileNameFilter(handle, pMatchCloudFileName);
 		}
 
 		// Options only for querying all UGC
@@ -75,7 +75,7 @@ namespace Steamworks {
 
 		public static bool SetSearchText(UGCQueryHandle_t handle, string pSearchText) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUGC_SetSearchText(handle, new InteropHelp.UTF8String(pSearchText));
+			return NativeMethods.ISteamUGC_SetSearchText(handle, pSearchText);
 		}
 
 		public static bool SetRankedByTrendDays(UGCQueryHandle_t handle, uint unDays) {

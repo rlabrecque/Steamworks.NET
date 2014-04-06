@@ -23,7 +23,7 @@ namespace Steamworks {
 		// JPEG, TGA, and PNG formats are supported.
 		public static ScreenshotHandle AddScreenshotToLibrary(string pchFilename, string pchThumbnailFilename, int nWidth, int nHeight) {
 			InteropHelp.TestIfAvailableClient();
-			return (ScreenshotHandle)NativeMethods.ISteamScreenshots_AddScreenshotToLibrary(new InteropHelp.UTF8String(pchFilename), new InteropHelp.UTF8String(pchThumbnailFilename), nWidth, nHeight);
+			return (ScreenshotHandle)NativeMethods.ISteamScreenshots_AddScreenshotToLibrary(pchFilename, pchThumbnailFilename, nWidth, nHeight);
 		}
 
 		// Causes the Steam overlay to take a screenshot.  If screenshots are being hooked by the game then a ScreenshotRequested_t callback is sent back to the game instead.
@@ -43,7 +43,7 @@ namespace Steamworks {
 		// Sets metadata about a screenshot's location (for example, the name of the map)
 		public static bool SetLocation(ScreenshotHandle hScreenshot, string pchLocation) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamScreenshots_SetLocation(hScreenshot, new InteropHelp.UTF8String(pchLocation));
+			return NativeMethods.ISteamScreenshots_SetLocation(hScreenshot, pchLocation);
 		}
 
 		// Tags a user as being visible in the screenshot

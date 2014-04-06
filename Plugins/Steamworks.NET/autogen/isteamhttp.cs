@@ -16,7 +16,7 @@ namespace Steamworks {
 		// or such.
 		public static HTTPRequestHandle CreateHTTPRequest(EHTTPMethod eHTTPRequestMethod, string pchAbsoluteURL) {
 			InteropHelp.TestIfAvailableClient();
-			return (HTTPRequestHandle)NativeMethods.ISteamHTTP_CreateHTTPRequest(eHTTPRequestMethod, new InteropHelp.UTF8String(pchAbsoluteURL));
+			return (HTTPRequestHandle)NativeMethods.ISteamHTTP_CreateHTTPRequest(eHTTPRequestMethod, pchAbsoluteURL);
 		}
 
 		// Set a context value for the request, which will be returned in the HTTPRequestCompleted_t callback after
@@ -38,7 +38,7 @@ namespace Steamworks {
 		// return false if the handle is invalid or the request is already sent.
 		public static bool SetHTTPRequestHeaderValue(HTTPRequestHandle hRequest, string pchHeaderName, string pchHeaderValue) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamHTTP_SetHTTPRequestHeaderValue(hRequest, new InteropHelp.UTF8String(pchHeaderName), new InteropHelp.UTF8String(pchHeaderValue));
+			return NativeMethods.ISteamHTTP_SetHTTPRequestHeaderValue(hRequest, pchHeaderName, pchHeaderValue);
 		}
 
 		// Set a GET or POST parameter value on the request, which is set will depend on the EHTTPMethod specified
@@ -46,7 +46,7 @@ namespace Steamworks {
 		// handle is invalid or the request is already sent.
 		public static bool SetHTTPRequestGetOrPostParameter(HTTPRequestHandle hRequest, string pchParamName, string pchParamValue) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamHTTP_SetHTTPRequestGetOrPostParameter(hRequest, new InteropHelp.UTF8String(pchParamName), new InteropHelp.UTF8String(pchParamValue));
+			return NativeMethods.ISteamHTTP_SetHTTPRequestGetOrPostParameter(hRequest, pchParamName, pchParamValue);
 		}
 
 		// Sends the HTTP request, will return false on a bad handle, otherwise use SteamCallHandle to wait on
@@ -86,7 +86,7 @@ namespace Steamworks {
 		// GetHTTPResponseHeaderValue.
 		public static bool GetHTTPResponseHeaderSize(HTTPRequestHandle hRequest, string pchHeaderName, out uint unResponseHeaderSize) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamHTTP_GetHTTPResponseHeaderSize(hRequest, new InteropHelp.UTF8String(pchHeaderName), out unResponseHeaderSize);
+			return NativeMethods.ISteamHTTP_GetHTTPResponseHeaderSize(hRequest, pchHeaderName, out unResponseHeaderSize);
 		}
 
 		// Gets header values from a HTTP response given a handle from HTTPRequestCompleted_t, will return false if the
@@ -94,7 +94,7 @@ namespace Steamworks {
 		// BGetHTTPResponseHeaderSize to check for the presence of the header and to find out the size buffer needed.
 		public static bool GetHTTPResponseHeaderValue(HTTPRequestHandle hRequest, string pchHeaderName, byte[] pHeaderValueBuffer, uint unBufferSize) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamHTTP_GetHTTPResponseHeaderValue(hRequest, new InteropHelp.UTF8String(pchHeaderName), pHeaderValueBuffer, unBufferSize);
+			return NativeMethods.ISteamHTTP_GetHTTPResponseHeaderValue(hRequest, pchHeaderName, pHeaderValueBuffer, unBufferSize);
 		}
 
 		// Gets the size of the body data from a HTTP response given a handle from HTTPRequestCompleted_t, will return false if the
@@ -140,7 +140,7 @@ namespace Steamworks {
 		// parameter will set the content-type header for the request so the server may know how to interpret the body.
 		public static bool SetHTTPRequestRawPostBody(HTTPRequestHandle hRequest, string pchContentType, byte[] pubBody, uint unBodyLen) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamHTTP_SetHTTPRequestRawPostBody(hRequest, new InteropHelp.UTF8String(pchContentType), pubBody, unBodyLen);
+			return NativeMethods.ISteamHTTP_SetHTTPRequestRawPostBody(hRequest, pchContentType, pubBody, unBodyLen);
 		}
 	}
 }

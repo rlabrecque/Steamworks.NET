@@ -32,12 +32,12 @@ namespace Steamworks {
 
 		public static string GetCurrentGameLanguage() {
 			InteropHelp.TestIfAvailableClient();
-			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamApps_GetCurrentGameLanguage());
+			return NativeMethods.ISteamApps_GetCurrentGameLanguage();
 		}
 
 		public static string GetAvailableGameLanguages() {
 			InteropHelp.TestIfAvailableClient();
-			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamApps_GetAvailableGameLanguages());
+			return NativeMethods.ISteamApps_GetAvailableGameLanguages();
 		}
 
 		// only use this member if you need to check ownership of another game related to yours, a demo for example
@@ -153,13 +153,13 @@ namespace Steamworks {
 		// but it is advised that you not param names beginning with an underscore for your own features.
 		public static string GetLaunchQueryParam(string pchKey) {
 			InteropHelp.TestIfAvailableClient();
-			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamApps_GetLaunchQueryParam(new InteropHelp.UTF8String(pchKey)));
+			return NativeMethods.ISteamApps_GetLaunchQueryParam(pchKey);
 		}
 #if _PS3
 		// Result returned in a RegisterActivationCodeResponse_t callresult
 		public static SteamAPICall_t RegisterActivationCode(string pchActivationCode) {
 			InteropHelp.TestIfAvailableClient();
-			return (SteamAPICall_t)NativeMethods.ISteamApps_RegisterActivationCode(new InteropHelp.UTF8String(pchActivationCode));
+			return (SteamAPICall_t)NativeMethods.ISteamApps_RegisterActivationCode(pchActivationCode);
 		}
 #endif
 	}

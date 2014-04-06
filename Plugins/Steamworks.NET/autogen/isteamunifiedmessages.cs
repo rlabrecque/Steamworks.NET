@@ -14,7 +14,7 @@ namespace Steamworks {
 		// Returns a unified message handle (k_InvalidUnifiedMessageHandle if could not send the message).
 		public static ClientUnifiedMessageHandle SendMethod(string pchServiceMethod, IntPtr pRequestBuffer, uint unRequestBufferSize, ulong unContext) {
 			InteropHelp.TestIfAvailableClient();
-			return (ClientUnifiedMessageHandle)NativeMethods.ISteamUnifiedMessages_SendMethod(new InteropHelp.UTF8String(pchServiceMethod), pRequestBuffer, unRequestBufferSize, unContext);
+			return (ClientUnifiedMessageHandle)NativeMethods.ISteamUnifiedMessages_SendMethod(pchServiceMethod, pRequestBuffer, unRequestBufferSize, unContext);
 		}
 
 		// Gets the size of the response and the EResult. Returns false if the response is not ready yet.
@@ -39,7 +39,7 @@ namespace Steamworks {
 		// Returns true if the notification was sent successfully.
 		public static bool SendNotification(string pchServiceNotification, IntPtr pNotificationBuffer, uint unNotificationBufferSize) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUnifiedMessages_SendNotification(new InteropHelp.UTF8String(pchServiceNotification), pNotificationBuffer, unNotificationBufferSize);
+			return NativeMethods.ISteamUnifiedMessages_SendNotification(pchServiceNotification, pNotificationBuffer, unNotificationBufferSize);
 		}
 	}
 }

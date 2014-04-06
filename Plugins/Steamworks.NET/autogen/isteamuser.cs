@@ -62,7 +62,7 @@ namespace Steamworks {
 		// used by only a few games to track usage events
 		public static void TrackAppUsageEvent(CGameID gameID, int eAppUsageEvent, string pchExtraInfo = "") {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamUser_TrackAppUsageEvent(gameID, eAppUsageEvent, new InteropHelp.UTF8String(pchExtraInfo));
+			NativeMethods.ISteamUser_TrackAppUsageEvent(gameID, eAppUsageEvent, pchExtraInfo);
 		}
 
 		// get the local storage folder for current Steam account to write application data, e.g. save games, configs etc.
@@ -235,7 +235,7 @@ namespace Steamworks {
 		// may return with EResult k_EResultOtherAccountAlreadyLinked if already linked to another account.
 		public static void LogOnAndLinkSteamAccountToPSN(bool bInteractive, string pchUserName, string pchPassword) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamUser_LogOnAndLinkSteamAccountToPSN(bInteractive, new InteropHelp.UTF8String(pchUserName), new InteropHelp.UTF8String(pchPassword));
+			NativeMethods.ISteamUser_LogOnAndLinkSteamAccountToPSN(bInteractive, pchUserName, pchPassword);
 		}
 
 		// Final logon option for PS3, this logs into an existing account if already linked, but if not already linked
