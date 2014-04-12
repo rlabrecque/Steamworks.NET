@@ -50,7 +50,7 @@ namespace Steamworks {
 	// while the game is already running.  The new params can be queried
 	// with GetLaunchQueryParam.
 	//---------------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 14)]
 	public struct NewLaunchQueryParameters_t {
 		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 14;
@@ -116,7 +116,7 @@ namespace Steamworks {
 	// Purpose: called when an avatar is loaded in from a previous GetLargeFriendAvatar() call
 	//			if the image wasn't already available
 	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 34)]
 	public struct AvatarImageLoaded_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 34;
@@ -141,7 +141,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: callback indicating updated data about friends rich presence information
 	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 36)]
 	public struct FriendRichPresenceUpdate_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 36;
@@ -165,7 +165,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: a chat message has been received for a clan chat the game has joined
 	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 38)]
 	public struct GameConnectedClanChatMsg_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 38;
@@ -188,7 +188,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: a user has left the chat we're in
 	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = 1)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 40)]
 	public struct GameConnectedChatLeave_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 40;
@@ -214,7 +214,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: a JoinClanChatRoom() call has finished
 	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 42)]
 	public struct JoinClanChatRoomCompletionResult_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 42;
@@ -225,7 +225,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: a chat message has been received from a user
 	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 43)]
 	public struct GameConnectedFriendChatMsg_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 43;
@@ -233,7 +233,7 @@ namespace Steamworks {
 		public int m_iMessageID;
 	}
 
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 44)]
 	public struct FriendsGetFollowerCount_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 44;
@@ -242,7 +242,7 @@ namespace Steamworks {
 		public int m_nCount;
 	}
 
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 45)]
 	public struct FriendsIsFollowing_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 45;
@@ -252,7 +252,7 @@ namespace Steamworks {
 		public bool m_bIsFollowing;
 	}
 
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 46)]
 	public struct FriendsEnumerateFollowingList_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 46;
@@ -288,7 +288,7 @@ namespace Steamworks {
 	}
 
 	// callback notification - A message failed to make it to the GC. It may be down temporarily
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamGameCoordinatorCallbacks + 2)]
 	public struct GCMessageFailed_t {
 		public const int k_iCallback = Constants.k_iSteamGameCoordinatorCallbacks + 2;
@@ -308,7 +308,7 @@ namespace Steamworks {
 	}
 
 	// client has been denied to connection to this game server
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 2)]
 	public struct GSClientDeny_t {
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 2;
@@ -319,7 +319,7 @@ namespace Steamworks {
 	}
 
 	// request the game server should kick the user
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 3)]
 	public struct GSClientKick_t {
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 3;
@@ -362,7 +362,7 @@ namespace Steamworks {
 	}
 
 	// send as a reply to RequestUserGroupStatus()
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = 1)]
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 8)]
 	public struct GSClientGroupStatus_t {
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 8;
@@ -421,7 +421,7 @@ namespace Steamworks {
 	// Purpose: called when the latests stats and achievements have been received
 	//			from the server
 	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamGameServerStatsCallbacks)]
 	public struct GSStatsReceived_t {
 		public const int k_iCallback = Constants.k_iSteamGameServerStatsCallbacks;
@@ -432,7 +432,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: result of a request to store the user stats for a game
 	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamGameServerStatsCallbacks + 1)]
 	public struct GSStatsStored_t {
 		public const int k_iCallback = Constants.k_iSteamGameServerStatsCallbacks + 1;
@@ -700,7 +700,7 @@ namespace Steamworks {
 	// callback notification - packets can't get through to the specified user via the SendP2PPacket() API
 	// all packets queued packets unsent at this point will be dropped
 	// further attempts to send will retry making the connection (but will be dropped if we fail again)
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = 1)]
 	[CallbackIdentity(Constants.k_iSteamNetworkingCallbacks + 3)]
 	public struct P2PSessionConnectFail_t {
 		public const int k_iCallback = Constants.k_iSteamNetworkingCallbacks + 3;
@@ -710,7 +710,7 @@ namespace Steamworks {
 
 	// callback notification - status of a socket has changed
 	// used as part of the CreateListenSocket() / CreateP2PConnectionSocket()
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamNetworkingCallbacks + 1)]
 	public struct SocketStatusCallback_t {
 		public const int k_iCallback = Constants.k_iSteamNetworkingCallbacks + 1;
@@ -1107,7 +1107,7 @@ namespace Steamworks {
 	// HookScreenshots() has been called, in which case Steam will not take
 	// the screenshot itself.
 	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamScreenshotsCallbacks + 2)]
 	public struct ScreenshotRequested_t {
 		public const int k_iCallback = Constants.k_iSteamScreenshotsCallbacks + 2;
@@ -1155,7 +1155,7 @@ namespace Steamworks {
 	//			only be seen if the user has dropped connection due to a networking issue
 	//			or a Steam server update
 	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 1)]
 	public struct SteamServersConnected_t {
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 1;
@@ -1221,7 +1221,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// callback for BeginAuthSession
 	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 43)]
 	public struct ValidateAuthTicketResponse_t {
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 43;
@@ -1281,12 +1281,15 @@ namespace Steamworks {
 	// Purpose: called when the latests stats and achievements have been received
 	//			from the server
 	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Explicit, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 1)]
 	public struct UserStatsReceived_t {
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 1;
+		[FieldOffset(0)]
 		public ulong m_nGameID;		// Game these stats are for
+		[FieldOffset(8)]
 		public EResult m_eResult;		// Success / error fetching the stats
+		[FieldOffset(12)]
 		public CSteamID m_steamIDUser;	// The user for whom the stats are retrieved for
 	}
 
@@ -1448,7 +1451,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: The country of the user changed
 	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 1)]
 	public struct IPCountry_t {
 		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 1;
@@ -1477,7 +1480,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// called when Steam wants to shutdown
 	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 4)]
 	public struct SteamShutdown_t {
 		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 4;
