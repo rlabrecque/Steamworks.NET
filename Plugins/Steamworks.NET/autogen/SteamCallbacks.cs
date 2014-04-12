@@ -669,24 +669,6 @@ namespace Steamworks {
 		public ulong m_ulSteamIDLobby;		// chat room, zero if failed
 	}
 
-	// used by now obsolete RequestFriendsLobbiesResponse_t
-	// enum { k_iCallback = k_iSteamMatchmakingCallbacks + 14 };
-	//-----------------------------------------------------------------------------
-	// Purpose: Result of CheckForPSNGameBootInvite
-	//			m_eResult == k_EResultOK on success
-	//			at this point, the local user may not have finishing joining this lobby;
-	//			game code should wait until the subsequent LobbyEnter_t callback is received
-	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 15)]
-	public struct PSNGameBootInviteResult_t {
-		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 15;
-		
-		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bGameBootInviteExists;
-		public CSteamID m_steamIDLobby;		// Should be valid if m_bGameBootInviteExists == true
-	}
-
 	// callbacks
 	// callback notification - a user wants to talk to us over the P2P channel via the SendP2PPacket() API
 	// in response, a call to AcceptP2PPacketsFromUser() needs to be made, if you want to talk with them
@@ -1423,19 +1405,6 @@ namespace Steamworks {
 	}
 
 	//-----------------------------------------------------------------------------
-	// Purpose: callback indicating that PS3 trophies have been installed
-	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 12)]
-	public struct PS3TrophiesInstalled_t {
-		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 12;
-		public ulong m_nGameID;				// Game these stats are for
-		public EResult m_eResult;				// The result of the operation
-		public ulong m_ulRequiredDiskSpace;	// If m_eResult is k_EResultDiskFull, will contain the amount of space needed to install trophies
-		
-	}
-
-	//-----------------------------------------------------------------------------
 	// Purpose: callback indicating global stats have been received.
 	//	Returned as a result of RequestGlobalStats()
 	//-----------------------------------------------------------------------------
@@ -1494,64 +1463,6 @@ namespace Steamworks {
 	public struct CheckFileSignature_t {
 		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 5;
 		public ECheckFileSignature m_eCheckFileSignature;
-	}
-
-	//-----------------------------------------------------------------------------
-	// callback for NetCtlNetStartDialog finishing on PS3
-	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 6)]
-	public struct NetStartDialogFinished_t {
-		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 6;
-	}
-
-	//-----------------------------------------------------------------------------
-	// callback for NetCtlNetStartDialog unloaded on PS3
-	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 7)]
-	public struct NetStartDialogUnloaded_t {
-		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 7;
-	}
-
-	//-----------------------------------------------------------------------------
-	// callback for system menu closing on PS3 - should trigger resyncronizing friends list, etc.
-	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 8)]
-	public struct PS3SystemMenuClosed_t {
-		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 8;
-	}
-
-	//-----------------------------------------------------------------------------
-	// callback for NP message being selected by user on PS3 - should trigger handling of message if it's a lobby invite, etc.
-	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 9)]
-	public struct PS3NPMessageSelected_t {
-		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 9;
-		public uint dataid;
-	}
-
-	//-----------------------------------------------------------------------------
-	// callback for when the PS3 keyboard dialog closes
-	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 10)]
-	public struct PS3KeyboardDialogFinished_t {
-		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 10;
-	}
-
-	// k_iSteamUtilsCallbacks + 11 is taken
-	//-----------------------------------------------------------------------------
-	// callback for PSN status changing on PS3
-	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 12)]
-	public struct PS3PSNStatusChange_t {
-		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 12;
-		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bPSNOnline;
 	}
 
 	// k_iSteamUtilsCallbacks + 13 is taken
