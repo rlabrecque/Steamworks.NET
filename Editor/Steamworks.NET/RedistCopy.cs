@@ -30,7 +30,7 @@ public class RedistCopy {
 				break;
 			case BuildTarget.StandaloneLinuxUniversal:
 				CopyFile("linux/launchscriptuniversal", strProjectName, pathToBuiltProject);
-                break;
+				break;
 #endif
 			default:
 				return;
@@ -59,16 +59,22 @@ public class RedistCopy {
 		string strSource = Path.Combine(Path.Combine(strCWD, SteamAPIRelativeLoc), filename);
 		string strFileDest = Path.Combine(Path.GetDirectoryName(pathToBuiltProject), outputfilename);
 
-		if (File.Exists(strFileDest)) {
-			return;
-		}
-
 		if (!File.Exists(strSource)) {
 			Debug.LogWarning(string.Format("[Steamworks.NET] Could not copy {0} into the project root. {0} could not be found in '{1}'. Place {0} from the redist into the project root manually.", filename, SteamAPIRelativeLoc));
 			return;
 		}
 
-		File.Copy(strSource, strFileDest);
+		if (File.Exists(strFileDest)) {
+			if (File.GetLastWriteTime(strSource) == File.GetLastWriteTime(strFileDest)) {
+				FileInfo fInfo = new FileInfo(strSource);
+				FileInfo fInfo2 = new FileInfo(strFileDest);
+				if (fInfo.Length == fInfo2.Length) {
+					return;
+				}
+			}
+		}
+
+		File.Copy(strSource, strFileDest, true);
 
 		if (!File.Exists(strFileDest)) {
 			Debug.LogWarning(string.Format("[Steamworks.NET] Could not copy {0} into the built project. File.Copy() Failed. Place {0} from the redist folder into the output dir manually.", filename));

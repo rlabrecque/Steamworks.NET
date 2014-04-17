@@ -19,13 +19,16 @@ public class RedistInstall {
 		string strSource = Path.Combine(Path.Combine(strCWD, SteamAPIRelativeLoc), filename);
 		string strDest = Path.Combine(strCWD, filename);
 
+		if (!File.Exists(strSource)) {
+			Debug.LogWarning(string.Format("[Steamworks.NET] Could not copy {0} into the project root. {0} could not be found in '{1}'. Place {0} from the Steamworks SDK in the project root manually.", filename, Path.Combine(strCWD, SteamAPIRelativeLoc)));
+			return;
+		}
+
 		if (File.Exists(strDest)) {
 			if (!bCheckDifference)
 				return;
 
-			System.DateTime fTime = File.GetLastWriteTime(strSource);
-			System.DateTime fTime2 = File.GetLastWriteTime(strDest);
-			if (fTime == fTime2) {
+			if (File.GetLastWriteTime(strSource) == File.GetLastWriteTime(strDest)) {
 				FileInfo fInfo = new FileInfo(strSource);
 				FileInfo fInfo2 = new FileInfo(strDest);
 				if (fInfo.Length == fInfo2.Length) {
@@ -37,11 +40,6 @@ public class RedistInstall {
 		}
 		else {
 			Debug.Log(string.Format("[Steamworks.NET] {0} is not present in the project root. Copying...", filename));
-		}
-
-		if (!File.Exists(strSource)) {
-			Debug.LogWarning(string.Format("[Steamworks.NET] Could not copy {0} into the project root. {0} could not be found in '{1}'. Place {0} from the Steamworks SDK in the project root manually.", filename, Path.Combine(strCWD, SteamAPIRelativeLoc)));
-			return;
 		}
 
 		File.Copy(strSource, strDest, true);
