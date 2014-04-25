@@ -83,6 +83,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamapplist.cs">
+      <Link>Steamworks.NET\autogen\isteamapplist.cs</Link>
+    </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamapps.cs">
       <Link>Steamworks.NET\autogen\isteamapps.cs</Link>
     </Compile>
@@ -115,6 +118,9 @@
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteammatchmaking.cs">
       <Link>Steamworks.NET\autogen\isteammatchmaking.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteammusic.cs">
+      <Link>Steamworks.NET\autogen\isteammusic.cs</Link>
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamnetworking.cs">
       <Link>Steamworks.NET\autogen\isteamnetworking.cs</Link>
@@ -232,6 +238,9 @@
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamUGC\UGCQueryHandle_t.cs">
       <Link>Steamworks.NET\types\SteamUGC\UGCQueryHandle_t.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamUGC\UGCUpdateHandle_t.cs">
+      <Link>Steamworks.NET\types\SteamUGC\UGCUpdateHandle_t.cs</Link>
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamUnifiedMessages\ClientUnifiedMessageHandle.cs">
       <Link>Steamworks.NET\types\SteamUnifiedMessages\ClientUnifiedMessageHandle.cs</Link>

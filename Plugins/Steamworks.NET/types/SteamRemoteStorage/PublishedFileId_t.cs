@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks {
 	public struct PublishedFileId_t : System.IEquatable<PublishedFileId_t>, System.IComparable<PublishedFileId_t> {
+		public static readonly PublishedFileId_t Invalid = new PublishedFileId_t(0);
 		public ulong m_PublishedFileId;
 
 		public PublishedFileId_t(ulong value) {

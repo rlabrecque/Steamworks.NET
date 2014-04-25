@@ -58,6 +58,11 @@ namespace Steamworks {
 		/// @see SteamServersConnected_t
 		/// @see SteamServerConnectFailure_t
 		/// @see SteamServersDisconnected_t
+		public static void LogOn(string pszToken) {
+			InteropHelp.TestIfAvailableGameServer();
+			NativeMethods.ISteamGameServer_LogOn(pszToken);
+		}
+
 		/// Login to a generic, anonymous account.
 		///
 		/// Note: in previous versions of the SDK, this was automatically called within SteamGameServer_Init,

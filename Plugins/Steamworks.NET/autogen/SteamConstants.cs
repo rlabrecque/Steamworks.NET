@@ -10,25 +10,27 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks {
 	public static class Constants {
+		public const string STEAMAPPLIST_INTERFACE_VERSION = "STEAMAPPLIST_INTERFACE_VERSION001";
 		public const string STEAMAPPS_INTERFACE_VERSION = "STEAMAPPS_INTERFACE_VERSION006";
 		public const string STEAMAPPTICKET_INTERFACE_VERSION = "STEAMAPPTICKET_INTERFACE_VERSION001";
-		public const string STEAMCLIENT_INTERFACE_VERSION = "SteamClient012";
+		public const string STEAMCLIENT_INTERFACE_VERSION = "SteamClient014";
 		public const string STEAMCONTROLLER_INTERFACE_VERSION = "STEAMCONTROLLER_INTERFACE_VERSION";
 		public const string STEAMFRIENDS_INTERFACE_VERSION = "SteamFriends014";
 		public const string STEAMGAMECOORDINATOR_INTERFACE_VERSION = "SteamGameCoordinator001";
-		public const string STEAMGAMESERVER_INTERFACE_VERSION = "SteamGameServer011";
+		public const string STEAMGAMESERVER_INTERFACE_VERSION = "SteamGameServer012";
 		public const string STEAMGAMESERVERSTATS_INTERFACE_VERSION = "SteamGameServerStats001";
 		public const string STEAMHTTP_INTERFACE_VERSION = "STEAMHTTP_INTERFACE_VERSION002";
 		public const string STEAMMATCHMAKING_INTERFACE_VERSION = "SteamMatchMaking009";
 		public const string STEAMMATCHMAKINGSERVERS_INTERFACE_VERSION = "SteamMatchMakingServers002";
+		public const string STEAMMUSIC_INTERFACE_VERSION = "STEAMMUSIC_INTERFACE_VERSION001";
 		public const string STEAMNETWORKING_INTERFACE_VERSION = "SteamNetworking005";
 		public const string STEAMREMOTESTORAGE_INTERFACE_VERSION = "STEAMREMOTESTORAGE_INTERFACE_VERSION012";
 		public const string STEAMSCREENSHOTS_INTERFACE_VERSION = "STEAMSCREENSHOTS_INTERFACE_VERSION002";
-		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION001";
+		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION002";
 		public const string STEAMUNIFIEDMESSAGES_INTERFACE_VERSION = "STEAMUNIFIEDMESSAGES_INTERFACE_VERSION001";
 		public const string STEAMUSER_INTERFACE_VERSION = "SteamUser017";
 		public const string STEAMUSERSTATS_INTERFACE_VERSION = "STEAMUSERSTATS_INTERFACE_VERSION011";
-		public const string STEAMUTILS_INTERFACE_VERSION = "SteamUtils006";
+		public const string STEAMUTILS_INTERFACE_VERSION = "SteamUtils007";
 		public const int k_cubAppProofOfPurchaseKeyMax = 64;
 		//-----------------------------------------------------------------------------
 		// Purpose: Base values for callback identifiers, each callback must
@@ -71,6 +73,9 @@ namespace Steamworks {
 		public const int k_iSteamStreamClientCallbacks = 3500;
 		public const int k_IClientProductBuilderCallbacks = 3600;
 		public const int k_iClientShortcutsCallbacks = 3700;
+		public const int k_iClientRemoteControlManagerCallbacks = 3800;
+		public const int k_iSteamAppListCallbacks = 3900;
+		public const int k_iSteamMusicCallbacks = 4000;
 		// maximum length of friend group name (not including terminating nul!)
 		public const int k_cchMaxFriendsGroupName = 64;
 		// maximum number of groups a single user is allowed

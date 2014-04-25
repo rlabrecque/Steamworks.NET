@@ -10,6 +10,27 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks {
 	// callbacks
+	//---------------------------------------------------------------------------------
+	// Purpose: Sent when a new app is installed
+	//---------------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamAppListCallbacks + 1)]
+	public struct SteamAppInstalled_t {
+		public const int k_iCallback = Constants.k_iSteamAppListCallbacks + 1;
+		public AppId_t m_nAppID;			// ID of the app that installs
+	}
+
+	//---------------------------------------------------------------------------------
+	// Purpose: Sent when an app is uninstalled
+	//---------------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamAppListCallbacks + 2)]
+	public struct SteamAppUninstalled_t {
+		public const int k_iCallback = Constants.k_iSteamAppListCallbacks + 2;
+		public AppId_t m_nAppID;			// ID of the app that installs
+	}
+
+	// callbacks
 	//-----------------------------------------------------------------------------
 	// Purpose: posted after the user gains ownership of DLC & that DLC is installed
 	//-----------------------------------------------------------------------------
@@ -523,6 +544,7 @@ namespace Steamworks {
 		public uint m_nFlags;
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bAdd; // true if this is adding the entry, otherwise it is a remove
+		public AccountID_t m_unAccountId;
 	}
 
 	//-----------------------------------------------------------------------------
@@ -669,6 +691,33 @@ namespace Steamworks {
 		public ulong m_ulSteamIDLobby;		// chat room, zero if failed
 	}
 
+	//-----------------------------------------------------------------------------
+	// Purpose: Result of our request to create a Lobby
+	//			m_eResult == k_EResultOK on success
+	//			at this point, the lobby has been joined and is ready for use
+	//			a LobbyEnter_t callback will also be received (since the local user is joining their own lobby)
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 16)]
+	public struct FavoritesListAccountsUpdated_t {
+		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 16;
+		
+		public EResult m_eResult;
+	}
+
+	// callbacks
+	[CallbackIdentity(Constants.k_iSteamMusicCallbacks + 1)]
+	public struct PlaybackStatusHasChanged_t {
+		public const int k_iCallback = Constants.k_iSteamMusicCallbacks + 1;
+	}
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMusicCallbacks + 2)]
+	public struct VolumeHasChanged_t {
+		public const int k_iCallback = Constants.k_iSteamMusicCallbacks + 2;
+		public float m_flNewVolume;
+	}
+
 	// callbacks
 	// callback notification - a user wants to talk to us over the P2P channel via the SendP2PPacket() API
 	// in response, a call to AcceptP2PPacketsFromUser() needs to be made, if you want to talk with them
@@ -781,6 +830,8 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 7;
 		public EResult m_eResult;			// The result of the operation
 		public UGCHandle_t m_hFile;		// The handle that can be shared with users and features
+		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchFilenameMax)]
+		public string m_rgchFilename; // The name of the file that was shared
 	}
 
 	// k_iClientRemoteStorageCallbacks + 8 is deprecated! Do not reuse
@@ -1106,6 +1157,8 @@ namespace Steamworks {
 		public EResult m_eResult;
 		public uint m_unNumResultsReturned;
 		public uint m_unTotalMatchingResults;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bCachedData;	// indicates whether this data was retrieved from the local on-disk cache
 	}
 
 	//-----------------------------------------------------------------------------
@@ -1116,6 +1169,8 @@ namespace Steamworks {
 	public struct SteamUGCRequestUGCDetailsResult_t {
 		public const int k_iCallback = Constants.k_iClientUGCCallbacks + 2;
 		public SteamUGCDetails_t m_details;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bCachedData; // indicates whether this data was retrieved from the local on-disk cache
 	}
 
 	// callbacks

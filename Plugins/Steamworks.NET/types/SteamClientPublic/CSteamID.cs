@@ -35,7 +35,7 @@ namespace Steamworks {
 			SetEUniverse(eUniverse);
 			SetEAccountType(eAccountType);
 
-			if (eAccountType == EAccountType.k_EAccountTypeClan) {
+			if (eAccountType == EAccountType.k_EAccountTypeClan || eAccountType == EAccountType.k_EAccountTypeGameServer) {
 				SetAccountInstance(0);
 			}
 			else {
