@@ -70,7 +70,7 @@ namespace Steamworks {
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
 		public static void RunCallbacks() {
 			InteropHelp.TestIfPlatformSupported();
-			CallbackDispatcher.RunCallbacks();
+			NativeMethods.SteamAPI_RunCallbacks();
 		}
 
 		// checks if a local Steam client is running
@@ -131,6 +131,11 @@ namespace Steamworks {
 		public static void Shutdown() {
 			InteropHelp.TestIfPlatformSupported();
 			NativeMethods.SteamGameServer_Shutdown();
+		}
+
+		public static void RunCallbacks() {
+			InteropHelp.TestIfPlatformSupported();
+			NativeMethods.SteamGameServer_RunCallbacks();
 		}
 
 		public static bool BSecure() {
