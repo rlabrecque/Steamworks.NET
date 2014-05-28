@@ -5,7 +5,7 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 // Steamworks.NET Version: 3.0.0
-// Steamworks SDK Version: 1.28
+// Steamworks SDK Version: 1.29a
 
 #define VERSION_SAFE_STEAM_API_INTERFACES
 

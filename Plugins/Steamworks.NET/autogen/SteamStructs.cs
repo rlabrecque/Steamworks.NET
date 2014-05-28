@@ -88,6 +88,7 @@ namespace Steamworks {
 		public uint m_unVotesUp;												// number of votes up
 		public uint m_unVotesDown;											// number of votes down
 		public float m_flScore;												// calculated score
+		public uint m_unNumChildren;											// if m_eFileType == k_EWorkshopFileTypeCollection, then this number will be the number of children contained within the collection
 	}
 
 	// structure that contains client callback data
