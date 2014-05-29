@@ -4,46 +4,37 @@
 
 // Changes to this file will be reverted when you update Steamworks.NET
 
-// First we'll check if we're running a standalone build.
-#if STEAMWORKS_WIN
-	#define WINDOWS_BUILD
-
-#elif STEAMWORKS_LIN_OSX
-	#define UNIX_BUILD
-
-// If we're running in the Unity Editor we need the editors platform.
-#elif UNITY_EDITOR_WIN
-	#define WINDOWS_BUILD
+// Are we running under Unity?
+#if UNITY_2_6 || UNITY_2_6_1 || UNITY_3_0 || UNITY_3_0_0 || UNITY_3_1 || UNITY_3_2 || UNITY_3_3 || UNITY_3_4 || UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5
 	#define UNITY_BUILD
 
-#elif UNITY_EDITOR_OSX
-	#define UNIX_BUILD
-	#define UNITY_BUILD
+	// If we're running in the Unity Editor we need the editors platform.
+	#if UNITY_EDITOR_WIN
+		#define WINDOWS_BUILD
+	#elif UNITY_EDITOR_OSX
+		#define UNIX_BUILD
+	// Otherwise we want the target platform.
+	#elif UNITY_STANDALONE_WIN
+		#define WINDOWS_BUILD
+	#elif UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX
+		#define UNIX_BUILD
+	#endif
 
-// Otherwise we want the target platform.
-#elif UNITY_STANDALONE_WIN
-	#define WINDOWS_BUILD
-	#define UNITY_BUILD
-
-#elif UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX
-	#define UNIX_BUILD
-	#define UNITY_BUILD
-
-// We do not want to throw a warning when we're building in Unity but for an unsupported platform. So we'll silently let this slip by.
-// It would be nice if Unity itself would define 'UNITY' or something like that...
-#elif UNITY_WEBPLAYER || UNITY_WII || UNITY_IPHONE || UNITY_ANDROID || UNITY_PS3 || UNITY_XBOX360 || UNITY_NACL || UNITY_FLASH || UNITY_BLACKBERRY || UNITY_WP8 || UNITY_METRO
-	#define UNIX_BUILD
-	#define UNITY_BUILD
-
-// But we do want to be explicit on the Standalone build for XNA/Monogame.
+	// Unity 32bit Mono on Windows crashes with ThisCall for some reason, StdCall without the 'this' ptr is the only thing that works..? 
+	#if WINDOWS_BUILD && (UNITY_EDITOR || !UNITY_64)
+		#define NOTHISPTR
+	#endif
 #else
-	#define WINDOWS_BUILD
-	#warning You need to define STEAMWORKS_WIN, or STEAMWORKS_LIN_OSX. Refer to the readme for more details.
-#endif
-
-// Unity 32bit Mono on Windows crashes with ThisCall for some reason, StdCall without the 'this' ptr is the only thing that works..? 
-#if WINDOWS_BUILD && UNITY_BUILD && (UNITY_EDITOR || !UNITY_64)
-	#define NOTHISPTR
+// If we're not a UNITY_BUILD:
+	#if STEAMWORKS_LIN_OSX
+		#define UNIX_BUILD
+	#else
+		#define WINDOWS_BUILD
+		// We want to be explicit about what platform we're building for or else porting becomes troublesome.
+		#if !STEAMWORKS_WIN
+			#warning You need to define STEAMWORKS_WIN, or STEAMWORKS_LIN_OSX. Refer to the readme for more details.
+		#endif
+	#endif
 #endif
 
 using System;
