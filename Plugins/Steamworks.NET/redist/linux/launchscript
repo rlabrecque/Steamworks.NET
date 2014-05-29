@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-GAMENAME="REPLACEWITHYOURGAMENAME"
-ARCH="x86"
-
-export LD_LIBRARY_PATH="./"$GAMENAME"_Data/Plugins/"$ARCH"/:$LD_LIBRARY_PATH"
-
-exec "./"$GAMENAME"."$ARCH "$@"

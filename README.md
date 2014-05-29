@@ -6,9 +6,7 @@ _Steamworks.NET_ is a C# Wrapper for Valve's Steamworks API, it can be used eith
 _Steamworks.NET_ was designed to be as close as possible to the original C++ API, as such the documentation provided from Valve largely covers usage of _Steamworks.NET_. 
 Niceties and C# Idioms can be easily implemented on top of _Steamworks.NET_.
 
-The included CSteamworks.dll was built with VS2010, and as such requires [Microsoft Visual C++ 2010 Redistributable Package (x86)](http://www.microsoft.com/en-us/download/details.aspx?id=5555). *You must also ship this to customers* via Installation -> Installers on the Steam Partner Website.
-
-_Steamworks.NET_ currently supports Windows, OSX, and Linux in both 32 and 64bit varieties. Currently building against Steamworks SDK 1.29.
+_Steamworks.NET_ currently supports Windows, OSX, and Linux in both 32 and 64bit varieties. Currently building against Steamworks SDK 1.29a.
 
 * Author: [Riley Labrecque](https://github.com/rlabrecque)
 * License: [MIT](http://www.opensource.org/licenses/mit-license.php)
@@ -35,11 +33,6 @@ To use _Steamworks.NET_ you must be a Steamworks developer. _Steamworks.NET_ req
 * Launch your Unity project. It should copy steam_appid.txt (and steam_api.dll if your on windows) into the root of your project.
 * Close Unity and relaunch the project so that it loads the newly copied steam_appid.txt & steam_api.dll.
 
-##### Linux
-If you plan on shipping a Linux build (do it!) then you must edit `Plugins/Steamworks.NET/redist/linux/launchscript[64,universal]` and replace `REPLACEWITHYOURGAMENAME` with your games name.
-
-Your game must then be launched through the script (which will be copied to the output folder and renamed to your executables name automatically.)
-
 ##### Samples
 Check out these sample projects to get started:
 * [Steamworks.NET Example](https://github.com/rlabrecque/Steamworks.NET-Example)
@@ -48,7 +41,7 @@ Check out these sample projects to get started:
 Not using Unity?
 ----------------
 
-If you are not using Unity then you have two routes that you could take.
+If you are not using Unity then you have two available routes that you could take.
 * A: Copy `Plugins/Steamworks.NET` into your C# project. In Visual Studio open your project properties, change to the Build tab and define `STEAMWORKS_WIN` or `STEAMWORKS_LIN_OSX` globally via `Conditional compilation symbols`.
  * This is only recommended if your binary is not portable across platforms already. If you ship on multiple platforms you must have multiple build targets for each platforms. Please prefer the second route.
 * B: The peferable route is to build the standalone assemblies, with the project file located in `Standalone/`. Alternatively you can download the [prebuilt binaries (2.0.0)](https://github.com/rlabrecque/Steamworks.NET/releases/download/2.0.0/Steamworks.NET-Standalone_2.0.0.zip).

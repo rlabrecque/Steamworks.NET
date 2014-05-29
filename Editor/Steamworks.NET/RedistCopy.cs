@@ -14,32 +14,17 @@ public class RedistCopy {
 #if !DISABLEREDISTCOPY
 		string strProjectName = Path.GetFileNameWithoutExtension(pathToBuiltProject);
 
-		switch(target) {
-			case BuildTarget.StandaloneWindows:
-				CopyFile("steam_api.dll", "steam_api.dll", pathToBuiltProject);
-				break;
-			case BuildTarget.StandaloneWindows64:
-				CopyFile("steam_api64.dll", "steam_api64.dll", pathToBuiltProject);
-				break;
-#if !UNITY_3_5 // Unity 3.5 does not support Linux or 64bit OSX
-			case BuildTarget.StandaloneLinux:
-				CopyFile("linux/launchscript", strProjectName, pathToBuiltProject);
-				break;
-			case BuildTarget.StandaloneLinux64:
-				CopyFile("linux/launchscript64", strProjectName, pathToBuiltProject);
-				break;
-			case BuildTarget.StandaloneLinuxUniversal:
-				CopyFile("linux/launchscriptuniversal", strProjectName, pathToBuiltProject);
-				break;
-#endif
-			default:
-				return;
+		if (target == BuildTarget.StandaloneWindows64) {
+			CopyFile("steam_api64.dll", "steam_api64.dll", pathToBuiltProject);
+		}
+		else if (target == BuildTarget.StandaloneWindows) {
+			CopyFile("steam_api.dll", "steam_api.dll", pathToBuiltProject);
 		}
 				
 		string controllerCfg = Path.Combine(Application.dataPath, "controller.vdf");
 		if (File.Exists(controllerCfg)) {
 			string dir = "_Data";
-			if (target == BuildTarget.StandaloneOSXIntel) {
+			if (target == BuildTarget.StandaloneOSXIntel || target == BuildTarget.StandaloneOSXIntel64 || target == BuildTarget.StandaloneOSXUniversal) {
 				dir = ".app/Contents";
 			}
 
