@@ -324,7 +324,7 @@ namespace Steamworks {
 		[NonSerialized]
 		[MarshalAs(UnmanagedType.FunctionPtr)]
 		public RunCBDel m_RunCallback;
-#if UNIX_BUILD
+#if !WINDOWS_BUILD
 		[NonSerialized]
 		[MarshalAs(UnmanagedType.FunctionPtr)]
 		public RunCRDel m_RunCallResult;
