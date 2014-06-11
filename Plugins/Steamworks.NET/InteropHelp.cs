@@ -123,7 +123,7 @@ namespace Steamworks {
 
 			string str = managedObj as string;
 			if (str == null) {
-				throw new MarshalDirectiveException("UTF8Marshaler must be used on a string.");
+				throw new Exception("UTF8Marshaler must be used on a string.");
 			}
 
 			byte[] strbuf = new byte[Encoding.UTF8.GetByteCount(str) + 1];
