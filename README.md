@@ -13,7 +13,7 @@ _Steamworks.NET_ currently supports Windows, OSX, and Linux in both 32 and 64bit
 * [Discussion](http://steamcommunity.com/groups/steamworks/discussions/0/666827974770212954/)
 * [Reporting Issues](https://github.com/rlabrecque/Steamworks.NET/issues)
 * 1-on-1 support is available by donating $40 USD or greater.
- * Support can be obtained via [Email](support@rileylabrecque.com), [Skype](skype:riley.labrecque?userinfo), or [Steam](http://steamcommunity.com/id/rlabrecque)
+ * Support can be obtained via [Email](mailto:support@rileylabrecque.com), [Skype](http://rileylabrecque.com/skype), or [Steam](http://steamcommunity.com/id/rlabrecque)
  * I can only help with Steamworks.NET specific issues, general API questions should be asked on the [Steamworks discussion board](http://steamcommunity.com/groups/steamworks/discussions).
 
 [![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.1.0/dist/gittip.png)](https://www.gittip.com/rlabrecque/)
@@ -27,7 +27,7 @@ Usage
 
 To use _Steamworks.NET_ you must be a Steamworks developer. _Steamworks.NET_ requires Unity Pro for the plugin functionality.
 
-* Clone or download a Zip Archive: [master - 3.0.0](https://github.com/rlabrecque/Steamworks.NET/archive/master.zip)
+* Clone or download a Zip Archive: [Stable (3.0.0)](https://github.com/rlabrecque/Steamworks.NET/archive/3.0.0.zip) -- [Master (Cutting-edge)](https://github.com/rlabrecque/Steamworks.NET/archive/master.zip)
 * Extract and copy Steamworks.NET's `Plugins/` and `Editor/` folders into your `Assets/` folder.
 * Open `Plugins/Steamworks.NET/redist/steam_appid.txt` and replace `480` with your own AppId.
 * Launch your Unity project. It should copy steam_appid.txt (and steam_api.dll if your on windows) into the root of your project.
@@ -64,7 +64,7 @@ Limitations
 * The following Interfaces are largely untested (but should be completely functional):
 ```
 ISteamAppsList
-ISteamMatchmaking (May require some work!)
+ISteamMatchmaking
 ISteamMusic
 ISteamNetworking
 ISteamUGC
@@ -72,6 +72,6 @@ ISteamUnifiedMessages
 ISteamGameServer
 ```
 
-* The following are Unity specific and are out of our control, *ALL* Steamworks wrappers for Unity experience these issues.
+* The following are Unity specific issues and are out of our control, *ALL* Steamworks wrappers for Unity experience these issues.
  * When used from within the Unity Editor, Steam will think you are in game constantly. This is normal and does not effect usage.
  * The Overlay only works when launched from Steam directly. (A small number of Steamworks features (such as the Steam Controller) rely on the overlay being present. Prefer using a [Local Content Server](https://partner.steamgames.com/documentation/steampipeLCS) for testing.)
