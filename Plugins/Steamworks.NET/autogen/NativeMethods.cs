@@ -197,7 +197,7 @@ namespace Steamworks {
 		public static extern uint ISteamAppList_GetNumInstalledApps();
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamAppList_GetInstalledApps(out AppId_t pvecAppID, uint unMaxAppIDs);
+		public static extern uint ISteamAppList_GetInstalledApps(AppId_t[] pvecAppID, uint unMaxAppIDs);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int ISteamAppList_GetAppName(AppId_t nAppID, IntPtr pchName, int cchNameMax);

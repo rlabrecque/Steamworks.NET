@@ -15,9 +15,9 @@ namespace Steamworks {
 			return NativeMethods.ISteamAppList_GetNumInstalledApps();
 		}
 
-		public static uint GetInstalledApps(out AppId_t pvecAppID, uint unMaxAppIDs) {
+		public static uint GetInstalledApps(AppId_t[] pvecAppID, uint unMaxAppIDs) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamAppList_GetInstalledApps(out pvecAppID, unMaxAppIDs);
+			return NativeMethods.ISteamAppList_GetInstalledApps(pvecAppID, unMaxAppIDs);
 		}
 
 		// returns -1 if no name was found
