@@ -29,9 +29,9 @@ namespace Steamworks {
 		}
 
 		// Retrieve an individual result after receiving the callback for querying UGC
-		public static bool GetQueryUGCResult(UGCQueryHandle_t handle, uint index, ref SteamUGCDetails_t pDetails) {
+		public static bool GetQueryUGCResult(UGCQueryHandle_t handle, uint index, out SteamUGCDetails_t pDetails) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUGC_GetQueryUGCResult(handle, index, ref pDetails);
+			return NativeMethods.ISteamUGC_GetQueryUGCResult(handle, index, out pDetails);
 		}
 
 		// Release the request to free up memory, after retrieving results
