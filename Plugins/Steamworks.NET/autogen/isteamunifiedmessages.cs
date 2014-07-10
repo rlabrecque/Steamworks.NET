@@ -12,7 +12,7 @@ namespace Steamworks {
 	public static class SteamUnifiedMessages {
 		// Sends a service method (in binary serialized form) using the Steam Client.
 		// Returns a unified message handle (k_InvalidUnifiedMessageHandle if could not send the message).
-		public static ClientUnifiedMessageHandle SendMethod(string pchServiceMethod, IntPtr pRequestBuffer, uint unRequestBufferSize, ulong unContext) {
+		public static ClientUnifiedMessageHandle SendMethod(string pchServiceMethod, byte[] pRequestBuffer, uint unRequestBufferSize, ulong unContext) {
 			InteropHelp.TestIfAvailableClient();
 			return (ClientUnifiedMessageHandle)NativeMethods.ISteamUnifiedMessages_SendMethod(pchServiceMethod, pRequestBuffer, unRequestBufferSize, unContext);
 		}
@@ -24,7 +24,7 @@ namespace Steamworks {
 		}
 
 		// Gets a response in binary serialized form (and optionally release the corresponding allocated memory).
-		public static bool GetMethodResponseData(ClientUnifiedMessageHandle hHandle, IntPtr pResponseBuffer, uint unResponseBufferSize, bool bAutoRelease) {
+		public static bool GetMethodResponseData(ClientUnifiedMessageHandle hHandle, byte[] pResponseBuffer, uint unResponseBufferSize, bool bAutoRelease) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUnifiedMessages_GetMethodResponseData(hHandle, pResponseBuffer, unResponseBufferSize, bAutoRelease);
 		}
@@ -37,7 +37,7 @@ namespace Steamworks {
 
 		// Sends a service notification (in binary serialized form) using the Steam Client.
 		// Returns true if the notification was sent successfully.
-		public static bool SendNotification(string pchServiceNotification, IntPtr pNotificationBuffer, uint unNotificationBufferSize) {
+		public static bool SendNotification(string pchServiceNotification, byte[] pNotificationBuffer, uint unNotificationBufferSize) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUnifiedMessages_SendNotification(pchServiceNotification, pNotificationBuffer, unNotificationBufferSize);
 		}
