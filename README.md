@@ -6,7 +6,7 @@ _Steamworks.NET_ is a C# Wrapper for Valve's Steamworks API, it can be used eith
 _Steamworks.NET_ was designed to be as close as possible to the original C++ API, as such the documentation provided from Valve largely covers usage of _Steamworks.NET_. 
 Niceties and C# Idioms can be easily implemented on top of _Steamworks.NET_.
 
-_Steamworks.NET_ currently supports Windows, OSX, and Linux in both 32 and 64bit varieties. Currently building against Steamworks SDK 1.29a.
+_Steamworks.NET_ currently supports Windows, OSX, and Linux in both 32 and 64bit varieties. Currently building against Steamworks SDK 1.30.
 
 * Author: [Riley Labrecque](https://github.com/rlabrecque)
 * License: [MIT](http://www.opensource.org/licenses/mit-license.php)
@@ -44,7 +44,7 @@ Not using Unity?
 If you are not using Unity then you have two available routes that you could take.
 * A: Copy `Plugins/Steamworks.NET` into your C# project. In Visual Studio open your project properties, change to the Build tab and define `STEAMWORKS_WIN` or `STEAMWORKS_LIN_OSX` globally via `Conditional compilation symbols`.
  * This is only recommended if your binary is not portable across platforms already. If you ship on multiple platforms you must have multiple build targets for each platforms. Please prefer the second route.
-* B: The peferable route is to build the standalone assemblies, with the project file located in `Standalone/`. Alternatively you can download the [prebuilt binaries (2.0.0)](https://github.com/rlabrecque/Steamworks.NET/releases/download/2.0.0/Steamworks.NET-Standalone_2.0.0.zip).
+* B: The peferable route is to build the standalone assemblies, with the project file located in `Standalone/`. Alternatively you can download the prebuilt binaries which are available on the [Releases](https://github.com/rlabrecque/Steamworks.NET/releases) page.
  * Further instructions are provided by the [README.md](https://github.com/rlabrecque/Steamworks.NET/blob/master/Standalone/README.md) in the `Standalone/` folder.
 
 Using Steam Encrypted App Ticket?
@@ -61,7 +61,7 @@ Limitations
 -----------
 
 * _Steamworks.NET_ does not currently support ISteamAppTicket or ISteamGameCoordinator.
-* The following Interfaces are largely untested (but should be completely functional):
+* The following Interfaces are somewhat untested (but should be completely functional):
 ```
 ISteamAppsList
 ISteamMatchmaking

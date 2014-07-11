@@ -122,6 +122,9 @@
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteammusic.cs">
       <Link>Steamworks.NET\autogen\isteammusic.cs</Link>
     </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteammusicremote.cs">
+      <Link>Steamworks.NET\autogen\isteammusicremote.cs</Link>
+    </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamnetworking.cs">
       <Link>Steamworks.NET\autogen\isteamnetworking.cs</Link>
     </Compile>
@@ -232,6 +235,9 @@
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamTypes\DepotId_t.cs">
       <Link>Steamworks.NET\types\SteamTypes\DepotId_t.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamTypes\ManifestId_t.cs">
+      <Link>Steamworks.NET\types\SteamTypes\ManifestId_t.cs</Link>
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamTypes\SteamAPICall_t.cs">
       <Link>Steamworks.NET\types\SteamTypes\SteamAPICall_t.cs</Link>

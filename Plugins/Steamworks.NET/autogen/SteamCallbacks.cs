@@ -719,6 +719,84 @@ namespace Steamworks {
 	}
 
 	// callbacks
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 1)]
+	public struct MusicPlayerRemoteWillActivate_t {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 1;
+	}
+
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 2)]
+	public struct MusicPlayerRemoteWillDeactivate_t {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 2;
+	}
+
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 3)]
+	public struct MusicPlayerRemoteToFront_t {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 3;
+	}
+
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 4)]
+	public struct MusicPlayerWillQuit_t {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 4;
+	}
+
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 5)]
+	public struct MusicPlayerWantsPlay_t {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 5;
+	}
+
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 6)]
+	public struct MusicPlayerWantsPause_t {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 6;
+	}
+
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 7)]
+	public struct MusicPlayerWantsPlayPrevious_t {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 7;
+	}
+
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 8)]
+	public struct MusicPlayerWantsPlayNext_t {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 8;
+	}
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 9)]
+	public struct MusicPlayerWantsShuffled_t {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 9;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bShuffled;
+	}
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 10)]
+	public struct MusicPlayerWantsLooped_t {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 10;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bLooped;
+	}
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMusicCallbacks + 11)]
+	public struct MusicPlayerWantsVolume_t {
+		public const int k_iCallback = Constants.k_iSteamMusicCallbacks + 11;
+		public float m_flNewVolume;
+	}
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMusicCallbacks + 12)]
+	public struct MusicPlayerSelectsQueueEntry_t {
+		public const int k_iCallback = Constants.k_iSteamMusicCallbacks + 12;
+		public int nID;
+	}
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMusicCallbacks + 13)]
+	public struct MusicPlayerSelectsPlaylistEntry_t {
+		public const int k_iCallback = Constants.k_iSteamMusicCallbacks + 13;
+		public int nID;
+	}
+
+	// callbacks
 	// callback notification - a user wants to talk to us over the P2P channel via the SendP2PPacket() API
 	// in response, a call to AcceptP2PPacketsFromUser() needs to be made, if you want to talk with them
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -1171,6 +1249,42 @@ namespace Steamworks {
 		public SteamUGCDetails_t m_details;
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bCachedData; // indicates whether this data was retrieved from the local on-disk cache
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: result for ISteamUGC::CreateItem()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iClientUGCCallbacks + 3)]
+	public struct CreateItemResult_t {
+		public const int k_iCallback = Constants.k_iClientUGCCallbacks + 3;
+		public EResult m_eResult;
+		public PublishedFileId_t m_nPublishedFileId; // new item got this UGC PublishFileID
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: result for ISteamUGC::SubmitItemUpdate()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iClientUGCCallbacks + 4)]
+	public struct SubmitItemUpdateResult_t {
+		public const int k_iCallback = Constants.k_iClientUGCCallbacks + 4;
+		public EResult m_eResult;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: a new Workshop item has been installed
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iClientUGCCallbacks + 5)]
+	public struct ItemInstalled_t {
+		public const int k_iCallback = Constants.k_iClientUGCCallbacks + 5;
+		public AppId_t m_unAppID;
+		public PublishedFileId_t m_nPublishedFileId;
 	}
 
 	// callbacks

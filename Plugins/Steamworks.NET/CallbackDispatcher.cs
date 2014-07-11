@@ -71,7 +71,7 @@ namespace Steamworks {
 			Register(func);
 
 			// This is a temporary hack to preserve backwards compatability with the old CallbackDispatcher.
-			// If this is still here in 4.0.0 yell at me.
+			// If this is still here in 5.0.0 yell at me.
 			if (bKeepAlive) {
 				if (!bWarnedOnce) {
 					bWarnedOnce = true;

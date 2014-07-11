@@ -13,7 +13,7 @@ namespace Steamworks {
 		public const string STEAMAPPLIST_INTERFACE_VERSION = "STEAMAPPLIST_INTERFACE_VERSION001";
 		public const string STEAMAPPS_INTERFACE_VERSION = "STEAMAPPS_INTERFACE_VERSION006";
 		public const string STEAMAPPTICKET_INTERFACE_VERSION = "STEAMAPPTICKET_INTERFACE_VERSION001";
-		public const string STEAMCLIENT_INTERFACE_VERSION = "SteamClient014";
+		public const string STEAMCLIENT_INTERFACE_VERSION = "SteamClient015";
 		public const string STEAMCONTROLLER_INTERFACE_VERSION = "STEAMCONTROLLER_INTERFACE_VERSION";
 		public const string STEAMFRIENDS_INTERFACE_VERSION = "SteamFriends014";
 		public const string STEAMGAMECOORDINATOR_INTERFACE_VERSION = "SteamGameCoordinator001";
@@ -23,6 +23,7 @@ namespace Steamworks {
 		public const string STEAMMATCHMAKING_INTERFACE_VERSION = "SteamMatchMaking009";
 		public const string STEAMMATCHMAKINGSERVERS_INTERFACE_VERSION = "SteamMatchMakingServers002";
 		public const string STEAMMUSIC_INTERFACE_VERSION = "STEAMMUSIC_INTERFACE_VERSION001";
+		public const string STEAMMUSICREMOTE_INTERFACE_VERSION = "STEAMMUSICREMOTE_INTERFACE_VERSION001";
 		public const string STEAMNETWORKING_INTERFACE_VERSION = "SteamNetworking005";
 		public const string STEAMREMOTESTORAGE_INTERFACE_VERSION = "STEAMREMOTESTORAGE_INTERFACE_VERSION012";
 		public const string STEAMSCREENSHOTS_INTERFACE_VERSION = "STEAMSCREENSHOTS_INTERFACE_VERSION002";
@@ -49,7 +50,7 @@ namespace Steamworks {
 		public const int k_iSteamUserStatsCallbacks = 1100;
 		public const int k_iSteamNetworkingCallbacks = 1200;
 		public const int k_iClientRemoteStorageCallbacks = 1300;
-		public const int k_iSteamUserItemsCallbacks = 1400;
+		public const int k_iClientDepotBuilderCallbacks = 1400;
 		public const int k_iSteamGameServerItemsCallbacks = 1500;
 		public const int k_iClientUtilsCallbacks = 1600;
 		public const int k_iSteamGameCoordinatorCallbacks = 1700;
@@ -76,6 +77,8 @@ namespace Steamworks {
 		public const int k_iClientRemoteControlManagerCallbacks = 3800;
 		public const int k_iSteamAppListCallbacks = 3900;
 		public const int k_iSteamMusicCallbacks = 4000;
+		public const int k_iSteamMusicRemoteCallbacks = 4100;
+		public const int k_iClientVRCallbacks = 4200;
 		// maximum length of friend group name (not including terminating nul!)
 		public const int k_cchMaxFriendsGroupName = 64;
 		// maximum number of groups a single user is allowed
@@ -116,7 +119,6 @@ namespace Steamworks {
 		public const int k_cchTagListMax = 1024 + 1;
 		public const int k_cchFilenameMax = 260;
 		public const int k_cchPublishedFileURLMax = 256;
-		public const int k_WorkshopForceLoadPublishedFileDetailsFromCache = -1;
 		public const int k_nScreenshotMaxTaggedUsers = 32;
 		public const int k_nScreenshotMaxTaggedPublishedFiles = 32;
 		public const int k_cubUFSTagTypeMax = 255;
@@ -164,6 +166,9 @@ namespace Steamworks {
 
 		// maximum number of characters a lobby metadata key can be
 		public const byte k_nMaxLobbyKeyLength = 255;
+
+		public const int k_SteamMusicNameMaxLength = 255;
+		public const int k_SteamMusicPNGMaxLength = 65535;
 
 		//-----------------------------------------------------------------------------
 		// Constants used for query ports.

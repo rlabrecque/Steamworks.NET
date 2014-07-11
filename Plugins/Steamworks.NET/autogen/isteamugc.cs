@@ -93,5 +93,105 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_RequestUGCDetails(nPublishedFileID, unMaxAgeSeconds);
 		}
+
+		// Steam Workshop Creator API
+		// create new item for this app with no content attached yet
+		public static SteamAPICall_t CreateItem(AppId_t nConsumerAppId, EWorkshopFileType eFileType) {
+			InteropHelp.TestIfAvailableClient();
+			return (SteamAPICall_t)NativeMethods.ISteamUGC_CreateItem(nConsumerAppId, eFileType);
+		}
+
+		// start an UGC item update. Set changed properties before commiting update with CommitItemUpdate()
+		public static UGCUpdateHandle_t StartItemUpdate(AppId_t nConsumerAppId, PublishedFileId_t nPublishedFileID) {
+			InteropHelp.TestIfAvailableClient();
+			return (UGCUpdateHandle_t)NativeMethods.ISteamUGC_StartItemUpdate(nConsumerAppId, nPublishedFileID);
+		}
+
+		// change the title of an UGC item
+		public static bool SetItemTitle(UGCUpdateHandle_t handle, string pchTitle) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_SetItemTitle(handle, pchTitle);
+		}
+
+		// change the description of an UGC item
+		public static bool SetItemDescription(UGCUpdateHandle_t handle, string pchDescription) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_SetItemDescription(handle, pchDescription);
+		}
+
+		// change the visibility of an UGC item
+		public static bool SetItemVisibility(UGCUpdateHandle_t handle, ERemoteStoragePublishedFileVisibility eVisibility) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_SetItemVisibility(handle, eVisibility);
+		}
+
+		// change the tags of an UGC item
+		public static bool SetItemTags(UGCUpdateHandle_t updateHandle, System.Collections.Generic.IList<string> pTags) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_SetItemTags(updateHandle, new InteropHelp.SteamParamStringArray(pTags));
+		}
+
+		// update item content from this local folder
+		public static bool SetItemContent(UGCUpdateHandle_t handle, string pszContentFolder) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_SetItemContent(handle, pszContentFolder);
+		}
+
+		//  change preview image file for this item. pszPreviewFile points to local image file
+		public static bool SetItemPreview(UGCUpdateHandle_t handle, string pszPreviewFile) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_SetItemPreview(handle, pszPreviewFile);
+		}
+
+		// commit update process started with StartItemUpdate()
+		public static SteamAPICall_t SubmitItemUpdate(UGCUpdateHandle_t handle, string pchChangeNote) {
+			InteropHelp.TestIfAvailableClient();
+			return (SteamAPICall_t)NativeMethods.ISteamUGC_SubmitItemUpdate(handle, pchChangeNote);
+		}
+
+		public static EItemUpdateStatus GetItemUpdateProgress(UGCUpdateHandle_t handle, out ulong punBytesProcessed, out ulong punBytesTotal) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_GetItemUpdateProgress(handle, out punBytesProcessed, out punBytesTotal);
+		}
+
+		// Steam Workshop Consumer API
+		// subscript to this item, will be installed ASAP
+		public static SteamAPICall_t SubscribeItem(PublishedFileId_t nPublishedFileID) {
+			InteropHelp.TestIfAvailableClient();
+			return (SteamAPICall_t)NativeMethods.ISteamUGC_SubscribeItem(nPublishedFileID);
+		}
+
+		// unsubscribe from this item, will be uninstalled after game quits
+		public static SteamAPICall_t UnsubscribeItem(PublishedFileId_t nPublishedFileID) {
+			InteropHelp.TestIfAvailableClient();
+			return (SteamAPICall_t)NativeMethods.ISteamUGC_UnsubscribeItem(nPublishedFileID);
+		}
+
+		// number of subscribed items
+		public static uint GetNumSubscribedItems() {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_GetNumSubscribedItems();
+		}
+
+		// all subscribed item PublishFileIDs
+		public static uint GetSubscribedItems(PublishedFileId_t[] pvecPublishedFileID, uint cMaxEntries) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_GetSubscribedItems(pvecPublishedFileID, cMaxEntries);
+		}
+
+		// returns true if item is installed
+		public static bool GetItemInstallInfo(PublishedFileId_t nPublishedFileID, out ulong punSizeOnDisk, out string pchFolder, uint cchFolderSize) {
+			InteropHelp.TestIfAvailableClient();
+			IntPtr pchFolder2 = Marshal.AllocHGlobal((int)cchFolderSize);
+			bool ret = NativeMethods.ISteamUGC_GetItemInstallInfo(nPublishedFileID, out punSizeOnDisk, pchFolder2, cchFolderSize);
+			pchFolder = ret ? InteropHelp.PtrToStringUTF8(pchFolder2) : null;
+			Marshal.FreeHGlobal(pchFolder2);
+			return ret;
+		}
+
+		public static bool GetItemUpdateInfo(PublishedFileId_t nPublishedFileID, out bool pbNeedsUpdate, out bool pbIsDownloading, out ulong punBytesDownloaded, out ulong punBytesTotal) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_GetItemUpdateInfo(nPublishedFileID, out pbNeedsUpdate, out pbIsDownloading, out punBytesDownloaded, out punBytesTotal);
+		}
 	}
 }

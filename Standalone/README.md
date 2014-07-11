@@ -15,11 +15,11 @@ Usage instructions:
   *  - **steam_api.dll**
   * OSX:
   *  - **CSteamworks.bundle**
-  *  - **Steamworks.NET.dll.config** - Lets mono know where to find CSteamworks
+  *  - **Steamworks.NET.dll.config** - Lets Mono know where to find CSteamworks
   * Linux:
   *  - **libCSteamworks.so**
   *  - **libsteam_api.so**
 
 
 
-Have a look at this [example project](https://github.com/rlabrecque/Steamworks.NET-StandaloneTest).
+Have a look at this [example project](https://github.com/rlabrecque/Steamworks.NET-StandaloneTest) to get started.
