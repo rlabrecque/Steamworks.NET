@@ -29,6 +29,11 @@ namespace Steamworks {
 		}
 
 		// adds the game server to the local list; updates the time played of the server if it already exists in the list
+		public static int AddFavoriteGame(AppId_t nAppID, uint nIP, ushort nConnPort, ushort nQueryPort, uint unFlags, uint rTime32LastPlayedOnServer) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamMatchmaking_AddFavoriteGame(nAppID, nIP, nConnPort, nQueryPort, unFlags, rTime32LastPlayedOnServer);
+		}
+
 		// removes the game server from the local storage; returns true if one was removed
 		public static bool RemoveFavoriteGame(AppId_t nAppID, uint nIP, ushort nConnPort, ushort nQueryPort, uint unFlags) {
 			InteropHelp.TestIfAvailableClient();
