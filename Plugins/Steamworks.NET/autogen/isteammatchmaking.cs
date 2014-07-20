@@ -343,34 +343,34 @@ namespace Steamworks {
 		// Request a new list of servers of a particular type.  These calls each correspond to one of the EMatchMakingType values.
 		// Each call allocates a new asynchronous request object.
 		// Request object must be released by calling ReleaseRequest( hServerListRequest )
-		public static HServerListRequest RequestInternetServerList(AppId_t iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse) {
+		public static HServerListRequest RequestInternetServerList(AppId_t iApp, MatchMakingKeyValuePair_t[] ppchFilters, uint nFilters, ISteamMatchmakingServerListResponse pRequestServersResponse) {
 			InteropHelp.TestIfAvailableClient();
-			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestInternetServerList(iApp, ppchFilters, nFilters, pRequestServersResponse);
+			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestInternetServerList(iApp, new MMKVPMarshaller(ppchFilters), nFilters, (IntPtr)pRequestServersResponse);
 		}
 
-		public static HServerListRequest RequestLANServerList(AppId_t iApp, IntPtr pRequestServersResponse) {
+		public static HServerListRequest RequestLANServerList(AppId_t iApp, ISteamMatchmakingServerListResponse pRequestServersResponse) {
 			InteropHelp.TestIfAvailableClient();
-			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestLANServerList(iApp, pRequestServersResponse);
+			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestLANServerList(iApp, (IntPtr)pRequestServersResponse);
 		}
 
-		public static HServerListRequest RequestFriendsServerList(AppId_t iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse) {
+		public static HServerListRequest RequestFriendsServerList(AppId_t iApp, MatchMakingKeyValuePair_t[] ppchFilters, uint nFilters, ISteamMatchmakingServerListResponse pRequestServersResponse) {
 			InteropHelp.TestIfAvailableClient();
-			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestFriendsServerList(iApp, ppchFilters, nFilters, pRequestServersResponse);
+			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestFriendsServerList(iApp, new MMKVPMarshaller(ppchFilters), nFilters, (IntPtr)pRequestServersResponse);
 		}
 
-		public static HServerListRequest RequestFavoritesServerList(AppId_t iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse) {
+		public static HServerListRequest RequestFavoritesServerList(AppId_t iApp, MatchMakingKeyValuePair_t[] ppchFilters, uint nFilters, ISteamMatchmakingServerListResponse pRequestServersResponse) {
 			InteropHelp.TestIfAvailableClient();
-			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestFavoritesServerList(iApp, ppchFilters, nFilters, pRequestServersResponse);
+			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestFavoritesServerList(iApp, new MMKVPMarshaller(ppchFilters), nFilters, (IntPtr)pRequestServersResponse);
 		}
 
-		public static HServerListRequest RequestHistoryServerList(AppId_t iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse) {
+		public static HServerListRequest RequestHistoryServerList(AppId_t iApp, MatchMakingKeyValuePair_t[] ppchFilters, uint nFilters, ISteamMatchmakingServerListResponse pRequestServersResponse) {
 			InteropHelp.TestIfAvailableClient();
-			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestHistoryServerList(iApp, ppchFilters, nFilters, pRequestServersResponse);
+			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestHistoryServerList(iApp, new MMKVPMarshaller(ppchFilters), nFilters, (IntPtr)pRequestServersResponse);
 		}
 
-		public static HServerListRequest RequestSpectatorServerList(AppId_t iApp, IntPtr ppchFilters, uint nFilters, IntPtr pRequestServersResponse) {
+		public static HServerListRequest RequestSpectatorServerList(AppId_t iApp, MatchMakingKeyValuePair_t[] ppchFilters, uint nFilters, ISteamMatchmakingServerListResponse pRequestServersResponse) {
 			InteropHelp.TestIfAvailableClient();
-			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestSpectatorServerList(iApp, ppchFilters, nFilters, pRequestServersResponse);
+			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestSpectatorServerList(iApp, new MMKVPMarshaller(ppchFilters), nFilters, (IntPtr)pRequestServersResponse);
 		}
 
 		// Releases the asynchronous request object and cancels any pending query on it if there's a pending query in progress.
@@ -452,9 +452,9 @@ namespace Steamworks {
 		// Get details on a given server in the list, you can get the valid range of index
 		// values by calling GetServerCount().  You will also receive index values in
 		// ISteamMatchmakingServerListResponse::ServerResponded() callbacks
-		public static IntPtr GetServerDetails(HServerListRequest hRequest, int iServer) {
+		public static gameserveritem_t GetServerDetails(HServerListRequest hRequest, int iServer) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmakingServers_GetServerDetails(hRequest, iServer);
+			return (gameserveritem_t)Marshal.PtrToStructure(NativeMethods.ISteamMatchmakingServers_GetServerDetails(hRequest, iServer), typeof(gameserveritem_t));
 		}
 
 		// Cancel an request which is operation on the given list type.  You should call this to cancel
@@ -500,21 +500,21 @@ namespace Steamworks {
 		// Queries to individual servers directly via IP/Port
 		//-----------------------------------------------------------------------------
 		// Request updated ping time and other details from a single server
-		public static HServerQuery PingServer(uint unIP, ushort usPort, IntPtr pRequestServersResponse) {
+		public static HServerQuery PingServer(uint unIP, ushort usPort, ISteamMatchmakingPingResponse pRequestServersResponse) {
 			InteropHelp.TestIfAvailableClient();
-			return (HServerQuery)NativeMethods.ISteamMatchmakingServers_PingServer(unIP, usPort, pRequestServersResponse);
+			return (HServerQuery)NativeMethods.ISteamMatchmakingServers_PingServer(unIP, usPort, (IntPtr)pRequestServersResponse);
 		}
 
 		// Request the list of players currently playing on a server
-		public static HServerQuery PlayerDetails(uint unIP, ushort usPort, IntPtr pRequestServersResponse) {
+		public static HServerQuery PlayerDetails(uint unIP, ushort usPort, ISteamMatchmakingPlayersResponse pRequestServersResponse) {
 			InteropHelp.TestIfAvailableClient();
-			return (HServerQuery)NativeMethods.ISteamMatchmakingServers_PlayerDetails(unIP, usPort, pRequestServersResponse);
+			return (HServerQuery)NativeMethods.ISteamMatchmakingServers_PlayerDetails(unIP, usPort, (IntPtr)pRequestServersResponse);
 		}
 
 		// Request the list of rules that the server is running (See ISteamGameServer::SetKeyValue() to set the rules server side)
-		public static HServerQuery ServerRules(uint unIP, ushort usPort, IntPtr pRequestServersResponse) {
+		public static HServerQuery ServerRules(uint unIP, ushort usPort, ISteamMatchmakingRulesResponse pRequestServersResponse) {
 			InteropHelp.TestIfAvailableClient();
-			return (HServerQuery)NativeMethods.ISteamMatchmakingServers_ServerRules(unIP, usPort, pRequestServersResponse);
+			return (HServerQuery)NativeMethods.ISteamMatchmakingServers_ServerRules(unIP, usPort, (IntPtr)pRequestServersResponse);
 		}
 
 		// Cancel an outstanding Ping/Players/Rules query from above.  You should call this to cancel
