@@ -71,9 +71,9 @@ namespace Steamworks {
 		// fills out P2PSessionState_t structure with details about the underlying connection to the user
 		// should only needed for debugging purposes
 		// returns false if no connection exists to the specified user
-		public static bool GetP2PSessionState(CSteamID steamIDRemote, IntPtr pConnectionState) {
+		public static bool GetP2PSessionState(CSteamID steamIDRemote, out P2PSessionState_t pConnectionState) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamNetworking_GetP2PSessionState(steamIDRemote, pConnectionState);
+			return NativeMethods.ISteamNetworking_GetP2PSessionState(steamIDRemote, out pConnectionState);
 		}
 
 		// Allow P2P connections to fall back to being relayed through the Steam servers if a direct connection
