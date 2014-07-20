@@ -117,6 +117,10 @@ namespace Steamworks {
 	/// understood as "filter operation code" and the "value" is the operand to this
 	/// filter operation.  The meaning of the operand depends upon the filter.
 	public struct MatchMakingKeyValuePair_t {
+		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
+		public string m_szKey;
+		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
+		public string m_szValue;
 	}
 
 	// Only add fields to the end of this struct, or if you need to change it in a larger
