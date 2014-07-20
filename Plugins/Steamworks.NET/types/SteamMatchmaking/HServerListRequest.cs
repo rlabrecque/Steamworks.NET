@@ -6,6 +6,7 @@
 
 namespace Steamworks {
 	public struct HServerListRequest : System.IEquatable<HServerListRequest> {
+		public static readonly HServerListRequest Invalid = new HServerListRequest(System.IntPtr.Zero);
 		public System.IntPtr m_HServerListRequest;
 
 		public HServerListRequest(System.IntPtr value) {
