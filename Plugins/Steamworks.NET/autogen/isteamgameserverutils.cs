@@ -193,7 +193,7 @@ namespace Steamworks {
 		public static bool GetEnteredGamepadTextInput(out string pchText, uint cchText) {
 			InteropHelp.TestIfAvailableGameServer();
 			IntPtr pchText2 = Marshal.AllocHGlobal((int)cchText);
-			bool ret = NativeMethods.ISteamUtils_GetEnteredGamepadTextInput(pchText2, cchText);
+			bool ret = NativeMethods.ISteamGameServerUtils_GetEnteredGamepadTextInput(pchText2, cchText);
 			pchText = ret ? InteropHelp.PtrToStringUTF8(pchText2) : null;
 			Marshal.FreeHGlobal(pchText2);
 			return ret;

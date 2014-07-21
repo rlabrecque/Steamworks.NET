@@ -24,13 +24,13 @@ namespace Steamworks {
 		// using different channels to talk to the same user will still use the same underlying p2p connection, saving on resources
 		public static bool SendP2PPacket(CSteamID steamIDRemote, byte[] pubData, uint cubData, EP2PSend eP2PSendType, int nChannel = 0) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamNetworking_SendP2PPacket(steamIDRemote, pubData, cubData, eP2PSendType, nChannel);
+			return NativeMethods.ISteamGameServerNetworking_SendP2PPacket(steamIDRemote, pubData, cubData, eP2PSendType, nChannel);
 		}
 
 		// returns true if any data is available for read, and the amount of data that will need to be read
 		public static bool IsP2PPacketAvailable(out uint pcubMsgSize, int nChannel = 0) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamNetworking_IsP2PPacketAvailable(out pcubMsgSize, nChannel);
+			return NativeMethods.ISteamGameServerNetworking_IsP2PPacketAvailable(out pcubMsgSize, nChannel);
 		}
 
 		// reads in a packet that has been sent from another user via SendP2PPacket()
@@ -39,7 +39,7 @@ namespace Steamworks {
 		// this call is not blocking, and will return false if no data is available
 		public static bool ReadP2PPacket(byte[] pubDest, uint cubDest, out uint pcubMsgSize, out CSteamID psteamIDRemote, int nChannel = 0) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamNetworking_ReadP2PPacket(pubDest, cubDest, out pcubMsgSize, out psteamIDRemote, nChannel);
+			return NativeMethods.ISteamGameServerNetworking_ReadP2PPacket(pubDest, cubDest, out pcubMsgSize, out psteamIDRemote, nChannel);
 		}
 
 		// AcceptP2PSessionWithUser() should only be called in response to a P2PSessionRequest_t callback
