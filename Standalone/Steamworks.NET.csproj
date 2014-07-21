@@ -173,11 +173,20 @@
     <Compile Include="..\Plugins\Steamworks.NET\InteropHelp.cs">
       <Link>Steamworks.NET\InteropHelp.cs</Link>
     </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\ISteamMatchmakingResponses.cs">
+      <Link>Steamworks.NET\ISteamMatchmakingResponses.cs</Link>
+    </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\Packsize.cs">
       <Link>Steamworks.NET\Packsize.cs</Link>
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\Steam.cs">
       <Link>Steamworks.NET\Steam.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\MatchmakingTypes\gameserveritem_t.cs">
+      <Link>Steamworks.NET\types\MatchmakingTypes\gameserveritem_t.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\MatchmakingTypes\servernetadr_t.cs">
+      <Link>Steamworks.NET\types\MatchmakingTypes\servernetadr_t.cs</Link>
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamClientPublic\CGameID.cs">
       <Link>Steamworks.NET\types\SteamClientPublic\CGameID.cs</Link>
