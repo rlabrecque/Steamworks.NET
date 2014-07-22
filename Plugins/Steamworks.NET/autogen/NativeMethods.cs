@@ -708,7 +708,7 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServer_SendUserConnectAndAuthenticate(uint unIPClient, IntPtr pvAuthBlob, uint cubAuthBlobSize, out CSteamID pSteamIDUser);
+		public static extern bool ISteamGameServer_SendUserConnectAndAuthenticate(uint unIPClient, byte[] pvAuthBlob, uint cubAuthBlobSize, out CSteamID pSteamIDUser);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong ISteamGameServer_CreateUnauthenticatedUserConnection();
@@ -721,10 +721,10 @@ namespace Steamworks {
 		public static extern bool ISteamGameServer_BUpdateUserData(CSteamID steamIDUser, [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler))] string pchPlayerName, uint uScore);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamGameServer_GetAuthSessionTicket(IntPtr pTicket, int cbMaxTicket, out uint pcbTicket);
+		public static extern uint ISteamGameServer_GetAuthSessionTicket(byte[] pTicket, int cbMaxTicket, out uint pcbTicket);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern EBeginAuthSessionResult ISteamGameServer_BeginAuthSession(IntPtr pAuthTicket, int cbAuthTicket, CSteamID steamID);
+		public static extern EBeginAuthSessionResult ISteamGameServer_BeginAuthSession(byte[] pAuthTicket, int cbAuthTicket, CSteamID steamID);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ISteamGameServer_EndAuthSession(CSteamID steamID);
@@ -750,10 +750,10 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServer_HandleIncomingPacket(IntPtr pData, int cbData, uint srcIP, ushort srcPort);
+		public static extern bool ISteamGameServer_HandleIncomingPacket(byte[] pData, int cbData, uint srcIP, ushort srcPort);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamGameServer_GetNextOutgoingPacket(IntPtr pOut, int cbMaxOut, out uint pNetAdr, out ushort pPort);
+		public static extern int ISteamGameServer_GetNextOutgoingPacket(byte[] pOut, int cbMaxOut, out uint pNetAdr, out ushort pPort);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ISteamGameServer_EnableHeartbeats([MarshalAs(UnmanagedType.I1)] bool bActive);
@@ -1935,7 +1935,7 @@ namespace Steamworks {
 		public static extern ulong ISteamUser_GetSteamID();
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamUser_InitiateGameConnection(IntPtr pAuthBlob, int cbMaxAuthBlob, CSteamID steamIDGameServer, uint unIPServer, ushort usPortServer, [MarshalAs(UnmanagedType.I1)] bool bSecure);
+		public static extern int ISteamUser_InitiateGameConnection(byte[] pAuthBlob, int cbMaxAuthBlob, CSteamID steamIDGameServer, uint unIPServer, ushort usPortServer, [MarshalAs(UnmanagedType.I1)] bool bSecure);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ISteamUser_TerminateGameConnection(uint unIPServer, ushort usPortServer);

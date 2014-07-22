@@ -203,7 +203,7 @@ namespace Steamworks {
 		// Return Value: returns true if the users ticket passes basic checks. pSteamIDUser will contain the Steam ID of this user. pSteamIDUser must NOT be NULL
 		// If the call succeeds then you should expect a GSClientApprove_t or GSClientDeny_t callback which will tell you whether authentication
 		// for the user has succeeded or failed (the steamid in the callback will match the one returned by this call)
-		public static bool SendUserConnectAndAuthenticate(uint unIPClient, IntPtr pvAuthBlob, uint cubAuthBlobSize, out CSteamID pSteamIDUser) {
+		public static bool SendUserConnectAndAuthenticate(uint unIPClient, byte[] pvAuthBlob, uint cubAuthBlobSize, out CSteamID pSteamIDUser) {
 			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServer_SendUserConnectAndAuthenticate(unIPClient, pvAuthBlob, cubAuthBlobSize, out pSteamIDUser);
 		}
@@ -239,14 +239,14 @@ namespace Steamworks {
 		// ----------------------------------------------------------------
 		// Retrieve ticket to be sent to the entity who wishes to authenticate you ( using BeginAuthSession API ).
 		// pcbTicket retrieves the length of the actual ticket.
-		public static HAuthTicket GetAuthSessionTicket(IntPtr pTicket, int cbMaxTicket, out uint pcbTicket) {
+		public static HAuthTicket GetAuthSessionTicket(byte[] pTicket, int cbMaxTicket, out uint pcbTicket) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (HAuthTicket)NativeMethods.ISteamGameServer_GetAuthSessionTicket(pTicket, cbMaxTicket, out pcbTicket);
 		}
 
 		// Authenticate ticket ( from GetAuthSessionTicket ) from entity steamID to be sure it is valid and isnt reused
 		// Registers for callbacks if the entity goes offline or cancels the ticket ( see ValidateAuthTicketResponse_t callback and EAuthSessionResponse )
-		public static EBeginAuthSessionResult BeginAuthSession(IntPtr pAuthTicket, int cbAuthTicket, CSteamID steamID) {
+		public static EBeginAuthSessionResult BeginAuthSession(byte[] pAuthTicket, int cbAuthTicket, CSteamID steamID) {
 			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServer_BeginAuthSession(pAuthTicket, cbAuthTicket, steamID);
 		}
@@ -310,7 +310,7 @@ namespace Steamworks {
 		// don't have to open up more ports on their firewalls.
 		// Call this when a packet that starts with 0xFFFFFFFF comes in. That means
 		// it's for us.
-		public static bool HandleIncomingPacket(IntPtr pData, int cbData, uint srcIP, ushort srcPort) {
+		public static bool HandleIncomingPacket(byte[] pData, int cbData, uint srcIP, ushort srcPort) {
 			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServer_HandleIncomingPacket(pData, cbData, srcIP, srcPort);
 		}
@@ -319,7 +319,7 @@ namespace Steamworks {
 		// This gets a packet that the master server updater needs to send out on UDP.
 		// It returns the length of the packet it wants to send, or 0 if there are no more packets to send.
 		// Call this each frame until it returns 0.
-		public static int GetNextOutgoingPacket(IntPtr pOut, int cbMaxOut, out uint pNetAdr, out ushort pPort) {
+		public static int GetNextOutgoingPacket(byte[] pOut, int cbMaxOut, out uint pNetAdr, out ushort pPort) {
 			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServer_GetNextOutgoingPacket(pOut, cbMaxOut, out pNetAdr, out pPort);
 		}
