@@ -25,13 +25,14 @@ _Steamworks.NET_ currently supports Windows, OSX, and Linux in both 32 and 64bit
 Usage
 -----
 
-To use _Steamworks.NET_ you must be a Steamworks developer. _Steamworks.NET_ requires Unity Pro for the plugin functionality.
+To use _Steamworks.NET_ you must be a Steamworks developer.
+_Steamworks.NET_ requires Unity Pro for the plugin functionality.
 
 * Clone or download a Zip Archive: [Stable (4.0.0)](https://github.com/rlabrecque/Steamworks.NET/archive/4.0.0.zip) -- [Master (Cutting-edge)](https://github.com/rlabrecque/Steamworks.NET/archive/master.zip)
 * Extract and copy Steamworks.NET's `Plugins/` and `Editor/` folders into your `Assets/` folder.
 * Open `Plugins/Steamworks.NET/redist/steam_appid.txt` and replace `480` with your own AppId.
-* Launch your Unity project. It should copy steam_appid.txt (and steam_api.dll if your on windows) into the root of your project.
-* Close Unity and relaunch the project so that it loads the newly copied steam_appid.txt & steam_api.dll.
+* Launch your Unity project. The included editor scripts will copy steam_appid.txt (and steam_api.dll if your on windows) into the root of your project.
+* Close Unity and relaunch the project so that it loads the freshly copied steam_appid.txt & steam_api.dll.
 
 ##### Samples
 Check out these sample projects to get started:
@@ -42,10 +43,10 @@ Not using Unity?
 ----------------
 
 If you are not using Unity then you have two available routes that you could take.
-* A: Copy `Plugins/Steamworks.NET` into your C# project. In Visual Studio open your project properties, change to the Build tab and define `STEAMWORKS_WIN` or `STEAMWORKS_LIN_OSX` globally via `Conditional compilation symbols`.
+* A: The peferable route is to build the standalone assemblies, with the project file located in `Standalone/`. Alternatively you can download the prebuilt binaries which are available on the [Releases](https://github.com/rlabrecque/Steamworks.NET/releases) page.
+* B: Copy `Plugins/Steamworks.NET` into your C# project. In Visual Studio open your project properties, change to the Build tab and define `STEAMWORKS_WIN` or `STEAMWORKS_LIN_OSX` globally via `Conditional compilation symbols`.
  * This is only recommended if your binary is not portable across platforms already. If you ship on multiple platforms you must have multiple build targets for each platforms. Please prefer the second route.
-* B: The peferable route is to build the standalone assemblies, with the project file located in `Standalone/`. Alternatively you can download the prebuilt binaries which are available on the [Releases](https://github.com/rlabrecque/Steamworks.NET/releases) page.
- * Further instructions are provided by the [README.md](https://github.com/rlabrecque/Steamworks.NET/blob/master/Standalone/README.md) in the `Standalone/` folder.
+* Further instructions are provided by the [README.md](https://github.com/rlabrecque/Steamworks.NET/blob/master/Standalone/README.md) in the `Standalone/` folder.
 
 Using Steam Encrypted App Ticket?
 ---------------------------------
@@ -61,17 +62,6 @@ Limitations
 -----------
 
 * _Steamworks.NET_ does not currently support ISteamAppTicket or ISteamGameCoordinator.
-* The following Interfaces are somewhat untested (but should be completely functional):
-```
-ISteamAppsList
-ISteamMatchmaking
-ISteamMusic
-ISteamNetworking
-ISteamUGC
-ISteamUnifiedMessages
-ISteamGameServer
-```
-
 * The following are Unity specific issues and are out of our control, *ALL* Steamworks wrappers for Unity experience these issues.
  * When used from within the Unity Editor, Steam will think you are in game constantly. This is normal and does not effect usage.
  * The Overlay only works when launched from Steam directly. (A small number of Steamworks features (such as the Steam Controller) rely on the overlay being present. Prefer using a [Local Content Server](https://partner.steamgames.com/documentation/steampipeLCS) for testing.)
