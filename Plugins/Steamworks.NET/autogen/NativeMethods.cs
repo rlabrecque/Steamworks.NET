@@ -1373,7 +1373,7 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamMusicRemote_SetPNGIcon_64x64(IntPtr pvBuffer, uint cbBufferLength);
+		public static extern bool ISteamMusicRemote_SetPNGIcon_64x64(byte[] pvBuffer, uint cbBufferLength);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -1433,7 +1433,7 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamMusicRemote_UpdateCurrentEntryCoverArt(IntPtr pvBuffer, uint cbBufferLength);
+		public static extern bool ISteamMusicRemote_UpdateCurrentEntryCoverArt(byte[] pvBuffer, uint cbBufferLength);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]

@@ -36,7 +36,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamMusicRemote_SetDisplayName(pchDisplayName);
 		}
 
-		public static bool SetPNGIcon_64x64(IntPtr pvBuffer, uint cbBufferLength) {
+		public static bool SetPNGIcon_64x64(byte[] pvBuffer, uint cbBufferLength) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamMusicRemote_SetPNGIcon_64x64(pvBuffer, cbBufferLength);
 		}
@@ -115,7 +115,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamMusicRemote_UpdateCurrentEntryElapsedSeconds(nValue);
 		}
 
-		public static bool UpdateCurrentEntryCoverArt(IntPtr pvBuffer, uint cbBufferLength) {
+		public static bool UpdateCurrentEntryCoverArt(byte[] pvBuffer, uint cbBufferLength) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamMusicRemote_UpdateCurrentEntryCoverArt(pvBuffer, cbBufferLength);
 		}
