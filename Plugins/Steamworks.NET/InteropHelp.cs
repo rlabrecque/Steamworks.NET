@@ -211,4 +211,48 @@ namespace Steamworks {
 			return that.m_NativeArray;
 		}
 	}
+
+	public class DllCheck {
+		/// <summary>
+		/// This is an optional runtime check to ensure that the dlls are the correct version. Returns false only if the steam_api.dll is found and it's the wrong size or version number.
+		/// </summary>
+		public static bool Test() {
+			bool ret = true;
+
+#if STEAMWORKS_WIN || UNITY_EDITOR_WIN || (!UNITY_EDITOR && UNITY_STANDALONE_WIN)
+			ret = CheckSteamAPIDLL();
+#endif
+
+			return ret;
+		}
+
+		private static bool CheckSteamAPIDLL() {
+			string strCWD = System.IO.Directory.GetCurrentDirectory();
+
+			string file;
+			int fileBytes;
+			if (IntPtr.Size == 4) {
+				file = System.IO.Path.Combine(strCWD, "steam_api.dll");
+				fileBytes = Version.SteamAPIDLLSize;
+			}
+			else {
+				file = System.IO.Path.Combine(strCWD, "steam_api64.dll");
+				fileBytes = Version.SteamAPI64DLLSize;
+			}
+
+			// If we can not find the file we'll just skip it and let the DllNotFoundException take care of it.
+			if (System.IO.File.Exists(file)) {
+				System.IO.FileInfo fInfo2 = new System.IO.FileInfo(file);
+				if (fInfo2.Length != fileBytes) {
+					return false;
+				}
+
+				if (System.Diagnostics.FileVersionInfo.GetVersionInfo(file).FileVersion != Version.SteamAPIDLLVersion) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+	}
 }
