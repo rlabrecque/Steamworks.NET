@@ -43,6 +43,7 @@ public class RedistInstall {
 		}
 
 		File.Copy(strSource, strDest, true);
+		File.SetAttributes(strDest, File.GetAttributes(strDest) & ~FileAttributes.ReadOnly);
 
 		if (File.Exists(strDest)) {
 			Debug.Log(string.Format("[Steamworks.NET] Successfully copied {0} into the project root. Please relaunch Unity.", filename));

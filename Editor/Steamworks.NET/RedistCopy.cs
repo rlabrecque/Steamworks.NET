@@ -31,6 +31,7 @@ public class RedistCopy {
 			string strFileDest = Path.Combine(Path.Combine(Path.GetDirectoryName(pathToBuiltProject), strProjectName + dir), "controller.vdf");
 
 			File.Copy(controllerCfg, strFileDest);
+			File.SetAttributes(strFileDest, File.GetAttributes(strFileDest) & ~FileAttributes.ReadOnly);
 
 			if (!File.Exists(strFileDest)) {
 				Debug.LogWarning("[Steamworks.NET] Could not copy controller.vdf into the built project. File.Copy() Failed. Place controller.vdf from the Steamworks SDK in the output dir manually.");
@@ -60,6 +61,7 @@ public class RedistCopy {
 		}
 
 		File.Copy(strSource, strFileDest, true);
+		File.SetAttributes(strFileDest, File.GetAttributes(strFileDest) & ~FileAttributes.ReadOnly);
 
 		if (!File.Exists(strFileDest)) {
 			Debug.LogWarning(string.Format("[Steamworks.NET] Could not copy {0} into the built project. File.Copy() Failed. Place {0} from the redist folder into the output dir manually.", filename));
