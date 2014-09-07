@@ -10,148 +10,194 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks {
 	public static class SteamClient {
-		// Creates a communication pipe to the Steam client
+		/// <summary>
+		/// <para> Creates a communication pipe to the Steam client</para>
+		/// </summary>
 		public static HSteamPipe CreateSteamPipe() {
 			InteropHelp.TestIfAvailableClient();
 			return (HSteamPipe)NativeMethods.ISteamClient_CreateSteamPipe();
 		}
 
-		// Releases a previously created communications pipe
+		/// <summary>
+		/// <para> Releases a previously created communications pipe</para>
+		/// </summary>
 		public static bool BReleaseSteamPipe(HSteamPipe hSteamPipe) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_BReleaseSteamPipe(hSteamPipe);
 		}
 
-		// connects to an existing global user, failing if none exists
-		// used by the game to coordinate with the steamUI
+		/// <summary>
+		/// <para> connects to an existing global user, failing if none exists</para>
+		/// <para> used by the game to coordinate with the steamUI</para>
+		/// </summary>
 		public static HSteamUser ConnectToGlobalUser(HSteamPipe hSteamPipe) {
 			InteropHelp.TestIfAvailableClient();
 			return (HSteamUser)NativeMethods.ISteamClient_ConnectToGlobalUser(hSteamPipe);
 		}
 
-		// used by game servers, create a steam user that won't be shared with anyone else
+		/// <summary>
+		/// <para> used by game servers, create a steam user that won't be shared with anyone else</para>
+		/// </summary>
 		public static HSteamUser CreateLocalUser(out HSteamPipe phSteamPipe, EAccountType eAccountType) {
 			InteropHelp.TestIfAvailableClient();
 			return (HSteamUser)NativeMethods.ISteamClient_CreateLocalUser(out phSteamPipe, eAccountType);
 		}
 
-		// removes an allocated user
+		/// <summary>
+		/// <para> removes an allocated user</para>
+		/// </summary>
 		public static void ReleaseUser(HSteamPipe hSteamPipe, HSteamUser hUser) {
 			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamClient_ReleaseUser(hSteamPipe, hUser);
 		}
 
-		// retrieves the ISteamUser interface associated with the handle
+		/// <summary>
+		/// <para> retrieves the ISteamUser interface associated with the handle</para>
+		/// </summary>
 		public static IntPtr GetISteamUser(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_GetISteamUser(hSteamUser, hSteamPipe, pchVersion);
 		}
 
-		// retrieves the ISteamGameServer interface associated with the handle
+		/// <summary>
+		/// <para> retrieves the ISteamGameServer interface associated with the handle</para>
+		/// </summary>
 		public static IntPtr GetISteamGameServer(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_GetISteamGameServer(hSteamUser, hSteamPipe, pchVersion);
 		}
 
-		// set the local IP and Port to bind to
-		// this must be set before CreateLocalUser()
+		/// <summary>
+		/// <para> set the local IP and Port to bind to</para>
+		/// <para> this must be set before CreateLocalUser()</para>
+		/// </summary>
 		public static void SetLocalIPBinding(uint unIP, ushort usPort) {
 			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamClient_SetLocalIPBinding(unIP, usPort);
 		}
 
-		// returns the ISteamFriends interface
+		/// <summary>
+		/// <para> returns the ISteamFriends interface</para>
+		/// </summary>
 		public static IntPtr GetISteamFriends(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_GetISteamFriends(hSteamUser, hSteamPipe, pchVersion);
 		}
 
-		// returns the ISteamUtils interface
+		/// <summary>
+		/// <para> returns the ISteamUtils interface</para>
+		/// </summary>
 		public static IntPtr GetISteamUtils(HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_GetISteamUtils(hSteamPipe, pchVersion);
 		}
 
-		// returns the ISteamMatchmaking interface
+		/// <summary>
+		/// <para> returns the ISteamMatchmaking interface</para>
+		/// </summary>
 		public static IntPtr GetISteamMatchmaking(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_GetISteamMatchmaking(hSteamUser, hSteamPipe, pchVersion);
 		}
 
-		// returns the ISteamMatchmakingServers interface
+		/// <summary>
+		/// <para> returns the ISteamMatchmakingServers interface</para>
+		/// </summary>
 		public static IntPtr GetISteamMatchmakingServers(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_GetISteamMatchmakingServers(hSteamUser, hSteamPipe, pchVersion);
 		}
 
-		// returns the a generic interface
+		/// <summary>
+		/// <para> returns the a generic interface</para>
+		/// </summary>
 		public static IntPtr GetISteamGenericInterface(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_GetISteamGenericInterface(hSteamUser, hSteamPipe, pchVersion);
 		}
 
-		// returns the ISteamUserStats interface
+		/// <summary>
+		/// <para> returns the ISteamUserStats interface</para>
+		/// </summary>
 		public static IntPtr GetISteamUserStats(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_GetISteamUserStats(hSteamUser, hSteamPipe, pchVersion);
 		}
 
-		// returns the ISteamGameServerStats interface
+		/// <summary>
+		/// <para> returns the ISteamGameServerStats interface</para>
+		/// </summary>
 		public static IntPtr GetISteamGameServerStats(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_GetISteamGameServerStats(hSteamuser, hSteamPipe, pchVersion);
 		}
 
-		// returns apps interface
+		/// <summary>
+		/// <para> returns apps interface</para>
+		/// </summary>
 		public static IntPtr GetISteamApps(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_GetISteamApps(hSteamUser, hSteamPipe, pchVersion);
 		}
 
-		// networking
+		/// <summary>
+		/// <para> networking</para>
+		/// </summary>
 		public static IntPtr GetISteamNetworking(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_GetISteamNetworking(hSteamUser, hSteamPipe, pchVersion);
 		}
 
-		// remote storage
+		/// <summary>
+		/// <para> remote storage</para>
+		/// </summary>
 		public static IntPtr GetISteamRemoteStorage(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_GetISteamRemoteStorage(hSteamuser, hSteamPipe, pchVersion);
 		}
 
-		// user screenshots
+		/// <summary>
+		/// <para> user screenshots</para>
+		/// </summary>
 		public static IntPtr GetISteamScreenshots(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_GetISteamScreenshots(hSteamuser, hSteamPipe, pchVersion);
 		}
 
-		// this needs to be called every frame to process matchmaking results
-		// redundant if you're already calling SteamAPI_RunCallbacks()
+		/// <summary>
+		/// <para> this needs to be called every frame to process matchmaking results</para>
+		/// <para> redundant if you're already calling SteamAPI_RunCallbacks()</para>
+		/// </summary>
 		public static void RunFrame() {
 			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamClient_RunFrame();
 		}
 
-		// returns the number of IPC calls made since the last time this function was called
-		// Used for perf debugging so you can understand how many IPC calls your game makes per frame
-		// Every IPC call is at minimum a thread context switch if not a process one so you want to rate
-		// control how often you do them.
+		/// <summary>
+		/// <para> returns the number of IPC calls made since the last time this function was called</para>
+		/// <para> Used for perf debugging so you can understand how many IPC calls your game makes per frame</para>
+		/// <para> Every IPC call is at minimum a thread context switch if not a process one so you want to rate</para>
+		/// <para> control how often you do them.</para>
+		/// </summary>
 		public static uint GetIPCCallCount() {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_GetIPCCallCount();
 		}
 
-		// API warning handling
-		// 'int' is the severity; 0 for msg, 1 for warning
-		// 'const char *' is the text of the message
-		// callbacks will occur directly after the API function is called that generated the warning or message
+		/// <summary>
+		/// <para> API warning handling</para>
+		/// <para> 'int' is the severity; 0 for msg, 1 for warning</para>
+		/// <para> 'const char *' is the text of the message</para>
+		/// <para> callbacks will occur directly after the API function is called that generated the warning or message</para>
+		/// </summary>
 		public static void SetWarningMessageHook(SteamAPIWarningMessageHook_t pFunction) {
 			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamClient_SetWarningMessageHook(pFunction);
 		}
 
-		// Trigger global shutdown for the DLL
+		/// <summary>
+		/// <para> Trigger global shutdown for the DLL</para>
+		/// </summary>
 		public static bool BShutdownIfAllPipesClosed() {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_BShutdownIfAllPipesClosed();
@@ -162,43 +208,57 @@ namespace Steamworks {
 			return NativeMethods.ISteamClient_GetISteamPS3OverlayRender();
 		}
 #endif
-		// Expose HTTP interface
+		/// <summary>
+		/// <para> Expose HTTP interface</para>
+		/// </summary>
 		public static IntPtr GetISteamHTTP(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_GetISteamHTTP(hSteamuser, hSteamPipe, pchVersion);
 		}
 
-		// Exposes the ISteamUnifiedMessages interface
+		/// <summary>
+		/// <para> Exposes the ISteamUnifiedMessages interface</para>
+		/// </summary>
 		public static IntPtr GetISteamUnifiedMessages(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_GetISteamUnifiedMessages(hSteamuser, hSteamPipe, pchVersion);
 		}
 
-		// Exposes the ISteamController interface
+		/// <summary>
+		/// <para> Exposes the ISteamController interface</para>
+		/// </summary>
 		public static IntPtr GetISteamController(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_GetISteamController(hSteamUser, hSteamPipe, pchVersion);
 		}
 
-		// Exposes the ISteamUGC interface
+		/// <summary>
+		/// <para> Exposes the ISteamUGC interface</para>
+		/// </summary>
 		public static IntPtr GetISteamUGC(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_GetISteamUGC(hSteamUser, hSteamPipe, pchVersion);
 		}
 
-		// returns app list interface, only available on specially registered apps
+		/// <summary>
+		/// <para> returns app list interface, only available on specially registered apps</para>
+		/// </summary>
 		public static IntPtr GetISteamAppList(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_GetISteamAppList(hSteamUser, hSteamPipe, pchVersion);
 		}
 
-		// Music Player
+		/// <summary>
+		/// <para> Music Player</para>
+		/// </summary>
 		public static IntPtr GetISteamMusic(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_GetISteamMusic(hSteamuser, hSteamPipe, pchVersion);
 		}
 
-		// Music Player Remote
+		/// <summary>
+		/// <para> Music Player Remote</para>
+		/// </summary>
 		public static IntPtr GetISteamMusicRemote(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_GetISteamMusicRemote(hSteamuser, hSteamPipe, pchVersion);

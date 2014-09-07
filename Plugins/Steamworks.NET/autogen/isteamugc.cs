@@ -10,37 +10,49 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks {
 	public static class SteamUGC {
-		// Query UGC associated with a user. Creator app id or consumer app id must be valid and be set to the current running app. unPage should start at 1.
+		/// <summary>
+		/// <para> Query UGC associated with a user. Creator app id or consumer app id must be valid and be set to the current running app. unPage should start at 1.</para>
+		/// </summary>
 		public static UGCQueryHandle_t CreateQueryUserUGCRequest(AccountID_t unAccountID, EUserUGCList eListType, EUGCMatchingUGCType eMatchingUGCType, EUserUGCListSortOrder eSortOrder, AppId_t nCreatorAppID, AppId_t nConsumerAppID, uint unPage) {
 			InteropHelp.TestIfAvailableClient();
 			return (UGCQueryHandle_t)NativeMethods.ISteamUGC_CreateQueryUserUGCRequest(unAccountID, eListType, eMatchingUGCType, eSortOrder, nCreatorAppID, nConsumerAppID, unPage);
 		}
 
-		// Query for all matching UGC. Creator app id or consumer app id must be valid and be set to the current running app. unPage should start at 1.
+		/// <summary>
+		/// <para> Query for all matching UGC. Creator app id or consumer app id must be valid and be set to the current running app. unPage should start at 1.</para>
+		/// </summary>
 		public static UGCQueryHandle_t CreateQueryAllUGCRequest(EUGCQuery eQueryType, EUGCMatchingUGCType eMatchingeMatchingUGCTypeFileType, AppId_t nCreatorAppID, AppId_t nConsumerAppID, uint unPage) {
 			InteropHelp.TestIfAvailableClient();
 			return (UGCQueryHandle_t)NativeMethods.ISteamUGC_CreateQueryAllUGCRequest(eQueryType, eMatchingeMatchingUGCTypeFileType, nCreatorAppID, nConsumerAppID, unPage);
 		}
 
-		// Send the query to Steam
+		/// <summary>
+		/// <para> Send the query to Steam</para>
+		/// </summary>
 		public static SteamAPICall_t SendQueryUGCRequest(UGCQueryHandle_t handle) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_SendQueryUGCRequest(handle);
 		}
 
-		// Retrieve an individual result after receiving the callback for querying UGC
+		/// <summary>
+		/// <para> Retrieve an individual result after receiving the callback for querying UGC</para>
+		/// </summary>
 		public static bool GetQueryUGCResult(UGCQueryHandle_t handle, uint index, out SteamUGCDetails_t pDetails) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_GetQueryUGCResult(handle, index, out pDetails);
 		}
 
-		// Release the request to free up memory, after retrieving results
+		/// <summary>
+		/// <para> Release the request to free up memory, after retrieving results</para>
+		/// </summary>
 		public static bool ReleaseQueryUGCRequest(UGCQueryHandle_t handle) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_ReleaseQueryUGCRequest(handle);
 		}
 
-		// Options to set for querying UGC
+		/// <summary>
+		/// <para> Options to set for querying UGC</para>
+		/// </summary>
 		public static bool AddRequiredTag(UGCQueryHandle_t handle, string pTagName) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_AddRequiredTag(handle, pTagName);
@@ -66,13 +78,17 @@ namespace Steamworks {
 			return NativeMethods.ISteamUGC_SetAllowCachedResponse(handle, unMaxAgeSeconds);
 		}
 
-		// Options only for querying user UGC
+		/// <summary>
+		/// <para> Options only for querying user UGC</para>
+		/// </summary>
 		public static bool SetCloudFileNameFilter(UGCQueryHandle_t handle, string pMatchCloudFileName) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_SetCloudFileNameFilter(handle, pMatchCloudFileName);
 		}
 
-		// Options only for querying all UGC
+		/// <summary>
+		/// <para> Options only for querying all UGC</para>
+		/// </summary>
 		public static bool SetMatchAnyTag(UGCQueryHandle_t handle, bool bMatchAnyTag) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_SetMatchAnyTag(handle, bMatchAnyTag);
@@ -88,62 +104,82 @@ namespace Steamworks {
 			return NativeMethods.ISteamUGC_SetRankedByTrendDays(handle, unDays);
 		}
 
-		// Request full details for one piece of UGC
+		/// <summary>
+		/// <para> Request full details for one piece of UGC</para>
+		/// </summary>
 		public static SteamAPICall_t RequestUGCDetails(PublishedFileId_t nPublishedFileID, uint unMaxAgeSeconds) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_RequestUGCDetails(nPublishedFileID, unMaxAgeSeconds);
 		}
 
-		// Steam Workshop Creator API
-		// create new item for this app with no content attached yet
+		/// <summary>
+		/// <para> Steam Workshop Creator API</para>
+		/// <para> create new item for this app with no content attached yet</para>
+		/// </summary>
 		public static SteamAPICall_t CreateItem(AppId_t nConsumerAppId, EWorkshopFileType eFileType) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_CreateItem(nConsumerAppId, eFileType);
 		}
 
-		// start an UGC item update. Set changed properties before commiting update with CommitItemUpdate()
+		/// <summary>
+		/// <para> start an UGC item update. Set changed properties before commiting update with CommitItemUpdate()</para>
+		/// </summary>
 		public static UGCUpdateHandle_t StartItemUpdate(AppId_t nConsumerAppId, PublishedFileId_t nPublishedFileID) {
 			InteropHelp.TestIfAvailableClient();
 			return (UGCUpdateHandle_t)NativeMethods.ISteamUGC_StartItemUpdate(nConsumerAppId, nPublishedFileID);
 		}
 
-		// change the title of an UGC item
+		/// <summary>
+		/// <para> change the title of an UGC item</para>
+		/// </summary>
 		public static bool SetItemTitle(UGCUpdateHandle_t handle, string pchTitle) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_SetItemTitle(handle, pchTitle);
 		}
 
-		// change the description of an UGC item
+		/// <summary>
+		/// <para> change the description of an UGC item</para>
+		/// </summary>
 		public static bool SetItemDescription(UGCUpdateHandle_t handle, string pchDescription) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_SetItemDescription(handle, pchDescription);
 		}
 
-		// change the visibility of an UGC item
+		/// <summary>
+		/// <para> change the visibility of an UGC item</para>
+		/// </summary>
 		public static bool SetItemVisibility(UGCUpdateHandle_t handle, ERemoteStoragePublishedFileVisibility eVisibility) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_SetItemVisibility(handle, eVisibility);
 		}
 
-		// change the tags of an UGC item
+		/// <summary>
+		/// <para> change the tags of an UGC item</para>
+		/// </summary>
 		public static bool SetItemTags(UGCUpdateHandle_t updateHandle, System.Collections.Generic.IList<string> pTags) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_SetItemTags(updateHandle, new InteropHelp.SteamParamStringArray(pTags));
 		}
 
-		// update item content from this local folder
+		/// <summary>
+		/// <para> update item content from this local folder</para>
+		/// </summary>
 		public static bool SetItemContent(UGCUpdateHandle_t handle, string pszContentFolder) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_SetItemContent(handle, pszContentFolder);
 		}
 
-		//  change preview image file for this item. pszPreviewFile points to local image file
+		/// <summary>
+		/// <para>  change preview image file for this item. pszPreviewFile points to local image file</para>
+		/// </summary>
 		public static bool SetItemPreview(UGCUpdateHandle_t handle, string pszPreviewFile) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_SetItemPreview(handle, pszPreviewFile);
 		}
 
-		// commit update process started with StartItemUpdate()
+		/// <summary>
+		/// <para> commit update process started with StartItemUpdate()</para>
+		/// </summary>
 		public static SteamAPICall_t SubmitItemUpdate(UGCUpdateHandle_t handle, string pchChangeNote) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_SubmitItemUpdate(handle, pchChangeNote);
@@ -154,32 +190,42 @@ namespace Steamworks {
 			return NativeMethods.ISteamUGC_GetItemUpdateProgress(handle, out punBytesProcessed, out punBytesTotal);
 		}
 
-		// Steam Workshop Consumer API
-		// subscript to this item, will be installed ASAP
+		/// <summary>
+		/// <para> Steam Workshop Consumer API</para>
+		/// <para> subscript to this item, will be installed ASAP</para>
+		/// </summary>
 		public static SteamAPICall_t SubscribeItem(PublishedFileId_t nPublishedFileID) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_SubscribeItem(nPublishedFileID);
 		}
 
-		// unsubscribe from this item, will be uninstalled after game quits
+		/// <summary>
+		/// <para> unsubscribe from this item, will be uninstalled after game quits</para>
+		/// </summary>
 		public static SteamAPICall_t UnsubscribeItem(PublishedFileId_t nPublishedFileID) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_UnsubscribeItem(nPublishedFileID);
 		}
 
-		// number of subscribed items
+		/// <summary>
+		/// <para> number of subscribed items</para>
+		/// </summary>
 		public static uint GetNumSubscribedItems() {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_GetNumSubscribedItems();
 		}
 
-		// all subscribed item PublishFileIDs
+		/// <summary>
+		/// <para> all subscribed item PublishFileIDs</para>
+		/// </summary>
 		public static uint GetSubscribedItems(PublishedFileId_t[] pvecPublishedFileID, uint cMaxEntries) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_GetSubscribedItems(pvecPublishedFileID, cMaxEntries);
 		}
 
-		// returns true if item is installed
+		/// <summary>
+		/// <para> returns true if item is installed</para>
+		/// </summary>
 		public static bool GetItemInstallInfo(PublishedFileId_t nPublishedFileID, out ulong punSizeOnDisk, out string pchFolder, uint cchFolderSize) {
 			InteropHelp.TestIfAvailableClient();
 			IntPtr pchFolder2 = Marshal.AllocHGlobal((int)cchFolderSize);

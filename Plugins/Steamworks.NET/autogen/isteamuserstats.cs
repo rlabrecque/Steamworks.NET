@@ -10,13 +10,17 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks {
 	public static class SteamUserStats {
-		// Ask the server to send down this user's data and achievements for this game
+		/// <summary>
+		/// <para> Ask the server to send down this user's data and achievements for this game</para>
+		/// </summary>
 		public static bool RequestCurrentStats() {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_RequestCurrentStats();
 		}
 
-		// Data accessors
+		/// <summary>
+		/// <para> Data accessors</para>
+		/// </summary>
 		public static bool GetStat(string pchName, out int pData) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_GetStat(pchName, out pData);
@@ -27,7 +31,9 @@ namespace Steamworks {
 			return NativeMethods.ISteamUserStats_GetStat_(pchName, out pData);
 		}
 
-		// Set / update data
+		/// <summary>
+		/// <para> Set / update data</para>
+		/// </summary>
 		public static bool SetStat(string pchName, int nData) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_SetStat(pchName, nData);
@@ -43,7 +49,9 @@ namespace Steamworks {
 			return NativeMethods.ISteamUserStats_UpdateAvgRateStat(pchName, flCountThisSession, dSessionLength);
 		}
 
-		// Achievement flag accessors
+		/// <summary>
+		/// <para> Achievement flag accessors</para>
+		/// </summary>
 		public static bool GetAchievement(string pchName, out bool pbAchieved) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_GetAchievement(pchName, out pbAchieved);
@@ -59,75 +67,92 @@ namespace Steamworks {
 			return NativeMethods.ISteamUserStats_ClearAchievement(pchName);
 		}
 
-		// Get the achievement status, and the time it was unlocked if unlocked.
-		// If the return value is true, but the unlock time is zero, that means it was unlocked before Steam
-		// began tracking achievement unlock times (December 2009). Time is seconds since January 1, 1970.
+		/// <summary>
+		/// <para> Get the achievement status, and the time it was unlocked if unlocked.</para>
+		/// <para> If the return value is true, but the unlock time is zero, that means it was unlocked before Steam</para>
+		/// <para> began tracking achievement unlock times (December 2009). Time is seconds since January 1, 1970.</para>
+		/// </summary>
 		public static bool GetAchievementAndUnlockTime(string pchName, out bool pbAchieved, out uint punUnlockTime) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_GetAchievementAndUnlockTime(pchName, out pbAchieved, out punUnlockTime);
 		}
 
-		// Store the current data on the server, will get a callback when set
-		// And one callback for every new achievement
-		//
-		// If the callback has a result of k_EResultInvalidParam, one or more stats
-		// uploaded has been rejected, either because they broke constraints
-		// or were out of date. In this case the server sends back updated values.
-		// The stats should be re-iterated to keep in sync.
+		/// <summary>
+		/// <para> Store the current data on the server, will get a callback when set</para>
+		/// <para> And one callback for every new achievement</para>
+		/// <para> If the callback has a result of k_EResultInvalidParam, one or more stats</para>
+		/// <para> uploaded has been rejected, either because they broke constraints</para>
+		/// <para> or were out of date. In this case the server sends back updated values.</para>
+		/// <para> The stats should be re-iterated to keep in sync.</para>
+		/// </summary>
 		public static bool StoreStats() {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_StoreStats();
 		}
 
-		// Achievement / GroupAchievement metadata
-		// Gets the icon of the achievement, which is a handle to be used in ISteamUtils::GetImageRGBA(), or 0 if none set.
-		// A return value of 0 may indicate we are still fetching data, and you can wait for the UserAchievementIconFetched_t callback
-		// which will notify you when the bits are ready. If the callback still returns zero, then there is no image set for the
-		// specified achievement.
+		/// <summary>
+		/// <para> Achievement / GroupAchievement metadata</para>
+		/// <para> Gets the icon of the achievement, which is a handle to be used in ISteamUtils::GetImageRGBA(), or 0 if none set.</para>
+		/// <para> A return value of 0 may indicate we are still fetching data, and you can wait for the UserAchievementIconFetched_t callback</para>
+		/// <para> which will notify you when the bits are ready. If the callback still returns zero, then there is no image set for the</para>
+		/// <para> specified achievement.</para>
+		/// </summary>
 		public static int GetAchievementIcon(string pchName) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_GetAchievementIcon(pchName);
 		}
 
-		// Get general attributes for an achievement. Accepts the following keys:
-		// - "name" and "desc" for retrieving the localized achievement name and description (returned in UTF8)
-		// - "hidden" for retrieving if an achievement is hidden (returns "0" when not hidden, "1" when hidden)
+		/// <summary>
+		/// <para> Get general attributes for an achievement. Accepts the following keys:</para>
+		/// <para> - "name" and "desc" for retrieving the localized achievement name and description (returned in UTF8)</para>
+		/// <para> - "hidden" for retrieving if an achievement is hidden (returns "0" when not hidden, "1" when hidden)</para>
+		/// </summary>
 		public static string GetAchievementDisplayAttribute(string pchName, string pchKey) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_GetAchievementDisplayAttribute(pchName, pchKey);
 		}
 
-		// Achievement progress - triggers an AchievementProgress callback, that is all.
-		// Calling this w/ N out of N progress will NOT set the achievement, the game must still do that.
+		/// <summary>
+		/// <para> Achievement progress - triggers an AchievementProgress callback, that is all.</para>
+		/// <para> Calling this w/ N out of N progress will NOT set the achievement, the game must still do that.</para>
+		/// </summary>
 		public static bool IndicateAchievementProgress(string pchName, uint nCurProgress, uint nMaxProgress) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_IndicateAchievementProgress(pchName, nCurProgress, nMaxProgress);
 		}
 
-		// Used for iterating achievements. In general games should not need these functions because they should have a
-		// list of existing achievements compiled into them
+		/// <summary>
+		/// <para> Used for iterating achievements. In general games should not need these functions because they should have a</para>
+		/// <para> list of existing achievements compiled into them</para>
+		/// </summary>
 		public static uint GetNumAchievements() {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_GetNumAchievements();
 		}
 
-		// Get achievement name iAchievement in [0,GetNumAchievements)
+		/// <summary>
+		/// <para> Get achievement name iAchievement in [0,GetNumAchievements)</para>
+		/// </summary>
 		public static string GetAchievementName(uint iAchievement) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_GetAchievementName(iAchievement);
 		}
 
-		// Friends stats & achievements
-		// downloads stats for the user
-		// returns a UserStatsReceived_t received when completed
-		// if the other user has no stats, UserStatsReceived_t.m_eResult will be set to k_EResultFail
-		// these stats won't be auto-updated; you'll need to call RequestUserStats() again to refresh any data
+		/// <summary>
+		/// <para> Friends stats &amp; achievements</para>
+		/// <para> downloads stats for the user</para>
+		/// <para> returns a UserStatsReceived_t received when completed</para>
+		/// <para> if the other user has no stats, UserStatsReceived_t.m_eResult will be set to k_EResultFail</para>
+		/// <para> these stats won't be auto-updated; you'll need to call RequestUserStats() again to refresh any data</para>
+		/// </summary>
 		public static SteamAPICall_t RequestUserStats(CSteamID steamIDUser) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUserStats_RequestUserStats(steamIDUser);
 		}
 
-		// requests stat information for a user, usable after a successful call to RequestUserStats()
+		/// <summary>
+		/// <para> requests stat information for a user, usable after a successful call to RequestUserStats()</para>
+		/// </summary>
 		public static bool GetUserStat(CSteamID steamIDUser, string pchName, out int pData) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_GetUserStat(steamIDUser, pchName, out pData);
@@ -143,132 +168,164 @@ namespace Steamworks {
 			return NativeMethods.ISteamUserStats_GetUserAchievement(steamIDUser, pchName, out pbAchieved);
 		}
 
-		// See notes for GetAchievementAndUnlockTime above
+		/// <summary>
+		/// <para> See notes for GetAchievementAndUnlockTime above</para>
+		/// </summary>
 		public static bool GetUserAchievementAndUnlockTime(CSteamID steamIDUser, string pchName, out bool pbAchieved, out uint punUnlockTime) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_GetUserAchievementAndUnlockTime(steamIDUser, pchName, out pbAchieved, out punUnlockTime);
 		}
 
-		// Reset stats
+		/// <summary>
+		/// <para> Reset stats</para>
+		/// </summary>
 		public static bool ResetAllStats(bool bAchievementsToo) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_ResetAllStats(bAchievementsToo);
 		}
 
-		// Leaderboard functions
-		// asks the Steam back-end for a leaderboard by name, and will create it if it's not yet
-		// This call is asynchronous, with the result returned in LeaderboardFindResult_t
+		/// <summary>
+		/// <para> Leaderboard functions</para>
+		/// <para> asks the Steam back-end for a leaderboard by name, and will create it if it's not yet</para>
+		/// <para> This call is asynchronous, with the result returned in LeaderboardFindResult_t</para>
+		/// </summary>
 		public static SteamAPICall_t FindOrCreateLeaderboard(string pchLeaderboardName, ELeaderboardSortMethod eLeaderboardSortMethod, ELeaderboardDisplayType eLeaderboardDisplayType) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUserStats_FindOrCreateLeaderboard(pchLeaderboardName, eLeaderboardSortMethod, eLeaderboardDisplayType);
 		}
 
-		// as above, but won't create the leaderboard if it's not found
-		// This call is asynchronous, with the result returned in LeaderboardFindResult_t
+		/// <summary>
+		/// <para> as above, but won't create the leaderboard if it's not found</para>
+		/// <para> This call is asynchronous, with the result returned in LeaderboardFindResult_t</para>
+		/// </summary>
 		public static SteamAPICall_t FindLeaderboard(string pchLeaderboardName) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUserStats_FindLeaderboard(pchLeaderboardName);
 		}
 
-		// returns the name of a leaderboard
+		/// <summary>
+		/// <para> returns the name of a leaderboard</para>
+		/// </summary>
 		public static string GetLeaderboardName(SteamLeaderboard_t hSteamLeaderboard) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_GetLeaderboardName(hSteamLeaderboard);
 		}
 
-		// returns the total number of entries in a leaderboard, as of the last request
+		/// <summary>
+		/// <para> returns the total number of entries in a leaderboard, as of the last request</para>
+		/// </summary>
 		public static int GetLeaderboardEntryCount(SteamLeaderboard_t hSteamLeaderboard) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_GetLeaderboardEntryCount(hSteamLeaderboard);
 		}
 
-		// returns the sort method of the leaderboard
+		/// <summary>
+		/// <para> returns the sort method of the leaderboard</para>
+		/// </summary>
 		public static ELeaderboardSortMethod GetLeaderboardSortMethod(SteamLeaderboard_t hSteamLeaderboard) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_GetLeaderboardSortMethod(hSteamLeaderboard);
 		}
 
-		// returns the display type of the leaderboard
+		/// <summary>
+		/// <para> returns the display type of the leaderboard</para>
+		/// </summary>
 		public static ELeaderboardDisplayType GetLeaderboardDisplayType(SteamLeaderboard_t hSteamLeaderboard) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_GetLeaderboardDisplayType(hSteamLeaderboard);
 		}
 
-		// Asks the Steam back-end for a set of rows in the leaderboard.
-		// This call is asynchronous, with the result returned in LeaderboardScoresDownloaded_t
-		// LeaderboardScoresDownloaded_t will contain a handle to pull the results from GetDownloadedLeaderboardEntries() (below)
-		// You can ask for more entries than exist, and it will return as many as do exist.
-		// k_ELeaderboardDataRequestGlobal requests rows in the leaderboard from the full table, with nRangeStart & nRangeEnd in the range [1, TotalEntries]
-		// k_ELeaderboardDataRequestGlobalAroundUser requests rows around the current user, nRangeStart being negate
-		//   e.g. DownloadLeaderboardEntries( hLeaderboard, k_ELeaderboardDataRequestGlobalAroundUser, -3, 3 ) will return 7 rows, 3 before the user, 3 after
-		// k_ELeaderboardDataRequestFriends requests all the rows for friends of the current user
+		/// <summary>
+		/// <para> Asks the Steam back-end for a set of rows in the leaderboard.</para>
+		/// <para> This call is asynchronous, with the result returned in LeaderboardScoresDownloaded_t</para>
+		/// <para> LeaderboardScoresDownloaded_t will contain a handle to pull the results from GetDownloadedLeaderboardEntries() (below)</para>
+		/// <para> You can ask for more entries than exist, and it will return as many as do exist.</para>
+		/// <para> k_ELeaderboardDataRequestGlobal requests rows in the leaderboard from the full table, with nRangeStart &amp; nRangeEnd in the range [1, TotalEntries]</para>
+		/// <para> k_ELeaderboardDataRequestGlobalAroundUser requests rows around the current user, nRangeStart being negate</para>
+		/// <para>   e.g. DownloadLeaderboardEntries( hLeaderboard, k_ELeaderboardDataRequestGlobalAroundUser, -3, 3 ) will return 7 rows, 3 before the user, 3 after</para>
+		/// <para> k_ELeaderboardDataRequestFriends requests all the rows for friends of the current user</para>
+		/// </summary>
 		public static SteamAPICall_t DownloadLeaderboardEntries(SteamLeaderboard_t hSteamLeaderboard, ELeaderboardDataRequest eLeaderboardDataRequest, int nRangeStart, int nRangeEnd) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUserStats_DownloadLeaderboardEntries(hSteamLeaderboard, eLeaderboardDataRequest, nRangeStart, nRangeEnd);
 		}
 
-		// as above, but downloads leaderboard entries for an arbitrary set of users - ELeaderboardDataRequest is k_ELeaderboardDataRequestUsers
-		// if a user doesn't have a leaderboard entry, they won't be included in the result
-		// a max of 100 users can be downloaded at a time, with only one outstanding call at a time
+		/// <summary>
+		/// <para> as above, but downloads leaderboard entries for an arbitrary set of users - ELeaderboardDataRequest is k_ELeaderboardDataRequestUsers</para>
+		/// <para> if a user doesn't have a leaderboard entry, they won't be included in the result</para>
+		/// <para> a max of 100 users can be downloaded at a time, with only one outstanding call at a time</para>
+		/// </summary>
 		public static SteamAPICall_t DownloadLeaderboardEntriesForUsers(SteamLeaderboard_t hSteamLeaderboard, CSteamID[] prgUsers, int cUsers) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUserStats_DownloadLeaderboardEntriesForUsers(hSteamLeaderboard, prgUsers, cUsers);
 		}
 
-		// Returns data about a single leaderboard entry
-		// use a for loop from 0 to LeaderboardScoresDownloaded_t::m_cEntryCount to get all the downloaded entries
-		// e.g.
-		//		void OnLeaderboardScoresDownloaded( LeaderboardScoresDownloaded_t *pLeaderboardScoresDownloaded )
-		//		{
-		//			for ( int index = 0; index < pLeaderboardScoresDownloaded->m_cEntryCount; index++ )
-		//			{
-		//				LeaderboardEntry_t leaderboardEntry;
-		//				int32 details[3];		// we know this is how many we've stored previously
-		//				GetDownloadedLeaderboardEntry( pLeaderboardScoresDownloaded->m_hSteamLeaderboardEntries, index, &leaderboardEntry, details, 3 );
-		//				assert( leaderboardEntry.m_cDetails == 3 );
-		//				...
-		//			}
-		// once you've accessed all the entries, the data will be free'd, and the SteamLeaderboardEntries_t handle will become invalid
+		/// <summary>
+		/// <para> Returns data about a single leaderboard entry</para>
+		/// <para> use a for loop from 0 to LeaderboardScoresDownloaded_t::m_cEntryCount to get all the downloaded entries</para>
+		/// <para> e.g.</para>
+		/// <para>		void OnLeaderboardScoresDownloaded( LeaderboardScoresDownloaded_t *pLeaderboardScoresDownloaded )</para>
+		/// <para>		{</para>
+		/// <para>			for ( int index = 0; index &lt; pLeaderboardScoresDownloaded-&gt;m_cEntryCount; index++ )</para>
+		/// <para>			{</para>
+		/// <para>				LeaderboardEntry_t leaderboardEntry;</para>
+		/// <para>				int32 details[3];		// we know this is how many we've stored previously</para>
+		/// <para>				GetDownloadedLeaderboardEntry( pLeaderboardScoresDownloaded-&gt;m_hSteamLeaderboardEntries, index, &amp;leaderboardEntry, details, 3 );</para>
+		/// <para>				assert( leaderboardEntry.m_cDetails == 3 );</para>
+		/// <para>				...</para>
+		/// <para>			}</para>
+		/// <para> once you've accessed all the entries, the data will be free'd, and the SteamLeaderboardEntries_t handle will become invalid</para>
+		/// </summary>
 		public static bool GetDownloadedLeaderboardEntry(SteamLeaderboardEntries_t hSteamLeaderboardEntries, int index, out LeaderboardEntry_t pLeaderboardEntry, int[] pDetails, int cDetailsMax) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_GetDownloadedLeaderboardEntry(hSteamLeaderboardEntries, index, out pLeaderboardEntry, pDetails, cDetailsMax);
 		}
 
-		// Uploads a user score to the Steam back-end.
-		// This call is asynchronous, with the result returned in LeaderboardScoreUploaded_t
-		// Details are extra game-defined information regarding how the user got that score
-		// pScoreDetails points to an array of int32's, cScoreDetailsCount is the number of int32's in the list
+		/// <summary>
+		/// <para> Uploads a user score to the Steam back-end.</para>
+		/// <para> This call is asynchronous, with the result returned in LeaderboardScoreUploaded_t</para>
+		/// <para> Details are extra game-defined information regarding how the user got that score</para>
+		/// <para> pScoreDetails points to an array of int32's, cScoreDetailsCount is the number of int32's in the list</para>
+		/// </summary>
 		public static SteamAPICall_t UploadLeaderboardScore(SteamLeaderboard_t hSteamLeaderboard, ELeaderboardUploadScoreMethod eLeaderboardUploadScoreMethod, int nScore, int[] pScoreDetails, int cScoreDetailsCount) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUserStats_UploadLeaderboardScore(hSteamLeaderboard, eLeaderboardUploadScoreMethod, nScore, pScoreDetails, cScoreDetailsCount);
 		}
 
-		// Attaches a piece of user generated content the user's entry on a leaderboard.
-		// hContent is a handle to a piece of user generated content that was shared using ISteamUserRemoteStorage::FileShare().
-		// This call is asynchronous, with the result returned in LeaderboardUGCSet_t.
+		/// <summary>
+		/// <para> Attaches a piece of user generated content the user's entry on a leaderboard.</para>
+		/// <para> hContent is a handle to a piece of user generated content that was shared using ISteamUserRemoteStorage::FileShare().</para>
+		/// <para> This call is asynchronous, with the result returned in LeaderboardUGCSet_t.</para>
+		/// </summary>
 		public static SteamAPICall_t AttachLeaderboardUGC(SteamLeaderboard_t hSteamLeaderboard, UGCHandle_t hUGC) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUserStats_AttachLeaderboardUGC(hSteamLeaderboard, hUGC);
 		}
 
-		// Retrieves the number of players currently playing your game (online + offline)
-		// This call is asynchronous, with the result returned in NumberOfCurrentPlayers_t
+		/// <summary>
+		/// <para> Retrieves the number of players currently playing your game (online + offline)</para>
+		/// <para> This call is asynchronous, with the result returned in NumberOfCurrentPlayers_t</para>
+		/// </summary>
 		public static SteamAPICall_t GetNumberOfCurrentPlayers() {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUserStats_GetNumberOfCurrentPlayers();
 		}
 
-		// Requests that Steam fetch data on the percentage of players who have received each achievement
-		// for the game globally.
-		// This call is asynchronous, with the result returned in GlobalAchievementPercentagesReady_t.
+		/// <summary>
+		/// <para> Requests that Steam fetch data on the percentage of players who have received each achievement</para>
+		/// <para> for the game globally.</para>
+		/// <para> This call is asynchronous, with the result returned in GlobalAchievementPercentagesReady_t.</para>
+		/// </summary>
 		public static SteamAPICall_t RequestGlobalAchievementPercentages() {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUserStats_RequestGlobalAchievementPercentages();
 		}
 
-		// Get the info on the most achieved achievement for the game, returns an iterator index you can use to fetch
-		// the next most achieved afterwards.  Will return -1 if there is no data on achievement
-		// percentages (ie, you haven't called RequestGlobalAchievementPercentages and waited on the callback).
+		/// <summary>
+		/// <para> Get the info on the most achieved achievement for the game, returns an iterator index you can use to fetch</para>
+		/// <para> the next most achieved afterwards.  Will return -1 if there is no data on achievement</para>
+		/// <para> percentages (ie, you haven't called RequestGlobalAchievementPercentages and waited on the callback).</para>
+		/// </summary>
 		public static int GetMostAchievedAchievementInfo(out string pchName, uint unNameBufLen, out float pflPercent, out bool pbAchieved) {
 			InteropHelp.TestIfAvailableClient();
 			IntPtr pchName2 = Marshal.AllocHGlobal((int)unNameBufLen);
@@ -278,9 +335,11 @@ namespace Steamworks {
 			return ret;
 		}
 
-		// Get the info on the next most achieved achievement for the game. Call this after GetMostAchievedAchievementInfo or another
-		// GetNextMostAchievedAchievementInfo call passing the iterator from the previous call. Returns -1 after the last
-		// achievement has been iterated.
+		/// <summary>
+		/// <para> Get the info on the next most achieved achievement for the game. Call this after GetMostAchievedAchievementInfo or another</para>
+		/// <para> GetNextMostAchievedAchievementInfo call passing the iterator from the previous call. Returns -1 after the last</para>
+		/// <para> achievement has been iterated.</para>
+		/// </summary>
 		public static int GetNextMostAchievedAchievementInfo(int iIteratorPrevious, out string pchName, uint unNameBufLen, out float pflPercent, out bool pbAchieved) {
 			InteropHelp.TestIfAvailableClient();
 			IntPtr pchName2 = Marshal.AllocHGlobal((int)unNameBufLen);
@@ -290,22 +349,28 @@ namespace Steamworks {
 			return ret;
 		}
 
-		// Returns the percentage of users who have achieved the specified achievement.
+		/// <summary>
+		/// <para> Returns the percentage of users who have achieved the specified achievement.</para>
+		/// </summary>
 		public static bool GetAchievementAchievedPercent(string pchName, out float pflPercent) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_GetAchievementAchievedPercent(pchName, out pflPercent);
 		}
 
-		// Requests global stats data, which is available for stats marked as "aggregated".
-		// This call is asynchronous, with the results returned in GlobalStatsReceived_t.
-		// nHistoryDays specifies how many days of day-by-day history to retrieve in addition
-		// to the overall totals. The limit is 60.
+		/// <summary>
+		/// <para> Requests global stats data, which is available for stats marked as "aggregated".</para>
+		/// <para> This call is asynchronous, with the results returned in GlobalStatsReceived_t.</para>
+		/// <para> nHistoryDays specifies how many days of day-by-day history to retrieve in addition</para>
+		/// <para> to the overall totals. The limit is 60.</para>
+		/// </summary>
 		public static SteamAPICall_t RequestGlobalStats(int nHistoryDays) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUserStats_RequestGlobalStats(nHistoryDays);
 		}
 
-		// Gets the lifetime totals for an aggregated stat
+		/// <summary>
+		/// <para> Gets the lifetime totals for an aggregated stat</para>
+		/// </summary>
 		public static bool GetGlobalStat(string pchStatName, out long pData) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_GetGlobalStat(pchStatName, out pData);
@@ -316,10 +381,12 @@ namespace Steamworks {
 			return NativeMethods.ISteamUserStats_GetGlobalStat_(pchStatName, out pData);
 		}
 
-		// Gets history for an aggregated stat. pData will be filled with daily values, starting with today.
-		// So when called, pData[0] will be today, pData[1] will be yesterday, and pData[2] will be two days ago,
-		// etc. cubData is the size in bytes of the pubData buffer. Returns the number of
-		// elements actually set.
+		/// <summary>
+		/// <para> Gets history for an aggregated stat. pData will be filled with daily values, starting with today.</para>
+		/// <para> So when called, pData[0] will be today, pData[1] will be yesterday, and pData[2] will be two days ago,</para>
+		/// <para> etc. cubData is the size in bytes of the pubData buffer. Returns the number of</para>
+		/// <para> elements actually set.</para>
+		/// </summary>
 		public static int GetGlobalStatHistory(string pchStatName, long[] pData, uint cubData) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_GetGlobalStatHistory(pchStatName, pData, cubData);
@@ -330,31 +397,39 @@ namespace Steamworks {
 			return NativeMethods.ISteamUserStats_GetGlobalStatHistory_(pchStatName, pData, cubData);
 		}
 #if _PS3
-		// Call to kick off installation of the PS3 trophies. This call is asynchronous, and the results will be returned in a PS3TrophiesInstalled_t
-		// callback.
+		/// <summary>
+		/// <para> Call to kick off installation of the PS3 trophies. This call is asynchronous, and the results will be returned in a PS3TrophiesInstalled_t</para>
+		/// <para> callback.</para>
+		/// </summary>
 		public static bool InstallPS3Trophies() {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_InstallPS3Trophies();
 		}
 
-		// Returns the amount of space required at boot to install trophies. This value can be used when comparing the amount of space needed
-		// by the game to the available space value passed to the game at boot. The value is set during InstallPS3Trophies().
+		/// <summary>
+		/// <para> Returns the amount of space required at boot to install trophies. This value can be used when comparing the amount of space needed</para>
+		/// <para> by the game to the available space value passed to the game at boot. The value is set during InstallPS3Trophies().</para>
+		/// </summary>
 		public static ulong GetTrophySpaceRequiredBeforeInstall() {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_GetTrophySpaceRequiredBeforeInstall();
 		}
 
-		// On PS3, user stats & achievement progress through Steam must be stored with the user's saved game data.
-		// At startup, before calling RequestCurrentStats(), you must pass the user's stats data to Steam via this method.
-		// If you do not have any user data, call this function with pvData = NULL and cubData = 0
+		/// <summary>
+		/// <para> On PS3, user stats &amp; achievement progress through Steam must be stored with the user's saved game data.</para>
+		/// <para> At startup, before calling RequestCurrentStats(), you must pass the user's stats data to Steam via this method.</para>
+		/// <para> If you do not have any user data, call this function with pvData = NULL and cubData = 0</para>
+		/// </summary>
 		public static bool SetUserStatsData(IntPtr pvData, uint cubData) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_SetUserStatsData(pvData, cubData);
 		}
 
-		// Call to get the user's current stats data. You should retrieve this data after receiving successful UserStatsReceived_t & UserStatsStored_t
-		// callbacks, and store the data with the user's save game data. You can call this method with pvData = NULL and cubData = 0 to get the required
-		// buffer size.
+		/// <summary>
+		/// <para> Call to get the user's current stats data. You should retrieve this data after receiving successful UserStatsReceived_t &amp; UserStatsStored_t</para>
+		/// <para> callbacks, and store the data with the user's save game data. You can call this method with pvData = NULL and cubData = 0 to get the required</para>
+		/// <para> buffer size.</para>
+		/// </summary>
 		public static bool GetUserStatsData(IntPtr pvData, uint cubData, out uint pcubWritten) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUserStats_GetUserStatsData(pvData, cubData, out pcubWritten);

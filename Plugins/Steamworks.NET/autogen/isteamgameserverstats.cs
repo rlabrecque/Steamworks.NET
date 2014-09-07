@@ -10,17 +10,21 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks {
 	public static class SteamGameServerStats {
-		// downloads stats for the user
-		// returns a GSStatsReceived_t callback when completed
-		// if the user has no stats, GSStatsReceived_t.m_eResult will be set to k_EResultFail
-		// these stats will only be auto-updated for clients playing on the server. For other
-		// users you'll need to call RequestUserStats() again to refresh any data
+		/// <summary>
+		/// <para> downloads stats for the user</para>
+		/// <para> returns a GSStatsReceived_t callback when completed</para>
+		/// <para> if the user has no stats, GSStatsReceived_t.m_eResult will be set to k_EResultFail</para>
+		/// <para> these stats will only be auto-updated for clients playing on the server. For other</para>
+		/// <para> users you'll need to call RequestUserStats() again to refresh any data</para>
+		/// </summary>
 		public static SteamAPICall_t RequestUserStats(CSteamID steamIDUser) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamGameServerStats_RequestUserStats(steamIDUser);
 		}
 
-		// requests stat information for a user, usable after a successful call to RequestUserStats()
+		/// <summary>
+		/// <para> requests stat information for a user, usable after a successful call to RequestUserStats()</para>
+		/// </summary>
 		public static bool GetUserStat(CSteamID steamIDUser, string pchName, out int pData) {
 			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServerStats_GetUserStat(steamIDUser, pchName, out pData);
@@ -36,10 +40,12 @@ namespace Steamworks {
 			return NativeMethods.ISteamGameServerStats_GetUserAchievement(steamIDUser, pchName, out pbAchieved);
 		}
 
-		// Set / update stats and achievements.
-		// Note: These updates will work only on stats game servers are allowed to edit and only for
-		// game servers that have been declared as officially controlled by the game creators.
-		// Set the IP range of your official servers on the Steamworks page
+		/// <summary>
+		/// <para> Set / update stats and achievements.</para>
+		/// <para> Note: These updates will work only on stats game servers are allowed to edit and only for</para>
+		/// <para> game servers that have been declared as officially controlled by the game creators.</para>
+		/// <para> Set the IP range of your official servers on the Steamworks page</para>
+		/// </summary>
 		public static bool SetUserStat(CSteamID steamIDUser, string pchName, int nData) {
 			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServerStats_SetUserStat(steamIDUser, pchName, nData);
@@ -65,12 +71,13 @@ namespace Steamworks {
 			return NativeMethods.ISteamGameServerStats_ClearUserAchievement(steamIDUser, pchName);
 		}
 
-		// Store the current data on the server, will get a GSStatsStored_t callback when set.
-		//
-		// If the callback has a result of k_EResultInvalidParam, one or more stats
-		// uploaded has been rejected, either because they broke constraints
-		// or were out of date. In this case the server sends back updated values.
-		// The stats should be re-iterated to keep in sync.
+		/// <summary>
+		/// <para> Store the current data on the server, will get a GSStatsStored_t callback when set.</para>
+		/// <para> If the callback has a result of k_EResultInvalidParam, one or more stats</para>
+		/// <para> uploaded has been rejected, either because they broke constraints</para>
+		/// <para> or were out of date. In this case the server sends back updated values.</para>
+		/// <para> The stats should be re-iterated to keep in sync.</para>
+		/// </summary>
 		public static SteamAPICall_t StoreUserStats(CSteamID steamIDUser) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamGameServerStats_StoreUserStats(steamIDUser);

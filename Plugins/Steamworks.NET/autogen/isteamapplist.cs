@@ -20,7 +20,9 @@ namespace Steamworks {
 			return NativeMethods.ISteamAppList_GetInstalledApps(pvecAppID, unMaxAppIDs);
 		}
 
-		// returns -1 if no name was found
+		/// <summary>
+		/// <para> returns -1 if no name was found</para>
+		/// </summary>
 		public static int GetAppName(AppId_t nAppID, out string pchName, int cchNameMax) {
 			InteropHelp.TestIfAvailableClient();
 			IntPtr pchName2 = Marshal.AllocHGlobal(cchNameMax);
@@ -30,7 +32,9 @@ namespace Steamworks {
 			return ret;
 		}
 
-		// returns -1 if no dir was found
+		/// <summary>
+		/// <para> returns -1 if no dir was found</para>
+		/// </summary>
 		public static int GetAppInstallDir(AppId_t nAppID, out string pchDirectory, int cchNameMax) {
 			InteropHelp.TestIfAvailableClient();
 			IntPtr pchDirectory2 = Marshal.AllocHGlobal(cchNameMax);
@@ -40,7 +44,9 @@ namespace Steamworks {
 			return ret;
 		}
 
-		// return the buildid of this app, may change at any time based on backend updates to the game
+		/// <summary>
+		/// <para> return the buildid of this app, may change at any time based on backend updates to the game</para>
+		/// </summary>
 		public static int GetAppBuildId(AppId_t nAppID) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamAppList_GetAppBuildId(nAppID);

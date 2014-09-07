@@ -10,13 +10,13 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks {
 	public static class SteamRemoteStorage {
-			// NOTE
-			//
-			// Filenames are case-insensitive, and will be converted to lowercase automatically.
-			// So "foo.bar" and "Foo.bar" are the same file, and if you write "Foo.bar" then
-			// iterate the files, the filename returned will be "foo.bar".
-			//
-			// file operations
+		/// <summary>
+		/// <para> NOTE</para>
+		/// <para> Filenames are case-insensitive, and will be converted to lowercase automatically.</para>
+		/// <para> So "foo.bar" and "Foo.bar" are the same file, and if you write "Foo.bar" then</para>
+		/// <para> iterate the files, the filename returned will be "foo.bar".</para>
+		/// <para> file operations</para>
+		/// </summary>
 		public static bool FileWrite(string pchFile, byte[] pvData, int cubData) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamRemoteStorage_FileWrite(pchFile, pvData, cubData);
@@ -47,7 +47,9 @@ namespace Steamworks {
 			return NativeMethods.ISteamRemoteStorage_SetSyncPlatforms(pchFile, eRemoteStoragePlatform);
 		}
 
-			// file operations that cause network IO
+		/// <summary>
+		/// <para> file operations that cause network IO</para>
+		/// </summary>
 		public static UGCFileWriteStreamHandle_t FileWriteStreamOpen(string pchFile) {
 			InteropHelp.TestIfAvailableClient();
 			return (UGCFileWriteStreamHandle_t)NativeMethods.ISteamRemoteStorage_FileWriteStreamOpen(pchFile);
@@ -68,7 +70,9 @@ namespace Steamworks {
 			return NativeMethods.ISteamRemoteStorage_FileWriteStreamCancel(writeHandle);
 		}
 
-			// file information
+		/// <summary>
+		/// <para> file information</para>
+		/// </summary>
 		public static bool FileExists(string pchFile) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamRemoteStorage_FileExists(pchFile);
@@ -94,7 +98,9 @@ namespace Steamworks {
 			return NativeMethods.ISteamRemoteStorage_GetSyncPlatforms(pchFile);
 		}
 
-			// iteration
+		/// <summary>
+		/// <para> iteration</para>
+		/// </summary>
 		public static int GetFileCount() {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamRemoteStorage_GetFileCount();
@@ -105,7 +111,9 @@ namespace Steamworks {
 			return NativeMethods.ISteamRemoteStorage_GetFileNameAndSize(iFile, out pnFileSizeInBytes);
 		}
 
-			// configuration management
+		/// <summary>
+		/// <para> configuration management</para>
+		/// </summary>
 		public static bool GetQuota(out int pnTotalBytes, out int puAvailableBytes) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamRemoteStorage_GetQuota(out pnTotalBytes, out puAvailableBytes);
@@ -126,23 +134,29 @@ namespace Steamworks {
 			NativeMethods.ISteamRemoteStorage_SetCloudEnabledForApp(bEnabled);
 		}
 
-			// user generated content
-			// Downloads a UGC file.  A priority value of 0 will download the file immediately,
-			// otherwise it will wait to download the file until all downloads with a lower priority
-			// value are completed.  Downloads with equal priority will occur simultaneously.
+		/// <summary>
+		/// <para> user generated content</para>
+		/// <para> Downloads a UGC file.  A priority value of 0 will download the file immediately,</para>
+		/// <para> otherwise it will wait to download the file until all downloads with a lower priority</para>
+		/// <para> value are completed.  Downloads with equal priority will occur simultaneously.</para>
+		/// </summary>
 		public static SteamAPICall_t UGCDownload(UGCHandle_t hContent, uint unPriority) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_UGCDownload(hContent, unPriority);
 		}
 
-			// Gets the amount of data downloaded so far for a piece of content. pnBytesExpected can be 0 if function returns false
-			// or if the transfer hasn't started yet, so be careful to check for that before dividing to get a percentage
+		/// <summary>
+		/// <para> Gets the amount of data downloaded so far for a piece of content. pnBytesExpected can be 0 if function returns false</para>
+		/// <para> or if the transfer hasn't started yet, so be careful to check for that before dividing to get a percentage</para>
+		/// </summary>
 		public static bool GetUGCDownloadProgress(UGCHandle_t hContent, out int pnBytesDownloaded, out int pnBytesExpected) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamRemoteStorage_GetUGCDownloadProgress(hContent, out pnBytesDownloaded, out pnBytesExpected);
 		}
 
-			// Gets metadata for a file after it has been downloaded. This is the same metadata given in the RemoteStorageDownloadUGCResult_t call result
+		/// <summary>
+		/// <para> Gets metadata for a file after it has been downloaded. This is the same metadata given in the RemoteStorageDownloadUGCResult_t call result</para>
+		/// </summary>
 		public static bool GetUGCDetails(UGCHandle_t hContent, out AppId_t pnAppID, out string ppchName, out int pnFileSizeInBytes, out CSteamID pSteamIDOwner) {
 			InteropHelp.TestIfAvailableClient();
 			IntPtr ppchName2;
@@ -151,18 +165,22 @@ namespace Steamworks {
 			return ret;
 		}
 
-			// After download, gets the content of the file.
-			// Small files can be read all at once by calling this function with an offset of 0 and cubDataToRead equal to the size of the file.
-			// Larger files can be read in chunks to reduce memory usage (since both sides of the IPC client and the game itself must allocate
-			// enough memory for each chunk).  Once the last byte is read, the file is implicitly closed and further calls to UGCRead will fail
-			// unless UGCDownload is called again.
-			// For especially large files (anything over 100MB) it is a requirement that the file is read in chunks.
+		/// <summary>
+		/// <para> After download, gets the content of the file.</para>
+		/// <para> Small files can be read all at once by calling this function with an offset of 0 and cubDataToRead equal to the size of the file.</para>
+		/// <para> Larger files can be read in chunks to reduce memory usage (since both sides of the IPC client and the game itself must allocate</para>
+		/// <para> enough memory for each chunk).  Once the last byte is read, the file is implicitly closed and further calls to UGCRead will fail</para>
+		/// <para> unless UGCDownload is called again.</para>
+		/// <para> For especially large files (anything over 100MB) it is a requirement that the file is read in chunks.</para>
+		/// </summary>
 		public static int UGCRead(UGCHandle_t hContent, byte[] pvData, int cubDataToRead, uint cOffset, EUGCReadAction eAction) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamRemoteStorage_UGCRead(hContent, pvData, cubDataToRead, cOffset, eAction);
 		}
 
-			// Functions to iterate through UGC that has finished downloading but has not yet been read via UGCRead()
+		/// <summary>
+		/// <para> Functions to iterate through UGC that has finished downloading but has not yet been read via UGCRead()</para>
+		/// </summary>
 		public static int GetCachedUGCCount() {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamRemoteStorage_GetCachedUGCCount();
@@ -172,47 +190,60 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return (UGCHandle_t)NativeMethods.ISteamRemoteStorage_GetCachedUGCHandle(iCachedContent);
 		}
-
-			// The following functions are only necessary on the Playstation 3. On PC & Mac, the Steam client will handle these operations for you
-			// On Playstation 3, the game controls which files are stored in the cloud, via FilePersist, FileFetch, and FileForget.
 #if _PS3 || _SERVER
-			// Connect to Steam and get a list of files in the Cloud - results in a RemoteStorageAppSyncStatusCheck_t callback
+		/// <summary>
+		/// <para> The following functions are only necessary on the Playstation 3. On PC &amp; Mac, the Steam client will handle these operations for you</para>
+		/// <para> On Playstation 3, the game controls which files are stored in the cloud, via FilePersist, FileFetch, and FileForget.</para>
+		/// <para> Connect to Steam and get a list of files in the Cloud - results in a RemoteStorageAppSyncStatusCheck_t callback</para>
+		/// </summary>
 		public static void GetFileListFromServer() {
 			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamRemoteStorage_GetFileListFromServer();
 		}
 
-			// Indicate this file should be downloaded in the next sync
+		/// <summary>
+		/// <para> Indicate this file should be downloaded in the next sync</para>
+		/// </summary>
 		public static bool FileFetch(string pchFile) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamRemoteStorage_FileFetch(pchFile);
 		}
 
-			// Indicate this file should be persisted in the next sync
+		/// <summary>
+		/// <para> Indicate this file should be persisted in the next sync</para>
+		/// </summary>
 		public static bool FilePersist(string pchFile) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamRemoteStorage_FilePersist(pchFile);
 		}
 
-			// Pull any requested files down from the Cloud - results in a RemoteStorageAppSyncedClient_t callback
+		/// <summary>
+		/// <para> Pull any requested files down from the Cloud - results in a RemoteStorageAppSyncedClient_t callback</para>
+		/// </summary>
 		public static bool SynchronizeToClient() {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamRemoteStorage_SynchronizeToClient();
 		}
 
-			// Upload any requested files to the Cloud - results in a RemoteStorageAppSyncedServer_t callback
+		/// <summary>
+		/// <para> Upload any requested files to the Cloud - results in a RemoteStorageAppSyncedServer_t callback</para>
+		/// </summary>
 		public static bool SynchronizeToServer() {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamRemoteStorage_SynchronizeToServer();
 		}
 
-			// Reset any fetch/persist/etc requests
+		/// <summary>
+		/// <para> Reset any fetch/persist/etc requests</para>
+		/// </summary>
 		public static bool ResetFileRequestState() {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamRemoteStorage_ResetFileRequestState();
 		}
 #endif
-			// publishing UGC
+		/// <summary>
+		/// <para> publishing UGC</para>
+		/// </summary>
 		public static SteamAPICall_t PublishWorkshopFile(string pchFile, string pchPreviewFile, AppId_t nConsumerAppId, string pchTitle, string pchDescription, ERemoteStoragePublishedFileVisibility eVisibility, System.Collections.Generic.IList<string> pTags, EWorkshopFileType eWorkshopFileType) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_PublishWorkshopFile(pchFile, pchPreviewFile, nConsumerAppId, pchTitle, pchDescription, eVisibility, new InteropHelp.SteamParamStringArray(pTags), eWorkshopFileType);
@@ -258,9 +289,11 @@ namespace Steamworks {
 			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_CommitPublishedFileUpdate(updateHandle);
 		}
 
-			// Gets published file details for the given publishedfileid.  If unMaxSecondsOld is greater than 0,
-			// cached data may be returned, depending on how long ago it was cached.  A value of 0 will force a refresh.
-			// A value of k_WorkshopForceLoadPublishedFileDetailsFromCache will use cached data if it exists, no matter how old it is.
+		/// <summary>
+		/// <para> Gets published file details for the given publishedfileid.  If unMaxSecondsOld is greater than 0,</para>
+		/// <para> cached data may be returned, depending on how long ago it was cached.  A value of 0 will force a refresh.</para>
+		/// <para> A value of k_WorkshopForceLoadPublishedFileDetailsFromCache will use cached data if it exists, no matter how old it is.</para>
+		/// </summary>
 		public static SteamAPICall_t GetPublishedFileDetails(PublishedFileId_t unPublishedFileId, uint unMaxSecondsOld) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_GetPublishedFileDetails(unPublishedFileId, unMaxSecondsOld);
@@ -271,7 +304,9 @@ namespace Steamworks {
 			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_DeletePublishedFile(unPublishedFileId);
 		}
 
-			// enumerate the files that the current user published with this app
+		/// <summary>
+		/// <para> enumerate the files that the current user published with this app</para>
+		/// </summary>
 		public static SteamAPICall_t EnumerateUserPublishedFiles(uint unStartIndex) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_EnumerateUserPublishedFiles(unStartIndex);
@@ -332,7 +367,9 @@ namespace Steamworks {
 			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_EnumeratePublishedFilesByUserAction(eAction, unStartIndex);
 		}
 
-			// this method enumerates the public view of workshop files
+		/// <summary>
+		/// <para> this method enumerates the public view of workshop files</para>
+		/// </summary>
 		public static SteamAPICall_t EnumeratePublishedWorkshopFiles(EWorkshopEnumerationType eEnumerationType, uint unStartIndex, uint unCount, uint unDays, System.Collections.Generic.IList<string> pTags, System.Collections.Generic.IList<string> pUserTags) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_EnumeratePublishedWorkshopFiles(eEnumerationType, unStartIndex, unCount, unDays, new InteropHelp.SteamParamStringArray(pTags), new InteropHelp.SteamParamStringArray(pUserTags));

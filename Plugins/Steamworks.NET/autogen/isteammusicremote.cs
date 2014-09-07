@@ -10,7 +10,9 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks {
 	public static class SteamMusicRemote {
-		// Service Definition
+		/// <summary>
+		/// <para> Service Definition</para>
+		/// </summary>
 		public static bool RegisterSteamMusicRemote(string pchName) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamMusicRemote_RegisterSteamMusicRemote(pchName);
@@ -41,7 +43,9 @@ namespace Steamworks {
 			return NativeMethods.ISteamMusicRemote_SetPNGIcon_64x64(pvBuffer, cbBufferLength);
 		}
 
-		// Abilities for the user interface
+		/// <summary>
+		/// <para> Abilities for the user interface</para>
+		/// </summary>
 		public static bool EnablePlayPrevious(bool bValue) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamMusicRemote_EnablePlayPrevious(bValue);
@@ -72,7 +76,9 @@ namespace Steamworks {
 			return NativeMethods.ISteamMusicRemote_EnablePlaylists(bValue);
 		}
 
-		// Status
+		/// <summary>
+		/// <para> Status</para>
+		/// </summary>
 		public static bool UpdatePlaybackStatus(AudioPlayback_Status nStatus) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamMusicRemote_UpdatePlaybackStatus(nStatus);
@@ -88,13 +94,17 @@ namespace Steamworks {
 			return NativeMethods.ISteamMusicRemote_UpdateLooped(bValue);
 		}
 
-		// volume is between 0.0 and 1.0
+		/// <summary>
+		/// <para> volume is between 0.0 and 1.0</para>
+		/// </summary>
 		public static bool UpdateVolume(float flValue) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamMusicRemote_UpdateVolume(flValue);
 		}
 
-		// Current Entry
+		/// <summary>
+		/// <para> Current Entry</para>
+		/// </summary>
 		public static bool CurrentEntryWillChange() {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamMusicRemote_CurrentEntryWillChange();
@@ -125,7 +135,9 @@ namespace Steamworks {
 			return NativeMethods.ISteamMusicRemote_CurrentEntryDidChange();
 		}
 
-		// Queue
+		/// <summary>
+		/// <para> Queue</para>
+		/// </summary>
 		public static bool QueueWillChange() {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamMusicRemote_QueueWillChange();
@@ -151,7 +163,9 @@ namespace Steamworks {
 			return NativeMethods.ISteamMusicRemote_QueueDidChange();
 		}
 
-		// Playlist
+		/// <summary>
+		/// <para> Playlist</para>
+		/// </summary>
 		public static bool PlaylistWillChange() {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamMusicRemote_PlaylistWillChange();

@@ -40,39 +40,51 @@ namespace Steamworks {
 			return NativeMethods.ISteamApps_GetAvailableGameLanguages();
 		}
 
-		// only use this member if you need to check ownership of another game related to yours, a demo for example
+		/// <summary>
+		/// <para> only use this member if you need to check ownership of another game related to yours, a demo for example</para>
+		/// </summary>
 		public static bool BIsSubscribedApp(AppId_t appID) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamApps_BIsSubscribedApp(appID);
 		}
 
-		// Takes AppID of DLC and checks if the user owns the DLC & if the DLC is installed
+		/// <summary>
+		/// <para> Takes AppID of DLC and checks if the user owns the DLC &amp; if the DLC is installed</para>
+		/// </summary>
 		public static bool BIsDlcInstalled(AppId_t appID) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamApps_BIsDlcInstalled(appID);
 		}
 
-		// returns the Unix time of the purchase of the app
+		/// <summary>
+		/// <para> returns the Unix time of the purchase of the app</para>
+		/// </summary>
 		public static uint GetEarliestPurchaseUnixTime(AppId_t nAppID) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamApps_GetEarliestPurchaseUnixTime(nAppID);
 		}
 
-		// Checks if the user is subscribed to the current app through a free weekend
-		// This function will return false for users who have a retail or other type of license
-		// Before using, please ask your Valve technical contact how to package and secure your free weekened
+		/// <summary>
+		/// <para> Checks if the user is subscribed to the current app through a free weekend</para>
+		/// <para> This function will return false for users who have a retail or other type of license</para>
+		/// <para> Before using, please ask your Valve technical contact how to package and secure your free weekened</para>
+		/// </summary>
 		public static bool BIsSubscribedFromFreeWeekend() {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamApps_BIsSubscribedFromFreeWeekend();
 		}
 
-		// Returns the number of DLC pieces for the running app
+		/// <summary>
+		/// <para> Returns the number of DLC pieces for the running app</para>
+		/// </summary>
 		public static int GetDLCCount() {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamApps_GetDLCCount();
 		}
 
-		// Returns metadata for DLC by index, of range [0, GetDLCCount()]
+		/// <summary>
+		/// <para> Returns metadata for DLC by index, of range [0, GetDLCCount()]</para>
+		/// </summary>
 		public static bool BGetDLCDataByIndex(int iDLC, out AppId_t pAppID, out bool pbAvailable, out string pchName, int cchNameBufferSize) {
 			InteropHelp.TestIfAvailableClient();
 			IntPtr pchName2 = Marshal.AllocHGlobal(cchNameBufferSize);
@@ -82,7 +94,9 @@ namespace Steamworks {
 			return ret;
 		}
 
-		// Install/Uninstall control for optional DLC
+		/// <summary>
+		/// <para> Install/Uninstall control for optional DLC</para>
+		/// </summary>
 		public static void InstallDLC(AppId_t nAppID) {
 			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamApps_InstallDLC(nAppID);
@@ -93,17 +107,21 @@ namespace Steamworks {
 			NativeMethods.ISteamApps_UninstallDLC(nAppID);
 		}
 
-		// Request cd-key for yourself or owned DLC. If you are interested in this
-		// data then make sure you provide us with a list of valid keys to be distributed
-		// to users when they purchase the game, before the game ships.
-		// You'll receive an AppProofOfPurchaseKeyResponse_t callback when
-		// the key is available (which may be immediately).
+		/// <summary>
+		/// <para> Request cd-key for yourself or owned DLC. If you are interested in this</para>
+		/// <para> data then make sure you provide us with a list of valid keys to be distributed</para>
+		/// <para> to users when they purchase the game, before the game ships.</para>
+		/// <para> You'll receive an AppProofOfPurchaseKeyResponse_t callback when</para>
+		/// <para> the key is available (which may be immediately).</para>
+		/// </summary>
 		public static void RequestAppProofOfPurchaseKey(AppId_t nAppID) {
 			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamApps_RequestAppProofOfPurchaseKey(nAppID);
 		}
 
-		// returns current beta branch name, 'public' is the default branch
+		/// <summary>
+		/// <para> returns current beta branch name, 'public' is the default branch</para>
+		/// </summary>
 		public static bool GetCurrentBetaName(out string pchName, int cchNameBufferSize) {
 			InteropHelp.TestIfAvailableClient();
 			IntPtr pchName2 = Marshal.AllocHGlobal(cchNameBufferSize);
@@ -113,19 +131,25 @@ namespace Steamworks {
 			return ret;
 		}
 
-		// signal Steam that game files seems corrupt or missing
+		/// <summary>
+		/// <para> signal Steam that game files seems corrupt or missing</para>
+		/// </summary>
 		public static bool MarkContentCorrupt(bool bMissingFilesOnly) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamApps_MarkContentCorrupt(bMissingFilesOnly);
 		}
 
-		// return installed depots in mount order
+		/// <summary>
+		/// <para> return installed depots in mount order</para>
+		/// </summary>
 		public static uint GetInstalledDepots(AppId_t appID, DepotId_t[] pvecDepots, uint cMaxDepots) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamApps_GetInstalledDepots(appID, pvecDepots, cMaxDepots);
 		}
 
-		// returns current app install folder for AppID, returns folder name length
+		/// <summary>
+		/// <para> returns current app install folder for AppID, returns folder name length</para>
+		/// </summary>
 		public static uint GetAppInstallDir(AppId_t appID, out string pchFolder, uint cchFolderBufferSize) {
 			InteropHelp.TestIfAvailableClient();
 			IntPtr pchFolder2 = Marshal.AllocHGlobal((int)cchFolderBufferSize);
@@ -135,28 +159,36 @@ namespace Steamworks {
 			return ret;
 		}
 
-		// returns true if that app is installed (not necessarily owned)
+		/// <summary>
+		/// <para> returns true if that app is installed (not necessarily owned)</para>
+		/// </summary>
 		public static bool BIsAppInstalled(AppId_t appID) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamApps_BIsAppInstalled(appID);
 		}
 
-		// returns the SteamID of the original owner. If different from current user, it's borrowed
+		/// <summary>
+		/// <para> returns the SteamID of the original owner. If different from current user, it's borrowed</para>
+		/// </summary>
 		public static CSteamID GetAppOwner() {
 			InteropHelp.TestIfAvailableClient();
 			return (CSteamID)NativeMethods.ISteamApps_GetAppOwner();
 		}
 
-		// Returns the associated launch param if the game is run via steam://run/<appid>//?param1=value1;param2=value2;param3=value3 etc.
-		// Parameter names starting with the character '@' are reserved for internal use and will always return and empty string.
-		// Parameter names starting with an underscore '_' are reserved for steam features -- they can be queried by the game,
-		// but it is advised that you not param names beginning with an underscore for your own features.
+		/// <summary>
+		/// <para> Returns the associated launch param if the game is run via steam://run/&lt;appid&gt;//?param1=value1;param2=value2;param3=value3 etc.</para>
+		/// <para> Parameter names starting with the character '@' are reserved for internal use and will always return and empty string.</para>
+		/// <para> Parameter names starting with an underscore '_' are reserved for steam features -- they can be queried by the game,</para>
+		/// <para> but it is advised that you not param names beginning with an underscore for your own features.</para>
+		/// </summary>
 		public static string GetLaunchQueryParam(string pchKey) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamApps_GetLaunchQueryParam(pchKey);
 		}
 #if _PS3
-		// Result returned in a RegisterActivationCodeResponse_t callresult
+		/// <summary>
+		/// <para> Result returned in a RegisterActivationCodeResponse_t callresult</para>
+		/// </summary>
 		public static SteamAPICall_t RegisterActivationCode(string pchActivationCode) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamApps_RegisterActivationCode(pchActivationCode);

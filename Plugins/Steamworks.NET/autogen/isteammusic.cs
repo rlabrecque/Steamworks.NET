@@ -45,7 +45,9 @@ namespace Steamworks {
 			NativeMethods.ISteamMusic_PlayNext();
 		}
 
-		// volume is between 0.0 and 1.0
+		/// <summary>
+		/// <para> volume is between 0.0 and 1.0</para>
+		/// </summary>
 		public static void SetVolume(float flVolume) {
 			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamMusic_SetVolume(flVolume);
