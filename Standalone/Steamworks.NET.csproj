@@ -113,6 +113,9 @@
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamgameserverutils.cs">
       <Link>Steamworks.NET\autogen\isteamgameserverutils.cs</Link>
     </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamhtmlsurface.cs">
+      <Link>Steamworks.NET\autogen\isteamhtmlsurface.cs</Link>
+    </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamhttp.cs">
       <Link>Steamworks.NET\autogen\isteamhttp.cs</Link>
     </Compile>
@@ -205,6 +208,15 @@
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamClient\SteamAPIWarningMessageHook_t.cs">
       <Link>Steamworks.NET\types\SteamClient\SteamAPIWarningMessageHook_t.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamClient\SteamAPI_CheckCallbackRegistered_t.cs">
+      <Link>Steamworks.NET\types\SteamClient\SteamAPI_CheckCallbackRegistered_t.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamClient\SteamAPI_PostAPIResultInProcess_t.cs">
+      <Link>Steamworks.NET\types\SteamClient\SteamAPI_PostAPIResultInProcess_t.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamHTMLSurface\HHTMLBrowser.cs">
+      <Link>Steamworks.NET\types\SteamHTMLSurface\HHTMLBrowser.cs</Link>
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamHTTP\HTTPRequestHandle.cs">
       <Link>Steamworks.NET\types\SteamHTTP\HTTPRequestHandle.cs</Link>

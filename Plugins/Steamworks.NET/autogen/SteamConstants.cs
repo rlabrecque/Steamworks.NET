@@ -13,12 +13,13 @@ namespace Steamworks {
 		public const string STEAMAPPLIST_INTERFACE_VERSION = "STEAMAPPLIST_INTERFACE_VERSION001";
 		public const string STEAMAPPS_INTERFACE_VERSION = "STEAMAPPS_INTERFACE_VERSION006";
 		public const string STEAMAPPTICKET_INTERFACE_VERSION = "STEAMAPPTICKET_INTERFACE_VERSION001";
-		public const string STEAMCLIENT_INTERFACE_VERSION = "SteamClient015";
+		public const string STEAMCLIENT_INTERFACE_VERSION = "SteamClient016";
 		public const string STEAMCONTROLLER_INTERFACE_VERSION = "STEAMCONTROLLER_INTERFACE_VERSION";
 		public const string STEAMFRIENDS_INTERFACE_VERSION = "SteamFriends014";
 		public const string STEAMGAMECOORDINATOR_INTERFACE_VERSION = "SteamGameCoordinator001";
 		public const string STEAMGAMESERVER_INTERFACE_VERSION = "SteamGameServer012";
 		public const string STEAMGAMESERVERSTATS_INTERFACE_VERSION = "SteamGameServerStats001";
+		public const string STEAMHTMLSURFACE_INTERFACE_VERSION = "STEAMHTMLSURFACE_INTERFACE_VERSION_002";
 		public const string STEAMHTTP_INTERFACE_VERSION = "STEAMHTTP_INTERFACE_VERSION002";
 		public const string STEAMMATCHMAKING_INTERFACE_VERSION = "SteamMatchMaking009";
 		public const string STEAMMATCHMAKINGSERVERS_INTERFACE_VERSION = "SteamMatchMakingServers002";
@@ -27,7 +28,7 @@ namespace Steamworks {
 		public const string STEAMNETWORKING_INTERFACE_VERSION = "SteamNetworking005";
 		public const string STEAMREMOTESTORAGE_INTERFACE_VERSION = "STEAMREMOTESTORAGE_INTERFACE_VERSION012";
 		public const string STEAMSCREENSHOTS_INTERFACE_VERSION = "STEAMSCREENSHOTS_INTERFACE_VERSION002";
-		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION002";
+		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION003";
 		public const string STEAMUNIFIEDMESSAGES_INTERFACE_VERSION = "STEAMUNIFIEDMESSAGES_INTERFACE_VERSION001";
 		public const string STEAMUSER_INTERFACE_VERSION = "SteamUser017";
 		public const string STEAMUSERSTATS_INTERFACE_VERSION = "STEAMUSERSTATS_INTERFACE_VERSION011";
@@ -79,6 +80,10 @@ namespace Steamworks {
 		public const int k_iSteamMusicCallbacks = 4000;
 		public const int k_iSteamMusicRemoteCallbacks = 4100;
 		public const int k_iClientVRCallbacks = 4200;
+		public const int k_iClientReservedCallbacks = 4300;
+		public const int k_iSteamReservedCallbacks = 4400;
+		public const int k_iSteamHTMLSurfaceCallbacks = 4500;
+		public const int k_iClientVideoCallbacks = 4600;
 		// maximum length of friend group name (not including terminating nul!)
 		public const int k_cchMaxFriendsGroupName = 64;
 		// maximum number of groups a single user is allowed

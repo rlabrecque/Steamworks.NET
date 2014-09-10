@@ -263,5 +263,31 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_GetISteamMusicRemote(hSteamuser, hSteamPipe, pchVersion);
 		}
+
+		/// <summary>
+		/// <para> html page display</para>
+		/// </summary>
+		public static IntPtr GetISteamHTMLSurface(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamClient_GetISteamHTMLSurface(hSteamuser, hSteamPipe, pchVersion);
+		}
+
+		/// <summary>
+		/// <para> Helper functions for internal Steam usage</para>
+		/// </summary>
+		public static void Set_SteamAPI_CPostAPIResultInProcess(SteamAPI_PostAPIResultInProcess_t func) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamClient_Set_SteamAPI_CPostAPIResultInProcess(func);
+		}
+
+		public static void Remove_SteamAPI_CPostAPIResultInProcess(SteamAPI_PostAPIResultInProcess_t func) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamClient_Remove_SteamAPI_CPostAPIResultInProcess(func);
+		}
+
+		public static void Set_SteamAPI_CCheckCallbackRegisteredInProcess(SteamAPI_CheckCallbackRegistered_t func) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamClient_Set_SteamAPI_CCheckCallbackRegisteredInProcess(func);
+		}
 	}
 }

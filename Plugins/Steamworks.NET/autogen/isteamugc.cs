@@ -224,12 +224,14 @@ namespace Steamworks {
 		}
 
 		/// <summary>
+		/// <para> Get info about the item on disk.  If you are supporting items published through the legacy RemoteStorage APIs then *pbLegacyItem will be set to true</para>
+		/// <para> and pchFolder will contain the full path to the file rather than the containing folder.</para>
 		/// <para> returns true if item is installed</para>
 		/// </summary>
-		public static bool GetItemInstallInfo(PublishedFileId_t nPublishedFileID, out ulong punSizeOnDisk, out string pchFolder, uint cchFolderSize) {
+		public static bool GetItemInstallInfo(PublishedFileId_t nPublishedFileID, out ulong punSizeOnDisk, out string pchFolder, uint cchFolderSize, out bool pbLegacyItem) {
 			InteropHelp.TestIfAvailableClient();
 			IntPtr pchFolder2 = Marshal.AllocHGlobal((int)cchFolderSize);
-			bool ret = NativeMethods.ISteamUGC_GetItemInstallInfo(nPublishedFileID, out punSizeOnDisk, pchFolder2, cchFolderSize);
+			bool ret = NativeMethods.ISteamUGC_GetItemInstallInfo(nPublishedFileID, out punSizeOnDisk, pchFolder2, cchFolderSize, out pbLegacyItem);
 			pchFolder = ret ? InteropHelp.PtrToStringUTF8(pchFolder2) : null;
 			Marshal.FreeHGlobal(pchFolder2);
 			return ret;

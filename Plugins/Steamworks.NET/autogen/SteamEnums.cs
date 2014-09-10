@@ -127,6 +127,65 @@ namespace Steamworks {
 		k_EGCResultInvalidMessage = 4,		// Something was wrong with the message being sent with SendMessage
 	}
 
+	public enum EHTMLMouseButton : int {
+		eHTMLMouseButton_Left = 0,
+		eHTMLMouseButton_Right = 1,
+		eHTMLMouseButton_Middle = 2,
+	}
+
+	public enum EMouseCursor : int {
+		dc_user = 0,
+		dc_none,
+		dc_arrow,
+		dc_ibeam,
+		dc_hourglass,
+		dc_waitarrow,
+		dc_crosshair,
+		dc_up,
+		dc_sizenw,
+		dc_sizese,
+		dc_sizene,
+		dc_sizesw,
+		dc_sizew,
+		dc_sizee,
+		dc_sizen,
+		dc_sizes,
+		dc_sizewe,
+		dc_sizens,
+		dc_sizeall,
+		dc_no,
+		dc_hand,
+		dc_blank, // don't show any custom cursor, just use your default
+		dc_middle_pan,
+		dc_north_pan,
+		dc_north_east_pan,
+		dc_east_pan,
+		dc_south_east_pan,
+		dc_south_pan,
+		dc_south_west_pan,
+		dc_west_pan,
+		dc_north_west_pan,
+		dc_alias,
+		dc_cell,
+		dc_colresize,
+		dc_copycur,
+		dc_verticaltext,
+		dc_rowresize,
+		dc_zoomin,
+		dc_zoomout,
+		dc_help,
+		dc_custom,
+
+		dc_last, // custom cursors start from this value and up
+	}
+
+	public enum EHTMLKeyModifiers : int {
+		eHTMLKeyModifier_None = 0,
+		eHTMLKeyModifier_AltDown = 1 << 0,
+		eHTMLKeyModifier_CrtlDown = 1 << 1,
+		eHTMLKeyModifier_ShiftDown = 1 << 2,
+	}
+
 	// lobby type description
 	public enum ELobbyType : int {
 		k_ELobbyTypePrivate = 0,		// only way to join the lobby is to invite to someone else
@@ -291,9 +350,10 @@ namespace Steamworks {
 		k_EWorkshopFileTypeMerch				  = 11,
 		k_EWorkshopFileTypeControllerBinding	  = 12,
 		k_EWorkshopFileTypeSteamworksAccessInvite = 13,
+		k_EWorkshopFileTypeSteamVideo			  = 14,
 
 		// Update k_EWorkshopFileTypeMax if you add values.
-		k_EWorkshopFileTypeMax = 14
+		k_EWorkshopFileTypeMax = 15
 
 	}
 
@@ -541,8 +601,8 @@ namespace Steamworks {
 		k_EResultCannotUseOldPassword = 64,			// The requested new password is not legal
 		k_EResultInvalidLoginAuthCode = 65,			// account login denied due to auth code invalid
 		k_EResultAccountLogonDeniedNoMail = 66,		// account login denied due to 2nd factor auth failure - and no mail has been sent
-		k_EResultHardwareNotCapableOfIPT = 67,
-		k_EResultIPTInitError = 68,
+		k_EResultHardwareNotCapableOfIPT = 67,		//
+		k_EResultIPTInitError = 68,					//
 		k_EResultParentalControlRestricted = 69,	// operation failed due to parental control restrictions for current user
 		k_EResultFacebookQueryError = 70,			// Facebook query returned an error
 		k_EResultExpiredLoginAuthCode = 71,			// account login denied due to auth code expired
@@ -562,7 +622,8 @@ namespace Steamworks {
 		k_EResultAccountLoginDeniedNeedTwoFactor = 85,	// Need two-factor code to login
 		k_EResultItemDeleted = 86,					// The thing we're trying to access has been deleted
 		k_EResultAccountLoginDeniedThrottle = 87,	// login attempt failed, try to throttle response to possible attacker
-		k_EResultTwoFactorCodeMismatch = 88,		// two factor code mismatch (only on token setup, not on login path)
+		k_EResultTwoFactorCodeMismatch = 88,		// two factor code mismatch
+		k_EResultTwoFactorActivationCodeMismatch = 89,	// activation code for two-factor didn't match
 	}
 
 	// Error codes for use with the voice functions
@@ -619,6 +680,7 @@ namespace Steamworks {
 		k_EAuthSessionResponseAuthTicketCanceled = 6,			// The ticket has been canceled by the issuer
 		k_EAuthSessionResponseAuthTicketInvalidAlreadyUsed = 7,	// This ticket has already been used, it is not valid.
 		k_EAuthSessionResponseAuthTicketInvalid = 8,			// This ticket is not from a user instance currently connected to steam.
+		k_EAuthSessionResponsePublisherIssuedBan = 9,			// The user is banned for this game. The ban came via the web api and not VAC
 	}
 
 // results from UserHasLicenseForApp
@@ -689,11 +751,16 @@ namespace Steamworks {
 		k_EAppType_Application			= 0x002,	// software application
 		k_EAppType_Tool					= 0x004,	// SDKs, editors & dedicated servers
 		k_EAppType_Demo					= 0x008,	// game demo
-		k_EAppType_Media				= 0x010,	// media trailer
+		k_EAppType_Media_DEPRECATED		= 0x010,	// legacy - was used for game trailers, which are now just videos on the web
 		k_EAppType_DLC					= 0x020,	// down loadable content
 		k_EAppType_Guide				= 0x040,	// game guide, PDF etc
 		k_EAppType_Driver				= 0x080,	// hardware driver updater (ATI, Razor etc)
 		k_EAppType_Config				= 0x100,	// hidden app used to config Steam features (backpack, sales, etc)
+		k_EAppType_Film					= 0x200,	// A Movie (feature film)
+		k_EAppType_TVSeries				= 0x400,	// A TV or other video series which will have episodes and perhaps seasons
+		k_EAppType_Video				= 0x800,	// A video component of either a Film or TVSeries (may be the feature, an episode, preview, making-of, etc)
+		k_EAppType_Plugin				= 0x1000,	// Plug-in types for other Apps
+		k_EAppType_Music				= 0x2000,	// Music files
 
 		k_EAppType_Shortcut				= 0x40000000,	// just a shortcut, client side only
 		k_EAppType_DepotOnly			= -2147483647,	// placeholder since depots and apps share the same namespace
@@ -733,7 +800,8 @@ namespace Steamworks {
 		k_EChatEntryTypeWasBanned = 9,		// user was banned (data: 64-bit steamid of actor performing the ban)
 		k_EChatEntryTypeDisconnected = 10,	// user disconnected
 		k_EChatEntryTypeHistoricalChat = 11,	// a chat message from user's chat history or offilne message
-
+		k_EChatEntryTypeReserved1 = 12,
+		k_EChatEntryTypeReserved2 = 13,
 	}
 
 	//-----------------------------------------------------------------------------
@@ -863,6 +931,7 @@ namespace Steamworks {
 		k_EHTTPStatusCode415UnsupportedMediaType =	415,
 		k_EHTTPStatusCode416RequestedRangeNotSatisfiable = 416,
 		k_EHTTPStatusCode417ExpectationFailed =		417,
+		k_EHTTPStatusCode429TooManyRequests	=		429,
 
 		// Server error codes
 		k_EHTTPStatusCode500InternalServerError =	500,
