@@ -25,7 +25,7 @@ Usage
 To use _Steamworks.NET_ you must be a Steamworks developer.
 _Steamworks.NET_ requires Unity Pro for the plugin functionality.
 
-* Download the .unitypackage [Stable (4.0.0)](https://github.com/rlabrecque/Steamworks.NET/releases/download/4.0.0/Steamworks.NET_4.0.0.unitypackage) or Clone from [Github](https://github.com/rlabrecque/Steamworks.NET)
+* Download the .unitypackage [Stable (5.0.0)](https://github.com/rlabrecque/Steamworks.NET/releases/download/5.0.0/Steamworks.NET_5.0.0.unitypackage) or Clone from [Github](https://github.com/rlabrecque/Steamworks.NET)
 * Extract and copy Steamworks.NET's `Plugins/` and `Editor/` folders into your `Assets/` folder.
 * Open `Plugins/Steamworks.NET/redist/steam_appid.txt` and replace `480` with your own AppId.
 * Launch your Unity project. The included editor scripts will copy steam_appid.txt (and steam_api.dll if your on windows) into the root of your project.
