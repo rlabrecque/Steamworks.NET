@@ -1043,6 +1043,7 @@ namespace Steamworks {
 	}
 
 	// callbacks
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamMusicCallbacks + 1)]
 	public struct PlaybackStatusHasChanged_t {
 		public const int k_iCallback = Constants.k_iSteamMusicCallbacks + 1;
@@ -1056,41 +1057,49 @@ namespace Steamworks {
 	}
 
 	// callbacks
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 1)]
 	public struct MusicPlayerRemoteWillActivate_t {
 		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 1;
 	}
 
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 2)]
 	public struct MusicPlayerRemoteWillDeactivate_t {
 		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 2;
 	}
 
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 3)]
 	public struct MusicPlayerRemoteToFront_t {
 		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 3;
 	}
 
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 4)]
 	public struct MusicPlayerWillQuit_t {
 		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 4;
 	}
 
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 5)]
 	public struct MusicPlayerWantsPlay_t {
 		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 5;
 	}
 
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 6)]
 	public struct MusicPlayerWantsPause_t {
 		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 6;
 	}
 
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 7)]
 	public struct MusicPlayerWantsPlayPrevious_t {
 		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 7;
 	}
 
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 8)]
 	public struct MusicPlayerWantsPlayNext_t {
 		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 8;
