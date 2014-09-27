@@ -174,41 +174,36 @@ namespace Steamworks {
 
 	// MatchMaking Key-Value Pair Marshaller
 	public class MMKVPMarshaller {
-		private IntPtr[] m_AllocatedMemory;
-		private IntPtr m_NativeArray;
+		private IntPtr m_pNativeArray;
+		private IntPtr m_pArrayEntries;
 
 		public MMKVPMarshaller(MatchMakingKeyValuePair_t[] filters) {
 			if (filters == null) {
 				return;
 			}
-			
-			m_AllocatedMemory = new IntPtr[filters.Length];
 
-			int intPtrSize = Marshal.SizeOf(typeof(IntPtr));
-			m_NativeArray = Marshal.AllocHGlobal(intPtrSize * filters.Length);
-			for (int i = 0; i < filters.Length; i++) {
-				m_AllocatedMemory[i] = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(MatchMakingKeyValuePair_t)));
-				Marshal.StructureToPtr(filters[i], m_AllocatedMemory[i], false);
+			int sizeOfMMKVP = Marshal.SizeOf(typeof(MatchMakingKeyValuePair_t));
 
-				Marshal.WriteIntPtr(m_NativeArray, i * intPtrSize, m_AllocatedMemory[i]);
+			m_pNativeArray = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(IntPtr)) * filters.Length);
+			m_pArrayEntries = Marshal.AllocHGlobal(sizeOfMMKVP * filters.Length);
+			for (int i = 0; i < filters.Length; ++i) {
+				Marshal.StructureToPtr(filters[i], m_pArrayEntries + (i * sizeOfMMKVP), false);
 			}
+
+			Marshal.WriteIntPtr(m_pNativeArray, m_pArrayEntries);
 		}
 
 		~MMKVPMarshaller() {
-			if (m_NativeArray != IntPtr.Zero) {
-				Marshal.FreeHGlobal(m_NativeArray);
-
-				foreach (IntPtr ptr in m_AllocatedMemory) {
-					if (ptr != IntPtr.Zero) {
-						Marshal.FreeHGlobal(ptr);
-					}
-				}
+			if (m_pArrayEntries != IntPtr.Zero) {
+				Marshal.FreeHGlobal(m_pArrayEntries);
 			}
-
+			if (m_pNativeArray != IntPtr.Zero) {
+				Marshal.FreeHGlobal(m_pNativeArray);
+			}
 		}
 
 		public static implicit operator IntPtr(MMKVPMarshaller that) {
-			return that.m_NativeArray;
+			return that.m_pNativeArray;
 		}
 	}
 

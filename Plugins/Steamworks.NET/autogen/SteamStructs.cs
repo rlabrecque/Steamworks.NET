@@ -116,7 +116,12 @@ namespace Steamworks {
 	/// Actually, the name Key/Value is a bit misleading.  The "key" is better
 	/// understood as "filter operation code" and the "value" is the operand to this
 	/// filter operation.  The meaning of the operand depends upon the filter.
+	[StructLayout(LayoutKind.Sequential)]
 	public struct MatchMakingKeyValuePair_t {
+		MatchMakingKeyValuePair_t(string strKey, string strValue) {
+			m_szKey = strKey;
+			m_szValue = strValue;
+		}
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
 		public string m_szKey;
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
