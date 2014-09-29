@@ -235,9 +235,9 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> set a webcookie for the hostname in question</para>
 		/// </summary>
-		public static void SetCookie(string pchHostname, string pchKey, string pchValue) {
+		public static void SetCookie(string pchHostname, string pchKey, string pchValue, string pchPath = "/", uint nExpires = 0, bool bSecure = false, bool bHTTPOnly = false) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_SetCookie(pchHostname, pchKey, pchValue);
+			NativeMethods.ISteamHTMLSurface_SetCookie(pchHostname, pchKey, pchValue, pchPath, nExpires, bSecure, bHTTPOnly);
 		}
 
 		/// <summary>
