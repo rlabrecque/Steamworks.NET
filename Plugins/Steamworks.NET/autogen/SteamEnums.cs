@@ -179,6 +179,7 @@ namespace Steamworks {
 		dc_last, // custom cursors start from this value and up
 	}
 
+	[Flags]
 	public enum EHTMLKeyModifiers : int {
 		eHTMLKeyModifier_None = 0,
 		eHTMLKeyModifier_AltDown = 1 << 0,
