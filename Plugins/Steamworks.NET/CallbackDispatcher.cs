@@ -67,38 +67,18 @@ namespace Steamworks {
 		private bool m_bGameServer;
 		private readonly int m_size = Marshal.SizeOf(typeof(T));
 
-		// Temporary Hack
-		static System.Collections.Generic.List<Callback<T>> GCKeepAlive = new System.Collections.Generic.List<Callback<T>>();
-		static bool bWarnedOnce = false;
-
 		public static Callback<T> Create(DispatchDelegate func) {
-			return new Callback<T>(func, bGameServer: false, bKeepAlive: false);
+			return new Callback<T>(func, bGameServer: false);
 		}
 
 		public static Callback<T> CreateGameServer(DispatchDelegate func) {
-			return new Callback<T>(func, bGameServer: true, bKeepAlive: false);
+			return new Callback<T>(func, bGameServer: true);
 		}
 
-		public Callback(DispatchDelegate func, bool bGameServer = false, bool bKeepAlive = true) {
+		public Callback(DispatchDelegate func, bool bGameServer = false) {
 			m_bGameServer = bGameServer;
 			BuildCCallbackBase();
 			Register(func);
-
-			// This is a temporary hack to preserve backwards compatability with the old CallbackDispatcher.
-			// If this is still here in 5.0.0 yell at me.
-			if (bKeepAlive) {
-				if (!bWarnedOnce) {
-					bWarnedOnce = true;
-					const string deprecatedMsg = "Please use the new (as of 3.0.0) api for creating Callbacks. Callback<Type>.Create(func). You must now maintain a handle to the callback so that the GC does not clean it up prematurely.";
-#if UNITY_BUILD
-					UnityEngine.Debug.LogWarning(deprecatedMsg);
-#else
-					throw new System.InvalidOperationException(deprecatedMsg);
-#endif
-				}
-
-				GCKeepAlive.Add(this);
-			}
 		}
 
 		~Callback() {
