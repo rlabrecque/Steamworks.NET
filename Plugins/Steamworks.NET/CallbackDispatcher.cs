@@ -42,6 +42,19 @@ using System;
 using System.Runtime.InteropServices;
 
 namespace Steamworks {
+	public static class CallbackDispatcher {
+		// We catch exceptions inside callbacks and reroute them here.
+		// For some reason throwing an exception causes RunCallbacks() to break otherwise.
+		// If you have a custom ExceptionHandler in your engine you can register it here manually until we get something more elegant hooked up.
+		public static void ExceptionHandler(Exception e) {
+#if UNITY_BUILD
+			UnityEngine.Debug.LogException(e);
+#else
+			Console.WriteLine(e.Message);
+#endif
+		}
+	}
+
 	public sealed class Callback<T> {
 		private CCallbackBaseVTable VTable;
 		private IntPtr m_pVTable = IntPtr.Zero;
@@ -132,7 +145,12 @@ namespace Steamworks {
 			IntPtr thisptr,
 #endif
 			IntPtr pvParam) {
-			m_Func((T)Marshal.PtrToStructure(pvParam, typeof(T)));
+			try {
+				m_Func((T)Marshal.PtrToStructure(pvParam, typeof(T)));
+			}
+			catch (Exception e) {
+				CallbackDispatcher.ExceptionHandler(e);
+			}
 		}
 
 		// Shouldn't get ever get called here, but this is what C++ Steamworks does!
@@ -141,7 +159,12 @@ namespace Steamworks {
 			IntPtr thisptr,
 #endif
 			IntPtr pvParam, bool bFailed, ulong hSteamAPICall) {
-			m_Func((T)Marshal.PtrToStructure(pvParam, typeof(T)));
+			try { 
+				m_Func((T)Marshal.PtrToStructure(pvParam, typeof(T)));
+			}
+			catch (Exception e) {
+				CallbackDispatcher.ExceptionHandler(e);
+			}
 		}
 
 		private int OnGetCallbackSizeBytes(
@@ -246,7 +269,12 @@ namespace Steamworks {
 #endif
 			IntPtr pvParam) {
 			m_hAPICall = SteamAPICall_t.Invalid; // Caller unregisters for us
-			m_Func((T)Marshal.PtrToStructure(pvParam, typeof(T)), false);
+			try {
+				m_Func((T)Marshal.PtrToStructure(pvParam, typeof(T)), false);
+			}
+			catch (Exception e) {
+				CallbackDispatcher.ExceptionHandler(e);
+			}
 		}
 
 
@@ -257,7 +285,12 @@ namespace Steamworks {
 			IntPtr pvParam, bool bFailed, ulong hSteamAPICall) {
 			if ((SteamAPICall_t)hSteamAPICall == m_hAPICall) {
 				m_hAPICall = SteamAPICall_t.Invalid; // Caller unregisters for us
-				m_Func((T)Marshal.PtrToStructure(pvParam, typeof(T)), bFailed);
+				try {
+					m_Func((T)Marshal.PtrToStructure(pvParam, typeof(T)), bFailed);
+				}
+				catch (Exception e) {
+					CallbackDispatcher.ExceptionHandler(e);
+				}
 			}
 		}
 		
@@ -288,7 +321,6 @@ namespace Steamworks {
 		}
 	}
 
-	//
 	[StructLayout(LayoutKind.Sequential)]
 	public class CCallbackBase {
 		public const byte k_ECallbackFlagsRegistered = 0x01;
