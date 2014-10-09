@@ -491,7 +491,7 @@ namespace Steamworks {
 	public struct HTML_NeedsPaint_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 2;
 		public HHTMLBrowser unBrowserHandle; // the browser that needs the paint
-		public string pBGRA; // a pointer to the B8G8R8A8 data for this surface, valid until SteamAPI_RunCallbacks is next called
+		public IntPtr pBGRA; // a pointer to the B8G8R8A8 data for this surface, valid until SteamAPI_RunCallbacks is next called
 		public uint unWide; // the total width of the pBGRA texture
 		public uint unTall; // the total height of the pBGRA texture
 		public uint unUpdateX; // the offset in X for the damage rect for this update
