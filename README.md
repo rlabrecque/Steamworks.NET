@@ -10,7 +10,7 @@ _Steamworks.NET_ currently supports Windows, OSX, and Linux in both 32 and 64bit
 
 * Author: [Riley Labrecque](https://github.com/rlabrecque)
 * License: [MIT](http://www.opensource.org/licenses/mit-license.php)
-* [Discussion](http://steamcommunity.com/groups/steamworks/discussions/0/666827974770212954/)
+* [Discussion Thread](http://steamcommunity.com/groups/steamworks/discussions/0/666827974770212954/)
 * [Reporting Issues](https://github.com/rlabrecque/Steamworks.NET/issues)
 * 1-on-1 support is available by donating $40 USD or greater.
  * Support can be obtained via [Email](mailto:support@rileylabrecque.com), [Skype](http://rileylabrecque.com/skype), or [Steam](http://steamcommunity.com/id/rlabrecque)
@@ -53,4 +53,4 @@ If you wish to use the functions from `sdkencryptedappticket.dll` then you will 
 * OSX: In `/Contents/Frameworks/MonoEmbedRuntime/osx/`
 * Linux: Next to CSteamworks.so
 
-`sdkencryptedappticket.dll` can be found in the Steamworks SDK. Ensure that you use the same version as the 
+`sdkencryptedappticket.dll` can be found in the Steamworks SDK in Valve's partner backend. Ensure that you get them from the same version of the SDK that Steamworks.NET is built against. (Usually the latest.)
