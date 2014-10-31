@@ -184,6 +184,8 @@ namespace Steamworks {
 		private event APIDispatchDelegate m_Func;
 
 		private SteamAPICall_t m_hAPICall = SteamAPICall_t.Invalid;
+		public SteamAPICall_t Handle { get { return m_hAPICall; } }
+
 		private readonly int m_size = Marshal.SizeOf(typeof(T));
 
 		public static CallResult<T> Create(APIDispatchDelegate func = null) {
