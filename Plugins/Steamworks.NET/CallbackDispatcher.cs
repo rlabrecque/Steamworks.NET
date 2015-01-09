@@ -34,7 +34,7 @@
 #endif
 
 // Unity 32bit Mono on Windows crashes with ThisCall for some reason, StdCall without the 'this' ptr is the only thing that works..? 
-#if UNITY_BUILD && WINDOWS_BUILD && (UNITY_EDITOR || !UNITY_64)
+#if UNITY_BUILD && WINDOWS_BUILD && !UNITY_EDITOR_64 && (UNITY_EDITOR || !UNITY_64)
 	#define NOTHISPTR
 #endif
 

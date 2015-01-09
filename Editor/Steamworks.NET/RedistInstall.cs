@@ -10,7 +10,11 @@ public class RedistInstall {
 	static RedistInstall() {
 		CopyFile("steam_appid.txt", false);
 #if UNITY_EDITOR_WIN
+	#if UNITY_EDITOR_64
+		CopyFile("steam_api64.dll", true);
+	#else
 		CopyFile("steam_api.dll", true);
+	#endif
 #endif
 	}
 
