@@ -18,6 +18,8 @@ namespace Steamworks {
 	}
 
 	public static class SteamAPI {
+		private static bool _initialized = false;
+
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
 		//	Steam API setup & shutdown
 		//
@@ -43,19 +45,28 @@ namespace Steamworks {
 
 #if VERSION_SAFE_STEAM_API_INTERFACES
 		public static bool InitSafe() {
-			InteropHelp.TestIfPlatformSupported();
-			return NativeMethods.SteamAPI_InitSafe();
+			return Init();
 		}
 
 		// [Steamworks.NET] This is for Ease of use, since we don't need to care about the differences between them in C#.
 		public static bool Init() {
+			if (_initialized) {
+				throw new System.Exception("Tried to Initialize Steamworks twice in one session!");
+			}
+
 			InteropHelp.TestIfPlatformSupported();
-			return NativeMethods.SteamAPI_InitSafe();
+			_initialized = NativeMethods.SteamAPI_InitSafe();
+			return _initialized;
 		}
 #else
 		public static bool Init() {
+			if (_initialized) {
+				throw new System.Exception("Tried to Initialize Steamworks twice in one session!");
+			}
+
 			InteropHelp.TestIfPlatformSupported();
-			return NativeMethods.SteamAPI_Init();
+			_initialized = NativeMethods.SteamAPI_Init();
+			return _initialized;
 		}
 #endif
 
