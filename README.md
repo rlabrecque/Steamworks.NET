@@ -13,7 +13,7 @@ _Steamworks.NET_ currently supports Windows, OSX, and Linux in both 32 and 64bit
 * [Documentation](https://steamworks.github.io/)
 * [Discussion Thread](http://steamcommunity.com/groups/steamworks/discussions/0/666827974770212954/)
 * [Reporting Issues](https://github.com/rlabrecque/Steamworks.NET/issues)
-* 1-on-1 support is available by donating $40 USD or greater.
+* 1-on-1 support is available by donating $60 USD or greater.
  * Support can be obtained via [Email](mailto:support@rileylabrecque.com), [Skype](http://rileylabrecque.com/skype), or [Steam](http://steamcommunity.com/id/rlabrecque)
  * I can only help with Steamworks.NET specific issues, general API questions should be asked on the [Steamworks discussion board](http://steamcommunity.com/groups/steamworks/discussions).
 
