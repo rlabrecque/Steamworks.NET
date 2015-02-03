@@ -237,8 +237,8 @@ namespace Steamworks {
 
 			// If we can not find the file we'll just skip it and let the DllNotFoundException take care of it.
 			if (System.IO.File.Exists(file)) {
-				System.IO.FileInfo fInfo2 = new System.IO.FileInfo(file);
-				if (fInfo2.Length != fileBytes) {
+				System.IO.FileInfo fInfo = new System.IO.FileInfo(file);
+				if (fInfo.Length != fileBytes) {
 					return false;
 				}
 
