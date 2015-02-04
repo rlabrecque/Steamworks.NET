@@ -326,11 +326,11 @@ namespace Steamworks {
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 		public delegate int GetCallbackSizeBytesDel();
 #else
-		[UnmanagedFunctionPointer(CallingConvention.ThisCall)]
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate void RunCBDel(IntPtr thisptr, IntPtr pvParam);
-		[UnmanagedFunctionPointer(CallingConvention.ThisCall)]
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate void RunCRDel(IntPtr thisptr, IntPtr pvParam, [MarshalAs(UnmanagedType.I1)] bool bIOFailure, ulong hSteamAPICall);
-		[UnmanagedFunctionPointer(CallingConvention.ThisCall)]
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate int GetCallbackSizeBytesDel(IntPtr thisptr);
 #endif
 
