@@ -10,11 +10,11 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks {
 	public static class Version {
-		public const string SteamworksNETVersion = "5.0.0";
-		public const string SteamworksSDKVersion = "1.31";
-		public const string SteamAPIDLLVersion = "02.37.91.26";
-		public const int SteamAPIDLLSize = 145600;
-		public const int SteamAPI64DLLSize = 169152;
+		public const string SteamworksNETVersion = "6.0.0";
+		public const string SteamworksSDKVersion = "1.32";
+		public const string SteamAPIDLLVersion = "02.59.51.43";
+		public const int SteamAPIDLLSize = 187584;
+		public const int SteamAPI64DLLSize = 208296;
 	}
 
 	public static class SteamAPI {
