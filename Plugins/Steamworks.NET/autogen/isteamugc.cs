@@ -170,7 +170,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>  change preview image file for this item. pszPreviewFile points to local image file</para>
+		/// <para>  change preview image file for this item. pszPreviewFile points to local image file, which must be under 1MB in size</para>
 		/// </summary>
 		public static bool SetItemPreview(UGCUpdateHandle_t handle, string pszPreviewFile) {
 			InteropHelp.TestIfAvailableClient();

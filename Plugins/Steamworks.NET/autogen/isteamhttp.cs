@@ -175,5 +175,74 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamHTTP_SetHTTPRequestRawPostBody(hRequest, pchContentType, pubBody, unBodyLen);
 		}
+
+		/// <summary>
+		/// <para> Creates a cookie container handle which you must later free with ReleaseCookieContainer().  If bAllowResponsesToModify=true</para>
+		/// <para> than any response to your requests using this cookie container may add new cookies which may be transmitted with</para>
+		/// <para> future requests.  If bAllowResponsesToModify=false than only cookies you explicitly set will be sent.  This API is just for</para>
+		/// <para> during process lifetime, after steam restarts no cookies are persisted and you have no way to access the cookie container across</para>
+		/// <para> repeat executions of your process.</para>
+		/// </summary>
+		public static HTTPCookieContainerHandle CreateCookieContainer(bool bAllowResponsesToModify) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamHTTP_CreateCookieContainer(bAllowResponsesToModify);
+		}
+
+		/// <summary>
+		/// <para> Release a cookie container you are finished using, freeing it's memory</para>
+		/// </summary>
+		public static bool ReleaseCookieContainer(HTTPCookieContainerHandle hCookieContainer) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamHTTP_ReleaseCookieContainer(hCookieContainer);
+		}
+
+		/// <summary>
+		/// <para> Adds a cookie to the specified cookie container that will be used with future requests.</para>
+		/// </summary>
+		public static bool SetCookie(HTTPCookieContainerHandle hCookieContainer, string pchHost, string pchUrl, string pchCookie) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamHTTP_SetCookie(hCookieContainer, pchHost, pchUrl, pchCookie);
+		}
+
+		/// <summary>
+		/// <para> Set the cookie container to use for a HTTP request</para>
+		/// </summary>
+		public static bool SetHTTPRequestCookieContainer(HTTPRequestHandle hRequest, HTTPCookieContainerHandle hCookieContainer) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamHTTP_SetHTTPRequestCookieContainer(hRequest, hCookieContainer);
+		}
+
+		/// <summary>
+		/// <para> Set the extra user agent info for a request, this doesn't clobber the normal user agent, it just adds the extra info on the end</para>
+		/// </summary>
+		public static bool SetHTTPRequestUserAgentInfo(HTTPRequestHandle hRequest, string pchUserAgentInfo) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamHTTP_SetHTTPRequestUserAgentInfo(hRequest, pchUserAgentInfo);
+		}
+
+		/// <summary>
+		/// <para> Set that https request should require verified SSL certificate via machines certificate trust store</para>
+		/// </summary>
+		public static bool SetHTTPRequestRequiresVerifiedCertificate(HTTPRequestHandle hRequest, bool bRequireVerifiedCertificate) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamHTTP_SetHTTPRequestRequiresVerifiedCertificate(hRequest, bRequireVerifiedCertificate);
+		}
+
+		/// <summary>
+		/// <para> Set an absolute timeout on the HTTP request, this is just a total time timeout different than the network activity timeout</para>
+		/// <para> which can bump everytime we get more data</para>
+		/// </summary>
+		public static bool SetHTTPRequestAbsoluteTimeoutMS(HTTPRequestHandle hRequest, uint unMilliseconds) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamHTTP_SetHTTPRequestAbsoluteTimeoutMS(hRequest, unMilliseconds);
+		}
+
+		/// <summary>
+		/// <para> Check if the reason the request failed was because we timed it out (rather than some harder failure)</para>
+		/// </summary>
+		public static bool GetHTTPRequestWasTimedOut(HTTPRequestHandle hRequest, out bool pbWasTimedOut) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamHTTP_GetHTTPRequestWasTimedOut(hRequest, out pbWasTimedOut);
+		}
 	}
 }

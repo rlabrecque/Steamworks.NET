@@ -17,7 +17,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.9</string>
+	<string>1.20</string>
 	<key>CSResourcesFileMapped</key>
 	<string>yes</string>
 	<key>DTCompiler</key>
@@ -27,9 +27,9 @@
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
-	<string>12D75</string>
+	<string>11E52</string>
 	<key>DTSDKName</key>
-	<string>macosx10.8</string>
+	<string>macosx10.7</string>
 	<key>DTXcode</key>
 	<string>0463</string>
 	<key>DTXcodeBuild</key>

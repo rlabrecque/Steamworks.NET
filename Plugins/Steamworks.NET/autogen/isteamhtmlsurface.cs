@@ -241,7 +241,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Zoom the current page by flZoom ( from 0.0 to 4.0, so to zoom to 120% use 1.2 ), zooming around point X,Y in the page (use 0,0 if you don't care)</para>
+		/// <para> Zoom the current page by flZoom ( from 0.0 to 2.0, so to zoom to 120% use 1.2 ), zooming around point X,Y in the page (use 0,0 if you don't care)</para>
 		/// </summary>
 		public static void SetPageScaleFactor(HHTMLBrowser unBrowserHandle, float flZoom, int nPointX, int nPointY) {
 			InteropHelp.TestIfAvailableClient();

@@ -27,6 +27,14 @@ namespace Steamworks {
 		public byte m_uiPublishedToFriendsSessionInstance;
 	}
 
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	public struct SteamItemDetails_t {
+		public SteamItemInstanceID_t m_itemId;
+		public SteamItemDef_t m_iDefinition;
+		public ushort m_unQuantity;
+		public ushort m_unFlags; // see ESteamItemFlags
+	}
+
 	// connection state to a specified user, returned by GetP2PSessionState()
 	// this is under-the-hood info about what's going on with a SendP2PPacket(), shouldn't be needed except for debuggin
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]

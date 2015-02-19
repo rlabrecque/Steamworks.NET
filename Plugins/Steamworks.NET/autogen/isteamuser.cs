@@ -255,6 +255,23 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUser_GetPlayerSteamLevel();
 		}
+
+		/// <summary>
+		/// <para> Requests a URL which authenticates an in-game browser for store check-out,</para>
+		/// <para> and then redirects to the specified URL. As long as the in-game browser</para>
+		/// <para> accepts and handles session cookies, Steam microtransaction checkout pages</para>
+		/// <para> will automatically recognize the user instead of presenting a login page.</para>
+		/// <para> The result of this API call will be a StoreAuthURLResponse_t callback.</para>
+		/// <para> NOTE: The URL has a very short lifetime to prevent history-snooping attacks,</para>
+		/// <para> so you should only call this API when you are about to launch the browser,</para>
+		/// <para> or else immediately navigate to the result URL using a hidden browser window.</para>
+		/// <para> NOTE 2: The resulting authorization cookie has an expiration time of one day,</para>
+		/// <para> so it would be a good idea to request and visit a new auth URL every 12 hours.</para>
+		/// </summary>
+		public static SteamAPICall_t RequestStoreAuthURL(string pchRedirectURL) {
+			InteropHelp.TestIfAvailableClient();
+			return (SteamAPICall_t)NativeMethods.ISteamUser_RequestStoreAuthURL(pchRedirectURL);
+		}
 #if _PS3
 		/// <summary>
 		/// <para> Initiates PS3 Logon request using just PSN ticket.</para>

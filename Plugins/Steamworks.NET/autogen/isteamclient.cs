@@ -289,5 +289,21 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamClient_Set_SteamAPI_CCheckCallbackRegisteredInProcess(func);
 		}
+
+		/// <summary>
+		/// <para> inventory</para>
+		/// </summary>
+		public static IntPtr GetISteamInventory(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamClient_GetISteamInventory(hSteamuser, hSteamPipe, pchVersion);
+		}
+
+		/// <summary>
+		/// <para> Video</para>
+		/// </summary>
+		public static IntPtr GetISteamVideo(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamClient_GetISteamVideo(hSteamuser, hSteamPipe, pchVersion);
+		}
 	}
 }

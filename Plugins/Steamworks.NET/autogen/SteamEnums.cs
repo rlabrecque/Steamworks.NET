@@ -181,10 +181,23 @@ namespace Steamworks {
 
 	[Flags]
 	public enum EHTMLKeyModifiers : int {
-		eHTMLKeyModifier_None = 0,
-		eHTMLKeyModifier_AltDown = 1 << 0,
-		eHTMLKeyModifier_CrtlDown = 1 << 1,
-		eHTMLKeyModifier_ShiftDown = 1 << 2,
+		k_eHTMLKeyModifier_None = 0,
+		k_eHTMLKeyModifier_AltDown = 1 << 0,
+		k_eHTMLKeyModifier_CtrlDown = 1 << 1,
+		k_eHTMLKeyModifier_ShiftDown = 1 << 2,
+	}
+
+	[Flags]
+	public enum ESteamItemFlags : int {
+		// Item status flags - these flags are permenantly attached to specific item instances
+		k_ESteamItemNoTrade = 1 << 0, // This item is account-locked and cannot be traded or given away.
+
+		// Action confirmation flags - these flags are set one time only, as part of a result set
+		k_ESteamItemRemoved = 1 << 8,	// The item has been destroyed, traded away, expired, or otherwise invalidated
+		k_ESteamItemConsumed = 1 << 9,	// The item quantity has been decreased by 1 via ConsumeItem API.
+
+		// All other flag bits are currently reserved for internal Steam use at this time.
+		// Do not assume anything about the state of other flags which are not defined here.
 	}
 
 	// lobby type description
@@ -454,6 +467,7 @@ namespace Steamworks {
 		k_EUGCQuery_RankedByTotalVotesAsc						  = 9,
 		k_EUGCQuery_RankedByVotesUp								  = 10,
 		k_EUGCQuery_RankedByTextSearch							  = 11,
+		k_EUGCQuery_RankedByTotalUniqueSubscriptions			  = 12,
 	}
 
 	public enum EItemUpdateStatus : int {
@@ -625,6 +639,8 @@ namespace Steamworks {
 		k_EResultAccountLoginDeniedThrottle = 87,	// login attempt failed, try to throttle response to possible attacker
 		k_EResultTwoFactorCodeMismatch = 88,		// two factor code mismatch
 		k_EResultTwoFactorActivationCodeMismatch = 89,	// activation code for two-factor didn't match
+		k_EResultAccountAssociatedToMultiplePartners = 90,	// account has been associated with multiple partners
+		k_EResultNotModified = 91, // data not modified
 	}
 
 	// Error codes for use with the voice functions
@@ -637,10 +653,12 @@ namespace Steamworks {
 		k_EVoiceResultDataCorrupted = 5,
 		k_EVoiceResultRestricted = 6,
 		k_EVoiceResultUnsupportedCodec = 7,
+		k_EVoiceResultReceiverOutOfDate = 8,
+		k_EVoiceResultReceiverDidNotAnswer = 9,
 
 	}
 
-// Result codes to GSHandleClientDeny/Kick
+	// Result codes to GSHandleClientDeny/Kick
 	public enum EDenyReason : int {
 		k_EDenyInvalid = 0,
 		k_EDenyInvalidVersion = 1,
@@ -660,7 +678,7 @@ namespace Steamworks {
 		k_EDenySteamOwnerLeftGuestUser = 15,
 	}
 
-// results from BeginAuthSession
+	// results from BeginAuthSession
 	public enum EBeginAuthSessionResult : int {
 		k_EBeginAuthSessionResultOK = 0,						// Ticket is valid for this game and this steamID.
 		k_EBeginAuthSessionResultInvalidTicket = 1,				// Ticket is not valid.
@@ -670,7 +688,7 @@ namespace Steamworks {
 		k_EBeginAuthSessionResultExpiredTicket = 5,				// Ticket has expired
 	}
 
-// Callback values for callback ValidateAuthTicketResponse_t which is a response to BeginAuthSession
+	// Callback values for callback ValidateAuthTicketResponse_t which is a response to BeginAuthSession
 	public enum EAuthSessionResponse : int {
 		k_EAuthSessionResponseOK = 0,							// Steam has verified the user is online, the ticket is valid and ticket has not been reused.
 		k_EAuthSessionResponseUserNotConnectedToSteam = 1,		// The user in question is not connected to steam
@@ -684,7 +702,7 @@ namespace Steamworks {
 		k_EAuthSessionResponsePublisherIssuedBan = 9,			// The user is banned for this game. The ban came via the web api and not VAC
 	}
 
-// results from UserHasLicenseForApp
+	// results from UserHasLicenseForApp
 	public enum EUserHasLicenseForAppResult : int {
 		k_EUserHasLicenseResultHasLicense = 0,					// User has a license for specified app
 		k_EUserHasLicenseResultDoesNotHaveLicense = 1,			// User does not have a license for the specified app
@@ -915,7 +933,7 @@ namespace Steamworks {
 
 		// Error codes
 		k_EHTTPStatusCode400BadRequest =			400,
-		k_EHTTPStatusCode401Unauthorized =			401,
+		k_EHTTPStatusCode401Unauthorized =			401, // You probably want 403 or something else. 401 implies you're sending a WWW-Authenticate header and the client can sent an Authorization header in response.
 		k_EHTTPStatusCode402PaymentRequired =		402, // This is reserved for future HTTP specs, not really supported by clients
 		k_EHTTPStatusCode403Forbidden =				403,
 		k_EHTTPStatusCode404NotFound =				404,
@@ -932,6 +950,7 @@ namespace Steamworks {
 		k_EHTTPStatusCode415UnsupportedMediaType =	415,
 		k_EHTTPStatusCode416RequestedRangeNotSatisfiable = 416,
 		k_EHTTPStatusCode417ExpectationFailed =		417,
+		k_EHTTPStatusCode4xxUnknown = 				418, // 418 is reserved, so we'll use it to mean unknown
 		k_EHTTPStatusCode429TooManyRequests	=		429,
 
 		// Server error codes
@@ -941,6 +960,7 @@ namespace Steamworks {
 		k_EHTTPStatusCode503ServiceUnavailable =	503,
 		k_EHTTPStatusCode504GatewayTimeout =		504,
 		k_EHTTPStatusCode505HTTPVersionNotSupported = 505,
+		k_EHTTPStatusCode5xxUnknown =				599,
 	}
 
 	// Steam universes.  Each universe is a self-contained Steam instance.

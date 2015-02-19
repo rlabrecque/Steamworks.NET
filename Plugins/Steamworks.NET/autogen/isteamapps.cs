@@ -185,6 +185,22 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamApps_GetLaunchQueryParam(pchKey);
 		}
+
+		/// <summary>
+		/// <para> get download progress for optional DLC</para>
+		/// </summary>
+		public static bool GetDlcDownloadProgress(AppId_t nAppID, out ulong punBytesDownloaded, out ulong punBytesTotal) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamApps_GetDlcDownloadProgress(nAppID, out punBytesDownloaded, out punBytesTotal);
+		}
+
+		/// <summary>
+		/// <para> return the buildid of this app, may change at any time based on backend updates to the game</para>
+		/// </summary>
+		public static int GetAppBuildId() {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamApps_GetAppBuildId();
+		}
 #if _PS3
 		/// <summary>
 		/// <para> Result returned in a RegisterActivationCodeResponse_t callresult</para>

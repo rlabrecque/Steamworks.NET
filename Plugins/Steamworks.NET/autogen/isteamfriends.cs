@@ -107,11 +107,60 @@ namespace Steamworks {
 		}
 
 		/// <summary>
+		/// <para> friends steam level</para>
+		/// </summary>
+		public static int GetFriendSteamLevel(CSteamID steamIDFriend) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamFriends_GetFriendSteamLevel(steamIDFriend);
+		}
+
+		/// <summary>
 		/// <para> Returns nickname the current user has set for the specified player. Returns NULL if the no nickname has been set for that player.</para>
 		/// </summary>
 		public static string GetPlayerNickname(CSteamID steamIDPlayer) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamFriends_GetPlayerNickname(steamIDPlayer);
+		}
+
+		/// <summary>
+		/// <para> friend grouping (tag) apis</para>
+		/// <para> returns the number of friends groups</para>
+		/// </summary>
+		public static int GetFriendsGroupCount() {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamFriends_GetFriendsGroupCount();
+		}
+
+		/// <summary>
+		/// <para> returns the friends group ID for the given index (invalid indices return k_FriendsGroupID_Invalid)</para>
+		/// </summary>
+		public static FriendsGroupID_t GetFriendsGroupIDByIndex(int iFG) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamFriends_GetFriendsGroupIDByIndex(iFG);
+		}
+
+		/// <summary>
+		/// <para> returns the name for the given friends group (NULL in the case of invalid friends group IDs)</para>
+		/// </summary>
+		public static string GetFriendsGroupName(FriendsGroupID_t friendsGroupID) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamFriends_GetFriendsGroupName(friendsGroupID);
+		}
+
+		/// <summary>
+		/// <para> returns the number of members in a given friends group</para>
+		/// </summary>
+		public static int GetFriendsGroupMembersCount(FriendsGroupID_t friendsGroupID) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamFriends_GetFriendsGroupMembersCount(friendsGroupID);
+		}
+
+		/// <summary>
+		/// <para> gets up to nMembersCount members of the given friends group, if fewer exist than requested those positions' SteamIDs will be invalid</para>
+		/// </summary>
+		public static void GetFriendsGroupMembersList(FriendsGroupID_t friendsGroupID, CSteamID[] pOutSteamIDMembers, int nMembersCount) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamFriends_GetFriendsGroupMembersList(friendsGroupID, pOutSteamIDMembers, nMembersCount);
 		}
 
 		/// <summary>

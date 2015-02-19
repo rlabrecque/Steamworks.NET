@@ -104,6 +104,9 @@
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamgameserverhttp.cs">
       <Link>Steamworks.NET\autogen\isteamgameserverhttp.cs</Link>
     </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamgameserverinventory.cs">
+      <Link>Steamworks.NET\autogen\isteamgameserverinventory.cs</Link>
+    </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamgameservernetworking.cs">
       <Link>Steamworks.NET\autogen\isteamgameservernetworking.cs</Link>
     </Compile>
@@ -118,6 +121,9 @@
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamhttp.cs">
       <Link>Steamworks.NET\autogen\isteamhttp.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteaminventory.cs">
+      <Link>Steamworks.NET\autogen\isteaminventory.cs</Link>
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteammatchmaking.cs">
       <Link>Steamworks.NET\autogen\isteammatchmaking.cs</Link>
@@ -151,6 +157,9 @@
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamutils.cs">
       <Link>Steamworks.NET\autogen\isteamutils.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamvideo.cs">
+      <Link>Steamworks.NET\autogen\isteamvideo.cs</Link>
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\autogen\NativeMethods.cs">
       <Link>Steamworks.NET\autogen\NativeMethods.cs</Link>
@@ -215,11 +224,26 @@
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamClient\SteamAPI_PostAPIResultInProcess_t.cs">
       <Link>Steamworks.NET\types\SteamClient\SteamAPI_PostAPIResultInProcess_t.cs</Link>
     </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamFriends\FriendsGroupID_t.cs">
+      <Link>Steamworks.NET\types\SteamFriends\FriendsGroupID_t.cs</Link>
+    </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamHTMLSurface\HHTMLBrowser.cs">
       <Link>Steamworks.NET\types\SteamHTMLSurface\HHTMLBrowser.cs</Link>
     </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamHTTP\HTTPCookieContainerHandle.cs">
+      <Link>Steamworks.NET\types\SteamHTTP\HTTPCookieContainerHandle.cs</Link>
+    </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamHTTP\HTTPRequestHandle.cs">
       <Link>Steamworks.NET\types\SteamHTTP\HTTPRequestHandle.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamInventory\SteamInventoryResult_t.cs">
+      <Link>Steamworks.NET\types\SteamInventory\SteamInventoryResult_t.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamInventory\SteamItemDef_t.cs">
+      <Link>Steamworks.NET\types\SteamInventory\SteamItemDef_t.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamInventory\SteamItemInstanceID_t.cs">
+      <Link>Steamworks.NET\types\SteamInventory\SteamItemInstanceID_t.cs</Link>
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamMatchmaking\HServerListRequest.cs">
       <Link>Steamworks.NET\types\SteamMatchmaking\HServerListRequest.cs</Link>
