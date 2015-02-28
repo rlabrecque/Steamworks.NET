@@ -4,23 +4,24 @@
 
 // Changes to this file will be reverted when you update Steamworks.NET
 
-// If we're running in the Unity Editor we need the editors platform.
-#if UNITY_EDITOR_WIN
-	#define WINDOWS_BUILD
+
+#if UNITY_3_5 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_5_0 // It would be nice if Unity defined 'UNITY' or something similar...
+	// We need to know if you're building for Unity under an unsupported platform so that the warning below does not get triggered.
 	#define UNITY_BUILD
-#elif UNITY_EDITOR_OSX
-	#define UNIX_BUILD
-	#define UNITY_BUILD
-// Otherwise we want the target platform.
-#elif UNITY_STANDALONE_WIN
-	#define WINDOWS_BUILD
-	#define UNITY_BUILD
-#elif UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX
-	#define UNIX_BUILD
-	#define UNITY_BUILD
-// We would like to know if you're building for Unity under an unsupported platform so that the warning below does not get triggered.
-#elif UNITY_3_5 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_5_0 // It would be nice if Unity defined 'UNITY' or something similar.
-	#define UNITY_BUILD
+#endif
+
+#if UNITY_BUILD
+	// First we check if we're running in the Unity Editor we need the editors platform.
+	#if UNITY_EDITOR_WIN
+		#define WINDOWS_BUILD
+	#elif UNITY_EDITOR_OSX
+		#define UNIX_BUILD
+	// Otherwise we want the target platform.
+	#elif UNITY_STANDALONE_WIN
+		#define WINDOWS_BUILD
+	#elif UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX
+		#define UNIX_BUILD
+	#endif
 // If we're not a UNITY_BUILD:
 #elif STEAMWORKS_LIN_OSX
 	#define UNIX_BUILD
@@ -33,10 +34,26 @@
 	#endif
 #endif
 
-// Unity 32bit Mono on Windows crashes with ThisCall for some reason, StdCall without the 'this' ptr is the only thing that works..? 
+// Unity 32bit Mono on Windows crashes with ThisCall/Cdecl for some reason, StdCall without the 'this' ptr is the only thing that works..? 
 #if UNITY_BUILD && WINDOWS_BUILD && !UNITY_EDITOR_64 && (UNITY_EDITOR || !UNITY_64)
-	#define NOTHISPTR
+	#define STDCALL
+#elif STEAMWORKS_WIN
+	#define THISCALL
 #endif
+
+// Calling Conventions:
+// Unity x86 Windows        - StdCall (No this pointer)
+// Unity x86 Linux          - Cdecl
+// Unity x86 OSX            - Cdecl
+// Unity x64 Windows        - Cdecl
+// Unity x64 Linux          - Cdecl
+// Unity x64 OSX            - Cdecl
+// Microsoft x86 Windows    - ThisCall
+// Mono x86 Linux           - Cdecl
+// Mono x86 OSX             - Cdecl
+// Microsoft x64 Windows    - ThisCall
+// Mono x86 Linux           - Cdecl
+// Mono x86 OSX             - Cdecl
 
 using System;
 using System.Runtime.InteropServices;
@@ -121,7 +138,7 @@ namespace Steamworks {
 		public void SetGameserverFlag() { m_CCallbackBase.m_nCallbackFlags |= CCallbackBase.k_ECallbackFlagsGameServer; }
 
 		private void OnRunCallback(
-#if !NOTHISPTR
+#if !STDCALL
 			IntPtr thisptr,
 #endif
 			IntPtr pvParam) {
@@ -135,7 +152,7 @@ namespace Steamworks {
 
 		// Shouldn't get ever get called here, but this is what C++ Steamworks does!
 		private void OnRunCallResult(
-#if !NOTHISPTR
+#if !STDCALL
 			IntPtr thisptr,
 #endif
 			IntPtr pvParam, bool bFailed, ulong hSteamAPICall) {
@@ -148,7 +165,7 @@ namespace Steamworks {
 		}
 
 		private int OnGetCallbackSizeBytes(
-#if !NOTHISPTR
+#if !STDCALL
 			IntPtr thisptr
 #endif
 			) {
@@ -246,7 +263,7 @@ namespace Steamworks {
 
 		// Shouldn't get ever get called here, but this is what C++ Steamworks does!
 		private void OnRunCallback(
-#if !NOTHISPTR
+#if !STDCALL
 			IntPtr thisptr,
 #endif
 			IntPtr pvParam) {
@@ -261,7 +278,7 @@ namespace Steamworks {
 
 
 		private void OnRunCallResult(
-#if !NOTHISPTR
+#if !STDCALL
 			IntPtr thisptr,
 #endif
 			IntPtr pvParam, bool bFailed, ulong hSteamAPICall) {
@@ -281,7 +298,7 @@ namespace Steamworks {
 		}
 		
 		private int OnGetCallbackSizeBytes(
-#if !NOTHISPTR
+#if !STDCALL
 			IntPtr thisptr
 #endif
 			) {
@@ -318,19 +335,27 @@ namespace Steamworks {
 
 	[StructLayout(LayoutKind.Sequential)]
 	internal class CCallbackBaseVTable {
-#if NOTHISPTR
-		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+#if STDCALL
+		private const CallingConvention cc = CallingConvention.StdCall;
+
+		[UnmanagedFunctionPointer(cc)]
 		public delegate void RunCBDel(IntPtr pvParam);
-		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+		[UnmanagedFunctionPointer(cc)]
 		public delegate void RunCRDel(IntPtr pvParam, [MarshalAs(UnmanagedType.I1)] bool bIOFailure, ulong hSteamAPICall);
-		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+		[UnmanagedFunctionPointer(cc)]
 		public delegate int GetCallbackSizeBytesDel();
 #else
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	#if THISCALL
+		private const CallingConvention cc = CallingConvention.ThisCall;
+	#else
+		private const CallingConvention cc = CallingConvention.Cdecl;
+	#endif
+
+		[UnmanagedFunctionPointer(cc)]
 		public delegate void RunCBDel(IntPtr thisptr, IntPtr pvParam);
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+		[UnmanagedFunctionPointer(cc)]
 		public delegate void RunCRDel(IntPtr thisptr, IntPtr pvParam, [MarshalAs(UnmanagedType.I1)] bool bIOFailure, ulong hSteamAPICall);
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+		[UnmanagedFunctionPointer(cc)]
 		public delegate int GetCallbackSizeBytesDel(IntPtr thisptr);
 #endif
 
