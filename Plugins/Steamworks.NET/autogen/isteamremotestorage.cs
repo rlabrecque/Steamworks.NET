@@ -108,7 +108,7 @@ namespace Steamworks {
 
 		public static string GetFileNameAndSize(int iFile, out int pnFileSizeInBytes) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamRemoteStorage_GetFileNameAndSize(iFile, out pnFileSizeInBytes);
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamRemoteStorage_GetFileNameAndSize(iFile, out pnFileSizeInBytes));
 		}
 
 		/// <summary>

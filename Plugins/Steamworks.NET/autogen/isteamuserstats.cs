@@ -109,7 +109,7 @@ namespace Steamworks {
 		/// </summary>
 		public static string GetAchievementDisplayAttribute(string pchName, string pchKey) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetAchievementDisplayAttribute(pchName, pchKey);
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamUserStats_GetAchievementDisplayAttribute(pchName, pchKey));
 		}
 
 		/// <summary>
@@ -135,7 +135,7 @@ namespace Steamworks {
 		/// </summary>
 		public static string GetAchievementName(uint iAchievement) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetAchievementName(iAchievement);
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamUserStats_GetAchievementName(iAchievement));
 		}
 
 		/// <summary>
@@ -208,7 +208,7 @@ namespace Steamworks {
 		/// </summary>
 		public static string GetLeaderboardName(SteamLeaderboard_t hSteamLeaderboard) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetLeaderboardName(hSteamLeaderboard);
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamUserStats_GetLeaderboardName(hSteamLeaderboard));
 		}
 
 		/// <summary>

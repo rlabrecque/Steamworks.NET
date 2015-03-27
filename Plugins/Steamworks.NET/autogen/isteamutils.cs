@@ -45,7 +45,7 @@ namespace Steamworks {
 		/// </summary>
 		public static string GetIPCountry() {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUtils_GetIPCountry();
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamUtils_GetIPCountry());
 		}
 
 		/// <summary>
@@ -243,7 +243,7 @@ namespace Steamworks {
 		/// </summary>
 		public static string GetSteamUILanguage() {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUtils_GetSteamUILanguage();
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamUtils_GetSteamUILanguage());
 		}
 
 		/// <summary>

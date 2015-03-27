@@ -32,12 +32,12 @@ namespace Steamworks {
 
 		public static string GetCurrentGameLanguage() {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamApps_GetCurrentGameLanguage();
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamApps_GetCurrentGameLanguage());
 		}
 
 		public static string GetAvailableGameLanguages() {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamApps_GetAvailableGameLanguages();
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamApps_GetAvailableGameLanguages());
 		}
 
 		/// <summary>
@@ -183,7 +183,7 @@ namespace Steamworks {
 		/// </summary>
 		public static string GetLaunchQueryParam(string pchKey) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamApps_GetLaunchQueryParam(pchKey);
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamApps_GetLaunchQueryParam(pchKey));
 		}
 
 		/// <summary>

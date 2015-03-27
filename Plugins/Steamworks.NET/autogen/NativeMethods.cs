@@ -228,12 +228,10 @@ namespace Steamworks {
 		public static extern bool ISteamApps_BIsVACBanned();
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler), MarshalCookie = UTF8Marshaler.DoNotFree)]
-		public static extern string ISteamApps_GetCurrentGameLanguage();
+		public static extern IntPtr ISteamApps_GetCurrentGameLanguage();
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler), MarshalCookie = UTF8Marshaler.DoNotFree)]
-		public static extern string ISteamApps_GetAvailableGameLanguages();
+		public static extern IntPtr ISteamApps_GetAvailableGameLanguages();
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -288,8 +286,7 @@ namespace Steamworks {
 		public static extern ulong ISteamApps_GetAppOwner();
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler), MarshalCookie = UTF8Marshaler.DoNotFree)]
-		public static extern string ISteamApps_GetLaunchQueryParam([MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler))] string pchKey);
+		public static extern IntPtr ISteamApps_GetLaunchQueryParam([MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler))] string pchKey);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -440,8 +437,7 @@ namespace Steamworks {
 #endregion
 #region SteamFriends
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler), MarshalCookie = UTF8Marshaler.DoNotFree)]
-		public static extern string ISteamFriends_GetPersonaName();
+		public static extern IntPtr ISteamFriends_GetPersonaName();
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong ISteamFriends_SetPersonaName([MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler))] string pchPersonaName);
@@ -462,23 +458,20 @@ namespace Steamworks {
 		public static extern EPersonaState ISteamFriends_GetFriendPersonaState(CSteamID steamIDFriend);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler), MarshalCookie = UTF8Marshaler.DoNotFree)]
-		public static extern string ISteamFriends_GetFriendPersonaName(CSteamID steamIDFriend);
+		public static extern IntPtr ISteamFriends_GetFriendPersonaName(CSteamID steamIDFriend);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamFriends_GetFriendGamePlayed(CSteamID steamIDFriend, out FriendGameInfo_t pFriendGameInfo);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler), MarshalCookie = UTF8Marshaler.DoNotFree)]
-		public static extern string ISteamFriends_GetFriendPersonaNameHistory(CSteamID steamIDFriend, int iPersonaName);
+		public static extern IntPtr ISteamFriends_GetFriendPersonaNameHistory(CSteamID steamIDFriend, int iPersonaName);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int ISteamFriends_GetFriendSteamLevel(CSteamID steamIDFriend);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler), MarshalCookie = UTF8Marshaler.DoNotFree)]
-		public static extern string ISteamFriends_GetPlayerNickname(CSteamID steamIDPlayer);
+		public static extern IntPtr ISteamFriends_GetPlayerNickname(CSteamID steamIDPlayer);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int ISteamFriends_GetFriendsGroupCount();
@@ -487,8 +480,7 @@ namespace Steamworks {
 		public static extern FriendsGroupID_t ISteamFriends_GetFriendsGroupIDByIndex(int iFG);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler), MarshalCookie = UTF8Marshaler.DoNotFree)]
-		public static extern string ISteamFriends_GetFriendsGroupName(FriendsGroupID_t friendsGroupID);
+		public static extern IntPtr ISteamFriends_GetFriendsGroupName(FriendsGroupID_t friendsGroupID);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int ISteamFriends_GetFriendsGroupMembersCount(FriendsGroupID_t friendsGroupID);
@@ -507,12 +499,10 @@ namespace Steamworks {
 		public static extern ulong ISteamFriends_GetClanByIndex(int iClan);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler), MarshalCookie = UTF8Marshaler.DoNotFree)]
-		public static extern string ISteamFriends_GetClanName(CSteamID steamIDClan);
+		public static extern IntPtr ISteamFriends_GetClanName(CSteamID steamIDClan);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler), MarshalCookie = UTF8Marshaler.DoNotFree)]
-		public static extern string ISteamFriends_GetClanTag(CSteamID steamIDClan);
+		public static extern IntPtr ISteamFriends_GetClanTag(CSteamID steamIDClan);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -588,15 +578,13 @@ namespace Steamworks {
 		public static extern void ISteamFriends_ClearRichPresence();
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler), MarshalCookie = UTF8Marshaler.DoNotFree)]
-		public static extern string ISteamFriends_GetFriendRichPresence(CSteamID steamIDFriend, [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler))] string pchKey);
+		public static extern IntPtr ISteamFriends_GetFriendRichPresence(CSteamID steamIDFriend, [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler))] string pchKey);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int ISteamFriends_GetFriendRichPresenceKeyCount(CSteamID steamIDFriend);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler), MarshalCookie = UTF8Marshaler.DoNotFree)]
-		public static extern string ISteamFriends_GetFriendRichPresenceKeyByIndex(CSteamID steamIDFriend, int iKey);
+		public static extern IntPtr ISteamFriends_GetFriendRichPresenceKeyByIndex(CSteamID steamIDFriend, int iKey);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ISteamFriends_RequestFriendRichPresence(CSteamID steamIDFriend);
@@ -1135,8 +1123,7 @@ namespace Steamworks {
 		public static extern uint ISteamGameServerUtils_GetServerRealTime();
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler), MarshalCookie = UTF8Marshaler.DoNotFree)]
-		public static extern string ISteamGameServerUtils_GetIPCountry();
+		public static extern IntPtr ISteamGameServerUtils_GetIPCountry();
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -1217,8 +1204,7 @@ namespace Steamworks {
 		public static extern bool ISteamGameServerUtils_GetEnteredGamepadTextInput(IntPtr pchText, uint cchText);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler), MarshalCookie = UTF8Marshaler.DoNotFree)]
-		public static extern string ISteamGameServerUtils_GetSteamUILanguage();
+		public static extern IntPtr ISteamGameServerUtils_GetSteamUILanguage();
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -1575,8 +1561,7 @@ namespace Steamworks {
 		public static extern ulong ISteamMatchmaking_GetLobbyMemberByIndex(CSteamID steamIDLobby, int iMember);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler), MarshalCookie = UTF8Marshaler.DoNotFree)]
-		public static extern string ISteamMatchmaking_GetLobbyData(CSteamID steamIDLobby, [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler))] string pchKey);
+		public static extern IntPtr ISteamMatchmaking_GetLobbyData(CSteamID steamIDLobby, [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler))] string pchKey);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -1594,8 +1579,7 @@ namespace Steamworks {
 		public static extern bool ISteamMatchmaking_DeleteLobbyData(CSteamID steamIDLobby, [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler))] string pchKey);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler), MarshalCookie = UTF8Marshaler.DoNotFree)]
-		public static extern string ISteamMatchmaking_GetLobbyMemberData(CSteamID steamIDLobby, CSteamID steamIDUser, [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler))] string pchKey);
+		public static extern IntPtr ISteamMatchmaking_GetLobbyMemberData(CSteamID steamIDLobby, CSteamID steamIDUser, [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler))] string pchKey);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ISteamMatchmaking_SetLobbyMemberData(CSteamID steamIDLobby, [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler))] string pchKey, [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler))] string pchValue);
@@ -2003,8 +1987,7 @@ namespace Steamworks {
 		public static extern int ISteamRemoteStorage_GetFileCount();
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler), MarshalCookie = UTF8Marshaler.DoNotFree)]
-		public static extern string ISteamRemoteStorage_GetFileNameAndSize(int iFile, out int pnFileSizeInBytes);
+		public static extern IntPtr ISteamRemoteStorage_GetFileNameAndSize(int iFile, out int pnFileSizeInBytes);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -2446,8 +2429,7 @@ namespace Steamworks {
 		public static extern int ISteamUserStats_GetAchievementIcon([MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler))] string pchName);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler), MarshalCookie = UTF8Marshaler.DoNotFree)]
-		public static extern string ISteamUserStats_GetAchievementDisplayAttribute([MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler))] string pchName, [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler))] string pchKey);
+		public static extern IntPtr ISteamUserStats_GetAchievementDisplayAttribute([MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler))] string pchName, [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler))] string pchKey);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -2457,8 +2439,7 @@ namespace Steamworks {
 		public static extern uint ISteamUserStats_GetNumAchievements();
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler), MarshalCookie = UTF8Marshaler.DoNotFree)]
-		public static extern string ISteamUserStats_GetAchievementName(uint iAchievement);
+		public static extern IntPtr ISteamUserStats_GetAchievementName(uint iAchievement);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong ISteamUserStats_RequestUserStats(CSteamID steamIDUser);
@@ -2490,8 +2471,7 @@ namespace Steamworks {
 		public static extern ulong ISteamUserStats_FindLeaderboard([MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler))] string pchLeaderboardName);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler), MarshalCookie = UTF8Marshaler.DoNotFree)]
-		public static extern string ISteamUserStats_GetLeaderboardName(SteamLeaderboard_t hSteamLeaderboard);
+		public static extern IntPtr ISteamUserStats_GetLeaderboardName(SteamLeaderboard_t hSteamLeaderboard);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int ISteamUserStats_GetLeaderboardEntryCount(SteamLeaderboard_t hSteamLeaderboard);
@@ -2581,8 +2561,7 @@ namespace Steamworks {
 		public static extern uint ISteamUtils_GetServerRealTime();
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler), MarshalCookie = UTF8Marshaler.DoNotFree)]
-		public static extern string ISteamUtils_GetIPCountry();
+		public static extern IntPtr ISteamUtils_GetIPCountry();
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -2663,8 +2642,7 @@ namespace Steamworks {
 		public static extern bool ISteamUtils_GetEnteredGamepadTextInput(IntPtr pchText, uint cchText);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8Marshaler), MarshalCookie = UTF8Marshaler.DoNotFree)]
-		public static extern string ISteamUtils_GetSteamUILanguage();
+		public static extern IntPtr ISteamUtils_GetSteamUILanguage();
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]

@@ -218,7 +218,7 @@ namespace Steamworks {
 		/// </summary>
 		public static string GetLobbyData(CSteamID steamIDLobby, string pchKey) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmaking_GetLobbyData(steamIDLobby, pchKey);
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamMatchmaking_GetLobbyData(steamIDLobby, pchKey));
 		}
 
 		/// <summary>
@@ -269,7 +269,7 @@ namespace Steamworks {
 		/// </summary>
 		public static string GetLobbyMemberData(CSteamID steamIDLobby, CSteamID steamIDUser, string pchKey) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmaking_GetLobbyMemberData(steamIDLobby, steamIDUser, pchKey);
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamMatchmaking_GetLobbyMemberData(steamIDLobby, steamIDUser, pchKey));
 		}
 
 		/// <summary>

@@ -31,18 +31,21 @@ namespace Steamworks {
 			}
 		}
 		
-		// This continues to exist for 'out string' arguments.
+		// This continues to exist for both 'out string' and strings returned by Steamworks functions.
 		public static string PtrToStringUTF8(IntPtr nativeUtf8) {
-			if (nativeUtf8 == IntPtr.Zero)
+			if (nativeUtf8 == IntPtr.Zero) {
 				return string.Empty;
+			}
 
 			int len = 0;
 
-			while (Marshal.ReadByte(nativeUtf8, len) != 0)
+			while (Marshal.ReadByte(nativeUtf8, len) != 0) {
 				++len;
+			}
 
-			if (len == 0)
+			if (len == 0) {
 				return string.Empty;
+			}
 
 			byte[] buffer = new byte[len];
 			Marshal.Copy(nativeUtf8, buffer, 0, buffer.Length);
@@ -105,16 +108,7 @@ namespace Steamworks {
 	}
 
 	public class UTF8Marshaler : ICustomMarshaler {
-		public const string DoNotFree = "DoNotFree";
-
-		private static UTF8Marshaler static_instance_free = new UTF8Marshaler(true);
-		private static UTF8Marshaler static_instance = new UTF8Marshaler(false);
-
-		private bool _freeNativeMemory;
-
-		private UTF8Marshaler(bool freenativememory) {
-			_freeNativeMemory = freenativememory;
-		}
+		private static UTF8Marshaler static_instance_free = new UTF8Marshaler();
 
 		public IntPtr MarshalManagedToNative(object managedObj) {
 			if (managedObj == null) {
@@ -134,25 +128,11 @@ namespace Steamworks {
 		}
 
 		public object MarshalNativeToManaged(IntPtr pNativeData) {
-			int len = 0;
-
-			while (Marshal.ReadByte(pNativeData, len) != 0) {
-				++len;
-			}
-
-			if (len == 0) {
-				return string.Empty;
-			}
-
-			byte[] strbuf = new byte[len];
-			Marshal.Copy(pNativeData, strbuf, 0, strbuf.Length);
-			return Encoding.UTF8.GetString(strbuf);
+			throw new NotSupportedException("UTF8Marshaler only supports MarshalManagedToNative");
 		}
 
 		public void CleanUpNativeData(IntPtr pNativeData) {
-			if (_freeNativeMemory) {
-				Marshal.FreeHGlobal(pNativeData);
-			}
+			Marshal.FreeHGlobal(pNativeData);
 		}
 
 		public void CleanUpManagedData(object managedObj) {
@@ -163,12 +143,7 @@ namespace Steamworks {
 		}
 
 		public static ICustomMarshaler GetInstance(string cookie) {
-			switch (cookie) {
-				case "DoNotFree":
-					return static_instance;
-				default:
-					return static_instance_free;
-			}
+			return static_instance_free;
 		}
 	}
 

@@ -19,7 +19,7 @@ namespace Steamworks {
 		/// </summary>
 		public static string GetPersonaName() {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamFriends_GetPersonaName();
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamFriends_GetPersonaName());
 		}
 
 		/// <summary>
@@ -87,7 +87,7 @@ namespace Steamworks {
 		/// </summary>
 		public static string GetFriendPersonaName(CSteamID steamIDFriend) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamFriends_GetFriendPersonaName(steamIDFriend);
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamFriends_GetFriendPersonaName(steamIDFriend));
 		}
 
 		/// <summary>
@@ -103,7 +103,7 @@ namespace Steamworks {
 		/// </summary>
 		public static string GetFriendPersonaNameHistory(CSteamID steamIDFriend, int iPersonaName) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamFriends_GetFriendPersonaNameHistory(steamIDFriend, iPersonaName);
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamFriends_GetFriendPersonaNameHistory(steamIDFriend, iPersonaName));
 		}
 
 		/// <summary>
@@ -119,7 +119,7 @@ namespace Steamworks {
 		/// </summary>
 		public static string GetPlayerNickname(CSteamID steamIDPlayer) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamFriends_GetPlayerNickname(steamIDPlayer);
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamFriends_GetPlayerNickname(steamIDPlayer));
 		}
 
 		/// <summary>
@@ -144,7 +144,7 @@ namespace Steamworks {
 		/// </summary>
 		public static string GetFriendsGroupName(FriendsGroupID_t friendsGroupID) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamFriends_GetFriendsGroupName(friendsGroupID);
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamFriends_GetFriendsGroupName(friendsGroupID));
 		}
 
 		/// <summary>
@@ -187,12 +187,12 @@ namespace Steamworks {
 
 		public static string GetClanName(CSteamID steamIDClan) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamFriends_GetClanName(steamIDClan);
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamFriends_GetClanName(steamIDClan));
 		}
 
 		public static string GetClanTag(CSteamID steamIDClan) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamFriends_GetClanTag(steamIDClan);
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamFriends_GetClanTag(steamIDClan));
 		}
 
 		/// <summary>
@@ -413,7 +413,7 @@ namespace Steamworks {
 
 		public static string GetFriendRichPresence(CSteamID steamIDFriend, string pchKey) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamFriends_GetFriendRichPresence(steamIDFriend, pchKey);
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamFriends_GetFriendRichPresence(steamIDFriend, pchKey));
 		}
 
 		public static int GetFriendRichPresenceKeyCount(CSteamID steamIDFriend) {
@@ -423,7 +423,7 @@ namespace Steamworks {
 
 		public static string GetFriendRichPresenceKeyByIndex(CSteamID steamIDFriend, int iKey) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamFriends_GetFriendRichPresenceKeyByIndex(steamIDFriend, iKey);
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamFriends_GetFriendRichPresenceKeyByIndex(steamIDFriend, iKey));
 		}
 
 		/// <summary>
