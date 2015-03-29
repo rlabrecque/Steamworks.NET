@@ -15,7 +15,9 @@ namespace Steamworks {
 		/// </summary>
 		public static bool RegisterSteamMusicRemote(string pchName) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMusicRemote_RegisterSteamMusicRemote(pchName);
+			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName)) {
+				return NativeMethods.ISteamMusicRemote_RegisterSteamMusicRemote(pchName2);
+			}
 		}
 
 		public static bool DeregisterSteamMusicRemote() {
@@ -35,7 +37,9 @@ namespace Steamworks {
 
 		public static bool SetDisplayName(string pchDisplayName) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMusicRemote_SetDisplayName(pchDisplayName);
+			using (var pchDisplayName2 = new InteropHelp.UTF8StringHandle(pchDisplayName)) {
+				return NativeMethods.ISteamMusicRemote_SetDisplayName(pchDisplayName2);
+			}
 		}
 
 		public static bool SetPNGIcon_64x64(byte[] pvBuffer, uint cbBufferLength) {
@@ -117,7 +121,9 @@ namespace Steamworks {
 
 		public static bool UpdateCurrentEntryText(string pchText) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMusicRemote_UpdateCurrentEntryText(pchText);
+			using (var pchText2 = new InteropHelp.UTF8StringHandle(pchText)) {
+				return NativeMethods.ISteamMusicRemote_UpdateCurrentEntryText(pchText2);
+			}
 		}
 
 		public static bool UpdateCurrentEntryElapsedSeconds(int nValue) {
@@ -150,7 +156,9 @@ namespace Steamworks {
 
 		public static bool SetQueueEntry(int nID, int nPosition, string pchEntryText) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMusicRemote_SetQueueEntry(nID, nPosition, pchEntryText);
+			using (var pchEntryText2 = new InteropHelp.UTF8StringHandle(pchEntryText)) {
+				return NativeMethods.ISteamMusicRemote_SetQueueEntry(nID, nPosition, pchEntryText2);
+			}
 		}
 
 		public static bool SetCurrentQueueEntry(int nID) {
@@ -178,7 +186,9 @@ namespace Steamworks {
 
 		public static bool SetPlaylistEntry(int nID, int nPosition, string pchEntryText) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMusicRemote_SetPlaylistEntry(nID, nPosition, pchEntryText);
+			using (var pchEntryText2 = new InteropHelp.UTF8StringHandle(pchEntryText)) {
+				return NativeMethods.ISteamMusicRemote_SetPlaylistEntry(nID, nPosition, pchEntryText2);
+			}
 		}
 
 		public static bool SetCurrentPlaylistEntry(int nID) {

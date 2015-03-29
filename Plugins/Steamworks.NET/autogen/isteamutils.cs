@@ -185,7 +185,9 @@ namespace Steamworks {
 		/// </summary>
 		public static SteamAPICall_t CheckFileSignature(string szFileName) {
 			InteropHelp.TestIfAvailableClient();
-			return (SteamAPICall_t)NativeMethods.ISteamUtils_CheckFileSignature(szFileName);
+			using (var szFileName2 = new InteropHelp.UTF8StringHandle(szFileName)) {
+				return (SteamAPICall_t)NativeMethods.ISteamUtils_CheckFileSignature(szFileName2);
+			}
 		}
 #endif
 #if _PS3
@@ -210,7 +212,10 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetPSNGameBootInviteStrings(string pchSubject, string pchBody) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamUtils_SetPSNGameBootInviteStrings(pchSubject, pchBody);
+			using (var pchSubject2 = new InteropHelp.UTF8StringHandle(pchSubject))
+			using (var pchBody2 = new InteropHelp.UTF8StringHandle(pchBody)) {
+				NativeMethods.ISteamUtils_SetPSNGameBootInviteStrings(pchSubject2, pchBody2);
+			}
 		}
 #endif
 		/// <summary>
@@ -218,7 +223,10 @@ namespace Steamworks {
 		/// </summary>
 		public static bool ShowGamepadTextInput(EGamepadTextInputMode eInputMode, EGamepadTextInputLineMode eLineInputMode, string pchDescription, uint unCharMax, string pchExistingText) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUtils_ShowGamepadTextInput(eInputMode, eLineInputMode, pchDescription, unCharMax, pchExistingText);
+			using (var pchDescription2 = new InteropHelp.UTF8StringHandle(pchDescription))
+			using (var pchExistingText2 = new InteropHelp.UTF8StringHandle(pchExistingText)) {
+				return NativeMethods.ISteamUtils_ShowGamepadTextInput(eInputMode, eLineInputMode, pchDescription2, unCharMax, pchExistingText2);
+			}
 		}
 
 		/// <summary>

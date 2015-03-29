@@ -72,7 +72,9 @@ namespace Steamworks {
 		/// </summary>
 		public static void TrackAppUsageEvent(CGameID gameID, int eAppUsageEvent, string pchExtraInfo = "") {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamUser_TrackAppUsageEvent(gameID, eAppUsageEvent, pchExtraInfo);
+			using (var pchExtraInfo2 = new InteropHelp.UTF8StringHandle(pchExtraInfo)) {
+				NativeMethods.ISteamUser_TrackAppUsageEvent(gameID, eAppUsageEvent, pchExtraInfo2);
+			}
 		}
 
 		/// <summary>
@@ -270,7 +272,9 @@ namespace Steamworks {
 		/// </summary>
 		public static SteamAPICall_t RequestStoreAuthURL(string pchRedirectURL) {
 			InteropHelp.TestIfAvailableClient();
-			return (SteamAPICall_t)NativeMethods.ISteamUser_RequestStoreAuthURL(pchRedirectURL);
+			using (var pchRedirectURL2 = new InteropHelp.UTF8StringHandle(pchRedirectURL)) {
+				return (SteamAPICall_t)NativeMethods.ISteamUser_RequestStoreAuthURL(pchRedirectURL2);
+			}
 		}
 #if _PS3
 		/// <summary>
@@ -298,7 +302,10 @@ namespace Steamworks {
 		/// </summary>
 		public static void LogOnAndLinkSteamAccountToPSN(bool bInteractive, string pchUserName, string pchPassword) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamUser_LogOnAndLinkSteamAccountToPSN(bInteractive, pchUserName, pchPassword);
+			using (var pchUserName2 = new InteropHelp.UTF8StringHandle(pchUserName))
+			using (var pchPassword2 = new InteropHelp.UTF8StringHandle(pchPassword)) {
+				NativeMethods.ISteamUser_LogOnAndLinkSteamAccountToPSN(bInteractive, pchUserName2, pchPassword2);
+			}
 		}
 
 		/// <summary>

@@ -27,7 +27,10 @@ namespace Steamworks {
 		/// </summary>
 		public static ScreenshotHandle AddScreenshotToLibrary(string pchFilename, string pchThumbnailFilename, int nWidth, int nHeight) {
 			InteropHelp.TestIfAvailableClient();
-			return (ScreenshotHandle)NativeMethods.ISteamScreenshots_AddScreenshotToLibrary(pchFilename, pchThumbnailFilename, nWidth, nHeight);
+			using (var pchFilename2 = new InteropHelp.UTF8StringHandle(pchFilename))
+			using (var pchThumbnailFilename2 = new InteropHelp.UTF8StringHandle(pchThumbnailFilename)) {
+				return (ScreenshotHandle)NativeMethods.ISteamScreenshots_AddScreenshotToLibrary(pchFilename2, pchThumbnailFilename2, nWidth, nHeight);
+			}
 		}
 
 		/// <summary>
@@ -53,7 +56,9 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetLocation(ScreenshotHandle hScreenshot, string pchLocation) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamScreenshots_SetLocation(hScreenshot, pchLocation);
+			using (var pchLocation2 = new InteropHelp.UTF8StringHandle(pchLocation)) {
+				return NativeMethods.ISteamScreenshots_SetLocation(hScreenshot, pchLocation2);
+			}
 		}
 
 		/// <summary>

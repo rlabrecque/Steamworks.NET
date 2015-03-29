@@ -84,7 +84,10 @@ namespace Steamworks {
 		/// </summary>
 		public static void AddRequestLobbyListStringFilter(string pchKeyToMatch, string pchValueToMatch, ELobbyComparison eComparisonType) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamMatchmaking_AddRequestLobbyListStringFilter(pchKeyToMatch, pchValueToMatch, eComparisonType);
+			using (var pchKeyToMatch2 = new InteropHelp.UTF8StringHandle(pchKeyToMatch))
+			using (var pchValueToMatch2 = new InteropHelp.UTF8StringHandle(pchValueToMatch)) {
+				NativeMethods.ISteamMatchmaking_AddRequestLobbyListStringFilter(pchKeyToMatch2, pchValueToMatch2, eComparisonType);
+			}
 		}
 
 		/// <summary>
@@ -92,7 +95,9 @@ namespace Steamworks {
 		/// </summary>
 		public static void AddRequestLobbyListNumericalFilter(string pchKeyToMatch, int nValueToMatch, ELobbyComparison eComparisonType) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamMatchmaking_AddRequestLobbyListNumericalFilter(pchKeyToMatch, nValueToMatch, eComparisonType);
+			using (var pchKeyToMatch2 = new InteropHelp.UTF8StringHandle(pchKeyToMatch)) {
+				NativeMethods.ISteamMatchmaking_AddRequestLobbyListNumericalFilter(pchKeyToMatch2, nValueToMatch, eComparisonType);
+			}
 		}
 
 		/// <summary>
@@ -100,7 +105,9 @@ namespace Steamworks {
 		/// </summary>
 		public static void AddRequestLobbyListNearValueFilter(string pchKeyToMatch, int nValueToBeCloseTo) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamMatchmaking_AddRequestLobbyListNearValueFilter(pchKeyToMatch, nValueToBeCloseTo);
+			using (var pchKeyToMatch2 = new InteropHelp.UTF8StringHandle(pchKeyToMatch)) {
+				NativeMethods.ISteamMatchmaking_AddRequestLobbyListNearValueFilter(pchKeyToMatch2, nValueToBeCloseTo);
+			}
 		}
 
 		/// <summary>
@@ -218,7 +225,9 @@ namespace Steamworks {
 		/// </summary>
 		public static string GetLobbyData(CSteamID steamIDLobby, string pchKey) {
 			InteropHelp.TestIfAvailableClient();
-			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamMatchmaking_GetLobbyData(steamIDLobby, pchKey));
+			using (var pchKey2 = new InteropHelp.UTF8StringHandle(pchKey)) {
+				return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamMatchmaking_GetLobbyData(steamIDLobby, pchKey2));
+			}
 		}
 
 		/// <summary>
@@ -230,7 +239,10 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetLobbyData(CSteamID steamIDLobby, string pchKey, string pchValue) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmaking_SetLobbyData(steamIDLobby, pchKey, pchValue);
+			using (var pchKey2 = new InteropHelp.UTF8StringHandle(pchKey))
+			using (var pchValue2 = new InteropHelp.UTF8StringHandle(pchValue)) {
+				return NativeMethods.ISteamMatchmaking_SetLobbyData(steamIDLobby, pchKey2, pchValue2);
+			}
 		}
 
 		/// <summary>
@@ -261,7 +273,9 @@ namespace Steamworks {
 		/// </summary>
 		public static bool DeleteLobbyData(CSteamID steamIDLobby, string pchKey) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmaking_DeleteLobbyData(steamIDLobby, pchKey);
+			using (var pchKey2 = new InteropHelp.UTF8StringHandle(pchKey)) {
+				return NativeMethods.ISteamMatchmaking_DeleteLobbyData(steamIDLobby, pchKey2);
+			}
 		}
 
 		/// <summary>
@@ -269,7 +283,9 @@ namespace Steamworks {
 		/// </summary>
 		public static string GetLobbyMemberData(CSteamID steamIDLobby, CSteamID steamIDUser, string pchKey) {
 			InteropHelp.TestIfAvailableClient();
-			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamMatchmaking_GetLobbyMemberData(steamIDLobby, steamIDUser, pchKey));
+			using (var pchKey2 = new InteropHelp.UTF8StringHandle(pchKey)) {
+				return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamMatchmaking_GetLobbyMemberData(steamIDLobby, steamIDUser, pchKey2));
+			}
 		}
 
 		/// <summary>
@@ -277,7 +293,10 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetLobbyMemberData(CSteamID steamIDLobby, string pchKey, string pchValue) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamMatchmaking_SetLobbyMemberData(steamIDLobby, pchKey, pchValue);
+			using (var pchKey2 = new InteropHelp.UTF8StringHandle(pchKey))
+			using (var pchValue2 = new InteropHelp.UTF8StringHandle(pchValue)) {
+				NativeMethods.ISteamMatchmaking_SetLobbyMemberData(steamIDLobby, pchKey2, pchValue2);
+			}
 		}
 
 		/// <summary>

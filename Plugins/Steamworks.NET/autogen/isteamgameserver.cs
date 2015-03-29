@@ -17,7 +17,9 @@ namespace Steamworks {
 		/// </summary>
 		public static bool InitGameServer(uint unIP, ushort usGamePort, ushort usQueryPort, uint unFlags, AppId_t nGameAppId, string pchVersionString) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServer_InitGameServer(unIP, usGamePort, usQueryPort, unFlags, nGameAppId, pchVersionString);
+			using (var pchVersionString2 = new InteropHelp.UTF8StringHandle(pchVersionString)) {
+				return NativeMethods.ISteamGameServer_InitGameServer(unIP, usGamePort, usQueryPort, unFlags, nGameAppId, pchVersionString2);
+			}
 		}
 
 		/// <summary>
@@ -26,7 +28,9 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetProduct(string pszProduct) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_SetProduct(pszProduct);
+			using (var pszProduct2 = new InteropHelp.UTF8StringHandle(pszProduct)) {
+				NativeMethods.ISteamGameServer_SetProduct(pszProduct2);
+			}
 		}
 
 		/// <summary>
@@ -35,7 +39,9 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetGameDescription(string pszGameDescription) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_SetGameDescription(pszGameDescription);
+			using (var pszGameDescription2 = new InteropHelp.UTF8StringHandle(pszGameDescription)) {
+				NativeMethods.ISteamGameServer_SetGameDescription(pszGameDescription2);
+			}
 		}
 
 		/// <summary>
@@ -46,7 +52,9 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetModDir(string pszModDir) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_SetModDir(pszModDir);
+			using (var pszModDir2 = new InteropHelp.UTF8StringHandle(pszModDir)) {
+				NativeMethods.ISteamGameServer_SetModDir(pszModDir2);
+			}
 		}
 
 		/// <summary>
@@ -68,7 +76,9 @@ namespace Steamworks {
 		/// </summary>
 		public static void LogOn(string pszToken) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_LogOn(pszToken);
+			using (var pszToken2 = new InteropHelp.UTF8StringHandle(pszToken)) {
+				NativeMethods.ISteamGameServer_LogOn(pszToken2);
+			}
 		}
 
 		/// <summary>
@@ -141,7 +151,9 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetServerName(string pszServerName) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_SetServerName(pszServerName);
+			using (var pszServerName2 = new InteropHelp.UTF8StringHandle(pszServerName)) {
+				NativeMethods.ISteamGameServer_SetServerName(pszServerName2);
+			}
 		}
 
 		/// <summary>
@@ -151,7 +163,9 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetMapName(string pszMapName) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_SetMapName(pszMapName);
+			using (var pszMapName2 = new InteropHelp.UTF8StringHandle(pszMapName)) {
+				NativeMethods.ISteamGameServer_SetMapName(pszMapName2);
+			}
 		}
 
 		/// <summary>
@@ -178,7 +192,9 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetSpectatorServerName(string pszSpectatorServerName) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_SetSpectatorServerName(pszSpectatorServerName);
+			using (var pszSpectatorServerName2 = new InteropHelp.UTF8StringHandle(pszSpectatorServerName)) {
+				NativeMethods.ISteamGameServer_SetSpectatorServerName(pszSpectatorServerName2);
+			}
 		}
 
 		/// <summary>
@@ -194,7 +210,10 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetKeyValue(string pKey, string pValue) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_SetKeyValue(pKey, pValue);
+			using (var pKey2 = new InteropHelp.UTF8StringHandle(pKey))
+			using (var pValue2 = new InteropHelp.UTF8StringHandle(pValue)) {
+				NativeMethods.ISteamGameServer_SetKeyValue(pKey2, pValue2);
+			}
 		}
 
 		/// <summary>
@@ -205,7 +224,9 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetGameTags(string pchGameTags) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_SetGameTags(pchGameTags);
+			using (var pchGameTags2 = new InteropHelp.UTF8StringHandle(pchGameTags)) {
+				NativeMethods.ISteamGameServer_SetGameTags(pchGameTags2);
+			}
 		}
 
 		/// <summary>
@@ -218,7 +239,9 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetGameData(string pchGameData) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_SetGameData(pchGameData);
+			using (var pchGameData2 = new InteropHelp.UTF8StringHandle(pchGameData)) {
+				NativeMethods.ISteamGameServer_SetGameData(pchGameData2);
+			}
 		}
 
 		/// <summary>
@@ -226,7 +249,9 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetRegion(string pszRegion) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_SetRegion(pszRegion);
+			using (var pszRegion2 = new InteropHelp.UTF8StringHandle(pszRegion)) {
+				NativeMethods.ISteamGameServer_SetRegion(pszRegion2);
+			}
 		}
 
 		/// <summary>
@@ -273,7 +298,9 @@ namespace Steamworks {
 		/// </summary>
 		public static bool BUpdateUserData(CSteamID steamIDUser, string pchPlayerName, uint uScore) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServer_BUpdateUserData(steamIDUser, pchPlayerName, uScore);
+			using (var pchPlayerName2 = new InteropHelp.UTF8StringHandle(pchPlayerName)) {
+				return NativeMethods.ISteamGameServer_BUpdateUserData(steamIDUser, pchPlayerName2, uScore);
+			}
 		}
 
 		/// <summary>

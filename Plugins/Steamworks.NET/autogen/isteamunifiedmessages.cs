@@ -16,7 +16,9 @@ namespace Steamworks {
 		/// </summary>
 		public static ClientUnifiedMessageHandle SendMethod(string pchServiceMethod, byte[] pRequestBuffer, uint unRequestBufferSize, ulong unContext) {
 			InteropHelp.TestIfAvailableClient();
-			return (ClientUnifiedMessageHandle)NativeMethods.ISteamUnifiedMessages_SendMethod(pchServiceMethod, pRequestBuffer, unRequestBufferSize, unContext);
+			using (var pchServiceMethod2 = new InteropHelp.UTF8StringHandle(pchServiceMethod)) {
+				return (ClientUnifiedMessageHandle)NativeMethods.ISteamUnifiedMessages_SendMethod(pchServiceMethod2, pRequestBuffer, unRequestBufferSize, unContext);
+			}
 		}
 
 		/// <summary>
@@ -49,7 +51,9 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SendNotification(string pchServiceNotification, byte[] pNotificationBuffer, uint unNotificationBufferSize) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUnifiedMessages_SendNotification(pchServiceNotification, pNotificationBuffer, unNotificationBufferSize);
+			using (var pchServiceNotification2 = new InteropHelp.UTF8StringHandle(pchServiceNotification)) {
+				return NativeMethods.ISteamUnifiedMessages_SendNotification(pchServiceNotification2, pNotificationBuffer, unNotificationBufferSize);
+			}
 		}
 	}
 }

@@ -51,8 +51,34 @@ namespace Steamworks {
 			Marshal.Copy(nativeUtf8, buffer, 0, buffer.Length);
 			return Encoding.UTF8.GetString(buffer);
 		}
-		
-		// At some point this should become an IDisposable
+
+		// This is for 'const char *' arguments which we need to ensure do not get GC'd while Steam is using them.
+		// We can't use an ICustomMarshaler because Unity crashes when a string between 96 and 127 characters long is defined/initialized at the top of class scope...
+		public class UTF8StringHandle : Microsoft.Win32.SafeHandles.SafeHandleZeroOrMinusOneIsInvalid {
+			public UTF8StringHandle(string str)
+				: base(true) {
+				if (str == null) {
+					SetHandle(IntPtr.Zero);
+					return;
+				}
+
+				byte[] strbuf = new byte[Encoding.UTF8.GetByteCount(str) + 1];
+				Encoding.UTF8.GetBytes(str, 0, str.Length, strbuf, 0);
+				IntPtr buffer = Marshal.AllocHGlobal(strbuf.Length);
+				Marshal.Copy(strbuf, 0, buffer, strbuf.Length);
+
+				SetHandle(buffer);
+			}
+
+			protected override bool ReleaseHandle() {
+				if (!IsInvalid) {
+					Marshal.FreeHGlobal(handle);
+				}
+				return true;
+			}
+		}
+
+		// TODO - Should be IDisposable
 		// We can't use an ICustomMarshaler because Unity dies when MarshalManagedToNative() gets called with a generic type.
 		public class SteamParamStringArray {
 			// The pointer to each AllocHGlobal() string
@@ -106,47 +132,8 @@ namespace Steamworks {
 			}
 		}
 	}
-
-	public class UTF8Marshaler : ICustomMarshaler {
-		private static UTF8Marshaler static_instance_free = new UTF8Marshaler();
-
-		public IntPtr MarshalManagedToNative(object managedObj) {
-			if (managedObj == null) {
-				return IntPtr.Zero;
-			}
-
-			string str = managedObj as string;
-			if (str == null) {
-				throw new Exception("UTF8Marshaler must be used on a string.");
-			}
-
-			byte[] strbuf = new byte[Encoding.UTF8.GetByteCount(str) + 1];
-			Encoding.UTF8.GetBytes(str, 0, str.Length, strbuf, 0);
-			IntPtr buffer = Marshal.AllocHGlobal(strbuf.Length);
-			Marshal.Copy(strbuf, 0, buffer, strbuf.Length);
-			return buffer;
-		}
-
-		public object MarshalNativeToManaged(IntPtr pNativeData) {
-			throw new NotSupportedException("UTF8Marshaler only supports MarshalManagedToNative");
-		}
-
-		public void CleanUpNativeData(IntPtr pNativeData) {
-			Marshal.FreeHGlobal(pNativeData);
-		}
-
-		public void CleanUpManagedData(object managedObj) {
-		}
-
-		public int GetNativeDataSize() {
-			return -1;
-		}
-
-		public static ICustomMarshaler GetInstance(string cookie) {
-			return static_instance_free;
-		}
-	}
-
+	
+	// TODO - Should be IDisposable
 	// MatchMaking Key-Value Pair Marshaller
 	public class MMKVPMarshaller {
 		private IntPtr m_pNativeArray;

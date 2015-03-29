@@ -56,7 +56,9 @@ namespace Steamworks {
 		/// </summary>
 		public static IntPtr GetISteamUser(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamClient_GetISteamUser(hSteamUser, hSteamPipe, pchVersion);
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamUser(hSteamUser, hSteamPipe, pchVersion2);
+			}
 		}
 
 		/// <summary>
@@ -64,7 +66,9 @@ namespace Steamworks {
 		/// </summary>
 		public static IntPtr GetISteamGameServer(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamClient_GetISteamGameServer(hSteamUser, hSteamPipe, pchVersion);
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamGameServer(hSteamUser, hSteamPipe, pchVersion2);
+			}
 		}
 
 		/// <summary>
@@ -81,7 +85,9 @@ namespace Steamworks {
 		/// </summary>
 		public static IntPtr GetISteamFriends(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamClient_GetISteamFriends(hSteamUser, hSteamPipe, pchVersion);
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamFriends(hSteamUser, hSteamPipe, pchVersion2);
+			}
 		}
 
 		/// <summary>
@@ -89,7 +95,9 @@ namespace Steamworks {
 		/// </summary>
 		public static IntPtr GetISteamUtils(HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamClient_GetISteamUtils(hSteamPipe, pchVersion);
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamUtils(hSteamPipe, pchVersion2);
+			}
 		}
 
 		/// <summary>
@@ -97,7 +105,9 @@ namespace Steamworks {
 		/// </summary>
 		public static IntPtr GetISteamMatchmaking(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamClient_GetISteamMatchmaking(hSteamUser, hSteamPipe, pchVersion);
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamMatchmaking(hSteamUser, hSteamPipe, pchVersion2);
+			}
 		}
 
 		/// <summary>
@@ -105,7 +115,9 @@ namespace Steamworks {
 		/// </summary>
 		public static IntPtr GetISteamMatchmakingServers(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamClient_GetISteamMatchmakingServers(hSteamUser, hSteamPipe, pchVersion);
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamMatchmakingServers(hSteamUser, hSteamPipe, pchVersion2);
+			}
 		}
 
 		/// <summary>
@@ -113,7 +125,9 @@ namespace Steamworks {
 		/// </summary>
 		public static IntPtr GetISteamGenericInterface(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamClient_GetISteamGenericInterface(hSteamUser, hSteamPipe, pchVersion);
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamGenericInterface(hSteamUser, hSteamPipe, pchVersion2);
+			}
 		}
 
 		/// <summary>
@@ -121,7 +135,9 @@ namespace Steamworks {
 		/// </summary>
 		public static IntPtr GetISteamUserStats(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamClient_GetISteamUserStats(hSteamUser, hSteamPipe, pchVersion);
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamUserStats(hSteamUser, hSteamPipe, pchVersion2);
+			}
 		}
 
 		/// <summary>
@@ -129,7 +145,9 @@ namespace Steamworks {
 		/// </summary>
 		public static IntPtr GetISteamGameServerStats(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamClient_GetISteamGameServerStats(hSteamuser, hSteamPipe, pchVersion);
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamGameServerStats(hSteamuser, hSteamPipe, pchVersion2);
+			}
 		}
 
 		/// <summary>
@@ -137,7 +155,9 @@ namespace Steamworks {
 		/// </summary>
 		public static IntPtr GetISteamApps(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamClient_GetISteamApps(hSteamUser, hSteamPipe, pchVersion);
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamApps(hSteamUser, hSteamPipe, pchVersion2);
+			}
 		}
 
 		/// <summary>
@@ -145,7 +165,9 @@ namespace Steamworks {
 		/// </summary>
 		public static IntPtr GetISteamNetworking(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamClient_GetISteamNetworking(hSteamUser, hSteamPipe, pchVersion);
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamNetworking(hSteamUser, hSteamPipe, pchVersion2);
+			}
 		}
 
 		/// <summary>
@@ -153,7 +175,9 @@ namespace Steamworks {
 		/// </summary>
 		public static IntPtr GetISteamRemoteStorage(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamClient_GetISteamRemoteStorage(hSteamuser, hSteamPipe, pchVersion);
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamRemoteStorage(hSteamuser, hSteamPipe, pchVersion2);
+			}
 		}
 
 		/// <summary>
@@ -161,7 +185,9 @@ namespace Steamworks {
 		/// </summary>
 		public static IntPtr GetISteamScreenshots(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamClient_GetISteamScreenshots(hSteamuser, hSteamPipe, pchVersion);
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamScreenshots(hSteamuser, hSteamPipe, pchVersion2);
+			}
 		}
 
 		/// <summary>
@@ -213,7 +239,9 @@ namespace Steamworks {
 		/// </summary>
 		public static IntPtr GetISteamHTTP(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamClient_GetISteamHTTP(hSteamuser, hSteamPipe, pchVersion);
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamHTTP(hSteamuser, hSteamPipe, pchVersion2);
+			}
 		}
 
 		/// <summary>
@@ -221,7 +249,9 @@ namespace Steamworks {
 		/// </summary>
 		public static IntPtr GetISteamUnifiedMessages(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamClient_GetISteamUnifiedMessages(hSteamuser, hSteamPipe, pchVersion);
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamUnifiedMessages(hSteamuser, hSteamPipe, pchVersion2);
+			}
 		}
 
 		/// <summary>
@@ -229,7 +259,9 @@ namespace Steamworks {
 		/// </summary>
 		public static IntPtr GetISteamController(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamClient_GetISteamController(hSteamUser, hSteamPipe, pchVersion);
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamController(hSteamUser, hSteamPipe, pchVersion2);
+			}
 		}
 
 		/// <summary>
@@ -237,7 +269,9 @@ namespace Steamworks {
 		/// </summary>
 		public static IntPtr GetISteamUGC(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamClient_GetISteamUGC(hSteamUser, hSteamPipe, pchVersion);
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamUGC(hSteamUser, hSteamPipe, pchVersion2);
+			}
 		}
 
 		/// <summary>
@@ -245,7 +279,9 @@ namespace Steamworks {
 		/// </summary>
 		public static IntPtr GetISteamAppList(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamClient_GetISteamAppList(hSteamUser, hSteamPipe, pchVersion);
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamAppList(hSteamUser, hSteamPipe, pchVersion2);
+			}
 		}
 
 		/// <summary>
@@ -253,7 +289,9 @@ namespace Steamworks {
 		/// </summary>
 		public static IntPtr GetISteamMusic(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamClient_GetISteamMusic(hSteamuser, hSteamPipe, pchVersion);
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamMusic(hSteamuser, hSteamPipe, pchVersion2);
+			}
 		}
 
 		/// <summary>
@@ -261,7 +299,9 @@ namespace Steamworks {
 		/// </summary>
 		public static IntPtr GetISteamMusicRemote(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamClient_GetISteamMusicRemote(hSteamuser, hSteamPipe, pchVersion);
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamMusicRemote(hSteamuser, hSteamPipe, pchVersion2);
+			}
 		}
 
 		/// <summary>
@@ -269,7 +309,9 @@ namespace Steamworks {
 		/// </summary>
 		public static IntPtr GetISteamHTMLSurface(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamClient_GetISteamHTMLSurface(hSteamuser, hSteamPipe, pchVersion);
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamHTMLSurface(hSteamuser, hSteamPipe, pchVersion2);
+			}
 		}
 
 		/// <summary>
@@ -295,7 +337,9 @@ namespace Steamworks {
 		/// </summary>
 		public static IntPtr GetISteamInventory(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamClient_GetISteamInventory(hSteamuser, hSteamPipe, pchVersion);
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamInventory(hSteamuser, hSteamPipe, pchVersion2);
+			}
 		}
 
 		/// <summary>
@@ -303,7 +347,9 @@ namespace Steamworks {
 		/// </summary>
 		public static IntPtr GetISteamVideo(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamClient_GetISteamVideo(hSteamuser, hSteamPipe, pchVersion);
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamVideo(hSteamuser, hSteamPipe, pchVersion2);
+			}
 		}
 	}
 }

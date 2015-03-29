@@ -16,7 +16,9 @@ namespace Steamworks {
 		/// </summary>
 		public static bool Init(string pchAbsolutePathToControllerConfigVDF) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamController_Init(pchAbsolutePathToControllerConfigVDF);
+			using (var pchAbsolutePathToControllerConfigVDF2 = new InteropHelp.UTF8StringHandle(pchAbsolutePathToControllerConfigVDF)) {
+				return NativeMethods.ISteamController_Init(pchAbsolutePathToControllerConfigVDF2);
+			}
 		}
 
 		public static bool Shutdown() {
@@ -54,7 +56,9 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetOverrideMode(string pchMode) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamController_SetOverrideMode(pchMode);
+			using (var pchMode2 = new InteropHelp.UTF8StringHandle(pchMode)) {
+				NativeMethods.ISteamController_SetOverrideMode(pchMode2);
+			}
 		}
 	}
 }

@@ -309,11 +309,13 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetItemDefinitionProperty(SteamItemDef_t iDefinition, string pchPropertyName, out string pchValueBuffer, ref uint punValueBufferSize) {
 			InteropHelp.TestIfAvailableGameServer();
-			IntPtr pchValueBuffer2 = Marshal.AllocHGlobal((int)punValueBufferSize);
-			bool ret = NativeMethods.ISteamGameServerInventory_GetItemDefinitionProperty(iDefinition, pchPropertyName, pchValueBuffer2, ref punValueBufferSize);
-			pchValueBuffer = ret ? InteropHelp.PtrToStringUTF8(pchValueBuffer2) : null;
-			Marshal.FreeHGlobal(pchValueBuffer2);
-			return ret;
+			using (var pchPropertyName2 = new InteropHelp.UTF8StringHandle(pchPropertyName)) {
+				IntPtr pchValueBuffer2 = Marshal.AllocHGlobal((int)punValueBufferSize);
+				bool ret = NativeMethods.ISteamGameServerInventory_GetItemDefinitionProperty(iDefinition, pchPropertyName2, pchValueBuffer2, ref punValueBufferSize);
+				pchValueBuffer = ret ? InteropHelp.PtrToStringUTF8(pchValueBuffer2) : null;
+				Marshal.FreeHGlobal(pchValueBuffer2);
+				return ret;
+			}
 		}
 	}
 }

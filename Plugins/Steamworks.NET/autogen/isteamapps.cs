@@ -183,7 +183,9 @@ namespace Steamworks {
 		/// </summary>
 		public static string GetLaunchQueryParam(string pchKey) {
 			InteropHelp.TestIfAvailableClient();
-			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamApps_GetLaunchQueryParam(pchKey));
+			using (var pchKey2 = new InteropHelp.UTF8StringHandle(pchKey)) {
+				return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamApps_GetLaunchQueryParam(pchKey2));
+			}
 		}
 
 		/// <summary>
@@ -207,7 +209,9 @@ namespace Steamworks {
 		/// </summary>
 		public static SteamAPICall_t RegisterActivationCode(string pchActivationCode) {
 			InteropHelp.TestIfAvailableClient();
-			return (SteamAPICall_t)NativeMethods.ISteamApps_RegisterActivationCode(pchActivationCode);
+			using (var pchActivationCode2 = new InteropHelp.UTF8StringHandle(pchActivationCode)) {
+				return (SteamAPICall_t)NativeMethods.ISteamApps_RegisterActivationCode(pchActivationCode2);
+			}
 		}
 #endif
 	}

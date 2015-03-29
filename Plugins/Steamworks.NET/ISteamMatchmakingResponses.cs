@@ -225,7 +225,7 @@ namespace Steamworks {
 	public class ISteamMatchmakingPlayersResponse {
 		// Got data on a new player on the server -- you'll get this callback once per player
 		// on the server which you have requested player data on.
-		public delegate void AddPlayerToList([MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(UTF8Marshaler))] string pchName, int nScore, float flTimePlayed);
+		public delegate void AddPlayerToList(string pchName, int nScore, float flTimePlayed);
 
 		// The server failed to respond to the request for player details
 		public delegate void PlayersFailedToRespond();
@@ -272,13 +272,13 @@ namespace Steamworks {
 		
 #if NOTHISPTR
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		public delegate void InternalAddPlayerToList([MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(UTF8Marshaler))] string pchName, int nScore, float flTimePlayed);
+		public delegate void InternalAddPlayerToList(IntPtr pchName, int nScore, float flTimePlayed);
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 		public delegate void InternalPlayersFailedToRespond();
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 		public delegate void InternalPlayersRefreshComplete();
-		private void InternalOnAddPlayerToList(string pchName, int nScore, float flTimePlayed) {
-			m_AddPlayerToList(pchName, nScore, flTimePlayed);
+		private void InternalOnAddPlayerToList(IntPtr pchName, int nScore, float flTimePlayed) {
+			m_AddPlayerToList(InteropHelp.PtrToStringUTF8(pchName), nScore, flTimePlayed);
 		}
 		private void InternalOnPlayersFailedToRespond() {
 			m_PlayersFailedToRespond();
@@ -288,13 +288,13 @@ namespace Steamworks {
 		}
 #else
 		[UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-		public delegate void InternalAddPlayerToList(IntPtr thisptr, [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(UTF8Marshaler))] string pchName, int nScore, float flTimePlayed);
+		public delegate void InternalAddPlayerToList(IntPtr thisptr, IntPtr pchName, int nScore, float flTimePlayed);
 		[UnmanagedFunctionPointer(CallingConvention.ThisCall)]
 		public delegate void InternalPlayersFailedToRespond(IntPtr thisptr);
 		[UnmanagedFunctionPointer(CallingConvention.ThisCall)]
 		public delegate void InternalPlayersRefreshComplete(IntPtr thisptr);
-		private void InternalOnAddPlayerToList(IntPtr thisptr, string pchName, int nScore, float flTimePlayed) {
-			m_AddPlayerToList(pchName, nScore, flTimePlayed);
+		private void InternalOnAddPlayerToList(IntPtr thisptr, IntPtr pchName, int nScore, float flTimePlayed) {
+			m_AddPlayerToList(InteropHelp.PtrToStringUTF8(pchName), nScore, flTimePlayed);
 		}
 		private void InternalOnPlayersFailedToRespond(IntPtr thisptr) {
 			m_PlayersFailedToRespond();
@@ -385,13 +385,13 @@ namespace Steamworks {
 		
 #if NOTHISPTR
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		public delegate void InternalRulesResponded([MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(UTF8Marshaler))] string pchRule, [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(UTF8Marshaler))] string pchValue);
+		public delegate void InternalRulesResponded(IntPtr pchRule, IntPtr pchValue);
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 		public delegate void InternalRulesFailedToRespond();
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 		public delegate void InternalRulesRefreshComplete();
-		private void InternalOnRulesResponded(string pchRule, string pchValue) {
-			m_RulesResponded(pchRule, pchValue);
+		private void InternalOnRulesResponded(IntPtr pchRule, IntPtr pchValue) {
+			m_RulesResponded(InteropHelp.PtrToStringUTF8(pchRule), InteropHelp.PtrToStringUTF8(pchValue));
 		}
 		private void InternalOnRulesFailedToRespond() {
 			m_RulesFailedToRespond();
@@ -401,13 +401,13 @@ namespace Steamworks {
 		}
 #else
 		[UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-		public delegate void InternalRulesResponded(IntPtr thisptr, [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(UTF8Marshaler))] string pchRule, [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(UTF8Marshaler))] string pchValue);
+		public delegate void InternalRulesResponded(IntPtr thisptr, IntPtr pchRule, IntPtr pchValue);
 		[UnmanagedFunctionPointer(CallingConvention.ThisCall)]
 		public delegate void InternalRulesFailedToRespond(IntPtr thisptr);
 		[UnmanagedFunctionPointer(CallingConvention.ThisCall)]
 		public delegate void InternalRulesRefreshComplete(IntPtr thisptr);
-		private void InternalOnRulesResponded(IntPtr thisptr, string pchRule, string pchValue) {
-			m_RulesResponded(pchRule, pchValue);
+		private void InternalOnRulesResponded(IntPtr thisptr, IntPtr pchRule, IntPtr pchValue) {
+			m_RulesResponded(InteropHelp.PtrToStringUTF8(pchRule), InteropHelp.PtrToStringUTF8(pchValue));
 		}
 		private void InternalOnRulesFailedToRespond(IntPtr thisptr) {
 			m_RulesFailedToRespond();

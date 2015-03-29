@@ -55,12 +55,16 @@ namespace Steamworks {
 		/// </summary>
 		public static bool AddRequiredTag(UGCQueryHandle_t handle, string pTagName) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUGC_AddRequiredTag(handle, pTagName);
+			using (var pTagName2 = new InteropHelp.UTF8StringHandle(pTagName)) {
+				return NativeMethods.ISteamUGC_AddRequiredTag(handle, pTagName2);
+			}
 		}
 
 		public static bool AddExcludedTag(UGCQueryHandle_t handle, string pTagName) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUGC_AddExcludedTag(handle, pTagName);
+			using (var pTagName2 = new InteropHelp.UTF8StringHandle(pTagName)) {
+				return NativeMethods.ISteamUGC_AddExcludedTag(handle, pTagName2);
+			}
 		}
 
 		public static bool SetReturnLongDescription(UGCQueryHandle_t handle, bool bReturnLongDescription) {
@@ -83,7 +87,9 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetCloudFileNameFilter(UGCQueryHandle_t handle, string pMatchCloudFileName) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUGC_SetCloudFileNameFilter(handle, pMatchCloudFileName);
+			using (var pMatchCloudFileName2 = new InteropHelp.UTF8StringHandle(pMatchCloudFileName)) {
+				return NativeMethods.ISteamUGC_SetCloudFileNameFilter(handle, pMatchCloudFileName2);
+			}
 		}
 
 		/// <summary>
@@ -96,7 +102,9 @@ namespace Steamworks {
 
 		public static bool SetSearchText(UGCQueryHandle_t handle, string pSearchText) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUGC_SetSearchText(handle, pSearchText);
+			using (var pSearchText2 = new InteropHelp.UTF8StringHandle(pSearchText)) {
+				return NativeMethods.ISteamUGC_SetSearchText(handle, pSearchText2);
+			}
 		}
 
 		public static bool SetRankedByTrendDays(UGCQueryHandle_t handle, uint unDays) {
@@ -134,7 +142,9 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetItemTitle(UGCUpdateHandle_t handle, string pchTitle) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUGC_SetItemTitle(handle, pchTitle);
+			using (var pchTitle2 = new InteropHelp.UTF8StringHandle(pchTitle)) {
+				return NativeMethods.ISteamUGC_SetItemTitle(handle, pchTitle2);
+			}
 		}
 
 		/// <summary>
@@ -142,7 +152,9 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetItemDescription(UGCUpdateHandle_t handle, string pchDescription) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUGC_SetItemDescription(handle, pchDescription);
+			using (var pchDescription2 = new InteropHelp.UTF8StringHandle(pchDescription)) {
+				return NativeMethods.ISteamUGC_SetItemDescription(handle, pchDescription2);
+			}
 		}
 
 		/// <summary>
@@ -166,7 +178,9 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetItemContent(UGCUpdateHandle_t handle, string pszContentFolder) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUGC_SetItemContent(handle, pszContentFolder);
+			using (var pszContentFolder2 = new InteropHelp.UTF8StringHandle(pszContentFolder)) {
+				return NativeMethods.ISteamUGC_SetItemContent(handle, pszContentFolder2);
+			}
 		}
 
 		/// <summary>
@@ -174,7 +188,9 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetItemPreview(UGCUpdateHandle_t handle, string pszPreviewFile) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUGC_SetItemPreview(handle, pszPreviewFile);
+			using (var pszPreviewFile2 = new InteropHelp.UTF8StringHandle(pszPreviewFile)) {
+				return NativeMethods.ISteamUGC_SetItemPreview(handle, pszPreviewFile2);
+			}
 		}
 
 		/// <summary>
@@ -182,7 +198,9 @@ namespace Steamworks {
 		/// </summary>
 		public static SteamAPICall_t SubmitItemUpdate(UGCUpdateHandle_t handle, string pchChangeNote) {
 			InteropHelp.TestIfAvailableClient();
-			return (SteamAPICall_t)NativeMethods.ISteamUGC_SubmitItemUpdate(handle, pchChangeNote);
+			using (var pchChangeNote2 = new InteropHelp.UTF8StringHandle(pchChangeNote)) {
+				return (SteamAPICall_t)NativeMethods.ISteamUGC_SubmitItemUpdate(handle, pchChangeNote2);
+			}
 		}
 
 		public static EItemUpdateStatus GetItemUpdateProgress(UGCUpdateHandle_t handle, out ulong punBytesProcessed, out ulong punBytesTotal) {

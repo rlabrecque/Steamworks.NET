@@ -31,7 +31,9 @@ namespace Steamworks {
 		/// </summary>
 		public static SteamAPICall_t SetPersonaName(string pchPersonaName) {
 			InteropHelp.TestIfAvailableClient();
-			return (SteamAPICall_t)NativeMethods.ISteamFriends_SetPersonaName(pchPersonaName);
+			using (var pchPersonaName2 = new InteropHelp.UTF8StringHandle(pchPersonaName)) {
+				return (SteamAPICall_t)NativeMethods.ISteamFriends_SetPersonaName(pchPersonaName2);
+			}
 		}
 
 		/// <summary>
@@ -249,7 +251,9 @@ namespace Steamworks {
 		/// </summary>
 		public static void ActivateGameOverlay(string pchDialog) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamFriends_ActivateGameOverlay(pchDialog);
+			using (var pchDialog2 = new InteropHelp.UTF8StringHandle(pchDialog)) {
+				NativeMethods.ISteamFriends_ActivateGameOverlay(pchDialog2);
+			}
 		}
 
 		/// <summary>
@@ -267,7 +271,9 @@ namespace Steamworks {
 		/// </summary>
 		public static void ActivateGameOverlayToUser(string pchDialog, CSteamID steamID) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamFriends_ActivateGameOverlayToUser(pchDialog, steamID);
+			using (var pchDialog2 = new InteropHelp.UTF8StringHandle(pchDialog)) {
+				NativeMethods.ISteamFriends_ActivateGameOverlayToUser(pchDialog2, steamID);
+			}
 		}
 
 		/// <summary>
@@ -276,7 +282,9 @@ namespace Steamworks {
 		/// </summary>
 		public static void ActivateGameOverlayToWebPage(string pchURL) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamFriends_ActivateGameOverlayToWebPage(pchURL);
+			using (var pchURL2 = new InteropHelp.UTF8StringHandle(pchURL)) {
+				NativeMethods.ISteamFriends_ActivateGameOverlayToWebPage(pchURL2);
+			}
 		}
 
 		/// <summary>
@@ -403,7 +411,10 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetRichPresence(string pchKey, string pchValue) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamFriends_SetRichPresence(pchKey, pchValue);
+			using (var pchKey2 = new InteropHelp.UTF8StringHandle(pchKey))
+			using (var pchValue2 = new InteropHelp.UTF8StringHandle(pchValue)) {
+				return NativeMethods.ISteamFriends_SetRichPresence(pchKey2, pchValue2);
+			}
 		}
 
 		public static void ClearRichPresence() {
@@ -413,7 +424,9 @@ namespace Steamworks {
 
 		public static string GetFriendRichPresence(CSteamID steamIDFriend, string pchKey) {
 			InteropHelp.TestIfAvailableClient();
-			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamFriends_GetFriendRichPresence(steamIDFriend, pchKey));
+			using (var pchKey2 = new InteropHelp.UTF8StringHandle(pchKey)) {
+				return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamFriends_GetFriendRichPresence(steamIDFriend, pchKey2));
+			}
 		}
 
 		public static int GetFriendRichPresenceKeyCount(CSteamID steamIDFriend) {
@@ -442,7 +455,9 @@ namespace Steamworks {
 		/// </summary>
 		public static bool InviteUserToGame(CSteamID steamIDFriend, string pchConnectString) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamFriends_InviteUserToGame(steamIDFriend, pchConnectString);
+			using (var pchConnectString2 = new InteropHelp.UTF8StringHandle(pchConnectString)) {
+				return NativeMethods.ISteamFriends_InviteUserToGame(steamIDFriend, pchConnectString2);
+			}
 		}
 
 		/// <summary>
@@ -498,7 +513,9 @@ namespace Steamworks {
 
 		public static bool SendClanChatMessage(CSteamID steamIDClanChat, string pchText) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamFriends_SendClanChatMessage(steamIDClanChat, pchText);
+			using (var pchText2 = new InteropHelp.UTF8StringHandle(pchText)) {
+				return NativeMethods.ISteamFriends_SendClanChatMessage(steamIDClanChat, pchText2);
+			}
 		}
 
 		public static int GetClanChatMessage(CSteamID steamIDClanChat, int iMessage, out string prgchText, int cchTextMax, out EChatEntryType peChatEntryType, out CSteamID psteamidChatter) {
@@ -544,7 +561,9 @@ namespace Steamworks {
 
 		public static bool ReplyToFriendMessage(CSteamID steamIDFriend, string pchMsgToSend) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamFriends_ReplyToFriendMessage(steamIDFriend, pchMsgToSend);
+			using (var pchMsgToSend2 = new InteropHelp.UTF8StringHandle(pchMsgToSend)) {
+				return NativeMethods.ISteamFriends_ReplyToFriendMessage(steamIDFriend, pchMsgToSend2);
+			}
 		}
 
 		public static int GetFriendMessage(CSteamID steamIDFriend, int iMessageID, out string pvData, int cubData, out EChatEntryType peChatEntryType) {

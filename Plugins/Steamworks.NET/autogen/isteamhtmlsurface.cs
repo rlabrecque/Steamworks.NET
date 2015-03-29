@@ -33,7 +33,10 @@ namespace Steamworks {
 		/// </summary>
 		public static SteamAPICall_t CreateBrowser(string pchUserAgent, string pchUserCSS) {
 			InteropHelp.TestIfAvailableClient();
-			return (SteamAPICall_t)NativeMethods.ISteamHTMLSurface_CreateBrowser(pchUserAgent, pchUserCSS);
+			using (var pchUserAgent2 = new InteropHelp.UTF8StringHandle(pchUserAgent))
+			using (var pchUserCSS2 = new InteropHelp.UTF8StringHandle(pchUserCSS)) {
+				return (SteamAPICall_t)NativeMethods.ISteamHTMLSurface_CreateBrowser(pchUserAgent2, pchUserCSS2);
+			}
 		}
 
 		/// <summary>
@@ -49,7 +52,10 @@ namespace Steamworks {
 		/// </summary>
 		public static void LoadURL(HHTMLBrowser unBrowserHandle, string pchURL, string pchPostData) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_LoadURL(unBrowserHandle, pchURL, pchPostData);
+			using (var pchURL2 = new InteropHelp.UTF8StringHandle(pchURL))
+			using (var pchPostData2 = new InteropHelp.UTF8StringHandle(pchPostData)) {
+				NativeMethods.ISteamHTMLSurface_LoadURL(unBrowserHandle, pchURL2, pchPostData2);
+			}
 		}
 
 		/// <summary>
@@ -97,7 +103,10 @@ namespace Steamworks {
 		/// </summary>
 		public static void AddHeader(HHTMLBrowser unBrowserHandle, string pchKey, string pchValue) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_AddHeader(unBrowserHandle, pchKey, pchValue);
+			using (var pchKey2 = new InteropHelp.UTF8StringHandle(pchKey))
+			using (var pchValue2 = new InteropHelp.UTF8StringHandle(pchValue)) {
+				NativeMethods.ISteamHTMLSurface_AddHeader(unBrowserHandle, pchKey2, pchValue2);
+			}
 		}
 
 		/// <summary>
@@ -105,7 +114,9 @@ namespace Steamworks {
 		/// </summary>
 		public static void ExecuteJavascript(HHTMLBrowser unBrowserHandle, string pchScript) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_ExecuteJavascript(unBrowserHandle, pchScript);
+			using (var pchScript2 = new InteropHelp.UTF8StringHandle(pchScript)) {
+				NativeMethods.ISteamHTMLSurface_ExecuteJavascript(unBrowserHandle, pchScript2);
+			}
 		}
 
 		/// <summary>
@@ -213,7 +224,9 @@ namespace Steamworks {
 		/// </summary>
 		public static void Find(HHTMLBrowser unBrowserHandle, string pchSearchStr, bool bCurrentlyInFind, bool bReverse) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_Find(unBrowserHandle, pchSearchStr, bCurrentlyInFind, bReverse);
+			using (var pchSearchStr2 = new InteropHelp.UTF8StringHandle(pchSearchStr)) {
+				NativeMethods.ISteamHTMLSurface_Find(unBrowserHandle, pchSearchStr2, bCurrentlyInFind, bReverse);
+			}
 		}
 
 		/// <summary>
@@ -237,7 +250,12 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetCookie(string pchHostname, string pchKey, string pchValue, string pchPath = "/", uint nExpires = 0, bool bSecure = false, bool bHTTPOnly = false) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_SetCookie(pchHostname, pchKey, pchValue, pchPath, nExpires, bSecure, bHTTPOnly);
+			using (var pchHostname2 = new InteropHelp.UTF8StringHandle(pchHostname))
+			using (var pchKey2 = new InteropHelp.UTF8StringHandle(pchKey))
+			using (var pchValue2 = new InteropHelp.UTF8StringHandle(pchValue))
+			using (var pchPath2 = new InteropHelp.UTF8StringHandle(pchPath)) {
+				NativeMethods.ISteamHTMLSurface_SetCookie(pchHostname2, pchKey2, pchValue2, pchPath2, nExpires, bSecure, bHTTPOnly);
+			}
 		}
 
 		/// <summary>

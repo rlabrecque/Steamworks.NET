@@ -23,12 +23,16 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetStat(string pchName, out int pData) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetStat(pchName, out pData);
+			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName)) {
+				return NativeMethods.ISteamUserStats_GetStat(pchName2, out pData);
+			}
 		}
 
 		public static bool GetStat(string pchName, out float pData) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetStat_(pchName, out pData);
+			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName)) {
+				return NativeMethods.ISteamUserStats_GetStat_(pchName2, out pData);
+			}
 		}
 
 		/// <summary>
@@ -36,17 +40,23 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetStat(string pchName, int nData) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_SetStat(pchName, nData);
+			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName)) {
+				return NativeMethods.ISteamUserStats_SetStat(pchName2, nData);
+			}
 		}
 
 		public static bool SetStat(string pchName, float fData) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_SetStat_(pchName, fData);
+			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName)) {
+				return NativeMethods.ISteamUserStats_SetStat_(pchName2, fData);
+			}
 		}
 
 		public static bool UpdateAvgRateStat(string pchName, float flCountThisSession, double dSessionLength) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_UpdateAvgRateStat(pchName, flCountThisSession, dSessionLength);
+			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName)) {
+				return NativeMethods.ISteamUserStats_UpdateAvgRateStat(pchName2, flCountThisSession, dSessionLength);
+			}
 		}
 
 		/// <summary>
@@ -54,17 +64,23 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetAchievement(string pchName, out bool pbAchieved) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetAchievement(pchName, out pbAchieved);
+			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName)) {
+				return NativeMethods.ISteamUserStats_GetAchievement(pchName2, out pbAchieved);
+			}
 		}
 
 		public static bool SetAchievement(string pchName) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_SetAchievement(pchName);
+			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName)) {
+				return NativeMethods.ISteamUserStats_SetAchievement(pchName2);
+			}
 		}
 
 		public static bool ClearAchievement(string pchName) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_ClearAchievement(pchName);
+			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName)) {
+				return NativeMethods.ISteamUserStats_ClearAchievement(pchName2);
+			}
 		}
 
 		/// <summary>
@@ -74,7 +90,9 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetAchievementAndUnlockTime(string pchName, out bool pbAchieved, out uint punUnlockTime) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetAchievementAndUnlockTime(pchName, out pbAchieved, out punUnlockTime);
+			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName)) {
+				return NativeMethods.ISteamUserStats_GetAchievementAndUnlockTime(pchName2, out pbAchieved, out punUnlockTime);
+			}
 		}
 
 		/// <summary>
@@ -99,7 +117,9 @@ namespace Steamworks {
 		/// </summary>
 		public static int GetAchievementIcon(string pchName) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetAchievementIcon(pchName);
+			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName)) {
+				return NativeMethods.ISteamUserStats_GetAchievementIcon(pchName2);
+			}
 		}
 
 		/// <summary>
@@ -109,7 +129,10 @@ namespace Steamworks {
 		/// </summary>
 		public static string GetAchievementDisplayAttribute(string pchName, string pchKey) {
 			InteropHelp.TestIfAvailableClient();
-			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamUserStats_GetAchievementDisplayAttribute(pchName, pchKey));
+			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName))
+			using (var pchKey2 = new InteropHelp.UTF8StringHandle(pchKey)) {
+				return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamUserStats_GetAchievementDisplayAttribute(pchName2, pchKey2));
+			}
 		}
 
 		/// <summary>
@@ -118,7 +141,9 @@ namespace Steamworks {
 		/// </summary>
 		public static bool IndicateAchievementProgress(string pchName, uint nCurProgress, uint nMaxProgress) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_IndicateAchievementProgress(pchName, nCurProgress, nMaxProgress);
+			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName)) {
+				return NativeMethods.ISteamUserStats_IndicateAchievementProgress(pchName2, nCurProgress, nMaxProgress);
+			}
 		}
 
 		/// <summary>
@@ -155,17 +180,23 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetUserStat(CSteamID steamIDUser, string pchName, out int pData) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetUserStat(steamIDUser, pchName, out pData);
+			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName)) {
+				return NativeMethods.ISteamUserStats_GetUserStat(steamIDUser, pchName2, out pData);
+			}
 		}
 
 		public static bool GetUserStat(CSteamID steamIDUser, string pchName, out float pData) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetUserStat_(steamIDUser, pchName, out pData);
+			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName)) {
+				return NativeMethods.ISteamUserStats_GetUserStat_(steamIDUser, pchName2, out pData);
+			}
 		}
 
 		public static bool GetUserAchievement(CSteamID steamIDUser, string pchName, out bool pbAchieved) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetUserAchievement(steamIDUser, pchName, out pbAchieved);
+			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName)) {
+				return NativeMethods.ISteamUserStats_GetUserAchievement(steamIDUser, pchName2, out pbAchieved);
+			}
 		}
 
 		/// <summary>
@@ -173,7 +204,9 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetUserAchievementAndUnlockTime(CSteamID steamIDUser, string pchName, out bool pbAchieved, out uint punUnlockTime) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetUserAchievementAndUnlockTime(steamIDUser, pchName, out pbAchieved, out punUnlockTime);
+			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName)) {
+				return NativeMethods.ISteamUserStats_GetUserAchievementAndUnlockTime(steamIDUser, pchName2, out pbAchieved, out punUnlockTime);
+			}
 		}
 
 		/// <summary>
@@ -191,7 +224,9 @@ namespace Steamworks {
 		/// </summary>
 		public static SteamAPICall_t FindOrCreateLeaderboard(string pchLeaderboardName, ELeaderboardSortMethod eLeaderboardSortMethod, ELeaderboardDisplayType eLeaderboardDisplayType) {
 			InteropHelp.TestIfAvailableClient();
-			return (SteamAPICall_t)NativeMethods.ISteamUserStats_FindOrCreateLeaderboard(pchLeaderboardName, eLeaderboardSortMethod, eLeaderboardDisplayType);
+			using (var pchLeaderboardName2 = new InteropHelp.UTF8StringHandle(pchLeaderboardName)) {
+				return (SteamAPICall_t)NativeMethods.ISteamUserStats_FindOrCreateLeaderboard(pchLeaderboardName2, eLeaderboardSortMethod, eLeaderboardDisplayType);
+			}
 		}
 
 		/// <summary>
@@ -200,7 +235,9 @@ namespace Steamworks {
 		/// </summary>
 		public static SteamAPICall_t FindLeaderboard(string pchLeaderboardName) {
 			InteropHelp.TestIfAvailableClient();
-			return (SteamAPICall_t)NativeMethods.ISteamUserStats_FindLeaderboard(pchLeaderboardName);
+			using (var pchLeaderboardName2 = new InteropHelp.UTF8StringHandle(pchLeaderboardName)) {
+				return (SteamAPICall_t)NativeMethods.ISteamUserStats_FindLeaderboard(pchLeaderboardName2);
+			}
 		}
 
 		/// <summary>
@@ -354,7 +391,9 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetAchievementAchievedPercent(string pchName, out float pflPercent) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetAchievementAchievedPercent(pchName, out pflPercent);
+			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName)) {
+				return NativeMethods.ISteamUserStats_GetAchievementAchievedPercent(pchName2, out pflPercent);
+			}
 		}
 
 		/// <summary>
@@ -373,12 +412,16 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetGlobalStat(string pchStatName, out long pData) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetGlobalStat(pchStatName, out pData);
+			using (var pchStatName2 = new InteropHelp.UTF8StringHandle(pchStatName)) {
+				return NativeMethods.ISteamUserStats_GetGlobalStat(pchStatName2, out pData);
+			}
 		}
 
 		public static bool GetGlobalStat(string pchStatName, out double pData) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetGlobalStat_(pchStatName, out pData);
+			using (var pchStatName2 = new InteropHelp.UTF8StringHandle(pchStatName)) {
+				return NativeMethods.ISteamUserStats_GetGlobalStat_(pchStatName2, out pData);
+			}
 		}
 
 		/// <summary>
@@ -389,12 +432,16 @@ namespace Steamworks {
 		/// </summary>
 		public static int GetGlobalStatHistory(string pchStatName, long[] pData, uint cubData) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetGlobalStatHistory(pchStatName, pData, cubData);
+			using (var pchStatName2 = new InteropHelp.UTF8StringHandle(pchStatName)) {
+				return NativeMethods.ISteamUserStats_GetGlobalStatHistory(pchStatName2, pData, cubData);
+			}
 		}
 
 		public static int GetGlobalStatHistory(string pchStatName, double[] pData, uint cubData) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetGlobalStatHistory_(pchStatName, pData, cubData);
+			using (var pchStatName2 = new InteropHelp.UTF8StringHandle(pchStatName)) {
+				return NativeMethods.ISteamUserStats_GetGlobalStatHistory_(pchStatName2, pData, cubData);
+			}
 		}
 #if _PS3
 		/// <summary>
