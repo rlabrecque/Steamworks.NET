@@ -27,6 +27,14 @@ namespace Steamworks {
 		}
 
 		/// <summary>
+		/// <para> Query for the details of the given published file ids (this RequestUGCDetails call is deprecated and replaced with this)</para>
+		/// </summary>
+		public static UGCQueryHandle_t CreateQueryUGCDetailsRequest(PublishedFileId_t[] pvecPublishedFileID, uint unNumPublishedFileIDs) {
+			InteropHelp.TestIfAvailableClient();
+			return (UGCQueryHandle_t)NativeMethods.ISteamUGC_CreateQueryUGCDetailsRequest(pvecPublishedFileID, unNumPublishedFileIDs);
+		}
+
+		/// <summary>
 		/// <para> Send the query to Steam</para>
 		/// </summary>
 		public static SteamAPICall_t SendQueryUGCRequest(UGCQueryHandle_t handle) {
@@ -40,6 +48,48 @@ namespace Steamworks {
 		public static bool GetQueryUGCResult(UGCQueryHandle_t handle, uint index, out SteamUGCDetails_t pDetails) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_GetQueryUGCResult(handle, index, out pDetails);
+		}
+
+		public static bool GetQueryUGCPreviewURL(UGCQueryHandle_t handle, uint index, out string pchURL, uint cchURLSize) {
+			InteropHelp.TestIfAvailableClient();
+			IntPtr pchURL2 = Marshal.AllocHGlobal((int)cchURLSize);
+			bool ret = NativeMethods.ISteamUGC_GetQueryUGCPreviewURL(handle, index, pchURL2, cchURLSize);
+			pchURL = ret ? InteropHelp.PtrToStringUTF8(pchURL2) : null;
+			Marshal.FreeHGlobal(pchURL2);
+			return ret;
+		}
+
+		public static bool GetQueryUGCMetadata(UGCQueryHandle_t handle, uint index, out string pchMetadata, uint cchMetadatasize) {
+			InteropHelp.TestIfAvailableClient();
+			IntPtr pchMetadata2 = Marshal.AllocHGlobal((int)cchMetadatasize);
+			bool ret = NativeMethods.ISteamUGC_GetQueryUGCMetadata(handle, index, pchMetadata2, cchMetadatasize);
+			pchMetadata = ret ? InteropHelp.PtrToStringUTF8(pchMetadata2) : null;
+			Marshal.FreeHGlobal(pchMetadata2);
+			return ret;
+		}
+
+		public static bool GetQueryUGCChildren(UGCQueryHandle_t handle, uint index, PublishedFileId_t[] pvecPublishedFileID, uint cMaxEntries) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_GetQueryUGCChildren(handle, index, pvecPublishedFileID, cMaxEntries);
+		}
+
+		public static bool GetQueryUGCStatistic(UGCQueryHandle_t handle, uint index, EItemStatistic eStatType, out uint pStatValue) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_GetQueryUGCStatistic(handle, index, eStatType, out pStatValue);
+		}
+
+		public static uint GetQueryUGCNumAdditionalPreviews(UGCQueryHandle_t handle, uint index) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_GetQueryUGCNumAdditionalPreviews(handle, index);
+		}
+
+		public static bool GetQueryUGCAdditionalPreview(UGCQueryHandle_t handle, uint index, uint previewIndex, out string pchURLOrVideoID, uint cchURLSize, out bool pbIsImage) {
+			InteropHelp.TestIfAvailableClient();
+			IntPtr pchURLOrVideoID2 = Marshal.AllocHGlobal((int)cchURLSize);
+			bool ret = NativeMethods.ISteamUGC_GetQueryUGCAdditionalPreview(handle, index, previewIndex, pchURLOrVideoID2, cchURLSize, out pbIsImage);
+			pchURLOrVideoID = ret ? InteropHelp.PtrToStringUTF8(pchURLOrVideoID2) : null;
+			Marshal.FreeHGlobal(pchURLOrVideoID2);
+			return ret;
 		}
 
 		/// <summary>
@@ -70,6 +120,21 @@ namespace Steamworks {
 		public static bool SetReturnLongDescription(UGCQueryHandle_t handle, bool bReturnLongDescription) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_SetReturnLongDescription(handle, bReturnLongDescription);
+		}
+
+		public static bool SetReturnMetadata(UGCQueryHandle_t handle, bool bReturnMetadata) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_SetReturnMetadata(handle, bReturnMetadata);
+		}
+
+		public static bool SetReturnChildren(UGCQueryHandle_t handle, bool bReturnChildren) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_SetReturnChildren(handle, bReturnChildren);
+		}
+
+		public static bool SetReturnAdditionalPreviews(UGCQueryHandle_t handle, bool bReturnAdditionalPreviews) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_SetReturnAdditionalPreviews(handle, bReturnAdditionalPreviews);
 		}
 
 		public static bool SetReturnTotalOnly(UGCQueryHandle_t handle, bool bReturnTotalOnly) {
@@ -113,7 +178,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Request full details for one piece of UGC</para>
+		/// <para> DEPRECATED - Use CreateQueryUGCDetailsRequest call above instead!</para>
 		/// </summary>
 		public static SteamAPICall_t RequestUGCDetails(PublishedFileId_t nPublishedFileID, uint unMaxAgeSeconds) {
 			InteropHelp.TestIfAvailableClient();
@@ -154,6 +219,16 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchDescription2 = new InteropHelp.UTF8StringHandle(pchDescription)) {
 				return NativeMethods.ISteamUGC_SetItemDescription(handle, pchDescription2);
+			}
+		}
+
+		/// <summary>
+		/// <para> change the metadata of an UGC item (max = k_cchDeveloperMetadataMax)</para>
+		/// </summary>
+		public static bool SetItemMetadata(UGCUpdateHandle_t handle, string pchMetaData) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchMetaData2 = new InteropHelp.UTF8StringHandle(pchMetaData)) {
+				return NativeMethods.ISteamUGC_SetItemMetadata(handle, pchMetaData2);
 			}
 		}
 
@@ -210,7 +285,19 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Steam Workshop Consumer API</para>
-		/// <para> subscript to this item, will be installed ASAP</para>
+		/// </summary>
+		public static SteamAPICall_t AddItemToFavorites(AppId_t nAppId, PublishedFileId_t nPublishedFileID) {
+			InteropHelp.TestIfAvailableClient();
+			return (SteamAPICall_t)NativeMethods.ISteamUGC_AddItemToFavorites(nAppId, nPublishedFileID);
+		}
+
+		public static SteamAPICall_t RemoveItemFromFavorites(AppId_t nAppId, PublishedFileId_t nPublishedFileID) {
+			InteropHelp.TestIfAvailableClient();
+			return (SteamAPICall_t)NativeMethods.ISteamUGC_RemoveItemFromFavorites(nAppId, nPublishedFileID);
+		}
+
+		/// <summary>
+		/// <para> subscribe to this item, will be installed ASAP</para>
 		/// </summary>
 		public static SteamAPICall_t SubscribeItem(PublishedFileId_t nPublishedFileID) {
 			InteropHelp.TestIfAvailableClient();
@@ -242,22 +329,42 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Get info about the item on disk.  If you are supporting items published through the legacy RemoteStorage APIs then *pbLegacyItem will be set to true</para>
-		/// <para> and pchFolder will contain the full path to the file rather than the containing folder.</para>
-		/// <para> returns true if item is installed</para>
+		/// <para> get EItemState flags about item on this client</para>
 		/// </summary>
-		public static bool GetItemInstallInfo(PublishedFileId_t nPublishedFileID, out ulong punSizeOnDisk, out string pchFolder, uint cchFolderSize, out bool pbLegacyItem) {
+		public static uint GetItemState(PublishedFileId_t nPublishedFileID) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_GetItemState(nPublishedFileID);
+		}
+
+		/// <summary>
+		/// <para> get info about currently installed content on disc for items that have k_EItemStateInstalled set</para>
+		/// <para> if k_EItemStateLegacyItem is set, pchFolder contains the path to the legacy file itself (not a folder)</para>
+		/// </summary>
+		public static bool GetItemInstallInfo(PublishedFileId_t nPublishedFileID, out ulong punSizeOnDisk, out string pchFolder, uint cchFolderSize, out uint punTimeStamp) {
 			InteropHelp.TestIfAvailableClient();
 			IntPtr pchFolder2 = Marshal.AllocHGlobal((int)cchFolderSize);
-			bool ret = NativeMethods.ISteamUGC_GetItemInstallInfo(nPublishedFileID, out punSizeOnDisk, pchFolder2, cchFolderSize, out pbLegacyItem);
+			bool ret = NativeMethods.ISteamUGC_GetItemInstallInfo(nPublishedFileID, out punSizeOnDisk, pchFolder2, cchFolderSize, out punTimeStamp);
 			pchFolder = ret ? InteropHelp.PtrToStringUTF8(pchFolder2) : null;
 			Marshal.FreeHGlobal(pchFolder2);
 			return ret;
 		}
 
-		public static bool GetItemUpdateInfo(PublishedFileId_t nPublishedFileID, out bool pbNeedsUpdate, out bool pbIsDownloading, out ulong punBytesDownloaded, out ulong punBytesTotal) {
+		/// <summary>
+		/// <para> get info about pending update for items that have k_EItemStateNeedsUpdate set. punBytesTotal will be valid after download started once</para>
+		/// </summary>
+		public static bool GetItemDownloadInfo(PublishedFileId_t nPublishedFileID, out ulong punBytesDownloaded, out ulong punBytesTotal) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUGC_GetItemUpdateInfo(nPublishedFileID, out pbNeedsUpdate, out pbIsDownloading, out punBytesDownloaded, out punBytesTotal);
+			return NativeMethods.ISteamUGC_GetItemDownloadInfo(nPublishedFileID, out punBytesDownloaded, out punBytesTotal);
+		}
+
+		/// <summary>
+		/// <para> download new or update already installed item. If function returns true, wait for DownloadItemResult_t. If the item is already installed,</para>
+		/// <para> then files on disk should not be used until callback received. If item is not subscribed to, it will be cached for some time.</para>
+		/// <para> If bHighPriority is set, any other item download will be suspended and this item downloaded ASAP.</para>
+		/// </summary>
+		public static bool DownloadItem(PublishedFileId_t nPublishedFileID, bool bHighPriority) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_DownloadItem(nPublishedFileID, bHighPriority);
 		}
 	}
 }

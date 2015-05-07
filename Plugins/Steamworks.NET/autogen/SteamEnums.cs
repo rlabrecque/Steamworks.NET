@@ -30,11 +30,11 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	public enum EFriendRelationship : int {
 		k_EFriendRelationshipNone = 0,
-		k_EFriendRelationshipBlocked = 1,
+		k_EFriendRelationshipBlocked = 1,			// this doesn't get stored; the user has just done an Ignore on an friendship invite
 		k_EFriendRelationshipRequestRecipient = 2,
 		k_EFriendRelationshipFriend = 3,
 		k_EFriendRelationshipRequestInitiator = 4,
-		k_EFriendRelationshipIgnored = 5,
+		k_EFriendRelationshipIgnored = 5,			// this is stored; the user has explicit blocked this other user from comments/chat/etc
 		k_EFriendRelationshipIgnoredFriend = 6,
 		k_EFriendRelationshipSuggested = 7,
 
@@ -479,6 +479,27 @@ namespace Steamworks {
 		k_EItemUpdateStatusCommittingChanges	= 5  // The item update is committing all changes
 	}
 
+	public enum EItemState : int {
+		k_EItemStateNone			= 0,	// item not tracked on client
+		k_EItemStateSubscribed		= 1,	// current user is subscribed to this item. Not just cached.
+		k_EItemStateLegacyItem		= 2,	// item was created with ISteamRemoteStorage
+		k_EItemStateInstalled		= 4,	// item is installed and usable (but maybe out of date)
+		k_EItemStateNeedsUpdate		= 8,	// items needs an update. Either because it's not installed yet or creator updated content
+		k_EItemStateDownloading		= 16,	// item update is currently downloading
+		k_EItemStateDownloadPending	= 32,	// DownloadItem() was called for this item, content isn't available until DownloadItemResult_t is fired
+	}
+
+	public enum EItemStatistic : int {
+		k_EItemStatistic_NumSubscriptions		= 0,
+		k_EItemStatistic_NumFavorites			= 1,
+		k_EItemStatistic_NumFollowers			= 2,
+		k_EItemStatistic_NumUniqueSubscriptions = 3,
+		k_EItemStatistic_NumUniqueFavorites		= 4,
+		k_EItemStatistic_NumUniqueFollowers		= 5,
+		k_EItemStatistic_NumUniqueWebsiteViews	= 6,
+		k_EItemStatistic_ReportScore			= 7,
+	}
+
 	// type of data request, when downloading leaderboard entries
 	public enum ELeaderboardDataRequest : int {
 		k_ELeaderboardDataRequestGlobal = 0,
@@ -640,7 +661,13 @@ namespace Steamworks {
 		k_EResultTwoFactorCodeMismatch = 88,		// two factor code mismatch
 		k_EResultTwoFactorActivationCodeMismatch = 89,	// activation code for two-factor didn't match
 		k_EResultAccountAssociatedToMultiplePartners = 90,	// account has been associated with multiple partners
-		k_EResultNotModified = 91, // data not modified
+		k_EResultNotModified = 91,					// data not modified
+		k_EResultNoMobileDevice = 92,				// the account does not have a mobile device associated with it
+		k_EResultTimeNotSynced = 93,				// the time presented is out of range or tolerance
+		k_EResultSmsCodeFailed = 94,				// SMS code failure (no match, none pending, etc.)
+		k_EResultAccountLimitExceeded = 95,			// Too many accounts access this resource
+		k_EResultAccountActivityLimitExceeded = 96,	// Too many changes to this account
+		k_EResultPhoneActivityLimitExceeded = 97,	// Too many changes to this phone
 	}
 
 	// Error codes for use with the voice functions
@@ -758,6 +785,7 @@ namespace Steamworks {
 		k_EAppOwnershipFlags_LicensePermanent	= 0x0800,	// permanent license, not borrowed, or guest or freeweekend etc
 		k_EAppOwnershipFlags_LicenseRecurring	= 0x1000,	// Recurring license, user is charged periodically
 		k_EAppOwnershipFlags_LicenseCanceled	= 0x2000,	// Mark as canceled, but might be still active if recurring
+		k_EAppOwnershipFlags_AutoGrant			= 0x4000,	// Ownership is based on any kind of autogrant license
 	}
 
 	//-----------------------------------------------------------------------------
@@ -775,8 +803,8 @@ namespace Steamworks {
 		k_EAppType_Guide				= 0x040,	// game guide, PDF etc
 		k_EAppType_Driver				= 0x080,	// hardware driver updater (ATI, Razor etc)
 		k_EAppType_Config				= 0x100,	// hidden app used to config Steam features (backpack, sales, etc)
-		k_EAppType_Film					= 0x200,	// A Movie (feature film)
-		k_EAppType_TVSeries				= 0x400,	// A TV or other video series which will have episodes and perhaps seasons
+		k_EAppType_Hardware				= 0x200,	// a hardware device (Steam Machine, Steam Controller, Steam Link, etc.)
+		// 0x400 is up for grabs here
 		k_EAppType_Video				= 0x800,	// A video component of either a Film or TVSeries (may be the feature, an episode, preview, making-of, etc)
 		k_EAppType_Plugin				= 0x1000,	// Plug-in types for other Apps
 		k_EAppType_Music				= 0x2000,	// Music files
@@ -821,6 +849,7 @@ namespace Steamworks {
 		k_EChatEntryTypeHistoricalChat = 11,	// a chat message from user's chat history or offilne message
 		k_EChatEntryTypeReserved1 = 12,
 		k_EChatEntryTypeReserved2 = 13,
+		k_EChatEntryTypeLinkBlocked = 14, // a link was removed by the chat filter.
 	}
 
 	//-----------------------------------------------------------------------------
@@ -882,6 +911,25 @@ namespace Steamworks {
 		k_EPositionTopRight = 1,
 		k_EPositionBottomLeft = 2,
 		k_EPositionBottomRight = 3,
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Broadcast upload result details
+	//-----------------------------------------------------------------------------
+	public enum EBroadcastUploadResult : int {
+		k_EBroadcastUploadResultNone = 0,	// broadcast state unknown
+		k_EBroadcastUploadResultOK = 1,		// broadcast was good, no problems
+		k_EBroadcastUploadResultInitFailed = 2,	// broadcast init failed
+		k_EBroadcastUploadResultFrameFailed = 3,	// broadcast frame upload failed
+		k_EBroadcastUploadResultTimeout = 4,	// broadcast upload timed out
+		k_EBroadcastUploadResultBandwidthExceeded = 5,	// broadcast send too much data
+		k_EBroadcastUploadResultLowFPS = 6,	// broadcast FPS too low
+		k_EBroadcastUploadResultMissingKeyFrames = 7,	// broadcast sending not enough key frames
+		k_EBroadcastUploadResultNoConnection = 8,	// broadcast client failed to connect to relay
+		k_EBroadcastUploadResultRelayFailed = 9,	// relay dropped the upload
+		k_EBroadcastUploadResultSettingsChanged = 10,	// the client changed broadcast settings
+		k_EBroadcastUploadResultMissingAudio = 11,	// client failed to send audio data
+		k_EBroadcastUploadResultTooFarBehind = 12,	// clients was too slow uploading
 	}
 
 	// HTTP related types

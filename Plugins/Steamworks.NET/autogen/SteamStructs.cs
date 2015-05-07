@@ -9,6 +9,25 @@ using System;
 using System.Runtime.InteropServices;
 
 namespace Steamworks {
+	[StructLayout(LayoutKind.Sequential, Pack = 1)]
+	public struct SteamControllerState_t {
+		// If packet num matches that on your prior call, then the controller state hasn't been changed since
+		// your last call and there is no need to process it
+		public uint unPacketNum;
+		
+		// bit flags for each of the buttons
+		public ulong ulButtons;
+		
+		// Left pad coordinates
+		public short sLeftPadX;
+		public short sLeftPadY;
+		
+		// Right pad coordinates
+		public short sRightPadX;
+		public short sRightPadY;
+		
+	}
+
 	// friend game played information
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	public struct FriendGameInfo_t {
@@ -96,7 +115,8 @@ namespace Steamworks {
 		public uint m_unVotesUp;												// number of votes up
 		public uint m_unVotesDown;											// number of votes down
 		public float m_flScore;												// calculated score
-		public uint m_unNumChildren;											// if m_eFileType == k_EWorkshopFileTypeCollection, then this number will be the number of children contained within the collection
+		// collection details
+		public uint m_unNumChildren;
 	}
 
 	// structure that contains client callback data
@@ -134,27 +154,6 @@ namespace Steamworks {
 		public string m_szKey;
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
 		public string m_szValue;
-	}
-
-	// Only add fields to the end of this struct, or if you need to change it in a larger
-	// way add a new message id and new struct completely so as to not break old clients.
-	[StructLayout(LayoutKind.Sequential, Pack = 1)]
-	public struct SteamControllerState_t {
-		// If packet num matches that on your prior call, then the controller state hasn't been changed since
-		// your last call and there is no need to process it
-		public uint unPacketNum;
-		
-		// bit flags for each of the buttons
-		public ulong ulButtons;
-		
-		// Left pad coordinates
-		public short sLeftPadX;
-		public short sLeftPadY;
-		
-		// Right pad coordinates
-		public short sRightPadX;
-		public short sRightPadY;
-		
 	}
 
 }

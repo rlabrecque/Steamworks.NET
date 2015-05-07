@@ -694,65 +694,19 @@ namespace Steamworks {
 	}
 
 	//-----------------------------------------------------------------------------
-	// Purpose: a popup item (i.e combo box) on the page needs rendering
-	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 17)]
-	public struct HTML_ComboNeedsPaint_t {
-		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 17;
-		public HHTMLBrowser unBrowserHandle; // the handle of the surface
-		public IntPtr pBGRA; // a pointer to the B8G8R8A8 data for this surface, valid until SteamAPI_RunCallbacks is next called
-		public uint unWide; // the total width of the pBGRA texture
-		public uint unTall; // the total height of the pBGRA texture
-	}
-
-	//-----------------------------------------------------------------------------
-	// Purpose: a popup (i.e combo box) wants to display
-	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 18)]
-	public struct HTML_ShowPopup_t {
-		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 18;
-		public HHTMLBrowser unBrowserHandle; // the handle of the surface
-	}
-
-	//-----------------------------------------------------------------------------
-	// Purpose: a popup (i.e combo box) wants to hide
-	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 19)]
-	public struct HTML_HidePopup_t {
-		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 19;
-		public HHTMLBrowser unBrowserHandle; // the handle of the surface
-	}
-
-	//-----------------------------------------------------------------------------
-	// Purpose: a popup (i.e combo box) wants to hide
-	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 20)]
-	public struct HTML_SizePopup_t {
-		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 20;
-		public HHTMLBrowser unBrowserHandle; // the handle of the surface
-		public uint unX; // the x pos into the page to display the popup
-		public uint unY; // the y pos into the page to display the popup
-		public uint unWide; // the total width of the pBGRA texture
-		public uint unTall; // the total height of the pBGRA texture
-	}
-
-	//-----------------------------------------------------------------------------
 	// Purpose: a new html window has been created
 	//-----------------------------------------------------------------------------
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 21)]
 	public struct HTML_NewWindow_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 21;
-		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public HHTMLBrowser unBrowserHandle; // the handle of the current surface
 		public string pchURL; // the page to load
 		public uint unX; // the x pos into the page to display the popup
 		public uint unY; // the y pos into the page to display the popup
 		public uint unWide; // the total width of the pBGRA texture
 		public uint unTall; // the total height of the pBGRA texture
+		public HHTMLBrowser unNewWindow_BrowserHandle; // the handle of the new window surface
 	}
 
 	//-----------------------------------------------------------------------------
@@ -830,6 +784,8 @@ namespace Steamworks {
 		// Will be the HTTP status code value returned by the server, k_EHTTPStatusCode200OK is the normal
 		// OK response, if you get something else you probably need to treat it as a failure.
 		public EHTTPStatusCode m_eStatusCode;
+		
+		public uint m_unBodySize; // Same as GetHTTPResponseBodySize()
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -1665,7 +1621,7 @@ namespace Steamworks {
 	}
 
 	//-----------------------------------------------------------------------------
-	// Purpose: a new Workshop item has been installed
+	// Purpose: a Workshop item has been installed or updated
 	//-----------------------------------------------------------------------------
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iClientUGCCallbacks + 5)]
@@ -1673,6 +1629,31 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iClientUGCCallbacks + 5;
 		public AppId_t m_unAppID;
 		public PublishedFileId_t m_nPublishedFileId;
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: result of DownloadItem(), existing item files can be accessed again
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iClientUGCCallbacks + 6)]
+	public struct DownloadItemResult_t {
+		public const int k_iCallback = Constants.k_iClientUGCCallbacks + 6;
+		public AppId_t m_unAppID;
+		public PublishedFileId_t m_nPublishedFileId;
+		public EResult m_eResult;
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: result of AddItemToFavorites() or RemoveItemFromFavorites()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iClientUGCCallbacks + 7)]
+	public struct UserFavoriteItemsListChanged_t {
+		public const int k_iCallback = Constants.k_iClientUGCCallbacks + 7;
+		public PublishedFileId_t m_nPublishedFileId;
+		public EResult m_eResult;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bWasAddRequest;
 	}
 
 	// callbacks
@@ -2053,6 +2034,19 @@ namespace Steamworks {
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bSubmitted;										// true if user entered & accepted text (Call ISteamUtils::GetEnteredGamepadTextInput() for text), false if canceled input
 		public uint m_unSubmittedText;
+	}
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iClientVideoCallbacks + 4)]
+	public struct BroadcastUploadStart_t {
+		public const int k_iCallback = Constants.k_iClientVideoCallbacks + 4;
+	}
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iClientVideoCallbacks + 5)]
+	public struct BroadcastUploadStop_t {
+		public const int k_iCallback = Constants.k_iClientVideoCallbacks + 5;
+		public EBroadcastUploadResult m_eResult;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]

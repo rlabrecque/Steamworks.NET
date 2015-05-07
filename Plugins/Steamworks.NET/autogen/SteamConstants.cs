@@ -29,7 +29,7 @@ namespace Steamworks {
 		public const string STEAMNETWORKING_INTERFACE_VERSION = "SteamNetworking005";
 		public const string STEAMREMOTESTORAGE_INTERFACE_VERSION = "STEAMREMOTESTORAGE_INTERFACE_VERSION012";
 		public const string STEAMSCREENSHOTS_INTERFACE_VERSION = "STEAMSCREENSHOTS_INTERFACE_VERSION002";
-		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION003";
+		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION005";
 		public const string STEAMUNIFIEDMESSAGES_INTERFACE_VERSION = "STEAMUNIFIEDMESSAGES_INTERFACE_VERSION001";
 		public const string STEAMUSER_INTERFACE_VERSION = "SteamUser018";
 		public const string STEAMUSERSTATS_INTERFACE_VERSION = "STEAMUSERSTATS_INTERFACE_VERSION011";
@@ -135,6 +135,7 @@ namespace Steamworks {
 		// one will be generated.
 		public const int k_ScreenshotThumbWidth = 200;
 		public const int kNumUGCResultsPerPage = 50;
+		public const int k_cchDeveloperMetadataMax = 5000;
 		// size limit on stat or achievement name (UTF-8 encoded)
 		public const int k_cchStatNameMax = 128;
 		// maximum number of bytes for a leaderboard name (UTF-8 encoded)
@@ -184,30 +185,27 @@ namespace Steamworks {
 		public const int QUERY_PORT_NOT_INITIALIZED =   0xFFFF;  // We haven't asked the GS for this query port's actual value yet.
 		public const int QUERY_PORT_ERROR =             0xFFFE;  // We were unable to get the query port for this server.
 
-		// Safe to add new bitfields at the end of this list for new buttons/actions,
-		// but never re-use or re-number an existing flag as old client code will be
-		// confused.
-		public const ulong STEAM_RIGHT_TRIGGER_MASK =           0x0000000000000001;
-		public const ulong STEAM_LEFT_TRIGGER_MASK =            0x0000000000000002;
-		public const ulong STEAM_RIGHT_BUMPER_MASK =            0x0000000000000004;
-		public const ulong STEAM_LEFT_BUMPER_MASK =             0x0000000000000008;
-		public const ulong STEAM_BUTTON_0_MASK =                0x0000000000000010;
-		public const ulong STEAM_BUTTON_1_MASK =                0x0000000000000020;
-		public const ulong STEAM_BUTTON_2_MASK =                0x0000000000000040;
-		public const ulong STEAM_BUTTON_3_MASK =                0x0000000000000080;
-		public const ulong STEAM_TOUCH_0_MASK =                 0x0000000000000100;
-		public const ulong STEAM_TOUCH_1_MASK =                 0x0000000000000200;
-		public const ulong STEAM_TOUCH_2_MASK =                 0x0000000000000400;
-		public const ulong STEAM_TOUCH_3_MASK =                 0x0000000000000800;
-		public const ulong STEAM_BUTTON_MENU_MASK =             0x0000000000001000;
-		public const ulong STEAM_BUTTON_STEAM_MASK =            0x0000000000002000;
-		public const ulong STEAM_BUTTON_ESCAPE_MASK =           0x0000000000004000;
-		public const ulong STEAM_BUTTON_BACK_LEFT_MASK =        0x0000000000008000;
-		public const ulong STEAM_BUTTON_BACK_RIGHT_MASK =       0x0000000000010000;
-		public const ulong STEAM_BUTTON_LEFTPAD_CLICKED_MASK =  0x0000000000020000;
-		public const ulong STEAM_BUTTON_RIGHTPAD_CLICKED_MASK = 0x0000000000040000;
-		public const ulong STEAM_LEFTPAD_FINGERDOWN_MASK =      0x0000000000080000;
-		public const ulong STEAM_RIGHTPAD_FINGERDOWN_MASK =     0x0000000000100000;
-		public const byte MAX_STEAM_CONTROLLERS = 8;
+		public const int STEAM_RIGHT_TRIGGER_MASK           = 0x0000001;
+		public const int STEAM_LEFT_TRIGGER_MASK            = 0x0000002;
+		public const int STEAM_RIGHT_BUMPER_MASK            = 0x0000004;
+		public const int STEAM_LEFT_BUMPER_MASK             = 0x0000008;
+		public const int STEAM_BUTTON_0_MASK                = 0x0000010;
+		public const int STEAM_BUTTON_1_MASK                = 0x0000020;
+		public const int STEAM_BUTTON_2_MASK                = 0x0000040;
+		public const int STEAM_BUTTON_3_MASK                = 0x0000080;
+		public const int STEAM_TOUCH_0_MASK                 = 0x0000100;
+		public const int STEAM_TOUCH_1_MASK                 = 0x0000200;
+		public const int STEAM_TOUCH_2_MASK                 = 0x0000400;
+		public const int STEAM_TOUCH_3_MASK                 = 0x0000800;
+		public const int STEAM_BUTTON_MENU_MASK             = 0x0001000;
+		public const int STEAM_BUTTON_STEAM_MASK            = 0x0002000;
+		public const int STEAM_BUTTON_ESCAPE_MASK           = 0x0004000;
+		public const int STEAM_BUTTON_BACK_LEFT_MASK        = 0x0008000;
+		public const int STEAM_BUTTON_BACK_RIGHT_MASK       = 0x0010000;
+		public const int STEAM_BUTTON_LEFTPAD_CLICKED_MASK  = 0x0020000;
+		public const int STEAM_BUTTON_RIGHTPAD_CLICKED_MASK = 0x0040000;
+		public const int STEAM_LEFTPAD_FINGERDOWN_MASK      = 0x0080000;
+		public const int STEAM_RIGHTPAD_FINGERDOWN_MASK     = 0x0100000;
+		public const int STEAM_JOYSTICK_BUTTON_MASK         = 0x0400000;
 	}
 }

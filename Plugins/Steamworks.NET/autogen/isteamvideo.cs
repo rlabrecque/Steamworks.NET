@@ -17,5 +17,13 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamVideo_GetVideoURL(unVideoAppID);
 		}
+
+		/// <summary>
+		/// <para> returns true if user is uploading a live broadcast</para>
+		/// </summary>
+		public static bool IsBroadcasting(out int pnNumViewers) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamVideo_IsBroadcasting(out pnNumViewers);
+		}
 	}
 }

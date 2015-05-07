@@ -12,8 +12,8 @@ namespace Steamworks {
 	public static class SteamGameServerHTTP {
 		/// <summary>
 		/// <para> Initializes a new HTTP request, returning a handle to use in further operations on it.  Requires</para>
-		/// <para> the method (GET or POST) and the absolute URL for the request.  Only http requests (ie, not https) are</para>
-		/// <para> currently supported, so this string must start with http:// or https:// and should look like http://store.steampowered.com/app/250/</para>
+		/// <para> the method (GET or POST) and the absolute URL for the request.  Both http and https are supported,</para>
+		/// <para> so this string must start with http:// or https:// and should look like http://store.steampowered.com/app/250/</para>
 		/// <para> or such.</para>
 		/// </summary>
 		public static HTTPRequestHandle CreateHTTPRequest(EHTTPMethod eHTTPRequestMethod, string pchAbsoluteURL) {
