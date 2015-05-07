@@ -479,6 +479,7 @@ namespace Steamworks {
 		k_EItemUpdateStatusCommittingChanges	= 5  // The item update is committing all changes
 	}
 
+	[Flags]
 	public enum EItemState : int {
 		k_EItemStateNone			= 0,	// item not tracked on client
 		k_EItemStateSubscribed		= 1,	// current user is subscribed to this item. Not just cached.

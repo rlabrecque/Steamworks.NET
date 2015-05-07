@@ -27,7 +27,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Query for the details of the given published file ids (this RequestUGCDetails call is deprecated and replaced with this)</para>
+		/// <para> Query for the details of the given published file ids (the RequestUGCDetails call is deprecated and replaced with this)</para>
 		/// </summary>
 		public static UGCQueryHandle_t CreateQueryUGCDetailsRequest(PublishedFileId_t[] pvecPublishedFileID, uint unNumPublishedFileIDs) {
 			InteropHelp.TestIfAvailableClient();
