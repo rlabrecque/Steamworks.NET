@@ -204,10 +204,9 @@ namespace Steamworks {
 					return false;
 				}
 
-				/* Disabled because Valve broke the version info on their 32bit dll. :(
 				if (System.Diagnostics.FileVersionInfo.GetVersionInfo(file).FileVersion != Version.SteamAPIDLLVersion) {
 					return false;
-				}*/
+				}
 			}
 
 			return true;
