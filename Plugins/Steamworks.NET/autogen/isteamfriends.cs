@@ -138,7 +138,7 @@ namespace Steamworks {
 		/// </summary>
 		public static FriendsGroupID_t GetFriendsGroupIDByIndex(int iFG) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamFriends_GetFriendsGroupIDByIndex(iFG);
+			return (FriendsGroupID_t)NativeMethods.ISteamFriends_GetFriendsGroupIDByIndex(iFG);
 		}
 
 		/// <summary>

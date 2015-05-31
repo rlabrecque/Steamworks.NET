@@ -199,7 +199,7 @@ namespace Steamworks {
 		/// </summary>
 		public static HTTPCookieContainerHandle CreateCookieContainer(bool bAllowResponsesToModify) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamHTTP_CreateCookieContainer(bAllowResponsesToModify);
+			return (HTTPCookieContainerHandle)NativeMethods.ISteamHTTP_CreateCookieContainer(bAllowResponsesToModify);
 		}
 
 		/// <summary>

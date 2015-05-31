@@ -199,7 +199,7 @@ namespace Steamworks {
 		/// </summary>
 		public static HTTPCookieContainerHandle CreateCookieContainer(bool bAllowResponsesToModify) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerHTTP_CreateCookieContainer(bAllowResponsesToModify);
+			return (HTTPCookieContainerHandle)NativeMethods.ISteamGameServerHTTP_CreateCookieContainer(bAllowResponsesToModify);
 		}
 
 		/// <summary>
