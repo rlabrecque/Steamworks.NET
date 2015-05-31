@@ -477,7 +477,7 @@ namespace Steamworks {
 		public static extern int ISteamFriends_GetFriendsGroupCount();
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern FriendsGroupID_t ISteamFriends_GetFriendsGroupIDByIndex(int iFG);
+		public static extern short ISteamFriends_GetFriendsGroupIDByIndex(int iFG);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr ISteamFriends_GetFriendsGroupName(FriendsGroupID_t friendsGroupID);
@@ -802,274 +802,6 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong ISteamGameServer_ComputeNewPlayerCompatibility(CSteamID steamIDNewPlayer);
 #endregion
-#region SteamGameServerHTTP
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern HTTPRequestHandle ISteamGameServerHTTP_CreateHTTPRequest(EHTTPMethod eHTTPRequestMethod, InteropHelp.UTF8StringHandle pchAbsoluteURL);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_SetHTTPRequestContextValue(HTTPRequestHandle hRequest, ulong ulContextValue);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_SetHTTPRequestNetworkActivityTimeout(HTTPRequestHandle hRequest, uint unTimeoutSeconds);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_SetHTTPRequestHeaderValue(HTTPRequestHandle hRequest, InteropHelp.UTF8StringHandle pchHeaderName, InteropHelp.UTF8StringHandle pchHeaderValue);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_SetHTTPRequestGetOrPostParameter(HTTPRequestHandle hRequest, InteropHelp.UTF8StringHandle pchParamName, InteropHelp.UTF8StringHandle pchParamValue);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_SendHTTPRequest(HTTPRequestHandle hRequest, out SteamAPICall_t pCallHandle);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_SendHTTPRequestAndStreamResponse(HTTPRequestHandle hRequest, out SteamAPICall_t pCallHandle);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_DeferHTTPRequest(HTTPRequestHandle hRequest);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_PrioritizeHTTPRequest(HTTPRequestHandle hRequest);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_GetHTTPResponseHeaderSize(HTTPRequestHandle hRequest, InteropHelp.UTF8StringHandle pchHeaderName, out uint unResponseHeaderSize);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_GetHTTPResponseHeaderValue(HTTPRequestHandle hRequest, InteropHelp.UTF8StringHandle pchHeaderName, [In, Out] byte[] pHeaderValueBuffer, uint unBufferSize);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_GetHTTPResponseBodySize(HTTPRequestHandle hRequest, out uint unBodySize);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_GetHTTPResponseBodyData(HTTPRequestHandle hRequest, [In, Out] byte[] pBodyDataBuffer, uint unBufferSize);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_GetHTTPStreamingResponseBodyData(HTTPRequestHandle hRequest, uint cOffset, [In, Out] byte[] pBodyDataBuffer, uint unBufferSize);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_ReleaseHTTPRequest(HTTPRequestHandle hRequest);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_GetHTTPDownloadProgressPct(HTTPRequestHandle hRequest, out float pflPercentOut);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_SetHTTPRequestRawPostBody(HTTPRequestHandle hRequest, InteropHelp.UTF8StringHandle pchContentType, [In, Out] byte[] pubBody, uint unBodyLen);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern HTTPCookieContainerHandle ISteamGameServerHTTP_CreateCookieContainer([MarshalAs(UnmanagedType.I1)] bool bAllowResponsesToModify);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_ReleaseCookieContainer(HTTPCookieContainerHandle hCookieContainer);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_SetCookie(HTTPCookieContainerHandle hCookieContainer, InteropHelp.UTF8StringHandle pchHost, InteropHelp.UTF8StringHandle pchUrl, InteropHelp.UTF8StringHandle pchCookie);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_SetHTTPRequestCookieContainer(HTTPRequestHandle hRequest, HTTPCookieContainerHandle hCookieContainer);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_SetHTTPRequestUserAgentInfo(HTTPRequestHandle hRequest, InteropHelp.UTF8StringHandle pchUserAgentInfo);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_SetHTTPRequestRequiresVerifiedCertificate(HTTPRequestHandle hRequest, [MarshalAs(UnmanagedType.I1)] bool bRequireVerifiedCertificate);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_SetHTTPRequestAbsoluteTimeoutMS(HTTPRequestHandle hRequest, uint unMilliseconds);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerHTTP_GetHTTPRequestWasTimedOut(HTTPRequestHandle hRequest, out bool pbWasTimedOut);
-#endregion
-#region SteamGameServerInventory
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern EResult ISteamGameServerInventory_GetResultStatus(SteamInventoryResult_t resultHandle);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerInventory_GetResultItems(SteamInventoryResult_t resultHandle, [In, Out] SteamItemDetails_t[] pOutItemsArray, ref uint punOutItemsArraySize);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamGameServerInventory_GetResultTimestamp(SteamInventoryResult_t resultHandle);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerInventory_CheckResultSteamID(SteamInventoryResult_t resultHandle, CSteamID steamIDExpected);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamGameServerInventory_DestroyResult(SteamInventoryResult_t resultHandle);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerInventory_GetAllItems(out SteamInventoryResult_t pResultHandle);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerInventory_GetItemsByID(out SteamInventoryResult_t pResultHandle, [In, Out] SteamItemInstanceID_t[] pInstanceIDs, uint unCountInstanceIDs);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerInventory_SerializeResult(SteamInventoryResult_t resultHandle, [In, Out] byte[] pOutBuffer, out uint punOutBufferSize);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerInventory_DeserializeResult(out SteamInventoryResult_t pOutResultHandle, [In, Out] byte[] pBuffer, uint unBufferSize, [MarshalAs(UnmanagedType.I1)] bool bRESERVED_MUST_BE_FALSE);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerInventory_GenerateItems(out SteamInventoryResult_t pResultHandle, [In, Out] SteamItemDef_t[] pArrayItemDefs, [In, Out] uint[] punArrayQuantity, uint unArrayLength);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerInventory_GrantPromoItems(out SteamInventoryResult_t pResultHandle);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerInventory_AddPromoItem(out SteamInventoryResult_t pResultHandle, SteamItemDef_t itemDef);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerInventory_AddPromoItems(out SteamInventoryResult_t pResultHandle, [In, Out] SteamItemDef_t[] pArrayItemDefs, uint unArrayLength);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerInventory_ConsumeItem(out SteamInventoryResult_t pResultHandle, SteamItemInstanceID_t itemConsume, uint unQuantity);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerInventory_ExchangeItems(out SteamInventoryResult_t pResultHandle, [In, Out] SteamItemDef_t[] pArrayGenerate, [In, Out] uint[] punArrayGenerateQuantity, uint unArrayGenerateLength, [In, Out] SteamItemInstanceID_t[] pArrayDestroy, [In, Out] uint[] punArrayDestroyQuantity, uint unArrayDestroyLength);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerInventory_TransferItemQuantity(out SteamInventoryResult_t pResultHandle, SteamItemInstanceID_t itemIdSource, uint unQuantity, SteamItemInstanceID_t itemIdDest);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamGameServerInventory_SendItemDropHeartbeat();
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerInventory_TriggerItemDrop(out SteamInventoryResult_t pResultHandle, SteamItemDef_t dropListDefinition);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerInventory_TradeItems(out SteamInventoryResult_t pResultHandle, CSteamID steamIDTradePartner, [In, Out] SteamItemInstanceID_t[] pArrayGive, [In, Out] uint[] pArrayGiveQuantity, uint nArrayGiveLength, [In, Out] SteamItemInstanceID_t[] pArrayGet, [In, Out] uint[] pArrayGetQuantity, uint nArrayGetLength);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerInventory_LoadItemDefinitions();
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerInventory_GetItemDefinitionIDs([In, Out] SteamItemDef_t[] pItemDefIDs, out uint punItemDefIDsArraySize);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerInventory_GetItemDefinitionProperty(SteamItemDef_t iDefinition, InteropHelp.UTF8StringHandle pchPropertyName, IntPtr pchValueBuffer, ref uint punValueBufferSize);
-#endregion
-#region SteamGameServerNetworking
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_SendP2PPacket(CSteamID steamIDRemote, [In, Out] byte[] pubData, uint cubData, EP2PSend eP2PSendType, int nChannel);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_IsP2PPacketAvailable(out uint pcubMsgSize, int nChannel);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_ReadP2PPacket([In, Out] byte[] pubDest, uint cubDest, out uint pcubMsgSize, out CSteamID psteamIDRemote, int nChannel);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_AcceptP2PSessionWithUser(CSteamID steamIDRemote);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_CloseP2PSessionWithUser(CSteamID steamIDRemote);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_CloseP2PChannelWithUser(CSteamID steamIDRemote, int nChannel);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_GetP2PSessionState(CSteamID steamIDRemote, out P2PSessionState_t pConnectionState);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_AllowP2PPacketRelay([MarshalAs(UnmanagedType.I1)] bool bAllow);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamGameServerNetworking_CreateListenSocket(int nVirtualP2PPort, uint nIP, ushort nPort, [MarshalAs(UnmanagedType.I1)] bool bAllowUseOfPacketRelay);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamGameServerNetworking_CreateP2PConnectionSocket(CSteamID steamIDTarget, int nVirtualPort, int nTimeoutSec, [MarshalAs(UnmanagedType.I1)] bool bAllowUseOfPacketRelay);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamGameServerNetworking_CreateConnectionSocket(uint nIP, ushort nPort, int nTimeoutSec);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_DestroySocket(SNetSocket_t hSocket, [MarshalAs(UnmanagedType.I1)] bool bNotifyRemoteEnd);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_DestroyListenSocket(SNetListenSocket_t hSocket, [MarshalAs(UnmanagedType.I1)] bool bNotifyRemoteEnd);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_SendDataOnSocket(SNetSocket_t hSocket, IntPtr pubData, uint cubData, [MarshalAs(UnmanagedType.I1)] bool bReliable);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_IsDataAvailableOnSocket(SNetSocket_t hSocket, out uint pcubMsgSize);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_RetrieveDataFromSocket(SNetSocket_t hSocket, IntPtr pubDest, uint cubDest, out uint pcubMsgSize);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_IsDataAvailable(SNetListenSocket_t hListenSocket, out uint pcubMsgSize, out SNetSocket_t phSocket);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_RetrieveData(SNetListenSocket_t hListenSocket, IntPtr pubDest, uint cubDest, out uint pcubMsgSize, out SNetSocket_t phSocket);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_GetSocketInfo(SNetSocket_t hSocket, out CSteamID pSteamIDRemote, out int peSocketStatus, out uint punIPRemote, out ushort punPortRemote);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerNetworking_GetListenSocketInfo(SNetListenSocket_t hListenSocket, out uint pnIP, out ushort pnPort);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern ESNetSocketConnectionType ISteamGameServerNetworking_GetSocketConnectionType(SNetSocket_t hSocket);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamGameServerNetworking_GetMaxPacketSize(SNetSocket_t hSocket);
-#endregion
 #region SteamGameServerStats
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong ISteamGameServerStats_RequestUserStats(CSteamID steamIDUser);
@@ -1108,107 +840,6 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong ISteamGameServerStats_StoreUserStats(CSteamID steamIDUser);
-#endregion
-#region SteamGameServerUtils
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamGameServerUtils_GetSecondsSinceAppActive();
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamGameServerUtils_GetSecondsSinceComputerActive();
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern EUniverse ISteamGameServerUtils_GetConnectedUniverse();
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamGameServerUtils_GetServerRealTime();
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamGameServerUtils_GetIPCountry();
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerUtils_GetImageSize(int iImage, out uint pnWidth, out uint pnHeight);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerUtils_GetImageRGBA(int iImage, [In, Out] byte[] pubDest, int nDestBufferSize);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerUtils_GetCSERIPPort(out uint unIP, out ushort usPort);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern byte ISteamGameServerUtils_GetCurrentBatteryPower();
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamGameServerUtils_GetAppID();
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamGameServerUtils_SetOverlayNotificationPosition(ENotificationPosition eNotificationPosition);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerUtils_IsAPICallCompleted(SteamAPICall_t hSteamAPICall, out bool pbFailed);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern ESteamAPICallFailure ISteamGameServerUtils_GetAPICallFailureReason(SteamAPICall_t hSteamAPICall);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerUtils_GetAPICallResult(SteamAPICall_t hSteamAPICall, IntPtr pCallback, int cubCallback, int iCallbackExpected, out bool pbFailed);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamGameServerUtils_RunFrame();
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamGameServerUtils_GetIPCCallCount();
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamGameServerUtils_SetWarningMessageHook(SteamAPIWarningMessageHook_t pFunction);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerUtils_IsOverlayEnabled();
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerUtils_BOverlayNeedsPresent();
-#if ! _PS3
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamGameServerUtils_CheckFileSignature(InteropHelp.UTF8StringHandle szFileName);
-#endif
-#if _PS3
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamGameServerUtils_PostPS3SysutilCallback(ulong status, ulong param, IntPtr userdata);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerUtils_BIsReadyToShutdown();
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerUtils_BIsPSNOnline();
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamGameServerUtils_SetPSNGameBootInviteStrings(InteropHelp.UTF8StringHandle pchSubject, InteropHelp.UTF8StringHandle pchBody);
-#endif
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerUtils_ShowGamepadTextInput(EGamepadTextInputMode eInputMode, EGamepadTextInputLineMode eLineInputMode, InteropHelp.UTF8StringHandle pchDescription, uint unCharMax, InteropHelp.UTF8StringHandle pchExistingText);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamGameServerUtils_GetEnteredGamepadTextLength();
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerUtils_GetEnteredGamepadTextInput(IntPtr pchText, uint cchText);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamGameServerUtils_GetSteamUILanguage();
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerUtils_IsSteamRunningInVR();
 #endregion
 #region SteamHTMLSurface
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -1301,7 +932,7 @@ namespace Steamworks {
 		public static extern void ISteamHTMLSurface_GetLinkAtPosition(HHTMLBrowser unBrowserHandle, int x, int y);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamHTMLSurface_SetCookie(InteropHelp.UTF8StringHandle pchHostname, InteropHelp.UTF8StringHandle pchKey, InteropHelp.UTF8StringHandle pchValue, InteropHelp.UTF8StringHandle pchPath, uint nExpires, bool bSecure, bool bHTTPOnly);
+		public static extern void ISteamHTMLSurface_SetCookie(InteropHelp.UTF8StringHandle pchHostname, InteropHelp.UTF8StringHandle pchKey, InteropHelp.UTF8StringHandle pchValue, InteropHelp.UTF8StringHandle pchPath, uint nExpires, [MarshalAs(UnmanagedType.I1)] bool bSecure, [MarshalAs(UnmanagedType.I1)] bool bHTTPOnly);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ISteamHTMLSurface_SetPageScaleFactor(HHTMLBrowser unBrowserHandle, float flZoom, int nPointX, int nPointY);
@@ -1317,7 +948,7 @@ namespace Steamworks {
 #endregion
 #region SteamHTTP
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern HTTPRequestHandle ISteamHTTP_CreateHTTPRequest(EHTTPMethod eHTTPRequestMethod, InteropHelp.UTF8StringHandle pchAbsoluteURL);
+		public static extern uint ISteamHTTP_CreateHTTPRequest(EHTTPMethod eHTTPRequestMethod, InteropHelp.UTF8StringHandle pchAbsoluteURL);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -1384,7 +1015,7 @@ namespace Steamworks {
 		public static extern bool ISteamHTTP_SetHTTPRequestRawPostBody(HTTPRequestHandle hRequest, InteropHelp.UTF8StringHandle pchContentType, [In, Out] byte[] pubBody, uint unBodyLen);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern HTTPCookieContainerHandle ISteamHTTP_CreateCookieContainer([MarshalAs(UnmanagedType.I1)] bool bAllowResponsesToModify);
+		public static extern uint ISteamHTTP_CreateCookieContainer([MarshalAs(UnmanagedType.I1)] bool bAllowResponsesToModify);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -2710,6 +2341,375 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamVideo_IsBroadcasting(out int pnNumViewers);
+#endregion
+#region SteamGameServerHTTP
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint ISteamGameServerHTTP_CreateHTTPRequest(EHTTPMethod eHTTPRequestMethod, InteropHelp.UTF8StringHandle pchAbsoluteURL);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerHTTP_SetHTTPRequestContextValue(HTTPRequestHandle hRequest, ulong ulContextValue);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerHTTP_SetHTTPRequestNetworkActivityTimeout(HTTPRequestHandle hRequest, uint unTimeoutSeconds);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerHTTP_SetHTTPRequestHeaderValue(HTTPRequestHandle hRequest, InteropHelp.UTF8StringHandle pchHeaderName, InteropHelp.UTF8StringHandle pchHeaderValue);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerHTTP_SetHTTPRequestGetOrPostParameter(HTTPRequestHandle hRequest, InteropHelp.UTF8StringHandle pchParamName, InteropHelp.UTF8StringHandle pchParamValue);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerHTTP_SendHTTPRequest(HTTPRequestHandle hRequest, out SteamAPICall_t pCallHandle);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerHTTP_SendHTTPRequestAndStreamResponse(HTTPRequestHandle hRequest, out SteamAPICall_t pCallHandle);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerHTTP_DeferHTTPRequest(HTTPRequestHandle hRequest);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerHTTP_PrioritizeHTTPRequest(HTTPRequestHandle hRequest);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerHTTP_GetHTTPResponseHeaderSize(HTTPRequestHandle hRequest, InteropHelp.UTF8StringHandle pchHeaderName, out uint unResponseHeaderSize);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerHTTP_GetHTTPResponseHeaderValue(HTTPRequestHandle hRequest, InteropHelp.UTF8StringHandle pchHeaderName, [In, Out] byte[] pHeaderValueBuffer, uint unBufferSize);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerHTTP_GetHTTPResponseBodySize(HTTPRequestHandle hRequest, out uint unBodySize);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerHTTP_GetHTTPResponseBodyData(HTTPRequestHandle hRequest, [In, Out] byte[] pBodyDataBuffer, uint unBufferSize);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerHTTP_GetHTTPStreamingResponseBodyData(HTTPRequestHandle hRequest, uint cOffset, [In, Out] byte[] pBodyDataBuffer, uint unBufferSize);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerHTTP_ReleaseHTTPRequest(HTTPRequestHandle hRequest);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerHTTP_GetHTTPDownloadProgressPct(HTTPRequestHandle hRequest, out float pflPercentOut);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerHTTP_SetHTTPRequestRawPostBody(HTTPRequestHandle hRequest, InteropHelp.UTF8StringHandle pchContentType, [In, Out] byte[] pubBody, uint unBodyLen);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint ISteamGameServerHTTP_CreateCookieContainer([MarshalAs(UnmanagedType.I1)] bool bAllowResponsesToModify);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerHTTP_ReleaseCookieContainer(HTTPCookieContainerHandle hCookieContainer);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerHTTP_SetCookie(HTTPCookieContainerHandle hCookieContainer, InteropHelp.UTF8StringHandle pchHost, InteropHelp.UTF8StringHandle pchUrl, InteropHelp.UTF8StringHandle pchCookie);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerHTTP_SetHTTPRequestCookieContainer(HTTPRequestHandle hRequest, HTTPCookieContainerHandle hCookieContainer);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerHTTP_SetHTTPRequestUserAgentInfo(HTTPRequestHandle hRequest, InteropHelp.UTF8StringHandle pchUserAgentInfo);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerHTTP_SetHTTPRequestRequiresVerifiedCertificate(HTTPRequestHandle hRequest, [MarshalAs(UnmanagedType.I1)] bool bRequireVerifiedCertificate);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerHTTP_SetHTTPRequestAbsoluteTimeoutMS(HTTPRequestHandle hRequest, uint unMilliseconds);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerHTTP_GetHTTPRequestWasTimedOut(HTTPRequestHandle hRequest, out bool pbWasTimedOut);
+#endregion
+#region SteamGameServerInventory
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern EResult ISteamGameServerInventory_GetResultStatus(SteamInventoryResult_t resultHandle);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerInventory_GetResultItems(SteamInventoryResult_t resultHandle, [In, Out] SteamItemDetails_t[] pOutItemsArray, ref uint punOutItemsArraySize);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint ISteamGameServerInventory_GetResultTimestamp(SteamInventoryResult_t resultHandle);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerInventory_CheckResultSteamID(SteamInventoryResult_t resultHandle, CSteamID steamIDExpected);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamGameServerInventory_DestroyResult(SteamInventoryResult_t resultHandle);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerInventory_GetAllItems(out SteamInventoryResult_t pResultHandle);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerInventory_GetItemsByID(out SteamInventoryResult_t pResultHandle, [In, Out] SteamItemInstanceID_t[] pInstanceIDs, uint unCountInstanceIDs);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerInventory_SerializeResult(SteamInventoryResult_t resultHandle, [In, Out] byte[] pOutBuffer, out uint punOutBufferSize);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerInventory_DeserializeResult(out SteamInventoryResult_t pOutResultHandle, [In, Out] byte[] pBuffer, uint unBufferSize, [MarshalAs(UnmanagedType.I1)] bool bRESERVED_MUST_BE_FALSE);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerInventory_GenerateItems(out SteamInventoryResult_t pResultHandle, [In, Out] SteamItemDef_t[] pArrayItemDefs, [In, Out] uint[] punArrayQuantity, uint unArrayLength);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerInventory_GrantPromoItems(out SteamInventoryResult_t pResultHandle);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerInventory_AddPromoItem(out SteamInventoryResult_t pResultHandle, SteamItemDef_t itemDef);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerInventory_AddPromoItems(out SteamInventoryResult_t pResultHandle, [In, Out] SteamItemDef_t[] pArrayItemDefs, uint unArrayLength);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerInventory_ConsumeItem(out SteamInventoryResult_t pResultHandle, SteamItemInstanceID_t itemConsume, uint unQuantity);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerInventory_ExchangeItems(out SteamInventoryResult_t pResultHandle, [In, Out] SteamItemDef_t[] pArrayGenerate, [In, Out] uint[] punArrayGenerateQuantity, uint unArrayGenerateLength, [In, Out] SteamItemInstanceID_t[] pArrayDestroy, [In, Out] uint[] punArrayDestroyQuantity, uint unArrayDestroyLength);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerInventory_TransferItemQuantity(out SteamInventoryResult_t pResultHandle, SteamItemInstanceID_t itemIdSource, uint unQuantity, SteamItemInstanceID_t itemIdDest);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamGameServerInventory_SendItemDropHeartbeat();
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerInventory_TriggerItemDrop(out SteamInventoryResult_t pResultHandle, SteamItemDef_t dropListDefinition);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerInventory_TradeItems(out SteamInventoryResult_t pResultHandle, CSteamID steamIDTradePartner, [In, Out] SteamItemInstanceID_t[] pArrayGive, [In, Out] uint[] pArrayGiveQuantity, uint nArrayGiveLength, [In, Out] SteamItemInstanceID_t[] pArrayGet, [In, Out] uint[] pArrayGetQuantity, uint nArrayGetLength);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerInventory_LoadItemDefinitions();
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerInventory_GetItemDefinitionIDs([In, Out] SteamItemDef_t[] pItemDefIDs, out uint punItemDefIDsArraySize);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerInventory_GetItemDefinitionProperty(SteamItemDef_t iDefinition, InteropHelp.UTF8StringHandle pchPropertyName, IntPtr pchValueBuffer, ref uint punValueBufferSize);
+#endregion
+#region SteamGameServerNetworking
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerNetworking_SendP2PPacket(CSteamID steamIDRemote, [In, Out] byte[] pubData, uint cubData, EP2PSend eP2PSendType, int nChannel);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerNetworking_IsP2PPacketAvailable(out uint pcubMsgSize, int nChannel);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerNetworking_ReadP2PPacket([In, Out] byte[] pubDest, uint cubDest, out uint pcubMsgSize, out CSteamID psteamIDRemote, int nChannel);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerNetworking_AcceptP2PSessionWithUser(CSteamID steamIDRemote);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerNetworking_CloseP2PSessionWithUser(CSteamID steamIDRemote);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerNetworking_CloseP2PChannelWithUser(CSteamID steamIDRemote, int nChannel);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerNetworking_GetP2PSessionState(CSteamID steamIDRemote, out P2PSessionState_t pConnectionState);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerNetworking_AllowP2PPacketRelay([MarshalAs(UnmanagedType.I1)] bool bAllow);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint ISteamGameServerNetworking_CreateListenSocket(int nVirtualP2PPort, uint nIP, ushort nPort, [MarshalAs(UnmanagedType.I1)] bool bAllowUseOfPacketRelay);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint ISteamGameServerNetworking_CreateP2PConnectionSocket(CSteamID steamIDTarget, int nVirtualPort, int nTimeoutSec, [MarshalAs(UnmanagedType.I1)] bool bAllowUseOfPacketRelay);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint ISteamGameServerNetworking_CreateConnectionSocket(uint nIP, ushort nPort, int nTimeoutSec);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerNetworking_DestroySocket(SNetSocket_t hSocket, [MarshalAs(UnmanagedType.I1)] bool bNotifyRemoteEnd);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerNetworking_DestroyListenSocket(SNetListenSocket_t hSocket, [MarshalAs(UnmanagedType.I1)] bool bNotifyRemoteEnd);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerNetworking_SendDataOnSocket(SNetSocket_t hSocket, IntPtr pubData, uint cubData, [MarshalAs(UnmanagedType.I1)] bool bReliable);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerNetworking_IsDataAvailableOnSocket(SNetSocket_t hSocket, out uint pcubMsgSize);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerNetworking_RetrieveDataFromSocket(SNetSocket_t hSocket, IntPtr pubDest, uint cubDest, out uint pcubMsgSize);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerNetworking_IsDataAvailable(SNetListenSocket_t hListenSocket, out uint pcubMsgSize, out SNetSocket_t phSocket);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerNetworking_RetrieveData(SNetListenSocket_t hListenSocket, IntPtr pubDest, uint cubDest, out uint pcubMsgSize, out SNetSocket_t phSocket);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerNetworking_GetSocketInfo(SNetSocket_t hSocket, out CSteamID pSteamIDRemote, out int peSocketStatus, out uint punIPRemote, out ushort punPortRemote);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerNetworking_GetListenSocketInfo(SNetListenSocket_t hListenSocket, out uint pnIP, out ushort pnPort);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern ESNetSocketConnectionType ISteamGameServerNetworking_GetSocketConnectionType(SNetSocket_t hSocket);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int ISteamGameServerNetworking_GetMaxPacketSize(SNetSocket_t hSocket);
+#endregion
+#region SteamGameServerUtils
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint ISteamGameServerUtils_GetSecondsSinceAppActive();
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint ISteamGameServerUtils_GetSecondsSinceComputerActive();
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern EUniverse ISteamGameServerUtils_GetConnectedUniverse();
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint ISteamGameServerUtils_GetServerRealTime();
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr ISteamGameServerUtils_GetIPCountry();
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerUtils_GetImageSize(int iImage, out uint pnWidth, out uint pnHeight);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerUtils_GetImageRGBA(int iImage, [In, Out] byte[] pubDest, int nDestBufferSize);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerUtils_GetCSERIPPort(out uint unIP, out ushort usPort);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern byte ISteamGameServerUtils_GetCurrentBatteryPower();
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint ISteamGameServerUtils_GetAppID();
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamGameServerUtils_SetOverlayNotificationPosition(ENotificationPosition eNotificationPosition);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerUtils_IsAPICallCompleted(SteamAPICall_t hSteamAPICall, out bool pbFailed);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern ESteamAPICallFailure ISteamGameServerUtils_GetAPICallFailureReason(SteamAPICall_t hSteamAPICall);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerUtils_GetAPICallResult(SteamAPICall_t hSteamAPICall, IntPtr pCallback, int cubCallback, int iCallbackExpected, out bool pbFailed);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamGameServerUtils_RunFrame();
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint ISteamGameServerUtils_GetIPCCallCount();
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamGameServerUtils_SetWarningMessageHook(SteamAPIWarningMessageHook_t pFunction);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerUtils_IsOverlayEnabled();
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerUtils_BOverlayNeedsPresent();
+#if ! _PS3
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern ulong ISteamGameServerUtils_CheckFileSignature(InteropHelp.UTF8StringHandle szFileName);
+#endif
+#if _PS3
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamGameServerUtils_PostPS3SysutilCallback(ulong status, ulong param, IntPtr userdata);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerUtils_BIsReadyToShutdown();
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerUtils_BIsPSNOnline();
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamGameServerUtils_SetPSNGameBootInviteStrings(InteropHelp.UTF8StringHandle pchSubject, InteropHelp.UTF8StringHandle pchBody);
+#endif
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerUtils_ShowGamepadTextInput(EGamepadTextInputMode eInputMode, EGamepadTextInputLineMode eLineInputMode, InteropHelp.UTF8StringHandle pchDescription, uint unCharMax, InteropHelp.UTF8StringHandle pchExistingText);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint ISteamGameServerUtils_GetEnteredGamepadTextLength();
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerUtils_GetEnteredGamepadTextInput(IntPtr pchText, uint cchText);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr ISteamGameServerUtils_GetSteamUILanguage();
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerUtils_IsSteamRunningInVR();
 #endregion
 	}
 }
