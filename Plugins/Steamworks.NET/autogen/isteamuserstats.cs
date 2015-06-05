@@ -367,7 +367,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			IntPtr pchName2 = Marshal.AllocHGlobal((int)unNameBufLen);
 			int ret = NativeMethods.ISteamUserStats_GetMostAchievedAchievementInfo(pchName2, unNameBufLen, out pflPercent, out pbAchieved);
-			pchName = ret != 0 ? InteropHelp.PtrToStringUTF8(pchName2) : null;
+			pchName = ret != -1 ? InteropHelp.PtrToStringUTF8(pchName2) : null;
 			Marshal.FreeHGlobal(pchName2);
 			return ret;
 		}
@@ -381,7 +381,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			IntPtr pchName2 = Marshal.AllocHGlobal((int)unNameBufLen);
 			int ret = NativeMethods.ISteamUserStats_GetNextMostAchievedAchievementInfo(iIteratorPrevious, pchName2, unNameBufLen, out pflPercent, out pbAchieved);
-			pchName = ret != 0 ? InteropHelp.PtrToStringUTF8(pchName2) : null;
+			pchName = ret != -1 ? InteropHelp.PtrToStringUTF8(pchName2) : null;
 			Marshal.FreeHGlobal(pchName2);
 			return ret;
 		}
