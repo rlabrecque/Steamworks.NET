@@ -172,7 +172,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUtils_BOverlayNeedsPresent();
 		}
-#if ! _PS3
+#if !_PS3
 		/// <summary>
 		/// <para> Asynchronous call to check if an executable file has been signed using the public key set on the signing tab</para>
 		/// <para> of the partner site, for example to refuse to load modified executable files.</para>
