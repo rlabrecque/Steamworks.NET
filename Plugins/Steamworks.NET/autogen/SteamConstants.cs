@@ -170,42 +170,39 @@ namespace Steamworks {
 		public const uint k_uPhysicalItemIdInvalid = 0x0;
 		public const uint k_uCellIDInvalid = 0xFFFFFFFF;
 		public const uint k_uPartnerIdInvalid = 0;
-		public const short MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE = -1;
+		public const int MAX_STEAM_CONTROLLERS = 16;
+		public const int STEAM_RIGHT_TRIGGER_MASK            = 0x0000001;
+		public const int STEAM_LEFT_TRIGGER_MASK             = 0x0000002;
+		public const int STEAM_RIGHT_BUMPER_MASK             = 0x0000004;
+		public const int STEAM_LEFT_BUMPER_MASK              = 0x0000008;
+		public const int STEAM_BUTTON_0_MASK                 = 0x0000010;
+		public const int STEAM_BUTTON_1_MASK                 = 0x0000020;
+		public const int STEAM_BUTTON_2_MASK                 = 0x0000040;
+		public const int STEAM_BUTTON_3_MASK                 = 0x0000080;
+		public const int STEAM_TOUCH_0_MASK                  = 0x0000100;
+		public const int STEAM_TOUCH_1_MASK                  = 0x0000200;
+		public const int STEAM_TOUCH_2_MASK                  = 0x0000400;
+		public const int STEAM_TOUCH_3_MASK                  = 0x0000800;
+		public const int STEAM_BUTTON_MENU_MASK              = 0x0001000;
+		public const int STEAM_BUTTON_STEAM_MASK             = 0x0002000;
+		public const int STEAM_BUTTON_ESCAPE_MASK            = 0x0004000;
+		public const int STEAM_BUTTON_BACK_LEFT_MASK         = 0x0008000;
+		public const int STEAM_BUTTON_BACK_RIGHT_MASK        = 0x0010000;
+		public const int STEAM_BUTTON_LEFTPAD_CLICKED_MASK   = 0x0020000;
+		public const int STEAM_BUTTON_RIGHTPAD_CLICKED_MASK  = 0x0040000;
+		public const int STEAM_LEFTPAD_FINGERDOWN_MASK       = 0x0080000;
+		public const int STEAM_RIGHTPAD_FINGERDOWN_MASK      = 0x0100000;
+		public const int STEAM_JOYSTICK_BUTTON_MASK			= 0x0400000;
+		public const short MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE	= -1;
 		public const byte INVALID_HTTPREQUEST_HANDLE = 0;
-
 		// maximum number of characters a lobby metadata key can be
 		public const byte k_nMaxLobbyKeyLength = 255;
-
 		public const int k_SteamMusicNameMaxLength = 255;
 		public const int k_SteamMusicPNGMaxLength = 65535;
-
 		//-----------------------------------------------------------------------------
 		// Constants used for query ports.
 		//-----------------------------------------------------------------------------
-		public const int QUERY_PORT_NOT_INITIALIZED =   0xFFFF;  // We haven't asked the GS for this query port's actual value yet.
-		public const int QUERY_PORT_ERROR =             0xFFFE;  // We were unable to get the query port for this server.
-
-		public const int STEAM_RIGHT_TRIGGER_MASK           = 0x0000001;
-		public const int STEAM_LEFT_TRIGGER_MASK            = 0x0000002;
-		public const int STEAM_RIGHT_BUMPER_MASK            = 0x0000004;
-		public const int STEAM_LEFT_BUMPER_MASK             = 0x0000008;
-		public const int STEAM_BUTTON_0_MASK                = 0x0000010;
-		public const int STEAM_BUTTON_1_MASK                = 0x0000020;
-		public const int STEAM_BUTTON_2_MASK                = 0x0000040;
-		public const int STEAM_BUTTON_3_MASK                = 0x0000080;
-		public const int STEAM_TOUCH_0_MASK                 = 0x0000100;
-		public const int STEAM_TOUCH_1_MASK                 = 0x0000200;
-		public const int STEAM_TOUCH_2_MASK                 = 0x0000400;
-		public const int STEAM_TOUCH_3_MASK                 = 0x0000800;
-		public const int STEAM_BUTTON_MENU_MASK             = 0x0001000;
-		public const int STEAM_BUTTON_STEAM_MASK            = 0x0002000;
-		public const int STEAM_BUTTON_ESCAPE_MASK           = 0x0004000;
-		public const int STEAM_BUTTON_BACK_LEFT_MASK        = 0x0008000;
-		public const int STEAM_BUTTON_BACK_RIGHT_MASK       = 0x0010000;
-		public const int STEAM_BUTTON_LEFTPAD_CLICKED_MASK  = 0x0020000;
-		public const int STEAM_BUTTON_RIGHTPAD_CLICKED_MASK = 0x0040000;
-		public const int STEAM_LEFTPAD_FINGERDOWN_MASK      = 0x0080000;
-		public const int STEAM_RIGHTPAD_FINGERDOWN_MASK     = 0x0100000;
-		public const int STEAM_JOYSTICK_BUTTON_MASK         = 0x0400000;
+		public const int QUERY_PORT_NOT_INITIALIZED		= 0xFFFF; // We haven't asked the GS for this query port's actual value yet.
+		public const int QUERY_PORT_ERROR				= 0xFFFE; // We were unable to get the query port for this server.
 	}
 }
