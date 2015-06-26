@@ -5,7 +5,7 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 
-#if UNITY_3_5 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_5_0 // It would be nice if Unity defined 'UNITY' or something similar...
+#if UNITY_3_5 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_5 // It would be nice if Unity defined 'UNITY' or something similar...
 	// We need to know if you're building for Unity under an unsupported platform so that the warning below does not get triggered.
 	#define UNITY_BUILD
 #endif
