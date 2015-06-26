@@ -1035,5 +1035,4 @@ namespace Steamworks {
 		k_EUniverseMax
 	}
 
-	}
 }
