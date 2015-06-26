@@ -312,10 +312,10 @@ namespace Steamworks {
 			IntPtr pchValueBuffer2 = Marshal.AllocHGlobal((int)punValueBufferSize);
 			using (var pchPropertyName2 = new InteropHelp.UTF8StringHandle(pchPropertyName)) {
 				bool ret = NativeMethods.ISteamInventory_GetItemDefinitionProperty(iDefinition, pchPropertyName2, pchValueBuffer2, ref punValueBufferSize);
+				pchValueBuffer = ret ? InteropHelp.PtrToStringUTF8(pchValueBuffer2) : null;
+				Marshal.FreeHGlobal(pchValueBuffer2);
+				return ret;
 			}
-			pchValueBuffer = ret ? InteropHelp.PtrToStringUTF8(pchValueBuffer2) : null;
-			Marshal.FreeHGlobal(pchValueBuffer2);
-			return ret;
 		}
 	}
 }
