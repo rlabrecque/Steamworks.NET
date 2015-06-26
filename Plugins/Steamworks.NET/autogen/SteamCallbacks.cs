@@ -1731,10 +1731,6 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 17)]
 	public struct IPCFailure_t {
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 17;
-		public enum EFailureType : int {
-			k_EFailureFlushedCallbackQueue,
-			k_EFailurePipeFail,
-		}
 		public byte m_eFailureType;
 	}
 

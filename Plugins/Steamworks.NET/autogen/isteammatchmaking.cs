@@ -476,7 +476,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>	 the filter operation codes that go in the key part of MatchMakingKeyValuePair_t should be one of these:</para>
+		/// <para> the filter operation codes that go in the key part of MatchMakingKeyValuePair_t should be one of these:</para>
 		/// <para>		"map"</para>
 		/// <para>			- Server passes the filter if the server is playing the specified map.</para>
 		/// <para>		"gamedataand"</para>

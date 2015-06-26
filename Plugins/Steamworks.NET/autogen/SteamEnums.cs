@@ -501,6 +501,11 @@ namespace Steamworks {
 		k_EItemStatistic_ReportScore			= 7,
 	}
 
+	public enum EFailureType : int {
+		k_EFailureFlushedCallbackQueue,
+		k_EFailurePipeFail,
+	}
+
 	// type of data request, when downloading leaderboard entries
 	public enum ELeaderboardDataRequest : int {
 		k_ELeaderboardDataRequestGlobal = 0,
@@ -568,6 +573,13 @@ namespace Steamworks {
 		eServerResponded = 0,
 		eServerFailedToRespond,
 		eNoServersListedOnMasterServer // for the Internet query type, returned in response callback if no servers of this type match
+	}
+
+	public enum EServerMode : int {
+		eServerModeInvalid = 0, // DO NOT USE
+		eServerModeNoAuthentication = 1, // Don't authenticate user logins and don't list on the server list
+		eServerModeAuthentication = 2, // Authenticate users, list on the server list, don't run VAC on clients that connect
+		eServerModeAuthenticationAndSecure = 3, // Authenticate users, list on the server list and VAC protect clients
 	}
 
 	// General result codes
@@ -1023,11 +1035,5 @@ namespace Steamworks {
 		k_EUniverseMax
 	}
 
-	public enum EServerMode : int {
-		eServerModeInvalid = 0, // DO NOT USE
-		eServerModeNoAuthentication = 1, // Don't authenticate user logins and don't list on the server list
-		eServerModeAuthentication = 2, // Authenticate users, list on the server list, don't run VAC on clients that connect
-		eServerModeAuthenticationAndSecure = 3, // Authenticate users, list on the server list and VAC protect clients
 	}
-
 }

@@ -35,7 +35,7 @@ namespace Steamworks {
 		public const string STEAMUSERSTATS_INTERFACE_VERSION = "STEAMUSERSTATS_INTERFACE_VERSION011";
 		public const string STEAMUTILS_INTERFACE_VERSION = "SteamUtils007";
 		public const string STEAMVIDEO_INTERFACE_VERSION = "STEAMVIDEO_INTERFACE_V001";
-		public const int k_cubAppProofOfPurchaseKeyMax = 64;
+		public const int k_cubAppProofOfPurchaseKeyMax = 64; // max bytes of a legacy cd key we support
 		//-----------------------------------------------------------------------------
 		// Purpose: Base values for callback identifiers, each callback must
 		//			have a unique ID.
@@ -105,16 +105,16 @@ namespace Steamworks {
 		public const int k_cchMaxRichPresenceValueLength = 256;
 		// game server flags
 		public const int k_unServerFlagNone = 0x00;
-		public const int k_unServerFlagActive = 0x01;
-		public const int k_unServerFlagSecure = 0x02;
-		public const int k_unServerFlagDedicated = 0x04;
-		public const int k_unServerFlagLinux = 0x08;
-		public const int k_unServerFlagPassworded = 0x10;
-		public const int k_unServerFlagPrivate = 0x20;
+		public const int k_unServerFlagActive = 0x01; // server has users playing
+		public const int k_unServerFlagSecure = 0x02; // server wants to be secure
+		public const int k_unServerFlagDedicated = 0x04; // server is dedicated
+		public const int k_unServerFlagLinux = 0x08; // linux build
+		public const int k_unServerFlagPassworded = 0x10; // password protected
+		public const int k_unServerFlagPrivate = 0x20; // server shouldn't list on master server and
 		// game server flags
 		public const int k_unFavoriteFlagNone = 0x00;
-		public const int k_unFavoriteFlagFavorite = 0x01;
-		public const int k_unFavoriteFlagHistory = 0x02;
+		public const int k_unFavoriteFlagFavorite = 0x01; // this game favorite entry is for the favorites list
+		public const int k_unFavoriteFlagHistory = 0x02; // this game favorite entry is for the history list
 		//-----------------------------------------------------------------------------
 		// Purpose: Defines the largest allowed file size. Cloud files cannot be written
 		// in a single chunk over 100MB (and cannot be over 200MB total.)
@@ -164,12 +164,13 @@ namespace Steamworks {
 		public const ulong k_GIDNil = 0xffffffffffffffff;
 		public const ulong k_TxnIDNil = k_GIDNil;
 		public const ulong k_TxnIDUnknown = 0;
-		public const uint k_uPackageIdFreeSub = 0x0;
-		public const uint k_uPackageIdInvalid = 0xFFFFFFFF;
+		public const int k_uPackageIdFreeSub = 0x0;
+		public const int k_uPackageIdInvalid = -1;
 		public const ulong k_ulAssetClassIdInvalid = 0x0;
-		public const uint k_uPhysicalItemIdInvalid = 0x0;
-		public const uint k_uCellIDInvalid = 0xFFFFFFFF;
-		public const uint k_uPartnerIdInvalid = 0;
+		public const int k_uPhysicalItemIdInvalid = 0x0;
+		public const int k_uCellIDInvalid = -1;
+		public const int k_uPartnerIdInvalid = 0;
+		// callbacks
 		public const int MAX_STEAM_CONTROLLERS = 16;
 		public const int STEAM_RIGHT_TRIGGER_MASK            = 0x0000001;
 		public const int STEAM_LEFT_TRIGGER_MASK             = 0x0000002;
@@ -194,7 +195,7 @@ namespace Steamworks {
 		public const int STEAM_RIGHTPAD_FINGERDOWN_MASK      = 0x0100000;
 		public const int STEAM_JOYSTICK_BUTTON_MASK			= 0x0400000;
 		public const short MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE	= -1;
-		public const byte INVALID_HTTPREQUEST_HANDLE = 0;
+		public const int INVALID_HTTPREQUEST_HANDLE		= 0;
 		// maximum number of characters a lobby metadata key can be
 		public const byte k_nMaxLobbyKeyLength = 255;
 		public const int k_SteamMusicNameMaxLength = 255;
