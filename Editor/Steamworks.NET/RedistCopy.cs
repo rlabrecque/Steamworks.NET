@@ -7,18 +7,16 @@ using UnityEditor.Callbacks;
 using System.IO;
 
 public class RedistCopy {
-	const string SteamAPIRelativeLoc = "Assets/Plugins/Steamworks.NET/redist";
-
 	[PostProcessBuild]
 	public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject) {
 #if !DISABLEREDISTCOPY
 		string strProjectName = Path.GetFileNameWithoutExtension(pathToBuiltProject);
 
 		if (target == BuildTarget.StandaloneWindows64) {
-			CopyFile("steam_api64.dll", "steam_api64.dll", pathToBuiltProject);
+			CopyFile("steam_api64.dll", "steam_api64.dll", "Assets/Plugins/x86_64", pathToBuiltProject);
 		}
 		else if (target == BuildTarget.StandaloneWindows) {
-			CopyFile("steam_api.dll", "steam_api.dll", pathToBuiltProject);
+			CopyFile("steam_api.dll", "steam_api.dll", "Assets/Plugins/x86", pathToBuiltProject);
 		}
 				
 		string controllerCfg = Path.Combine(Application.dataPath, "controller.vdf");
@@ -40,13 +38,13 @@ public class RedistCopy {
 #endif
 	}
 
-	static void CopyFile(string filename, string outputfilename, string pathToBuiltProject) {
+	static void CopyFile(string filename, string outputfilename, string pathToFile, string pathToBuiltProject) {
 		string strCWD = Directory.GetCurrentDirectory();
-		string strSource = Path.Combine(Path.Combine(strCWD, SteamAPIRelativeLoc), filename);
+		string strSource = Path.Combine(Path.Combine(strCWD, pathToFile), filename);
 		string strFileDest = Path.Combine(Path.GetDirectoryName(pathToBuiltProject), outputfilename);
 
 		if (!File.Exists(strSource)) {
-			Debug.LogWarning(string.Format("[Steamworks.NET] Could not copy {0} into the project root. {0} could not be found in '{1}'. Place {0} from the redist into the project root manually.", filename, SteamAPIRelativeLoc));
+			Debug.LogWarning(string.Format("[Steamworks.NET] Could not copy {0} into the project root. {0} could not be found in '{1}'. Place {0} from the redist into the project root manually.", filename, pathToFile));
 			return;
 		}
 

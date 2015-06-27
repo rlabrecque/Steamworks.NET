@@ -5,26 +5,24 @@ using System.IO;
 // This copys various files into their required locations when Unity is launched to make installation a breeze.
 [InitializeOnLoad]
 public class RedistInstall {
-	const string SteamAPIRelativeLoc = "Assets/Plugins/Steamworks.NET/redist";
-
 	static RedistInstall() {
-		CopyFile("steam_appid.txt", false);
-#if UNITY_EDITOR_WIN
+		CopyFile("Assets/Plugins/Steamworks.NET/redist", "steam_appid.txt", false);
+#if UNITY_EDITOR_WIN && !UNITY_5
 	#if UNITY_EDITOR_64
-		CopyFile("steam_api64.dll", true);
+		CopyFile("Assets/Plugins/x86_64", "steam_api64.dll", true);
 	#else
-		CopyFile("steam_api.dll", true);
+		CopyFile("Assets/Plugins/x86", "steam_api.dll", true);
 	#endif
 #endif
 	}
 
-	static void CopyFile(string filename, bool bCheckDifference) {
+	static void CopyFile(string path, string filename, bool bCheckDifference) {
 		string strCWD = Directory.GetCurrentDirectory();
-		string strSource = Path.Combine(Path.Combine(strCWD, SteamAPIRelativeLoc), filename);
+		string strSource = Path.Combine(Path.Combine(strCWD, path), filename);
 		string strDest = Path.Combine(strCWD, filename);
 
 		if (!File.Exists(strSource)) {
-			Debug.LogWarning(string.Format("[Steamworks.NET] Could not copy {0} into the project root. {0} could not be found in '{1}'. Place {0} from the Steamworks SDK in the project root manually.", filename, Path.Combine(strCWD, SteamAPIRelativeLoc)));
+			Debug.LogWarning(string.Format("[Steamworks.NET] Could not copy {0} into the project root. {0} could not be found in '{1}'. Place {0} from the Steamworks SDK in the project root manually.", filename, Path.Combine(strCWD, path)));
 			return;
 		}
 
