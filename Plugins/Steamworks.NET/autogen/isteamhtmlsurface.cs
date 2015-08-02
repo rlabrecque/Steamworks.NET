@@ -267,6 +267,17 @@ namespace Steamworks {
 		}
 
 		/// <summary>
+		/// <para> Enable/disable low-resource background mode, where javascript and repaint timers are throttled, resources are</para>
+		/// <para> more aggressively purged from memory, and audio/video elements are paused. When background mode is enabled,</para>
+		/// <para> all HTML5 video and audio objects will execute ".pause()" and gain the property "._steam_background_paused = 1".</para>
+		/// <para> When background mode is disabled, any video or audio objects with that property will resume with ".play()".</para>
+		/// </summary>
+		public static void SetBackgroundMode(HHTMLBrowser unBrowserHandle, bool bBackgroundMode) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamHTMLSurface_SetBackgroundMode(unBrowserHandle, bBackgroundMode);
+		}
+
+		/// <summary>
 		/// <para> CALLBACKS</para>
 		/// <para>  These set of functions are used as responses to callback requests</para>
 		/// <para> You MUST call this in response to a HTML_StartRequest_t callback</para>

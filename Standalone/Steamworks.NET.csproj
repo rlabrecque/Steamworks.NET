@@ -113,6 +113,9 @@
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamgameserverstats.cs">
       <Link>Steamworks.NET\autogen\isteamgameserverstats.cs</Link>
     </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamgameserverugc.cs">
+      <Link>Steamworks.NET\autogen\isteamgameserverugc.cs</Link>
+    </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamgameserverutils.cs">
       <Link>Steamworks.NET\autogen\isteamgameserverutils.cs</Link>
     </Compile>
