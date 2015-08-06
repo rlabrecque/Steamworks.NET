@@ -116,6 +116,12 @@ namespace Steamworks {
 		public static extern IntPtr SteamMusic();
 		[DllImport("CSteamworks", EntryPoint = "SteamMusicRemote", CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SteamMusicRemote();
+		[DllImport("CSteamworks", EntryPoint = "SteamHTMLSurface", CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr SteamHTMLSurface();
+		[DllImport("CSteamworks", EntryPoint = "SteamInventory", CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr SteamInventory();
+		[DllImport("CSteamworks", EntryPoint = "SteamVideo", CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr SteamVideo();
 #endregion
 #region steam_gameserver.h
 		[DllImport("CSteamworks", EntryPoint = "GameServer_InitSafe", CallingConvention = CallingConvention.Cdecl)]
@@ -162,6 +168,8 @@ namespace Steamworks {
 		public static extern IntPtr SteamGameServerStats();
 		[DllImport("CSteamworks", EntryPoint = "SteamGameServerHTTP", CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SteamGameServerHTTP();
+		[DllImport("CSteamworks", EntryPoint = "SteamGameServerInventory", CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr SteamGameServerInventory();
 		[DllImport("CSteamworks", EntryPoint = "SteamGameServerUGC", CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SteamGameServerUGC();
 #endregion
