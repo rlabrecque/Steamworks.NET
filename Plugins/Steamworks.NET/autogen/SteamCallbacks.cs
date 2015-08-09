@@ -1656,6 +1656,36 @@ namespace Steamworks {
 		public bool m_bWasAddRequest;
 	}
 
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to SetUserItemVote()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iClientUGCCallbacks + 8)]
+	public struct SetUserItemVoteResult_t {
+		public const int k_iCallback = Constants.k_iClientUGCCallbacks + 8;
+		public PublishedFileId_t m_nPublishedFileId;
+		public EResult m_eResult;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bVoteUp;
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to GetUserItemVote()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iClientUGCCallbacks + 9)]
+	public struct GetUserItemVoteResult_t {
+		public const int k_iCallback = Constants.k_iClientUGCCallbacks + 9;
+		public PublishedFileId_t m_nPublishedFileId;
+		public EResult m_eResult;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bVotedUp;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bVotedDown;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bVoteSkipped;
+	}
+
 	// callbacks
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iClientUnifiedMessagesCallbacks + 1)]

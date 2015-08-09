@@ -92,6 +92,23 @@ namespace Steamworks {
 			return ret;
 		}
 
+		public static uint GetQueryUGCNumKeyValueTags(UGCQueryHandle_t handle, uint index) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_GetQueryUGCNumKeyValueTags(handle, index);
+		}
+
+		public static bool GetQueryUGCKeyValueTag(UGCQueryHandle_t handle, uint index, uint keyValueTagIndex, out string pchKey, uint cchKeySize, out string pchValue, uint cchValueSize) {
+			InteropHelp.TestIfAvailableClient();
+			IntPtr pchKey2 = Marshal.AllocHGlobal((int)cchKeySize);
+			IntPtr pchValue2 = Marshal.AllocHGlobal((int)cchValueSize);
+			bool ret = NativeMethods.ISteamUGC_GetQueryUGCKeyValueTag(handle, index, keyValueTagIndex, pchKey2, cchKeySize, pchValue2, cchValueSize);
+			pchKey = ret ? InteropHelp.PtrToStringUTF8(pchKey2) : null;
+			Marshal.FreeHGlobal(pchKey2);
+			pchValue = ret ? InteropHelp.PtrToStringUTF8(pchValue2) : null;
+			Marshal.FreeHGlobal(pchValue2);
+			return ret;
+		}
+
 		/// <summary>
 		/// <para> Release the request to free up memory, after retrieving results</para>
 		/// </summary>
@@ -117,6 +134,11 @@ namespace Steamworks {
 			}
 		}
 
+		public static bool SetReturnKeyValueTags(UGCQueryHandle_t handle, bool bReturnKeyValueTags) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_SetReturnKeyValueTags(handle, bReturnKeyValueTags);
+		}
+
 		public static bool SetReturnLongDescription(UGCQueryHandle_t handle, bool bReturnLongDescription) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_SetReturnLongDescription(handle, bReturnLongDescription);
@@ -140,6 +162,13 @@ namespace Steamworks {
 		public static bool SetReturnTotalOnly(UGCQueryHandle_t handle, bool bReturnTotalOnly) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_SetReturnTotalOnly(handle, bReturnTotalOnly);
+		}
+
+		public static bool SetLanguage(UGCQueryHandle_t handle, string pchLanguage) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchLanguage2 = new InteropHelp.UTF8StringHandle(pchLanguage)) {
+				return NativeMethods.ISteamUGC_SetLanguage(handle, pchLanguage2);
+			}
 		}
 
 		public static bool SetAllowCachedResponse(UGCQueryHandle_t handle, uint unMaxAgeSeconds) {
@@ -175,6 +204,14 @@ namespace Steamworks {
 		public static bool SetRankedByTrendDays(UGCQueryHandle_t handle, uint unDays) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_SetRankedByTrendDays(handle, unDays);
+		}
+
+		public static bool AddRequiredKeyValueTag(UGCQueryHandle_t handle, string pKey, string pValue) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pKey2 = new InteropHelp.UTF8StringHandle(pKey))
+			using (var pValue2 = new InteropHelp.UTF8StringHandle(pValue)) {
+				return NativeMethods.ISteamUGC_AddRequiredKeyValueTag(handle, pKey2, pValue2);
+			}
 		}
 
 		/// <summary>
@@ -219,6 +256,16 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchDescription2 = new InteropHelp.UTF8StringHandle(pchDescription)) {
 				return NativeMethods.ISteamUGC_SetItemDescription(handle, pchDescription2);
+			}
+		}
+
+		/// <summary>
+		/// <para> specify the language of the title or description that will be set</para>
+		/// </summary>
+		public static bool SetItemUpdateLanguage(UGCUpdateHandle_t handle, string pchLanguage) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchLanguage2 = new InteropHelp.UTF8StringHandle(pchLanguage)) {
+				return NativeMethods.ISteamUGC_SetItemUpdateLanguage(handle, pchLanguage2);
 			}
 		}
 
@@ -269,6 +316,27 @@ namespace Steamworks {
 		}
 
 		/// <summary>
+		/// <para> remove any existing key-value tags with the specified key</para>
+		/// </summary>
+		public static bool RemoveItemKeyValueTags(UGCUpdateHandle_t handle, string pchKey) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchKey2 = new InteropHelp.UTF8StringHandle(pchKey)) {
+				return NativeMethods.ISteamUGC_RemoveItemKeyValueTags(handle, pchKey2);
+			}
+		}
+
+		/// <summary>
+		/// <para> add new key-value tags for the item. Note that there can be multiple values for a tag.</para>
+		/// </summary>
+		public static bool AddItemKeyValueTag(UGCUpdateHandle_t handle, string pchKey, string pchValue) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchKey2 = new InteropHelp.UTF8StringHandle(pchKey))
+			using (var pchValue2 = new InteropHelp.UTF8StringHandle(pchValue)) {
+				return NativeMethods.ISteamUGC_AddItemKeyValueTag(handle, pchKey2, pchValue2);
+			}
+		}
+
+		/// <summary>
 		/// <para> commit update process started with StartItemUpdate()</para>
 		/// </summary>
 		public static SteamAPICall_t SubmitItemUpdate(UGCUpdateHandle_t handle, string pchChangeNote) {
@@ -286,6 +354,16 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Steam Workshop Consumer API</para>
 		/// </summary>
+		public static SteamAPICall_t SetUserItemVote(PublishedFileId_t nPublishedFileID, bool bVoteUp) {
+			InteropHelp.TestIfAvailableClient();
+			return (SteamAPICall_t)NativeMethods.ISteamUGC_SetUserItemVote(nPublishedFileID, bVoteUp);
+		}
+
+		public static SteamAPICall_t GetUserItemVote(PublishedFileId_t nPublishedFileID) {
+			InteropHelp.TestIfAvailableClient();
+			return (SteamAPICall_t)NativeMethods.ISteamUGC_GetUserItemVote(nPublishedFileID);
+		}
+
 		public static SteamAPICall_t AddItemToFavorites(AppId_t nAppId, PublishedFileId_t nPublishedFileID) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_AddItemToFavorites(nAppId, nPublishedFileID);

@@ -189,7 +189,7 @@ namespace Steamworks {
 
 	[Flags]
 	public enum ESteamItemFlags : int {
-		// Item status flags - these flags are permenantly attached to specific item instances
+		// Item status flags - these flags are permanently attached to specific item instances
 		k_ESteamItemNoTrade = 1 << 0, // This item is account-locked and cannot be traded or given away.
 
 		// Action confirmation flags - these flags are set one time only, as part of a result set
@@ -350,24 +350,25 @@ namespace Steamworks {
 	public enum EWorkshopFileType : int {
 		k_EWorkshopFileTypeFirst = 0,
 
-		k_EWorkshopFileTypeCommunity			  = 0,
-		k_EWorkshopFileTypeMicrotransaction		  = 1,
-		k_EWorkshopFileTypeCollection			  = 2,
-		k_EWorkshopFileTypeArt					  = 3,
-		k_EWorkshopFileTypeVideo				  = 4,
-		k_EWorkshopFileTypeScreenshot			  = 5,
-		k_EWorkshopFileTypeGame					  = 6,
-		k_EWorkshopFileTypeSoftware				  = 7,
-		k_EWorkshopFileTypeConcept				  = 8,
-		k_EWorkshopFileTypeWebGuide				  = 9,
-		k_EWorkshopFileTypeIntegratedGuide		  = 10,
-		k_EWorkshopFileTypeMerch				  = 11,
-		k_EWorkshopFileTypeControllerBinding	  = 12,
-		k_EWorkshopFileTypeSteamworksAccessInvite = 13,
-		k_EWorkshopFileTypeSteamVideo			  = 14,
+		k_EWorkshopFileTypeCommunity			  = 0,		// normal Workshop item that can be subscribed to
+		k_EWorkshopFileTypeMicrotransaction		  = 1,		// Workshop item that is meant to be voted on for the purpose of selling in-game
+		k_EWorkshopFileTypeCollection			  = 2,		// a collection of Workshop or Greenlight items
+		k_EWorkshopFileTypeArt					  = 3,		// artwork
+		k_EWorkshopFileTypeVideo				  = 4,		// external video
+		k_EWorkshopFileTypeScreenshot			  = 5,		// screenshot
+		k_EWorkshopFileTypeGame					  = 6,		// Greenlight game entry
+		k_EWorkshopFileTypeSoftware				  = 7,		// Greenlight software entry
+		k_EWorkshopFileTypeConcept				  = 8,		// Greenlight concept
+		k_EWorkshopFileTypeWebGuide				  = 9,		// Steam web guide
+		k_EWorkshopFileTypeIntegratedGuide		  = 10,		// application integrated guide
+		k_EWorkshopFileTypeMerch				  = 11,		// Workshop merchandise meant to be voted on for the purpose of being sold
+		k_EWorkshopFileTypeControllerBinding	  = 12,		// Steam Controller bindings
+		k_EWorkshopFileTypeSteamworksAccessInvite = 13,		// internal
+		k_EWorkshopFileTypeSteamVideo			  = 14,		// Steam video
+		k_EWorkshopFileTypeGameManagedItem		  = 15,		// managed completely by the game, not the user, and not shown on the web
 
 		// Update k_EWorkshopFileTypeMax if you add values.
-		k_EWorkshopFileTypeMax = 15
+		k_EWorkshopFileTypeMax = 16
 
 	}
 
@@ -375,6 +376,7 @@ namespace Steamworks {
 		k_EWorkshopVoteUnvoted = 0,
 		k_EWorkshopVoteFor = 1,
 		k_EWorkshopVoteAgainst = 2,
+		k_EWorkshopVoteLater = 3,
 	}
 
 	public enum EWorkshopFileAction : int {
@@ -426,6 +428,7 @@ namespace Steamworks {
 		k_EUGCMatchingUGCType_IntegratedGuides	 = 9,
 		k_EUGCMatchingUGCType_UsableInGame		 = 10,		// ready-to-use items and integrated guides
 		k_EUGCMatchingUGCType_ControllerBindings = 11,
+		k_EUGCMatchingUGCType_GameManagedItems	 = 12,		// game managed items (not managed by users)
 	}
 
 	// Different lists of published UGC for a user.
@@ -681,6 +684,9 @@ namespace Steamworks {
 		k_EResultAccountLimitExceeded = 95,			// Too many accounts access this resource
 		k_EResultAccountActivityLimitExceeded = 96,	// Too many changes to this account
 		k_EResultPhoneActivityLimitExceeded = 97,	// Too many changes to this phone
+		k_EResultRefundToWallet = 98,				// Cannot refund to payment method, must use wallet
+		k_EResultEmailSendFailure = 99,				// Cannot send an email
+		k_EResultNotSettled = 100,					// Can't perform operation till payment has settled
 	}
 
 	// Error codes for use with the voice functions

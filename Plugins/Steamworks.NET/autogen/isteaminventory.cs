@@ -178,7 +178,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> ConsumeItem() removes items from the inventory, permenantly. They cannot be recovered.</para>
+		/// <para> ConsumeItem() removes items from the inventory, permanently. They cannot be recovered.</para>
 		/// <para> Not for the faint of heart - if your game implements item removal at all, a high-friction</para>
 		/// <para> UI confirmation process is highly recommended. Similar to GenerateItems, punArrayQuantity</para>
 		/// <para> can be NULL or else an array of the same length as pArrayItems which describe the quantity</para>

@@ -261,5 +261,13 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUtils_IsSteamRunningInVR();
 		}
+
+		/// <summary>
+		/// <para> Sets the inset of the overlay notification from the corner specified by SetOverlayNotificationPosition.</para>
+		/// </summary>
+		public static void SetOverlayNotificationInset(int nHorizontalInset, int nVerticalInset) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamUtils_SetOverlayNotificationInset(nHorizontalInset, nVerticalInset);
+		}
 	}
 }
