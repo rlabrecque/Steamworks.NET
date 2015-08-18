@@ -73,6 +73,7 @@ namespace Steamworks {
 		public static void Shutdown() {
 			InteropHelp.TestIfPlatformSupported();
 			NativeMethods.SteamAPI_Shutdown();
+			_initialized = false;
 		}
 
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
