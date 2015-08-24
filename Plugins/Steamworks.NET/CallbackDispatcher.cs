@@ -49,11 +49,12 @@
 // Unity x64 Linux          - Cdecl
 // Unity x64 OSX            - Cdecl
 // Microsoft x86 Windows    - ThisCall
-// Mono x86 Linux           - Cdecl
-// Mono x86 OSX             - Cdecl
 // Microsoft x64 Windows    - ThisCall
 // Mono x86 Linux           - Cdecl
 // Mono x86 OSX             - Cdecl
+// Mono x64 Linux           - Cdecl
+// Mono x64 OSX             - Cdecl
+// Mono on Windows is probably not supported.
 
 using System;
 using System.Runtime.InteropServices;
@@ -84,10 +85,18 @@ namespace Steamworks {
 		private bool m_bGameServer;
 		private readonly int m_size = Marshal.SizeOf(typeof(T));
 
+		/// <summary>
+		/// Creates a new Callback. You must be calling SteamAPI.RunCallbacks() to retrieve the callbacks.
+		/// <para>Returns a handle to the Callback. This must be assigned to a member variable to prevent the GC from cleaning it up.</para>
+		/// </summary>
 		public static Callback<T> Create(DispatchDelegate func) {
 			return new Callback<T>(func, bGameServer: false);
 		}
 
+		/// <summary>
+		/// Creates a new GameServer Callback. You must be calling GameServer.RunCallbacks() to retrieve the callbacks.
+		/// <para>Returns a handle to the Callback. This must be assigned to a member variable to prevent the GC from cleaning it up.</para>
+		/// </summary>
 		public static Callback<T> CreateGameServer(DispatchDelegate func) {
 			return new Callback<T>(func, bGameServer: true);
 		}
@@ -205,6 +214,10 @@ namespace Steamworks {
 
 		private readonly int m_size = Marshal.SizeOf(typeof(T));
 
+		/// <summary>
+		/// Creates a new async CallResult. You must be calling SteamAPI.RunCallbacks() to retrieve the callback.
+		/// <para>Returns a handle to the CallResult. This must be assigned to a member variable to prevent the GC from cleaning it up.</para>
+		/// </summary>
 		public static CallResult<T> Create(APIDispatchDelegate func = null) {
 			return new CallResult<T>(func);
 		}
@@ -291,6 +304,8 @@ namespace Steamworks {
 					CallbackDispatcher.ExceptionHandler(e);
 				}
 
+				// The official SDK sets m_hAPICall to invalid before calling the callresult function,
+				// this doesn't let us access .Handle from within the function though.
 				if (hAPICall == m_hAPICall) { // Ensure that m_hAPICall has not been changed in m_Func
 					m_hAPICall = SteamAPICall_t.Invalid; // Caller unregisters for us
 				}
@@ -325,7 +340,7 @@ namespace Steamworks {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public class CCallbackBase {
+	internal class CCallbackBase {
 		public const byte k_ECallbackFlagsRegistered = 0x01;
 		public const byte k_ECallbackFlagsGameServer = 0x02;
 		public IntPtr m_vfptr;
