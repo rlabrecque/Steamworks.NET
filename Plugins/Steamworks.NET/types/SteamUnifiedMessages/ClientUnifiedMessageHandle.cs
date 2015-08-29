@@ -36,6 +36,7 @@ namespace Steamworks {
 		public static explicit operator ClientUnifiedMessageHandle(ulong value) {
 			return new ClientUnifiedMessageHandle(value);
 		}
+
 		public static explicit operator ulong(ClientUnifiedMessageHandle that) {
 			return that.m_ClientUnifiedMessageHandle;
 		}

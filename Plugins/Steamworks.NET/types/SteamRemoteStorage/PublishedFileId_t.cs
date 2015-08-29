@@ -4,8 +4,6 @@
 
 // Changes to this file will be reverted when you update Steamworks.NET
 
-using System.Runtime.InteropServices;
-
 namespace Steamworks {
 	public struct PublishedFileId_t : System.IEquatable<PublishedFileId_t>, System.IComparable<PublishedFileId_t> {
 		public static readonly PublishedFileId_t Invalid = new PublishedFileId_t(0);
@@ -38,6 +36,7 @@ namespace Steamworks {
 		public static explicit operator PublishedFileId_t(ulong value) {
 			return new PublishedFileId_t(value);
 		}
+
 		public static explicit operator ulong(PublishedFileId_t that) {
 			return that.m_PublishedFileId;
 		}

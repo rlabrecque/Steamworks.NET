@@ -36,6 +36,7 @@ namespace Steamworks {
 		public static explicit operator SteamAPICall_t(ulong value) {
 			return new SteamAPICall_t(value);
 		}
+
 		public static explicit operator ulong(SteamAPICall_t that) {
 			return that.m_SteamAPICall;
 		}

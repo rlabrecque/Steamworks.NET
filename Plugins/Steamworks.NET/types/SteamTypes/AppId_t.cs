@@ -36,6 +36,7 @@ namespace Steamworks {
 		public static explicit operator AppId_t(uint value) {
 			return new AppId_t(value);
 		}
+
 		public static explicit operator uint(AppId_t that) {
 			return that.m_AppId;
 		}

@@ -36,6 +36,7 @@ namespace Steamworks {
 		public static explicit operator HTTPCookieContainerHandle(uint value) {
 			return new HTTPCookieContainerHandle(value);
 		}
+
 		public static explicit operator uint(HTTPCookieContainerHandle that) {
 			return that.m_HTTPCookieContainerHandle;
 		}

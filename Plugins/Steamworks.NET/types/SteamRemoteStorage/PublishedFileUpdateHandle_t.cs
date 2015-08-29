@@ -36,6 +36,7 @@ namespace Steamworks {
 		public static explicit operator PublishedFileUpdateHandle_t(ulong value) {
 			return new PublishedFileUpdateHandle_t(value);
 		}
+
 		public static explicit operator ulong(PublishedFileUpdateHandle_t that) {
 			return that.m_PublishedFileUpdateHandle;
 		}

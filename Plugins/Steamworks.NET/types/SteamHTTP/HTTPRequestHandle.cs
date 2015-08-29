@@ -36,6 +36,7 @@ namespace Steamworks {
 		public static explicit operator HTTPRequestHandle(uint value) {
 			return new HTTPRequestHandle(value);
 		}
+
 		public static explicit operator uint(HTTPRequestHandle that) {
 			return that.m_HTTPRequestHandle;
 		}

@@ -8,7 +8,7 @@ namespace Steamworks {
 	public struct UGCHandle_t : System.IEquatable<UGCHandle_t>, System.IComparable<UGCHandle_t> {
 		public static readonly UGCHandle_t Invalid = new UGCHandle_t(0xffffffffffffffff);
 		public ulong m_UGCHandle;
-		
+
 		public UGCHandle_t(ulong value) {
 			m_UGCHandle = value;
 		}
@@ -16,7 +16,7 @@ namespace Steamworks {
 		public override string ToString() {
 			return m_UGCHandle.ToString();
 		}
-		
+
 		public override bool Equals(object other) {
 			return other is UGCHandle_t && this == (UGCHandle_t)other;
 		}
@@ -36,6 +36,7 @@ namespace Steamworks {
 		public static explicit operator UGCHandle_t(ulong value) {
 			return new UGCHandle_t(value);
 		}
+
 		public static explicit operator ulong(UGCHandle_t that) {
 			return that.m_UGCHandle;
 		}

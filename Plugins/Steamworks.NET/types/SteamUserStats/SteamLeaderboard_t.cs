@@ -35,6 +35,7 @@ namespace Steamworks {
 		public static explicit operator SteamLeaderboard_t(ulong value) {
 			return new SteamLeaderboard_t(value);
 		}
+
 		public static explicit operator ulong(SteamLeaderboard_t that) {
 			return that.m_SteamLeaderboard;
 		}

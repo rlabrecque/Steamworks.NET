@@ -36,6 +36,7 @@ namespace Steamworks {
 		public static explicit operator UGCFileWriteStreamHandle_t(ulong value) {
 			return new UGCFileWriteStreamHandle_t(value);
 		}
+
 		public static explicit operator ulong(UGCFileWriteStreamHandle_t that) {
 			return that.m_UGCFileWriteStreamHandle;
 		}

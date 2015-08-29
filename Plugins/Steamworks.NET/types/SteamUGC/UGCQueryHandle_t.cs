@@ -36,6 +36,7 @@ namespace Steamworks {
 		public static explicit operator UGCQueryHandle_t(ulong value) {
 			return new UGCQueryHandle_t(value);
 		}
+
 		public static explicit operator ulong(UGCQueryHandle_t that) {
 			return that.m_UGCQueryHandle;
 		}

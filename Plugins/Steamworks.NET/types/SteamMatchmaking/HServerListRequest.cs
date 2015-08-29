@@ -36,6 +36,7 @@ namespace Steamworks {
 		public static explicit operator HServerListRequest(System.IntPtr value) {
 			return new HServerListRequest(value);
 		}
+
 		public static explicit operator System.IntPtr(HServerListRequest that) {
 			return that.m_HServerListRequest;
 		}

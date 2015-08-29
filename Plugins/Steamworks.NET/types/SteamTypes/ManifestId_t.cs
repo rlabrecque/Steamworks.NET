@@ -7,14 +7,14 @@
 namespace Steamworks {
 	public struct ManifestId_t : System.IEquatable<ManifestId_t>, System.IComparable<ManifestId_t> {
 		public static readonly ManifestId_t Invalid = new ManifestId_t(0x0);
-		public ulong m_SteamAPICall;
+		public ulong m_ManifestId;
 
 		public ManifestId_t(ulong value) {
-			m_SteamAPICall = value;
+			m_ManifestId = value;
 		}
 
 		public override string ToString() {
-			return m_SteamAPICall.ToString();
+			return m_ManifestId.ToString();
 		}
 
 		public override bool Equals(object other) {
@@ -22,11 +22,11 @@ namespace Steamworks {
 		}
 
 		public override int GetHashCode() {
-			return m_SteamAPICall.GetHashCode();
+			return m_ManifestId.GetHashCode();
 		}
 
 		public static bool operator ==(ManifestId_t x, ManifestId_t y) {
-			return x.m_SteamAPICall == y.m_SteamAPICall;
+			return x.m_ManifestId == y.m_ManifestId;
 		}
 
 		public static bool operator !=(ManifestId_t x, ManifestId_t y) {
@@ -36,16 +36,17 @@ namespace Steamworks {
 		public static explicit operator ManifestId_t(ulong value) {
 			return new ManifestId_t(value);
 		}
+
 		public static explicit operator ulong(ManifestId_t that) {
-			return that.m_SteamAPICall;
+			return that.m_ManifestId;
 		}
 
 		public bool Equals(ManifestId_t other) {
-			return m_SteamAPICall == other.m_SteamAPICall;
+			return m_ManifestId == other.m_ManifestId;
 		}
 
 		public int CompareTo(ManifestId_t other) {
-			return m_SteamAPICall.CompareTo(other.m_SteamAPICall);
+			return m_ManifestId.CompareTo(other.m_ManifestId);
 		}
 	}
 }
