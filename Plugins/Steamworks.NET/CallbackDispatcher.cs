@@ -5,37 +5,22 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 
-#if UNITY_3_5 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_5 // It would be nice if Unity defined 'UNITY' or something similar...
-	// We need to know if you're building for Unity under an unsupported platform so that the warning below does not get triggered.
-	#define UNITY_BUILD
-#endif
-
-#if UNITY_BUILD
-	// First we check if we're running in the Unity Editor we need the editors platform.
-	#if UNITY_EDITOR_WIN
+#if UNITY_3_5 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5
+	#error Unsupported Unity platform. Steamworks.NET requires Unity 4.6 or higher.
+#elif UNITY_4_6 || UNITY_5
+	#if UNITY_EDITOR_WIN || (UNITY_STANDALONE_WIN && !UNITY_EDITOR)
 		#define WINDOWS_BUILD
-	#elif UNITY_EDITOR_OSX
-		#define UNIX_BUILD
-	// Otherwise we want the target platform.
-	#elif UNITY_STANDALONE_WIN
-		#define WINDOWS_BUILD
-	#elif UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX
-		#define UNIX_BUILD
 	#endif
-// If we're not a UNITY_BUILD:
-#elif STEAMWORKS_LIN_OSX
-	#define UNIX_BUILD
-#else
-	// We want things to work out of the box if you're just getting started on XNA/Monogame.
+#elif STEAMWORKS_WIN
 	#define WINDOWS_BUILD
-	// But we would like you to be explicit about what platform we're building on.
-	#if !STEAMWORKS_WIN
-		#warning You need to define STEAMWORKS_WIN, or STEAMWORKS_LIN_OSX. Refer to the readme for more details.
-	#endif
+#elif STEAMWORKS_LIN_OSX
+	// So that we don't trigger the else.
+#else
+	#error You need to define STEAMWORKS_WIN, or STEAMWORKS_LIN_OSX. Refer to the readme for more details.
 #endif
 
 // Unity 32bit Mono on Windows crashes with ThisCall/Cdecl for some reason, StdCall without the 'this' ptr is the only thing that works..? 
-#if UNITY_BUILD && WINDOWS_BUILD && !UNITY_EDITOR_64 && (UNITY_EDITOR || !UNITY_64)
+#if (UNITY_EDITOR_WIN && !UNITY_EDITOR_64) || (!UNITY_EDITOR && UNITY_STANDALONE_WIN && !UNITY_64)
 	#define STDCALL
 #elif STEAMWORKS_WIN
 	#define THISCALL
