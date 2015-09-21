@@ -20,7 +20,7 @@ _Steamworks.NET_ currently fully supports Windows, OSX, and Linux in both 32 and
 [![Support via Paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YFZZER8VNXKRC)
 
 
-[Installation](http://steamworks.github.io/installation/)
+[Installation Instructions](http://steamworks.github.io/installation/)
 -----
 
 Samples
