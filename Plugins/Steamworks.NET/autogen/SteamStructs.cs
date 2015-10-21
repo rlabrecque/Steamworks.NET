@@ -10,22 +10,27 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks {
 	[StructLayout(LayoutKind.Sequential, Pack = 1)]
-	public struct SteamControllerState_t {
-		// If packet num matches that on your prior call, then the controller state hasn't been changed since
-		// your last call and there is no need to process it
-		public uint unPacketNum;
+	public struct ControllerAnalogActionData_t {
+		// Type of data coming from this action, this will match what got specified in the action set
+		public EControllerSourceMode eMode;
 		
-		// bit flags for each of the buttons
-		public ulong ulButtons;
+		// The current state of this action; will be delta updates for mouse actions
+		public float x, y;
 		
-		// Left pad coordinates
-		public short sLeftPadX;
-		public short sLeftPadY;
+		// Whether or not this action is currently available to be bound in the active action set
+		[MarshalAs(UnmanagedType.I1)]
+		public bool bActive;
+	}
+
+	[StructLayout(LayoutKind.Sequential, Pack = 1)]
+	public struct ControllerDigitalActionData_t {
+		// The current state of this action; will be true if currently pressed
+		[MarshalAs(UnmanagedType.I1)]
+		public bool bState;
 		
-		// Right pad coordinates
-		public short sRightPadX;
-		public short sRightPadY;
-		
+		// Whether or not this action is currently available to be bound in the active action set
+		[MarshalAs(UnmanagedType.I1)]
+		public bool bActive;
 	}
 
 	// friend game played information

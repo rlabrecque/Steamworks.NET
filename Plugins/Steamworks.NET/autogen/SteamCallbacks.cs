@@ -1544,6 +1544,29 @@ namespace Steamworks {
 		public UGCHandle_t m_hFile;					// The new content
 	}
 
+	//-----------------------------------------------------------------------------
+	// Purpose: Called when a FileWriteAsync completes
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iClientRemoteStorageCallbacks + 31)]
+	public struct RemoteStorageFileWriteAsyncComplete_t {
+		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 31;
+		public EResult m_eResult;						// result
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Called when a FileReadAsync completes
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iClientRemoteStorageCallbacks + 32)]
+	public struct RemoteStorageFileReadAsyncComplete_t {
+		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 32;
+		public SteamAPICall_t m_hFileReadAsync;		// call handle of the async read which was made
+		public EResult m_eResult;						// result
+		public uint m_nOffset;						// offset in the file this read was at
+		public uint m_cubRead;						// amount read - will the <= the amount requested
+	}
+
 	// callbacks
 	//-----------------------------------------------------------------------------
 	// Purpose: Screenshot successfully written or otherwise added to the library
@@ -1721,6 +1744,8 @@ namespace Steamworks {
 	public struct SteamServerConnectFailure_t {
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 2;
 		public EResult m_eResult;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bStillRetrying;
 	}
 
 	//-----------------------------------------------------------------------------

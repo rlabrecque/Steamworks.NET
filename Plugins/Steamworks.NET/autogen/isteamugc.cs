@@ -444,5 +444,24 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_DownloadItem(nPublishedFileID, bHighPriority);
 		}
+
+		/// <summary>
+		/// <para> game servers can set a specific workshop folder before issuing any UGC commands.</para>
+		/// <para> This is helpful if you want to support multiple game servers running out of the same install folder</para>
+		/// </summary>
+		public static bool BInitWorkshopForGameServer(DepotId_t unWorkshopDepotID, string pszFolder) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pszFolder2 = new InteropHelp.UTF8StringHandle(pszFolder)) {
+				return NativeMethods.ISteamUGC_BInitWorkshopForGameServer(unWorkshopDepotID, pszFolder2);
+			}
+		}
+
+		/// <summary>
+		/// <para> SuspendDownloads( true ) will suspend all workshop downloads until SuspendDownloads( false ) is called or the game ends</para>
+		/// </summary>
+		public static void SuspendDownloads(bool bSuspend) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamUGC_SuspendDownloads(bSuspend);
+		}
 	}
 }

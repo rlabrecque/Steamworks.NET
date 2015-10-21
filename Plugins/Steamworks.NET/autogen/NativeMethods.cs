@@ -424,7 +424,7 @@ namespace Steamworks {
 #region SteamController
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamController_Init(InteropHelp.UTF8StringHandle pchAbsolutePathToControllerConfigVDF);
+		public static extern bool ISteamController_Init();
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -434,14 +434,44 @@ namespace Steamworks {
 		public static extern void ISteamController_RunFrame();
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int ISteamController_GetConnectedControllers([In, Out] ControllerHandle_t[] handlesOut);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamController_GetControllerState(uint unControllerIndex, out SteamControllerState_t pState);
+		public static extern bool ISteamController_ShowBindingPanel(ControllerHandle_t controllerHandle);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamController_TriggerHapticPulse(uint unControllerIndex, ESteamControllerPad eTargetPad, ushort usDurationMicroSec);
+		public static extern ulong ISteamController_GetActionSetHandle(InteropHelp.UTF8StringHandle pszActionSetName);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamController_SetOverrideMode(InteropHelp.UTF8StringHandle pchMode);
+		public static extern void ISteamController_ActivateActionSet(ControllerHandle_t controllerHandle, ControllerActionSetHandle_t actionSetHandle);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern ulong ISteamController_GetCurrentActionSet(ControllerHandle_t controllerHandle);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern ulong ISteamController_GetDigitalActionHandle(InteropHelp.UTF8StringHandle pszActionName);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern ControllerDigitalActionData_t ISteamController_GetDigitalActionData(ControllerHandle_t controllerHandle, ControllerDigitalActionHandle_t digitalActionHandle);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int ISteamController_GetDigitalActionOrigins(ControllerHandle_t controllerHandle, ControllerActionSetHandle_t actionSetHandle, ControllerDigitalActionHandle_t digitalActionHandle, out EControllerActionOrigin originsOut);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern ulong ISteamController_GetAnalogActionHandle(InteropHelp.UTF8StringHandle pszActionName);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern ControllerAnalogActionData_t ISteamController_GetAnalogActionData(ControllerHandle_t controllerHandle, ControllerAnalogActionHandle_t analogActionHandle);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int ISteamController_GetAnalogActionOrigins(ControllerHandle_t controllerHandle, ControllerActionSetHandle_t actionSetHandle, ControllerAnalogActionHandle_t analogActionHandle, out EControllerActionOrigin originsOut);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamController_StopAnalogActionMomentum(ControllerHandle_t controllerHandle, ControllerAnalogActionHandle_t eAction);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamController_TriggerHapticPulse(ControllerHandle_t controllerHandle, ESteamControllerPad eTargetPad, ushort usDurationMicroSec);
 #endregion
 #region SteamFriends
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -1579,6 +1609,16 @@ namespace Steamworks {
 		public static extern int ISteamRemoteStorage_FileRead(InteropHelp.UTF8StringHandle pchFile, [In, Out] byte[] pvData, int cubDataToRead);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern ulong ISteamRemoteStorage_FileWriteAsync(InteropHelp.UTF8StringHandle pchFile, [In, Out] byte[] pvData, uint cubData);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern ulong ISteamRemoteStorage_FileReadAsync(InteropHelp.UTF8StringHandle pchFile, uint nOffset, uint cubToRead);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamRemoteStorage_FileReadAsyncComplete(SteamAPICall_t hReadCall, [In, Out] byte[] pvBuffer, uint cubToRead);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamRemoteStorage_FileForget(InteropHelp.UTF8StringHandle pchFile);
 
@@ -2000,6 +2040,13 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamUGC_DownloadItem(PublishedFileId_t nPublishedFileID, [MarshalAs(UnmanagedType.I1)] bool bHighPriority);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamUGC_BInitWorkshopForGameServer(DepotId_t unWorkshopDepotID, InteropHelp.UTF8StringHandle pszFolder);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamUGC_SuspendDownloads([MarshalAs(UnmanagedType.I1)] bool bSuspend);
 #endregion
 #region SteamUnifiedMessages
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -2865,6 +2912,13 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamGameServerUGC_DownloadItem(PublishedFileId_t nPublishedFileID, [MarshalAs(UnmanagedType.I1)] bool bHighPriority);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerUGC_BInitWorkshopForGameServer(DepotId_t unWorkshopDepotID, InteropHelp.UTF8StringHandle pszFolder);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamGameServerUGC_SuspendDownloads([MarshalAs(UnmanagedType.I1)] bool bSuspend);
 #endregion
 #region SteamGameServerUtils
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]

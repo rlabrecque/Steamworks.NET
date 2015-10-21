@@ -31,6 +31,25 @@ namespace Steamworks {
 			}
 		}
 
+		public static SteamAPICall_t FileWriteAsync(string pchFile, byte[] pvData, uint cubData) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchFile2 = new InteropHelp.UTF8StringHandle(pchFile)) {
+				return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_FileWriteAsync(pchFile2, pvData, cubData);
+			}
+		}
+
+		public static SteamAPICall_t FileReadAsync(string pchFile, uint nOffset, uint cubToRead) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchFile2 = new InteropHelp.UTF8StringHandle(pchFile)) {
+				return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_FileReadAsync(pchFile2, nOffset, cubToRead);
+			}
+		}
+
+		public static bool FileReadAsyncComplete(SteamAPICall_t hReadCall, byte[] pvBuffer, uint cubToRead) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamRemoteStorage_FileReadAsyncComplete(hReadCall, pvBuffer, cubToRead);
+		}
+
 		public static bool FileForget(string pchFile) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchFile2 = new InteropHelp.UTF8StringHandle(pchFile)) {

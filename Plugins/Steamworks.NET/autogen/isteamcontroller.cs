@@ -11,14 +11,11 @@ using System.Runtime.InteropServices;
 namespace Steamworks {
 	public static class SteamController {
 		/// <summary>
-		/// <para> Native controller support API</para>
-		/// <para> Must call init and shutdown when starting/ending use of the interface</para>
+		/// <para> Init and Shutdown must be called when starting/ending use of this interface</para>
 		/// </summary>
-		public static bool Init(string pchAbsolutePathToControllerConfigVDF) {
+		public static bool Init() {
 			InteropHelp.TestIfAvailableClient();
-			using (var pchAbsolutePathToControllerConfigVDF2 = new InteropHelp.UTF8StringHandle(pchAbsolutePathToControllerConfigVDF)) {
-				return NativeMethods.ISteamController_Init(pchAbsolutePathToControllerConfigVDF2);
-			}
+			return NativeMethods.ISteamController_Init();
 		}
 
 		public static bool Shutdown() {
@@ -27,8 +24,8 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Pump callback/callresult events, SteamAPI_RunCallbacks will do this for you,</para>
-		/// <para> normally never need to call directly.</para>
+		/// <para> Pump callback/callresult events</para>
+		/// <para> Note: SteamAPI_RunCallbacks will do this for you, so you should never need to call this directly.</para>
 		/// </summary>
 		public static void RunFrame() {
 			InteropHelp.TestIfAvailableClient();
@@ -36,29 +33,116 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Get the state of the specified controller, returns false if that controller is not connected</para>
+		/// <para> Enumerate currently connected controllers</para>
+		/// <para> handlesOut should point to a STEAM_CONTROLLER_MAX_COUNT sized array of ControllerHandle_t handles</para>
+		/// <para> Returns the number of handles written to handlesOut</para>
 		/// </summary>
-		public static bool GetControllerState(uint unControllerIndex, out SteamControllerState_t pState) {
+		public static int GetConnectedControllers(ControllerHandle_t[] handlesOut) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamController_GetControllerState(unControllerIndex, out pState);
+			return NativeMethods.ISteamController_GetConnectedControllers(handlesOut);
 		}
 
 		/// <summary>
-		/// <para> Trigger a haptic pulse on the controller</para>
+		/// <para> Invokes the Steam overlay and brings up the binding screen</para>
+		/// <para> Returns false is overlay is disabled / unavailable, or the user is not in Big Picture mode</para>
 		/// </summary>
-		public static void TriggerHapticPulse(uint unControllerIndex, ESteamControllerPad eTargetPad, ushort usDurationMicroSec) {
+		public static bool ShowBindingPanel(ControllerHandle_t controllerHandle) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamController_TriggerHapticPulse(unControllerIndex, eTargetPad, usDurationMicroSec);
+			return NativeMethods.ISteamController_ShowBindingPanel(controllerHandle);
 		}
 
 		/// <summary>
-		/// <para> Set the override mode which is used to choose to use different base/legacy bindings from your config file</para>
+		/// <para> ACTION SETS</para>
+		/// <para> Lookup the handle for an Action Set. Best to do this once on startup, and store the handles for all future API calls.</para>
 		/// </summary>
-		public static void SetOverrideMode(string pchMode) {
+		public static ControllerActionSetHandle_t GetActionSetHandle(string pszActionSetName) {
 			InteropHelp.TestIfAvailableClient();
-			using (var pchMode2 = new InteropHelp.UTF8StringHandle(pchMode)) {
-				NativeMethods.ISteamController_SetOverrideMode(pchMode2);
+			using (var pszActionSetName2 = new InteropHelp.UTF8StringHandle(pszActionSetName)) {
+				return (ControllerActionSetHandle_t)NativeMethods.ISteamController_GetActionSetHandle(pszActionSetName2);
 			}
+		}
+
+		/// <summary>
+		/// <para> Reconfigure the controller to use the specified action set (ie 'Menu', 'Walk' or 'Drive')</para>
+		/// <para> This is cheap, and can be safely called repeatedly. It's often easier to repeatedly call it in</para>
+		/// <para> your state loops, instead of trying to place it in all of your state transitions.</para>
+		/// </summary>
+		public static void ActivateActionSet(ControllerHandle_t controllerHandle, ControllerActionSetHandle_t actionSetHandle) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamController_ActivateActionSet(controllerHandle, actionSetHandle);
+		}
+
+		public static ControllerActionSetHandle_t GetCurrentActionSet(ControllerHandle_t controllerHandle) {
+			InteropHelp.TestIfAvailableClient();
+			return (ControllerActionSetHandle_t)NativeMethods.ISteamController_GetCurrentActionSet(controllerHandle);
+		}
+
+		/// <summary>
+		/// <para> ACTIONS</para>
+		/// <para> Lookup the handle for a digital action. Best to do this once on startup, and store the handles for all future API calls.</para>
+		/// </summary>
+		public static ControllerDigitalActionHandle_t GetDigitalActionHandle(string pszActionName) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pszActionName2 = new InteropHelp.UTF8StringHandle(pszActionName)) {
+				return (ControllerDigitalActionHandle_t)NativeMethods.ISteamController_GetDigitalActionHandle(pszActionName2);
+			}
+		}
+
+		/// <summary>
+		/// <para> Returns the current state of the supplied digital game action</para>
+		/// </summary>
+		public static ControllerDigitalActionData_t GetDigitalActionData(ControllerHandle_t controllerHandle, ControllerDigitalActionHandle_t digitalActionHandle) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamController_GetDigitalActionData(controllerHandle, digitalActionHandle);
+		}
+
+		/// <summary>
+		/// <para> Get the origin(s) for a digital action within an action set. Returns the number of origins supplied in originsOut. Use this to display the appropriate on-screen prompt for the action.</para>
+		/// <para> originsOut should point to a STEAM_CONTROLLER_MAX_ORIGINS sized array of EControllerActionOrigin handles</para>
+		/// </summary>
+		public static int GetDigitalActionOrigins(ControllerHandle_t controllerHandle, ControllerActionSetHandle_t actionSetHandle, ControllerDigitalActionHandle_t digitalActionHandle, out EControllerActionOrigin originsOut) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamController_GetDigitalActionOrigins(controllerHandle, actionSetHandle, digitalActionHandle, out originsOut);
+		}
+
+		/// <summary>
+		/// <para> Lookup the handle for an analog action. Best to do this once on startup, and store the handles for all future API calls.</para>
+		/// </summary>
+		public static ControllerAnalogActionHandle_t GetAnalogActionHandle(string pszActionName) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pszActionName2 = new InteropHelp.UTF8StringHandle(pszActionName)) {
+				return (ControllerAnalogActionHandle_t)NativeMethods.ISteamController_GetAnalogActionHandle(pszActionName2);
+			}
+		}
+
+		/// <summary>
+		/// <para> Returns the current state of these supplied analog game action</para>
+		/// </summary>
+		public static ControllerAnalogActionData_t GetAnalogActionData(ControllerHandle_t controllerHandle, ControllerAnalogActionHandle_t analogActionHandle) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamController_GetAnalogActionData(controllerHandle, analogActionHandle);
+		}
+
+		/// <summary>
+		/// <para> Get the origin(s) for an analog action within an action set. Returns the number of origins supplied in originsOut. Use this to display the appropriate on-screen prompt for the action.</para>
+		/// <para> originsOut should point to a STEAM_CONTROLLER_MAX_ORIGINS sized array of EControllerActionOrigin handles</para>
+		/// </summary>
+		public static int GetAnalogActionOrigins(ControllerHandle_t controllerHandle, ControllerActionSetHandle_t actionSetHandle, ControllerAnalogActionHandle_t analogActionHandle, out EControllerActionOrigin originsOut) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamController_GetAnalogActionOrigins(controllerHandle, actionSetHandle, analogActionHandle, out originsOut);
+		}
+
+		public static void StopAnalogActionMomentum(ControllerHandle_t controllerHandle, ControllerAnalogActionHandle_t eAction) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamController_StopAnalogActionMomentum(controllerHandle, eAction);
+		}
+
+		/// <summary>
+		/// <para> Trigger a haptic pulse on a controller</para>
+		/// </summary>
+		public static void TriggerHapticPulse(ControllerHandle_t controllerHandle, ESteamControllerPad eTargetPad, ushort usDurationMicroSec) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamController_TriggerHapticPulse(controllerHandle, eTargetPad, usDurationMicroSec);
 		}
 	}
 }

@@ -25,6 +25,76 @@ namespace Steamworks {
 		k_ESteamControllerPad_Right
 	}
 
+	public enum EControllerSource : int {
+		k_EControllerSource_None,
+		k_EControllerSource_LeftTrackpad,
+		k_EControllerSource_RightTrackpad,
+		k_EControllerSource_Joystick,
+		k_EControllerSource_ABXY,
+		k_EControllerSource_Switch,
+		k_EControllerSource_LeftTrigger,
+		k_EControllerSource_RightTrigger,
+		k_EControllerSource_Gyro
+	}
+
+	public enum EControllerSourceMode : int {
+		k_EControllerSourceMode_None,
+		k_EControllerSourceMode_Dpad,
+		k_EControllerSourceMode_Buttons,
+		k_EControllerSourceMode_FourButtons,
+		k_EControllerSourceMode_AbsoluteMouse,
+		k_EControllerSourceMode_RelativeMouse,
+		k_EControllerSourceMode_JoystickMove,
+		k_EControllerSourceMode_JoystickCamera,
+		k_EControllerSourceMode_ScrollWheel,
+		k_EControllerSourceMode_Trigger,
+		k_EControllerSourceMode_TouchMenu
+	}
+
+	public enum EControllerActionOrigin : int {
+		k_EControllerActionOrigin_None,
+		k_EControllerActionOrigin_A,
+		k_EControllerActionOrigin_B,
+		k_EControllerActionOrigin_X,
+		k_EControllerActionOrigin_Y,
+		k_EControllerActionOrigin_LeftBumper,
+		k_EControllerActionOrigin_RightBumper,
+		k_EControllerActionOrigin_LeftGrip,
+		k_EControllerActionOrigin_RightGrip,
+		k_EControllerActionOrigin_Start,
+		k_EControllerActionOrigin_Back,
+		k_EControllerActionOrigin_LeftPad_Touch,
+		k_EControllerActionOrigin_LeftPad_Swipe,
+		k_EControllerActionOrigin_LeftPad_Click,
+		k_EControllerActionOrigin_LeftPad_DPadNorth,
+		k_EControllerActionOrigin_LeftPad_DPadSouth,
+		k_EControllerActionOrigin_LeftPad_DPadWest,
+		k_EControllerActionOrigin_LeftPad_DPadEast,
+		k_EControllerActionOrigin_RightPad_Touch,
+		k_EControllerActionOrigin_RightPad_Swipe,
+		k_EControllerActionOrigin_RightPad_Click,
+		k_EControllerActionOrigin_RightPad_DPadNorth,
+		k_EControllerActionOrigin_RightPad_DPadSouth,
+		k_EControllerActionOrigin_RightPad_DPadWest,
+		k_EControllerActionOrigin_RightPad_DPadEast,
+		k_EControllerActionOrigin_LeftTrigger_Pull,
+		k_EControllerActionOrigin_LeftTrigger_Click,
+		k_EControllerActionOrigin_RightTrigger_Pull,
+		k_EControllerActionOrigin_RightTrigger_Click,
+		k_EControllerActionOrigin_LeftStick_Move,
+		k_EControllerActionOrigin_LeftStick_Click,
+		k_EControllerActionOrigin_LeftStick_DPadNorth,
+		k_EControllerActionOrigin_LeftStick_DPadSouth,
+		k_EControllerActionOrigin_LeftStick_DPadWest,
+		k_EControllerActionOrigin_LeftStick_DPadEast,
+		k_EControllerActionOrigin_Gyro_Move,
+		k_EControllerActionOrigin_Gyro_Pitch,
+		k_EControllerActionOrigin_Gyro_Yaw,
+		k_EControllerActionOrigin_Gyro_Roll,
+
+		k_EControllerActionOrigin_Count
+	}
+
 	//-----------------------------------------------------------------------------
 	// Purpose: set of relationships to other users
 	//-----------------------------------------------------------------------------
@@ -429,6 +499,7 @@ namespace Steamworks {
 		k_EUGCMatchingUGCType_UsableInGame		 = 10,		// ready-to-use items and integrated guides
 		k_EUGCMatchingUGCType_ControllerBindings = 11,
 		k_EUGCMatchingUGCType_GameManagedItems	 = 12,		// game managed items (not managed by users)
+		k_EUGCMatchingUGCType_All				 = ~0,		// return everything
 	}
 
 	// Different lists of published UGC for a user.
@@ -687,6 +758,7 @@ namespace Steamworks {
 		k_EResultRefundToWallet = 98,				// Cannot refund to payment method, must use wallet
 		k_EResultEmailSendFailure = 99,				// Cannot send an email
 		k_EResultNotSettled = 100,					// Can't perform operation till payment has settled
+		k_EResultNeedCaptcha = 101,					// Needs to provide a valid captcha
 	}
 
 	// Error codes for use with the voice functions
@@ -805,6 +877,7 @@ namespace Steamworks {
 		k_EAppOwnershipFlags_LicenseRecurring	= 0x1000,	// Recurring license, user is charged periodically
 		k_EAppOwnershipFlags_LicenseCanceled	= 0x2000,	// Mark as canceled, but might be still active if recurring
 		k_EAppOwnershipFlags_AutoGrant			= 0x4000,	// Ownership is based on any kind of autogrant license
+		k_EAppOwnershipFlags_PendingGift		= 0x8000,	// user has pending gift to redeem
 	}
 
 	//-----------------------------------------------------------------------------
@@ -949,6 +1022,29 @@ namespace Steamworks {
 		k_EBroadcastUploadResultSettingsChanged = 10,	// the client changed broadcast settings
 		k_EBroadcastUploadResultMissingAudio = 11,	// client failed to send audio data
 		k_EBroadcastUploadResultTooFarBehind = 12,	// clients was too slow uploading
+		k_EBroadcastUploadResultTranscodeBehind = 13,	// server failed to keep up with transcode
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: codes for well defined launch options
+	//-----------------------------------------------------------------------------
+	public enum ELaunchOptionType : int {
+		k_ELaunchOptionType_None		= 0,	// unknown what launch option does
+		k_ELaunchOptionType_Default		= 1,	// runs the game, app, whatever in default mode
+		k_ELaunchOptionType_SafeMode	= 2,	// runs the game in safe mode
+		k_ELaunchOptionType_Multiplayer = 3,	// runs the game in multiplayer mode
+		k_ELaunchOptionType_Config		= 4,	// runs config tool for this game
+		k_ELaunchOptionType_VR			= 5,	// runs game in VR mode
+		k_ELaunchOptionType_Server		= 6,	// runs dedicated server for this game
+		k_ELaunchOptionType_Editor		= 7,	// runs game editor
+		k_ELaunchOptionType_Manual		= 8,	// shows game manual
+		k_ELaunchOptionType_Benchmark	= 9,	// runs game benchmark
+		k_ELaunchOptionType_Option1		= 10,	// generic run option, uses description field for game name
+		k_ELaunchOptionType_Option2		= 11,	// generic run option, uses description field for game name
+		k_ELaunchOptionType_Option3     = 12,	// generic run option, uses description field for game name
+
+
+		k_ELaunchOptionType_Dialog 		= 1000, // show launch options dialog
 	}
 
 	// HTTP related types

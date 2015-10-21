@@ -14,7 +14,7 @@ namespace Steamworks {
 		public const string STEAMAPPS_INTERFACE_VERSION = "STEAMAPPS_INTERFACE_VERSION007";
 		public const string STEAMAPPTICKET_INTERFACE_VERSION = "STEAMAPPTICKET_INTERFACE_VERSION001";
 		public const string STEAMCLIENT_INTERFACE_VERSION = "SteamClient017";
-		public const string STEAMCONTROLLER_INTERFACE_VERSION = "STEAMCONTROLLER_INTERFACE_VERSION";
+		public const string STEAMCONTROLLER_INTERFACE_VERSION = "SteamController003";
 		public const string STEAMFRIENDS_INTERFACE_VERSION = "SteamFriends015";
 		public const string STEAMGAMECOORDINATOR_INTERFACE_VERSION = "SteamGameCoordinator001";
 		public const string STEAMGAMESERVER_INTERFACE_VERSION = "SteamGameServer012";
@@ -27,7 +27,7 @@ namespace Steamworks {
 		public const string STEAMMUSIC_INTERFACE_VERSION = "STEAMMUSIC_INTERFACE_VERSION001";
 		public const string STEAMMUSICREMOTE_INTERFACE_VERSION = "STEAMMUSICREMOTE_INTERFACE_VERSION001";
 		public const string STEAMNETWORKING_INTERFACE_VERSION = "SteamNetworking005";
-		public const string STEAMREMOTESTORAGE_INTERFACE_VERSION = "STEAMREMOTESTORAGE_INTERFACE_VERSION012";
+		public const string STEAMREMOTESTORAGE_INTERFACE_VERSION = "STEAMREMOTESTORAGE_INTERFACE_VERSION013";
 		public const string STEAMSCREENSHOTS_INTERFACE_VERSION = "STEAMSCREENSHOTS_INTERFACE_VERSION002";
 		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION007";
 		public const string STEAMUNIFIEDMESSAGES_INTERFACE_VERSION = "STEAMUNIFIEDMESSAGES_INTERFACE_VERSION001";
@@ -170,30 +170,14 @@ namespace Steamworks {
 		public const int k_uPhysicalItemIdInvalid = 0x0;
 		public const int k_uCellIDInvalid = -1;
 		public const int k_uPartnerIdInvalid = 0;
-		// callbacks
-		public const int MAX_STEAM_CONTROLLERS = 16;
-		public const int STEAM_RIGHT_TRIGGER_MASK            = 0x0000001;
-		public const int STEAM_LEFT_TRIGGER_MASK             = 0x0000002;
-		public const int STEAM_RIGHT_BUMPER_MASK             = 0x0000004;
-		public const int STEAM_LEFT_BUMPER_MASK              = 0x0000008;
-		public const int STEAM_BUTTON_0_MASK                 = 0x0000010;
-		public const int STEAM_BUTTON_1_MASK                 = 0x0000020;
-		public const int STEAM_BUTTON_2_MASK                 = 0x0000040;
-		public const int STEAM_BUTTON_3_MASK                 = 0x0000080;
-		public const int STEAM_TOUCH_0_MASK                  = 0x0000100;
-		public const int STEAM_TOUCH_1_MASK                  = 0x0000200;
-		public const int STEAM_TOUCH_2_MASK                  = 0x0000400;
-		public const int STEAM_TOUCH_3_MASK                  = 0x0000800;
-		public const int STEAM_BUTTON_MENU_MASK              = 0x0001000;
-		public const int STEAM_BUTTON_STEAM_MASK             = 0x0002000;
-		public const int STEAM_BUTTON_ESCAPE_MASK            = 0x0004000;
-		public const int STEAM_BUTTON_BACK_LEFT_MASK         = 0x0008000;
-		public const int STEAM_BUTTON_BACK_RIGHT_MASK        = 0x0010000;
-		public const int STEAM_BUTTON_LEFTPAD_CLICKED_MASK   = 0x0020000;
-		public const int STEAM_BUTTON_RIGHTPAD_CLICKED_MASK  = 0x0040000;
-		public const int STEAM_LEFTPAD_FINGERDOWN_MASK       = 0x0080000;
-		public const int STEAM_RIGHTPAD_FINGERDOWN_MASK      = 0x0100000;
-		public const int STEAM_JOYSTICK_BUTTON_MASK			= 0x0400000;
+		public const int STEAM_CONTROLLER_MAX_COUNT = 16;
+		public const int STEAM_CONTROLLER_MAX_ANALOG_ACTIONS = 16;
+		public const int STEAM_CONTROLLER_MAX_DIGITAL_ACTIONS = 32;
+		public const int STEAM_CONTROLLER_MAX_ORIGINS = 8;
+		// When sending an option to a specific controller handle, you can send to all controllers via this command
+		public const ulong STEAM_CONTROLLER_HANDLE_ALL_CONTROLLERS = 0xFFFFFFFFFFFFFFFF;
+		public const float STEAM_CONTROLLER_MIN_ANALOG_ACTION_DATA = -1.0f;
+		public const float STEAM_CONTROLLER_MAX_ANALOG_ACTION_DATA = 1.0f;
 		public const short MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE	= -1;
 		public const int INVALID_HTTPREQUEST_HANDLE		= 0;
 		// maximum number of characters a lobby metadata key can be

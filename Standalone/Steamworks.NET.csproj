@@ -227,6 +227,18 @@
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamClient\SteamAPI_PostAPIResultInProcess_t.cs">
       <Link>Steamworks.NET\types\SteamClient\SteamAPI_PostAPIResultInProcess_t.cs</Link>
     </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamController\ControllerActionSetHandle_t.cs">
+      <Link>Steamworks.NET\types\SteamController\ControllerActionSetHandle_t.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamController\ControllerAnalogActionHandle_t.cs">
+      <Link>Steamworks.NET\types\SteamController\ControllerAnalogActionHandle_t.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamController\ControllerDigitalActionHandle_t.cs">
+      <Link>Steamworks.NET\types\SteamController\ControllerDigitalActionHandle_t.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamController\ControllerHandle_t.cs">
+      <Link>Steamworks.NET\types\SteamController\ControllerHandle_t.cs</Link>
+    </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamFriends\FriendsGroupID_t.cs">
       <Link>Steamworks.NET\types\SteamFriends\FriendsGroupID_t.cs</Link>
     </Compile>
