@@ -119,15 +119,6 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> this needs to be called every frame to process matchmaking results</para>
-		/// <para> redundant if you're already calling SteamAPI_RunCallbacks()</para>
-		/// </summary>
-		public static void RunFrame() {
-			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamUtils_RunFrame();
-		}
-
-		/// <summary>
 		/// <para> returns the number of IPC calls made since the last time this function was called</para>
 		/// <para> Used for perf debugging so you can understand how many IPC calls your game makes per frame</para>
 		/// <para> Every IPC call is at minimum a thread context switch if not a process one so you want to rate</para>
@@ -172,7 +163,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUtils_BOverlayNeedsPresent();
 		}
-#if !_PS3
+
 		/// <summary>
 		/// <para> Asynchronous call to check if an executable file has been signed using the public key set on the signing tab</para>
 		/// <para> of the partner site, for example to refuse to load modified executable files.</para>
@@ -189,35 +180,7 @@ namespace Steamworks {
 				return (SteamAPICall_t)NativeMethods.ISteamUtils_CheckFileSignature(szFileName2);
 			}
 		}
-#endif
-#if _PS3
-		public static void PostPS3SysutilCallback(ulong status, ulong param, IntPtr userdata) {
-			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamUtils_PostPS3SysutilCallback(status, param, userdata);
-		}
 
-		public static bool BIsReadyToShutdown() {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUtils_BIsReadyToShutdown();
-		}
-
-		public static bool BIsPSNOnline() {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUtils_BIsPSNOnline();
-		}
-
-		/// <summary>
-		/// <para> Call this with localized strings for the language the game is running in, otherwise default english</para>
-		/// <para> strings will be used by Steam.</para>
-		/// </summary>
-		public static void SetPSNGameBootInviteStrings(string pchSubject, string pchBody) {
-			InteropHelp.TestIfAvailableClient();
-			using (var pchSubject2 = new InteropHelp.UTF8StringHandle(pchSubject))
-			using (var pchBody2 = new InteropHelp.UTF8StringHandle(pchBody)) {
-				NativeMethods.ISteamUtils_SetPSNGameBootInviteStrings(pchSubject2, pchBody2);
-			}
-		}
-#endif
 		/// <summary>
 		/// <para> Activates the Big Picture text input dialog which only supports gamepad input</para>
 		/// </summary>

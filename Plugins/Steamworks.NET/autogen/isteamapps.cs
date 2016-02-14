@@ -203,16 +203,5 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamApps_GetAppBuildId();
 		}
-#if _PS3
-		/// <summary>
-		/// <para> Result returned in a RegisterActivationCodeResponse_t callresult</para>
-		/// </summary>
-		public static SteamAPICall_t RegisterActivationCode(string pchActivationCode) {
-			InteropHelp.TestIfAvailableClient();
-			using (var pchActivationCode2 = new InteropHelp.UTF8StringHandle(pchActivationCode)) {
-				return (SteamAPICall_t)NativeMethods.ISteamApps_RegisterActivationCode(pchActivationCode2);
-			}
-		}
-#endif
 	}
 }

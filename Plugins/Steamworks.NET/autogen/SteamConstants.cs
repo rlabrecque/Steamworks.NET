@@ -87,6 +87,7 @@ namespace Steamworks {
 		public const int k_iSteamHTMLSurfaceCallbacks = 4500;
 		public const int k_iClientVideoCallbacks = 4600;
 		public const int k_iClientInventoryCallbacks = 4700;
+		public const int k_iClientBluetoothManagerCallbacks = 4800;
 		// maximum length of friend group name (not including terminating nul!)
 		public const int k_cchMaxFriendsGroupName = 64;
 		// maximum number of groups a single user is allowed
@@ -172,7 +173,7 @@ namespace Steamworks {
 		public const int k_uPartnerIdInvalid = 0;
 		public const int STEAM_CONTROLLER_MAX_COUNT = 16;
 		public const int STEAM_CONTROLLER_MAX_ANALOG_ACTIONS = 16;
-		public const int STEAM_CONTROLLER_MAX_DIGITAL_ACTIONS = 32;
+		public const int STEAM_CONTROLLER_MAX_DIGITAL_ACTIONS = 128;
 		public const int STEAM_CONTROLLER_MAX_ORIGINS = 8;
 		// When sending an option to a specific controller handle, you can send to all controllers via this command
 		public const ulong STEAM_CONTROLLER_HANDLE_ALL_CONTROLLERS = 0xFFFFFFFFFFFFFFFF;

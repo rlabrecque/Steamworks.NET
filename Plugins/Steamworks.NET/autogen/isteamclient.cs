@@ -11,7 +11,8 @@ using System.Runtime.InteropServices;
 namespace Steamworks {
 	public static class SteamClient {
 		/// <summary>
-		/// <para> Creates a communication pipe to the Steam client</para>
+		/// <para> Creates a communication pipe to the Steam client.</para>
+		/// <para> NOT THREADSAFE - ensure that no other threads are accessing Steamworks API when calling</para>
 		/// </summary>
 		public static HSteamPipe CreateSteamPipe() {
 			InteropHelp.TestIfAvailableClient();
@@ -20,6 +21,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Releases a previously created communications pipe</para>
+		/// <para> NOT THREADSAFE - ensure that no other threads are accessing Steamworks API when calling</para>
 		/// </summary>
 		public static bool BReleaseSteamPipe(HSteamPipe hSteamPipe) {
 			InteropHelp.TestIfAvailableClient();
@@ -29,6 +31,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> connects to an existing global user, failing if none exists</para>
 		/// <para> used by the game to coordinate with the steamUI</para>
+		/// <para> NOT THREADSAFE - ensure that no other threads are accessing Steamworks API when calling</para>
 		/// </summary>
 		public static HSteamUser ConnectToGlobalUser(HSteamPipe hSteamPipe) {
 			InteropHelp.TestIfAvailableClient();
@@ -37,6 +40,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> used by game servers, create a steam user that won't be shared with anyone else</para>
+		/// <para> NOT THREADSAFE - ensure that no other threads are accessing Steamworks API when calling</para>
 		/// </summary>
 		public static HSteamUser CreateLocalUser(out HSteamPipe phSteamPipe, EAccountType eAccountType) {
 			InteropHelp.TestIfAvailableClient();
@@ -45,6 +49,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> removes an allocated user</para>
+		/// <para> NOT THREADSAFE - ensure that no other threads are accessing Steamworks API when calling</para>
 		/// </summary>
 		public static void ReleaseUser(HSteamPipe hSteamPipe, HSteamUser hUser) {
 			InteropHelp.TestIfAvailableClient();
@@ -191,15 +196,6 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> this needs to be called every frame to process matchmaking results</para>
-		/// <para> redundant if you're already calling SteamAPI_RunCallbacks()</para>
-		/// </summary>
-		public static void RunFrame() {
-			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamClient_RunFrame();
-		}
-
-		/// <summary>
 		/// <para> returns the number of IPC calls made since the last time this function was called</para>
 		/// <para> Used for perf debugging so you can understand how many IPC calls your game makes per frame</para>
 		/// <para> Every IPC call is at minimum a thread context switch if not a process one so you want to rate</para>
@@ -214,7 +210,7 @@ namespace Steamworks {
 		/// <para> API warning handling</para>
 		/// <para> 'int' is the severity; 0 for msg, 1 for warning</para>
 		/// <para> 'const char *' is the text of the message</para>
-		/// <para> callbacks will occur directly after the API function is called that generated the warning or message</para>
+		/// <para> callbacks will occur directly after the API function is called that generated the warning or message.</para>
 		/// </summary>
 		public static void SetWarningMessageHook(SteamAPIWarningMessageHook_t pFunction) {
 			InteropHelp.TestIfAvailableClient();
@@ -228,12 +224,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamClient_BShutdownIfAllPipesClosed();
 		}
-#if _PS3
-		public static IntPtr GetISteamPS3OverlayRender() {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamClient_GetISteamPS3OverlayRender();
-		}
-#endif
+
 		/// <summary>
 		/// <para> Expose HTTP interface</para>
 		/// </summary>
@@ -312,24 +303,6 @@ namespace Steamworks {
 			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
 				return NativeMethods.ISteamClient_GetISteamHTMLSurface(hSteamuser, hSteamPipe, pchVersion2);
 			}
-		}
-
-		/// <summary>
-		/// <para> Helper functions for internal Steam usage</para>
-		/// </summary>
-		public static void Set_SteamAPI_CPostAPIResultInProcess(SteamAPI_PostAPIResultInProcess_t func) {
-			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamClient_Set_SteamAPI_CPostAPIResultInProcess(func);
-		}
-
-		public static void Remove_SteamAPI_CPostAPIResultInProcess(SteamAPI_PostAPIResultInProcess_t func) {
-			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamClient_Remove_SteamAPI_CPostAPIResultInProcess(func);
-		}
-
-		public static void Set_SteamAPI_CCheckCallbackRegisteredInProcess(SteamAPI_CheckCallbackRegistered_t func) {
-			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamClient_Set_SteamAPI_CCheckCallbackRegisteredInProcess(func);
 		}
 
 		/// <summary>

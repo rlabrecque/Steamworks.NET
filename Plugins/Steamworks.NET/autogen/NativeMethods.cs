@@ -42,6 +42,10 @@ namespace Steamworks {
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool SteamAPI_Init();
 #endif
+
+		[DllImport("CSteamworks", EntryPoint = "ReleaseCurrentThreadMemory", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SteamAPI_ReleaseCurrentThreadMemory();
+
 		[DllImport("CSteamworks", EntryPoint = "RunCallbacks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_RunCallbacks();
 
@@ -302,10 +306,6 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int ISteamApps_GetAppBuildId();
-#if _PS3
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamApps_RegisterActivationCode(InteropHelp.UTF8StringHandle pchActivationCode);
-#endif
 #endregion
 #region SteamClient
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -367,9 +367,6 @@ namespace Steamworks {
 		public static extern IntPtr ISteamClient_GetISteamScreenshots(HSteamUser hSteamuser, HSteamPipe hSteamPipe, InteropHelp.UTF8StringHandle pchVersion);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamClient_RunFrame();
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint ISteamClient_GetIPCCallCount();
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -378,10 +375,7 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamClient_BShutdownIfAllPipesClosed();
-#if _PS3
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamClient_GetISteamPS3OverlayRender();
-#endif
+
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr ISteamClient_GetISteamHTTP(HSteamUser hSteamuser, HSteamPipe hSteamPipe, InteropHelp.UTF8StringHandle pchVersion);
 
@@ -405,15 +399,6 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr ISteamClient_GetISteamHTMLSurface(HSteamUser hSteamuser, HSteamPipe hSteamPipe, InteropHelp.UTF8StringHandle pchVersion);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamClient_Set_SteamAPI_CPostAPIResultInProcess(SteamAPI_PostAPIResultInProcess_t func);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamClient_Remove_SteamAPI_CPostAPIResultInProcess(SteamAPI_PostAPIResultInProcess_t func);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamClient_Set_SteamAPI_CCheckCallbackRegisteredInProcess(SteamAPI_CheckCallbackRegistered_t func);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr ISteamClient_GetISteamInventory(HSteamUser hSteamuser, HSteamPipe hSteamPipe, InteropHelp.UTF8StringHandle pchVersion);
@@ -472,6 +457,9 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ISteamController_TriggerHapticPulse(ControllerHandle_t controllerHandle, ESteamControllerPad eTargetPad, ushort usDurationMicroSec);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamController_TriggerRepeatedHapticPulse(ControllerHandle_t controllerHandle, ESteamControllerPad eTargetPad, ushort usDurationMicroSec, ushort usOffMicroSec, ushort unRepeat, uint nFlags);
 #endregion
 #region SteamFriends
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -2377,9 +2365,6 @@ namespace Steamworks {
 		public static extern bool ISteamUtils_GetAPICallResult(SteamAPICall_t hSteamAPICall, IntPtr pCallback, int cubCallback, int iCallbackExpected, out bool pbFailed);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamUtils_RunFrame();
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint ISteamUtils_GetIPCCallCount();
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -2392,25 +2377,10 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamUtils_BOverlayNeedsPresent();
-#if !_PS3
+
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong ISteamUtils_CheckFileSignature(InteropHelp.UTF8StringHandle szFileName);
-#endif
-#if _PS3
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamUtils_PostPS3SysutilCallback(ulong status, ulong param, IntPtr userdata);
 
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamUtils_BIsReadyToShutdown();
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamUtils_BIsPSNOnline();
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamUtils_SetPSNGameBootInviteStrings(InteropHelp.UTF8StringHandle pchSubject, InteropHelp.UTF8StringHandle pchBody);
-#endif
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamUtils_ShowGamepadTextInput(EGamepadTextInputMode eInputMode, EGamepadTextInputLineMode eLineInputMode, InteropHelp.UTF8StringHandle pchDescription, uint unCharMax, InteropHelp.UTF8StringHandle pchExistingText);
@@ -2969,9 +2939,6 @@ namespace Steamworks {
 		public static extern bool ISteamGameServerUtils_GetAPICallResult(SteamAPICall_t hSteamAPICall, IntPtr pCallback, int cubCallback, int iCallbackExpected, out bool pbFailed);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamGameServerUtils_RunFrame();
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint ISteamGameServerUtils_GetIPCCallCount();
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -2984,25 +2951,10 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamGameServerUtils_BOverlayNeedsPresent();
-#if !_PS3
+
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong ISteamGameServerUtils_CheckFileSignature(InteropHelp.UTF8StringHandle szFileName);
-#endif
-#if _PS3
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamGameServerUtils_PostPS3SysutilCallback(ulong status, ulong param, IntPtr userdata);
 
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerUtils_BIsReadyToShutdown();
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerUtils_BIsPSNOnline();
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamGameServerUtils_SetPSNGameBootInviteStrings(InteropHelp.UTF8StringHandle pchSubject, InteropHelp.UTF8StringHandle pchBody);
-#endif
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamGameServerUtils_ShowGamepadTextInput(EGamepadTextInputMode eInputMode, EGamepadTextInputLineMode eLineInputMode, InteropHelp.UTF8StringHandle pchDescription, uint unCharMax, InteropHelp.UTF8StringHandle pchExistingText);

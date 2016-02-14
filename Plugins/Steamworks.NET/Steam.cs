@@ -6,15 +6,13 @@
 
 #define VERSION_SAFE_STEAM_API_INTERFACES
 
-using System.Runtime.InteropServices;
-
 namespace Steamworks {
 	public static class Version {
-		public const string SteamworksNETVersion = "8.0.0";
-		public const string SteamworksSDKVersion = "1.35";
-		public const string SteamAPIDLLVersion = "03.03.47.38";
-		public const int SteamAPIDLLSize = 187472;
-		public const int SteamAPI64DLLSize = 204880;
+		public const string SteamworksNETVersion = "9.0.0";
+		public const string SteamworksSDKVersion = "1.36";
+		public const string SteamAPIDLLVersion = "03.27.76.74";
+		public const int SteamAPIDLLSize = 217168;
+		public const int SteamAPI64DLLSize = 239184;
 	}
 
 	public static class SteamAPI {
@@ -25,7 +23,7 @@ namespace Steamworks {
 		//
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
 
-		// Detects if your executable was launched through the Steam client, and restarts your game through 
+		// Detects if your executable was launched through the Steam client, and restarts your game through
 		// the client if necessary. The Steam client will be started if it is not running.
 		//
 		// Returns: true if your executable was NOT launched through the Steam client. This function will
@@ -63,15 +61,40 @@ namespace Steamworks {
 			NativeMethods.SteamAPI_Shutdown();
 		}
 
+		// Most Steam API functions allocate some amount of thread-local memory for
+		// parameter storage. The SteamAPI_ReleaseCurrentThreadMemory() function
+		// will free all API-related memory associated with the calling thread.
+		// This memory is also released automatically by SteamAPI_RunCallbacks(), so
+		// a single-threaded program does not need to explicitly call this function.
+		public static void ReleaseCurrentThreadMemory() {
+			InteropHelp.TestIfPlatformSupported();
+			NativeMethods.SteamAPI_ReleaseCurrentThreadMemory();
+		}
+
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
-		//	steam callback helper functions
+		//	steam callback and call-result helpers
 		//
-		//	The following classes/macros are used to be able to easily multiplex callbacks 
-		//	from the Steam API into various objects in the app in a thread-safe manner
+		//	The following macros and classes are used to register your application for
+		//	callbacks and call-results, which are delivered in a predictable manner.
 		//
-		//	These functors are triggered via the SteamAPI_RunCallbacks() function, mapping the callback
-		//  to as many functions/objects as are registered to it
+		//	STEAM_CALLBACK macros are meant for use inside of a C++ class definition.
+		//	They map a Steam notification callback directly to a class member function
+		//	which is automatically prototyped as "void func( callback_type *pParam )".
+		//
+		//	CCallResult is used with specific Steam APIs that return "result handles".
+		//	The handle can be passed to a CCallResult object's Set function, along with
+		//	an object pointer and member-function pointer. The member function will
+		//	be executed once the results of the Steam API call are available.
+		//
+		//	CCallback and CCallbackManual classes can be used instead of STEAM_CALLBACK
+		//	macros if you require finer control over registration and unregistration.
+		//
+		//	Callbacks and call-results are queued automatically and are only
+		//	delivered/executed when your application calls SteamAPI_RunCallbacks().
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+		// SteamAPI_RunCallbacks is safe to call from multiple threads simultaneously,
+		// but if you choose to do this, callback code may be executed on any thread.
 		public static void RunCallbacks() {
 			InteropHelp.TestIfPlatformSupported();
 			NativeMethods.SteamAPI_RunCallbacks();
@@ -125,10 +148,7 @@ namespace Steamworks {
 
 		// [Steamworks.NET] This is for Ease of use, since we don't need to care about the differences between them in C#.
 		public static bool Init(uint unIP, ushort usSteamPort, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, string pchVersionString) {
-			InteropHelp.TestIfPlatformSupported();
-			using (var pchVersionString2 = new InteropHelp.UTF8StringHandle(pchVersionString)) {
-				return NativeMethods.SteamGameServer_InitSafe(unIP, usSteamPort, usGamePort, usQueryPort, eServerMode, pchVersionString2);
-			}
+			return InitSafe(unIP, usSteamPort, usGamePort, usQueryPort, eServerMode, pchVersionString);
 		}
 #else
 		public static bool Init(uint unIP, ushort usSteamPort, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, string pchVersionString) {
