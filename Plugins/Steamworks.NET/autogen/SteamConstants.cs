@@ -179,7 +179,7 @@ namespace Steamworks {
 		public const ulong STEAM_CONTROLLER_HANDLE_ALL_CONTROLLERS = 0xFFFFFFFFFFFFFFFF;
 		public const float STEAM_CONTROLLER_MIN_ANALOG_ACTION_DATA = -1.0f;
 		public const float STEAM_CONTROLLER_MAX_ANALOG_ACTION_DATA = 1.0f;
-		public const ushort MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE	= -1;
+		public const ushort MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE	= 0xFFFF;
 		public const int INVALID_HTTPREQUEST_HANDLE		= 0;
 		// maximum number of characters a lobby metadata key can be
 		public const byte k_nMaxLobbyKeyLength = 255;
