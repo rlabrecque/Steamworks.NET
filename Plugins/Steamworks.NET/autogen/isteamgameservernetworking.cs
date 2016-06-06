@@ -162,7 +162,7 @@ namespace Steamworks {
 		/// <para> use the reliable flag with caution; although the resend rate is pretty aggressive,</para>
 		/// <para> it can still cause stalls in receiving data (like TCP)</para>
 		/// </summary>
-		public static bool SendDataOnSocket(SNetSocket_t hSocket, IntPtr pubData, uint cubData, bool bReliable) {
+		public static bool SendDataOnSocket(SNetSocket_t hSocket, byte[] pubData, uint cubData, bool bReliable) {
 			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServerNetworking_SendDataOnSocket(hSocket, pubData, cubData, bReliable);
 		}
@@ -183,7 +183,7 @@ namespace Steamworks {
 		/// <para> if *pcubMsgSize &lt; cubDest, only partial data is written</para>
 		/// <para> returns false if no data is available</para>
 		/// </summary>
-		public static bool RetrieveDataFromSocket(SNetSocket_t hSocket, IntPtr pubDest, uint cubDest, out uint pcubMsgSize) {
+		public static bool RetrieveDataFromSocket(SNetSocket_t hSocket, byte[] pubDest, uint cubDest, out uint pcubMsgSize) {
 			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServerNetworking_RetrieveDataFromSocket(hSocket, pubDest, cubDest, out pcubMsgSize);
 		}
@@ -207,7 +207,7 @@ namespace Steamworks {
 		/// <para> returns false if no data is available</para>
 		/// <para> fills out *phSocket with the socket that data is available on</para>
 		/// </summary>
-		public static bool RetrieveData(SNetListenSocket_t hListenSocket, IntPtr pubDest, uint cubDest, out uint pcubMsgSize, out SNetSocket_t phSocket) {
+		public static bool RetrieveData(SNetListenSocket_t hListenSocket, byte[] pubDest, uint cubDest, out uint pcubMsgSize, out SNetSocket_t phSocket) {
 			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServerNetworking_RetrieveData(hListenSocket, pubDest, cubDest, out pcubMsgSize, out phSocket);
 		}
