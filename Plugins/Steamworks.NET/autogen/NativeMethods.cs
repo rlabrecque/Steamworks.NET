@@ -12,26 +12,7 @@ namespace Steamworks {
 	internal static class NativeMethods {
 		internal const string NativeLibraryName = "CSteamworks";
 #region steam_api.h
-		[DllImport("CSteamworks", EntryPoint = "Shutdown", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void SteamAPI_Shutdown();
-
-		[DllImport("CSteamworks", EntryPoint = "IsSteamRunning", CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool SteamAPI_IsSteamRunning();
-
-		[DllImport("CSteamworks", EntryPoint = "RestartAppIfNecessary", CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool SteamAPI_RestartAppIfNecessary(AppId_t unOwnAppID);
-
-		[DllImport("CSteamworks", EntryPoint = "WriteMiniDump", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void SteamAPI_WriteMiniDump(uint uStructuredExceptionCode, IntPtr pvExceptionInfo, uint uBuildID);
-
-		[DllImport("CSteamworks", EntryPoint = "SetMiniDumpComment", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void SteamAPI_SetMiniDumpComment(InteropHelp.UTF8StringHandle pchMsg);
-
-		[DllImport("CSteamworks", EntryPoint = "SteamClient_", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamClient();
-
+		// Steam API setup & shutdown
 		[DllImport("CSteamworks", EntryPoint = "InitSafe", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool SteamAPI_InitSafe();
@@ -43,9 +24,24 @@ namespace Steamworks {
 		public static extern bool SteamAPI_Init();
 #endif
 
+		[DllImport("CSteamworks", EntryPoint = "Shutdown", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SteamAPI_Shutdown();
+
+		[DllImport("CSteamworks", EntryPoint = "RestartAppIfNecessary", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool SteamAPI_RestartAppIfNecessary(AppId_t unOwnAppID);
+
 		[DllImport("CSteamworks", EntryPoint = "ReleaseCurrentThreadMemory", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_ReleaseCurrentThreadMemory();
 
+		// crash dump recording functions
+		[DllImport("CSteamworks", EntryPoint = "WriteMiniDump", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SteamAPI_WriteMiniDump(uint uStructuredExceptionCode, IntPtr pvExceptionInfo, uint uBuildID);
+
+		[DllImport("CSteamworks", EntryPoint = "SetMiniDumpComment", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SteamAPI_SetMiniDumpComment(InteropHelp.UTF8StringHandle pchMsg);
+
+		// steam callback and call-result helpers
 		[DllImport("CSteamworks", EntryPoint = "RunCallbacks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_RunCallbacks();
 
@@ -60,6 +56,11 @@ namespace Steamworks {
 
 		[DllImport("CSteamworks", EntryPoint = "UnregisterCallResult", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_UnregisterCallResult(IntPtr pCallback, ulong hAPICall);
+
+		// steamclient.dll private wrapper functions
+		[DllImport("CSteamworks", EntryPoint = "IsSteamRunning", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool SteamAPI_IsSteamRunning();
 
 		[DllImport("CSteamworks", EntryPoint = "Steam_RunCallbacks_", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Steam_RunCallbacks(HSteamPipe hSteamPipe, [MarshalAs(UnmanagedType.I1)] bool bGameServerCallbacks);
@@ -79,13 +80,23 @@ namespace Steamworks {
 		[DllImport("CSteamworks", EntryPoint = "SetTryCatchCallbacks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_SetTryCatchCallbacks([MarshalAs(UnmanagedType.I1)] bool bTryCatchCallbacks);
 
+
+		// steam_api_internal.h
 		[DllImport("CSteamworks", EntryPoint = "GetHSteamUser_", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SteamAPI_GetHSteamUser();
+
+		[DllImport("CSteamworks", EntryPoint = "SteamInternal_CreateInterface_", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SteamInternal_CreateInterface(IntPtr ver);
 
 		[DllImport("CSteamworks", EntryPoint = "UseBreakpadCrashHandler", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_UseBreakpadCrashHandler(InteropHelp.UTF8StringHandle pchVersion, InteropHelp.UTF8StringHandle pchDate, InteropHelp.UTF8StringHandle pchTime, [MarshalAs(UnmanagedType.I1)] bool bFullMemoryDumps, IntPtr pvContext, IntPtr m_pfnPreMinidumpCallback);
 
+		[DllImport("CSteamworks", EntryPoint = "SetBreakpadAppID", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SteamAPI_SetBreakpadAppID(uint unAppID);
+
 		// SteamContext Accessors:
+		[DllImport("CSteamworks", EntryPoint = "SteamClient", CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr SteamClient();
 		[DllImport("CSteamworks", EntryPoint = "SteamUser", CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SteamUser();
 		[DllImport("CSteamworks", EntryPoint = "SteamFriends", CallingConvention = CallingConvention.Cdecl)]
@@ -128,22 +139,18 @@ namespace Steamworks {
 		public static extern IntPtr SteamVideo();
 #endregion
 #region steam_gameserver.h
-		[DllImport("CSteamworks", EntryPoint = "GameServer_InitSafe", CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool SteamGameServer_InitSafe(uint unIP, ushort usSteamPort, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, InteropHelp.UTF8StringHandle pchVersionString);
-
-#if DISABLED
-		// This depends on how CSteamworks was compiled. By default it's compiled with VERSION_SAFE_STEAM_API_INTERFACES.
 		[DllImport("CSteamworks", EntryPoint = "GameServer_Init", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool SteamGameServer_Init(uint unIP, ushort usSteamPort, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, InteropHelp.UTF8StringHandle pchVersionString);
-#endif
 
 		[DllImport("CSteamworks", EntryPoint = "GameServer_Shutdown", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamGameServer_Shutdown();
 
 		[DllImport("CSteamworks", EntryPoint = "GameServer_RunCallbacks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamGameServer_RunCallbacks();
+
+		[DllImport("CSteamworks", EntryPoint = "GameServer_ReleaseCurrentThreadMemory", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SteamGameServer_ReleaseCurrentThreadMemory();
 
 		[DllImport("CSteamworks", EntryPoint = "GameServer_BSecure", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -158,10 +165,13 @@ namespace Steamworks {
 		[DllImport("CSteamworks", EntryPoint = "GameServer_GetHSteamUser", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SteamGameServer_GetHSteamUser();
 
-		[DllImport("CSteamworks", EntryPoint = "SteamClientGameServer", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamClientGameServer();
+		[DllImport("CSteamworks", EntryPoint = "SteamInternal_GameServer_Init_", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool SteamInternal_GameServer_Init(uint unIP, ushort usPort, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, InteropHelp.UTF8StringHandle pchVersionString);
 
 		// SteamGameServerContext Accessors
+		[DllImport("CSteamworks", EntryPoint = "SteamGameServerClient", CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr SteamGameServerClient();
 		[DllImport("CSteamworks", EntryPoint = "SteamGameServer", CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SteamGameServer();
 		[DllImport("CSteamworks", EntryPoint = "SteamGameServerUtils", CallingConvention = CallingConvention.Cdecl)]
@@ -176,6 +186,8 @@ namespace Steamworks {
 		public static extern IntPtr SteamGameServerInventory();
 		[DllImport("CSteamworks", EntryPoint = "SteamGameServerUGC", CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SteamGameServerUGC();
+		[DllImport("CSteamworks", EntryPoint = "SteamGameServerApps", CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr SteamGameServerApps();
 #endregion
 #region steamencryptedappticket.h
 		[DllImport("sdkencryptedappticket", CallingConvention = CallingConvention.Cdecl, EntryPoint = "SteamEncryptedAppTicket_BDecryptTicket")]
@@ -306,6 +318,9 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int ISteamApps_GetAppBuildId();
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamApps_RequestAllProofOfPurchaseKeys();
 #endregion
 #region SteamClient
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -1862,7 +1877,7 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamUGC_GetQueryUGCAdditionalPreview(UGCQueryHandle_t handle, uint index, uint previewIndex, IntPtr pchURLOrVideoID, uint cchURLSize, out bool pbIsImage);
+		public static extern bool ISteamUGC_GetQueryUGCAdditionalPreview(UGCQueryHandle_t handle, uint index, uint previewIndex, IntPtr pchURLOrVideoID, uint cchURLSize, IntPtr pchOriginalFileName, uint cchOriginalFileNameSize, out EItemPreviewType pPreviewType);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint ISteamUGC_GetQueryUGCNumKeyValueTags(UGCQueryHandle_t handle, uint index);
@@ -1983,6 +1998,26 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamUGC_AddItemKeyValueTag(UGCUpdateHandle_t handle, InteropHelp.UTF8StringHandle pchKey, InteropHelp.UTF8StringHandle pchValue);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamUGC_AddItemPreviewFile(UGCUpdateHandle_t handle, InteropHelp.UTF8StringHandle pszPreviewFile, EItemPreviewType type);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamUGC_AddItemPreviewVideo(UGCUpdateHandle_t handle, InteropHelp.UTF8StringHandle pszVideoID);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamUGC_UpdateItemPreviewFile(UGCUpdateHandle_t handle, uint index, InteropHelp.UTF8StringHandle pszPreviewFile);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamUGC_UpdateItemPreviewVideo(UGCUpdateHandle_t handle, uint index, InteropHelp.UTF8StringHandle pszVideoID);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamUGC_RemoveItemPreview(UGCUpdateHandle_t handle, uint index);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong ISteamUGC_SubmitItemUpdate(UGCUpdateHandle_t handle, InteropHelp.UTF8StringHandle pchChangeNote);
@@ -2135,19 +2170,14 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong ISteamUser_RequestStoreAuthURL(InteropHelp.UTF8StringHandle pchRedirectURL);
-#if _PS3
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamUser_LogOn([MarshalAs(UnmanagedType.I1)] bool bInteractive);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamUser_LogOnAndLinkSteamAccountToPSN([MarshalAs(UnmanagedType.I1)] bool bInteractive, InteropHelp.UTF8StringHandle pchUserName, InteropHelp.UTF8StringHandle pchPassword);
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamUser_BIsPhoneVerified();
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamUser_LogOnAndCreateNewSteamAccountIfNeeded([MarshalAs(UnmanagedType.I1)] bool bInteractive);
-
-		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamUser_GetConsoleSteamID();
-#endif
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamUser_BIsTwoFactorEnabled();
 #endregion
 #region SteamUserStats
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -2401,6 +2431,13 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ISteamUtils_SetOverlayNotificationInset(int nHorizontalInset, int nVerticalInset);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamUtils_IsSteamInBigPictureMode();
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamUtils_StartVRDashboard();
 #endregion
 #region SteamVideo
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -2716,7 +2753,7 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamGameServerUGC_GetQueryUGCAdditionalPreview(UGCQueryHandle_t handle, uint index, uint previewIndex, IntPtr pchURLOrVideoID, uint cchURLSize, out bool pbIsImage);
+		public static extern bool ISteamGameServerUGC_GetQueryUGCAdditionalPreview(UGCQueryHandle_t handle, uint index, uint previewIndex, IntPtr pchURLOrVideoID, uint cchURLSize, IntPtr pchOriginalFileName, uint cchOriginalFileNameSize, out EItemPreviewType pPreviewType);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint ISteamGameServerUGC_GetQueryUGCNumKeyValueTags(UGCQueryHandle_t handle, uint index);
@@ -2837,6 +2874,26 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamGameServerUGC_AddItemKeyValueTag(UGCUpdateHandle_t handle, InteropHelp.UTF8StringHandle pchKey, InteropHelp.UTF8StringHandle pchValue);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerUGC_AddItemPreviewFile(UGCUpdateHandle_t handle, InteropHelp.UTF8StringHandle pszPreviewFile, EItemPreviewType type);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerUGC_AddItemPreviewVideo(UGCUpdateHandle_t handle, InteropHelp.UTF8StringHandle pszVideoID);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerUGC_UpdateItemPreviewFile(UGCUpdateHandle_t handle, uint index, InteropHelp.UTF8StringHandle pszPreviewFile);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerUGC_UpdateItemPreviewVideo(UGCUpdateHandle_t handle, uint index, InteropHelp.UTF8StringHandle pszVideoID);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerUGC_RemoveItemPreview(UGCUpdateHandle_t handle, uint index);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong ISteamGameServerUGC_SubmitItemUpdate(UGCUpdateHandle_t handle, InteropHelp.UTF8StringHandle pchChangeNote);
@@ -2975,6 +3032,13 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ISteamGameServerUtils_SetOverlayNotificationInset(int nHorizontalInset, int nVerticalInset);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamGameServerUtils_IsSteamInBigPictureMode();
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamGameServerUtils_StartVRDashboard();
 #endregion
 	}
 }

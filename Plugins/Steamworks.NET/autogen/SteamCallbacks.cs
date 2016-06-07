@@ -52,19 +52,6 @@ namespace Steamworks {
 		public uint m_unPackageRegistered;						// package that was registered. Only set on success
 	}
 
-	//-----------------------------------------------------------------------------
-	// Purpose: response to RegisterActivationCode()
-	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 13)]
-	public struct AppProofOfPurchaseKeyResponse_t {
-		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 13;
-		public EResult m_eResult;
-		public uint m_nAppID;
-		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cubAppProofOfPurchaseKeyMax)]
-		public string m_rgchKey;
-	}
-
 	//---------------------------------------------------------------------------------
 	// Purpose: posted after the user gains executes a steam url with query parameters
 	// such as steam://run/<appid>//?param1=value1;param2=value2;param3=value3; etc
@@ -75,6 +62,21 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 14)]
 	public struct NewLaunchQueryParameters_t {
 		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 14;
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: response to RequestAppProofOfPurchaseKey/RequestAllProofOfPurchaseKeys
+	// for supporting third-party CD keys, or other proof-of-purchase systems.
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 21)]
+	public struct AppProofOfPurchaseKeyResponse_t {
+		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 21;
+		public EResult m_eResult;
+		public uint m_nAppID;
+		public uint m_cchKeyLength;
+		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cubAppProofOfPurchaseKeyMax)]
+		public string m_rgchKey;
 	}
 
 	// callbacks
@@ -1541,7 +1543,7 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 30;
 		public PublishedFileId_t m_nPublishedFileId;	// The published file id
 		public AppId_t m_nAppID;						// ID of the app that will consume this file.
-		public UGCHandle_t m_hFile;					// The new content
+		public ulong m_ulUnused;						// not used anymore
 	}
 
 	//-----------------------------------------------------------------------------
@@ -2053,6 +2055,8 @@ namespace Steamworks {
 	public struct SteamAPICallCompleted_t {
 		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 3;
 		public SteamAPICall_t m_hAsyncCall;
+		public int m_iCallback;
+		public uint m_cubParam;
 	}
 
 	//-----------------------------------------------------------------------------

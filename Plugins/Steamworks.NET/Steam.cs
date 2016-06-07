@@ -9,10 +9,10 @@
 namespace Steamworks {
 	public static class Version {
 		public const string SteamworksNETVersion = "9.0.0";
-		public const string SteamworksSDKVersion = "1.36";
-		public const string SteamAPIDLLVersion = "03.27.76.74";
-		public const int SteamAPIDLLSize = 217168;
-		public const int SteamAPI64DLLSize = 239184;
+		public const string SteamworksSDKVersion = "1.37";
+		public const string SteamAPIDLLVersion = "03.42.61.66";
+		public const int SteamAPIDLLSize = 213072;
+		public const int SteamAPI64DLLSize = 235600;
 	}
 
 	public static class SteamAPI {
@@ -23,28 +23,15 @@ namespace Steamworks {
 		//
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
 
-		// Detects if your executable was launched through the Steam client, and restarts your game through
-		// the client if necessary. The Steam client will be started if it is not running.
-		//
-		// Returns: true if your executable was NOT launched through the Steam client. This function will
-		//          then start your application through the client. Your current process should exit.
-		//
-		//          false if your executable was started through the Steam client or a steam_appid.txt file
-		//          is present in your game's directory (for development). Your current process should continue.
-		//
-		// NOTE: This function should be used only if you are using CEG or not using Steam's DRM. Once applied
-		//       to your executable, Steam's DRM will handle restarting through Steam if necessary.
-		public static bool RestartAppIfNecessary(AppId_t unOwnAppID) {
-			InteropHelp.TestIfPlatformSupported();
-			return NativeMethods.SteamAPI_RestartAppIfNecessary(unOwnAppID);
-		}
 
+		// SteamAPI_Init must be called before using any other API functions. If it fails, an
+		// error message will be output to the debugger (or stderr) with further information.
 #if VERSION_SAFE_STEAM_API_INTERFACES
+		// [Steamworks.NET] This is for Ease of use, since we don't need to care about the differences between Init and InitSafe in C#.
 		public static bool InitSafe() {
 			return Init();
 		}
 
-		// [Steamworks.NET] This is for Ease of use, since we don't need to care about the differences between them in C#.
 		public static bool Init() {
 			InteropHelp.TestIfPlatformSupported();
 			return NativeMethods.SteamAPI_InitSafe();
@@ -61,15 +48,30 @@ namespace Steamworks {
 			NativeMethods.SteamAPI_Shutdown();
 		}
 
-		// Most Steam API functions allocate some amount of thread-local memory for
-		// parameter storage. The SteamAPI_ReleaseCurrentThreadMemory() function
-		// will free all API-related memory associated with the calling thread.
-		// This memory is also released automatically by SteamAPI_RunCallbacks(), so
-		// a single-threaded program does not need to explicitly call this function.
+		// SteamAPI_RestartAppIfNecessary ensures that your executable was launched through Steam.
+		//
+		// Returns true if the current process should terminate. Steam is now re-launching your application.
+		//
+		// Returns false if no action needs to be taken. This means that your executable was started through
+		// the Steam client, or a steam_appid.txt file is present in your game's directory (for development).
+		// Your current process should continue if false is returned.
+		//
+		// NOTE: If you use the Steam DRM wrapper on your primary executable file, this check is unnecessary
+		// since the DRM wrapper will ensure that your application was launched properly through Steam.
+		public static bool RestartAppIfNecessary(AppId_t unOwnAppID) {
+			InteropHelp.TestIfPlatformSupported();
+			return NativeMethods.SteamAPI_RestartAppIfNecessary(unOwnAppID);
+		}
+
+		// Most Steam API functions allocate some amount of thread-local memory for parameter storage.
+		// SteamAPI_ReleaseCurrentThreadMemory() will free API memory associated with the calling thread.
+		// This function is also called automatically by SteamAPI_RunCallbacks(), so a single-threaded
+		// program never needs to explicitly call this function.
 		public static void ReleaseCurrentThreadMemory() {
 			InteropHelp.TestIfPlatformSupported();
 			NativeMethods.SteamAPI_ReleaseCurrentThreadMemory();
 		}
+
 
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
 		//	steam callback and call-result helpers
@@ -94,13 +96,21 @@ namespace Steamworks {
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 		// SteamAPI_RunCallbacks is safe to call from multiple threads simultaneously,
-		// but if you choose to do this, callback code may be executed on any thread.
+		// but if you choose to do this, callback code could be executed on any thread.
+		// One alternative is to call SteamAPI_RunCallbacks from the main thread only,
+		// and call SteamAPI_ReleaseCurrentThreadMemory regularly on other threads.
 		public static void RunCallbacks() {
 			InteropHelp.TestIfPlatformSupported();
 			NativeMethods.SteamAPI_RunCallbacks();
 		}
 
-		// checks if a local Steam client is running
+		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
+		//	steamclient.dll private wrapper functions
+		//
+		//	The following functions are part of abstracting API access to the steamclient.dll, but should only be used in very specific cases
+		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+		// SteamAPI_IsSteamRunning() returns true if Steam is currently running
 		public static bool IsSteamRunning() {
 			InteropHelp.TestIfPlatformSupported();
 			return NativeMethods.SteamAPI_IsSteamRunning();
@@ -111,7 +121,7 @@ namespace Steamworks {
 			InteropHelp.TestIfPlatformSupported();
 			return (HSteamUser)NativeMethods.Steam_GetHSteamUserCurrent();
 		}
-		
+
 		// returns the pipe we are communicating to Steam with
 		public static HSteamPipe GetHSteamPipe() {
 			InteropHelp.TestIfPlatformSupported();
@@ -138,26 +148,13 @@ namespace Steamworks {
 		//		UDP packets for the master  server updater. See references to GameSocketShare in isteamgameserver.h.
 		// - The version string is usually in the form x.x.x.x, and is used by the master server to detect when the
 		//		server is out of date.  (Only servers with the latest version will be listed.)
-#if VERSION_SAFE_STEAM_API_INTERFACES
-		public static bool InitSafe(uint unIP, ushort usSteamPort, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, string pchVersionString) {
+		public static bool Init(uint unIP, ushort usSteamPort, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, string pchVersionString) {
 			InteropHelp.TestIfPlatformSupported();
-			using (var pchVersionString2 = new InteropHelp.UTF8StringHandle(pchVersionString)) {
-				return NativeMethods.SteamGameServer_InitSafe(unIP, usSteamPort, usGamePort, usQueryPort, eServerMode, pchVersionString2);
+			using(var pchVersionString2 = new InteropHelp.UTF8StringHandle(pchVersionString)) {
+				return NativeMethods.SteamGameServer_Init(unIP, usSteamPort, usGamePort, usQueryPort, eServerMode, pchVersionString2);
 			}
 		}
 
-		// [Steamworks.NET] This is for Ease of use, since we don't need to care about the differences between them in C#.
-		public static bool Init(uint unIP, ushort usSteamPort, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, string pchVersionString) {
-			return InitSafe(unIP, usSteamPort, usGamePort, usQueryPort, eServerMode, pchVersionString);
-		}
-#else
-		public static bool Init(uint unIP, ushort usSteamPort, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, string pchVersionString) {
-			InteropHelp.TestIfPlatformSupported();
-			using (var pchVersionString2 = new InteropHelp.UTF8StringHandle(pchVersionString)) {
-				return NativeMethods.SteamGameServer_Init(unIP, usSteamPort, usGamePort, usQueryPort, eServerMode, pchVersionString2);
-		`	}
-		}
-#endif
 		public static void Shutdown() {
 			InteropHelp.TestIfPlatformSupported();
 			NativeMethods.SteamGameServer_Shutdown();
@@ -166,6 +163,16 @@ namespace Steamworks {
 		public static void RunCallbacks() {
 			InteropHelp.TestIfPlatformSupported();
 			NativeMethods.SteamGameServer_RunCallbacks();
+		}
+
+		// Most Steam API functions allocate some amount of thread-local memory for
+		// parameter storage. Calling SteamGameServer_ReleaseCurrentThreadMemory()
+		// will free all API-related memory associated with the calling thread.
+		// This memory is released automatically by SteamGameServer_RunCallbacks(),
+		// so single-threaded servers do not need to explicitly call this function.
+		public static void ReleaseCurrentThreadMemory() {
+			InteropHelp.TestIfPlatformSupported();
+			NativeMethods.SteamGameServer_ReleaseCurrentThreadMemory();
 		}
 
 		public static bool BSecure() {

@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 namespace Steamworks {
 	public static class Constants {
 		public const string STEAMAPPLIST_INTERFACE_VERSION = "STEAMAPPLIST_INTERFACE_VERSION001";
-		public const string STEAMAPPS_INTERFACE_VERSION = "STEAMAPPS_INTERFACE_VERSION007";
+		public const string STEAMAPPS_INTERFACE_VERSION = "STEAMAPPS_INTERFACE_VERSION008";
 		public const string STEAMAPPTICKET_INTERFACE_VERSION = "STEAMAPPTICKET_INTERFACE_VERSION001";
 		public const string STEAMCLIENT_INTERFACE_VERSION = "SteamClient017";
 		public const string STEAMCONTROLLER_INTERFACE_VERSION = "SteamController003";
@@ -29,13 +29,13 @@ namespace Steamworks {
 		public const string STEAMNETWORKING_INTERFACE_VERSION = "SteamNetworking005";
 		public const string STEAMREMOTESTORAGE_INTERFACE_VERSION = "STEAMREMOTESTORAGE_INTERFACE_VERSION013";
 		public const string STEAMSCREENSHOTS_INTERFACE_VERSION = "STEAMSCREENSHOTS_INTERFACE_VERSION002";
-		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION007";
+		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION008";
 		public const string STEAMUNIFIEDMESSAGES_INTERFACE_VERSION = "STEAMUNIFIEDMESSAGES_INTERFACE_VERSION001";
-		public const string STEAMUSER_INTERFACE_VERSION = "SteamUser018";
+		public const string STEAMUSER_INTERFACE_VERSION = "SteamUser019";
 		public const string STEAMUSERSTATS_INTERFACE_VERSION = "STEAMUSERSTATS_INTERFACE_VERSION011";
-		public const string STEAMUTILS_INTERFACE_VERSION = "SteamUtils007";
+		public const string STEAMUTILS_INTERFACE_VERSION = "SteamUtils008";
 		public const string STEAMVIDEO_INTERFACE_VERSION = "STEAMVIDEO_INTERFACE_V001";
-		public const int k_cubAppProofOfPurchaseKeyMax = 64; // max bytes of a legacy cd key we support
+		public const int k_cubAppProofOfPurchaseKeyMax = 240; // max supported length of a legacy cd key
 		//-----------------------------------------------------------------------------
 		// Purpose: Base values for callback identifiers, each callback must
 		//			have a unique ID.
@@ -82,8 +82,8 @@ namespace Steamworks {
 		public const int k_iSteamMusicCallbacks = 4000;
 		public const int k_iSteamMusicRemoteCallbacks = 4100;
 		public const int k_iClientVRCallbacks = 4200;
-		public const int k_iClientReservedCallbacks = 4300;
-		public const int k_iSteamReservedCallbacks = 4400;
+		public const int k_iClientGameNotificationCallbacks = 4300;
+		public const int k_iSteamGameNotificationCallbacks = 4400;
 		public const int k_iSteamHTMLSurfaceCallbacks = 4500;
 		public const int k_iClientVideoCallbacks = 4600;
 		public const int k_iClientInventoryCallbacks = 4700;

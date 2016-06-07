@@ -579,6 +579,22 @@ namespace Steamworks {
 		k_EItemStatistic_ReportScore			= 7,
 	}
 
+	public enum EItemPreviewType : int {
+		k_EItemPreviewType_Image							= 0,	// standard image file expected (e.g. jpg, png, gif, etc.)
+		k_EItemPreviewType_YouTubeVideo						= 1,	// video id is stored
+		k_EItemPreviewType_Sketchfab						= 2,	// model id is stored
+		k_EItemPreviewType_EnvironmentMap_HorizontalCross	= 3,	// standard image file expected - cube map in the layout
+																	// +---+---+-------+
+																	// |   |Up |       |
+																	// +---+---+---+---+
+																	// | L | F | R | B |
+																	// +---+---+---+---+
+																	// |   |Dn |       |
+																	// +---+---+---+---+
+		k_EItemPreviewType_EnvironmentMap_LatLong			= 4,	// standard image file expected
+		k_EItemPreviewType_ReservedMax						= 255,	// you can specify your own types above this value
+	}
+
 	public enum EFailureType : int {
 		k_EFailureFlushedCallbackQueue,
 		k_EFailurePipeFail,
@@ -766,6 +782,7 @@ namespace Steamworks {
 		k_EResultGSLTDenied = 102,					// a game server login token owned by this token's owner has been banned
 		k_EResultGSOwnerDenied = 103,				// game server owner is denied for other reason (account lock, community ban, vac ban, missing phone)
 		k_EResultInvalidItemType = 104,				// the type of thing we were requested to act on is invalid
+		k_EResultIPBanned = 105,					// the ip address has been banned from taking this action
 	}
 
 	// Error codes for use with the voice functions
@@ -886,6 +903,7 @@ namespace Steamworks {
 		k_EAppOwnershipFlags_AutoGrant			= 0x4000,	// Ownership is based on any kind of autogrant license
 		k_EAppOwnershipFlags_PendingGift		= 0x8000,	// user has pending gift to redeem
 		k_EAppOwnershipFlags_RentalNotActivated	= 0x10000,	// Rental hasn't been activated yet
+		k_EAppOwnershipFlags_Rental				= 0x20000,	// Is a rental
 	}
 
 	//-----------------------------------------------------------------------------
@@ -947,8 +965,8 @@ namespace Steamworks {
 		k_EChatEntryTypeWasBanned = 9,		// user was banned (data: 64-bit steamid of actor performing the ban)
 		k_EChatEntryTypeDisconnected = 10,	// user disconnected
 		k_EChatEntryTypeHistoricalChat = 11,	// a chat message from user's chat history or offilne message
-		k_EChatEntryTypeReserved1 = 12,
-		k_EChatEntryTypeReserved2 = 13,
+		//k_EChatEntryTypeReserved1 = 12, // No longer used
+		//k_EChatEntryTypeReserved2 = 13, // No longer used
 		k_EChatEntryTypeLinkBlocked = 14, // a link was removed by the chat filter.
 	}
 
@@ -1057,6 +1075,29 @@ namespace Steamworks {
 		k_ELaunchOptionType_Dialog 		= 1000, // show launch options dialog
 	}
 
+	//-----------------------------------------------------------------------------
+	// Purpose: true if this launch option is any of the vr launching types
+	//-----------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------
+	// Purpose: code points for VR HMD vendors and models
+	// WARNING: DO NOT RENUMBER EXISTING VALUES - STORED IN A DATABASE
+	//-----------------------------------------------------------------------------
+	public enum EVRHMDType : int {
+		k_eEVRHMDType_Unknown = 0, // unknown vendor and model
+
+		k_eEVRHMDType_HTC_Dev = 1,	// original HTC dev kits
+		k_eEVRHMDType_HTC_VivePre = 2,	// htc vive pre
+		k_eEVRHMDType_HTC_Vive = 3,	// htc vive consumer release
+
+		k_eEVRHMDType_HTC_Unknown = 20, // unknown htc hmd
+
+		k_eEVRHMDType_Oculus_DK1 = 21, // occulus DK1
+		k_eEVRHMDType_Oculus_DK2 = 22, // occulus DK2
+		k_eEVRHMDType_Oculus_Rift = 23, // occulus rift
+
+		k_eEVRHMDType_Oculus_Unknown = 40, // // occulus unknown HMD
+	}
+
 	// HTTP related types
 	// This enum is used in client API methods, do not re-number existing values.
 	public enum EHTTPMethod : int {
@@ -1067,6 +1108,7 @@ namespace Steamworks {
 		k_EHTTPMethodPUT,
 		k_EHTTPMethodDELETE,
 		k_EHTTPMethodOPTIONS,
+		k_EHTTPMethodPATCH,
 
 		// The remaining HTTP methods are not yet supported, per rfc2616 section 5.1.1 only GET and HEAD are required for
 		// a compliant general purpose server.  We'll likely add more as we find uses for them.

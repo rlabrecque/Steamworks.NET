@@ -30,6 +30,11 @@ namespace Steamworks {
 		/// <para> identify your client on web servers.</para>
 		/// <para>   The userCSS string lets you apply a CSS style sheet to every displayed page, leave null if</para>
 		/// <para> you do not require this functionality.</para>
+		/// <para> YOU MUST HAVE IMPLEMENTED HANDLERS FOR HTML_BrowserReady_t, HTML_StartRequest_t,</para>
+		/// <para> HTML_JSAlert_t, HTML_JSConfirm_t, and HTML_FileOpenDialog_t! See the CALLBACKS</para>
+		/// <para> section of this interface (AllowStartRequest, etc) for more details. If you do</para>
+		/// <para> not implement these callback handlers, the browser may appear to hang instead of</para>
+		/// <para> navigating to new pages or triggering javascript popups.</para>
 		/// </summary>
 		public static SteamAPICall_t CreateBrowser(string pchUserAgent, string pchUserCSS) {
 			InteropHelp.TestIfAvailableClient();

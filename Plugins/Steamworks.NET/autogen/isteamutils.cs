@@ -232,5 +232,23 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamUtils_SetOverlayNotificationInset(nHorizontalInset, nVerticalInset);
 		}
+
+		/// <summary>
+		/// <para> returns true if Steam &amp; the Steam Overlay are running in Big Picture mode</para>
+		/// <para> Games much be launched through the Steam client to enable the Big Picture overlay. During development,</para>
+		/// <para> a game can be added as a non-steam game to the developers library to test this feature</para>
+		/// </summary>
+		public static bool IsSteamInBigPictureMode() {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUtils_IsSteamInBigPictureMode();
+		}
+
+		/// <summary>
+		/// <para> ask SteamUI to create and render its OpenVR dashboard</para>
+		/// </summary>
+		public static void StartVRDashboard() {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamUtils_StartVRDashboard();
+		}
 	}
 }

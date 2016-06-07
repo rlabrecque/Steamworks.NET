@@ -108,7 +108,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Request cd-key for yourself or owned DLC. If you are interested in this</para>
+		/// <para> Request legacy cd-key for yourself or owned DLC. If you are interested in this</para>
 		/// <para> data then make sure you provide us with a list of valid keys to be distributed</para>
 		/// <para> to users when they purchase the game, before the game ships.</para>
 		/// <para> You'll receive an AppProofOfPurchaseKeyResponse_t callback when</para>
@@ -202,6 +202,17 @@ namespace Steamworks {
 		public static int GetAppBuildId() {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamApps_GetAppBuildId();
+		}
+
+		/// <summary>
+		/// <para> Request all proof of purchase keys for the calling appid and asociated DLC.</para>
+		/// <para> A series of AppProofOfPurchaseKeyResponse_t callbacks will be sent with</para>
+		/// <para> appropriate appid values, ending with a final callback where the m_nAppId</para>
+		/// <para> member is k_uAppIdInvalid (zero).</para>
+		/// </summary>
+		public static void RequestAllProofOfPurchaseKeys() {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamApps_RequestAllProofOfPurchaseKeys();
 		}
 	}
 }

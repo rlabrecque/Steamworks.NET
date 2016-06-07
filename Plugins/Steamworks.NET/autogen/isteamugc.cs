@@ -83,12 +83,15 @@ namespace Steamworks {
 			return NativeMethods.ISteamUGC_GetQueryUGCNumAdditionalPreviews(handle, index);
 		}
 
-		public static bool GetQueryUGCAdditionalPreview(UGCQueryHandle_t handle, uint index, uint previewIndex, out string pchURLOrVideoID, uint cchURLSize, out bool pbIsImage) {
+		public static bool GetQueryUGCAdditionalPreview(UGCQueryHandle_t handle, uint index, uint previewIndex, out string pchURLOrVideoID, uint cchURLSize, out string pchOriginalFileName, uint cchOriginalFileNameSize, out EItemPreviewType pPreviewType) {
 			InteropHelp.TestIfAvailableClient();
 			IntPtr pchURLOrVideoID2 = Marshal.AllocHGlobal((int)cchURLSize);
-			bool ret = NativeMethods.ISteamUGC_GetQueryUGCAdditionalPreview(handle, index, previewIndex, pchURLOrVideoID2, cchURLSize, out pbIsImage);
+			IntPtr pchOriginalFileName2 = Marshal.AllocHGlobal((int)cchOriginalFileNameSize);
+			bool ret = NativeMethods.ISteamUGC_GetQueryUGCAdditionalPreview(handle, index, previewIndex, pchURLOrVideoID2, cchURLSize, pchOriginalFileName2, cchOriginalFileNameSize, out pPreviewType);
 			pchURLOrVideoID = ret ? InteropHelp.PtrToStringUTF8(pchURLOrVideoID2) : null;
 			Marshal.FreeHGlobal(pchURLOrVideoID2);
+			pchOriginalFileName = ret ? InteropHelp.PtrToStringUTF8(pchOriginalFileName2) : null;
+			Marshal.FreeHGlobal(pchOriginalFileName2);
 			return ret;
 		}
 
@@ -334,6 +337,54 @@ namespace Steamworks {
 			using (var pchValue2 = new InteropHelp.UTF8StringHandle(pchValue)) {
 				return NativeMethods.ISteamUGC_AddItemKeyValueTag(handle, pchKey2, pchValue2);
 			}
+		}
+
+		/// <summary>
+		/// <para>  add preview file for this item. pszPreviewFile points to local file, which must be under 1MB in size</para>
+		/// </summary>
+		public static bool AddItemPreviewFile(UGCUpdateHandle_t handle, string pszPreviewFile, EItemPreviewType type) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pszPreviewFile2 = new InteropHelp.UTF8StringHandle(pszPreviewFile)) {
+				return NativeMethods.ISteamUGC_AddItemPreviewFile(handle, pszPreviewFile2, type);
+			}
+		}
+
+		/// <summary>
+		/// <para>  add preview video for this item</para>
+		/// </summary>
+		public static bool AddItemPreviewVideo(UGCUpdateHandle_t handle, string pszVideoID) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pszVideoID2 = new InteropHelp.UTF8StringHandle(pszVideoID)) {
+				return NativeMethods.ISteamUGC_AddItemPreviewVideo(handle, pszVideoID2);
+			}
+		}
+
+		/// <summary>
+		/// <para>  updates an existing preview file for this item. pszPreviewFile points to local file, which must be under 1MB in size</para>
+		/// </summary>
+		public static bool UpdateItemPreviewFile(UGCUpdateHandle_t handle, uint index, string pszPreviewFile) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pszPreviewFile2 = new InteropHelp.UTF8StringHandle(pszPreviewFile)) {
+				return NativeMethods.ISteamUGC_UpdateItemPreviewFile(handle, index, pszPreviewFile2);
+			}
+		}
+
+		/// <summary>
+		/// <para>  updates an existing preview video for this item</para>
+		/// </summary>
+		public static bool UpdateItemPreviewVideo(UGCUpdateHandle_t handle, uint index, string pszVideoID) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pszVideoID2 = new InteropHelp.UTF8StringHandle(pszVideoID)) {
+				return NativeMethods.ISteamUGC_UpdateItemPreviewVideo(handle, index, pszVideoID2);
+			}
+		}
+
+		/// <summary>
+		/// <para> remove a preview by index starting at 0 (previews are sorted)</para>
+		/// </summary>
+		public static bool RemoveItemPreview(UGCUpdateHandle_t handle, uint index) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_RemoveItemPreview(handle, index);
 		}
 
 		/// <summary>

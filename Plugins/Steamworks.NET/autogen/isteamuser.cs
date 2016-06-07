@@ -276,59 +276,21 @@ namespace Steamworks {
 				return (SteamAPICall_t)NativeMethods.ISteamUser_RequestStoreAuthURL(pchRedirectURL2);
 			}
 		}
-#if _PS3
+
 		/// <summary>
-		/// <para> Initiates PS3 Logon request using just PSN ticket.</para>
-		/// <para> PARAMS: bInteractive - If set tells Steam to go ahead and show the PS3 NetStart dialog if needed to</para>
-		/// <para> prompt the user for network setup/PSN logon before initiating the Steam side of the logon.</para>
-		/// <para> Listen for SteamServersConnected_t or SteamServerConnectFailure_t for status.  SteamServerConnectFailure_t</para>
-		/// <para> may return with EResult k_EResultExternalAccountUnlinked if the PSN account is unknown to Steam.  You should</para>
-		/// <para> then call LogOnAndLinkSteamAccountToPSN() after prompting the user for credentials to establish a link.</para>
-		/// <para> Future calls to LogOn() after the one time link call should succeed as long as the user is connected to PSN.</para>
+		/// <para> gets whether the users phone number is verified</para>
 		/// </summary>
-		public static void LogOn(bool bInteractive) {
+		public static bool BIsPhoneVerified() {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamUser_LogOn(bInteractive);
+			return NativeMethods.ISteamUser_BIsPhoneVerified();
 		}
 
 		/// <summary>
-		/// <para> Initiates a request to logon with a specific steam username/password and create a PSN account link at</para>
-		/// <para> the same time.  Should call this only if LogOn() has failed and indicated the PSN account is unlinked.</para>
-		/// <para> PARAMS: bInteractive - If set tells Steam to go ahead and show the PS3 NetStart dialog if needed to</para>
-		/// <para> prompt the user for network setup/PSN logon before initiating the Steam side of the logon.  pchUserName</para>
-		/// <para> should be the users Steam username, and pchPassword should be the users Steam password.</para>
-		/// <para> Listen for SteamServersConnected_t or SteamServerConnectFailure_t for status.  SteamServerConnectFailure_t</para>
-		/// <para> may return with EResult k_EResultOtherAccountAlreadyLinked if already linked to another account.</para>
+		/// <para> gets whether the user has two factor enabled on their account</para>
 		/// </summary>
-		public static void LogOnAndLinkSteamAccountToPSN(bool bInteractive, string pchUserName, string pchPassword) {
+		public static bool BIsTwoFactorEnabled() {
 			InteropHelp.TestIfAvailableClient();
-			using (var pchUserName2 = new InteropHelp.UTF8StringHandle(pchUserName))
-			using (var pchPassword2 = new InteropHelp.UTF8StringHandle(pchPassword)) {
-				NativeMethods.ISteamUser_LogOnAndLinkSteamAccountToPSN(bInteractive, pchUserName2, pchPassword2);
-			}
+			return NativeMethods.ISteamUser_BIsTwoFactorEnabled();
 		}
-
-		/// <summary>
-		/// <para> Final logon option for PS3, this logs into an existing account if already linked, but if not already linked</para>
-		/// <para> creates a new account using the info in the PSN ticket to generate a unique account name.  The new account is</para>
-		/// <para> then linked to the PSN ticket.  This is the faster option for new users who don't have an existing Steam account</para>
-		/// <para> to get into multiplayer.</para>
-		/// <para> PARAMS: bInteractive - If set tells Steam to go ahead and show the PS3 NetStart dialog if needed to</para>
-		/// <para> prompt the user for network setup/PSN logon before initiating the Steam side of the logon.</para>
-		/// </summary>
-		public static void LogOnAndCreateNewSteamAccountIfNeeded(bool bInteractive) {
-			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamUser_LogOnAndCreateNewSteamAccountIfNeeded(bInteractive);
-		}
-
-		/// <summary>
-		/// <para> Returns a special SteamID that represents the user's PSN information. Can be used to query the user's PSN avatar,</para>
-		/// <para> online name, etc. through the standard Steamworks interfaces.</para>
-		/// </summary>
-		public static CSteamID GetConsoleSteamID() {
-			InteropHelp.TestIfAvailableClient();
-			return (CSteamID)NativeMethods.ISteamUser_GetConsoleSteamID();
-		}
-#endif
 	}
 }

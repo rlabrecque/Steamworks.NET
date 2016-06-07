@@ -24,8 +24,9 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Pump callback/callresult events</para>
-		/// <para> Note: SteamAPI_RunCallbacks will do this for you, so you should never need to call this directly.</para>
+		/// <para> Synchronize API state with the latest Steam Controller inputs available. This</para>
+		/// <para> is performed automatically by SteamAPI_RunCallbacks, but for the absolute lowest</para>
+		/// <para> possible latency, you call this directly before reading controller state.</para>
 		/// </summary>
 		public static void RunFrame() {
 			InteropHelp.TestIfAvailableClient();
