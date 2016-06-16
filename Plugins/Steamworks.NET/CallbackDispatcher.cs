@@ -5,9 +5,9 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 
-#if UNITY_3_5 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5
+#if UNITY_3_5 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6
 	#error Unsupported Unity platform. Steamworks.NET requires Unity 4.6 or higher.
-#elif UNITY_4_6 || UNITY_5
+#elif UNITY_4_7 || UNITY_5
 	#if UNITY_EDITOR_WIN || (UNITY_STANDALONE_WIN && !UNITY_EDITOR)
 		#define WINDOWS_BUILD
 	#endif
