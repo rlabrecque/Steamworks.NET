@@ -5,6 +5,7 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 namespace Steamworks {
+	[System.Serializable]
 	public struct SteamInventoryResult_t : System.IEquatable<SteamInventoryResult_t>, System.IComparable<SteamInventoryResult_t> {
 		public static readonly SteamInventoryResult_t Invalid = new SteamInventoryResult_t(-1);
 		public int m_SteamInventoryResult;

@@ -5,6 +5,7 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 namespace Steamworks {
+	[System.Serializable]
 	public struct HTTPRequestHandle : System.IEquatable<HTTPRequestHandle>, System.IComparable<HTTPRequestHandle> {
 		public static readonly HTTPRequestHandle Invalid = new HTTPRequestHandle(0);
 		public uint m_HTTPRequestHandle;

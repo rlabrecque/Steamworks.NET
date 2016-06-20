@@ -5,6 +5,7 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 namespace Steamworks {
+	[System.Serializable]
 	public struct SteamItemDef_t : System.IEquatable<SteamItemDef_t>, System.IComparable<SteamItemDef_t> {
 		public int m_SteamItemDef;
 

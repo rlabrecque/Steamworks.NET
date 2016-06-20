@@ -5,6 +5,7 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 namespace Steamworks {
+	[System.Serializable]
 	public struct HServerQuery : System.IEquatable<HServerQuery>, System.IComparable<HServerQuery> {
 		public static readonly HServerQuery Invalid = new HServerQuery(-1);
 		public int m_HServerQuery;

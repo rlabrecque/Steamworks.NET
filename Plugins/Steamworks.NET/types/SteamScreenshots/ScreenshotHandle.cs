@@ -5,6 +5,7 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 namespace Steamworks {
+	[System.Serializable]
 	public struct ScreenshotHandle : System.IEquatable<ScreenshotHandle>, System.IComparable<ScreenshotHandle> {
 		public static readonly ScreenshotHandle Invalid = new ScreenshotHandle(0);
 		public uint m_ScreenshotHandle;

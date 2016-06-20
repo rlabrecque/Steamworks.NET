@@ -5,6 +5,7 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 namespace Steamworks {
+	[System.Serializable]
 	public struct HHTMLBrowser : System.IEquatable<HHTMLBrowser>, System.IComparable<HHTMLBrowser> {
 		public static readonly HHTMLBrowser Invalid = new HHTMLBrowser(0);
 		public uint m_HHTMLBrowser;

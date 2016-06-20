@@ -5,6 +5,7 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 namespace Steamworks {
+	[System.Serializable]
 	public struct ControllerHandle_t : System.IEquatable<ControllerHandle_t>, System.IComparable<ControllerHandle_t> {
 		public ulong m_ControllerHandle;
 

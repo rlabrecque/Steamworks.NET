@@ -5,6 +5,7 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 namespace Steamworks {
+	[System.Serializable]
 	public struct HSteamPipe : System.IEquatable<HSteamPipe>, System.IComparable<HSteamPipe> {
 		public int m_HSteamPipe;
 

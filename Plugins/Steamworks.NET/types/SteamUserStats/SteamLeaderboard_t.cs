@@ -5,6 +5,7 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 namespace Steamworks {
+	[System.Serializable]
 	public struct SteamLeaderboard_t : System.IEquatable<SteamLeaderboard_t>, System.IComparable<SteamLeaderboard_t> {
 		public ulong m_SteamLeaderboard;
 

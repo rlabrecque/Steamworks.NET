@@ -5,6 +5,7 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 namespace Steamworks {
+	[System.Serializable]
 	public struct UGCQueryHandle_t : System.IEquatable<UGCQueryHandle_t>, System.IComparable<UGCQueryHandle_t> {
 		public static readonly UGCQueryHandle_t Invalid = new UGCQueryHandle_t(0xffffffffffffffff);
 		public ulong m_UGCQueryHandle;

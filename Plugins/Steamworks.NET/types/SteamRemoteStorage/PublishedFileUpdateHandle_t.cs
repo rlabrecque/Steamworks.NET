@@ -5,6 +5,7 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 namespace Steamworks {
+	[System.Serializable]
 	public struct PublishedFileUpdateHandle_t : System.IEquatable<PublishedFileUpdateHandle_t>, System.IComparable<PublishedFileUpdateHandle_t> {
 		public static readonly PublishedFileUpdateHandle_t Invalid = new PublishedFileUpdateHandle_t(0xffffffffffffffff);
 		public ulong m_PublishedFileUpdateHandle;

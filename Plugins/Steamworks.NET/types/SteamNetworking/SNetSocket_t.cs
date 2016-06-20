@@ -5,6 +5,7 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 namespace Steamworks {
+	[System.Serializable]
 	public struct SNetSocket_t : System.IEquatable<SNetSocket_t>, System.IComparable<SNetSocket_t> {
 		public uint m_SNetSocket;
 

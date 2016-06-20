@@ -5,6 +5,7 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 namespace Steamworks {
+	[System.Serializable]
 	public struct HServerListRequest : System.IEquatable<HServerListRequest> {
 		public static readonly HServerListRequest Invalid = new HServerListRequest(System.IntPtr.Zero);
 		public System.IntPtr m_HServerListRequest;

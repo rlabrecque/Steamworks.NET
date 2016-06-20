@@ -5,6 +5,7 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 namespace Steamworks {
+	[System.Serializable]
 	public struct HSteamUser : System.IEquatable<HSteamUser>, System.IComparable<HSteamUser> {
 		public int m_HSteamUser;
 

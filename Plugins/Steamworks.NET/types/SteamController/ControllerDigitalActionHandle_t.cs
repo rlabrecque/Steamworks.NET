@@ -5,6 +5,7 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 namespace Steamworks {
+	[System.Serializable]
 	public struct ControllerDigitalActionHandle_t : System.IEquatable<ControllerDigitalActionHandle_t>, System.IComparable<ControllerDigitalActionHandle_t> {
 		public ulong m_ControllerDigitalActionHandle;
 

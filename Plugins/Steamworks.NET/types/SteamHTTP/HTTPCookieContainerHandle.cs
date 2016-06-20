@@ -5,6 +5,7 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 namespace Steamworks {
+	[System.Serializable]
 	public struct HTTPCookieContainerHandle : System.IEquatable<HTTPCookieContainerHandle>, System.IComparable<HTTPCookieContainerHandle> {
 		public static readonly HTTPCookieContainerHandle Invalid = new HTTPCookieContainerHandle(0);
 		public uint m_HTTPCookieContainerHandle;

@@ -5,6 +5,7 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 namespace Steamworks {
+	[System.Serializable]
 	public struct CGameID : System.IEquatable<CGameID>, System.IComparable<CGameID> {
 		public ulong m_GameID;
 

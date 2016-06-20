@@ -5,6 +5,7 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 namespace Steamworks {
+	[System.Serializable]
 	public struct ManifestId_t : System.IEquatable<ManifestId_t>, System.IComparable<ManifestId_t> {
 		public static readonly ManifestId_t Invalid = new ManifestId_t(0x0);
 		public ulong m_ManifestId;
