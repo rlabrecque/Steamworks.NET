@@ -24,7 +24,7 @@ public class RedistCopy {
 		else if (target == BuildTarget.StandaloneWindows) {
 			CopyFile("steam_api.dll", "steam_api.dll", "Assets/Plugins/x86", pathToBuiltProject);
 		}
-				
+
 		string controllerCfg = Path.Combine(Application.dataPath, "controller.vdf");
 		if (File.Exists(controllerCfg)) {
 			string dir = "_Data";

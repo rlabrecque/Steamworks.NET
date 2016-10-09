@@ -6,7 +6,7 @@
 
 
 #if UNITY_3_5 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6
-	#error Unsupported Unity platform. Steamworks.NET requires Unity 4.6 or higher.
+	#error Unsupported Unity platform. Steamworks.NET requires Unity 4.7 or higher.
 #elif UNITY_4_7 || UNITY_5
 	#if UNITY_EDITOR_WIN || (UNITY_STANDALONE_WIN && !UNITY_EDITOR)
 		#define WINDOWS_BUILD
@@ -52,11 +52,11 @@ namespace Steamworks {
 		public static void ExceptionHandler(Exception e) {
 #if UNITY_BUILD
 			UnityEngine.Debug.LogException(e);
-#else
+#elif STEAMWORKS_WIN || STEAMWORKS_LIN_OSX
 			Console.WriteLine(e.Message);
 #endif
-		}
-	}
+        }
+    }
 
 	public sealed class Callback<T> {
 		private CCallbackBaseVTable VTable;

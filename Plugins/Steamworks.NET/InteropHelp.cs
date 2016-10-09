@@ -5,7 +5,6 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -52,10 +51,12 @@ namespace Steamworks {
 			return Encoding.UTF8.GetString(buffer);
 		}
 
-		// This is for 'const char *' arguments which we need to ensure do not get GC'd while Steam is using them.
-		// We can't use an ICustomMarshaler because Unity crashes when a string between 96 and 127 characters long is defined/initialized at the top of class scope...
+        // This is for 'const char *' arguments which we need to ensure do not get GC'd while Steam is using them.
+        // We can't use an ICustomMarshaler because Unity crashes when a string between 96 and 127 characters long is defined/initialized at the top of class scope...
+
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX
 		public class UTF8StringHandle : Microsoft.Win32.SafeHandles.SafeHandleZeroOrMinusOneIsInvalid {
-			public UTF8StringHandle(string str)
+            public UTF8StringHandle(string str)
 				: base(true) {
 				if (str == null) {
 					SetHandle(IntPtr.Zero);
@@ -77,10 +78,16 @@ namespace Steamworks {
 				return true;
 			}
 		}
+#else
+        public class UTF8StringHandle : IDisposable {
+            public UTF8StringHandle(string str) { }
+            public void Dispose() {}
+        }
+#endif
 
-		// TODO - Should be IDisposable
-		// We can't use an ICustomMarshaler because Unity dies when MarshalManagedToNative() gets called with a generic type.
-		public class SteamParamStringArray {
+        // TODO - Should be IDisposable
+        // We can't use an ICustomMarshaler because Unity dies when MarshalManagedToNative() gets called with a generic type.
+        public class SteamParamStringArray {
 			// The pointer to each AllocHGlobal() string
 			IntPtr[] m_Strings;
 			// The pointer to the condensed version of m_Strings
@@ -170,22 +177,26 @@ namespace Steamworks {
 	}
 
 	public class DllCheck {
+#if DISABLED
 		[DllImport("kernel32.dll")]
 		public static extern IntPtr GetModuleHandle(string lpModuleName);
 
 		[DllImport("kernel32.dll", CharSet = CharSet.Auto)]
 		extern static int GetModuleFileName(IntPtr hModule, StringBuilder strFullPath, int nSize);
+#endif
 
 		/// <summary>
 		/// This is an optional runtime check to ensure that the dlls are the correct version. Returns false only if the steam_api.dll is found and it's the wrong size or version number.
 		/// </summary>
 		public static bool Test() {
-			//bool ret = CheckSteamAPIDLL();
+#if DISABLED
+			bool ret = CheckSteamAPIDLL();
+#endif
 			return true;
 		}
 
+#if DISABLED
 		private static bool CheckSteamAPIDLL() {
-#if STEAMWORKS_WIN || (UNITY_EDITOR_WIN && UNITY_STANDALONE) || (!UNITY_EDITOR && UNITY_STANDALONE_WIN)
 			string fileName;
 			int fileBytes;
 			if (IntPtr.Size == 4) {
@@ -217,8 +228,8 @@ namespace Steamworks {
 					return false;
 				}
 			}
-#endif
 			return true;
 		}
+#endif
 	}
 }
