@@ -4,6 +4,8 @@
 
 // Changes to this file will be reverted when you update Steamworks.NET
 
+#if !DISABLESTEAMWORKS
+
 namespace Steamworks {
 	[System.Serializable]
 	public struct ControllerAnalogActionHandle_t : System.IEquatable<ControllerAnalogActionHandle_t>, System.IComparable<ControllerAnalogActionHandle_t> {
@@ -50,3 +52,5 @@ namespace Steamworks {
 		}
 	}
 }
+
+#endif // !DISABLESTEAMWORKS

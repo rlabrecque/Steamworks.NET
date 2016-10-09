@@ -4,6 +4,8 @@
 
 // Changes to this file will be reverted when you update Steamworks.NET
 
+#if !DISABLESTEAMWORKS
+
 using System;
 
 namespace Steamworks {
@@ -26,3 +28,5 @@ namespace Steamworks {
 		}
 	}
 }
+
+#endif // !DISABLESTEAMWORKS

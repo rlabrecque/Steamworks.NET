@@ -4,6 +4,8 @@
 
 // Changes to this file will be reverted when you update Steamworks.NET
 
+#if !DISABLESTEAMWORKS
+
 namespace Steamworks {
 	[System.Serializable]
 	public struct AppId_t : System.IEquatable<AppId_t>, System.IComparable<AppId_t> {
@@ -51,3 +53,5 @@ namespace Steamworks {
 		}
 	}
 }
+
+#endif // !DISABLESTEAMWORKS

@@ -4,6 +4,7 @@
 
 // Changes to this file will be reverted when you update Steamworks.NET
 
+#if !DISABLESTEAMWORKS
 
 #if UNITY_3_5 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6
 	#error Unsupported Unity platform. Steamworks.NET requires Unity 4.7 or higher.
@@ -378,3 +379,5 @@ namespace Steamworks {
 		public GetCallbackSizeBytesDel m_GetCallbackSizeBytes;
 	}
 }
+
+#endif // !DISABLESTEAMWORKS
