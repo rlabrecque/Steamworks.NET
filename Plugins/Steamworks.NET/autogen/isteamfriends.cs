@@ -402,7 +402,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Rich Presence data is automatically shared between friends who are in the same game</para>
 		/// <para> Each user has a set of Key/Value pairs</para>
-		/// <para> Up to 20 different keys can be set</para>
+		/// <para> Note the following limits: k_cchMaxRichPresenceKeys, k_cchMaxRichPresenceKeyLength, k_cchMaxRichPresenceValueLength</para>
 		/// <para> There are two magic keys:</para>
 		/// <para>		"status"  - a UTF-8 string that will show up in the 'view game info' dialog in the Steam friends list</para>
 		/// <para>		"connect" - a UTF-8 string that contains the command-line for how a friend can connect to a game</para>

@@ -159,7 +159,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> configuration management</para>
 		/// </summary>
-		public static bool GetQuota(out int pnTotalBytes, out int puAvailableBytes) {
+		public static bool GetQuota(out ulong pnTotalBytes, out ulong puAvailableBytes) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamRemoteStorage_GetQuota(out pnTotalBytes, out puAvailableBytes);
 		}

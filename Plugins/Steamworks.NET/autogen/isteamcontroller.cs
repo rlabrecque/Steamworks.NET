@@ -148,9 +148,51 @@ namespace Steamworks {
 			NativeMethods.ISteamController_TriggerHapticPulse(controllerHandle, eTargetPad, usDurationMicroSec);
 		}
 
+		/// <summary>
+		/// <para> Trigger a pulse with a duty cycle of usDurationMicroSec / usOffMicroSec, unRepeat times.</para>
+		/// <para> nFlags is currently unused and reserved for future use.</para>
+		/// </summary>
 		public static void TriggerRepeatedHapticPulse(ControllerHandle_t controllerHandle, ESteamControllerPad eTargetPad, ushort usDurationMicroSec, ushort usOffMicroSec, ushort unRepeat, uint nFlags) {
 			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamController_TriggerRepeatedHapticPulse(controllerHandle, eTargetPad, usDurationMicroSec, usOffMicroSec, unRepeat, nFlags);
+		}
+
+		/// <summary>
+		/// <para> Returns the associated gamepad index for the specified controller, if emulating a gamepad</para>
+		/// </summary>
+		public static int GetGamepadIndexForController(ControllerHandle_t ulControllerHandle) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamController_GetGamepadIndexForController(ulControllerHandle);
+		}
+
+		/// <summary>
+		/// <para> Returns the associated controller handle for the specified emulated gamepad</para>
+		/// </summary>
+		public static ControllerHandle_t GetControllerForGamepadIndex(int nIndex) {
+			InteropHelp.TestIfAvailableClient();
+			return (ControllerHandle_t)NativeMethods.ISteamController_GetControllerForGamepadIndex(nIndex);
+		}
+
+		/// <summary>
+		/// <para> Returns raw motion data from the specified controller</para>
+		/// </summary>
+		public static ControllerMotionData_t GetMotionData(ControllerHandle_t controllerHandle) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamController_GetMotionData(controllerHandle);
+		}
+
+		/// <summary>
+		/// <para> Attempt to display origins of given action in the controller HUD, for the currently active action set</para>
+		/// <para> Returns false is overlay is disabled / unavailable, or the user is not in Big Picture mode</para>
+		/// </summary>
+		public static bool ShowDigitalActionOrigins(ControllerHandle_t controllerHandle, ControllerDigitalActionHandle_t digitalActionHandle, float flScale, float flXPosition, float flYPosition) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamController_ShowDigitalActionOrigins(controllerHandle, digitalActionHandle, flScale, flXPosition, flYPosition);
+		}
+
+		public static bool ShowAnalogActionOrigins(ControllerHandle_t controllerHandle, ControllerAnalogActionHandle_t analogActionHandle, float flScale, float flXPosition, float flYPosition) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamController_ShowAnalogActionOrigins(controllerHandle, analogActionHandle, flScale, flXPosition, flYPosition);
 		}
 	}
 }

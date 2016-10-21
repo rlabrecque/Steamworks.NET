@@ -35,6 +35,25 @@ namespace Steamworks {
 		public bool bActive;
 	}
 
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	public struct ControllerMotionData_t {
+		// Sensor-fused absolute rotation; will drift in heading
+		public float rotQuatX;
+		public float rotQuatY;
+		public float rotQuatZ;
+		public float rotQuatW;
+		
+		// Positional acceleration
+		public float posAccelX;
+		public float posAccelY;
+		public float posAccelZ;
+		
+		// Angular velocity
+		public float rotVelX;
+		public float rotVelY;
+		public float rotVelZ;
+	}
+
 	// friend game played information
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	public struct FriendGameInfo_t {

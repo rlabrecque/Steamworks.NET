@@ -6,15 +6,13 @@
 
 #if !DISABLESTEAMWORKS
 
-#define VERSION_SAFE_STEAM_API_INTERFACES
-
 namespace Steamworks {
 	public static class Version {
 		public const string SteamworksNETVersion = "9.0.0";
-		public const string SteamworksSDKVersion = "1.37";
-		public const string SteamAPIDLLVersion = "03.42.61.66";
-		public const int SteamAPIDLLSize = 213072;
-		public const int SteamAPI64DLLSize = 235600;
+		public const string SteamworksSDKVersion = "1.38a";
+		public const string SteamAPIDLLVersion = "03.62.82.82";
+		public const int SteamAPIDLLSize = 217376;
+		public const int SteamAPI64DLLSize = 239904;
 	}
 
 	public static class SteamAPI {
@@ -25,25 +23,18 @@ namespace Steamworks {
 		//
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
 
-
 		// SteamAPI_Init must be called before using any other API functions. If it fails, an
 		// error message will be output to the debugger (or stderr) with further information.
-#if VERSION_SAFE_STEAM_API_INTERFACES
-		// [Steamworks.NET] This is for Ease of use, since we don't need to care about the differences between Init and InitSafe in C#.
+
+		// [Steamworks.NET] Deprecated, just use Init(). This may be removed at a later date.
 		public static bool InitSafe() {
 			return Init();
 		}
 
 		public static bool Init() {
 			InteropHelp.TestIfPlatformSupported();
-			return NativeMethods.SteamAPI_InitSafe();
-		}
-#else
-		public static bool Init() {
-			InteropHelp.TestIfPlatformSupported();
 			return NativeMethods.SteamAPI_Init();
 		}
-#endif
 
 		public static void Shutdown() {
 			InteropHelp.TestIfPlatformSupported();
@@ -65,7 +56,7 @@ namespace Steamworks {
 			return NativeMethods.SteamAPI_RestartAppIfNecessary(unOwnAppID);
 		}
 
-		// Most Steam API functions allocate some amount of thread-local memory for parameter storage.
+		// Many Steam API functions allocate a small amount of thread-local memory for parameter storage.
 		// SteamAPI_ReleaseCurrentThreadMemory() will free API memory associated with the calling thread.
 		// This function is also called automatically by SteamAPI_RunCallbacks(), so a single-threaded
 		// program never needs to explicitly call this function.

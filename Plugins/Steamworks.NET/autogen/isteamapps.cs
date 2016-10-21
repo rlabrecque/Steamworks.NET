@@ -216,6 +216,13 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamApps_RequestAllProofOfPurchaseKeys();
 		}
+
+		public static SteamAPICall_t GetFileDetails(string pszFileName) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pszFileName2 = new InteropHelp.UTF8StringHandle(pszFileName)) {
+				return (SteamAPICall_t)NativeMethods.ISteamApps_GetFileDetails(pszFileName2);
+			}
+		}
 	}
 }
 

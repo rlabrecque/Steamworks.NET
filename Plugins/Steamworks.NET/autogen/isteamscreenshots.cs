@@ -78,6 +78,29 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamScreenshots_TagPublishedFile(hScreenshot, unPublishedFileID);
 		}
+
+		/// <summary>
+		/// <para> Returns true if the app has hooked the screenshot</para>
+		/// </summary>
+		public static bool IsScreenshotsHooked() {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamScreenshots_IsScreenshotsHooked();
+		}
+
+		/// <summary>
+		/// <para> Adds a VR screenshot to the user's screenshot library from disk in the supported type.</para>
+		/// <para> pchFilename should be the normal 2D image used in the library view</para>
+		/// <para> pchVRFilename should contain the image that matches the correct type</para>
+		/// <para> The return value is a handle that is valid for the duration of the game process and can be used to apply tags.</para>
+		/// <para> JPEG, TGA, and PNG formats are supported.</para>
+		/// </summary>
+		public static ScreenshotHandle AddVRScreenshotToLibrary(EVRScreenshotType eType, string pchFilename, string pchVRFilename) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchFilename2 = new InteropHelp.UTF8StringHandle(pchFilename))
+			using (var pchVRFilename2 = new InteropHelp.UTF8StringHandle(pchVRFilename)) {
+				return (ScreenshotHandle)NativeMethods.ISteamScreenshots_AddVRScreenshotToLibrary(eType, pchFilename2, pchVRFilename2);
+			}
+		}
 	}
 }
 

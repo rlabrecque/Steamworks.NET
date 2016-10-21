@@ -34,7 +34,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Steam server time - in PST, number of seconds since January 1, 1970 (i.e unix time)</para>
+		/// <para> Steam server time.  Number of seconds since January 1, 1970, GMT (i.e unix time)</para>
 		/// </summary>
 		public static uint GetServerRealTime() {
 			InteropHelp.TestIfAvailableGameServer();

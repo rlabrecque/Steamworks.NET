@@ -75,7 +75,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamGameServerUGC_GetQueryUGCChildren(handle, index, pvecPublishedFileID, cMaxEntries);
 		}
 
-		public static bool GetQueryUGCStatistic(UGCQueryHandle_t handle, uint index, EItemStatistic eStatType, out uint pStatValue) {
+		public static bool GetQueryUGCStatistic(UGCQueryHandle_t handle, uint index, EItemStatistic eStatType, out ulong pStatValue) {
 			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServerUGC_GetQueryUGCStatistic(handle, index, eStatType, out pStatValue);
 		}
@@ -137,6 +137,11 @@ namespace Steamworks {
 			using (var pTagName2 = new InteropHelp.UTF8StringHandle(pTagName)) {
 				return NativeMethods.ISteamGameServerUGC_AddExcludedTag(handle, pTagName2);
 			}
+		}
+
+		public static bool SetReturnOnlyIDs(UGCQueryHandle_t handle, bool bReturnOnlyIDs) {
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamGameServerUGC_SetReturnOnlyIDs(handle, bReturnOnlyIDs);
 		}
 
 		public static bool SetReturnKeyValueTags(UGCQueryHandle_t handle, bool bReturnKeyValueTags) {
@@ -515,6 +520,24 @@ namespace Steamworks {
 		public static void SuspendDownloads(bool bSuspend) {
 			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServerUGC_SuspendDownloads(bSuspend);
+		}
+
+		/// <summary>
+		/// <para> usage tracking</para>
+		/// </summary>
+		public static SteamAPICall_t StartPlaytimeTracking(PublishedFileId_t[] pvecPublishedFileID, uint unNumPublishedFileIDs) {
+			InteropHelp.TestIfAvailableGameServer();
+			return (SteamAPICall_t)NativeMethods.ISteamGameServerUGC_StartPlaytimeTracking(pvecPublishedFileID, unNumPublishedFileIDs);
+		}
+
+		public static SteamAPICall_t StopPlaytimeTracking(PublishedFileId_t[] pvecPublishedFileID, uint unNumPublishedFileIDs) {
+			InteropHelp.TestIfAvailableGameServer();
+			return (SteamAPICall_t)NativeMethods.ISteamGameServerUGC_StopPlaytimeTracking(pvecPublishedFileID, unNumPublishedFileIDs);
+		}
+
+		public static SteamAPICall_t StopPlaytimeTrackingForAllItems() {
+			InteropHelp.TestIfAvailableGameServer();
+			return (SteamAPICall_t)NativeMethods.ISteamGameServerUGC_StopPlaytimeTrackingForAllItems();
 		}
 	}
 }

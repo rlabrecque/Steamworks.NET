@@ -81,6 +81,20 @@ namespace Steamworks {
 		public string m_rgchKey;
 	}
 
+	//-----------------------------------------------------------------------------
+	// Purpose: response to GetFileDetails
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 23)]
+	public struct FileDetailsResult_t {
+		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 23;
+		public EResult m_eResult;
+		public ulong m_ulFileSize;	// original file size in bytes
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
+		public byte[] m_FileSHA;	// original file SHA1 hash
+		public uint m_unFlags;		//
+	}
+
 	// callbacks
 	//-----------------------------------------------------------------------------
 	// Purpose: called when a friends' status changes
@@ -1237,17 +1251,6 @@ namespace Steamworks {
 	}
 
 	//-----------------------------------------------------------------------------
-	// Purpose: Sent after a conflict resolution attempt.
-	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	[CallbackIdentity(Constants.k_iClientRemoteStorageCallbacks + 6)]
-	public struct RemoteStorageConflictResolution_t {
-		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 6;
-		public AppId_t m_nAppID;
-		public EResult m_eResult;
-	}
-
-	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to FileShare()
 	//-----------------------------------------------------------------------------
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -1711,6 +1714,26 @@ namespace Steamworks {
 		public bool m_bVotedDown;
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bVoteSkipped;
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to StartPlaytimeTracking()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iClientUGCCallbacks + 10)]
+	public struct StartPlaytimeTrackingResult_t {
+		public const int k_iCallback = Constants.k_iClientUGCCallbacks + 10;
+		public EResult m_eResult;
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to StopPlaytimeTracking()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iClientUGCCallbacks + 11)]
+	public struct StopPlaytimeTrackingResult_t {
+		public const int k_iCallback = Constants.k_iClientUGCCallbacks + 11;
+		public EResult m_eResult;
 	}
 
 	// callbacks

@@ -294,6 +294,22 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUser_BIsTwoFactorEnabled();
 		}
+
+		/// <summary>
+		/// <para> gets whether the users phone number is identifying</para>
+		/// </summary>
+		public static bool BIsPhoneIdentifying() {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUser_BIsPhoneIdentifying();
+		}
+
+		/// <summary>
+		/// <para> gets whether the users phone number is awaiting (re)verification</para>
+		/// </summary>
+		public static bool BIsPhoneRequiringVerification() {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUser_BIsPhoneRequiringVerification();
+		}
 	}
 }
 

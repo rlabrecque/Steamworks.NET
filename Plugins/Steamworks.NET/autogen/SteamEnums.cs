@@ -53,7 +53,9 @@ namespace Steamworks {
 		k_EControllerSourceMode_Trigger,
 		k_EControllerSourceMode_TouchMenu,
 		k_EControllerSourceMode_MouseJoystick,
-		k_EControllerSourceMode_MouseRegion
+		k_EControllerSourceMode_MouseRegion,
+		k_EControllerSourceMode_RadialMenu,
+		k_EControllerSourceMode_Switches
 	}
 
 	public enum EControllerActionOrigin : int {
@@ -111,7 +113,7 @@ namespace Steamworks {
 		k_EFriendRelationshipRequestInitiator = 4,
 		k_EFriendRelationshipIgnored = 5,			// this is stored; the user has explicit blocked this other user from comments/chat/etc
 		k_EFriendRelationshipIgnoredFriend = 6,
-		k_EFriendRelationshipSuggested = 7,
+		k_EFriendRelationshipSuggested_DEPRECATED = 7,		// was used by the original implementation of the facebook linking feature, but now unused.
 
 		// keep this updated
 		k_EFriendRelationshipMax = 8,
@@ -399,12 +401,6 @@ namespace Steamworks {
 		k_ESNetSocketConnectionTypeUDPRelay = 2,
 	}
 
-	// Ways to handle a synchronization conflict
-	public enum EResolveConflict : int {
-		k_EResolveConflictKeepClient = 1,		// The local version of each file will be used to overwrite the server version
-		k_EResolveConflictKeepServer = 2,		// The server version of each file will be used to overwrite the local version
-	}
-
 	[Flags]
 	public enum ERemoteStoragePlatform : int {
 		k_ERemoteStoragePlatformNone		= 0,
@@ -490,6 +486,15 @@ namespace Steamworks {
 		k_EUGCRead_Close = 2,
 	}
 
+	public enum EVRScreenshotType : int {
+		k_EVRScreenshotType_None			= 0,
+		k_EVRScreenshotType_Mono			= 1,
+		k_EVRScreenshotType_Stereo			= 2,
+		k_EVRScreenshotType_MonoCubemap		= 3,
+		k_EVRScreenshotType_MonoPanorama	= 4,
+		k_EVRScreenshotType_StereoPanorama	= 5
+	}
+
 	// Matching UGC types for queries
 	public enum EUGCMatchingUGCType : int {
 		k_EUGCMatchingUGCType_Items				 = 0,		// both mtx items and ready-to-use items
@@ -548,6 +553,12 @@ namespace Steamworks {
 		k_EUGCQuery_RankedByVotesUp								  = 10,
 		k_EUGCQuery_RankedByTextSearch							  = 11,
 		k_EUGCQuery_RankedByTotalUniqueSubscriptions			  = 12,
+		k_EUGCQuery_RankedByPlaytimeTrend						  = 13,
+		k_EUGCQuery_RankedByTotalPlaytime						  = 14,
+		k_EUGCQuery_RankedByAveragePlaytimeTrend				  = 15,
+		k_EUGCQuery_RankedByLifetimeAveragePlaytime				  = 16,
+		k_EUGCQuery_RankedByPlaytimeSessionsTrend				  = 17,
+		k_EUGCQuery_RankedByLifetimePlaytimeSessions			  = 18,
 	}
 
 	public enum EItemUpdateStatus : int {
@@ -579,6 +590,9 @@ namespace Steamworks {
 		k_EItemStatistic_NumUniqueFollowers		= 5,
 		k_EItemStatistic_NumUniqueWebsiteViews	= 6,
 		k_EItemStatistic_ReportScore			= 7,
+		k_EItemStatistic_NumSecondsPlayed		= 8,
+		k_EItemStatistic_NumPlaytimeSessions	= 9,
+		k_EItemStatistic_NumComments			= 10,
 	}
 
 	public enum EItemPreviewType : int {
@@ -785,6 +799,7 @@ namespace Steamworks {
 		k_EResultGSOwnerDenied = 103,				// game server owner is denied for other reason (account lock, community ban, vac ban, missing phone)
 		k_EResultInvalidItemType = 104,				// the type of thing we were requested to act on is invalid
 		k_EResultIPBanned = 105,					// the ip address has been banned from taking this action
+		k_EResultGSLTExpired = 106,					// this token has expired from disuse; can be reset for use
 	}
 
 	// Error codes for use with the voice functions
@@ -924,10 +939,11 @@ namespace Steamworks {
 		k_EAppType_Driver				= 0x080,	// hardware driver updater (ATI, Razor etc)
 		k_EAppType_Config				= 0x100,	// hidden app used to config Steam features (backpack, sales, etc)
 		k_EAppType_Hardware				= 0x200,	// a hardware device (Steam Machine, Steam Controller, Steam Link, etc.)
-		// 0x400 is up for grabs here
+		k_EAppType_Franchise			= 0x400,	// A hub for collections of multiple apps, eg films, series, games
 		k_EAppType_Video				= 0x800,	// A video component of either a Film or TVSeries (may be the feature, an episode, preview, making-of, etc)
 		k_EAppType_Plugin				= 0x1000,	// Plug-in types for other Apps
 		k_EAppType_Music				= 0x2000,	// Music files
+		k_EAppType_Series				= 0x4000,	// Container app for video series
 
 		k_EAppType_Shortcut				= 0x40000000,	// just a shortcut, client side only
 		k_EAppType_DepotOnly			= -2147483647,	// placeholder since depots and apps share the same namespace
@@ -1070,8 +1086,9 @@ namespace Steamworks {
 		k_ELaunchOptionType_Option1		= 10,	// generic run option, uses description field for game name
 		k_ELaunchOptionType_Option2		= 11,	// generic run option, uses description field for game name
 		k_ELaunchOptionType_Option3     = 12,	// generic run option, uses description field for game name
-		k_ELaunchOptionType_OtherVR		= 13,	// runs game in VR mode using the Oculus SDK or other vendor-specific VR SDK
+		k_ELaunchOptionType_OculusVR	= 13,	// runs game in VR mode using the Oculus SDK
 		k_ELaunchOptionType_OpenVROverlay = 14,	// runs an OpenVR dashboard overlay
+		k_ELaunchOptionType_OSVR		= 15,	// runs game in VR mode using the OSVR SDK
 
 
 		k_ELaunchOptionType_Dialog 		= 1000, // show launch options dialog
@@ -1085,6 +1102,8 @@ namespace Steamworks {
 	// WARNING: DO NOT RENUMBER EXISTING VALUES - STORED IN A DATABASE
 	//-----------------------------------------------------------------------------
 	public enum EVRHMDType : int {
+		k_eEVRHMDType_None = -1, // unknown vendor and model
+
 		k_eEVRHMDType_Unknown = 0, // unknown vendor and model
 
 		k_eEVRHMDType_HTC_Dev = 1,	// original HTC dev kits
@@ -1093,11 +1112,33 @@ namespace Steamworks {
 
 		k_eEVRHMDType_HTC_Unknown = 20, // unknown htc hmd
 
-		k_eEVRHMDType_Oculus_DK1 = 21, // occulus DK1
-		k_eEVRHMDType_Oculus_DK2 = 22, // occulus DK2
-		k_eEVRHMDType_Oculus_Rift = 23, // occulus rift
+		k_eEVRHMDType_Oculus_DK1 = 21, // Oculus DK1
+		k_eEVRHMDType_Oculus_DK2 = 22, // Oculus DK2
+		k_eEVRHMDType_Oculus_Rift = 23, // Oculus rift
 
-		k_eEVRHMDType_Oculus_Unknown = 40, // // occulus unknown HMD
+		k_eEVRHMDType_Oculus_Unknown = 40, // // Oculus unknown HMD
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Steam Controller models
+	// WARNING: DO NOT RENUMBER EXISTING VALUES - STORED IN A DATABASE
+	//-----------------------------------------------------------------------------
+	public enum EControllerType : int {
+		k_eControllerType_None = -1,
+		k_eControllerType_Unknown = 0,
+
+		// Steam Controllers
+		k_eControllerType_UnknownSteamController = 1,
+		k_eControllerType_SteamController = 2,
+
+		// Other Controllers
+		k_eControllerType_UnknownNonSteamController = 30,
+		k_eControllerType_XBox360Controller = 31,
+		k_eControllerType_XBoxOneController = 32,
+		k_eControllerType_PS3Controller = 33,
+		k_eControllerType_PS4Controller = 34,
+		k_eControllerType_WiiController = 35,
+		k_eControllerType_AppleController = 36
 	}
 
 	// HTTP related types

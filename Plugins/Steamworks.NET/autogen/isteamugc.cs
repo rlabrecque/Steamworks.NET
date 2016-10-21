@@ -75,7 +75,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamUGC_GetQueryUGCChildren(handle, index, pvecPublishedFileID, cMaxEntries);
 		}
 
-		public static bool GetQueryUGCStatistic(UGCQueryHandle_t handle, uint index, EItemStatistic eStatType, out uint pStatValue) {
+		public static bool GetQueryUGCStatistic(UGCQueryHandle_t handle, uint index, EItemStatistic eStatType, out ulong pStatValue) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_GetQueryUGCStatistic(handle, index, eStatType, out pStatValue);
 		}
@@ -137,6 +137,11 @@ namespace Steamworks {
 			using (var pTagName2 = new InteropHelp.UTF8StringHandle(pTagName)) {
 				return NativeMethods.ISteamUGC_AddExcludedTag(handle, pTagName2);
 			}
+		}
+
+		public static bool SetReturnOnlyIDs(UGCQueryHandle_t handle, bool bReturnOnlyIDs) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_SetReturnOnlyIDs(handle, bReturnOnlyIDs);
 		}
 
 		public static bool SetReturnKeyValueTags(UGCQueryHandle_t handle, bool bReturnKeyValueTags) {
@@ -515,6 +520,24 @@ namespace Steamworks {
 		public static void SuspendDownloads(bool bSuspend) {
 			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamUGC_SuspendDownloads(bSuspend);
+		}
+
+		/// <summary>
+		/// <para> usage tracking</para>
+		/// </summary>
+		public static SteamAPICall_t StartPlaytimeTracking(PublishedFileId_t[] pvecPublishedFileID, uint unNumPublishedFileIDs) {
+			InteropHelp.TestIfAvailableClient();
+			return (SteamAPICall_t)NativeMethods.ISteamUGC_StartPlaytimeTracking(pvecPublishedFileID, unNumPublishedFileIDs);
+		}
+
+		public static SteamAPICall_t StopPlaytimeTracking(PublishedFileId_t[] pvecPublishedFileID, uint unNumPublishedFileIDs) {
+			InteropHelp.TestIfAvailableClient();
+			return (SteamAPICall_t)NativeMethods.ISteamUGC_StopPlaytimeTracking(pvecPublishedFileID, unNumPublishedFileIDs);
+		}
+
+		public static SteamAPICall_t StopPlaytimeTrackingForAllItems() {
+			InteropHelp.TestIfAvailableClient();
+			return (SteamAPICall_t)NativeMethods.ISteamUGC_StopPlaytimeTrackingForAllItems();
 		}
 	}
 }

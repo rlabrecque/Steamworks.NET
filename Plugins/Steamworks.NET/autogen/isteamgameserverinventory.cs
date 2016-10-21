@@ -307,13 +307,16 @@ namespace Steamworks {
 		/// <para> on the current Steam language settings (see ISteamApps::GetCurrentGameLanguage).</para>
 		/// <para> Property names are always composed of ASCII letters, numbers, and/or underscores.</para>
 		/// <para> Pass a NULL pointer for pchPropertyName to get a comma - separated list of available</para>
-		/// <para> property names.</para>
+		/// <para> property names. If pchValueBuffer is NULL, *punValueBufferSize will contain the</para>
+		/// <para> suggested buffer size. Otherwise it will be the number of bytes actually copied</para>
+		/// <para> to pchValueBuffer. If the results do not fit in the given buffer, partial</para>
+		/// <para> results may be copied.</para>
 		/// </summary>
-		public static bool GetItemDefinitionProperty(SteamItemDef_t iDefinition, string pchPropertyName, out string pchValueBuffer, ref uint punValueBufferSize) {
+		public static bool GetItemDefinitionProperty(SteamItemDef_t iDefinition, string pchPropertyName, out string pchValueBuffer, ref uint punValueBufferSizeOut) {
 			InteropHelp.TestIfAvailableGameServer();
-			IntPtr pchValueBuffer2 = Marshal.AllocHGlobal((int)punValueBufferSize);
+			IntPtr pchValueBuffer2 = Marshal.AllocHGlobal((int)punValueBufferSizeOut);
 			using (var pchPropertyName2 = new InteropHelp.UTF8StringHandle(pchPropertyName)) {
-				bool ret = NativeMethods.ISteamGameServerInventory_GetItemDefinitionProperty(iDefinition, pchPropertyName2, pchValueBuffer2, ref punValueBufferSize);
+				bool ret = NativeMethods.ISteamGameServerInventory_GetItemDefinitionProperty(iDefinition, pchPropertyName2, pchValueBuffer2, ref punValueBufferSizeOut);
 				pchValueBuffer = ret ? InteropHelp.PtrToStringUTF8(pchValueBuffer2) : null;
 				Marshal.FreeHGlobal(pchValueBuffer2);
 				return ret;
