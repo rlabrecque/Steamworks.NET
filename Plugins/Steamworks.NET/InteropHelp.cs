@@ -13,7 +13,7 @@ using System.Text;
 namespace Steamworks {
 	public class InteropHelp {
 		public static void TestIfPlatformSupported() {
-#if !UNITY_EDITOR && !UNITY_STANDALONE_WIN && !UNITY_STANDALONE_LINUX && !UNITY_STANDALONE_OSX && !STEAMWORKS_WIN && !STEAMWORKS_LIN_OSX
+#if !UNITY_EDITOR && !UNITY_STANDALONE && !STEAMWORKS_WIN && !STEAMWORKS_LIN_OSX
 			throw new System.InvalidOperationException("Steamworks functions can only be called on platforms that Steam is available on.");
 #endif
 		}
@@ -35,7 +35,7 @@ namespace Steamworks {
 		// This continues to exist for both 'out string' and strings returned by Steamworks functions.
 		public static string PtrToStringUTF8(IntPtr nativeUtf8) {
 			if (nativeUtf8 == IntPtr.Zero) {
-				return string.Empty;
+				return null;
 			}
 
 			int len = 0;
@@ -53,18 +53,18 @@ namespace Steamworks {
 			return Encoding.UTF8.GetString(buffer);
 		}
 
-        // This is for 'const char *' arguments which we need to ensure do not get GC'd while Steam is using them.
-        // We can't use an ICustomMarshaler because Unity crashes when a string between 96 and 127 characters long is defined/initialized at the top of class scope...
-
-#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX
+		// This is for 'const char *' arguments which we need to ensure do not get GC'd while Steam is using them.
+		// We can't use an ICustomMarshaler because Unity crashes when a string between 96 and 127 characters long is defined/initialized at the top of class scope...
+#if UNITY_EDITOR || UNITY_STANDALONE || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX
 		public class UTF8StringHandle : Microsoft.Win32.SafeHandles.SafeHandleZeroOrMinusOneIsInvalid {
-            public UTF8StringHandle(string str)
+			public UTF8StringHandle(string str)
 				: base(true) {
 				if (str == null) {
 					SetHandle(IntPtr.Zero);
 					return;
 				}
 
+				// +1 for '\0'
 				byte[] strbuf = new byte[Encoding.UTF8.GetByteCount(str) + 1];
 				Encoding.UTF8.GetBytes(str, 0, str.Length, strbuf, 0);
 				IntPtr buffer = Marshal.AllocHGlobal(strbuf.Length);
@@ -81,15 +81,15 @@ namespace Steamworks {
 			}
 		}
 #else
-        public class UTF8StringHandle : IDisposable {
-            public UTF8StringHandle(string str) { }
-            public void Dispose() {}
-        }
+		public class UTF8StringHandle : IDisposable {
+			public UTF8StringHandle(string str) { }
+			public void Dispose() {}
+		}
 #endif
 
-        // TODO - Should be IDisposable
-        // We can't use an ICustomMarshaler because Unity dies when MarshalManagedToNative() gets called with a generic type.
-        public class SteamParamStringArray {
+		// TODO - Should be IDisposable
+		// We can't use an ICustomMarshaler because Unity dies when MarshalManagedToNative() gets called with a generic type.
+		public class SteamParamStringArray {
 			// The pointer to each AllocHGlobal() string
 			IntPtr[] m_Strings;
 			// The pointer to the condensed version of m_Strings

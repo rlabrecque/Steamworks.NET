@@ -297,7 +297,7 @@ namespace Steamworks {
 				}
 			}
 		}
-		
+
 		private int OnGetCallbackSizeBytes(
 #if !STDCALL
 			IntPtr thisptr

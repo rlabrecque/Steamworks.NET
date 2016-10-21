@@ -11,7 +11,7 @@ using System;
 namespace Steamworks {
 	class CallbackIdentities {
 		public static int GetCallbackIdentity(Type callbackStruct) {
-#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX
+#if UNITY_EDITOR || UNITY_STANDALONE || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX
             foreach (CallbackIdentityAttribute attribute in callbackStruct.GetCustomAttributes(typeof(CallbackIdentityAttribute), false)) {
 				return attribute.Identity;
 			}
