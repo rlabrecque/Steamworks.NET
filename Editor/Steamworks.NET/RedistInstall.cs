@@ -1,9 +1,11 @@
 // Uncomment this out to disable copying
 //#define DISABLEPLATFORMSETTINGS
 
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
+using System.Linq;
 
 // This copys various files into their required locations when Unity is launched to make installation a breeze.
 [InitializeOnLoad]
@@ -115,63 +117,103 @@ public class RedistInstall {
 		}
 	}
 
-	static void ResetPluginSettings(PluginImporter plugin, string CPU, string OS) {
-#if UNITY_5_5_OR_NEWER
-		plugin.ClearSettings();
-#endif
-		plugin.SetCompatibleWithAnyPlatform(false);
-		plugin.SetCompatibleWithEditor(true);
-		plugin.SetEditorData("CPU", CPU);
-		plugin.SetEditorData("OS", OS);
+	static void ResetPluginSettings(PluginImporter plugin, string CPU, string OS)
+	{
+	    bool didChange = false;
+
+        if (plugin.GetCompatibleWithAnyPlatform())
+	    {
+	        plugin.SetCompatibleWithAnyPlatform(false);
+	        didChange = true;
+	    }
+	    if (plugin.GetCompatibleWithEditor() != true)
+	    {
+	        plugin.SetCompatibleWithEditor(true);
+            didChange = true;
+        }
+	    if (plugin.GetEditorData("CPU") != CPU)
+	    {
+	        plugin.SetEditorData("CPU", CPU);
+            didChange = true;
+        }
+	    if (plugin.GetEditorData("OS") != OS)
+	    {
+	        plugin.SetEditorData("OS", OS);
+            didChange = true;
+        }
+
+        if(didChange) plugin.SaveAndReimport();
 	}
 
 	static void SetCompatibleWithOSX(PluginImporter plugin) {
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneOSXIntel, true);
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneOSXIntel64, true);
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneOSXUniversal, true);
-
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneLinux, false);
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneLinux64, false);
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneLinuxUniversal, false);
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneWindows, false);
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneWindows64, false);
-		plugin.SaveAndReimport();
-	}
+        SetCompatibilities(plugin, new[] {
+            BuildTarget.StandaloneLinux,
+            BuildTarget.StandaloneLinux64,
+            BuildTarget.StandaloneLinuxUniversal,
+            BuildTarget.StandaloneWindows,
+            BuildTarget.StandaloneWindows64
+            },
+        new[] { BuildTarget.StandaloneOSXIntel, BuildTarget.StandaloneOSXIntel64, BuildTarget.StandaloneOSXUniversal }
+        );
+    }
 
 	static void SetCompatibleWithLinux(PluginImporter plugin, BuildTarget platform) {
-		plugin.SetCompatibleWithPlatform(platform, true);
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneLinuxUniversal, true);
-
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneOSXIntel, false);
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneOSXIntel64, false);
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneOSXUniversal, false);
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneWindows, false);
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneWindows64, false);
-		plugin.SaveAndReimport();
-	}
+        SetCompatibilities(plugin, new[] {
+            BuildTarget.StandaloneOSXIntel,
+            BuildTarget.StandaloneOSXIntel64,
+            BuildTarget.StandaloneOSXUniversal,
+            BuildTarget.StandaloneWindows,
+            BuildTarget.StandaloneWindows64
+            },
+        new[] { platform, BuildTarget.StandaloneLinuxUniversal }
+        );
+    }
 
 	static void SetCompatibleWithWindows(PluginImporter plugin, BuildTarget platform) {
-		plugin.SetCompatibleWithPlatform(platform, true);
-
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneLinux64, false);
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneLinux, false);
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneLinuxUniversal, false);
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneOSXIntel, false);
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneOSXIntel64, false);
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneOSXUniversal, false);
-		plugin.SaveAndReimport();
-	}
+        SetCompatibilities(plugin, new[] {
+            BuildTarget.StandaloneLinux64,
+            BuildTarget.StandaloneLinux,
+            BuildTarget.StandaloneLinuxUniversal,
+            BuildTarget.StandaloneOSXIntel,
+            BuildTarget.StandaloneOSXIntel64,
+            BuildTarget.StandaloneOSXUniversal,
+            }, 
+        new[] { platform }
+        );
+    }
 
 	static void SetCompatibleWithEditor(PluginImporter plugin) {
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneLinux64, false);
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneLinux, false);
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneLinuxUniversal, false);
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneOSXIntel, false);
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneOSXIntel64, false);
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneOSXUniversal, false);
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneWindows, false);
-		plugin.SetCompatibleWithPlatform(BuildTarget.StandaloneWindows64, false);
-		plugin.SaveAndReimport();
+        SetCompatibilities(plugin, new [] {
+            BuildTarget.StandaloneLinux64,
+            BuildTarget.StandaloneLinux,
+            BuildTarget.StandaloneLinuxUniversal,
+            BuildTarget.StandaloneOSXIntel,
+            BuildTarget.StandaloneOSXIntel64,
+            BuildTarget.StandaloneOSXUniversal,
+            BuildTarget.StandaloneWindows,
+            BuildTarget.StandaloneWindows64,
+        }, new BuildTarget[] {});
 	}
+
+    private static void SetCompatibilities(PluginImporter plugin, BuildTarget[] notCompatible, BuildTarget[] compatible)
+    {
+        var targetMapping = new Dictionary<BuildTarget, bool>();
+
+        foreach(var n in notCompatible) targetMapping.Add(n, false);
+        foreach(var c in compatible) targetMapping.Add(c, true);
+
+        bool didUpdate = false;
+
+        foreach (var t in targetMapping)
+        {
+            if (plugin.GetCompatibleWithPlatform(t.Key) == t.Value) continue;
+
+            plugin.SetCompatibleWithPlatform(t.Key, t.Value);
+
+            didUpdate = true;
+        }
+
+        if (didUpdate) plugin.SaveAndReimport();
+    }
 #endif // UNITY_5
 }
