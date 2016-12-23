@@ -121,7 +121,6 @@ public class RedistInstall {
 			}
 
 			if (didUpdate) {
-				Debug.Log("Did Update: " + plugin.assetPath);
 				plugin.SaveAndReimport();
 			}
 		}
@@ -232,8 +231,6 @@ public class RedistInstall {
 		if (plugin.GetCompatibleWithPlatform(platform) == enable) {
 			return false;
 		}
-
-		Debug.Log(plugin.GetCompatibleWithPlatform(platform).ToString() + " " + enable.ToString() + " - " + plugin.assetPath);
 
 		plugin.SetCompatibleWithPlatform(platform, enable);
 		return true;
