@@ -3,10 +3,10 @@ Steamworks.NET
 
 _Steamworks.NET_ is a C# Wrapper for Valve's Steamworks API, it can be used either with Unity or your C# based Application. This project relies on dynamic libraries created by [CSteamworks](https://github.com/rlabrecque/CSteamworks). (Prebuilt and included for ease of use)
 
-_Steamworks.NET_ was designed to be as close as possible to the original C++ API, as such the documentation provided from Valve largely covers usage of _Steamworks.NET_. 
+_Steamworks.NET_ was designed to be as close as possible to the original C++ API, as such the documentation provided from Valve largely covers usage of _Steamworks.NET_.
 Niceties and C# Idioms can be easily implemented on top of _Steamworks.NET_.
 
-_Steamworks.NET_ currently fully supports Windows, OSX, and Linux in both 32 and 64bit varieties. Currently building against Steamworks SDK 1.38a.
+_Steamworks.NET_ currently fully supports Windows, OSX, and Linux in both 32 and 64bit varieties. Currently building against Steamworks SDK 1.39.
 
 * Author: [Riley Labrecque](https://github.com/rlabrecque)
 * License: [MIT](http://www.opensource.org/licenses/mit-license.php)

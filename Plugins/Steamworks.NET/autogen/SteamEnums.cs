@@ -37,6 +37,9 @@ namespace Steamworks {
 		k_EControllerSource_LeftTrigger,
 		k_EControllerSource_RightTrigger,
 		k_EControllerSource_Gyro,
+		k_EControllerSource_CenterTrackpad,		// PS4
+		k_EControllerSource_RightJoystick,		// Traditional Controllers
+		k_EControllerSource_DPad,				// Traditional Controllers
 		k_EControllerSource_Count
 	}
 
@@ -48,6 +51,7 @@ namespace Steamworks {
 		k_EControllerSourceMode_AbsoluteMouse,
 		k_EControllerSourceMode_RelativeMouse,
 		k_EControllerSourceMode_JoystickMove,
+		k_EControllerSourceMode_JoystickMouse,
 		k_EControllerSourceMode_JoystickCamera,
 		k_EControllerSourceMode_ScrollWheel,
 		k_EControllerSourceMode_Trigger,
@@ -59,6 +63,7 @@ namespace Steamworks {
 	}
 
 	public enum EControllerActionOrigin : int {
+		// Steam Controller
 		k_EControllerActionOrigin_None,
 		k_EControllerActionOrigin_A,
 		k_EControllerActionOrigin_B,
@@ -99,7 +104,167 @@ namespace Steamworks {
 		k_EControllerActionOrigin_Gyro_Yaw,
 		k_EControllerActionOrigin_Gyro_Roll,
 
+		// PS4 Dual Shock
+		k_EControllerActionOrigin_PS4_X,
+		k_EControllerActionOrigin_PS4_Circle,
+		k_EControllerActionOrigin_PS4_Triangle,
+		k_EControllerActionOrigin_PS4_Square,
+		k_EControllerActionOrigin_PS4_LeftBumper,
+		k_EControllerActionOrigin_PS4_RightBumper,
+		k_EControllerActionOrigin_PS4_Options,  //Start
+		k_EControllerActionOrigin_PS4_Share,	//Back
+		k_EControllerActionOrigin_PS4_LeftPad_Touch,
+		k_EControllerActionOrigin_PS4_LeftPad_Swipe,
+		k_EControllerActionOrigin_PS4_LeftPad_Click,
+		k_EControllerActionOrigin_PS4_LeftPad_DPadNorth,
+		k_EControllerActionOrigin_PS4_LeftPad_DPadSouth,
+		k_EControllerActionOrigin_PS4_LeftPad_DPadWest,
+		k_EControllerActionOrigin_PS4_LeftPad_DPadEast,
+		k_EControllerActionOrigin_PS4_RightPad_Touch,
+		k_EControllerActionOrigin_PS4_RightPad_Swipe,
+		k_EControllerActionOrigin_PS4_RightPad_Click,
+		k_EControllerActionOrigin_PS4_RightPad_DPadNorth,
+		k_EControllerActionOrigin_PS4_RightPad_DPadSouth,
+		k_EControllerActionOrigin_PS4_RightPad_DPadWest,
+		k_EControllerActionOrigin_PS4_RightPad_DPadEast,
+		k_EControllerActionOrigin_PS4_CenterPad_Touch,
+		k_EControllerActionOrigin_PS4_CenterPad_Swipe,
+		k_EControllerActionOrigin_PS4_CenterPad_Click,
+		k_EControllerActionOrigin_PS4_CenterPad_DPadNorth,
+		k_EControllerActionOrigin_PS4_CenterPad_DPadSouth,
+		k_EControllerActionOrigin_PS4_CenterPad_DPadWest,
+		k_EControllerActionOrigin_PS4_CenterPad_DPadEast,
+		k_EControllerActionOrigin_PS4_LeftTrigger_Pull,
+		k_EControllerActionOrigin_PS4_LeftTrigger_Click,
+		k_EControllerActionOrigin_PS4_RightTrigger_Pull,
+		k_EControllerActionOrigin_PS4_RightTrigger_Click,
+		k_EControllerActionOrigin_PS4_LeftStick_Move,
+		k_EControllerActionOrigin_PS4_LeftStick_Click,
+		k_EControllerActionOrigin_PS4_LeftStick_DPadNorth,
+		k_EControllerActionOrigin_PS4_LeftStick_DPadSouth,
+		k_EControllerActionOrigin_PS4_LeftStick_DPadWest,
+		k_EControllerActionOrigin_PS4_LeftStick_DPadEast,
+		k_EControllerActionOrigin_PS4_RightStick_Move,
+		k_EControllerActionOrigin_PS4_RightStick_Click,
+		k_EControllerActionOrigin_PS4_RightStick_DPadNorth,
+		k_EControllerActionOrigin_PS4_RightStick_DPadSouth,
+		k_EControllerActionOrigin_PS4_RightStick_DPadWest,
+		k_EControllerActionOrigin_PS4_RightStick_DPadEast,
+		k_EControllerActionOrigin_PS4_DPad_North,
+		k_EControllerActionOrigin_PS4_DPad_South,
+		k_EControllerActionOrigin_PS4_DPad_West,
+		k_EControllerActionOrigin_PS4_DPad_East,
+		k_EControllerActionOrigin_PS4_Gyro_Move,
+		k_EControllerActionOrigin_PS4_Gyro_Pitch,
+		k_EControllerActionOrigin_PS4_Gyro_Yaw,
+		k_EControllerActionOrigin_PS4_Gyro_Roll,
+
+		// XBox One
+		k_EControllerActionOrigin_XBoxOne_A,
+		k_EControllerActionOrigin_XBoxOne_B,
+		k_EControllerActionOrigin_XBoxOne_X,
+		k_EControllerActionOrigin_XBoxOne_Y,
+		k_EControllerActionOrigin_XBoxOne_LeftBumper,
+		k_EControllerActionOrigin_XBoxOne_RightBumper,
+		k_EControllerActionOrigin_XBoxOne_Menu,  //Start
+		k_EControllerActionOrigin_XBoxOne_View,  //Back
+		k_EControllerActionOrigin_XBoxOne_LeftTrigger_Pull,
+		k_EControllerActionOrigin_XBoxOne_LeftTrigger_Click,
+		k_EControllerActionOrigin_XBoxOne_RightTrigger_Pull,
+		k_EControllerActionOrigin_XBoxOne_RightTrigger_Click,
+		k_EControllerActionOrigin_XBoxOne_LeftStick_Move,
+		k_EControllerActionOrigin_XBoxOne_LeftStick_Click,
+		k_EControllerActionOrigin_XBoxOne_LeftStick_DPadNorth,
+		k_EControllerActionOrigin_XBoxOne_LeftStick_DPadSouth,
+		k_EControllerActionOrigin_XBoxOne_LeftStick_DPadWest,
+		k_EControllerActionOrigin_XBoxOne_LeftStick_DPadEast,
+		k_EControllerActionOrigin_XBoxOne_RightStick_Move,
+		k_EControllerActionOrigin_XBoxOne_RightStick_Click,
+		k_EControllerActionOrigin_XBoxOne_RightStick_DPadNorth,
+		k_EControllerActionOrigin_XBoxOne_RightStick_DPadSouth,
+		k_EControllerActionOrigin_XBoxOne_RightStick_DPadWest,
+		k_EControllerActionOrigin_XBoxOne_RightStick_DPadEast,
+		k_EControllerActionOrigin_XBoxOne_DPad_North,
+		k_EControllerActionOrigin_XBoxOne_DPad_South,
+		k_EControllerActionOrigin_XBoxOne_DPad_West,
+		k_EControllerActionOrigin_XBoxOne_DPad_East,
+
+		// XBox 360
+		k_EControllerActionOrigin_XBox360_A,
+		k_EControllerActionOrigin_XBox360_B,
+		k_EControllerActionOrigin_XBox360_X,
+		k_EControllerActionOrigin_XBox360_Y,
+		k_EControllerActionOrigin_XBox360_LeftBumper,
+		k_EControllerActionOrigin_XBox360_RightBumper,
+		k_EControllerActionOrigin_XBox360_Start,  //Start
+		k_EControllerActionOrigin_XBox360_Back,  //Back
+		k_EControllerActionOrigin_XBox360_LeftTrigger_Pull,
+		k_EControllerActionOrigin_XBox360_LeftTrigger_Click,
+		k_EControllerActionOrigin_XBox360_RightTrigger_Pull,
+		k_EControllerActionOrigin_XBox360_RightTrigger_Click,
+		k_EControllerActionOrigin_XBox360_LeftStick_Move,
+		k_EControllerActionOrigin_XBox360_LeftStick_Click,
+		k_EControllerActionOrigin_XBox360_LeftStick_DPadNorth,
+		k_EControllerActionOrigin_XBox360_LeftStick_DPadSouth,
+		k_EControllerActionOrigin_XBox360_LeftStick_DPadWest,
+		k_EControllerActionOrigin_XBox360_LeftStick_DPadEast,
+		k_EControllerActionOrigin_XBox360_RightStick_Move,
+		k_EControllerActionOrigin_XBox360_RightStick_Click,
+		k_EControllerActionOrigin_XBox360_RightStick_DPadNorth,
+		k_EControllerActionOrigin_XBox360_RightStick_DPadSouth,
+		k_EControllerActionOrigin_XBox360_RightStick_DPadWest,
+		k_EControllerActionOrigin_XBox360_RightStick_DPadEast,
+		k_EControllerActionOrigin_XBox360_DPad_North,
+		k_EControllerActionOrigin_XBox360_DPad_South,
+		k_EControllerActionOrigin_XBox360_DPad_West,
+		k_EControllerActionOrigin_XBox360_DPad_East,
+
+		// SteamController V2
+		k_EControllerActionOrigin_SteamV2_A,
+		k_EControllerActionOrigin_SteamV2_B,
+		k_EControllerActionOrigin_SteamV2_X,
+		k_EControllerActionOrigin_SteamV2_Y,
+		k_EControllerActionOrigin_SteamV2_LeftBumper,
+		k_EControllerActionOrigin_SteamV2_RightBumper,
+		k_EControllerActionOrigin_SteamV2_LeftGrip,
+		k_EControllerActionOrigin_SteamV2_RightGrip,
+		k_EControllerActionOrigin_SteamV2_Start,
+		k_EControllerActionOrigin_SteamV2_Back,
+		k_EControllerActionOrigin_SteamV2_LeftPad_Touch,
+		k_EControllerActionOrigin_SteamV2_LeftPad_Swipe,
+		k_EControllerActionOrigin_SteamV2_LeftPad_Click,
+		k_EControllerActionOrigin_SteamV2_LeftPad_DPadNorth,
+		k_EControllerActionOrigin_SteamV2_LeftPad_DPadSouth,
+		k_EControllerActionOrigin_SteamV2_LeftPad_DPadWest,
+		k_EControllerActionOrigin_SteamV2_LeftPad_DPadEast,
+		k_EControllerActionOrigin_SteamV2_RightPad_Touch,
+		k_EControllerActionOrigin_SteamV2_RightPad_Swipe,
+		k_EControllerActionOrigin_SteamV2_RightPad_Click,
+		k_EControllerActionOrigin_SteamV2_RightPad_DPadNorth,
+		k_EControllerActionOrigin_SteamV2_RightPad_DPadSouth,
+		k_EControllerActionOrigin_SteamV2_RightPad_DPadWest,
+		k_EControllerActionOrigin_SteamV2_RightPad_DPadEast,
+		k_EControllerActionOrigin_SteamV2_LeftTrigger_Pull,
+		k_EControllerActionOrigin_SteamV2_LeftTrigger_Click,
+		k_EControllerActionOrigin_SteamV2_RightTrigger_Pull,
+		k_EControllerActionOrigin_SteamV2_RightTrigger_Click,
+		k_EControllerActionOrigin_SteamV2_LeftStick_Move,
+		k_EControllerActionOrigin_SteamV2_LeftStick_Click,
+		k_EControllerActionOrigin_SteamV2_LeftStick_DPadNorth,
+		k_EControllerActionOrigin_SteamV2_LeftStick_DPadSouth,
+		k_EControllerActionOrigin_SteamV2_LeftStick_DPadWest,
+		k_EControllerActionOrigin_SteamV2_LeftStick_DPadEast,
+		k_EControllerActionOrigin_SteamV2_Gyro_Move,
+		k_EControllerActionOrigin_SteamV2_Gyro_Pitch,
+		k_EControllerActionOrigin_SteamV2_Gyro_Yaw,
+		k_EControllerActionOrigin_SteamV2_Gyro_Roll,
+
 		k_EControllerActionOrigin_Count
+	}
+
+	public enum ESteamControllerLEDFlag : int {
+		k_ESteamControllerLEDFlag_SetColor,
+		k_ESteamControllerLEDFlag_RestoreUserDefault
 	}
 
 	//-----------------------------------------------------------------------------
@@ -150,7 +315,7 @@ namespace Steamworks {
 		k_EFriendFlagRequestingInfo = 0x100,
 		k_EFriendFlagIgnored		= 0x200,
 		k_EFriendFlagIgnoredFriend	= 0x400,
-		k_EFriendFlagSuggested		= 0x800,
+		// k_EFriendFlagSuggested		= 0x800,	// not used
 		k_EFriendFlagChatMember		= 0x1000,
 		k_EFriendFlagAll			= 0xFFFF,
 	}
@@ -1117,28 +1282,6 @@ namespace Steamworks {
 		k_eEVRHMDType_Oculus_Rift = 23, // Oculus rift
 
 		k_eEVRHMDType_Oculus_Unknown = 40, // // Oculus unknown HMD
-	}
-
-	//-----------------------------------------------------------------------------
-	// Purpose: Steam Controller models
-	// WARNING: DO NOT RENUMBER EXISTING VALUES - STORED IN A DATABASE
-	//-----------------------------------------------------------------------------
-	public enum EControllerType : int {
-		k_eControllerType_None = -1,
-		k_eControllerType_Unknown = 0,
-
-		// Steam Controllers
-		k_eControllerType_UnknownSteamController = 1,
-		k_eControllerType_SteamController = 2,
-
-		// Other Controllers
-		k_eControllerType_UnknownNonSteamController = 30,
-		k_eControllerType_XBox360Controller = 31,
-		k_eControllerType_XBoxOneController = 32,
-		k_eControllerType_PS3Controller = 33,
-		k_eControllerType_PS4Controller = 34,
-		k_eControllerType_WiiController = 35,
-		k_eControllerType_AppleController = 36
 	}
 
 	// HTTP related types

@@ -158,6 +158,22 @@ namespace Steamworks {
 		}
 
 		/// <summary>
+		/// <para> Tigger a vibration event on supported controllers.</para>
+		/// </summary>
+		public static void TriggerVibration(ControllerHandle_t controllerHandle, ushort usLeftSpeed, ushort usRightSpeed) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamController_TriggerVibration(controllerHandle, usLeftSpeed, usRightSpeed);
+		}
+
+		/// <summary>
+		/// <para> Set the controller LED color on supported controllers.</para>
+		/// </summary>
+		public static void SetLEDColor(ControllerHandle_t controllerHandle, byte nColorR, byte nColorG, byte nColorB, uint nFlags) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamController_SetLEDColor(controllerHandle, nColorR, nColorG, nColorB, nFlags);
+		}
+
+		/// <summary>
 		/// <para> Returns the associated gamepad index for the specified controller, if emulating a gamepad</para>
 		/// </summary>
 		public static int GetGamepadIndexForController(ControllerHandle_t ulControllerHandle) {
@@ -193,6 +209,22 @@ namespace Steamworks {
 		public static bool ShowAnalogActionOrigins(ControllerHandle_t controllerHandle, ControllerAnalogActionHandle_t analogActionHandle, float flScale, float flXPosition, float flYPosition) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamController_ShowAnalogActionOrigins(controllerHandle, analogActionHandle, flScale, flXPosition, flYPosition);
+		}
+
+		/// <summary>
+		/// <para> Returns a localized string (from Steam's language setting) for the specified origin</para>
+		/// </summary>
+		public static string GetStringForActionOrigin(EControllerActionOrigin eOrigin) {
+			InteropHelp.TestIfAvailableClient();
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamController_GetStringForActionOrigin(eOrigin));
+		}
+
+		/// <summary>
+		/// <para> Get a local path to art for on-screen glyph for a particular origin</para>
+		/// </summary>
+		public static string GetGlyphForActionOrigin(EControllerActionOrigin eOrigin) {
+			InteropHelp.TestIfAvailableClient();
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamController_GetGlyphForActionOrigin(eOrigin));
 		}
 	}
 }

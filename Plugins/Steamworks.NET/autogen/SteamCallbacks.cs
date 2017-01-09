@@ -874,6 +874,18 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iClientInventoryCallbacks + 2;
 	}
 
+	// Returned
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iClientInventoryCallbacks + 3)]
+	public struct SteamInventoryEligiblePromoItemDefIDs_t {
+		public const int k_iCallback = Constants.k_iClientInventoryCallbacks + 3;
+		public EResult m_result;
+		public CSteamID m_steamID;
+		public int m_numEligiblePromoItemDefs;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bCachedData;	// indicates that the data was retrieved from the cache and not the server
+	}
+
 	//-----------------------------------------------------------------------------
 	// Callbacks for ISteamMatchmaking (which go through the regular Steam callback registration system)
 	//-----------------------------------------------------------------------------

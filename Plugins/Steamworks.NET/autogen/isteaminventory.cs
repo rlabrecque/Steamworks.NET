@@ -141,9 +141,11 @@ namespace Steamworks {
 		/// <para> INVENTORY ASYNC MODIFICATION</para>
 		/// <para> GenerateItems() creates one or more items and then generates a SteamInventoryCallback_t</para>
 		/// <para> notification with a matching nCallbackContext parameter. This API is insecure, and could</para>
-		/// <para> be abused by hacked clients. It is, however, very useful as a development cheat or as</para>
-		/// <para> a means of prototyping item-related features for your game. The use of GenerateItems can</para>
-		/// <para> be restricted to certain item definitions or fully blocked via the Steamworks website.</para>
+		/// <para> be abused by hacked clients. This call is normally disabled unless you explicitly enable</para>
+		/// <para> "Development mode" on the Inventory Service section of the Steamworks website.</para>
+		/// <para> You should not enable this mode for a shipping game!</para>
+		/// <para> Note that Steam accounts that belong to the publisher group for your game are granted</para>
+		/// <para> an exception - as a developer, you may use this to generate and test items in your game.</para>
 		/// <para> If punArrayQuantity is not NULL, it should be the same length as pArrayItems and should</para>
 		/// <para> describe the quantity of each item to generate.</para>
 		/// </summary>
@@ -184,9 +186,7 @@ namespace Steamworks {
 		/// <para> Not for the faint of heart - if your game implements item removal at all, a high-friction</para>
 		/// <para> UI confirmation process is highly recommended. Similar to GenerateItems, punArrayQuantity</para>
 		/// <para> can be NULL or else an array of the same length as pArrayItems which describe the quantity</para>
-		/// <para> of each item to destroy. ConsumeItem can be restricted to certain item definitions or</para>
-		/// <para> fully blocked via the Steamworks website to minimize support/abuse issues such as the</para>
-		/// <para> clasic "my brother borrowed my laptop and deleted all of my rare items".</para>
+		/// <para> of each item to destroy.</para>
 		/// </summary>
 		public static bool ConsumeItem(out SteamInventoryResult_t pResultHandle, SteamItemInstanceID_t itemConsume, uint unQuantity) {
 			InteropHelp.TestIfAvailableClient();
@@ -194,14 +194,12 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> ExchangeItems() is an atomic combination of GenerateItems and DestroyItems. It can be</para>
-		/// <para> used to implement crafting recipes or transmutations, or items which unpack themselves</para>
-		/// <para> into other items. Like GenerateItems, this is a flexible and dangerous API which is</para>
-		/// <para> meant for rapid prototyping. You can configure restrictions on ExchangeItems via the</para>
-		/// <para> Steamworks website, such as limiting it to a whitelist of input/output combinations</para>
-		/// <para> corresponding to recipes.</para>
-		/// <para> (Note: although GenerateItems may be hard or impossible to use securely in your game,</para>
-		/// <para> ExchangeItems is perfectly reasonable to use once the whitelists are set accordingly.)</para>
+		/// <para> ExchangeItems() is an atomic combination of item generation and consumption.</para>
+		/// <para> It can be used to implement crafting recipes or transmutations, or items which unpack</para>
+		/// <para> themselves into other items (e.g., a chest).</para>
+		/// <para> ExchangeItems requires a whitelist - you must define recipes (lists of the components</para>
+		/// <para> required for the exchange) on the target ItemDefinition. Exchanges that do not match</para>
+		/// <para> a recipe, or do not provide the required amounts, will fail.</para>
 		/// </summary>
 		public static bool ExchangeItems(out SteamInventoryResult_t pResultHandle, SteamItemDef_t[] pArrayGenerate, uint[] punArrayGenerateQuantity, uint unArrayGenerateLength, SteamItemInstanceID_t[] pArrayDestroy, uint[] punArrayDestroyQuantity, uint unArrayDestroyLength) {
 			InteropHelp.TestIfAvailableClient();
@@ -221,18 +219,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> TIMED DROPS AND PLAYTIME CREDIT</para>
-		/// <para> Applications which use timed-drop mechanics should call SendItemDropHeartbeat() when</para>
-		/// <para> active gameplay begins, and at least once every two minutes afterwards. The backend</para>
-		/// <para> performs its own time calculations, so the precise timing of the heartbeat is not</para>
-		/// <para> critical as long as you send at least one heartbeat every two minutes. Calling the</para>
-		/// <para> function more often than that is not harmful, it will simply have no effect. Note:</para>
-		/// <para> players may be able to spoof this message by hacking their client, so you should not</para>
-		/// <para> attempt to use this as a mechanism to restrict playtime credits. It is simply meant</para>
-		/// <para> to distinguish between being in any kind of gameplay situation vs the main menu or</para>
-		/// <para> a pre-game launcher window. (If you are stingy with handing out playtime credit, it</para>
-		/// <para> will only encourage players to run bots or use mouse/kb event simulators.)</para>
-		/// <para> Playtime credit accumulation can be capped on a daily or weekly basis through your</para>
-		/// <para> Steamworks configuration.</para>
+		/// <para> Deprecated. Calling this method is not required for proper playtime accounting.</para>
 		/// </summary>
 		public static void SendItemDropHeartbeat() {
 			InteropHelp.TestIfAvailableClient();
@@ -246,8 +233,9 @@ namespace Steamworks {
 		/// <para> Your game should call TriggerItemDrop at an appropriate time for the user to receive</para>
 		/// <para> new items, such as between rounds or while the player is dead. Note that players who</para>
 		/// <para> hack their clients could modify the value of "dropListDefinition", so do not use it</para>
-		/// <para> to directly control rarity. It is primarily useful during testing and development,</para>
-		/// <para> where you may wish to perform experiments with different types of drops.</para>
+		/// <para> to directly control rarity.</para>
+		/// <para> See your Steamworks configuration to set playtime drop rates for individual itemdefs.</para>
+		/// <para> The client library will suppress too-frequent calls to this method.</para>
 		/// </summary>
 		public static bool TriggerItemDrop(out SteamInventoryResult_t pResultHandle, SteamItemDef_t dropListDefinition) {
 			InteropHelp.TestIfAvailableClient();
@@ -321,6 +309,26 @@ namespace Steamworks {
 				Marshal.FreeHGlobal(pchValueBuffer2);
 				return ret;
 			}
+		}
+
+		/// <summary>
+		/// <para> Request the list of "eligible" promo items that can be manually granted to the given</para>
+		/// <para> user.  These are promo items of type "manual" that won't be granted automatically.</para>
+		/// <para> An example usage of this is an item that becomes available every week.</para>
+		/// </summary>
+		public static SteamAPICall_t RequestEligiblePromoItemDefinitionsIDs(CSteamID steamID) {
+			InteropHelp.TestIfAvailableClient();
+			return (SteamAPICall_t)NativeMethods.ISteamInventory_RequestEligiblePromoItemDefinitionsIDs(steamID);
+		}
+
+		/// <summary>
+		/// <para> After handling a SteamInventoryEligiblePromoItemDefIDs_t call result, use this</para>
+		/// <para> function to pull out the list of item definition ids that the user can be</para>
+		/// <para> manually granted via the AddPromoItems() call.</para>
+		/// </summary>
+		public static bool GetEligiblePromoItemDefinitionIDs(CSteamID steamID, SteamItemDef_t[] pItemDefIDs, ref uint punItemDefIDsArraySize) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamInventory_GetEligiblePromoItemDefinitionIDs(steamID, pItemDefIDs, ref punItemDefIDsArraySize);
 		}
 	}
 }
