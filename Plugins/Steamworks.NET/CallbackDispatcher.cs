@@ -59,7 +59,7 @@ namespace Steamworks {
         }
     }
 
-	public sealed class Callback<T> {
+	public sealed class Callback<T> : IDisposable {
 		private CCallbackBaseVTable VTable;
 		private IntPtr m_pVTable = IntPtr.Zero;
 		private CCallbackBase m_CCallbackBase;
@@ -70,6 +70,8 @@ namespace Steamworks {
 
 		private bool m_bGameServer;
 		private readonly int m_size = Marshal.SizeOf(typeof(T));
+
+		private bool m_bDisposed = false;
 
 		/// <summary>
 		/// Creates a new Callback. You must be calling SteamAPI.RunCallbacks() to retrieve the callbacks.
@@ -94,6 +96,16 @@ namespace Steamworks {
 		}
 
 		~Callback() {
+			Dispose();
+		}
+
+		public void Dispose() {
+			if (m_bDisposed) {
+				return;
+			}
+
+			GC.SuppressFinalize(this);
+
 			Unregister();
 
 			if (m_pVTable != IntPtr.Zero) {
@@ -103,8 +115,10 @@ namespace Steamworks {
 			if (m_pCCallbackBase.IsAllocated) {
 				m_pCCallbackBase.Free();
 			}
-		}
 
+			m_bDisposed = true;
+		}
+		
 		// Manual registration of the callback
 		public void Register(DispatchDelegate func) {
 			if (func == null) {
@@ -145,7 +159,7 @@ namespace Steamworks {
 			}
 		}
 
-		// Shouldn't get ever get called here, but this is what C++ Steamworks does!
+		// Shouldn't ever get called here, but this is what C++ Steamworks does!
 		private void OnRunCallResult(
 #if !STDCALL
 			IntPtr thisptr,
@@ -186,7 +200,7 @@ namespace Steamworks {
 		}
 	}
 
-	public sealed class CallResult<T> {
+	public sealed class CallResult<T> : IDisposable {
 		private CCallbackBaseVTable VTable;
 		private IntPtr m_pVTable = IntPtr.Zero;
 		private CCallbackBase m_CCallbackBase;
@@ -199,6 +213,8 @@ namespace Steamworks {
 		public SteamAPICall_t Handle { get { return m_hAPICall; } }
 
 		private readonly int m_size = Marshal.SizeOf(typeof(T));
+
+		private bool m_bDisposed = false;
 
 		/// <summary>
 		/// Creates a new async CallResult. You must be calling SteamAPI.RunCallbacks() to retrieve the callback.
@@ -214,6 +230,16 @@ namespace Steamworks {
 		}
 
 		~CallResult() {
+			Dispose();
+		}
+
+		public void Dispose() {
+			if (m_bDisposed) {
+				return;
+			}
+
+			GC.SuppressFinalize(this);
+
 			Cancel();
 
 			if (m_pVTable != IntPtr.Zero) {
@@ -223,6 +249,8 @@ namespace Steamworks {
 			if (m_pCCallbackBase.IsAllocated) {
 				m_pCCallbackBase.Free();
 			}
+
+			m_bDisposed = true;
 		}
 
 		public void Set(SteamAPICall_t hAPICall, APIDispatchDelegate func = null) {
@@ -260,7 +288,7 @@ namespace Steamworks {
 
 		public void SetGameserverFlag() { m_CCallbackBase.m_nCallbackFlags |= CCallbackBase.k_ECallbackFlagsGameServer; }
 
-		// Shouldn't get ever get called here, but this is what C++ Steamworks does!
+		// Shouldn't ever get called here, but this is what C++ Steamworks does!
 		private void OnRunCallback(
 #if !STDCALL
 			IntPtr thisptr,
