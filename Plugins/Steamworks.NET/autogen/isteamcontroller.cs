@@ -42,6 +42,9 @@ namespace Steamworks {
 		/// </summary>
 		public static int GetConnectedControllers(ControllerHandle_t[] handlesOut) {
 			InteropHelp.TestIfAvailableClient();
+			if (handlesOut.Length != Constants.STEAM_CONTROLLER_MAX_COUNT) {
+				throw new ArgumentException("handlesOut must be the same size as Constants.STEAM_CONTROLLER_MAX_COUNT!");
+			}
 			return NativeMethods.ISteamController_GetConnectedControllers(handlesOut);
 		}
 
