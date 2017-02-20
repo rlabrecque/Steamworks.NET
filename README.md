@@ -28,4 +28,5 @@ Samples
 Check out these sample projects to get started:
 * [Steamworks.NET Example](https://github.com/rlabrecque/Steamworks.NET-Example)
 * [Steamworks.NET Test](https://github.com/rlabrecque/Steamworks.NET-Test)
+* [Steamworks.NET ChatClient](https://github.com/rlabrecque/Steamworks.NET-ChatClient)
 * [Steamworks.NET GameServerTest](https://github.com/rlabrecque/Steamworks.NET-GameServerTest)

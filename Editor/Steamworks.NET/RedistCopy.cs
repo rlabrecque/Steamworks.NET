@@ -1,4 +1,8 @@
-// Uncomment this out to disable copying
+// This file is provided under The MIT License as part of Steamworks.NET.
+// Copyright (c) 2013-2017 Riley Labrecque
+// Please see the included LICENSE.txt for additional information.
+
+// Uncomment this out or add it to your custom platform defines to disable copying
 //#define DISABLEREDISTCOPY
 
 using UnityEngine;
