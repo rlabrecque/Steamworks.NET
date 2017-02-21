@@ -66,13 +66,18 @@ public class RedistInstall {
 			Debug.Log(string.Format("[Steamworks.NET] Successfully copied {0} into the project root. Please relaunch Unity.", filename));
 		}
 		else {
-			Debug.LogWarning(string.Format("[Steamworks.NET] Could not copy {0} into the project root. File.Copy() Failed. Place {0} from the Steamworks SDK in the project root manually.", filename));
+			Debug.LogWarning(string.Format("[Steamworks.NET] Could not copy {0} into the project root. File.Copy() Failed. Please copy {0} into the project root manually.", Path.Combine(path, filename)));
 		}
 	}
 
 #if UNITY_5
 	static void SetPlatformSettings() {
 		foreach(var plugin in PluginImporter.GetAllImporters()) {
+			// Skip any null plugins, why is this a thing?!
+			if(plugin == null) {
+				continue;
+			}
+
 			// Skip any absolute paths, as they are only builtin plugins.
 			if(Path.IsPathRooted(plugin.assetPath)) {
 				continue;
