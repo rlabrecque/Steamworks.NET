@@ -4,6 +4,7 @@
 
 // Changes to this file will be reverted when you update Steamworks.NET
 
+#if !DISABLESTEAMWORKS
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -93,3 +94,4 @@ namespace Steamworks {
 		public CSteamID m_steamID;
 	}
 }
+#endif
