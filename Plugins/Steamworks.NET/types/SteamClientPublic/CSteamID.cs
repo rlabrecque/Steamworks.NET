@@ -4,6 +4,8 @@
 
 // Changes to this file will be reverted when you update Steamworks.NET
 
+#if !DISABLESTEAMWORKS
+
 namespace Steamworks {
 	[System.Serializable]
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 4)]
@@ -265,3 +267,5 @@ namespace Steamworks {
 		#endregion
 	}
 }
+
+#endif // !DISABLESTEAMWORKS

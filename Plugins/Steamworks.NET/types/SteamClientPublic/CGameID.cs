@@ -4,6 +4,8 @@
 
 // Changes to this file will be reverted when you update Steamworks.NET
 
+#if !DISABLESTEAMWORKS
+
 namespace Steamworks {
 	[System.Serializable]
 	public struct CGameID : System.IEquatable<CGameID>, System.IComparable<CGameID> {
@@ -59,7 +61,7 @@ namespace Steamworks {
 		public uint ModID() {
 			return (uint)((m_GameID >> 32) & 0xFFFFFFFFul);
 		}
-		
+
 		public bool IsValid() {
 			// Each type has it's own invalid fixed point:
 			switch (Type()) {
@@ -140,3 +142,5 @@ namespace Steamworks {
 		#endregion
 	}
 }
+
+#endif // !DISABLESTEAMWORKS
