@@ -14,6 +14,12 @@ namespace Steamworks {
 	[System.Security.SuppressUnmanagedCodeSecurity()]
 	internal static class NativeMethods {
 		internal const string NativeLibraryName = "CSteamworks";
+		#if (UNITY_EDITOR_WIN && UNITY_EDITOR_64) || (!UNITY_EDITOR && UNITY_STANDALONE_WIN && UNITY_64)
+				internal const string NativeLibrary_SDKEncryptedAppTicket = "sdkencryptedappticket64";
+		#else
+				internal const string NativeLibrary_SDKEncryptedAppTicket = "sdkencryptedappticket";
+		#endif
+
 #region steam_api.h
 		// Steam API setup & shutdown
 		[DllImport("CSteamworks", EntryPoint = "Init", CallingConvention = CallingConvention.Cdecl)]
@@ -127,33 +133,33 @@ namespace Steamworks {
         public static extern IntPtr SteamGameServerClient();
 #endregion
 #region steamencryptedappticket.h
-		[DllImport("sdkencryptedappticket", CallingConvention = CallingConvention.Cdecl, EntryPoint = "SteamEncryptedAppTicket_BDecryptTicket")]
+		[DllImport(NativeLibrary_SDKEncryptedAppTicket, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool BDecryptTicket([In, Out] byte[] rgubTicketEncrypted, uint cubTicketEncrypted, [In, Out] byte[] rgubTicketDecrypted, ref uint pcubTicketDecrypted, [MarshalAs(UnmanagedType.LPArray, SizeConst=Constants.k_nSteamEncryptedAppTicketSymmetricKeyLen)] byte[] rgubKey, int cubKey);
+		public static extern bool SteamEncryptedAppTicket_BDecryptTicket(byte[] rgubTicketEncrypted, uint cubTicketEncrypted, byte[] rgubTicketDecrypted, ref uint pcubTicketDecrypted, [MarshalAs(UnmanagedType.LPArray, SizeConst=Constants.k_nSteamEncryptedAppTicketSymmetricKeyLen)] byte[] rgubKey, int cubKey);
 
-		[DllImport("sdkencryptedappticket", CallingConvention = CallingConvention.Cdecl, EntryPoint = "SteamEncryptedAppTicket_BIsTicketForApp")]
+		[DllImport(NativeLibrary_SDKEncryptedAppTicket, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool BIsTicketForApp([In, Out] byte[] rgubTicketDecrypted, uint cubTicketDecrypted, AppId_t nAppID);
+		public static extern bool SteamEncryptedAppTicket_BIsTicketForApp(byte[] rgubTicketDecrypted, uint cubTicketDecrypted, AppId_t nAppID);
 
-		[DllImport("sdkencryptedappticket", CallingConvention = CallingConvention.Cdecl, EntryPoint = "SteamEncryptedAppTicket_GetTicketIssueTime")]
-		public static extern uint GetTicketIssueTime([In, Out] byte[] rgubTicketDecrypted, uint cubTicketDecrypted);
+		[DllImport(NativeLibrary_SDKEncryptedAppTicket, CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint SteamEncryptedAppTicket_GetTicketIssueTime(byte[] rgubTicketDecrypted, uint cubTicketDecrypted);
 
-		[DllImport("sdkencryptedappticket", CallingConvention = CallingConvention.Cdecl, EntryPoint = "SteamEncryptedAppTicket_GetTicketSteamID")]
-		public static extern void GetTicketSteamID([In, Out] byte[] rgubTicketDecrypted, uint cubTicketDecrypted, out CSteamID psteamID);
+		[DllImport(NativeLibrary_SDKEncryptedAppTicket, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SteamEncryptedAppTicket_GetTicketSteamID(byte[] rgubTicketDecrypted, uint cubTicketDecrypted, out CSteamID psteamID);
 
-		[DllImport("sdkencryptedappticket", CallingConvention = CallingConvention.Cdecl, EntryPoint = "SteamEncryptedAppTicket_GetTicketAppID")]
-		public static extern uint GetTicketAppID([In, Out] byte[] rgubTicketDecrypted, uint cubTicketDecrypted);
+		[DllImport(NativeLibrary_SDKEncryptedAppTicket, CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint SteamEncryptedAppTicket_GetTicketAppID(byte[] rgubTicketDecrypted, uint cubTicketDecrypted);
 
-		[DllImport("sdkencryptedappticket", CallingConvention = CallingConvention.Cdecl, EntryPoint = "SteamEncryptedAppTicket_BUserOwnsAppInTicket")]
+		[DllImport(NativeLibrary_SDKEncryptedAppTicket, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool BUserOwnsAppInTicket([In, Out] byte[] rgubTicketDecrypted, uint cubTicketDecrypted, AppId_t nAppID);
+		public static extern bool SteamEncryptedAppTicket_BUserOwnsAppInTicket(byte[] rgubTicketDecrypted, uint cubTicketDecrypted, AppId_t nAppID);
 
-		[DllImport("sdkencryptedappticket", CallingConvention = CallingConvention.Cdecl, EntryPoint = "SteamEncryptedAppTicket_BUserIsVacBanned")]
+		[DllImport(NativeLibrary_SDKEncryptedAppTicket, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool BUserIsVacBanned([In, Out] byte[] rgubTicketDecrypted, uint cubTicketDecrypted);
+		public static extern bool SteamEncryptedAppTicket_BUserIsVacBanned(byte[] rgubTicketDecrypted, uint cubTicketDecrypted);
 
-		[DllImport("sdkencryptedappticket", CallingConvention = CallingConvention.Cdecl, EntryPoint = "SteamEncryptedAppTicket_GetUserVariableData")]
-		public static extern IntPtr GetUserVariableData([In, Out] byte[] rgubTicketDecrypted, uint cubTicketDecrypted, out uint pcubUserData);
+		[DllImport(NativeLibrary_SDKEncryptedAppTicket, CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr SteamEncryptedAppTicket_GetUserVariableData(byte[] rgubTicketDecrypted, uint cubTicketDecrypted, out uint pcubUserData);
 #endregion
 #region SteamAppList
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
