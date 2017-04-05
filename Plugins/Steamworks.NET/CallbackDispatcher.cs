@@ -295,6 +295,7 @@ namespace Steamworks {
 #endif
 			IntPtr pvParam) {
 			m_hAPICall = SteamAPICall_t.Invalid; // Caller unregisters for us
+
 			try {
 				m_Func((T)Marshal.PtrToStructure(pvParam, typeof(T)), false);
 			}
@@ -308,20 +309,16 @@ namespace Steamworks {
 #if !STDCALL
 			IntPtr thisptr,
 #endif
-			IntPtr pvParam, bool bFailed, ulong hSteamAPICall) {
-			SteamAPICall_t hAPICall = (SteamAPICall_t)hSteamAPICall;
-			if (hAPICall == m_hAPICall) {
+			IntPtr pvParam, bool bFailed, ulong hSteamAPICall_) {
+			SteamAPICall_t hSteamAPICall = (SteamAPICall_t)hSteamAPICall_;
+			if (hSteamAPICall == m_hAPICall) {
+				m_hAPICall = SteamAPICall_t.Invalid; // Caller unregisters for us
+
 				try {
 					m_Func((T)Marshal.PtrToStructure(pvParam, typeof(T)), bFailed);
 				}
 				catch (Exception e) {
 					CallbackDispatcher.ExceptionHandler(e);
-				}
-
-				// The official SDK sets m_hAPICall to invalid before calling the callresult function,
-				// this doesn't let us access .Handle from within the function though.
-				if (hAPICall == m_hAPICall) { // Ensure that m_hAPICall has not been changed in m_Func
-					m_hAPICall = SteamAPICall_t.Invalid; // Caller unregisters for us
 				}
 			}
 		}
