@@ -16,7 +16,7 @@ public class RedistInstall {
 		CopyFile("Assets/Plugins/Steamworks.NET/redist", "steam_appid.txt", false);
 
 		// We only need to copy the dll into the project root on <= Unity 5.0
-#if UNITY_EDITOR_WIN && (!UNITY_5 || UNITY_5_0)
+#if UNITY_EDITOR_WIN && (UNITY_4_7 || UNITY_5_0)
 	#if UNITY_EDITOR_64
 		CopyFile("Assets/Plugins/x86_64", "steam_api64.dll", true);
 	#else
@@ -24,7 +24,7 @@ public class RedistInstall {
 	#endif
 #endif
 
-#if UNITY_5
+#if UNITY_5 || UNITY_2017
 	#if !DISABLEPLATFORMSETTINGS
 		SetPlatformSettings();
 	#endif
@@ -70,7 +70,7 @@ public class RedistInstall {
 		}
 	}
 
-#if UNITY_5
+#if UNITY_5 || UNITY_2017
 	static void SetPlatformSettings() {
 		foreach(var plugin in PluginImporter.GetAllImporters()) {
 			// Skip any null plugins, why is this a thing?!

@@ -20,7 +20,7 @@
 
 // We do not want to throw a warning when we're building in Unity but for an unsupported platform. So we'll silently let this slip by.
 // It would be nice if Unity itself would define 'UNITY' or something like that...
-#elif UNITY_3_5 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7 || UNITY_5
+#elif UNITY_3_5 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7 || UNITY_5 || UNITY_2017
 	#define VALVE_CALLBACK_PACK_SMALL
 
 // But we do want to be explicit on the Standalone build for XNA/Monogame.
