@@ -2,8 +2,10 @@
 // Copyright (c) 2013-2017 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
-// Uncomment this out or add it to your custom platform defines to disable copying
-//#define DISABLEREDISTCOPY
+// Add 'DISABLEREDISTCOPY' to your custom platform defines to disable automatic copying!
+#if UNITY_5_3_OR_NEWER
+	#define DISABLEREDISTCOPY
+#endif
 
 using UnityEngine;
 using UnityEditor;

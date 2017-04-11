@@ -116,16 +116,25 @@ public class RedistInstall {
 				case "steam_api64.dll":
 					if (plugin.assetPath.Contains("x86_64")) {
 						didUpdate |= ResetPluginSettings(plugin, "x86_64", "Windows");
+#if UNITY_5_3_OR_NEWER
+						didUpdate |= SetCompatibleWithWindows(plugin, BuildTarget.StandaloneWindows64);
+#endif
 					}
 					else {
 						didUpdate |= ResetPluginSettings(plugin, "x86", "Windows");
+#if UNITY_5_3_OR_NEWER
+						didUpdate |= SetCompatibleWithWindows(plugin, BuildTarget.StandaloneWindows);
+#endif
 					}
 
-					// We do this because Unity currently has a bug where dependent dll's don't get loaded from the Plugins
+#if !UNITY_5_3_OR_NEWER
+					// We do this because Unity had a bug where dependent dll's didn't get loaded from the Plugins
 					// folder in actual builds. But they do in the editor now! So close... Unity bug number: 728945
 					// So ultimately we must keep using RedistCopy to copy steam_api[64].dll next to the .exe on builds, and
 					// we don't want a useless duplicate version of the dll ending up in the Plugins folder.
+					// This was fixed in Unity 5.3!
 					didUpdate |= SetCompatibleWithEditor(plugin);
+#endif
 					break;
 			}
 
