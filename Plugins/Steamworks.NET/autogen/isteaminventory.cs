@@ -41,6 +41,28 @@ namespace Steamworks {
 		}
 
 		/// <summary>
+		/// <para> In combination with GetResultItems, you can use GetResultItemProperty to retrieve</para>
+		/// <para> dynamic string properties for a given item returned in the result set.</para>
+		/// <para> Property names are always composed of ASCII letters, numbers, and/or underscores.</para>
+		/// <para> Pass a NULL pointer for pchPropertyName to get a comma - separated list of available</para>
+		/// <para> property names.</para>
+		/// <para> If pchValueBuffer is NULL, *punValueBufferSize will contain the</para>
+		/// <para> suggested buffer size. Otherwise it will be the number of bytes actually copied</para>
+		/// <para> to pchValueBuffer. If the results do not fit in the given buffer, partial</para>
+		/// <para> results may be copied.</para>
+		/// </summary>
+		public static bool GetResultItemProperty(SteamInventoryResult_t resultHandle, uint unItemIndex, string pchPropertyName, out string pchValueBuffer, ref uint punValueBufferSizeOut) {
+			InteropHelp.TestIfAvailableClient();
+			IntPtr pchValueBuffer2 = Marshal.AllocHGlobal((int)punValueBufferSizeOut);
+			using (var pchPropertyName2 = new InteropHelp.UTF8StringHandle(pchPropertyName)) {
+				bool ret = NativeMethods.ISteamInventory_GetResultItemProperty(resultHandle, unItemIndex, pchPropertyName2, pchValueBuffer2, ref punValueBufferSizeOut);
+				pchValueBuffer = ret ? InteropHelp.PtrToStringUTF8(pchValueBuffer2) : null;
+				Marshal.FreeHGlobal(pchValueBuffer2);
+				return ret;
+			}
+		}
+
+		/// <summary>
 		/// <para> Returns the server time at which the result was generated. Compare against</para>
 		/// <para> the value of IClientUtils::GetServerRealTime() to determine age.</para>
 		/// </summary>
@@ -140,12 +162,9 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> INVENTORY ASYNC MODIFICATION</para>
 		/// <para> GenerateItems() creates one or more items and then generates a SteamInventoryCallback_t</para>
-		/// <para> notification with a matching nCallbackContext parameter. This API is insecure, and could</para>
-		/// <para> be abused by hacked clients. This call is normally disabled unless you explicitly enable</para>
-		/// <para> "Development mode" on the Inventory Service section of the Steamworks website.</para>
-		/// <para> You should not enable this mode for a shipping game!</para>
-		/// <para> Note that Steam accounts that belong to the publisher group for your game are granted</para>
-		/// <para> an exception - as a developer, you may use this to generate and test items in your game.</para>
+		/// <para> notification with a matching nCallbackContext parameter. This API is only intended</para>
+		/// <para> for prototyping - it is only usable by Steam accounts that belong to the publisher group</para>
+		/// <para> for your game.</para>
 		/// <para> If punArrayQuantity is not NULL, it should be the same length as pArrayItems and should</para>
 		/// <para> describe the quantity of each item to generate.</para>
 		/// </summary>
@@ -184,9 +203,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> ConsumeItem() removes items from the inventory, permanently. They cannot be recovered.</para>
 		/// <para> Not for the faint of heart - if your game implements item removal at all, a high-friction</para>
-		/// <para> UI confirmation process is highly recommended. Similar to GenerateItems, punArrayQuantity</para>
-		/// <para> can be NULL or else an array of the same length as pArrayItems which describe the quantity</para>
-		/// <para> of each item to destroy.</para>
+		/// <para> UI confirmation process is highly recommended.</para>
 		/// </summary>
 		public static bool ConsumeItem(out SteamInventoryResult_t pResultHandle, SteamItemInstanceID_t itemConsume, uint unQuantity) {
 			InteropHelp.TestIfAvailableClient();
@@ -197,9 +214,11 @@ namespace Steamworks {
 		/// <para> ExchangeItems() is an atomic combination of item generation and consumption.</para>
 		/// <para> It can be used to implement crafting recipes or transmutations, or items which unpack</para>
 		/// <para> themselves into other items (e.g., a chest).</para>
-		/// <para> ExchangeItems requires a whitelist - you must define recipes (lists of the components</para>
-		/// <para> required for the exchange) on the target ItemDefinition. Exchanges that do not match</para>
-		/// <para> a recipe, or do not provide the required amounts, will fail.</para>
+		/// <para> Exchange recipes are defined in the ItemDef, and explicitly list the required item</para>
+		/// <para> types and resulting generated type.</para>
+		/// <para> Exchange recipes are evaluated atomically by the Inventory Service; if the supplied</para>
+		/// <para> components do not match the recipe, or do not contain sufficient quantity, the</para>
+		/// <para> exchange will fail.</para>
 		/// </summary>
 		public static bool ExchangeItems(out SteamInventoryResult_t pResultHandle, SteamItemDef_t[] pArrayGenerate, uint[] punArrayGenerateQuantity, uint unArrayGenerateLength, SteamItemInstanceID_t[] pArrayDestroy, uint[] punArrayDestroyQuantity, uint unArrayDestroyLength) {
 			InteropHelp.TestIfAvailableClient();

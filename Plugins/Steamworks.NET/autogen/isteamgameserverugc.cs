@@ -174,6 +174,11 @@ namespace Steamworks {
 			return NativeMethods.ISteamGameServerUGC_SetReturnTotalOnly(handle, bReturnTotalOnly);
 		}
 
+		public static bool SetReturnPlaytimeStats(UGCQueryHandle_t handle, uint unDays) {
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamGameServerUGC_SetReturnPlaytimeStats(handle, unDays);
+		}
+
 		public static bool SetLanguage(UGCQueryHandle_t handle, string pchLanguage) {
 			InteropHelp.TestIfAvailableGameServer();
 			using (var pchLanguage2 = new InteropHelp.UTF8StringHandle(pchLanguage)) {
@@ -538,6 +543,19 @@ namespace Steamworks {
 		public static SteamAPICall_t StopPlaytimeTrackingForAllItems() {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamGameServerUGC_StopPlaytimeTrackingForAllItems();
+		}
+
+		/// <summary>
+		/// <para> parent-child relationship or dependency management</para>
+		/// </summary>
+		public static SteamAPICall_t AddDependency(PublishedFileId_t nParentPublishedFileID, PublishedFileId_t nChildPublishedFileID) {
+			InteropHelp.TestIfAvailableGameServer();
+			return (SteamAPICall_t)NativeMethods.ISteamGameServerUGC_AddDependency(nParentPublishedFileID, nChildPublishedFileID);
+		}
+
+		public static SteamAPICall_t RemoveDependency(PublishedFileId_t nParentPublishedFileID, PublishedFileId_t nChildPublishedFileID) {
+			InteropHelp.TestIfAvailableGameServer();
+			return (SteamAPICall_t)NativeMethods.ISteamGameServerUGC_RemoveDependency(nParentPublishedFileID, nChildPublishedFileID);
 		}
 	}
 }

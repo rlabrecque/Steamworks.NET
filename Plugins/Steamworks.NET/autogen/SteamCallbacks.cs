@@ -1748,6 +1748,30 @@ namespace Steamworks {
 		public EResult m_eResult;
 	}
 
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to AddDependency
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iClientUGCCallbacks + 12)]
+	public struct AddUGCDependencyResult_t {
+		public const int k_iCallback = Constants.k_iClientUGCCallbacks + 12;
+		public EResult m_eResult;
+		public PublishedFileId_t m_nPublishedFileId;
+		public PublishedFileId_t m_nChildPublishedFileId;
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to RemoveDependency
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iClientUGCCallbacks + 13)]
+	public struct RemoveUGCDependencyResult_t {
+		public const int k_iCallback = Constants.k_iClientUGCCallbacks + 13;
+		public EResult m_eResult;
+		public PublishedFileId_t m_nPublishedFileId;
+		public PublishedFileId_t m_nChildPublishedFileId;
+	}
+
 	// callbacks
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iClientUnifiedMessagesCallbacks + 1)]
@@ -2149,6 +2173,14 @@ namespace Steamworks {
 		public AppId_t m_unVideoAppID;
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
 		public string m_rgchURL;
+	}
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iClientVideoCallbacks + 24)]
+	public struct GetOPFSettingsResult_t {
+		public const int k_iCallback = Constants.k_iClientVideoCallbacks + 24;
+		public EResult m_eResult;
+		public AppId_t m_unVideoAppID;
 	}
 
 }

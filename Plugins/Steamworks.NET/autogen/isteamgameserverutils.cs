@@ -252,6 +252,26 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamGameServerUtils_StartVRDashboard();
 		}
+
+		/// <summary>
+		/// <para> Returns true if the HMD content will be streamed via Steam In-Home Streaming</para>
+		/// </summary>
+		public static bool IsVRHeadsetStreamingEnabled() {
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamGameServerUtils_IsVRHeadsetStreamingEnabled();
+		}
+
+		/// <summary>
+		/// <para> Set whether the HMD content will be streamed via Steam In-Home Streaming</para>
+		/// <para> If this is set to true, then the scene in the HMD headset will be streamed, and remote input will not be allowed.</para>
+		/// <para> If this is set to false, then the application window will be streamed instead, and remote input will be allowed.</para>
+		/// <para> The default is true unless "VRHeadsetStreaming" "0" is in the extended appinfo for a game.</para>
+		/// <para> (this is useful for games that have asymmetric multiplayer gameplay)</para>
+		/// </summary>
+		public static void SetVRHeadsetStreamingEnabled(bool bEnabled) {
+			InteropHelp.TestIfAvailableGameServer();
+			NativeMethods.ISteamGameServerUtils_SetVRHeadsetStreamingEnabled(bEnabled);
+		}
 	}
 }
 

@@ -59,6 +59,7 @@ namespace Steamworks {
 		k_EControllerSourceMode_MouseJoystick,
 		k_EControllerSourceMode_MouseRegion,
 		k_EControllerSourceMode_RadialMenu,
+		k_EControllerSourceMode_SingleButton,
 		k_EControllerSourceMode_Switches
 	}
 
@@ -228,11 +229,20 @@ namespace Steamworks {
 		k_EControllerActionOrigin_SteamV2_RightBumper,
 		k_EControllerActionOrigin_SteamV2_LeftGrip,
 		k_EControllerActionOrigin_SteamV2_RightGrip,
+		k_EControllerActionOrigin_SteamV2_LeftGrip_Upper,
+		k_EControllerActionOrigin_SteamV2_RightGrip_Upper,
+		k_EControllerActionOrigin_SteamV2_LeftBumper_Pressure,
+		k_EControllerActionOrigin_SteamV2_RightBumper_Pressure,
+		k_EControllerActionOrigin_SteamV2_LeftGrip_Pressure,
+		k_EControllerActionOrigin_SteamV2_RightGrip_Pressure,
+		k_EControllerActionOrigin_SteamV2_LeftGrip_Upper_Pressure,
+		k_EControllerActionOrigin_SteamV2_RightGrip_Upper_Pressure,
 		k_EControllerActionOrigin_SteamV2_Start,
 		k_EControllerActionOrigin_SteamV2_Back,
 		k_EControllerActionOrigin_SteamV2_LeftPad_Touch,
 		k_EControllerActionOrigin_SteamV2_LeftPad_Swipe,
 		k_EControllerActionOrigin_SteamV2_LeftPad_Click,
+		k_EControllerActionOrigin_SteamV2_LeftPad_Pressure,
 		k_EControllerActionOrigin_SteamV2_LeftPad_DPadNorth,
 		k_EControllerActionOrigin_SteamV2_LeftPad_DPadSouth,
 		k_EControllerActionOrigin_SteamV2_LeftPad_DPadWest,
@@ -240,6 +250,7 @@ namespace Steamworks {
 		k_EControllerActionOrigin_SteamV2_RightPad_Touch,
 		k_EControllerActionOrigin_SteamV2_RightPad_Swipe,
 		k_EControllerActionOrigin_SteamV2_RightPad_Click,
+		k_EControllerActionOrigin_SteamV2_RightPad_Pressure,
 		k_EControllerActionOrigin_SteamV2_RightPad_DPadNorth,
 		k_EControllerActionOrigin_SteamV2_RightPad_DPadSouth,
 		k_EControllerActionOrigin_SteamV2_RightPad_DPadWest,
@@ -747,17 +758,19 @@ namespace Steamworks {
 	}
 
 	public enum EItemStatistic : int {
-		k_EItemStatistic_NumSubscriptions		= 0,
-		k_EItemStatistic_NumFavorites			= 1,
-		k_EItemStatistic_NumFollowers			= 2,
-		k_EItemStatistic_NumUniqueSubscriptions = 3,
-		k_EItemStatistic_NumUniqueFavorites		= 4,
-		k_EItemStatistic_NumUniqueFollowers		= 5,
-		k_EItemStatistic_NumUniqueWebsiteViews	= 6,
-		k_EItemStatistic_ReportScore			= 7,
-		k_EItemStatistic_NumSecondsPlayed		= 8,
-		k_EItemStatistic_NumPlaytimeSessions	= 9,
-		k_EItemStatistic_NumComments			= 10,
+		k_EItemStatistic_NumSubscriptions					 = 0,
+		k_EItemStatistic_NumFavorites						 = 1,
+		k_EItemStatistic_NumFollowers						 = 2,
+		k_EItemStatistic_NumUniqueSubscriptions				 = 3,
+		k_EItemStatistic_NumUniqueFavorites					 = 4,
+		k_EItemStatistic_NumUniqueFollowers					 = 5,
+		k_EItemStatistic_NumUniqueWebsiteViews				 = 6,
+		k_EItemStatistic_ReportScore						 = 7,
+		k_EItemStatistic_NumSecondsPlayed					 = 8,
+		k_EItemStatistic_NumPlaytimeSessions				 = 9,
+		k_EItemStatistic_NumComments						 = 10,
+		k_EItemStatistic_NumSecondsPlayedDuringTimePeriod	 = 11,
+		k_EItemStatistic_NumPlaytimeSessionsDuringTimePeriod = 12,
 	}
 
 	public enum EItemPreviewType : int {
@@ -965,6 +978,8 @@ namespace Steamworks {
 		k_EResultInvalidItemType = 104,				// the type of thing we were requested to act on is invalid
 		k_EResultIPBanned = 105,					// the ip address has been banned from taking this action
 		k_EResultGSLTExpired = 106,					// this token has expired from disuse; can be reset for use
+		k_EResultInsufficientFunds = 107,			// user doesn't have enough wallet funds to complete the action
+		k_EResultTooManyPending = 108,				// There are too many of this thing pending already
 	}
 
 	// Error codes for use with the voice functions
@@ -1086,6 +1101,7 @@ namespace Steamworks {
 		k_EAppOwnershipFlags_PendingGift		= 0x8000,	// user has pending gift to redeem
 		k_EAppOwnershipFlags_RentalNotActivated	= 0x10000,	// Rental hasn't been activated yet
 		k_EAppOwnershipFlags_Rental				= 0x20000,	// Is a rental
+		k_EAppOwnershipFlags_SiteLicense		= 0x40000,	// Is from a site license
 	}
 
 	//-----------------------------------------------------------------------------

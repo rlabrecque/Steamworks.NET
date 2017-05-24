@@ -111,43 +111,50 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Determine the amount of captured audio data that is available in bytes.</para>
-		/// <para> This provides both the compressed and uncompressed data. Please note that the uncompressed</para>
-		/// <para> data is not the raw feed from the microphone: data may only be available if audible</para>
-		/// <para> levels of speech are detected.</para>
-		/// <para> nUncompressedVoiceDesiredSampleRate is necessary to know the number of bytes to return in pcbUncompressed - can be set to 0 if you don't need uncompressed (the usual case)</para>
-		/// <para> If you're upgrading from an older Steamworks API, you'll want to pass in 11025 to nUncompressedVoiceDesiredSampleRate</para>
+		/// <para> Determine the size of captured audio data that is available from GetVoice.</para>
+		/// <para> Most applications will only use compressed data and should ignore the other</para>
+		/// <para> parameters, which exist primarily for backwards compatibility. See comments</para>
+		/// <para> below for further explanation of "uncompressed" data.</para>
 		/// </summary>
-		public static EVoiceResult GetAvailableVoice(out uint pcbCompressed, out uint pcbUncompressed, uint nUncompressedVoiceDesiredSampleRate) {
+		public static EVoiceResult GetAvailableVoice(out uint pcbCompressed) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUser_GetAvailableVoice(out pcbCompressed, out pcbUncompressed, nUncompressedVoiceDesiredSampleRate);
+			return NativeMethods.ISteamUser_GetAvailableVoice(out pcbCompressed);
 		}
 
 		/// <summary>
-		/// <para> Gets the latest voice data from the microphone. Compressed data is an arbitrary format, and is meant to be handed back to</para>
-		/// <para> DecompressVoice() for playback later as a binary blob. Uncompressed data is 16-bit, signed integer, 11025Hz PCM format.</para>
-		/// <para> Please note that the uncompressed data is not the raw feed from the microphone: data may only be available if audible</para>
-		/// <para> levels of speech are detected, and may have passed through denoising filters, etc.</para>
-		/// <para> This function should be called as often as possible once recording has started; once per frame at least.</para>
-		/// <para> nBytesWritten is set to the number of bytes written to pDestBuffer.</para>
-		/// <para> nUncompressedBytesWritten is set to the number of bytes written to pUncompressedDestBuffer.</para>
-		/// <para> You must grab both compressed and uncompressed here at the same time, if you want both.</para>
-		/// <para> Matching data that is not read during this call will be thrown away.</para>
-		/// <para> GetAvailableVoice() can be used to determine how much data is actually available.</para>
-		/// <para> If you're upgrading from an older Steamworks API, you'll want to pass in 11025 to nUncompressedVoiceDesiredSampleRate</para>
+		/// <para> ---------------------------------------------------------------------------</para>
+		/// <para> NOTE: "uncompressed" audio is a deprecated feature and should not be used</para>
+		/// <para> by most applications. It is raw single-channel 16-bit PCM wave data which</para>
+		/// <para> may have been run through preprocessing filters and/or had silence removed,</para>
+		/// <para> so the uncompressed audio could have a shorter duration than you expect.</para>
+		/// <para> There may be no data at all during long periods of silence. Also, fetching</para>
+		/// <para> uncompressed audio will cause GetVoice to discard any leftover compressed</para>
+		/// <para> audio, so you must fetch both types at once. Finally, GetAvailableVoice is</para>
+		/// <para> not precisely accurate when the uncompressed size is requested. So if you</para>
+		/// <para> really need to use uncompressed audio, you should call GetVoice frequently</para>
+		/// <para> with two very large (20kb+) output buffers instead of trying to allocate</para>
+		/// <para> perfectly-sized buffers. But most applications should ignore all of these</para>
+		/// <para> details and simply leave the "uncompressed" parameters as NULL/zero.</para>
+		/// <para> ---------------------------------------------------------------------------</para>
+		/// <para> Read captured audio data from the microphone buffer. This should be called</para>
+		/// <para> at least once per frame, and preferably every few milliseconds, to keep the</para>
+		/// <para> microphone input delay as low as possible. Most applications will only use</para>
+		/// <para> compressed data and should pass NULL/zero for the "uncompressed" parameters.</para>
+		/// <para> Compressed data can be transmitted by your application and decoded into raw</para>
+		/// <para> using the DecompressVoice function below.</para>
 		/// </summary>
-		public static EVoiceResult GetVoice(bool bWantCompressed, byte[] pDestBuffer, uint cbDestBufferSize, out uint nBytesWritten, bool bWantUncompressed, byte[] pUncompressedDestBuffer, uint cbUncompressedDestBufferSize, out uint nUncompressBytesWritten, uint nUncompressedVoiceDesiredSampleRate) {
+		public static EVoiceResult GetVoice(bool bWantCompressed, byte[] pDestBuffer, uint cbDestBufferSize, out uint nBytesWritten) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUser_GetVoice(bWantCompressed, pDestBuffer, cbDestBufferSize, out nBytesWritten, bWantUncompressed, pUncompressedDestBuffer, cbUncompressedDestBufferSize, out nUncompressBytesWritten, nUncompressedVoiceDesiredSampleRate);
+			return NativeMethods.ISteamUser_GetVoice(bWantCompressed, pDestBuffer, cbDestBufferSize, out nBytesWritten);
 		}
 
 		/// <summary>
-		/// <para> Decompresses a chunk of compressed data produced by GetVoice().</para>
-		/// <para> nBytesWritten is set to the number of bytes written to pDestBuffer unless the return value is k_EVoiceResultBufferTooSmall.</para>
-		/// <para> In that case, nBytesWritten is set to the size of the buffer required to decompress the given</para>
-		/// <para> data. The suggested buffer size for the destination buffer is 22 kilobytes.</para>
-		/// <para> The output format of the data is 16-bit signed at the requested samples per second.</para>
-		/// <para> If you're upgrading from an older Steamworks API, you'll want to pass in 11025 to nDesiredSampleRate</para>
+		/// <para> Decodes the compressed voice data returned by GetVoice. The output data is</para>
+		/// <para> raw single-channel 16-bit PCM audio. The decoder supports any sample rate</para>
+		/// <para> from 11025 to 48000; see GetVoiceOptimalSampleRate() below for details.</para>
+		/// <para> If the output buffer is not large enough, then *nBytesWritten will be set</para>
+		/// <para> to the required buffer size, and k_EVoiceResultBufferTooSmall is returned.</para>
+		/// <para> It is suggested to start with a 20kb buffer and reallocate as necessary.</para>
 		/// </summary>
 		public static EVoiceResult DecompressVoice(byte[] pCompressed, uint cbCompressed, byte[] pDestBuffer, uint cbDestBufferSize, out uint nBytesWritten, uint nDesiredSampleRate) {
 			InteropHelp.TestIfAvailableClient();
@@ -155,7 +162,13 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> This returns the frequency of the voice data as it's stored internally; calling DecompressVoice() with this size will yield the best results</para>
+		/// <para> This returns the native sample rate of the Steam voice decompressor; using</para>
+		/// <para> this sample rate for DecompressVoice will perform the least CPU processing.</para>
+		/// <para> However, the final audio quality will depend on how well the audio device</para>
+		/// <para> (and/or your application's audio output SDK) deals with lower sample rates.</para>
+		/// <para> You may find that you get the best audio output quality when you ignore</para>
+		/// <para> this function and use the native sample rate of your audio output device,</para>
+		/// <para> which is usually 48000 or 44100.</para>
 		/// </summary>
 		public static uint GetVoiceOptimalSampleRate() {
 			InteropHelp.TestIfAvailableClient();
