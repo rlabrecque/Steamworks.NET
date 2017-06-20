@@ -118,7 +118,7 @@ namespace Steamworks {
 		/// </summary>
 		public static EVoiceResult GetAvailableVoice(out uint pcbCompressed) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUser_GetAvailableVoice(out pcbCompressed);
+			return NativeMethods.ISteamUser_GetAvailableVoice(out pcbCompressed, IntPtr.Zero, 0);
 		}
 
 		/// <summary>
@@ -145,7 +145,7 @@ namespace Steamworks {
 		/// </summary>
 		public static EVoiceResult GetVoice(bool bWantCompressed, byte[] pDestBuffer, uint cbDestBufferSize, out uint nBytesWritten) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUser_GetVoice(bWantCompressed, pDestBuffer, cbDestBufferSize, out nBytesWritten);
+			return NativeMethods.ISteamUser_GetVoice(bWantCompressed, pDestBuffer, cbDestBufferSize, out nBytesWritten, false, IntPtr.Zero, 0, IntPtr.Zero, 0);
 		}
 
 		/// <summary>
