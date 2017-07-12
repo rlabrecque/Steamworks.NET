@@ -8,7 +8,7 @@
 
 #if UNITY_3_5 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6
 	#error Unsupported Unity platform. Steamworks.NET requires Unity 4.7 or higher.
-#elif UNITY_4_7 || UNITY_5 || UNITY_2017
+#elif UNITY_4_7 || UNITY_5 || UNITY_2017_1_OR_NEWER
 	#if UNITY_EDITOR_WIN || (UNITY_STANDALONE_WIN && !UNITY_EDITOR)
 		#define WINDOWS_BUILD
 	#endif
@@ -20,7 +20,7 @@
 	#error You need to define STEAMWORKS_WIN, or STEAMWORKS_LIN_OSX. Refer to the readme for more details.
 #endif
 
-// Unity 32bit Mono on Windows crashes with ThisCall/Cdecl for some reason, StdCall without the 'this' ptr is the only thing that works..? 
+// Unity 32bit Mono on Windows crashes with ThisCall/Cdecl for some reason, StdCall without the 'this' ptr is the only thing that works..?
 #if (UNITY_EDITOR_WIN && !UNITY_EDITOR_64) || (!UNITY_EDITOR && UNITY_STANDALONE_WIN && !UNITY_64)
 	#define STDCALL
 #elif STEAMWORKS_WIN
