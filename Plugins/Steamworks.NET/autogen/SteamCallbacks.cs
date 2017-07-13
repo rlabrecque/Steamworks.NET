@@ -1203,6 +1203,14 @@ namespace Steamworks {
 		public int m_eSNetSocketState;				// socket state, ESNetSocketState
 	}
 
+	//-----------------------------------------------------------------------------
+	// Purpose: Callback for querying UGC
+	//-----------------------------------------------------------------------------
+	[CallbackIdentity(Constants.k_ISteamParentalSettingsCallbacks + 1)]
+	public struct SteamParentalSettingsChanged_t {
+		public const int k_iCallback = Constants.k_ISteamParentalSettingsCallbacks + 1;
+	}
+
 	// callbacks
 	//-----------------------------------------------------------------------------
 	// Purpose: sent when the local file cache is fully synced with the server for an app
@@ -1660,6 +1668,7 @@ namespace Steamworks {
 		public EResult m_eResult;
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
+		public PublishedFileId_t m_nPublishedFileId;
 	}
 
 	//-----------------------------------------------------------------------------
@@ -1770,6 +1779,57 @@ namespace Steamworks {
 		public EResult m_eResult;
 		public PublishedFileId_t m_nPublishedFileId;
 		public PublishedFileId_t m_nChildPublishedFileId;
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to AddAppDependency
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iClientUGCCallbacks + 14)]
+	public struct AddAppDependencyResult_t {
+		public const int k_iCallback = Constants.k_iClientUGCCallbacks + 14;
+		public EResult m_eResult;
+		public PublishedFileId_t m_nPublishedFileId;
+		public AppId_t m_nAppID;
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to RemoveAppDependency
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iClientUGCCallbacks + 15)]
+	public struct RemoveAppDependencyResult_t {
+		public const int k_iCallback = Constants.k_iClientUGCCallbacks + 15;
+		public EResult m_eResult;
+		public PublishedFileId_t m_nPublishedFileId;
+		public AppId_t m_nAppID;
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to GetAppDependencies.  Callback may be called
+	//			multiple times until all app dependencies have been returned.
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iClientUGCCallbacks + 16)]
+	public struct GetAppDependenciesResult_t {
+		public const int k_iCallback = Constants.k_iClientUGCCallbacks + 16;
+		public EResult m_eResult;
+		public PublishedFileId_t m_nPublishedFileId;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
+		public AppId_t[] m_rgAppIDs;
+		public uint m_nNumAppDependencies;		// number returned in this struct
+		public uint m_nTotalNumAppDependencies;	// total found
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to DeleteItem
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iClientUGCCallbacks + 17)]
+	public struct DeleteItemResult_t {
+		public const int k_iCallback = Constants.k_iClientUGCCallbacks + 17;
+		public EResult m_eResult;
+		public PublishedFileId_t m_nPublishedFileId;
 	}
 
 	// callbacks

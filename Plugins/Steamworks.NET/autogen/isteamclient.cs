@@ -326,6 +326,16 @@ namespace Steamworks {
 				return NativeMethods.ISteamClient_GetISteamVideo(hSteamuser, hSteamPipe, pchVersion2);
 			}
 		}
+
+		/// <summary>
+		/// <para> Parental controls</para>
+		/// </summary>
+		public static IntPtr GetISteamParentalSettings(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamParentalSettings(hSteamuser, hSteamPipe, pchVersion2);
+			}
+		}
 	}
 }
 

@@ -366,6 +366,9 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr ISteamClient_GetISteamVideo(HSteamUser hSteamuser, HSteamPipe hSteamPipe, InteropHelp.UTF8StringHandle pchVersion);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr ISteamClient_GetISteamParentalSettings(HSteamUser hSteamuser, HSteamPipe hSteamPipe, InteropHelp.UTF8StringHandle pchVersion);
 #endregion
 #region SteamController
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -955,6 +958,9 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ISteamHTMLSurface_SetBackgroundMode(HHTMLBrowser unBrowserHandle, [MarshalAs(UnmanagedType.I1)] bool bBackgroundMode);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamHTMLSurface_SetDPIScalingFactor(HHTMLBrowser unBrowserHandle, float flDPIScaling);
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ISteamHTMLSurface_AllowStartRequest(HHTMLBrowser unBrowserHandle, [MarshalAs(UnmanagedType.I1)] bool bAllowed);
@@ -1589,6 +1595,31 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int ISteamNetworking_GetMaxPacketSize(SNetSocket_t hSocket);
 #endregion
+#region SteamParentalSettings
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamParentalSettings_BIsParentalLockEnabled();
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamParentalSettings_BIsParentalLockLocked();
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamParentalSettings_BIsAppBlocked(AppId_t nAppID);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamParentalSettings_BIsAppInBlockList(AppId_t nAppID);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamParentalSettings_BIsFeatureBlocked(EParentalFeature eFeature);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamParentalSettings_BIsFeatureInBlockList(EParentalFeature eFeature);
+#endregion
 #region SteamRemoteStorage
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -2086,6 +2117,18 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong ISteamUGC_RemoveDependency(PublishedFileId_t nParentPublishedFileID, PublishedFileId_t nChildPublishedFileID);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern ulong ISteamUGC_AddAppDependency(PublishedFileId_t nPublishedFileID, AppId_t nAppID);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern ulong ISteamUGC_RemoveAppDependency(PublishedFileId_t nPublishedFileID, AppId_t nAppID);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern ulong ISteamUGC_GetAppDependencies(PublishedFileId_t nPublishedFileID);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern ulong ISteamUGC_DeleteItem(PublishedFileId_t nPublishedFileID);
 #endregion
 #region SteamUnifiedMessages
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -3018,6 +3061,18 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong ISteamGameServerUGC_RemoveDependency(PublishedFileId_t nParentPublishedFileID, PublishedFileId_t nChildPublishedFileID);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern ulong ISteamGameServerUGC_AddAppDependency(PublishedFileId_t nPublishedFileID, AppId_t nAppID);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern ulong ISteamGameServerUGC_RemoveAppDependency(PublishedFileId_t nPublishedFileID, AppId_t nAppID);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern ulong ISteamGameServerUGC_GetAppDependencies(PublishedFileId_t nPublishedFileID);
+
+		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern ulong ISteamGameServerUGC_DeleteItem(PublishedFileId_t nPublishedFileID);
 #endregion
 #region SteamGameServerUtils
 		[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]

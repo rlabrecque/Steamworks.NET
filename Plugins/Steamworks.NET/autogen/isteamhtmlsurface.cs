@@ -285,6 +285,15 @@ namespace Steamworks {
 		}
 
 		/// <summary>
+		/// <para> Scale the output display space by this factor, this is useful when displaying content on high dpi devices.</para>
+		/// <para> Specifies the ratio between physical and logical pixels.</para>
+		/// </summary>
+		public static void SetDPIScalingFactor(HHTMLBrowser unBrowserHandle, float flDPIScaling) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamHTMLSurface_SetDPIScalingFactor(unBrowserHandle, flDPIScaling);
+		}
+
+		/// <summary>
 		/// <para> CALLBACKS</para>
 		/// <para>  These set of functions are used as responses to callback requests</para>
 		/// <para> You MUST call this in response to a HTML_StartRequest_t callback</para>

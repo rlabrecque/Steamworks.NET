@@ -557,6 +557,36 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamGameServerUGC_RemoveDependency(nParentPublishedFileID, nChildPublishedFileID);
 		}
+
+		/// <summary>
+		/// <para> add/remove app dependence/requirements (usually DLC)</para>
+		/// </summary>
+		public static SteamAPICall_t AddAppDependency(PublishedFileId_t nPublishedFileID, AppId_t nAppID) {
+			InteropHelp.TestIfAvailableGameServer();
+			return (SteamAPICall_t)NativeMethods.ISteamGameServerUGC_AddAppDependency(nPublishedFileID, nAppID);
+		}
+
+		public static SteamAPICall_t RemoveAppDependency(PublishedFileId_t nPublishedFileID, AppId_t nAppID) {
+			InteropHelp.TestIfAvailableGameServer();
+			return (SteamAPICall_t)NativeMethods.ISteamGameServerUGC_RemoveAppDependency(nPublishedFileID, nAppID);
+		}
+
+		/// <summary>
+		/// <para> request app dependencies. note that whatever callback you register for GetAppDependenciesResult_t may be called multiple times</para>
+		/// <para> until all app dependencies have been returned</para>
+		/// </summary>
+		public static SteamAPICall_t GetAppDependencies(PublishedFileId_t nPublishedFileID) {
+			InteropHelp.TestIfAvailableGameServer();
+			return (SteamAPICall_t)NativeMethods.ISteamGameServerUGC_GetAppDependencies(nPublishedFileID);
+		}
+
+		/// <summary>
+		/// <para> delete the item without prompting the user</para>
+		/// </summary>
+		public static SteamAPICall_t DeleteItem(PublishedFileId_t nPublishedFileID) {
+			InteropHelp.TestIfAvailableGameServer();
+			return (SteamAPICall_t)NativeMethods.ISteamGameServerUGC_DeleteItem(nPublishedFileID);
+		}
 	}
 }
 

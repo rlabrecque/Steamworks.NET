@@ -577,6 +577,24 @@ namespace Steamworks {
 		k_ESNetSocketConnectionTypeUDPRelay = 2,
 	}
 
+	// Feature types for parental settings
+	public enum EParentalFeature : int {
+		k_EFeatureInvalid = 0,
+		k_EFeatureStore = 1,
+		k_EFeatureCommunity = 2,
+		k_EFeatureProfile = 3,
+		k_EFeatureFriends = 4,
+		k_EFeatureNews = 5,
+		k_EFeatureTrading = 6,
+		k_EFeatureSettings = 7,
+		k_EFeatureConsole = 8,
+		k_EFeatureBrowser = 9,
+		k_EFeatureParentalSetup = 10,
+		k_EFeatureLibrary = 11,
+		k_EFeatureTest = 12,
+		k_EFeatureMax
+	}
+
 	[Flags]
 	public enum ERemoteStoragePlatform : int {
 		k_ERemoteStoragePlatformNone		= 0,
@@ -980,6 +998,8 @@ namespace Steamworks {
 		k_EResultGSLTExpired = 106,					// this token has expired from disuse; can be reset for use
 		k_EResultInsufficientFunds = 107,			// user doesn't have enough wallet funds to complete the action
 		k_EResultTooManyPending = 108,				// There are too many of this thing pending already
+		k_EResultNoSiteLicensesFound = 109,			// No site licenses found
+		k_EResultWGNetworkSendExceeded = 110,		// the WG couldn't send a response because we exceeded max network send size
 	}
 
 	// Error codes for use with the voice functions
@@ -1125,6 +1145,7 @@ namespace Steamworks {
 		k_EAppType_Plugin				= 0x1000,	// Plug-in types for other Apps
 		k_EAppType_Music				= 0x2000,	// Music files
 		k_EAppType_Series				= 0x4000,	// Container app for video series
+		k_EAppType_Comic				= 0x8000,	// Comic Book
 
 		k_EAppType_Shortcut				= 0x40000000,	// just a shortcut, client side only
 		k_EAppType_DepotOnly			= -2147483647,	// placeholder since depots and apps share the same namespace
@@ -1187,6 +1208,7 @@ namespace Steamworks {
 		// k_EChatRoomEnterResponseNoRankingDataLobby = 12,  // No longer used
 		// k_EChatRoomEnterResponseNoRankingDataUser = 13,  //  No longer used
 		// k_EChatRoomEnterResponseRankOutOfRange = 14, //  No longer used
+		k_EChatRoomEnterResponseRatelimitExceeded = 15, // Join failed - to many join attempts in a very short period of time
 	}
 
 	// Special flags for Chat accounts - they go in the top 8 bits

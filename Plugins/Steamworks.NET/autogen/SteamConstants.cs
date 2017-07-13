@@ -21,7 +21,7 @@ namespace Steamworks {
 		public const string STEAMGAMECOORDINATOR_INTERFACE_VERSION = "SteamGameCoordinator001";
 		public const string STEAMGAMESERVER_INTERFACE_VERSION = "SteamGameServer012";
 		public const string STEAMGAMESERVERSTATS_INTERFACE_VERSION = "SteamGameServerStats001";
-		public const string STEAMHTMLSURFACE_INTERFACE_VERSION = "STEAMHTMLSURFACE_INTERFACE_VERSION_003";
+		public const string STEAMHTMLSURFACE_INTERFACE_VERSION = "STEAMHTMLSURFACE_INTERFACE_VERSION_004";
 		public const string STEAMHTTP_INTERFACE_VERSION = "STEAMHTTP_INTERFACE_VERSION002";
 		public const string STEAMINVENTORY_INTERFACE_VERSION = "STEAMINVENTORY_INTERFACE_V002";
 		public const string STEAMMATCHMAKING_INTERFACE_VERSION = "SteamMatchMaking009";
@@ -29,6 +29,7 @@ namespace Steamworks {
 		public const string STEAMMUSIC_INTERFACE_VERSION = "STEAMMUSIC_INTERFACE_VERSION001";
 		public const string STEAMMUSICREMOTE_INTERFACE_VERSION = "STEAMMUSICREMOTE_INTERFACE_VERSION001";
 		public const string STEAMNETWORKING_INTERFACE_VERSION = "SteamNetworking005";
+		public const string STEAMPARENTALSETTINGS_INTERFACE_VERSION = "STEAMPARENTALSETTINGS_INTERFACE_VERSION001";
 		public const string STEAMREMOTESTORAGE_INTERFACE_VERSION = "STEAMREMOTESTORAGE_INTERFACE_VERSION014";
 		public const string STEAMSCREENSHOTS_INTERFACE_VERSION = "STEAMSCREENSHOTS_INTERFACE_VERSION003";
 		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION010";
@@ -90,6 +91,8 @@ namespace Steamworks {
 		public const int k_iClientVideoCallbacks = 4600;
 		public const int k_iClientInventoryCallbacks = 4700;
 		public const int k_iClientBluetoothManagerCallbacks = 4800;
+		public const int k_iClientSharedConnectionCallbacks = 4900;
+		public const int k_ISteamParentalSettingsCallbacks = 5000;
 		// maximum length of friend group name (not including terminating nul!)
 		public const int k_cchMaxFriendsGroupName = 64;
 		// maximum number of groups a single user is allowed
