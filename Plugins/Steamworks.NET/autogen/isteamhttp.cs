@@ -7,8 +7,8 @@
 
 #if !DISABLESTEAMWORKS
 
-using System;
 using System.Runtime.InteropServices;
+using IntPtr = System.IntPtr;
 
 namespace Steamworks {
 	public static class SteamHTTP {
@@ -21,7 +21,7 @@ namespace Steamworks {
 		public static HTTPRequestHandle CreateHTTPRequest(EHTTPMethod eHTTPRequestMethod, string pchAbsoluteURL) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchAbsoluteURL2 = new InteropHelp.UTF8StringHandle(pchAbsoluteURL)) {
-				return (HTTPRequestHandle)NativeMethods.ISteamHTTP_CreateHTTPRequest(eHTTPRequestMethod, pchAbsoluteURL2);
+				return (HTTPRequestHandle)NativeMethods.ISteamHTTP_CreateHTTPRequest(CSteamAPIContext.GetSteamHTTP(), eHTTPRequestMethod, pchAbsoluteURL2);
 			}
 		}
 
@@ -31,7 +31,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetHTTPRequestContextValue(HTTPRequestHandle hRequest, ulong ulContextValue) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamHTTP_SetHTTPRequestContextValue(hRequest, ulContextValue);
+			return NativeMethods.ISteamHTTP_SetHTTPRequestContextValue(CSteamAPIContext.GetSteamHTTP(), hRequest, ulContextValue);
 		}
 
 		/// <summary>
@@ -41,7 +41,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetHTTPRequestNetworkActivityTimeout(HTTPRequestHandle hRequest, uint unTimeoutSeconds) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamHTTP_SetHTTPRequestNetworkActivityTimeout(hRequest, unTimeoutSeconds);
+			return NativeMethods.ISteamHTTP_SetHTTPRequestNetworkActivityTimeout(CSteamAPIContext.GetSteamHTTP(), hRequest, unTimeoutSeconds);
 		}
 
 		/// <summary>
@@ -52,7 +52,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchHeaderName2 = new InteropHelp.UTF8StringHandle(pchHeaderName))
 			using (var pchHeaderValue2 = new InteropHelp.UTF8StringHandle(pchHeaderValue)) {
-				return NativeMethods.ISteamHTTP_SetHTTPRequestHeaderValue(hRequest, pchHeaderName2, pchHeaderValue2);
+				return NativeMethods.ISteamHTTP_SetHTTPRequestHeaderValue(CSteamAPIContext.GetSteamHTTP(), hRequest, pchHeaderName2, pchHeaderValue2);
 			}
 		}
 
@@ -65,7 +65,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchParamName2 = new InteropHelp.UTF8StringHandle(pchParamName))
 			using (var pchParamValue2 = new InteropHelp.UTF8StringHandle(pchParamValue)) {
-				return NativeMethods.ISteamHTTP_SetHTTPRequestGetOrPostParameter(hRequest, pchParamName2, pchParamValue2);
+				return NativeMethods.ISteamHTTP_SetHTTPRequestGetOrPostParameter(CSteamAPIContext.GetSteamHTTP(), hRequest, pchParamName2, pchParamValue2);
 			}
 		}
 
@@ -77,7 +77,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SendHTTPRequest(HTTPRequestHandle hRequest, out SteamAPICall_t pCallHandle) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamHTTP_SendHTTPRequest(hRequest, out pCallHandle);
+			return NativeMethods.ISteamHTTP_SendHTTPRequest(CSteamAPIContext.GetSteamHTTP(), hRequest, out pCallHandle);
 		}
 
 		/// <summary>
@@ -87,7 +87,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SendHTTPRequestAndStreamResponse(HTTPRequestHandle hRequest, out SteamAPICall_t pCallHandle) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamHTTP_SendHTTPRequestAndStreamResponse(hRequest, out pCallHandle);
+			return NativeMethods.ISteamHTTP_SendHTTPRequestAndStreamResponse(CSteamAPIContext.GetSteamHTTP(), hRequest, out pCallHandle);
 		}
 
 		/// <summary>
@@ -96,7 +96,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool DeferHTTPRequest(HTTPRequestHandle hRequest) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamHTTP_DeferHTTPRequest(hRequest);
+			return NativeMethods.ISteamHTTP_DeferHTTPRequest(CSteamAPIContext.GetSteamHTTP(), hRequest);
 		}
 
 		/// <summary>
@@ -105,7 +105,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool PrioritizeHTTPRequest(HTTPRequestHandle hRequest) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamHTTP_PrioritizeHTTPRequest(hRequest);
+			return NativeMethods.ISteamHTTP_PrioritizeHTTPRequest(CSteamAPIContext.GetSteamHTTP(), hRequest);
 		}
 
 		/// <summary>
@@ -116,7 +116,7 @@ namespace Steamworks {
 		public static bool GetHTTPResponseHeaderSize(HTTPRequestHandle hRequest, string pchHeaderName, out uint unResponseHeaderSize) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchHeaderName2 = new InteropHelp.UTF8StringHandle(pchHeaderName)) {
-				return NativeMethods.ISteamHTTP_GetHTTPResponseHeaderSize(hRequest, pchHeaderName2, out unResponseHeaderSize);
+				return NativeMethods.ISteamHTTP_GetHTTPResponseHeaderSize(CSteamAPIContext.GetSteamHTTP(), hRequest, pchHeaderName2, out unResponseHeaderSize);
 			}
 		}
 
@@ -128,7 +128,7 @@ namespace Steamworks {
 		public static bool GetHTTPResponseHeaderValue(HTTPRequestHandle hRequest, string pchHeaderName, byte[] pHeaderValueBuffer, uint unBufferSize) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchHeaderName2 = new InteropHelp.UTF8StringHandle(pchHeaderName)) {
-				return NativeMethods.ISteamHTTP_GetHTTPResponseHeaderValue(hRequest, pchHeaderName2, pHeaderValueBuffer, unBufferSize);
+				return NativeMethods.ISteamHTTP_GetHTTPResponseHeaderValue(CSteamAPIContext.GetSteamHTTP(), hRequest, pchHeaderName2, pHeaderValueBuffer, unBufferSize);
 			}
 		}
 
@@ -138,7 +138,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetHTTPResponseBodySize(HTTPRequestHandle hRequest, out uint unBodySize) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamHTTP_GetHTTPResponseBodySize(hRequest, out unBodySize);
+			return NativeMethods.ISteamHTTP_GetHTTPResponseBodySize(CSteamAPIContext.GetSteamHTTP(), hRequest, out unBodySize);
 		}
 
 		/// <summary>
@@ -148,7 +148,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetHTTPResponseBodyData(HTTPRequestHandle hRequest, byte[] pBodyDataBuffer, uint unBufferSize) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamHTTP_GetHTTPResponseBodyData(hRequest, pBodyDataBuffer, unBufferSize);
+			return NativeMethods.ISteamHTTP_GetHTTPResponseBodyData(CSteamAPIContext.GetSteamHTTP(), hRequest, pBodyDataBuffer, unBufferSize);
 		}
 
 		/// <summary>
@@ -158,7 +158,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetHTTPStreamingResponseBodyData(HTTPRequestHandle hRequest, uint cOffset, byte[] pBodyDataBuffer, uint unBufferSize) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamHTTP_GetHTTPStreamingResponseBodyData(hRequest, cOffset, pBodyDataBuffer, unBufferSize);
+			return NativeMethods.ISteamHTTP_GetHTTPStreamingResponseBodyData(CSteamAPIContext.GetSteamHTTP(), hRequest, cOffset, pBodyDataBuffer, unBufferSize);
 		}
 
 		/// <summary>
@@ -167,7 +167,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool ReleaseHTTPRequest(HTTPRequestHandle hRequest) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamHTTP_ReleaseHTTPRequest(hRequest);
+			return NativeMethods.ISteamHTTP_ReleaseHTTPRequest(CSteamAPIContext.GetSteamHTTP(), hRequest);
 		}
 
 		/// <summary>
@@ -177,7 +177,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetHTTPDownloadProgressPct(HTTPRequestHandle hRequest, out float pflPercentOut) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamHTTP_GetHTTPDownloadProgressPct(hRequest, out pflPercentOut);
+			return NativeMethods.ISteamHTTP_GetHTTPDownloadProgressPct(CSteamAPIContext.GetSteamHTTP(), hRequest, out pflPercentOut);
 		}
 
 		/// <summary>
@@ -188,7 +188,7 @@ namespace Steamworks {
 		public static bool SetHTTPRequestRawPostBody(HTTPRequestHandle hRequest, string pchContentType, byte[] pubBody, uint unBodyLen) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchContentType2 = new InteropHelp.UTF8StringHandle(pchContentType)) {
-				return NativeMethods.ISteamHTTP_SetHTTPRequestRawPostBody(hRequest, pchContentType2, pubBody, unBodyLen);
+				return NativeMethods.ISteamHTTP_SetHTTPRequestRawPostBody(CSteamAPIContext.GetSteamHTTP(), hRequest, pchContentType2, pubBody, unBodyLen);
 			}
 		}
 
@@ -201,7 +201,7 @@ namespace Steamworks {
 		/// </summary>
 		public static HTTPCookieContainerHandle CreateCookieContainer(bool bAllowResponsesToModify) {
 			InteropHelp.TestIfAvailableClient();
-			return (HTTPCookieContainerHandle)NativeMethods.ISteamHTTP_CreateCookieContainer(bAllowResponsesToModify);
+			return (HTTPCookieContainerHandle)NativeMethods.ISteamHTTP_CreateCookieContainer(CSteamAPIContext.GetSteamHTTP(), bAllowResponsesToModify);
 		}
 
 		/// <summary>
@@ -209,7 +209,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool ReleaseCookieContainer(HTTPCookieContainerHandle hCookieContainer) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamHTTP_ReleaseCookieContainer(hCookieContainer);
+			return NativeMethods.ISteamHTTP_ReleaseCookieContainer(CSteamAPIContext.GetSteamHTTP(), hCookieContainer);
 		}
 
 		/// <summary>
@@ -220,7 +220,7 @@ namespace Steamworks {
 			using (var pchHost2 = new InteropHelp.UTF8StringHandle(pchHost))
 			using (var pchUrl2 = new InteropHelp.UTF8StringHandle(pchUrl))
 			using (var pchCookie2 = new InteropHelp.UTF8StringHandle(pchCookie)) {
-				return NativeMethods.ISteamHTTP_SetCookie(hCookieContainer, pchHost2, pchUrl2, pchCookie2);
+				return NativeMethods.ISteamHTTP_SetCookie(CSteamAPIContext.GetSteamHTTP(), hCookieContainer, pchHost2, pchUrl2, pchCookie2);
 			}
 		}
 
@@ -229,7 +229,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetHTTPRequestCookieContainer(HTTPRequestHandle hRequest, HTTPCookieContainerHandle hCookieContainer) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamHTTP_SetHTTPRequestCookieContainer(hRequest, hCookieContainer);
+			return NativeMethods.ISteamHTTP_SetHTTPRequestCookieContainer(CSteamAPIContext.GetSteamHTTP(), hRequest, hCookieContainer);
 		}
 
 		/// <summary>
@@ -238,7 +238,7 @@ namespace Steamworks {
 		public static bool SetHTTPRequestUserAgentInfo(HTTPRequestHandle hRequest, string pchUserAgentInfo) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchUserAgentInfo2 = new InteropHelp.UTF8StringHandle(pchUserAgentInfo)) {
-				return NativeMethods.ISteamHTTP_SetHTTPRequestUserAgentInfo(hRequest, pchUserAgentInfo2);
+				return NativeMethods.ISteamHTTP_SetHTTPRequestUserAgentInfo(CSteamAPIContext.GetSteamHTTP(), hRequest, pchUserAgentInfo2);
 			}
 		}
 
@@ -247,7 +247,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetHTTPRequestRequiresVerifiedCertificate(HTTPRequestHandle hRequest, bool bRequireVerifiedCertificate) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamHTTP_SetHTTPRequestRequiresVerifiedCertificate(hRequest, bRequireVerifiedCertificate);
+			return NativeMethods.ISteamHTTP_SetHTTPRequestRequiresVerifiedCertificate(CSteamAPIContext.GetSteamHTTP(), hRequest, bRequireVerifiedCertificate);
 		}
 
 		/// <summary>
@@ -256,7 +256,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetHTTPRequestAbsoluteTimeoutMS(HTTPRequestHandle hRequest, uint unMilliseconds) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamHTTP_SetHTTPRequestAbsoluteTimeoutMS(hRequest, unMilliseconds);
+			return NativeMethods.ISteamHTTP_SetHTTPRequestAbsoluteTimeoutMS(CSteamAPIContext.GetSteamHTTP(), hRequest, unMilliseconds);
 		}
 
 		/// <summary>
@@ -264,7 +264,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetHTTPRequestWasTimedOut(HTTPRequestHandle hRequest, out bool pbWasTimedOut) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamHTTP_GetHTTPRequestWasTimedOut(hRequest, out pbWasTimedOut);
+			return NativeMethods.ISteamHTTP_GetHTTPRequestWasTimedOut(CSteamAPIContext.GetSteamHTTP(), hRequest, out pbWasTimedOut);
 		}
 	}
 }

@@ -7,8 +7,8 @@
 
 #if !DISABLESTEAMWORKS
 
-using System;
 using System.Runtime.InteropServices;
+using IntPtr = System.IntPtr;
 
 namespace Steamworks {
 	public static class Constants {

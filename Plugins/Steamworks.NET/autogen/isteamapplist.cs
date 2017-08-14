@@ -7,19 +7,19 @@
 
 #if !DISABLESTEAMWORKS
 
-using System;
 using System.Runtime.InteropServices;
+using IntPtr = System.IntPtr;
 
 namespace Steamworks {
 	public static class SteamAppList {
 		public static uint GetNumInstalledApps() {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamAppList_GetNumInstalledApps();
+			return NativeMethods.ISteamAppList_GetNumInstalledApps(CSteamAPIContext.GetSteamAppList());
 		}
 
 		public static uint GetInstalledApps(AppId_t[] pvecAppID, uint unMaxAppIDs) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamAppList_GetInstalledApps(pvecAppID, unMaxAppIDs);
+			return NativeMethods.ISteamAppList_GetInstalledApps(CSteamAPIContext.GetSteamAppList(), pvecAppID, unMaxAppIDs);
 		}
 
 		/// <summary>
@@ -28,7 +28,7 @@ namespace Steamworks {
 		public static int GetAppName(AppId_t nAppID, out string pchName, int cchNameMax) {
 			InteropHelp.TestIfAvailableClient();
 			IntPtr pchName2 = Marshal.AllocHGlobal(cchNameMax);
-			int ret = NativeMethods.ISteamAppList_GetAppName(nAppID, pchName2, cchNameMax);
+			int ret = NativeMethods.ISteamAppList_GetAppName(CSteamAPIContext.GetSteamAppList(), nAppID, pchName2, cchNameMax);
 			pchName = ret != -1 ? InteropHelp.PtrToStringUTF8(pchName2) : null;
 			Marshal.FreeHGlobal(pchName2);
 			return ret;
@@ -40,7 +40,7 @@ namespace Steamworks {
 		public static int GetAppInstallDir(AppId_t nAppID, out string pchDirectory, int cchNameMax) {
 			InteropHelp.TestIfAvailableClient();
 			IntPtr pchDirectory2 = Marshal.AllocHGlobal(cchNameMax);
-			int ret = NativeMethods.ISteamAppList_GetAppInstallDir(nAppID, pchDirectory2, cchNameMax);
+			int ret = NativeMethods.ISteamAppList_GetAppInstallDir(CSteamAPIContext.GetSteamAppList(), nAppID, pchDirectory2, cchNameMax);
 			pchDirectory = ret != -1 ? InteropHelp.PtrToStringUTF8(pchDirectory2) : null;
 			Marshal.FreeHGlobal(pchDirectory2);
 			return ret;
@@ -51,7 +51,7 @@ namespace Steamworks {
 		/// </summary>
 		public static int GetAppBuildId(AppId_t nAppID) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamAppList_GetAppBuildId(nAppID);
+			return NativeMethods.ISteamAppList_GetAppBuildId(CSteamAPIContext.GetSteamAppList(), nAppID);
 		}
 	}
 }

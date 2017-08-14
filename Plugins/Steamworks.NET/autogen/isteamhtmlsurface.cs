@@ -7,8 +7,8 @@
 
 #if !DISABLESTEAMWORKS
 
-using System;
 using System.Runtime.InteropServices;
+using IntPtr = System.IntPtr;
 
 namespace Steamworks {
 	public static class SteamHTMLSurface {
@@ -17,12 +17,12 @@ namespace Steamworks {
 		/// </summary>
 		public static bool Init() {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamHTMLSurface_Init();
+			return NativeMethods.ISteamHTMLSurface_Init(CSteamAPIContext.GetSteamHTMLSurface());
 		}
 
 		public static bool Shutdown() {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamHTMLSurface_Shutdown();
+			return NativeMethods.ISteamHTMLSurface_Shutdown(CSteamAPIContext.GetSteamHTMLSurface());
 		}
 
 		/// <summary>
@@ -42,7 +42,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchUserAgent2 = new InteropHelp.UTF8StringHandle(pchUserAgent))
 			using (var pchUserCSS2 = new InteropHelp.UTF8StringHandle(pchUserCSS)) {
-				return (SteamAPICall_t)NativeMethods.ISteamHTMLSurface_CreateBrowser(pchUserAgent2, pchUserCSS2);
+				return (SteamAPICall_t)NativeMethods.ISteamHTMLSurface_CreateBrowser(CSteamAPIContext.GetSteamHTMLSurface(), pchUserAgent2, pchUserCSS2);
 			}
 		}
 
@@ -51,7 +51,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void RemoveBrowser(HHTMLBrowser unBrowserHandle) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_RemoveBrowser(unBrowserHandle);
+			NativeMethods.ISteamHTMLSurface_RemoveBrowser(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle);
 		}
 
 		/// <summary>
@@ -61,7 +61,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchURL2 = new InteropHelp.UTF8StringHandle(pchURL))
 			using (var pchPostData2 = new InteropHelp.UTF8StringHandle(pchPostData)) {
-				NativeMethods.ISteamHTMLSurface_LoadURL(unBrowserHandle, pchURL2, pchPostData2);
+				NativeMethods.ISteamHTMLSurface_LoadURL(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, pchURL2, pchPostData2);
 			}
 		}
 
@@ -70,7 +70,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetSize(HHTMLBrowser unBrowserHandle, uint unWidth, uint unHeight) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_SetSize(unBrowserHandle, unWidth, unHeight);
+			NativeMethods.ISteamHTMLSurface_SetSize(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, unWidth, unHeight);
 		}
 
 		/// <summary>
@@ -78,7 +78,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void StopLoad(HHTMLBrowser unBrowserHandle) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_StopLoad(unBrowserHandle);
+			NativeMethods.ISteamHTMLSurface_StopLoad(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle);
 		}
 
 		/// <summary>
@@ -86,7 +86,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void Reload(HHTMLBrowser unBrowserHandle) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_Reload(unBrowserHandle);
+			NativeMethods.ISteamHTMLSurface_Reload(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle);
 		}
 
 		/// <summary>
@@ -94,7 +94,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void GoBack(HHTMLBrowser unBrowserHandle) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_GoBack(unBrowserHandle);
+			NativeMethods.ISteamHTMLSurface_GoBack(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle);
 		}
 
 		/// <summary>
@@ -102,7 +102,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void GoForward(HHTMLBrowser unBrowserHandle) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_GoForward(unBrowserHandle);
+			NativeMethods.ISteamHTMLSurface_GoForward(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle);
 		}
 
 		/// <summary>
@@ -112,7 +112,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchKey2 = new InteropHelp.UTF8StringHandle(pchKey))
 			using (var pchValue2 = new InteropHelp.UTF8StringHandle(pchValue)) {
-				NativeMethods.ISteamHTMLSurface_AddHeader(unBrowserHandle, pchKey2, pchValue2);
+				NativeMethods.ISteamHTMLSurface_AddHeader(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, pchKey2, pchValue2);
 			}
 		}
 
@@ -122,7 +122,7 @@ namespace Steamworks {
 		public static void ExecuteJavascript(HHTMLBrowser unBrowserHandle, string pchScript) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchScript2 = new InteropHelp.UTF8StringHandle(pchScript)) {
-				NativeMethods.ISteamHTMLSurface_ExecuteJavascript(unBrowserHandle, pchScript2);
+				NativeMethods.ISteamHTMLSurface_ExecuteJavascript(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, pchScript2);
 			}
 		}
 
@@ -131,17 +131,17 @@ namespace Steamworks {
 		/// </summary>
 		public static void MouseUp(HHTMLBrowser unBrowserHandle, EHTMLMouseButton eMouseButton) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_MouseUp(unBrowserHandle, eMouseButton);
+			NativeMethods.ISteamHTMLSurface_MouseUp(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, eMouseButton);
 		}
 
 		public static void MouseDown(HHTMLBrowser unBrowserHandle, EHTMLMouseButton eMouseButton) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_MouseDown(unBrowserHandle, eMouseButton);
+			NativeMethods.ISteamHTMLSurface_MouseDown(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, eMouseButton);
 		}
 
 		public static void MouseDoubleClick(HHTMLBrowser unBrowserHandle, EHTMLMouseButton eMouseButton) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_MouseDoubleClick(unBrowserHandle, eMouseButton);
+			NativeMethods.ISteamHTMLSurface_MouseDoubleClick(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, eMouseButton);
 		}
 
 		/// <summary>
@@ -149,7 +149,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void MouseMove(HHTMLBrowser unBrowserHandle, int x, int y) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_MouseMove(unBrowserHandle, x, y);
+			NativeMethods.ISteamHTMLSurface_MouseMove(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, x, y);
 		}
 
 		/// <summary>
@@ -157,7 +157,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void MouseWheel(HHTMLBrowser unBrowserHandle, int nDelta) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_MouseWheel(unBrowserHandle, nDelta);
+			NativeMethods.ISteamHTMLSurface_MouseWheel(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, nDelta);
 		}
 
 		/// <summary>
@@ -165,12 +165,12 @@ namespace Steamworks {
 		/// </summary>
 		public static void KeyDown(HHTMLBrowser unBrowserHandle, uint nNativeKeyCode, EHTMLKeyModifiers eHTMLKeyModifiers) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_KeyDown(unBrowserHandle, nNativeKeyCode, eHTMLKeyModifiers);
+			NativeMethods.ISteamHTMLSurface_KeyDown(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, nNativeKeyCode, eHTMLKeyModifiers);
 		}
 
 		public static void KeyUp(HHTMLBrowser unBrowserHandle, uint nNativeKeyCode, EHTMLKeyModifiers eHTMLKeyModifiers) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_KeyUp(unBrowserHandle, nNativeKeyCode, eHTMLKeyModifiers);
+			NativeMethods.ISteamHTMLSurface_KeyUp(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, nNativeKeyCode, eHTMLKeyModifiers);
 		}
 
 		/// <summary>
@@ -178,7 +178,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void KeyChar(HHTMLBrowser unBrowserHandle, uint cUnicodeChar, EHTMLKeyModifiers eHTMLKeyModifiers) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_KeyChar(unBrowserHandle, cUnicodeChar, eHTMLKeyModifiers);
+			NativeMethods.ISteamHTMLSurface_KeyChar(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, cUnicodeChar, eHTMLKeyModifiers);
 		}
 
 		/// <summary>
@@ -186,12 +186,12 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetHorizontalScroll(HHTMLBrowser unBrowserHandle, uint nAbsolutePixelScroll) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_SetHorizontalScroll(unBrowserHandle, nAbsolutePixelScroll);
+			NativeMethods.ISteamHTMLSurface_SetHorizontalScroll(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, nAbsolutePixelScroll);
 		}
 
 		public static void SetVerticalScroll(HHTMLBrowser unBrowserHandle, uint nAbsolutePixelScroll) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_SetVerticalScroll(unBrowserHandle, nAbsolutePixelScroll);
+			NativeMethods.ISteamHTMLSurface_SetVerticalScroll(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, nAbsolutePixelScroll);
 		}
 
 		/// <summary>
@@ -199,7 +199,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetKeyFocus(HHTMLBrowser unBrowserHandle, bool bHasKeyFocus) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_SetKeyFocus(unBrowserHandle, bHasKeyFocus);
+			NativeMethods.ISteamHTMLSurface_SetKeyFocus(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, bHasKeyFocus);
 		}
 
 		/// <summary>
@@ -207,7 +207,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void ViewSource(HHTMLBrowser unBrowserHandle) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_ViewSource(unBrowserHandle);
+			NativeMethods.ISteamHTMLSurface_ViewSource(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle);
 		}
 
 		/// <summary>
@@ -215,7 +215,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void CopyToClipboard(HHTMLBrowser unBrowserHandle) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_CopyToClipboard(unBrowserHandle);
+			NativeMethods.ISteamHTMLSurface_CopyToClipboard(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle);
 		}
 
 		/// <summary>
@@ -223,7 +223,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void PasteFromClipboard(HHTMLBrowser unBrowserHandle) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_PasteFromClipboard(unBrowserHandle);
+			NativeMethods.ISteamHTMLSurface_PasteFromClipboard(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle);
 		}
 
 		/// <summary>
@@ -232,7 +232,7 @@ namespace Steamworks {
 		public static void Find(HHTMLBrowser unBrowserHandle, string pchSearchStr, bool bCurrentlyInFind, bool bReverse) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchSearchStr2 = new InteropHelp.UTF8StringHandle(pchSearchStr)) {
-				NativeMethods.ISteamHTMLSurface_Find(unBrowserHandle, pchSearchStr2, bCurrentlyInFind, bReverse);
+				NativeMethods.ISteamHTMLSurface_Find(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, pchSearchStr2, bCurrentlyInFind, bReverse);
 			}
 		}
 
@@ -241,7 +241,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void StopFind(HHTMLBrowser unBrowserHandle) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_StopFind(unBrowserHandle);
+			NativeMethods.ISteamHTMLSurface_StopFind(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle);
 		}
 
 		/// <summary>
@@ -249,7 +249,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void GetLinkAtPosition(HHTMLBrowser unBrowserHandle, int x, int y) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_GetLinkAtPosition(unBrowserHandle, x, y);
+			NativeMethods.ISteamHTMLSurface_GetLinkAtPosition(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, x, y);
 		}
 
 		/// <summary>
@@ -261,7 +261,7 @@ namespace Steamworks {
 			using (var pchKey2 = new InteropHelp.UTF8StringHandle(pchKey))
 			using (var pchValue2 = new InteropHelp.UTF8StringHandle(pchValue))
 			using (var pchPath2 = new InteropHelp.UTF8StringHandle(pchPath)) {
-				NativeMethods.ISteamHTMLSurface_SetCookie(pchHostname2, pchKey2, pchValue2, pchPath2, nExpires, bSecure, bHTTPOnly);
+				NativeMethods.ISteamHTMLSurface_SetCookie(CSteamAPIContext.GetSteamHTMLSurface(), pchHostname2, pchKey2, pchValue2, pchPath2, nExpires, bSecure, bHTTPOnly);
 			}
 		}
 
@@ -270,7 +270,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetPageScaleFactor(HHTMLBrowser unBrowserHandle, float flZoom, int nPointX, int nPointY) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_SetPageScaleFactor(unBrowserHandle, flZoom, nPointX, nPointY);
+			NativeMethods.ISteamHTMLSurface_SetPageScaleFactor(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, flZoom, nPointX, nPointY);
 		}
 
 		/// <summary>
@@ -281,7 +281,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetBackgroundMode(HHTMLBrowser unBrowserHandle, bool bBackgroundMode) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_SetBackgroundMode(unBrowserHandle, bBackgroundMode);
+			NativeMethods.ISteamHTMLSurface_SetBackgroundMode(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, bBackgroundMode);
 		}
 
 		/// <summary>
@@ -290,7 +290,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetDPIScalingFactor(HHTMLBrowser unBrowserHandle, float flDPIScaling) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_SetDPIScalingFactor(unBrowserHandle, flDPIScaling);
+			NativeMethods.ISteamHTMLSurface_SetDPIScalingFactor(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, flDPIScaling);
 		}
 
 		/// <summary>
@@ -303,7 +303,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void AllowStartRequest(HHTMLBrowser unBrowserHandle, bool bAllowed) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_AllowStartRequest(unBrowserHandle, bAllowed);
+			NativeMethods.ISteamHTMLSurface_AllowStartRequest(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, bAllowed);
 		}
 
 		/// <summary>
@@ -312,7 +312,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void JSDialogResponse(HHTMLBrowser unBrowserHandle, bool bResult) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_JSDialogResponse(unBrowserHandle, bResult);
+			NativeMethods.ISteamHTMLSurface_JSDialogResponse(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, bResult);
 		}
 
 		/// <summary>
@@ -320,7 +320,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void FileLoadDialogResponse(HHTMLBrowser unBrowserHandle, IntPtr pchSelectedFiles) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_FileLoadDialogResponse(unBrowserHandle, pchSelectedFiles);
+			NativeMethods.ISteamHTMLSurface_FileLoadDialogResponse(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, pchSelectedFiles);
 		}
 	}
 }

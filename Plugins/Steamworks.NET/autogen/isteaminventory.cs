@@ -7,8 +7,8 @@
 
 #if !DISABLESTEAMWORKS
 
-using System;
 using System.Runtime.InteropServices;
+using IntPtr = System.IntPtr;
 
 namespace Steamworks {
 	public static class SteamInventory {
@@ -28,7 +28,7 @@ namespace Steamworks {
 		/// </summary>
 		public static EResult GetResultStatus(SteamInventoryResult_t resultHandle) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamInventory_GetResultStatus(resultHandle);
+			return NativeMethods.ISteamInventory_GetResultStatus(CSteamAPIContext.GetSteamInventory(), resultHandle);
 		}
 
 		/// <summary>
@@ -37,7 +37,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetResultItems(SteamInventoryResult_t resultHandle, SteamItemDetails_t[] pOutItemsArray, ref uint punOutItemsArraySize) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamInventory_GetResultItems(resultHandle, pOutItemsArray, ref punOutItemsArraySize);
+			return NativeMethods.ISteamInventory_GetResultItems(CSteamAPIContext.GetSteamInventory(), resultHandle, pOutItemsArray, ref punOutItemsArraySize);
 		}
 
 		/// <summary>
@@ -55,7 +55,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			IntPtr pchValueBuffer2 = Marshal.AllocHGlobal((int)punValueBufferSizeOut);
 			using (var pchPropertyName2 = new InteropHelp.UTF8StringHandle(pchPropertyName)) {
-				bool ret = NativeMethods.ISteamInventory_GetResultItemProperty(resultHandle, unItemIndex, pchPropertyName2, pchValueBuffer2, ref punValueBufferSizeOut);
+				bool ret = NativeMethods.ISteamInventory_GetResultItemProperty(CSteamAPIContext.GetSteamInventory(), resultHandle, unItemIndex, pchPropertyName2, pchValueBuffer2, ref punValueBufferSizeOut);
 				pchValueBuffer = ret ? InteropHelp.PtrToStringUTF8(pchValueBuffer2) : null;
 				Marshal.FreeHGlobal(pchValueBuffer2);
 				return ret;
@@ -68,7 +68,7 @@ namespace Steamworks {
 		/// </summary>
 		public static uint GetResultTimestamp(SteamInventoryResult_t resultHandle) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamInventory_GetResultTimestamp(resultHandle);
+			return NativeMethods.ISteamInventory_GetResultTimestamp(CSteamAPIContext.GetSteamInventory(), resultHandle);
 		}
 
 		/// <summary>
@@ -78,7 +78,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool CheckResultSteamID(SteamInventoryResult_t resultHandle, CSteamID steamIDExpected) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamInventory_CheckResultSteamID(resultHandle, steamIDExpected);
+			return NativeMethods.ISteamInventory_CheckResultSteamID(CSteamAPIContext.GetSteamInventory(), resultHandle, steamIDExpected);
 		}
 
 		/// <summary>
@@ -86,7 +86,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void DestroyResult(SteamInventoryResult_t resultHandle) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamInventory_DestroyResult(resultHandle);
+			NativeMethods.ISteamInventory_DestroyResult(CSteamAPIContext.GetSteamInventory(), resultHandle);
 		}
 
 		/// <summary>
@@ -101,7 +101,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetAllItems(out SteamInventoryResult_t pResultHandle) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamInventory_GetAllItems(out pResultHandle);
+			return NativeMethods.ISteamInventory_GetAllItems(CSteamAPIContext.GetSteamInventory(), out pResultHandle);
 		}
 
 		/// <summary>
@@ -115,7 +115,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetItemsByID(out SteamInventoryResult_t pResultHandle, SteamItemInstanceID_t[] pInstanceIDs, uint unCountInstanceIDs) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamInventory_GetItemsByID(out pResultHandle, pInstanceIDs, unCountInstanceIDs);
+			return NativeMethods.ISteamInventory_GetItemsByID(CSteamAPIContext.GetSteamInventory(), out pResultHandle, pInstanceIDs, unCountInstanceIDs);
 		}
 
 		/// <summary>
@@ -135,7 +135,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SerializeResult(SteamInventoryResult_t resultHandle, byte[] pOutBuffer, out uint punOutBufferSize) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamInventory_SerializeResult(resultHandle, pOutBuffer, out punOutBufferSize);
+			return NativeMethods.ISteamInventory_SerializeResult(CSteamAPIContext.GetSteamInventory(), resultHandle, pOutBuffer, out punOutBufferSize);
 		}
 
 		/// <summary>
@@ -156,7 +156,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool DeserializeResult(out SteamInventoryResult_t pOutResultHandle, byte[] pBuffer, uint unBufferSize, bool bRESERVED_MUST_BE_FALSE = false) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamInventory_DeserializeResult(out pOutResultHandle, pBuffer, unBufferSize, bRESERVED_MUST_BE_FALSE);
+			return NativeMethods.ISteamInventory_DeserializeResult(CSteamAPIContext.GetSteamInventory(), out pOutResultHandle, pBuffer, unBufferSize, bRESERVED_MUST_BE_FALSE);
 		}
 
 		/// <summary>
@@ -170,7 +170,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GenerateItems(out SteamInventoryResult_t pResultHandle, SteamItemDef_t[] pArrayItemDefs, uint[] punArrayQuantity, uint unArrayLength) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamInventory_GenerateItems(out pResultHandle, pArrayItemDefs, punArrayQuantity, unArrayLength);
+			return NativeMethods.ISteamInventory_GenerateItems(CSteamAPIContext.GetSteamInventory(), out pResultHandle, pArrayItemDefs, punArrayQuantity, unArrayLength);
 		}
 
 		/// <summary>
@@ -181,7 +181,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GrantPromoItems(out SteamInventoryResult_t pResultHandle) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamInventory_GrantPromoItems(out pResultHandle);
+			return NativeMethods.ISteamInventory_GrantPromoItems(CSteamAPIContext.GetSteamInventory(), out pResultHandle);
 		}
 
 		/// <summary>
@@ -192,12 +192,12 @@ namespace Steamworks {
 		/// </summary>
 		public static bool AddPromoItem(out SteamInventoryResult_t pResultHandle, SteamItemDef_t itemDef) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamInventory_AddPromoItem(out pResultHandle, itemDef);
+			return NativeMethods.ISteamInventory_AddPromoItem(CSteamAPIContext.GetSteamInventory(), out pResultHandle, itemDef);
 		}
 
 		public static bool AddPromoItems(out SteamInventoryResult_t pResultHandle, SteamItemDef_t[] pArrayItemDefs, uint unArrayLength) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamInventory_AddPromoItems(out pResultHandle, pArrayItemDefs, unArrayLength);
+			return NativeMethods.ISteamInventory_AddPromoItems(CSteamAPIContext.GetSteamInventory(), out pResultHandle, pArrayItemDefs, unArrayLength);
 		}
 
 		/// <summary>
@@ -207,7 +207,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool ConsumeItem(out SteamInventoryResult_t pResultHandle, SteamItemInstanceID_t itemConsume, uint unQuantity) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamInventory_ConsumeItem(out pResultHandle, itemConsume, unQuantity);
+			return NativeMethods.ISteamInventory_ConsumeItem(CSteamAPIContext.GetSteamInventory(), out pResultHandle, itemConsume, unQuantity);
 		}
 
 		/// <summary>
@@ -222,7 +222,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool ExchangeItems(out SteamInventoryResult_t pResultHandle, SteamItemDef_t[] pArrayGenerate, uint[] punArrayGenerateQuantity, uint unArrayGenerateLength, SteamItemInstanceID_t[] pArrayDestroy, uint[] punArrayDestroyQuantity, uint unArrayDestroyLength) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamInventory_ExchangeItems(out pResultHandle, pArrayGenerate, punArrayGenerateQuantity, unArrayGenerateLength, pArrayDestroy, punArrayDestroyQuantity, unArrayDestroyLength);
+			return NativeMethods.ISteamInventory_ExchangeItems(CSteamAPIContext.GetSteamInventory(), out pResultHandle, pArrayGenerate, punArrayGenerateQuantity, unArrayGenerateLength, pArrayDestroy, punArrayDestroyQuantity, unArrayDestroyLength);
 		}
 
 		/// <summary>
@@ -233,7 +233,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool TransferItemQuantity(out SteamInventoryResult_t pResultHandle, SteamItemInstanceID_t itemIdSource, uint unQuantity, SteamItemInstanceID_t itemIdDest) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamInventory_TransferItemQuantity(out pResultHandle, itemIdSource, unQuantity, itemIdDest);
+			return NativeMethods.ISteamInventory_TransferItemQuantity(CSteamAPIContext.GetSteamInventory(), out pResultHandle, itemIdSource, unQuantity, itemIdDest);
 		}
 
 		/// <summary>
@@ -242,7 +242,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void SendItemDropHeartbeat() {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamInventory_SendItemDropHeartbeat();
+			NativeMethods.ISteamInventory_SendItemDropHeartbeat(CSteamAPIContext.GetSteamInventory());
 		}
 
 		/// <summary>
@@ -258,7 +258,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool TriggerItemDrop(out SteamInventoryResult_t pResultHandle, SteamItemDef_t dropListDefinition) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamInventory_TriggerItemDrop(out pResultHandle, dropListDefinition);
+			return NativeMethods.ISteamInventory_TriggerItemDrop(CSteamAPIContext.GetSteamInventory(), out pResultHandle, dropListDefinition);
 		}
 
 		/// <summary>
@@ -275,7 +275,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool TradeItems(out SteamInventoryResult_t pResultHandle, CSteamID steamIDTradePartner, SteamItemInstanceID_t[] pArrayGive, uint[] pArrayGiveQuantity, uint nArrayGiveLength, SteamItemInstanceID_t[] pArrayGet, uint[] pArrayGetQuantity, uint nArrayGetLength) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamInventory_TradeItems(out pResultHandle, steamIDTradePartner, pArrayGive, pArrayGiveQuantity, nArrayGiveLength, pArrayGet, pArrayGetQuantity, nArrayGetLength);
+			return NativeMethods.ISteamInventory_TradeItems(CSteamAPIContext.GetSteamInventory(), out pResultHandle, steamIDTradePartner, pArrayGive, pArrayGiveQuantity, nArrayGiveLength, pArrayGet, pArrayGetQuantity, nArrayGetLength);
 		}
 
 		/// <summary>
@@ -293,7 +293,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool LoadItemDefinitions() {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamInventory_LoadItemDefinitions();
+			return NativeMethods.ISteamInventory_LoadItemDefinitions(CSteamAPIContext.GetSteamInventory());
 		}
 
 		/// <summary>
@@ -305,7 +305,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetItemDefinitionIDs(SteamItemDef_t[] pItemDefIDs, out uint punItemDefIDsArraySize) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamInventory_GetItemDefinitionIDs(pItemDefIDs, out punItemDefIDsArraySize);
+			return NativeMethods.ISteamInventory_GetItemDefinitionIDs(CSteamAPIContext.GetSteamInventory(), pItemDefIDs, out punItemDefIDsArraySize);
 		}
 
 		/// <summary>
@@ -323,7 +323,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			IntPtr pchValueBuffer2 = Marshal.AllocHGlobal((int)punValueBufferSizeOut);
 			using (var pchPropertyName2 = new InteropHelp.UTF8StringHandle(pchPropertyName)) {
-				bool ret = NativeMethods.ISteamInventory_GetItemDefinitionProperty(iDefinition, pchPropertyName2, pchValueBuffer2, ref punValueBufferSizeOut);
+				bool ret = NativeMethods.ISteamInventory_GetItemDefinitionProperty(CSteamAPIContext.GetSteamInventory(), iDefinition, pchPropertyName2, pchValueBuffer2, ref punValueBufferSizeOut);
 				pchValueBuffer = ret ? InteropHelp.PtrToStringUTF8(pchValueBuffer2) : null;
 				Marshal.FreeHGlobal(pchValueBuffer2);
 				return ret;
@@ -337,7 +337,7 @@ namespace Steamworks {
 		/// </summary>
 		public static SteamAPICall_t RequestEligiblePromoItemDefinitionsIDs(CSteamID steamID) {
 			InteropHelp.TestIfAvailableClient();
-			return (SteamAPICall_t)NativeMethods.ISteamInventory_RequestEligiblePromoItemDefinitionsIDs(steamID);
+			return (SteamAPICall_t)NativeMethods.ISteamInventory_RequestEligiblePromoItemDefinitionsIDs(CSteamAPIContext.GetSteamInventory(), steamID);
 		}
 
 		/// <summary>
@@ -347,7 +347,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetEligiblePromoItemDefinitionIDs(CSteamID steamID, SteamItemDef_t[] pItemDefIDs, ref uint punItemDefIDsArraySize) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamInventory_GetEligiblePromoItemDefinitionIDs(steamID, pItemDefIDs, ref punItemDefIDsArraySize);
+			return NativeMethods.ISteamInventory_GetEligiblePromoItemDefinitionIDs(CSteamAPIContext.GetSteamInventory(), steamID, pItemDefIDs, ref punItemDefIDsArraySize);
 		}
 	}
 }

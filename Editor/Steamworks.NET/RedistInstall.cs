@@ -87,11 +87,10 @@ public class RedistInstall {
 			string filename = Path.GetFileName(plugin.assetPath);
 
 			switch(filename) {
-				case "CSteamworks.bundle":
+				case "libsteam_api.dylib":
 					didUpdate |= ResetPluginSettings(plugin, "AnyCPU", "OSX");
 					didUpdate |= SetCompatibleWithOSX(plugin);
 					break;
-				case "libCSteamworks.so":
 				case "libsteam_api.so":
 					if(plugin.assetPath.Contains("x86_64")) {
 						didUpdate |= ResetPluginSettings(plugin, "x86_64", "Linux");
@@ -100,16 +99,6 @@ public class RedistInstall {
 					else {
 						didUpdate |= ResetPluginSettings(plugin, "x86", "Linux");
 						didUpdate |= SetCompatibleWithLinux(plugin, BuildTarget.StandaloneLinux);
-					}
-					break;
-				case "CSteamworks.dll":
-					if (plugin.assetPath.Contains("x86_64")) {
-						didUpdate |= ResetPluginSettings(plugin, "x86_64", "Windows");
-						didUpdate |= SetCompatibleWithWindows(plugin, BuildTarget.StandaloneWindows64);
-					}
-					else {
-						didUpdate |= ResetPluginSettings(plugin, "x86", "Windows");
-						didUpdate |= SetCompatibleWithWindows(plugin, BuildTarget.StandaloneWindows);
 					}
 					break;
 				case "steam_api.dll":

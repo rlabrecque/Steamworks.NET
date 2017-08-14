@@ -7,8 +7,8 @@
 
 #if !DISABLESTEAMWORKS
 
-using System;
 using System.Runtime.InteropServices;
+using IntPtr = System.IntPtr;
 
 namespace Steamworks {
 	public static class SteamScreenshots {
@@ -18,7 +18,7 @@ namespace Steamworks {
 		/// </summary>
 		public static ScreenshotHandle WriteScreenshot(byte[] pubRGB, uint cubRGB, int nWidth, int nHeight) {
 			InteropHelp.TestIfAvailableClient();
-			return (ScreenshotHandle)NativeMethods.ISteamScreenshots_WriteScreenshot(pubRGB, cubRGB, nWidth, nHeight);
+			return (ScreenshotHandle)NativeMethods.ISteamScreenshots_WriteScreenshot(CSteamAPIContext.GetSteamScreenshots(), pubRGB, cubRGB, nWidth, nHeight);
 		}
 
 		/// <summary>
@@ -31,7 +31,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchFilename2 = new InteropHelp.UTF8StringHandle(pchFilename))
 			using (var pchThumbnailFilename2 = new InteropHelp.UTF8StringHandle(pchThumbnailFilename)) {
-				return (ScreenshotHandle)NativeMethods.ISteamScreenshots_AddScreenshotToLibrary(pchFilename2, pchThumbnailFilename2, nWidth, nHeight);
+				return (ScreenshotHandle)NativeMethods.ISteamScreenshots_AddScreenshotToLibrary(CSteamAPIContext.GetSteamScreenshots(), pchFilename2, pchThumbnailFilename2, nWidth, nHeight);
 			}
 		}
 
@@ -40,7 +40,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void TriggerScreenshot() {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamScreenshots_TriggerScreenshot();
+			NativeMethods.ISteamScreenshots_TriggerScreenshot(CSteamAPIContext.GetSteamScreenshots());
 		}
 
 		/// <summary>
@@ -50,7 +50,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void HookScreenshots(bool bHook) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamScreenshots_HookScreenshots(bHook);
+			NativeMethods.ISteamScreenshots_HookScreenshots(CSteamAPIContext.GetSteamScreenshots(), bHook);
 		}
 
 		/// <summary>
@@ -59,7 +59,7 @@ namespace Steamworks {
 		public static bool SetLocation(ScreenshotHandle hScreenshot, string pchLocation) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchLocation2 = new InteropHelp.UTF8StringHandle(pchLocation)) {
-				return NativeMethods.ISteamScreenshots_SetLocation(hScreenshot, pchLocation2);
+				return NativeMethods.ISteamScreenshots_SetLocation(CSteamAPIContext.GetSteamScreenshots(), hScreenshot, pchLocation2);
 			}
 		}
 
@@ -68,7 +68,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool TagUser(ScreenshotHandle hScreenshot, CSteamID steamID) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamScreenshots_TagUser(hScreenshot, steamID);
+			return NativeMethods.ISteamScreenshots_TagUser(CSteamAPIContext.GetSteamScreenshots(), hScreenshot, steamID);
 		}
 
 		/// <summary>
@@ -76,7 +76,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool TagPublishedFile(ScreenshotHandle hScreenshot, PublishedFileId_t unPublishedFileID) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamScreenshots_TagPublishedFile(hScreenshot, unPublishedFileID);
+			return NativeMethods.ISteamScreenshots_TagPublishedFile(CSteamAPIContext.GetSteamScreenshots(), hScreenshot, unPublishedFileID);
 		}
 
 		/// <summary>
@@ -84,7 +84,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool IsScreenshotsHooked() {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamScreenshots_IsScreenshotsHooked();
+			return NativeMethods.ISteamScreenshots_IsScreenshotsHooked(CSteamAPIContext.GetSteamScreenshots());
 		}
 
 		/// <summary>
@@ -98,7 +98,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchFilename2 = new InteropHelp.UTF8StringHandle(pchFilename))
 			using (var pchVRFilename2 = new InteropHelp.UTF8StringHandle(pchVRFilename)) {
-				return (ScreenshotHandle)NativeMethods.ISteamScreenshots_AddVRScreenshotToLibrary(eType, pchFilename2, pchVRFilename2);
+				return (ScreenshotHandle)NativeMethods.ISteamScreenshots_AddVRScreenshotToLibrary(CSteamAPIContext.GetSteamScreenshots(), eType, pchFilename2, pchVRFilename2);
 			}
 		}
 	}

@@ -11,59 +11,59 @@ using System.Runtime.InteropServices;
 using IntPtr = System.IntPtr;
 
 namespace Steamworks {
-	public static class SteamApps {
+	public static class SteamGameServerApps {
 		public static bool BIsSubscribed() {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamApps_BIsSubscribed(CSteamAPIContext.GetSteamApps());
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamGameServerApps_BIsSubscribed(CSteamGameServerAPIContext.GetSteamApps());
 		}
 
 		public static bool BIsLowViolence() {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamApps_BIsLowViolence(CSteamAPIContext.GetSteamApps());
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamGameServerApps_BIsLowViolence(CSteamGameServerAPIContext.GetSteamApps());
 		}
 
 		public static bool BIsCybercafe() {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamApps_BIsCybercafe(CSteamAPIContext.GetSteamApps());
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamGameServerApps_BIsCybercafe(CSteamGameServerAPIContext.GetSteamApps());
 		}
 
 		public static bool BIsVACBanned() {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamApps_BIsVACBanned(CSteamAPIContext.GetSteamApps());
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamGameServerApps_BIsVACBanned(CSteamGameServerAPIContext.GetSteamApps());
 		}
 
 		public static string GetCurrentGameLanguage() {
-			InteropHelp.TestIfAvailableClient();
-			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamApps_GetCurrentGameLanguage(CSteamAPIContext.GetSteamApps()));
+			InteropHelp.TestIfAvailableGameServer();
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamGameServerApps_GetCurrentGameLanguage(CSteamGameServerAPIContext.GetSteamApps()));
 		}
 
 		public static string GetAvailableGameLanguages() {
-			InteropHelp.TestIfAvailableClient();
-			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamApps_GetAvailableGameLanguages(CSteamAPIContext.GetSteamApps()));
+			InteropHelp.TestIfAvailableGameServer();
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamGameServerApps_GetAvailableGameLanguages(CSteamGameServerAPIContext.GetSteamApps()));
 		}
 
 		/// <summary>
 		/// <para> only use this member if you need to check ownership of another game related to yours, a demo for example</para>
 		/// </summary>
 		public static bool BIsSubscribedApp(AppId_t appID) {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamApps_BIsSubscribedApp(CSteamAPIContext.GetSteamApps(), appID);
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamGameServerApps_BIsSubscribedApp(CSteamGameServerAPIContext.GetSteamApps(), appID);
 		}
 
 		/// <summary>
 		/// <para> Takes AppID of DLC and checks if the user owns the DLC &amp; if the DLC is installed</para>
 		/// </summary>
 		public static bool BIsDlcInstalled(AppId_t appID) {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamApps_BIsDlcInstalled(CSteamAPIContext.GetSteamApps(), appID);
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamGameServerApps_BIsDlcInstalled(CSteamGameServerAPIContext.GetSteamApps(), appID);
 		}
 
 		/// <summary>
 		/// <para> returns the Unix time of the purchase of the app</para>
 		/// </summary>
 		public static uint GetEarliestPurchaseUnixTime(AppId_t nAppID) {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamApps_GetEarliestPurchaseUnixTime(CSteamAPIContext.GetSteamApps(), nAppID);
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamGameServerApps_GetEarliestPurchaseUnixTime(CSteamGameServerAPIContext.GetSteamApps(), nAppID);
 		}
 
 		/// <summary>
@@ -72,25 +72,25 @@ namespace Steamworks {
 		/// <para> Before using, please ask your Valve technical contact how to package and secure your free weekened</para>
 		/// </summary>
 		public static bool BIsSubscribedFromFreeWeekend() {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamApps_BIsSubscribedFromFreeWeekend(CSteamAPIContext.GetSteamApps());
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamGameServerApps_BIsSubscribedFromFreeWeekend(CSteamGameServerAPIContext.GetSteamApps());
 		}
 
 		/// <summary>
 		/// <para> Returns the number of DLC pieces for the running app</para>
 		/// </summary>
 		public static int GetDLCCount() {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamApps_GetDLCCount(CSteamAPIContext.GetSteamApps());
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamGameServerApps_GetDLCCount(CSteamGameServerAPIContext.GetSteamApps());
 		}
 
 		/// <summary>
 		/// <para> Returns metadata for DLC by index, of range [0, GetDLCCount()]</para>
 		/// </summary>
 		public static bool BGetDLCDataByIndex(int iDLC, out AppId_t pAppID, out bool pbAvailable, out string pchName, int cchNameBufferSize) {
-			InteropHelp.TestIfAvailableClient();
+			InteropHelp.TestIfAvailableGameServer();
 			IntPtr pchName2 = Marshal.AllocHGlobal(cchNameBufferSize);
-			bool ret = NativeMethods.ISteamApps_BGetDLCDataByIndex(CSteamAPIContext.GetSteamApps(), iDLC, out pAppID, out pbAvailable, pchName2, cchNameBufferSize);
+			bool ret = NativeMethods.ISteamGameServerApps_BGetDLCDataByIndex(CSteamGameServerAPIContext.GetSteamApps(), iDLC, out pAppID, out pbAvailable, pchName2, cchNameBufferSize);
 			pchName = ret ? InteropHelp.PtrToStringUTF8(pchName2) : null;
 			Marshal.FreeHGlobal(pchName2);
 			return ret;
@@ -100,13 +100,13 @@ namespace Steamworks {
 		/// <para> Install/Uninstall control for optional DLC</para>
 		/// </summary>
 		public static void InstallDLC(AppId_t nAppID) {
-			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamApps_InstallDLC(CSteamAPIContext.GetSteamApps(), nAppID);
+			InteropHelp.TestIfAvailableGameServer();
+			NativeMethods.ISteamGameServerApps_InstallDLC(CSteamGameServerAPIContext.GetSteamApps(), nAppID);
 		}
 
 		public static void UninstallDLC(AppId_t nAppID) {
-			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamApps_UninstallDLC(CSteamAPIContext.GetSteamApps(), nAppID);
+			InteropHelp.TestIfAvailableGameServer();
+			NativeMethods.ISteamGameServerApps_UninstallDLC(CSteamGameServerAPIContext.GetSteamApps(), nAppID);
 		}
 
 		/// <summary>
@@ -117,17 +117,17 @@ namespace Steamworks {
 		/// <para> the key is available (which may be immediately).</para>
 		/// </summary>
 		public static void RequestAppProofOfPurchaseKey(AppId_t nAppID) {
-			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamApps_RequestAppProofOfPurchaseKey(CSteamAPIContext.GetSteamApps(), nAppID);
+			InteropHelp.TestIfAvailableGameServer();
+			NativeMethods.ISteamGameServerApps_RequestAppProofOfPurchaseKey(CSteamGameServerAPIContext.GetSteamApps(), nAppID);
 		}
 
 		/// <summary>
 		/// <para> returns current beta branch name, 'public' is the default branch</para>
 		/// </summary>
 		public static bool GetCurrentBetaName(out string pchName, int cchNameBufferSize) {
-			InteropHelp.TestIfAvailableClient();
+			InteropHelp.TestIfAvailableGameServer();
 			IntPtr pchName2 = Marshal.AllocHGlobal(cchNameBufferSize);
-			bool ret = NativeMethods.ISteamApps_GetCurrentBetaName(CSteamAPIContext.GetSteamApps(), pchName2, cchNameBufferSize);
+			bool ret = NativeMethods.ISteamGameServerApps_GetCurrentBetaName(CSteamGameServerAPIContext.GetSteamApps(), pchName2, cchNameBufferSize);
 			pchName = ret ? InteropHelp.PtrToStringUTF8(pchName2) : null;
 			Marshal.FreeHGlobal(pchName2);
 			return ret;
@@ -137,25 +137,25 @@ namespace Steamworks {
 		/// <para> signal Steam that game files seems corrupt or missing</para>
 		/// </summary>
 		public static bool MarkContentCorrupt(bool bMissingFilesOnly) {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamApps_MarkContentCorrupt(CSteamAPIContext.GetSteamApps(), bMissingFilesOnly);
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamGameServerApps_MarkContentCorrupt(CSteamGameServerAPIContext.GetSteamApps(), bMissingFilesOnly);
 		}
 
 		/// <summary>
 		/// <para> return installed depots in mount order</para>
 		/// </summary>
-		public static uint GetInstalledDepots(AppId_t appID, DepotId_t[] pvecDepots, uint cMaxDepots) {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamApps_GetInstalledDepots(CSteamAPIContext.GetSteamApps(), appID, pvecDepots, cMaxDepots);
+		public static uint GetInstalledDepots(AppId_t appID, out DepotId_t pvecDepots, uint cMaxDepots) {
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamGameServerApps_GetInstalledDepots(CSteamGameServerAPIContext.GetSteamApps(), appID, out pvecDepots, cMaxDepots);
 		}
 
 		/// <summary>
 		/// <para> returns current app install folder for AppID, returns folder name length</para>
 		/// </summary>
 		public static uint GetAppInstallDir(AppId_t appID, out string pchFolder, uint cchFolderBufferSize) {
-			InteropHelp.TestIfAvailableClient();
+			InteropHelp.TestIfAvailableGameServer();
 			IntPtr pchFolder2 = Marshal.AllocHGlobal((int)cchFolderBufferSize);
-			uint ret = NativeMethods.ISteamApps_GetAppInstallDir(CSteamAPIContext.GetSteamApps(), appID, pchFolder2, cchFolderBufferSize);
+			uint ret = NativeMethods.ISteamGameServerApps_GetAppInstallDir(CSteamGameServerAPIContext.GetSteamApps(), appID, pchFolder2, cchFolderBufferSize);
 			pchFolder = ret != 0 ? InteropHelp.PtrToStringUTF8(pchFolder2) : null;
 			Marshal.FreeHGlobal(pchFolder2);
 			return ret;
@@ -165,16 +165,16 @@ namespace Steamworks {
 		/// <para> returns true if that app is installed (not necessarily owned)</para>
 		/// </summary>
 		public static bool BIsAppInstalled(AppId_t appID) {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamApps_BIsAppInstalled(CSteamAPIContext.GetSteamApps(), appID);
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamGameServerApps_BIsAppInstalled(CSteamGameServerAPIContext.GetSteamApps(), appID);
 		}
 
 		/// <summary>
 		/// <para> returns the SteamID of the original owner. If different from current user, it's borrowed</para>
 		/// </summary>
 		public static CSteamID GetAppOwner() {
-			InteropHelp.TestIfAvailableClient();
-			return (CSteamID)NativeMethods.ISteamApps_GetAppOwner(CSteamAPIContext.GetSteamApps());
+			InteropHelp.TestIfAvailableGameServer();
+			return (CSteamID)NativeMethods.ISteamGameServerApps_GetAppOwner(CSteamGameServerAPIContext.GetSteamApps());
 		}
 
 		/// <summary>
@@ -184,9 +184,9 @@ namespace Steamworks {
 		/// <para> but it is advised that you not param names beginning with an underscore for your own features.</para>
 		/// </summary>
 		public static string GetLaunchQueryParam(string pchKey) {
-			InteropHelp.TestIfAvailableClient();
+			InteropHelp.TestIfAvailableGameServer();
 			using (var pchKey2 = new InteropHelp.UTF8StringHandle(pchKey)) {
-				return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamApps_GetLaunchQueryParam(CSteamAPIContext.GetSteamApps(), pchKey2));
+				return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamGameServerApps_GetLaunchQueryParam(CSteamGameServerAPIContext.GetSteamApps(), pchKey2));
 			}
 		}
 
@@ -194,16 +194,16 @@ namespace Steamworks {
 		/// <para> get download progress for optional DLC</para>
 		/// </summary>
 		public static bool GetDlcDownloadProgress(AppId_t nAppID, out ulong punBytesDownloaded, out ulong punBytesTotal) {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamApps_GetDlcDownloadProgress(CSteamAPIContext.GetSteamApps(), nAppID, out punBytesDownloaded, out punBytesTotal);
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamGameServerApps_GetDlcDownloadProgress(CSteamGameServerAPIContext.GetSteamApps(), nAppID, out punBytesDownloaded, out punBytesTotal);
 		}
 
 		/// <summary>
 		/// <para> return the buildid of this app, may change at any time based on backend updates to the game</para>
 		/// </summary>
 		public static int GetAppBuildId() {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamApps_GetAppBuildId(CSteamAPIContext.GetSteamApps());
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamGameServerApps_GetAppBuildId(CSteamGameServerAPIContext.GetSteamApps());
 		}
 
 		/// <summary>
@@ -213,14 +213,14 @@ namespace Steamworks {
 		/// <para> member is k_uAppIdInvalid (zero).</para>
 		/// </summary>
 		public static void RequestAllProofOfPurchaseKeys() {
-			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamApps_RequestAllProofOfPurchaseKeys(CSteamAPIContext.GetSteamApps());
+			InteropHelp.TestIfAvailableGameServer();
+			NativeMethods.ISteamGameServerApps_RequestAllProofOfPurchaseKeys(CSteamGameServerAPIContext.GetSteamApps());
 		}
 
 		public static SteamAPICall_t GetFileDetails(string pszFileName) {
-			InteropHelp.TestIfAvailableClient();
+			InteropHelp.TestIfAvailableGameServer();
 			using (var pszFileName2 = new InteropHelp.UTF8StringHandle(pszFileName)) {
-				return (SteamAPICall_t)NativeMethods.ISteamApps_GetFileDetails(CSteamAPIContext.GetSteamApps(), pszFileName2);
+				return (SteamAPICall_t)NativeMethods.ISteamGameServerApps_GetFileDetails(CSteamGameServerAPIContext.GetSteamApps(), pszFileName2);
 			}
 		}
 	}

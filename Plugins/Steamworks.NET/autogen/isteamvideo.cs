@@ -7,8 +7,8 @@
 
 #if !DISABLESTEAMWORKS
 
-using System;
 using System.Runtime.InteropServices;
+using IntPtr = System.IntPtr;
 
 namespace Steamworks {
 	public static class SteamVideo {
@@ -17,7 +17,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void GetVideoURL(AppId_t unVideoAppID) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamVideo_GetVideoURL(unVideoAppID);
+			NativeMethods.ISteamVideo_GetVideoURL(CSteamAPIContext.GetSteamVideo(), unVideoAppID);
 		}
 
 		/// <summary>
@@ -25,7 +25,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool IsBroadcasting(out int pnNumViewers) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamVideo_IsBroadcasting(out pnNumViewers);
+			return NativeMethods.ISteamVideo_IsBroadcasting(CSteamAPIContext.GetSteamVideo(), out pnNumViewers);
 		}
 
 		/// <summary>
@@ -33,13 +33,13 @@ namespace Steamworks {
 		/// </summary>
 		public static void GetOPFSettings(AppId_t unVideoAppID) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamVideo_GetOPFSettings(unVideoAppID);
+			NativeMethods.ISteamVideo_GetOPFSettings(CSteamAPIContext.GetSteamVideo(), unVideoAppID);
 		}
 
 		public static bool GetOPFStringForApp(AppId_t unVideoAppID, out string pchBuffer, ref int pnBufferSize) {
 			InteropHelp.TestIfAvailableClient();
 			IntPtr pchBuffer2 = Marshal.AllocHGlobal((int)pnBufferSize);
-			bool ret = NativeMethods.ISteamVideo_GetOPFStringForApp(unVideoAppID, pchBuffer2, ref pnBufferSize);
+			bool ret = NativeMethods.ISteamVideo_GetOPFStringForApp(CSteamAPIContext.GetSteamVideo(), unVideoAppID, pchBuffer2, ref pnBufferSize);
 			pchBuffer = ret ? InteropHelp.PtrToStringUTF8(pchBuffer2) : null;
 			Marshal.FreeHGlobal(pchBuffer2);
 			return ret;

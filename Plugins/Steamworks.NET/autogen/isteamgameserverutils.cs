@@ -7,8 +7,8 @@
 
 #if !DISABLESTEAMWORKS
 
-using System;
 using System.Runtime.InteropServices;
+using IntPtr = System.IntPtr;
 
 namespace Steamworks {
 	public static class SteamGameServerUtils {
@@ -17,12 +17,12 @@ namespace Steamworks {
 		/// </summary>
 		public static uint GetSecondsSinceAppActive() {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerUtils_GetSecondsSinceAppActive();
+			return NativeMethods.ISteamGameServerUtils_GetSecondsSinceAppActive(CSteamGameServerAPIContext.GetSteamUtils());
 		}
 
 		public static uint GetSecondsSinceComputerActive() {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerUtils_GetSecondsSinceComputerActive();
+			return NativeMethods.ISteamGameServerUtils_GetSecondsSinceComputerActive(CSteamGameServerAPIContext.GetSteamUtils());
 		}
 
 		/// <summary>
@@ -30,7 +30,7 @@ namespace Steamworks {
 		/// </summary>
 		public static EUniverse GetConnectedUniverse() {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerUtils_GetConnectedUniverse();
+			return NativeMethods.ISteamGameServerUtils_GetConnectedUniverse(CSteamGameServerAPIContext.GetSteamUtils());
 		}
 
 		/// <summary>
@@ -38,7 +38,7 @@ namespace Steamworks {
 		/// </summary>
 		public static uint GetServerRealTime() {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerUtils_GetServerRealTime();
+			return NativeMethods.ISteamGameServerUtils_GetServerRealTime(CSteamGameServerAPIContext.GetSteamUtils());
 		}
 
 		/// <summary>
@@ -47,7 +47,7 @@ namespace Steamworks {
 		/// </summary>
 		public static string GetIPCountry() {
 			InteropHelp.TestIfAvailableGameServer();
-			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamGameServerUtils_GetIPCountry());
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamGameServerUtils_GetIPCountry(CSteamGameServerAPIContext.GetSteamUtils()));
 		}
 
 		/// <summary>
@@ -55,7 +55,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetImageSize(int iImage, out uint pnWidth, out uint pnHeight) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerUtils_GetImageSize(iImage, out pnWidth, out pnHeight);
+			return NativeMethods.ISteamGameServerUtils_GetImageSize(CSteamGameServerAPIContext.GetSteamUtils(), iImage, out pnWidth, out pnHeight);
 		}
 
 		/// <summary>
@@ -65,7 +65,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetImageRGBA(int iImage, byte[] pubDest, int nDestBufferSize) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerUtils_GetImageRGBA(iImage, pubDest, nDestBufferSize);
+			return NativeMethods.ISteamGameServerUtils_GetImageRGBA(CSteamGameServerAPIContext.GetSteamUtils(), iImage, pubDest, nDestBufferSize);
 		}
 
 		/// <summary>
@@ -73,7 +73,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetCSERIPPort(out uint unIP, out ushort usPort) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerUtils_GetCSERIPPort(out unIP, out usPort);
+			return NativeMethods.ISteamGameServerUtils_GetCSERIPPort(CSteamGameServerAPIContext.GetSteamUtils(), out unIP, out usPort);
 		}
 
 		/// <summary>
@@ -81,7 +81,7 @@ namespace Steamworks {
 		/// </summary>
 		public static byte GetCurrentBatteryPower() {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerUtils_GetCurrentBatteryPower();
+			return NativeMethods.ISteamGameServerUtils_GetCurrentBatteryPower(CSteamGameServerAPIContext.GetSteamUtils());
 		}
 
 		/// <summary>
@@ -89,7 +89,7 @@ namespace Steamworks {
 		/// </summary>
 		public static AppId_t GetAppID() {
 			InteropHelp.TestIfAvailableGameServer();
-			return (AppId_t)NativeMethods.ISteamGameServerUtils_GetAppID();
+			return (AppId_t)NativeMethods.ISteamGameServerUtils_GetAppID(CSteamGameServerAPIContext.GetSteamUtils());
 		}
 
 		/// <summary>
@@ -98,7 +98,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetOverlayNotificationPosition(ENotificationPosition eNotificationPosition) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServerUtils_SetOverlayNotificationPosition(eNotificationPosition);
+			NativeMethods.ISteamGameServerUtils_SetOverlayNotificationPosition(CSteamGameServerAPIContext.GetSteamUtils(), eNotificationPosition);
 		}
 
 		/// <summary>
@@ -107,17 +107,17 @@ namespace Steamworks {
 		/// </summary>
 		public static bool IsAPICallCompleted(SteamAPICall_t hSteamAPICall, out bool pbFailed) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerUtils_IsAPICallCompleted(hSteamAPICall, out pbFailed);
+			return NativeMethods.ISteamGameServerUtils_IsAPICallCompleted(CSteamGameServerAPIContext.GetSteamUtils(), hSteamAPICall, out pbFailed);
 		}
 
 		public static ESteamAPICallFailure GetAPICallFailureReason(SteamAPICall_t hSteamAPICall) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerUtils_GetAPICallFailureReason(hSteamAPICall);
+			return NativeMethods.ISteamGameServerUtils_GetAPICallFailureReason(CSteamGameServerAPIContext.GetSteamUtils(), hSteamAPICall);
 		}
 
 		public static bool GetAPICallResult(SteamAPICall_t hSteamAPICall, IntPtr pCallback, int cubCallback, int iCallbackExpected, out bool pbFailed) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerUtils_GetAPICallResult(hSteamAPICall, pCallback, cubCallback, iCallbackExpected, out pbFailed);
+			return NativeMethods.ISteamGameServerUtils_GetAPICallResult(CSteamGameServerAPIContext.GetSteamUtils(), hSteamAPICall, pCallback, cubCallback, iCallbackExpected, out pbFailed);
 		}
 
 		/// <summary>
@@ -128,7 +128,7 @@ namespace Steamworks {
 		/// </summary>
 		public static uint GetIPCCallCount() {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerUtils_GetIPCCallCount();
+			return NativeMethods.ISteamGameServerUtils_GetIPCCallCount(CSteamGameServerAPIContext.GetSteamUtils());
 		}
 
 		/// <summary>
@@ -139,7 +139,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetWarningMessageHook(SteamAPIWarningMessageHook_t pFunction) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServerUtils_SetWarningMessageHook(pFunction);
+			NativeMethods.ISteamGameServerUtils_SetWarningMessageHook(CSteamGameServerAPIContext.GetSteamUtils(), pFunction);
 		}
 
 		/// <summary>
@@ -148,7 +148,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool IsOverlayEnabled() {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerUtils_IsOverlayEnabled();
+			return NativeMethods.ISteamGameServerUtils_IsOverlayEnabled(CSteamGameServerAPIContext.GetSteamUtils());
 		}
 
 		/// <summary>
@@ -163,7 +163,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool BOverlayNeedsPresent() {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerUtils_BOverlayNeedsPresent();
+			return NativeMethods.ISteamGameServerUtils_BOverlayNeedsPresent(CSteamGameServerAPIContext.GetSteamUtils());
 		}
 
 		/// <summary>
@@ -179,7 +179,7 @@ namespace Steamworks {
 		public static SteamAPICall_t CheckFileSignature(string szFileName) {
 			InteropHelp.TestIfAvailableGameServer();
 			using (var szFileName2 = new InteropHelp.UTF8StringHandle(szFileName)) {
-				return (SteamAPICall_t)NativeMethods.ISteamGameServerUtils_CheckFileSignature(szFileName2);
+				return (SteamAPICall_t)NativeMethods.ISteamGameServerUtils_CheckFileSignature(CSteamGameServerAPIContext.GetSteamUtils(), szFileName2);
 			}
 		}
 
@@ -190,7 +190,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableGameServer();
 			using (var pchDescription2 = new InteropHelp.UTF8StringHandle(pchDescription))
 			using (var pchExistingText2 = new InteropHelp.UTF8StringHandle(pchExistingText)) {
-				return NativeMethods.ISteamGameServerUtils_ShowGamepadTextInput(eInputMode, eLineInputMode, pchDescription2, unCharMax, pchExistingText2);
+				return NativeMethods.ISteamGameServerUtils_ShowGamepadTextInput(CSteamGameServerAPIContext.GetSteamUtils(), eInputMode, eLineInputMode, pchDescription2, unCharMax, pchExistingText2);
 			}
 		}
 
@@ -199,13 +199,13 @@ namespace Steamworks {
 		/// </summary>
 		public static uint GetEnteredGamepadTextLength() {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerUtils_GetEnteredGamepadTextLength();
+			return NativeMethods.ISteamGameServerUtils_GetEnteredGamepadTextLength(CSteamGameServerAPIContext.GetSteamUtils());
 		}
 
 		public static bool GetEnteredGamepadTextInput(out string pchText, uint cchText) {
 			InteropHelp.TestIfAvailableGameServer();
 			IntPtr pchText2 = Marshal.AllocHGlobal((int)cchText);
-			bool ret = NativeMethods.ISteamGameServerUtils_GetEnteredGamepadTextInput(pchText2, cchText);
+			bool ret = NativeMethods.ISteamGameServerUtils_GetEnteredGamepadTextInput(CSteamGameServerAPIContext.GetSteamUtils(), pchText2, cchText);
 			pchText = ret ? InteropHelp.PtrToStringUTF8(pchText2) : null;
 			Marshal.FreeHGlobal(pchText2);
 			return ret;
@@ -216,7 +216,7 @@ namespace Steamworks {
 		/// </summary>
 		public static string GetSteamUILanguage() {
 			InteropHelp.TestIfAvailableGameServer();
-			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamGameServerUtils_GetSteamUILanguage());
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamGameServerUtils_GetSteamUILanguage(CSteamGameServerAPIContext.GetSteamUtils()));
 		}
 
 		/// <summary>
@@ -224,7 +224,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool IsSteamRunningInVR() {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerUtils_IsSteamRunningInVR();
+			return NativeMethods.ISteamGameServerUtils_IsSteamRunningInVR(CSteamGameServerAPIContext.GetSteamUtils());
 		}
 
 		/// <summary>
@@ -232,7 +232,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetOverlayNotificationInset(int nHorizontalInset, int nVerticalInset) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServerUtils_SetOverlayNotificationInset(nHorizontalInset, nVerticalInset);
+			NativeMethods.ISteamGameServerUtils_SetOverlayNotificationInset(CSteamGameServerAPIContext.GetSteamUtils(), nHorizontalInset, nVerticalInset);
 		}
 
 		/// <summary>
@@ -242,7 +242,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool IsSteamInBigPictureMode() {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerUtils_IsSteamInBigPictureMode();
+			return NativeMethods.ISteamGameServerUtils_IsSteamInBigPictureMode(CSteamGameServerAPIContext.GetSteamUtils());
 		}
 
 		/// <summary>
@@ -250,7 +250,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void StartVRDashboard() {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServerUtils_StartVRDashboard();
+			NativeMethods.ISteamGameServerUtils_StartVRDashboard(CSteamGameServerAPIContext.GetSteamUtils());
 		}
 
 		/// <summary>
@@ -258,7 +258,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool IsVRHeadsetStreamingEnabled() {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerUtils_IsVRHeadsetStreamingEnabled();
+			return NativeMethods.ISteamGameServerUtils_IsVRHeadsetStreamingEnabled(CSteamGameServerAPIContext.GetSteamUtils());
 		}
 
 		/// <summary>
@@ -270,7 +270,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetVRHeadsetStreamingEnabled(bool bEnabled) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServerUtils_SetVRHeadsetStreamingEnabled(bEnabled);
+			NativeMethods.ISteamGameServerUtils_SetVRHeadsetStreamingEnabled(CSteamGameServerAPIContext.GetSteamUtils(), bEnabled);
 		}
 	}
 }

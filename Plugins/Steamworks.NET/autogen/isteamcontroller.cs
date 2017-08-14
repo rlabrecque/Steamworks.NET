@@ -7,8 +7,8 @@
 
 #if !DISABLESTEAMWORKS
 
-using System;
 using System.Runtime.InteropServices;
+using IntPtr = System.IntPtr;
 
 namespace Steamworks {
 	public static class SteamController {
@@ -17,12 +17,12 @@ namespace Steamworks {
 		/// </summary>
 		public static bool Init() {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamController_Init();
+			return NativeMethods.ISteamController_Init(CSteamAPIContext.GetSteamController());
 		}
 
 		public static bool Shutdown() {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamController_Shutdown();
+			return NativeMethods.ISteamController_Shutdown(CSteamAPIContext.GetSteamController());
 		}
 
 		/// <summary>
@@ -32,7 +32,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void RunFrame() {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamController_RunFrame();
+			NativeMethods.ISteamController_RunFrame(CSteamAPIContext.GetSteamController());
 		}
 
 		/// <summary>
@@ -43,9 +43,9 @@ namespace Steamworks {
 		public static int GetConnectedControllers(ControllerHandle_t[] handlesOut) {
 			InteropHelp.TestIfAvailableClient();
 			if (handlesOut.Length != Constants.STEAM_CONTROLLER_MAX_COUNT) {
-				throw new ArgumentException("handlesOut must be the same size as Constants.STEAM_CONTROLLER_MAX_COUNT!");
+				throw new System.ArgumentException("handlesOut must be the same size as Constants.STEAM_CONTROLLER_MAX_COUNT!");
 			}
-			return NativeMethods.ISteamController_GetConnectedControllers(handlesOut);
+			return NativeMethods.ISteamController_GetConnectedControllers(CSteamAPIContext.GetSteamController(), handlesOut);
 		}
 
 		/// <summary>
@@ -54,7 +54,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool ShowBindingPanel(ControllerHandle_t controllerHandle) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamController_ShowBindingPanel(controllerHandle);
+			return NativeMethods.ISteamController_ShowBindingPanel(CSteamAPIContext.GetSteamController(), controllerHandle);
 		}
 
 		/// <summary>
@@ -64,7 +64,7 @@ namespace Steamworks {
 		public static ControllerActionSetHandle_t GetActionSetHandle(string pszActionSetName) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pszActionSetName2 = new InteropHelp.UTF8StringHandle(pszActionSetName)) {
-				return (ControllerActionSetHandle_t)NativeMethods.ISteamController_GetActionSetHandle(pszActionSetName2);
+				return (ControllerActionSetHandle_t)NativeMethods.ISteamController_GetActionSetHandle(CSteamAPIContext.GetSteamController(), pszActionSetName2);
 			}
 		}
 
@@ -75,12 +75,12 @@ namespace Steamworks {
 		/// </summary>
 		public static void ActivateActionSet(ControllerHandle_t controllerHandle, ControllerActionSetHandle_t actionSetHandle) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamController_ActivateActionSet(controllerHandle, actionSetHandle);
+			NativeMethods.ISteamController_ActivateActionSet(CSteamAPIContext.GetSteamController(), controllerHandle, actionSetHandle);
 		}
 
 		public static ControllerActionSetHandle_t GetCurrentActionSet(ControllerHandle_t controllerHandle) {
 			InteropHelp.TestIfAvailableClient();
-			return (ControllerActionSetHandle_t)NativeMethods.ISteamController_GetCurrentActionSet(controllerHandle);
+			return (ControllerActionSetHandle_t)NativeMethods.ISteamController_GetCurrentActionSet(CSteamAPIContext.GetSteamController(), controllerHandle);
 		}
 
 		/// <summary>
@@ -90,7 +90,7 @@ namespace Steamworks {
 		public static ControllerDigitalActionHandle_t GetDigitalActionHandle(string pszActionName) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pszActionName2 = new InteropHelp.UTF8StringHandle(pszActionName)) {
-				return (ControllerDigitalActionHandle_t)NativeMethods.ISteamController_GetDigitalActionHandle(pszActionName2);
+				return (ControllerDigitalActionHandle_t)NativeMethods.ISteamController_GetDigitalActionHandle(CSteamAPIContext.GetSteamController(), pszActionName2);
 			}
 		}
 
@@ -99,7 +99,7 @@ namespace Steamworks {
 		/// </summary>
 		public static ControllerDigitalActionData_t GetDigitalActionData(ControllerHandle_t controllerHandle, ControllerDigitalActionHandle_t digitalActionHandle) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamController_GetDigitalActionData(controllerHandle, digitalActionHandle);
+			return NativeMethods.ISteamController_GetDigitalActionData(CSteamAPIContext.GetSteamController(), controllerHandle, digitalActionHandle);
 		}
 
 		/// <summary>
@@ -108,7 +108,7 @@ namespace Steamworks {
 		/// </summary>
 		public static int GetDigitalActionOrigins(ControllerHandle_t controllerHandle, ControllerActionSetHandle_t actionSetHandle, ControllerDigitalActionHandle_t digitalActionHandle, EControllerActionOrigin[] originsOut) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamController_GetDigitalActionOrigins(controllerHandle, actionSetHandle, digitalActionHandle, originsOut);
+			return NativeMethods.ISteamController_GetDigitalActionOrigins(CSteamAPIContext.GetSteamController(), controllerHandle, actionSetHandle, digitalActionHandle, originsOut);
 		}
 
 		/// <summary>
@@ -117,7 +117,7 @@ namespace Steamworks {
 		public static ControllerAnalogActionHandle_t GetAnalogActionHandle(string pszActionName) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pszActionName2 = new InteropHelp.UTF8StringHandle(pszActionName)) {
-				return (ControllerAnalogActionHandle_t)NativeMethods.ISteamController_GetAnalogActionHandle(pszActionName2);
+				return (ControllerAnalogActionHandle_t)NativeMethods.ISteamController_GetAnalogActionHandle(CSteamAPIContext.GetSteamController(), pszActionName2);
 			}
 		}
 
@@ -126,7 +126,7 @@ namespace Steamworks {
 		/// </summary>
 		public static ControllerAnalogActionData_t GetAnalogActionData(ControllerHandle_t controllerHandle, ControllerAnalogActionHandle_t analogActionHandle) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamController_GetAnalogActionData(controllerHandle, analogActionHandle);
+			return NativeMethods.ISteamController_GetAnalogActionData(CSteamAPIContext.GetSteamController(), controllerHandle, analogActionHandle);
 		}
 
 		/// <summary>
@@ -135,12 +135,12 @@ namespace Steamworks {
 		/// </summary>
 		public static int GetAnalogActionOrigins(ControllerHandle_t controllerHandle, ControllerActionSetHandle_t actionSetHandle, ControllerAnalogActionHandle_t analogActionHandle, EControllerActionOrigin[] originsOut) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamController_GetAnalogActionOrigins(controllerHandle, actionSetHandle, analogActionHandle, originsOut);
+			return NativeMethods.ISteamController_GetAnalogActionOrigins(CSteamAPIContext.GetSteamController(), controllerHandle, actionSetHandle, analogActionHandle, originsOut);
 		}
 
 		public static void StopAnalogActionMomentum(ControllerHandle_t controllerHandle, ControllerAnalogActionHandle_t eAction) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamController_StopAnalogActionMomentum(controllerHandle, eAction);
+			NativeMethods.ISteamController_StopAnalogActionMomentum(CSteamAPIContext.GetSteamController(), controllerHandle, eAction);
 		}
 
 		/// <summary>
@@ -148,7 +148,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void TriggerHapticPulse(ControllerHandle_t controllerHandle, ESteamControllerPad eTargetPad, ushort usDurationMicroSec) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamController_TriggerHapticPulse(controllerHandle, eTargetPad, usDurationMicroSec);
+			NativeMethods.ISteamController_TriggerHapticPulse(CSteamAPIContext.GetSteamController(), controllerHandle, eTargetPad, usDurationMicroSec);
 		}
 
 		/// <summary>
@@ -157,7 +157,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void TriggerRepeatedHapticPulse(ControllerHandle_t controllerHandle, ESteamControllerPad eTargetPad, ushort usDurationMicroSec, ushort usOffMicroSec, ushort unRepeat, uint nFlags) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamController_TriggerRepeatedHapticPulse(controllerHandle, eTargetPad, usDurationMicroSec, usOffMicroSec, unRepeat, nFlags);
+			NativeMethods.ISteamController_TriggerRepeatedHapticPulse(CSteamAPIContext.GetSteamController(), controllerHandle, eTargetPad, usDurationMicroSec, usOffMicroSec, unRepeat, nFlags);
 		}
 
 		/// <summary>
@@ -165,7 +165,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void TriggerVibration(ControllerHandle_t controllerHandle, ushort usLeftSpeed, ushort usRightSpeed) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamController_TriggerVibration(controllerHandle, usLeftSpeed, usRightSpeed);
+			NativeMethods.ISteamController_TriggerVibration(CSteamAPIContext.GetSteamController(), controllerHandle, usLeftSpeed, usRightSpeed);
 		}
 
 		/// <summary>
@@ -173,7 +173,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetLEDColor(ControllerHandle_t controllerHandle, byte nColorR, byte nColorG, byte nColorB, uint nFlags) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamController_SetLEDColor(controllerHandle, nColorR, nColorG, nColorB, nFlags);
+			NativeMethods.ISteamController_SetLEDColor(CSteamAPIContext.GetSteamController(), controllerHandle, nColorR, nColorG, nColorB, nFlags);
 		}
 
 		/// <summary>
@@ -181,7 +181,7 @@ namespace Steamworks {
 		/// </summary>
 		public static int GetGamepadIndexForController(ControllerHandle_t ulControllerHandle) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamController_GetGamepadIndexForController(ulControllerHandle);
+			return NativeMethods.ISteamController_GetGamepadIndexForController(CSteamAPIContext.GetSteamController(), ulControllerHandle);
 		}
 
 		/// <summary>
@@ -189,7 +189,7 @@ namespace Steamworks {
 		/// </summary>
 		public static ControllerHandle_t GetControllerForGamepadIndex(int nIndex) {
 			InteropHelp.TestIfAvailableClient();
-			return (ControllerHandle_t)NativeMethods.ISteamController_GetControllerForGamepadIndex(nIndex);
+			return (ControllerHandle_t)NativeMethods.ISteamController_GetControllerForGamepadIndex(CSteamAPIContext.GetSteamController(), nIndex);
 		}
 
 		/// <summary>
@@ -197,7 +197,7 @@ namespace Steamworks {
 		/// </summary>
 		public static ControllerMotionData_t GetMotionData(ControllerHandle_t controllerHandle) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamController_GetMotionData(controllerHandle);
+			return NativeMethods.ISteamController_GetMotionData(CSteamAPIContext.GetSteamController(), controllerHandle);
 		}
 
 		/// <summary>
@@ -206,12 +206,12 @@ namespace Steamworks {
 		/// </summary>
 		public static bool ShowDigitalActionOrigins(ControllerHandle_t controllerHandle, ControllerDigitalActionHandle_t digitalActionHandle, float flScale, float flXPosition, float flYPosition) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamController_ShowDigitalActionOrigins(controllerHandle, digitalActionHandle, flScale, flXPosition, flYPosition);
+			return NativeMethods.ISteamController_ShowDigitalActionOrigins(CSteamAPIContext.GetSteamController(), controllerHandle, digitalActionHandle, flScale, flXPosition, flYPosition);
 		}
 
 		public static bool ShowAnalogActionOrigins(ControllerHandle_t controllerHandle, ControllerAnalogActionHandle_t analogActionHandle, float flScale, float flXPosition, float flYPosition) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamController_ShowAnalogActionOrigins(controllerHandle, analogActionHandle, flScale, flXPosition, flYPosition);
+			return NativeMethods.ISteamController_ShowAnalogActionOrigins(CSteamAPIContext.GetSteamController(), controllerHandle, analogActionHandle, flScale, flXPosition, flYPosition);
 		}
 
 		/// <summary>
@@ -219,7 +219,7 @@ namespace Steamworks {
 		/// </summary>
 		public static string GetStringForActionOrigin(EControllerActionOrigin eOrigin) {
 			InteropHelp.TestIfAvailableClient();
-			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamController_GetStringForActionOrigin(eOrigin));
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamController_GetStringForActionOrigin(CSteamAPIContext.GetSteamController(), eOrigin));
 		}
 
 		/// <summary>
@@ -227,7 +227,7 @@ namespace Steamworks {
 		/// </summary>
 		public static string GetGlyphForActionOrigin(EControllerActionOrigin eOrigin) {
 			InteropHelp.TestIfAvailableClient();
-			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamController_GetGlyphForActionOrigin(eOrigin));
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamController_GetGlyphForActionOrigin(CSteamAPIContext.GetSteamController(), eOrigin));
 		}
 	}
 }

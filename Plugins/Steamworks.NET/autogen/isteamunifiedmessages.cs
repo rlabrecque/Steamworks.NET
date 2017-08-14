@@ -7,8 +7,8 @@
 
 #if !DISABLESTEAMWORKS
 
-using System;
 using System.Runtime.InteropServices;
+using IntPtr = System.IntPtr;
 
 namespace Steamworks {
 	public static class SteamUnifiedMessages {
@@ -19,7 +19,7 @@ namespace Steamworks {
 		public static ClientUnifiedMessageHandle SendMethod(string pchServiceMethod, byte[] pRequestBuffer, uint unRequestBufferSize, ulong unContext) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchServiceMethod2 = new InteropHelp.UTF8StringHandle(pchServiceMethod)) {
-				return (ClientUnifiedMessageHandle)NativeMethods.ISteamUnifiedMessages_SendMethod(pchServiceMethod2, pRequestBuffer, unRequestBufferSize, unContext);
+				return (ClientUnifiedMessageHandle)NativeMethods.ISteamUnifiedMessages_SendMethod(CSteamAPIContext.GetSteamUnifiedMessages(), pchServiceMethod2, pRequestBuffer, unRequestBufferSize, unContext);
 			}
 		}
 
@@ -28,7 +28,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetMethodResponseInfo(ClientUnifiedMessageHandle hHandle, out uint punResponseSize, out EResult peResult) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUnifiedMessages_GetMethodResponseInfo(hHandle, out punResponseSize, out peResult);
+			return NativeMethods.ISteamUnifiedMessages_GetMethodResponseInfo(CSteamAPIContext.GetSteamUnifiedMessages(), hHandle, out punResponseSize, out peResult);
 		}
 
 		/// <summary>
@@ -36,7 +36,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetMethodResponseData(ClientUnifiedMessageHandle hHandle, byte[] pResponseBuffer, uint unResponseBufferSize, bool bAutoRelease) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUnifiedMessages_GetMethodResponseData(hHandle, pResponseBuffer, unResponseBufferSize, bAutoRelease);
+			return NativeMethods.ISteamUnifiedMessages_GetMethodResponseData(CSteamAPIContext.GetSteamUnifiedMessages(), hHandle, pResponseBuffer, unResponseBufferSize, bAutoRelease);
 		}
 
 		/// <summary>
@@ -44,7 +44,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool ReleaseMethod(ClientUnifiedMessageHandle hHandle) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUnifiedMessages_ReleaseMethod(hHandle);
+			return NativeMethods.ISteamUnifiedMessages_ReleaseMethod(CSteamAPIContext.GetSteamUnifiedMessages(), hHandle);
 		}
 
 		/// <summary>
@@ -54,7 +54,7 @@ namespace Steamworks {
 		public static bool SendNotification(string pchServiceNotification, byte[] pNotificationBuffer, uint unNotificationBufferSize) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchServiceNotification2 = new InteropHelp.UTF8StringHandle(pchServiceNotification)) {
-				return NativeMethods.ISteamUnifiedMessages_SendNotification(pchServiceNotification2, pNotificationBuffer, unNotificationBufferSize);
+				return NativeMethods.ISteamUnifiedMessages_SendNotification(CSteamAPIContext.GetSteamUnifiedMessages(), pchServiceNotification2, pNotificationBuffer, unNotificationBufferSize);
 			}
 		}
 	}

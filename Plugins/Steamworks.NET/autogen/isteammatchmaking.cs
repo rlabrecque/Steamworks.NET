@@ -7,8 +7,8 @@
 
 #if !DISABLESTEAMWORKS
 
-using System;
 using System.Runtime.InteropServices;
+using IntPtr = System.IntPtr;
 
 namespace Steamworks {
 	public static class SteamMatchmaking {
@@ -19,7 +19,7 @@ namespace Steamworks {
 		/// </summary>
 		public static int GetFavoriteGameCount() {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmaking_GetFavoriteGameCount();
+			return NativeMethods.ISteamMatchmaking_GetFavoriteGameCount(CSteamAPIContext.GetSteamMatchmaking());
 		}
 
 		/// <summary>
@@ -31,7 +31,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetFavoriteGame(int iGame, out AppId_t pnAppID, out uint pnIP, out ushort pnConnPort, out ushort pnQueryPort, out uint punFlags, out uint pRTime32LastPlayedOnServer) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmaking_GetFavoriteGame(iGame, out pnAppID, out pnIP, out pnConnPort, out pnQueryPort, out punFlags, out pRTime32LastPlayedOnServer);
+			return NativeMethods.ISteamMatchmaking_GetFavoriteGame(CSteamAPIContext.GetSteamMatchmaking(), iGame, out pnAppID, out pnIP, out pnConnPort, out pnQueryPort, out punFlags, out pRTime32LastPlayedOnServer);
 		}
 
 		/// <summary>
@@ -39,7 +39,7 @@ namespace Steamworks {
 		/// </summary>
 		public static int AddFavoriteGame(AppId_t nAppID, uint nIP, ushort nConnPort, ushort nQueryPort, uint unFlags, uint rTime32LastPlayedOnServer) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmaking_AddFavoriteGame(nAppID, nIP, nConnPort, nQueryPort, unFlags, rTime32LastPlayedOnServer);
+			return NativeMethods.ISteamMatchmaking_AddFavoriteGame(CSteamAPIContext.GetSteamMatchmaking(), nAppID, nIP, nConnPort, nQueryPort, unFlags, rTime32LastPlayedOnServer);
 		}
 
 		/// <summary>
@@ -47,7 +47,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool RemoveFavoriteGame(AppId_t nAppID, uint nIP, ushort nConnPort, ushort nQueryPort, uint unFlags) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmaking_RemoveFavoriteGame(nAppID, nIP, nConnPort, nQueryPort, unFlags);
+			return NativeMethods.ISteamMatchmaking_RemoveFavoriteGame(CSteamAPIContext.GetSteamMatchmaking(), nAppID, nIP, nConnPort, nQueryPort, unFlags);
 		}
 
 		/// <summary>
@@ -76,7 +76,7 @@ namespace Steamworks {
 		/// </summary>
 		public static SteamAPICall_t RequestLobbyList() {
 			InteropHelp.TestIfAvailableClient();
-			return (SteamAPICall_t)NativeMethods.ISteamMatchmaking_RequestLobbyList();
+			return (SteamAPICall_t)NativeMethods.ISteamMatchmaking_RequestLobbyList(CSteamAPIContext.GetSteamMatchmaking());
 		}
 
 		/// <summary>
@@ -88,7 +88,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchKeyToMatch2 = new InteropHelp.UTF8StringHandle(pchKeyToMatch))
 			using (var pchValueToMatch2 = new InteropHelp.UTF8StringHandle(pchValueToMatch)) {
-				NativeMethods.ISteamMatchmaking_AddRequestLobbyListStringFilter(pchKeyToMatch2, pchValueToMatch2, eComparisonType);
+				NativeMethods.ISteamMatchmaking_AddRequestLobbyListStringFilter(CSteamAPIContext.GetSteamMatchmaking(), pchKeyToMatch2, pchValueToMatch2, eComparisonType);
 			}
 		}
 
@@ -98,7 +98,7 @@ namespace Steamworks {
 		public static void AddRequestLobbyListNumericalFilter(string pchKeyToMatch, int nValueToMatch, ELobbyComparison eComparisonType) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchKeyToMatch2 = new InteropHelp.UTF8StringHandle(pchKeyToMatch)) {
-				NativeMethods.ISteamMatchmaking_AddRequestLobbyListNumericalFilter(pchKeyToMatch2, nValueToMatch, eComparisonType);
+				NativeMethods.ISteamMatchmaking_AddRequestLobbyListNumericalFilter(CSteamAPIContext.GetSteamMatchmaking(), pchKeyToMatch2, nValueToMatch, eComparisonType);
 			}
 		}
 
@@ -108,7 +108,7 @@ namespace Steamworks {
 		public static void AddRequestLobbyListNearValueFilter(string pchKeyToMatch, int nValueToBeCloseTo) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchKeyToMatch2 = new InteropHelp.UTF8StringHandle(pchKeyToMatch)) {
-				NativeMethods.ISteamMatchmaking_AddRequestLobbyListNearValueFilter(pchKeyToMatch2, nValueToBeCloseTo);
+				NativeMethods.ISteamMatchmaking_AddRequestLobbyListNearValueFilter(CSteamAPIContext.GetSteamMatchmaking(), pchKeyToMatch2, nValueToBeCloseTo);
 			}
 		}
 
@@ -117,7 +117,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void AddRequestLobbyListFilterSlotsAvailable(int nSlotsAvailable) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamMatchmaking_AddRequestLobbyListFilterSlotsAvailable(nSlotsAvailable);
+			NativeMethods.ISteamMatchmaking_AddRequestLobbyListFilterSlotsAvailable(CSteamAPIContext.GetSteamMatchmaking(), nSlotsAvailable);
 		}
 
 		/// <summary>
@@ -125,7 +125,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void AddRequestLobbyListDistanceFilter(ELobbyDistanceFilter eLobbyDistanceFilter) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamMatchmaking_AddRequestLobbyListDistanceFilter(eLobbyDistanceFilter);
+			NativeMethods.ISteamMatchmaking_AddRequestLobbyListDistanceFilter(CSteamAPIContext.GetSteamMatchmaking(), eLobbyDistanceFilter);
 		}
 
 		/// <summary>
@@ -133,12 +133,12 @@ namespace Steamworks {
 		/// </summary>
 		public static void AddRequestLobbyListResultCountFilter(int cMaxResults) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamMatchmaking_AddRequestLobbyListResultCountFilter(cMaxResults);
+			NativeMethods.ISteamMatchmaking_AddRequestLobbyListResultCountFilter(CSteamAPIContext.GetSteamMatchmaking(), cMaxResults);
 		}
 
 		public static void AddRequestLobbyListCompatibleMembersFilter(CSteamID steamIDLobby) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamMatchmaking_AddRequestLobbyListCompatibleMembersFilter(steamIDLobby);
+			NativeMethods.ISteamMatchmaking_AddRequestLobbyListCompatibleMembersFilter(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby);
 		}
 
 		/// <summary>
@@ -149,7 +149,7 @@ namespace Steamworks {
 		/// </summary>
 		public static CSteamID GetLobbyByIndex(int iLobby) {
 			InteropHelp.TestIfAvailableClient();
-			return (CSteamID)NativeMethods.ISteamMatchmaking_GetLobbyByIndex(iLobby);
+			return (CSteamID)NativeMethods.ISteamMatchmaking_GetLobbyByIndex(CSteamAPIContext.GetSteamMatchmaking(), iLobby);
 		}
 
 		/// <summary>
@@ -162,7 +162,7 @@ namespace Steamworks {
 		/// </summary>
 		public static SteamAPICall_t CreateLobby(ELobbyType eLobbyType, int cMaxMembers) {
 			InteropHelp.TestIfAvailableClient();
-			return (SteamAPICall_t)NativeMethods.ISteamMatchmaking_CreateLobby(eLobbyType, cMaxMembers);
+			return (SteamAPICall_t)NativeMethods.ISteamMatchmaking_CreateLobby(CSteamAPIContext.GetSteamMatchmaking(), eLobbyType, cMaxMembers);
 		}
 
 		/// <summary>
@@ -173,7 +173,7 @@ namespace Steamworks {
 		/// </summary>
 		public static SteamAPICall_t JoinLobby(CSteamID steamIDLobby) {
 			InteropHelp.TestIfAvailableClient();
-			return (SteamAPICall_t)NativeMethods.ISteamMatchmaking_JoinLobby(steamIDLobby);
+			return (SteamAPICall_t)NativeMethods.ISteamMatchmaking_JoinLobby(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby);
 		}
 
 		/// <summary>
@@ -182,7 +182,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void LeaveLobby(CSteamID steamIDLobby) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamMatchmaking_LeaveLobby(steamIDLobby);
+			NativeMethods.ISteamMatchmaking_LeaveLobby(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby);
 		}
 
 		/// <summary>
@@ -195,7 +195,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool InviteUserToLobby(CSteamID steamIDLobby, CSteamID steamIDInvitee) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmaking_InviteUserToLobby(steamIDLobby, steamIDInvitee);
+			return NativeMethods.ISteamMatchmaking_InviteUserToLobby(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby, steamIDInvitee);
 		}
 
 		/// <summary>
@@ -207,7 +207,7 @@ namespace Steamworks {
 		/// </summary>
 		public static int GetNumLobbyMembers(CSteamID steamIDLobby) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmaking_GetNumLobbyMembers(steamIDLobby);
+			return NativeMethods.ISteamMatchmaking_GetNumLobbyMembers(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby);
 		}
 
 		/// <summary>
@@ -217,7 +217,7 @@ namespace Steamworks {
 		/// </summary>
 		public static CSteamID GetLobbyMemberByIndex(CSteamID steamIDLobby, int iMember) {
 			InteropHelp.TestIfAvailableClient();
-			return (CSteamID)NativeMethods.ISteamMatchmaking_GetLobbyMemberByIndex(steamIDLobby, iMember);
+			return (CSteamID)NativeMethods.ISteamMatchmaking_GetLobbyMemberByIndex(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby, iMember);
 		}
 
 		/// <summary>
@@ -228,7 +228,7 @@ namespace Steamworks {
 		public static string GetLobbyData(CSteamID steamIDLobby, string pchKey) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchKey2 = new InteropHelp.UTF8StringHandle(pchKey)) {
-				return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamMatchmaking_GetLobbyData(steamIDLobby, pchKey2));
+				return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamMatchmaking_GetLobbyData(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby, pchKey2));
 			}
 		}
 
@@ -243,7 +243,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchKey2 = new InteropHelp.UTF8StringHandle(pchKey))
 			using (var pchValue2 = new InteropHelp.UTF8StringHandle(pchValue)) {
-				return NativeMethods.ISteamMatchmaking_SetLobbyData(steamIDLobby, pchKey2, pchValue2);
+				return NativeMethods.ISteamMatchmaking_SetLobbyData(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby, pchKey2, pchValue2);
 			}
 		}
 
@@ -252,7 +252,7 @@ namespace Steamworks {
 		/// </summary>
 		public static int GetLobbyDataCount(CSteamID steamIDLobby) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmaking_GetLobbyDataCount(steamIDLobby);
+			return NativeMethods.ISteamMatchmaking_GetLobbyDataCount(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby);
 		}
 
 		/// <summary>
@@ -262,7 +262,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			IntPtr pchKey2 = Marshal.AllocHGlobal(cchKeyBufferSize);
 			IntPtr pchValue2 = Marshal.AllocHGlobal(cchValueBufferSize);
-			bool ret = NativeMethods.ISteamMatchmaking_GetLobbyDataByIndex(steamIDLobby, iLobbyData, pchKey2, cchKeyBufferSize, pchValue2, cchValueBufferSize);
+			bool ret = NativeMethods.ISteamMatchmaking_GetLobbyDataByIndex(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby, iLobbyData, pchKey2, cchKeyBufferSize, pchValue2, cchValueBufferSize);
 			pchKey = ret ? InteropHelp.PtrToStringUTF8(pchKey2) : null;
 			Marshal.FreeHGlobal(pchKey2);
 			pchValue = ret ? InteropHelp.PtrToStringUTF8(pchValue2) : null;
@@ -276,7 +276,7 @@ namespace Steamworks {
 		public static bool DeleteLobbyData(CSteamID steamIDLobby, string pchKey) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchKey2 = new InteropHelp.UTF8StringHandle(pchKey)) {
-				return NativeMethods.ISteamMatchmaking_DeleteLobbyData(steamIDLobby, pchKey2);
+				return NativeMethods.ISteamMatchmaking_DeleteLobbyData(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby, pchKey2);
 			}
 		}
 
@@ -286,7 +286,7 @@ namespace Steamworks {
 		public static string GetLobbyMemberData(CSteamID steamIDLobby, CSteamID steamIDUser, string pchKey) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchKey2 = new InteropHelp.UTF8StringHandle(pchKey)) {
-				return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamMatchmaking_GetLobbyMemberData(steamIDLobby, steamIDUser, pchKey2));
+				return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamMatchmaking_GetLobbyMemberData(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby, steamIDUser, pchKey2));
 			}
 		}
 
@@ -297,7 +297,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchKey2 = new InteropHelp.UTF8StringHandle(pchKey))
 			using (var pchValue2 = new InteropHelp.UTF8StringHandle(pchValue)) {
-				NativeMethods.ISteamMatchmaking_SetLobbyMemberData(steamIDLobby, pchKey2, pchValue2);
+				NativeMethods.ISteamMatchmaking_SetLobbyMemberData(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby, pchKey2, pchValue2);
 			}
 		}
 
@@ -310,7 +310,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SendLobbyChatMsg(CSteamID steamIDLobby, byte[] pvMsgBody, int cubMsgBody) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmaking_SendLobbyChatMsg(steamIDLobby, pvMsgBody, cubMsgBody);
+			return NativeMethods.ISteamMatchmaking_SendLobbyChatMsg(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby, pvMsgBody, cubMsgBody);
 		}
 
 		/// <summary>
@@ -322,7 +322,7 @@ namespace Steamworks {
 		/// </summary>
 		public static int GetLobbyChatEntry(CSteamID steamIDLobby, int iChatID, out CSteamID pSteamIDUser, byte[] pvData, int cubData, out EChatEntryType peChatEntryType) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmaking_GetLobbyChatEntry(steamIDLobby, iChatID, out pSteamIDUser, pvData, cubData, out peChatEntryType);
+			return NativeMethods.ISteamMatchmaking_GetLobbyChatEntry(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby, iChatID, out pSteamIDUser, pvData, cubData, out peChatEntryType);
 		}
 
 		/// <summary>
@@ -336,7 +336,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool RequestLobbyData(CSteamID steamIDLobby) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmaking_RequestLobbyData(steamIDLobby);
+			return NativeMethods.ISteamMatchmaking_RequestLobbyData(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby);
 		}
 
 		/// <summary>
@@ -346,7 +346,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void SetLobbyGameServer(CSteamID steamIDLobby, uint unGameServerIP, ushort unGameServerPort, CSteamID steamIDGameServer) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamMatchmaking_SetLobbyGameServer(steamIDLobby, unGameServerIP, unGameServerPort, steamIDGameServer);
+			NativeMethods.ISteamMatchmaking_SetLobbyGameServer(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby, unGameServerIP, unGameServerPort, steamIDGameServer);
 		}
 
 		/// <summary>
@@ -354,7 +354,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetLobbyGameServer(CSteamID steamIDLobby, out uint punGameServerIP, out ushort punGameServerPort, out CSteamID psteamIDGameServer) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmaking_GetLobbyGameServer(steamIDLobby, out punGameServerIP, out punGameServerPort, out psteamIDGameServer);
+			return NativeMethods.ISteamMatchmaking_GetLobbyGameServer(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby, out punGameServerIP, out punGameServerPort, out psteamIDGameServer);
 		}
 
 		/// <summary>
@@ -362,7 +362,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetLobbyMemberLimit(CSteamID steamIDLobby, int cMaxMembers) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmaking_SetLobbyMemberLimit(steamIDLobby, cMaxMembers);
+			return NativeMethods.ISteamMatchmaking_SetLobbyMemberLimit(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby, cMaxMembers);
 		}
 
 		/// <summary>
@@ -370,7 +370,7 @@ namespace Steamworks {
 		/// </summary>
 		public static int GetLobbyMemberLimit(CSteamID steamIDLobby) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmaking_GetLobbyMemberLimit(steamIDLobby);
+			return NativeMethods.ISteamMatchmaking_GetLobbyMemberLimit(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby);
 		}
 
 		/// <summary>
@@ -379,7 +379,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetLobbyType(CSteamID steamIDLobby, ELobbyType eLobbyType) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmaking_SetLobbyType(steamIDLobby, eLobbyType);
+			return NativeMethods.ISteamMatchmaking_SetLobbyType(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby, eLobbyType);
 		}
 
 		/// <summary>
@@ -388,7 +388,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetLobbyJoinable(CSteamID steamIDLobby, bool bLobbyJoinable) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmaking_SetLobbyJoinable(steamIDLobby, bLobbyJoinable);
+			return NativeMethods.ISteamMatchmaking_SetLobbyJoinable(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby, bLobbyJoinable);
 		}
 
 		/// <summary>
@@ -399,7 +399,7 @@ namespace Steamworks {
 		/// </summary>
 		public static CSteamID GetLobbyOwner(CSteamID steamIDLobby) {
 			InteropHelp.TestIfAvailableClient();
-			return (CSteamID)NativeMethods.ISteamMatchmaking_GetLobbyOwner(steamIDLobby);
+			return (CSteamID)NativeMethods.ISteamMatchmaking_GetLobbyOwner(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby);
 		}
 
 		/// <summary>
@@ -409,7 +409,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetLobbyOwner(CSteamID steamIDLobby, CSteamID steamIDNewOwner) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmaking_SetLobbyOwner(steamIDLobby, steamIDNewOwner);
+			return NativeMethods.ISteamMatchmaking_SetLobbyOwner(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby, steamIDNewOwner);
 		}
 
 		/// <summary>
@@ -418,7 +418,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetLinkedLobby(CSteamID steamIDLobby, CSteamID steamIDLobbyDependent) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmaking_SetLinkedLobby(steamIDLobby, steamIDLobbyDependent);
+			return NativeMethods.ISteamMatchmaking_SetLinkedLobby(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby, steamIDLobbyDependent);
 		}
 #if _PS3
 		/// <summary>
@@ -428,7 +428,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void CheckForPSNGameBootInvite(uint iGameBootAttributes) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamMatchmaking_CheckForPSNGameBootInvite(iGameBootAttributes);
+			NativeMethods.ISteamMatchmaking_CheckForPSNGameBootInvite(CSteamAPIContext.GetSteamMatchmaking(), iGameBootAttributes);
 		}
 #endif
 	}
@@ -440,32 +440,32 @@ namespace Steamworks {
 		/// </summary>
 		public static HServerListRequest RequestInternetServerList(AppId_t iApp, MatchMakingKeyValuePair_t[] ppchFilters, uint nFilters, ISteamMatchmakingServerListResponse pRequestServersResponse) {
 			InteropHelp.TestIfAvailableClient();
-			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestInternetServerList(iApp, new MMKVPMarshaller(ppchFilters), nFilters, (IntPtr)pRequestServersResponse);
+			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestInternetServerList(CSteamAPIContext.GetSteamMatchmakingServers(), iApp, new MMKVPMarshaller(ppchFilters), nFilters, (IntPtr)pRequestServersResponse);
 		}
 
 		public static HServerListRequest RequestLANServerList(AppId_t iApp, ISteamMatchmakingServerListResponse pRequestServersResponse) {
 			InteropHelp.TestIfAvailableClient();
-			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestLANServerList(iApp, (IntPtr)pRequestServersResponse);
+			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestLANServerList(CSteamAPIContext.GetSteamMatchmakingServers(), iApp, (IntPtr)pRequestServersResponse);
 		}
 
 		public static HServerListRequest RequestFriendsServerList(AppId_t iApp, MatchMakingKeyValuePair_t[] ppchFilters, uint nFilters, ISteamMatchmakingServerListResponse pRequestServersResponse) {
 			InteropHelp.TestIfAvailableClient();
-			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestFriendsServerList(iApp, new MMKVPMarshaller(ppchFilters), nFilters, (IntPtr)pRequestServersResponse);
+			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestFriendsServerList(CSteamAPIContext.GetSteamMatchmakingServers(), iApp, new MMKVPMarshaller(ppchFilters), nFilters, (IntPtr)pRequestServersResponse);
 		}
 
 		public static HServerListRequest RequestFavoritesServerList(AppId_t iApp, MatchMakingKeyValuePair_t[] ppchFilters, uint nFilters, ISteamMatchmakingServerListResponse pRequestServersResponse) {
 			InteropHelp.TestIfAvailableClient();
-			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestFavoritesServerList(iApp, new MMKVPMarshaller(ppchFilters), nFilters, (IntPtr)pRequestServersResponse);
+			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestFavoritesServerList(CSteamAPIContext.GetSteamMatchmakingServers(), iApp, new MMKVPMarshaller(ppchFilters), nFilters, (IntPtr)pRequestServersResponse);
 		}
 
 		public static HServerListRequest RequestHistoryServerList(AppId_t iApp, MatchMakingKeyValuePair_t[] ppchFilters, uint nFilters, ISteamMatchmakingServerListResponse pRequestServersResponse) {
 			InteropHelp.TestIfAvailableClient();
-			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestHistoryServerList(iApp, new MMKVPMarshaller(ppchFilters), nFilters, (IntPtr)pRequestServersResponse);
+			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestHistoryServerList(CSteamAPIContext.GetSteamMatchmakingServers(), iApp, new MMKVPMarshaller(ppchFilters), nFilters, (IntPtr)pRequestServersResponse);
 		}
 
 		public static HServerListRequest RequestSpectatorServerList(AppId_t iApp, MatchMakingKeyValuePair_t[] ppchFilters, uint nFilters, ISteamMatchmakingServerListResponse pRequestServersResponse) {
 			InteropHelp.TestIfAvailableClient();
-			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestSpectatorServerList(iApp, new MMKVPMarshaller(ppchFilters), nFilters, (IntPtr)pRequestServersResponse);
+			return (HServerListRequest)NativeMethods.ISteamMatchmakingServers_RequestSpectatorServerList(CSteamAPIContext.GetSteamMatchmakingServers(), iApp, new MMKVPMarshaller(ppchFilters), nFilters, (IntPtr)pRequestServersResponse);
 		}
 
 		/// <summary>
@@ -474,7 +474,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void ReleaseRequest(HServerListRequest hServerListRequest) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamMatchmakingServers_ReleaseRequest(hServerListRequest);
+			NativeMethods.ISteamMatchmakingServers_ReleaseRequest(CSteamAPIContext.GetSteamMatchmakingServers(), hServerListRequest);
 		}
 
 		/// <summary>
@@ -543,7 +543,7 @@ namespace Steamworks {
 		/// </summary>
 		public static gameserveritem_t GetServerDetails(HServerListRequest hRequest, int iServer) {
 			InteropHelp.TestIfAvailableClient();
-			return (gameserveritem_t)Marshal.PtrToStructure(NativeMethods.ISteamMatchmakingServers_GetServerDetails(hRequest, iServer), typeof(gameserveritem_t));
+			return (gameserveritem_t)Marshal.PtrToStructure(NativeMethods.ISteamMatchmakingServers_GetServerDetails(CSteamAPIContext.GetSteamMatchmakingServers(), hRequest, iServer), typeof(gameserveritem_t));
 		}
 
 		/// <summary>
@@ -556,7 +556,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void CancelQuery(HServerListRequest hRequest) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamMatchmakingServers_CancelQuery(hRequest);
+			NativeMethods.ISteamMatchmakingServers_CancelQuery(CSteamAPIContext.GetSteamMatchmakingServers(), hRequest);
 		}
 
 		/// <summary>
@@ -568,7 +568,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void RefreshQuery(HServerListRequest hRequest) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamMatchmakingServers_RefreshQuery(hRequest);
+			NativeMethods.ISteamMatchmakingServers_RefreshQuery(CSteamAPIContext.GetSteamMatchmakingServers(), hRequest);
 		}
 
 		/// <summary>
@@ -576,7 +576,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool IsRefreshing(HServerListRequest hRequest) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmakingServers_IsRefreshing(hRequest);
+			return NativeMethods.ISteamMatchmakingServers_IsRefreshing(CSteamAPIContext.GetSteamMatchmakingServers(), hRequest);
 		}
 
 		/// <summary>
@@ -584,7 +584,7 @@ namespace Steamworks {
 		/// </summary>
 		public static int GetServerCount(HServerListRequest hRequest) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamMatchmakingServers_GetServerCount(hRequest);
+			return NativeMethods.ISteamMatchmakingServers_GetServerCount(CSteamAPIContext.GetSteamMatchmakingServers(), hRequest);
 		}
 
 		/// <summary>
@@ -592,7 +592,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void RefreshServer(HServerListRequest hRequest, int iServer) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamMatchmakingServers_RefreshServer(hRequest, iServer);
+			NativeMethods.ISteamMatchmakingServers_RefreshServer(CSteamAPIContext.GetSteamMatchmakingServers(), hRequest, iServer);
 		}
 
 		/// <summary>
@@ -603,7 +603,7 @@ namespace Steamworks {
 		/// </summary>
 		public static HServerQuery PingServer(uint unIP, ushort usPort, ISteamMatchmakingPingResponse pRequestServersResponse) {
 			InteropHelp.TestIfAvailableClient();
-			return (HServerQuery)NativeMethods.ISteamMatchmakingServers_PingServer(unIP, usPort, (IntPtr)pRequestServersResponse);
+			return (HServerQuery)NativeMethods.ISteamMatchmakingServers_PingServer(CSteamAPIContext.GetSteamMatchmakingServers(), unIP, usPort, (IntPtr)pRequestServersResponse);
 		}
 
 		/// <summary>
@@ -611,7 +611,7 @@ namespace Steamworks {
 		/// </summary>
 		public static HServerQuery PlayerDetails(uint unIP, ushort usPort, ISteamMatchmakingPlayersResponse pRequestServersResponse) {
 			InteropHelp.TestIfAvailableClient();
-			return (HServerQuery)NativeMethods.ISteamMatchmakingServers_PlayerDetails(unIP, usPort, (IntPtr)pRequestServersResponse);
+			return (HServerQuery)NativeMethods.ISteamMatchmakingServers_PlayerDetails(CSteamAPIContext.GetSteamMatchmakingServers(), unIP, usPort, (IntPtr)pRequestServersResponse);
 		}
 
 		/// <summary>
@@ -619,7 +619,7 @@ namespace Steamworks {
 		/// </summary>
 		public static HServerQuery ServerRules(uint unIP, ushort usPort, ISteamMatchmakingRulesResponse pRequestServersResponse) {
 			InteropHelp.TestIfAvailableClient();
-			return (HServerQuery)NativeMethods.ISteamMatchmakingServers_ServerRules(unIP, usPort, (IntPtr)pRequestServersResponse);
+			return (HServerQuery)NativeMethods.ISteamMatchmakingServers_ServerRules(CSteamAPIContext.GetSteamMatchmakingServers(), unIP, usPort, (IntPtr)pRequestServersResponse);
 		}
 
 		/// <summary>
@@ -629,7 +629,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void CancelServerQuery(HServerQuery hServerQuery) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamMatchmakingServers_CancelServerQuery(hServerQuery);
+			NativeMethods.ISteamMatchmakingServers_CancelServerQuery(CSteamAPIContext.GetSteamMatchmakingServers(), hServerQuery);
 		}
 	}
 }

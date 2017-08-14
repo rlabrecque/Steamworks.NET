@@ -20,15 +20,19 @@ namespace Steamworks {
 
 		public static void TestIfAvailableClient() {
 			TestIfPlatformSupported();
-			if (NativeMethods.SteamClient() == System.IntPtr.Zero) {
-				throw new System.InvalidOperationException("Steamworks is not initialized.");
+			if (CSteamAPIContext.GetSteamClient() == System.IntPtr.Zero) {
+				if (!CSteamAPIContext.Init()) {
+					throw new System.InvalidOperationException("Steamworks is not initialized.");
+				}
 			}
 		}
 
 		public static void TestIfAvailableGameServer() {
 			TestIfPlatformSupported();
-			if (NativeMethods.SteamGameServerClient() == System.IntPtr.Zero) {
-				throw new System.InvalidOperationException("Steamworks is not initialized.");
+			if (CSteamGameServerAPIContext.GetSteamClient() == System.IntPtr.Zero) {
+				if (!CSteamGameServerAPIContext.Init()) {
+					throw new System.InvalidOperationException("Steamworks GameServer is not initialized.");
+				}
 			}
 		}
 

@@ -6,6 +6,8 @@
 
 #if !DISABLESTEAMWORKS
 
+using IntPtr = System.IntPtr;
+
 namespace Steamworks {
 	public static class Version {
 		public const string SteamworksNETVersion = "11.0.0";
@@ -25,15 +27,20 @@ namespace Steamworks {
 
 		// SteamAPI_Init must be called before using any other API functions. If it fails, an
 		// error message will be output to the debugger (or stderr) with further information.
-
-		// [Steamworks.NET] Deprecated, just use Init(). This may be removed at a later date.
-		public static bool InitSafe() {
-			return Init();
-		}
-
 		public static bool Init() {
 			InteropHelp.TestIfPlatformSupported();
-			return NativeMethods.SteamAPI_Init();
+
+			bool ret = NativeMethods.SteamAPI_Init();
+
+			// Steamworks.NET specific: We initialize the SteamAPI Context like this for now, but we need to do it
+			// every time that Unity reloads binaries, so we also check if the pointers are available and initialized
+			// before each call to any interface functions. That is in InteropHelp.cs
+			if (ret)
+			{
+				ret = CSteamAPIContext.Init();
+			}
+
+			return ret;
 		}
 
 		public static void Shutdown() {
@@ -143,14 +150,26 @@ namespace Steamworks {
 		//		server is out of date.  (Only servers with the latest version will be listed.)
 		public static bool Init(uint unIP, ushort usSteamPort, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, string pchVersionString) {
 			InteropHelp.TestIfPlatformSupported();
-			using(var pchVersionString2 = new InteropHelp.UTF8StringHandle(pchVersionString)) {
-				return NativeMethods.SteamGameServer_Init(unIP, usSteamPort, usGamePort, usQueryPort, eServerMode, pchVersionString2);
+
+			bool ret;
+			using (var pchVersionString2 = new InteropHelp.UTF8StringHandle(pchVersionString)) {
+				ret = NativeMethods.SteamGameServer_Init(unIP, usSteamPort, usGamePort, usQueryPort, eServerMode, pchVersionString2);
 			}
+
+			// Steamworks.NET specific: We initialize the SteamAPI Context like this for now, but we need to do it
+			// every time that Unity reloads binaries, so we also check if the pointers are available and initialized
+			// before each call to any interface functions. That is in InteropHelp.cs
+			if (ret) {
+				ret = CSteamGameServerAPIContext.Init();
+			}
+
+			return ret;
 		}
 
 		public static void Shutdown() {
 			InteropHelp.TestIfPlatformSupported();
 			NativeMethods.SteamGameServer_Shutdown();
+			CSteamGameServerAPIContext.Clear();
 		}
 
 		public static void RunCallbacks() {
@@ -227,11 +246,234 @@ namespace Steamworks {
 
 		public static byte[] GetUserVariableData(byte[] rgubTicketDecrypted, uint cubTicketDecrypted, out uint pcubUserData) {
 			InteropHelp.TestIfPlatformSupported();
-			System.IntPtr punSecretData = NativeMethods.SteamEncryptedAppTicket_GetUserVariableData(rgubTicketDecrypted, cubTicketDecrypted, out pcubUserData);
+			IntPtr punSecretData = NativeMethods.SteamEncryptedAppTicket_GetUserVariableData(rgubTicketDecrypted, cubTicketDecrypted, out pcubUserData);
 			byte[] ret = new byte[pcubUserData];
 			System.Runtime.InteropServices.Marshal.Copy(punSecretData, ret, 0, (int)pcubUserData);
 			return ret;
 		}
+	}
+
+	internal static class CSteamAPIContext {
+		internal static void Clear() {
+			m_pSteamClient = IntPtr.Zero;
+			m_pSteamUser = IntPtr.Zero;
+			m_pSteamFriends = IntPtr.Zero;
+			m_pSteamUtils = IntPtr.Zero;
+			m_pSteamMatchmaking = IntPtr.Zero;
+			m_pSteamUserStats = IntPtr.Zero;
+			m_pSteamApps = IntPtr.Zero;
+			m_pSteamMatchmakingServers = IntPtr.Zero;
+			m_pSteamNetworking = IntPtr.Zero;
+			m_pSteamRemoteStorage = IntPtr.Zero;
+			m_pSteamHTTP = IntPtr.Zero;
+			m_pSteamScreenshots = IntPtr.Zero;
+			m_pSteamMusic = IntPtr.Zero;
+			m_pSteamUnifiedMessages = IntPtr.Zero;
+			m_pController = IntPtr.Zero;
+			m_pSteamUGC = IntPtr.Zero;
+			m_pSteamAppList = IntPtr.Zero;
+			m_pSteamMusic = IntPtr.Zero;
+			m_pSteamMusicRemote = IntPtr.Zero;
+			m_pSteamHTMLSurface = IntPtr.Zero;
+			m_pSteamInventory = IntPtr.Zero;
+			m_pSteamVideo = IntPtr.Zero;
+			m_pSteamParentalSettings = IntPtr.Zero;
+		}
+
+		internal static bool Init() {
+			HSteamUser hSteamUser = SteamAPI.GetHSteamUser();
+			HSteamPipe hSteamPipe = SteamAPI.GetHSteamPipe();
+			if (hSteamPipe == (HSteamPipe)0) { return false; }
+
+			using (var pchVersionString = new InteropHelp.UTF8StringHandle(Constants.STEAMCLIENT_INTERFACE_VERSION)) {
+				m_pSteamClient = NativeMethods.SteamInternal_CreateInterface(pchVersionString);
+			}
+
+			if (m_pSteamClient == IntPtr.Zero) { return false; }
+
+			m_pSteamUser = SteamClient.GetISteamUser(hSteamUser, hSteamPipe, Constants.STEAMUSER_INTERFACE_VERSION);
+			if (m_pSteamUser == IntPtr.Zero) { return false; }
+
+			m_pSteamFriends = SteamClient.GetISteamFriends(hSteamUser, hSteamPipe, Constants.STEAMFRIENDS_INTERFACE_VERSION);
+			if (m_pSteamFriends == IntPtr.Zero) { return false; }
+
+			m_pSteamUtils = SteamClient.GetISteamUtils(hSteamPipe, Constants.STEAMUTILS_INTERFACE_VERSION);
+			if (m_pSteamUtils == IntPtr.Zero) { return false; }
+
+			m_pSteamMatchmaking = SteamClient.GetISteamMatchmaking(hSteamUser, hSteamPipe, Constants.STEAMMATCHMAKING_INTERFACE_VERSION);
+			if (m_pSteamMatchmaking == IntPtr.Zero) { return false; }
+
+			m_pSteamMatchmakingServers = SteamClient.GetISteamMatchmakingServers(hSteamUser, hSteamPipe, Constants.STEAMMATCHMAKINGSERVERS_INTERFACE_VERSION);
+			if (m_pSteamMatchmakingServers == IntPtr.Zero) { return false; }
+
+			m_pSteamUserStats = SteamClient.GetISteamUserStats(hSteamUser, hSteamPipe, Constants.STEAMUSERSTATS_INTERFACE_VERSION);
+			if (m_pSteamUserStats == IntPtr.Zero) { return false; }
+
+			m_pSteamApps = SteamClient.GetISteamApps(hSteamUser, hSteamPipe, Constants.STEAMAPPS_INTERFACE_VERSION);
+			if (m_pSteamApps == IntPtr.Zero) { return false; }
+
+			m_pSteamNetworking = SteamClient.GetISteamNetworking(hSteamUser, hSteamPipe, Constants.STEAMNETWORKING_INTERFACE_VERSION);
+			if (m_pSteamNetworking == IntPtr.Zero) { return false; }
+
+			m_pSteamRemoteStorage = SteamClient.GetISteamRemoteStorage(hSteamUser, hSteamPipe, Constants.STEAMREMOTESTORAGE_INTERFACE_VERSION);
+			if (m_pSteamRemoteStorage == IntPtr.Zero) { return false; }
+
+			m_pSteamScreenshots = SteamClient.GetISteamScreenshots(hSteamUser, hSteamPipe, Constants.STEAMSCREENSHOTS_INTERFACE_VERSION);
+			if (m_pSteamScreenshots == IntPtr.Zero) { return false; }
+
+			m_pSteamHTTP = SteamClient.GetISteamHTTP(hSteamUser, hSteamPipe, Constants.STEAMHTTP_INTERFACE_VERSION);
+			if (m_pSteamHTTP == IntPtr.Zero) { return false; }
+
+			m_pSteamUnifiedMessages = SteamClient.GetISteamUnifiedMessages(hSteamUser, hSteamPipe, Constants.STEAMUNIFIEDMESSAGES_INTERFACE_VERSION);
+			if (m_pSteamUnifiedMessages == IntPtr.Zero) { return false; }
+
+			m_pController = SteamClient.GetISteamController(hSteamUser, hSteamPipe, Constants.STEAMCONTROLLER_INTERFACE_VERSION);
+			if (m_pController == IntPtr.Zero) { return false; }
+
+			m_pSteamUGC = SteamClient.GetISteamUGC(hSteamUser, hSteamPipe, Constants.STEAMUGC_INTERFACE_VERSION);
+			if (m_pSteamUGC == IntPtr.Zero) { return false; }
+
+			m_pSteamAppList = SteamClient.GetISteamAppList(hSteamUser, hSteamPipe, Constants.STEAMAPPLIST_INTERFACE_VERSION);
+			if (m_pSteamAppList == IntPtr.Zero) { return false; }
+
+			m_pSteamMusic = SteamClient.GetISteamMusic(hSteamUser, hSteamPipe, Constants.STEAMMUSIC_INTERFACE_VERSION);
+			if (m_pSteamMusic == IntPtr.Zero) { return false; }
+
+			m_pSteamMusicRemote = SteamClient.GetISteamMusicRemote(hSteamUser, hSteamPipe, Constants.STEAMMUSICREMOTE_INTERFACE_VERSION);
+			if (m_pSteamMusicRemote == IntPtr.Zero) { return false; }
+
+			m_pSteamHTMLSurface = SteamClient.GetISteamHTMLSurface(hSteamUser, hSteamPipe, Constants.STEAMHTMLSURFACE_INTERFACE_VERSION);
+			if (m_pSteamHTMLSurface == IntPtr.Zero) { return false; }
+
+			m_pSteamInventory = SteamClient.GetISteamInventory(hSteamUser, hSteamPipe, Constants.STEAMINVENTORY_INTERFACE_VERSION);
+			if (m_pSteamInventory == IntPtr.Zero) { return false; }
+
+			m_pSteamVideo = SteamClient.GetISteamVideo(hSteamUser, hSteamPipe, Constants.STEAMVIDEO_INTERFACE_VERSION);
+			if (m_pSteamVideo == IntPtr.Zero) { return false; }
+
+			m_pSteamParentalSettings = SteamClient.GetISteamParentalSettings(hSteamUser, hSteamPipe, Constants.STEAMPARENTALSETTINGS_INTERFACE_VERSION);
+			if (m_pSteamParentalSettings == IntPtr.Zero) { return false; }
+
+			return true;
+		}
+
+		internal static IntPtr GetSteamClient() { return m_pSteamClient; }
+		internal static IntPtr GetSteamUser() { return m_pSteamUser; }
+		internal static IntPtr GetSteamFriends() { return m_pSteamFriends; }
+		internal static IntPtr GetSteamUtils() { return m_pSteamUtils; }
+		internal static IntPtr GetSteamMatchmaking() { return m_pSteamMatchmaking; }
+		internal static IntPtr GetSteamUserStats() { return m_pSteamUserStats; }
+		internal static IntPtr GetSteamApps() { return m_pSteamApps; }
+		internal static IntPtr GetSteamMatchmakingServers() { return m_pSteamMatchmakingServers; }
+		internal static IntPtr GetSteamNetworking() { return m_pSteamNetworking; }
+		internal static IntPtr GetSteamRemoteStorage() { return m_pSteamRemoteStorage; }
+		internal static IntPtr GetSteamScreenshots() { return m_pSteamScreenshots; }
+		internal static IntPtr GetSteamHTTP() { return m_pSteamHTTP; }
+		internal static IntPtr GetSteamUnifiedMessages() { return m_pSteamUnifiedMessages; }
+		internal static IntPtr GetSteamController() { return m_pController; }
+		internal static IntPtr GetSteamUGC() { return m_pSteamUGC; }
+		internal static IntPtr GetSteamAppList() { return m_pSteamAppList; }
+		internal static IntPtr GetSteamMusic() { return m_pSteamMusic; }
+		internal static IntPtr GetSteamMusicRemote() { return m_pSteamMusicRemote; }
+		internal static IntPtr GetSteamHTMLSurface() { return m_pSteamHTMLSurface; }
+		internal static IntPtr GetSteamInventory() { return m_pSteamInventory; }
+		internal static IntPtr GetSteamVideo() { return m_pSteamVideo; }
+		internal static IntPtr GetSteamParentalSettings() { return m_pSteamParentalSettings; }
+
+		private static IntPtr m_pSteamClient;
+		private static IntPtr m_pSteamUser;
+		private static IntPtr m_pSteamFriends;
+		private static IntPtr m_pSteamUtils;
+		private static IntPtr m_pSteamMatchmaking;
+		private static IntPtr m_pSteamUserStats;
+		private static IntPtr m_pSteamApps;
+		private static IntPtr m_pSteamMatchmakingServers;
+		private static IntPtr m_pSteamNetworking;
+		private static IntPtr m_pSteamRemoteStorage;
+		private static IntPtr m_pSteamScreenshots;
+		private static IntPtr m_pSteamHTTP;
+		private static IntPtr m_pSteamUnifiedMessages;
+		private static IntPtr m_pController;
+		private static IntPtr m_pSteamUGC;
+		private static IntPtr m_pSteamAppList;
+		private static IntPtr m_pSteamMusic;
+		private static IntPtr m_pSteamMusicRemote;
+		private static IntPtr m_pSteamHTMLSurface;
+		private static IntPtr m_pSteamInventory;
+		private static IntPtr m_pSteamVideo;
+		private static IntPtr m_pSteamParentalSettings;
+	}
+
+
+	internal static class CSteamGameServerAPIContext {
+		internal static void Clear() {
+			m_pSteamClient = IntPtr.Zero;
+			m_pSteamGameServer = IntPtr.Zero;
+			m_pSteamUtils = IntPtr.Zero;
+			m_pSteamNetworking = IntPtr.Zero;
+			m_pSteamGameServerStats = IntPtr.Zero;
+			m_pSteamHTTP = IntPtr.Zero;
+			m_pSteamInventory = IntPtr.Zero;
+			m_pSteamUGC = IntPtr.Zero;
+			m_pSteamApps = IntPtr.Zero;
+		}
+
+		internal static bool Init() {
+			HSteamUser hSteamUser = GameServer.GetHSteamUser();
+			HSteamPipe hSteamPipe = GameServer.GetHSteamPipe();
+			if (hSteamPipe == (HSteamPipe)0) { return false; }
+
+			using (var pchVersionString = new InteropHelp.UTF8StringHandle(Constants.STEAMCLIENT_INTERFACE_VERSION)) {
+				m_pSteamClient = NativeMethods.SteamInternal_CreateInterface(pchVersionString);
+			}
+			if (m_pSteamClient == IntPtr.Zero) { return false; }
+
+			m_pSteamGameServer = SteamGameServerClient.GetISteamGameServer(hSteamUser, hSteamPipe, Constants.STEAMGAMESERVER_INTERFACE_VERSION);
+			if (m_pSteamGameServer == IntPtr.Zero) { return false; }
+
+			m_pSteamUtils = SteamGameServerClient.GetISteamUtils(hSteamPipe, Constants.STEAMUTILS_INTERFACE_VERSION);
+			if (m_pSteamUtils == IntPtr.Zero) { return false; }
+
+			m_pSteamNetworking = SteamGameServerClient.GetISteamNetworking(hSteamUser, hSteamPipe, Constants.STEAMNETWORKING_INTERFACE_VERSION);
+			if (m_pSteamNetworking == IntPtr.Zero) { return false; }
+
+			m_pSteamGameServerStats = SteamGameServerClient.GetISteamGameServerStats(hSteamUser, hSteamPipe, Constants.STEAMGAMESERVERSTATS_INTERFACE_VERSION);
+			if (m_pSteamGameServerStats == IntPtr.Zero) { return false; }
+
+			m_pSteamHTTP = SteamGameServerClient.GetISteamHTTP(hSteamUser, hSteamPipe, Constants.STEAMHTTP_INTERFACE_VERSION);
+			if (m_pSteamHTTP == IntPtr.Zero) { return false; }
+
+			m_pSteamInventory = SteamGameServerClient.GetISteamInventory(hSteamUser, hSteamPipe, Constants.STEAMINVENTORY_INTERFACE_VERSION);
+			if (m_pSteamInventory == IntPtr.Zero) { return false; }
+
+			m_pSteamUGC = SteamGameServerClient.GetISteamUGC(hSteamUser, hSteamPipe, Constants.STEAMUGC_INTERFACE_VERSION);
+			if (m_pSteamUGC == IntPtr.Zero) { return false; }
+
+			m_pSteamApps = SteamGameServerClient.GetISteamApps(hSteamUser, hSteamPipe, Constants.STEAMAPPS_INTERFACE_VERSION);
+			if (m_pSteamApps == IntPtr.Zero) { return false; }
+
+			return true;
+		}
+
+		internal static IntPtr GetSteamClient() { return m_pSteamClient; }
+		internal static IntPtr GetSteamGameServer() { return m_pSteamGameServer; }
+		internal static IntPtr GetSteamUtils() { return m_pSteamUtils; }
+		internal static IntPtr GetSteamNetworking() { return m_pSteamNetworking; }
+		internal static IntPtr GetSteamGameServerStats() { return m_pSteamGameServerStats; }
+		internal static IntPtr GetSteamHTTP() { return m_pSteamHTTP; }
+		internal static IntPtr GetSteamInventory() { return m_pSteamInventory; }
+		internal static IntPtr GetSteamUGC() { return m_pSteamUGC; }
+		internal static IntPtr GetSteamApps() { return m_pSteamApps; }
+
+		private static IntPtr m_pSteamClient;
+		private static IntPtr m_pSteamGameServer;
+		private static IntPtr m_pSteamUtils;
+		private static IntPtr m_pSteamNetworking;
+		private static IntPtr m_pSteamGameServerStats;
+		private static IntPtr m_pSteamHTTP;
+		private static IntPtr m_pSteamInventory;
+		private static IntPtr m_pSteamUGC;
+		private static IntPtr m_pSteamApps;
 	}
 }
 
