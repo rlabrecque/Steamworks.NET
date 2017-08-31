@@ -30,10 +30,10 @@ namespace Steamworks {
 			}
 		}
 
-		public static bool GetStat(string pchName, out float pData) {
+		public static bool GetStat0(string pchName, out float pData) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName)) {
-				return NativeMethods.ISteamUserStats_GetStat_(CSteamAPIContext.GetSteamUserStats(), pchName2, out pData);
+				return NativeMethods.ISteamUserStats_GetStat0(CSteamAPIContext.GetSteamUserStats(), pchName2, out pData);
 			}
 		}
 
@@ -47,10 +47,10 @@ namespace Steamworks {
 			}
 		}
 
-		public static bool SetStat(string pchName, float fData) {
+		public static bool SetStat0(string pchName, float fData) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName)) {
-				return NativeMethods.ISteamUserStats_SetStat_(CSteamAPIContext.GetSteamUserStats(), pchName2, fData);
+				return NativeMethods.ISteamUserStats_SetStat0(CSteamAPIContext.GetSteamUserStats(), pchName2, fData);
 			}
 		}
 
@@ -187,10 +187,10 @@ namespace Steamworks {
 			}
 		}
 
-		public static bool GetUserStat(CSteamID steamIDUser, string pchName, out float pData) {
+		public static bool GetUserStat0(CSteamID steamIDUser, string pchName, out float pData) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName)) {
-				return NativeMethods.ISteamUserStats_GetUserStat_(CSteamAPIContext.GetSteamUserStats(), steamIDUser, pchName2, out pData);
+				return NativeMethods.ISteamUserStats_GetUserStat0(CSteamAPIContext.GetSteamUserStats(), steamIDUser, pchName2, out pData);
 			}
 		}
 
@@ -419,10 +419,10 @@ namespace Steamworks {
 			}
 		}
 
-		public static bool GetGlobalStat(string pchStatName, out double pData) {
+		public static bool GetGlobalStat0(string pchStatName, out double pData) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchStatName2 = new InteropHelp.UTF8StringHandle(pchStatName)) {
-				return NativeMethods.ISteamUserStats_GetGlobalStat_(CSteamAPIContext.GetSteamUserStats(), pchStatName2, out pData);
+				return NativeMethods.ISteamUserStats_GetGlobalStat0(CSteamAPIContext.GetSteamUserStats(), pchStatName2, out pData);
 			}
 		}
 
@@ -439,10 +439,10 @@ namespace Steamworks {
 			}
 		}
 
-		public static int GetGlobalStatHistory(string pchStatName, double[] pData, uint cubData) {
+		public static int GetGlobalStatHistory0(string pchStatName, double[] pData, uint cubData) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchStatName2 = new InteropHelp.UTF8StringHandle(pchStatName)) {
-				return NativeMethods.ISteamUserStats_GetGlobalStatHistory_(CSteamAPIContext.GetSteamUserStats(), pchStatName2, pData, cubData);
+				return NativeMethods.ISteamUserStats_GetGlobalStatHistory0(CSteamAPIContext.GetSteamUserStats(), pchStatName2, pData, cubData);
 			}
 		}
 #if _PS3
