@@ -120,7 +120,7 @@ namespace Steamworks {
 		public static extern void SteamAPI_SetBreakpadAppID(uint unAppID);
 #endregion
 #region steam_gameserver.h
-		[DllImport(NativeLibraryName, EntryPoint = "SteamGameServer_Init", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(NativeLibraryName, EntryPoint = "SteamGameServer_InitSafe", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool SteamGameServer_Init(uint unIP, ushort usSteamPort, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, InteropHelp.UTF8StringHandle pchVersionString);
 
