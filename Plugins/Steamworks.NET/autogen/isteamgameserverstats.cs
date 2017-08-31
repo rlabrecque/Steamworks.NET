@@ -34,7 +34,7 @@ namespace Steamworks {
 			}
 		}
 
-		public static bool GetUserStat0(CSteamID steamIDUser, string pchName, out float pData) {
+		public static bool GetUserStat(CSteamID steamIDUser, string pchName, out float pData) {
 			InteropHelp.TestIfAvailableGameServer();
 			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName)) {
 				return NativeMethods.ISteamGameServerStats_GetUserStat0(CSteamGameServerAPIContext.GetSteamGameServerStats(), steamIDUser, pchName2, out pData);
@@ -61,7 +61,7 @@ namespace Steamworks {
 			}
 		}
 
-		public static bool SetUserStat0(CSteamID steamIDUser, string pchName, float fData) {
+		public static bool SetUserStat(CSteamID steamIDUser, string pchName, float fData) {
 			InteropHelp.TestIfAvailableGameServer();
 			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName)) {
 				return NativeMethods.ISteamGameServerStats_SetUserStat0(CSteamGameServerAPIContext.GetSteamGameServerStats(), steamIDUser, pchName2, fData);
