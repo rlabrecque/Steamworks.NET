@@ -21,7 +21,7 @@ namespace Steamworks {
 		public static HTTPRequestHandle CreateHTTPRequest(EHTTPMethod eHTTPRequestMethod, string pchAbsoluteURL) {
 			InteropHelp.TestIfAvailableGameServer();
 			using (var pchAbsoluteURL2 = new InteropHelp.UTF8StringHandle(pchAbsoluteURL)) {
-				return (HTTPRequestHandle)NativeMethods.ISteamGameServerHTTP_CreateHTTPRequest(CSteamGameServerAPIContext.GetSteamHTTP(), eHTTPRequestMethod, pchAbsoluteURL2);
+				return (HTTPRequestHandle)NativeMethods.ISteamHTTP_CreateHTTPRequest(CSteamGameServerAPIContext.GetSteamHTTP(), eHTTPRequestMethod, pchAbsoluteURL2);
 			}
 		}
 
@@ -31,7 +31,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetHTTPRequestContextValue(HTTPRequestHandle hRequest, ulong ulContextValue) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerHTTP_SetHTTPRequestContextValue(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, ulContextValue);
+			return NativeMethods.ISteamHTTP_SetHTTPRequestContextValue(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, ulContextValue);
 		}
 
 		/// <summary>
@@ -41,7 +41,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetHTTPRequestNetworkActivityTimeout(HTTPRequestHandle hRequest, uint unTimeoutSeconds) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerHTTP_SetHTTPRequestNetworkActivityTimeout(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, unTimeoutSeconds);
+			return NativeMethods.ISteamHTTP_SetHTTPRequestNetworkActivityTimeout(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, unTimeoutSeconds);
 		}
 
 		/// <summary>
@@ -52,7 +52,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableGameServer();
 			using (var pchHeaderName2 = new InteropHelp.UTF8StringHandle(pchHeaderName))
 			using (var pchHeaderValue2 = new InteropHelp.UTF8StringHandle(pchHeaderValue)) {
-				return NativeMethods.ISteamGameServerHTTP_SetHTTPRequestHeaderValue(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, pchHeaderName2, pchHeaderValue2);
+				return NativeMethods.ISteamHTTP_SetHTTPRequestHeaderValue(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, pchHeaderName2, pchHeaderValue2);
 			}
 		}
 
@@ -65,7 +65,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableGameServer();
 			using (var pchParamName2 = new InteropHelp.UTF8StringHandle(pchParamName))
 			using (var pchParamValue2 = new InteropHelp.UTF8StringHandle(pchParamValue)) {
-				return NativeMethods.ISteamGameServerHTTP_SetHTTPRequestGetOrPostParameter(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, pchParamName2, pchParamValue2);
+				return NativeMethods.ISteamHTTP_SetHTTPRequestGetOrPostParameter(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, pchParamName2, pchParamValue2);
 			}
 		}
 
@@ -77,7 +77,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SendHTTPRequest(HTTPRequestHandle hRequest, out SteamAPICall_t pCallHandle) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerHTTP_SendHTTPRequest(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, out pCallHandle);
+			return NativeMethods.ISteamHTTP_SendHTTPRequest(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, out pCallHandle);
 		}
 
 		/// <summary>
@@ -87,7 +87,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SendHTTPRequestAndStreamResponse(HTTPRequestHandle hRequest, out SteamAPICall_t pCallHandle) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerHTTP_SendHTTPRequestAndStreamResponse(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, out pCallHandle);
+			return NativeMethods.ISteamHTTP_SendHTTPRequestAndStreamResponse(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, out pCallHandle);
 		}
 
 		/// <summary>
@@ -96,7 +96,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool DeferHTTPRequest(HTTPRequestHandle hRequest) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerHTTP_DeferHTTPRequest(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest);
+			return NativeMethods.ISteamHTTP_DeferHTTPRequest(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest);
 		}
 
 		/// <summary>
@@ -105,7 +105,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool PrioritizeHTTPRequest(HTTPRequestHandle hRequest) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerHTTP_PrioritizeHTTPRequest(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest);
+			return NativeMethods.ISteamHTTP_PrioritizeHTTPRequest(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest);
 		}
 
 		/// <summary>
@@ -116,7 +116,7 @@ namespace Steamworks {
 		public static bool GetHTTPResponseHeaderSize(HTTPRequestHandle hRequest, string pchHeaderName, out uint unResponseHeaderSize) {
 			InteropHelp.TestIfAvailableGameServer();
 			using (var pchHeaderName2 = new InteropHelp.UTF8StringHandle(pchHeaderName)) {
-				return NativeMethods.ISteamGameServerHTTP_GetHTTPResponseHeaderSize(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, pchHeaderName2, out unResponseHeaderSize);
+				return NativeMethods.ISteamHTTP_GetHTTPResponseHeaderSize(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, pchHeaderName2, out unResponseHeaderSize);
 			}
 		}
 
@@ -128,7 +128,7 @@ namespace Steamworks {
 		public static bool GetHTTPResponseHeaderValue(HTTPRequestHandle hRequest, string pchHeaderName, byte[] pHeaderValueBuffer, uint unBufferSize) {
 			InteropHelp.TestIfAvailableGameServer();
 			using (var pchHeaderName2 = new InteropHelp.UTF8StringHandle(pchHeaderName)) {
-				return NativeMethods.ISteamGameServerHTTP_GetHTTPResponseHeaderValue(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, pchHeaderName2, pHeaderValueBuffer, unBufferSize);
+				return NativeMethods.ISteamHTTP_GetHTTPResponseHeaderValue(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, pchHeaderName2, pHeaderValueBuffer, unBufferSize);
 			}
 		}
 
@@ -138,7 +138,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetHTTPResponseBodySize(HTTPRequestHandle hRequest, out uint unBodySize) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerHTTP_GetHTTPResponseBodySize(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, out unBodySize);
+			return NativeMethods.ISteamHTTP_GetHTTPResponseBodySize(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, out unBodySize);
 		}
 
 		/// <summary>
@@ -148,7 +148,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetHTTPResponseBodyData(HTTPRequestHandle hRequest, byte[] pBodyDataBuffer, uint unBufferSize) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerHTTP_GetHTTPResponseBodyData(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, pBodyDataBuffer, unBufferSize);
+			return NativeMethods.ISteamHTTP_GetHTTPResponseBodyData(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, pBodyDataBuffer, unBufferSize);
 		}
 
 		/// <summary>
@@ -158,7 +158,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetHTTPStreamingResponseBodyData(HTTPRequestHandle hRequest, uint cOffset, byte[] pBodyDataBuffer, uint unBufferSize) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerHTTP_GetHTTPStreamingResponseBodyData(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, cOffset, pBodyDataBuffer, unBufferSize);
+			return NativeMethods.ISteamHTTP_GetHTTPStreamingResponseBodyData(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, cOffset, pBodyDataBuffer, unBufferSize);
 		}
 
 		/// <summary>
@@ -167,7 +167,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool ReleaseHTTPRequest(HTTPRequestHandle hRequest) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerHTTP_ReleaseHTTPRequest(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest);
+			return NativeMethods.ISteamHTTP_ReleaseHTTPRequest(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest);
 		}
 
 		/// <summary>
@@ -177,7 +177,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetHTTPDownloadProgressPct(HTTPRequestHandle hRequest, out float pflPercentOut) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerHTTP_GetHTTPDownloadProgressPct(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, out pflPercentOut);
+			return NativeMethods.ISteamHTTP_GetHTTPDownloadProgressPct(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, out pflPercentOut);
 		}
 
 		/// <summary>
@@ -188,7 +188,7 @@ namespace Steamworks {
 		public static bool SetHTTPRequestRawPostBody(HTTPRequestHandle hRequest, string pchContentType, byte[] pubBody, uint unBodyLen) {
 			InteropHelp.TestIfAvailableGameServer();
 			using (var pchContentType2 = new InteropHelp.UTF8StringHandle(pchContentType)) {
-				return NativeMethods.ISteamGameServerHTTP_SetHTTPRequestRawPostBody(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, pchContentType2, pubBody, unBodyLen);
+				return NativeMethods.ISteamHTTP_SetHTTPRequestRawPostBody(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, pchContentType2, pubBody, unBodyLen);
 			}
 		}
 
@@ -201,7 +201,7 @@ namespace Steamworks {
 		/// </summary>
 		public static HTTPCookieContainerHandle CreateCookieContainer(bool bAllowResponsesToModify) {
 			InteropHelp.TestIfAvailableGameServer();
-			return (HTTPCookieContainerHandle)NativeMethods.ISteamGameServerHTTP_CreateCookieContainer(CSteamGameServerAPIContext.GetSteamHTTP(), bAllowResponsesToModify);
+			return (HTTPCookieContainerHandle)NativeMethods.ISteamHTTP_CreateCookieContainer(CSteamGameServerAPIContext.GetSteamHTTP(), bAllowResponsesToModify);
 		}
 
 		/// <summary>
@@ -209,7 +209,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool ReleaseCookieContainer(HTTPCookieContainerHandle hCookieContainer) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerHTTP_ReleaseCookieContainer(CSteamGameServerAPIContext.GetSteamHTTP(), hCookieContainer);
+			return NativeMethods.ISteamHTTP_ReleaseCookieContainer(CSteamGameServerAPIContext.GetSteamHTTP(), hCookieContainer);
 		}
 
 		/// <summary>
@@ -220,7 +220,7 @@ namespace Steamworks {
 			using (var pchHost2 = new InteropHelp.UTF8StringHandle(pchHost))
 			using (var pchUrl2 = new InteropHelp.UTF8StringHandle(pchUrl))
 			using (var pchCookie2 = new InteropHelp.UTF8StringHandle(pchCookie)) {
-				return NativeMethods.ISteamGameServerHTTP_SetCookie(CSteamGameServerAPIContext.GetSteamHTTP(), hCookieContainer, pchHost2, pchUrl2, pchCookie2);
+				return NativeMethods.ISteamHTTP_SetCookie(CSteamGameServerAPIContext.GetSteamHTTP(), hCookieContainer, pchHost2, pchUrl2, pchCookie2);
 			}
 		}
 
@@ -229,7 +229,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetHTTPRequestCookieContainer(HTTPRequestHandle hRequest, HTTPCookieContainerHandle hCookieContainer) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerHTTP_SetHTTPRequestCookieContainer(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, hCookieContainer);
+			return NativeMethods.ISteamHTTP_SetHTTPRequestCookieContainer(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, hCookieContainer);
 		}
 
 		/// <summary>
@@ -238,7 +238,7 @@ namespace Steamworks {
 		public static bool SetHTTPRequestUserAgentInfo(HTTPRequestHandle hRequest, string pchUserAgentInfo) {
 			InteropHelp.TestIfAvailableGameServer();
 			using (var pchUserAgentInfo2 = new InteropHelp.UTF8StringHandle(pchUserAgentInfo)) {
-				return NativeMethods.ISteamGameServerHTTP_SetHTTPRequestUserAgentInfo(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, pchUserAgentInfo2);
+				return NativeMethods.ISteamHTTP_SetHTTPRequestUserAgentInfo(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, pchUserAgentInfo2);
 			}
 		}
 
@@ -247,7 +247,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetHTTPRequestRequiresVerifiedCertificate(HTTPRequestHandle hRequest, bool bRequireVerifiedCertificate) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerHTTP_SetHTTPRequestRequiresVerifiedCertificate(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, bRequireVerifiedCertificate);
+			return NativeMethods.ISteamHTTP_SetHTTPRequestRequiresVerifiedCertificate(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, bRequireVerifiedCertificate);
 		}
 
 		/// <summary>
@@ -256,7 +256,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetHTTPRequestAbsoluteTimeoutMS(HTTPRequestHandle hRequest, uint unMilliseconds) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerHTTP_SetHTTPRequestAbsoluteTimeoutMS(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, unMilliseconds);
+			return NativeMethods.ISteamHTTP_SetHTTPRequestAbsoluteTimeoutMS(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, unMilliseconds);
 		}
 
 		/// <summary>
@@ -264,7 +264,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetHTTPRequestWasTimedOut(HTTPRequestHandle hRequest, out bool pbWasTimedOut) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerHTTP_GetHTTPRequestWasTimedOut(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, out pbWasTimedOut);
+			return NativeMethods.ISteamHTTP_GetHTTPRequestWasTimedOut(CSteamGameServerAPIContext.GetSteamHTTP(), hRequest, out pbWasTimedOut);
 		}
 	}
 }
