@@ -144,9 +144,9 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> return installed depots in mount order</para>
 		/// </summary>
-		public static uint GetInstalledDepots(AppId_t appID, out DepotId_t pvecDepots, uint cMaxDepots) {
+		public static uint GetInstalledDepots(AppId_t appID, DepotId_t[] pvecDepots, uint cMaxDepots) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamApps_GetInstalledDepots(CSteamGameServerAPIContext.GetSteamApps(), appID, out pvecDepots, cMaxDepots);
+			return NativeMethods.ISteamApps_GetInstalledDepots(CSteamGameServerAPIContext.GetSteamApps(), appID, pvecDepots, cMaxDepots);
 		}
 
 		/// <summary>
