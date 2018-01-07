@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>libsteam_api.dylib</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.rileylabrecque.CSteamworks</string>
+	<string>com.rileylabrecque.steam_api</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
@@ -17,7 +17,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.31</string>
+	<string>1.42</string>
 	<key>CSResourcesFileMapped</key>
 	<string>yes</string>
 	<key>DTCompiler</key>

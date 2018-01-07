@@ -83,6 +83,26 @@ namespace Steamworks {
 			return (ControllerActionSetHandle_t)NativeMethods.ISteamController_GetCurrentActionSet(CSteamAPIContext.GetSteamController(), controllerHandle);
 		}
 
+		public static void ActivateActionSetLayer(ControllerHandle_t controllerHandle, ControllerActionSetHandle_t actionSetLayerHandle) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamController_ActivateActionSetLayer(CSteamAPIContext.GetSteamController(), controllerHandle, actionSetLayerHandle);
+		}
+
+		public static void DeactivateActionSetLayer(ControllerHandle_t controllerHandle, ControllerActionSetHandle_t actionSetLayerHandle) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamController_DeactivateActionSetLayer(CSteamAPIContext.GetSteamController(), controllerHandle, actionSetLayerHandle);
+		}
+
+		public static void DeactivateAllActionSetLayers(ControllerHandle_t controllerHandle) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamController_DeactivateAllActionSetLayers(CSteamAPIContext.GetSteamController(), controllerHandle);
+		}
+
+		public static int GetActiveActionSetLayers(ControllerHandle_t controllerHandle, out ControllerActionSetHandle_t handlesOut) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamController_GetActiveActionSetLayers(CSteamAPIContext.GetSteamController(), controllerHandle, out handlesOut);
+		}
+
 		/// <summary>
 		/// <para> ACTIONS</para>
 		/// <para> Lookup the handle for a digital action. Best to do this once on startup, and store the handles for all future API calls.</para>
@@ -228,6 +248,14 @@ namespace Steamworks {
 		public static string GetGlyphForActionOrigin(EControllerActionOrigin eOrigin) {
 			InteropHelp.TestIfAvailableClient();
 			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamController_GetGlyphForActionOrigin(CSteamAPIContext.GetSteamController(), eOrigin));
+		}
+
+		/// <summary>
+		/// <para> Returns the input type for a particular handle</para>
+		/// </summary>
+		public static ESteamInputType GetInputTypeForHandle(ControllerHandle_t controllerHandle) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamController_GetInputTypeForHandle(CSteamAPIContext.GetSteamController(), controllerHandle);
 		}
 	}
 }

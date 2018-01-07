@@ -11,10 +11,10 @@ using IntPtr = System.IntPtr;
 namespace Steamworks {
 	public static class Version {
 		public const string SteamworksNETVersion = "11.0.0";
-		public const string SteamworksSDKVersion = "1.41";
-		public const string SteamAPIDLLVersion = "01.00.00.01";
-		public const int SteamAPIDLLSize = 225056;
-		public const int SteamAPI64DLLSize = 249120;
+		public const string SteamworksSDKVersion = "1.42";
+		public const string SteamAPIDLLVersion = "04.28.51.07";
+		public const int SteamAPIDLLSize = 227616;
+		public const int SteamAPI64DLLSize = 250656;
 	}
 
 	public static class SteamAPI {
@@ -268,7 +268,6 @@ namespace Steamworks {
 			m_pSteamHTTP = IntPtr.Zero;
 			m_pSteamScreenshots = IntPtr.Zero;
 			m_pSteamMusic = IntPtr.Zero;
-			m_pSteamUnifiedMessages = IntPtr.Zero;
 			m_pController = IntPtr.Zero;
 			m_pSteamUGC = IntPtr.Zero;
 			m_pSteamAppList = IntPtr.Zero;
@@ -324,9 +323,6 @@ namespace Steamworks {
 			m_pSteamHTTP = SteamClient.GetISteamHTTP(hSteamUser, hSteamPipe, Constants.STEAMHTTP_INTERFACE_VERSION);
 			if (m_pSteamHTTP == IntPtr.Zero) { return false; }
 
-			m_pSteamUnifiedMessages = SteamClient.GetISteamUnifiedMessages(hSteamUser, hSteamPipe, Constants.STEAMUNIFIEDMESSAGES_INTERFACE_VERSION);
-			if (m_pSteamUnifiedMessages == IntPtr.Zero) { return false; }
-
 			m_pController = SteamClient.GetISteamController(hSteamUser, hSteamPipe, Constants.STEAMCONTROLLER_INTERFACE_VERSION);
 			if (m_pController == IntPtr.Zero) { return false; }
 
@@ -369,7 +365,6 @@ namespace Steamworks {
 		internal static IntPtr GetSteamRemoteStorage() { return m_pSteamRemoteStorage; }
 		internal static IntPtr GetSteamScreenshots() { return m_pSteamScreenshots; }
 		internal static IntPtr GetSteamHTTP() { return m_pSteamHTTP; }
-		internal static IntPtr GetSteamUnifiedMessages() { return m_pSteamUnifiedMessages; }
 		internal static IntPtr GetSteamController() { return m_pController; }
 		internal static IntPtr GetSteamUGC() { return m_pSteamUGC; }
 		internal static IntPtr GetSteamAppList() { return m_pSteamAppList; }
@@ -392,7 +387,6 @@ namespace Steamworks {
 		private static IntPtr m_pSteamRemoteStorage;
 		private static IntPtr m_pSteamScreenshots;
 		private static IntPtr m_pSteamHTTP;
-		private static IntPtr m_pSteamUnifiedMessages;
 		private static IntPtr m_pController;
 		private static IntPtr m_pSteamUGC;
 		private static IntPtr m_pSteamAppList;

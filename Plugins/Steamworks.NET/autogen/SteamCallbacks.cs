@@ -781,6 +781,17 @@ namespace Steamworks {
 		public HHTMLBrowser unBrowserHandle; // the handle of the surface
 	}
 
+	//-----------------------------------------------------------------------------
+	// Purpose: The browser has restarted due to an internal failure, use this new handle value
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 27)]
+	public struct HTML_BrowserRestarted_t {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 27;
+		public HHTMLBrowser unBrowserHandle; // this is the new browser handle after the restart
+		public HHTMLBrowser unOldBrowserHandle; // the handle for the browser before the restart, if your handle was this then switch to using unBrowserHandle for API calls
+	}
+
 	// callbacks
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iClientHTTPCallbacks + 1)]
@@ -884,6 +895,26 @@ namespace Steamworks {
 		public int m_numEligiblePromoItemDefs;
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bCachedData;	// indicates that the data was retrieved from the cache and not the server
+	}
+
+	// Triggered from StartPurchase call
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iClientInventoryCallbacks + 4)]
+	public struct SteamInventoryStartPurchaseResult_t {
+		public const int k_iCallback = Constants.k_iClientInventoryCallbacks + 4;
+		public EResult m_result;
+		public ulong m_ulOrderID;
+		public ulong m_ulTransID;
+	}
+
+	// Triggered from RequestPrices
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iClientInventoryCallbacks + 5)]
+	public struct SteamInventoryRequestPricesResult_t {
+		public const int k_iCallback = Constants.k_iClientInventoryCallbacks + 5;
+		public EResult m_result;
+		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 4)]
+		public string m_rgchCurrency;
 	}
 
 	//-----------------------------------------------------------------------------
@@ -1830,17 +1861,6 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iClientUGCCallbacks + 17;
 		public EResult m_eResult;
 		public PublishedFileId_t m_nPublishedFileId;
-	}
-
-	// callbacks
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	[CallbackIdentity(Constants.k_iClientUnifiedMessagesCallbacks + 1)]
-	public struct SteamUnifiedMessagesSendMethodResult_t {
-		public const int k_iCallback = Constants.k_iClientUnifiedMessagesCallbacks + 1;
-		public ClientUnifiedMessageHandle m_hHandle;	// The handle returned by SendMethod().
-		public ulong m_unContext;						// Context provided when calling SendMethod().
-		public EResult m_eResult;						// The result of the method call.
-		public uint m_unResponseSize;				// The size of the response.
 	}
 
 	// callbacks

@@ -135,9 +135,6 @@
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamugc.cs">
       <Link>Steamworks.NET\autogen\isteamugc.cs</Link>
     </Compile>
-    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamunifiedmessages.cs">
-      <Link>Steamworks.NET\autogen\isteamunifiedmessages.cs</Link>
-    </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamuser.cs">
       <Link>Steamworks.NET\autogen\isteamuser.cs</Link>
     </Compile>
@@ -237,6 +234,9 @@
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamInventory\SteamInventoryResult_t.cs">
       <Link>Steamworks.NET\types\SteamInventory\SteamInventoryResult_t.cs</Link>
     </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamInventory\SteamInventoryUpdateHandle_t.cs">
+      <Link>Steamworks.NET\types\SteamInventory\SteamInventoryUpdateHandle_t.cs</Link>
+    </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamInventory\SteamItemDef_t.cs">
       <Link>Steamworks.NET\types\SteamInventory\SteamItemDef_t.cs</Link>
     </Compile>
@@ -282,6 +282,9 @@
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamTypes\ManifestId_t.cs">
       <Link>Steamworks.NET\types\SteamTypes\ManifestId_t.cs</Link>
     </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamTypes\SiteId_t.cs">
+      <Link>Steamworks.NET\types\SteamTypes\SiteId_t.cs</Link>
+    </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamTypes\SteamAPICall_t.cs">
       <Link>Steamworks.NET\types\SteamTypes\SteamAPICall_t.cs</Link>
     </Compile>
@@ -290,9 +293,6 @@
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamUGC\UGCUpdateHandle_t.cs">
       <Link>Steamworks.NET\types\SteamUGC\UGCUpdateHandle_t.cs</Link>
-    </Compile>
-    <Compile Include="..\Plugins\Steamworks.NET\types\SteamUnifiedMessages\ClientUnifiedMessageHandle.cs">
-      <Link>Steamworks.NET\types\SteamUnifiedMessages\ClientUnifiedMessageHandle.cs</Link>
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamUserStats\SteamLeaderboardEntries_t.cs">
       <Link>Steamworks.NET\types\SteamUserStats\SteamLeaderboardEntries_t.cs</Link>

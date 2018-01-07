@@ -238,16 +238,6 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Exposes the ISteamUnifiedMessages interface</para>
-		/// </summary>
-		public static IntPtr GetISteamUnifiedMessages(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
-			InteropHelp.TestIfAvailableGameServer();
-			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
-				return NativeMethods.ISteamClient_GetISteamUnifiedMessages(CSteamGameServerAPIContext.GetSteamClient(), hSteamuser, hSteamPipe, pchVersion2);
-			}
-		}
-
-		/// <summary>
 		/// <para> Exposes the ISteamController interface</para>
 		/// </summary>
 		public static IntPtr GetISteamController(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {

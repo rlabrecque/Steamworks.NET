@@ -262,16 +262,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> IN-GAME TRADING</para>
-		/// <para> TradeItems() implements limited in-game trading of items, if you prefer not to use</para>
-		/// <para> the overlay or an in-game web browser to perform Steam Trading through the website.</para>
-		/// <para> You should implement a UI where both players can see and agree to a trade, and then</para>
-		/// <para> each client should call TradeItems simultaneously (+/- 5 seconds) with matching</para>
-		/// <para> (but reversed) parameters. The result is the same as if both players performed a</para>
-		/// <para> Steam Trading transaction through the web. Each player will get an inventory result</para>
-		/// <para> confirming the removal or quantity changes of the items given away, and the new</para>
-		/// <para> item instance id numbers and quantities of the received items.</para>
-		/// <para> (Note: new item instance IDs are generated whenever an item changes ownership.)</para>
+		/// <para> Deprecated. This method is not supported.</para>
 		/// </summary>
 		public static bool TradeItems(out SteamInventoryResult_t pResultHandle, CSteamID steamIDTradePartner, SteamItemInstanceID_t[] pArrayGive, uint[] pArrayGiveQuantity, uint nArrayGiveLength, SteamItemInstanceID_t[] pArrayGet, uint[] pArrayGetQuantity, uint nArrayGetLength) {
 			InteropHelp.TestIfAvailableClient();
@@ -348,6 +339,109 @@ namespace Steamworks {
 		public static bool GetEligiblePromoItemDefinitionIDs(CSteamID steamID, SteamItemDef_t[] pItemDefIDs, ref uint punItemDefIDsArraySize) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamInventory_GetEligiblePromoItemDefinitionIDs(CSteamAPIContext.GetSteamInventory(), steamID, pItemDefIDs, ref punItemDefIDsArraySize);
+		}
+
+		/// <summary>
+		/// <para> Starts the purchase process for the given item definitions.  The callback SteamInventoryStartPurchaseResult_t</para>
+		/// <para> will be posted if Steam was able to initialize the transaction.</para>
+		/// <para> Once the purchase has been authorized and completed by the user, the callback SteamInventoryResultReady_t</para>
+		/// <para> will be posted.</para>
+		/// </summary>
+		public static SteamAPICall_t StartPurchase(SteamItemDef_t[] pArrayItemDefs, uint[] punArrayQuantity, uint unArrayLength) {
+			InteropHelp.TestIfAvailableClient();
+			return (SteamAPICall_t)NativeMethods.ISteamInventory_StartPurchase(CSteamAPIContext.GetSteamInventory(), pArrayItemDefs, punArrayQuantity, unArrayLength);
+		}
+
+		/// <summary>
+		/// <para> Request current prices for all applicable item definitions</para>
+		/// </summary>
+		public static SteamAPICall_t RequestPrices() {
+			InteropHelp.TestIfAvailableClient();
+			return (SteamAPICall_t)NativeMethods.ISteamInventory_RequestPrices(CSteamAPIContext.GetSteamInventory());
+		}
+
+		/// <summary>
+		/// <para> Returns the number of items with prices.  Need to call RequestPrices() first.</para>
+		/// </summary>
+		public static uint GetNumItemsWithPrices() {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamInventory_GetNumItemsWithPrices(CSteamAPIContext.GetSteamInventory());
+		}
+
+		/// <summary>
+		/// <para> Returns item definition ids and their prices in the user's local currency.</para>
+		/// <para> Need to call RequestPrices() first.</para>
+		/// </summary>
+		public static bool GetItemsWithPrices(SteamItemDef_t[] pArrayItemDefs, ulong[] pPrices, uint unArrayLength) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamInventory_GetItemsWithPrices(CSteamAPIContext.GetSteamInventory(), pArrayItemDefs, pPrices, unArrayLength);
+		}
+
+		/// <summary>
+		/// <para> Retrieves the price for the item definition id</para>
+		/// <para> Returns false if there is no price stored for the item definition.</para>
+		/// </summary>
+		public static bool GetItemPrice(SteamItemDef_t iDefinition, out ulong pPrice) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamInventory_GetItemPrice(CSteamAPIContext.GetSteamInventory(), iDefinition, out pPrice);
+		}
+
+		/// <summary>
+		/// <para> Create a request to update properties on items</para>
+		/// </summary>
+		public static SteamInventoryUpdateHandle_t StartUpdateProperties() {
+			InteropHelp.TestIfAvailableClient();
+			return (SteamInventoryUpdateHandle_t)NativeMethods.ISteamInventory_StartUpdateProperties(CSteamAPIContext.GetSteamInventory());
+		}
+
+		/// <summary>
+		/// <para> Remove the property on the item</para>
+		/// </summary>
+		public static bool RemoveProperty(SteamInventoryUpdateHandle_t handle, SteamItemInstanceID_t nItemID, string pchPropertyName) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchPropertyName2 = new InteropHelp.UTF8StringHandle(pchPropertyName)) {
+				return NativeMethods.ISteamInventory_RemoveProperty(CSteamAPIContext.GetSteamInventory(), handle, nItemID, pchPropertyName2);
+			}
+		}
+
+		/// <summary>
+		/// <para> Accessor methods to set properties on items</para>
+		/// </summary>
+		public static bool SetProperty(SteamInventoryUpdateHandle_t handle, SteamItemInstanceID_t nItemID, string pchPropertyName, string pchPropertyValue) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchPropertyName2 = new InteropHelp.UTF8StringHandle(pchPropertyName))
+			using (var pchPropertyValue2 = new InteropHelp.UTF8StringHandle(pchPropertyValue)) {
+				return NativeMethods.ISteamInventory_SetProperty(CSteamAPIContext.GetSteamInventory(), handle, nItemID, pchPropertyName2, pchPropertyValue2);
+			}
+		}
+
+		public static bool SetProperty(SteamInventoryUpdateHandle_t handle, SteamItemInstanceID_t nItemID, string pchPropertyName, bool bValue) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchPropertyName2 = new InteropHelp.UTF8StringHandle(pchPropertyName)) {
+				return NativeMethods.ISteamInventory_SetProperty0(CSteamAPIContext.GetSteamInventory(), handle, nItemID, pchPropertyName2, bValue);
+			}
+		}
+
+		public static bool SetProperty(SteamInventoryUpdateHandle_t handle, SteamItemInstanceID_t nItemID, string pchPropertyName, long nValue) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchPropertyName2 = new InteropHelp.UTF8StringHandle(pchPropertyName)) {
+				return NativeMethods.ISteamInventory_SetProperty0(CSteamAPIContext.GetSteamInventory(), handle, nItemID, pchPropertyName2, nValue);
+			}
+		}
+
+		public static bool SetProperty(SteamInventoryUpdateHandle_t handle, SteamItemInstanceID_t nItemID, string pchPropertyName, float flValue) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchPropertyName2 = new InteropHelp.UTF8StringHandle(pchPropertyName)) {
+				return NativeMethods.ISteamInventory_SetProperty0(CSteamAPIContext.GetSteamInventory(), handle, nItemID, pchPropertyName2, flValue);
+			}
+		}
+
+		/// <summary>
+		/// <para> Submit the update request by handle</para>
+		/// </summary>
+		public static bool SubmitUpdateProperties(SteamInventoryUpdateHandle_t handle, out SteamInventoryResult_t pResultHandle) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamInventory_SubmitUpdateProperties(CSteamAPIContext.GetSteamInventory(), handle, out pResultHandle);
 		}
 	}
 }

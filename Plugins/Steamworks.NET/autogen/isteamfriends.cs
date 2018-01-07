@@ -594,6 +594,16 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamFriends_EnumerateFollowingList(CSteamAPIContext.GetSteamFriends(), unStartIndex);
 		}
+
+		public static bool IsClanPublic(CSteamID steamIDClan) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamFriends_IsClanPublic(CSteamAPIContext.GetSteamFriends(), steamIDClan);
+		}
+
+		public static bool IsClanOfficialGameGroup(CSteamID steamIDClan) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamFriends_IsClanOfficialGameGroup(CSteamAPIContext.GetSteamFriends(), steamIDClan);
+		}
 	}
 }
 
