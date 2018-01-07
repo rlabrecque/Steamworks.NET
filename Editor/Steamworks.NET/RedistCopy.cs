@@ -17,7 +17,11 @@ public class RedistCopy {
 	public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject) {
 #if !DISABLEREDISTCOPY
 		if (target != BuildTarget.StandaloneWindows && target != BuildTarget.StandaloneWindows64 &&
+#if UNITY_2017_3_OR_NEWER
+			target != BuildTarget.StandaloneOSX &&
+#else
 			target != BuildTarget.StandaloneOSXIntel && target != BuildTarget.StandaloneOSXIntel64 && target != BuildTarget.StandaloneOSXUniversal &&
+#endif
 			target != BuildTarget.StandaloneLinux && target != BuildTarget.StandaloneLinux64 && target != BuildTarget.StandaloneLinuxUniversal) {
 			return;
 		}
@@ -34,7 +38,11 @@ public class RedistCopy {
 		string controllerCfg = Path.Combine(Application.dataPath, "controller.vdf");
 		if (File.Exists(controllerCfg)) {
 			string dir = "_Data";
+#if UNITY_2017_3_OR_NEWER
+			if (target == BuildTarget.StandaloneOSX) {
+#else
 			if (target == BuildTarget.StandaloneOSXIntel || target == BuildTarget.StandaloneOSXIntel64 || target == BuildTarget.StandaloneOSXUniversal) {
+#endif
 				dir = ".app/Contents";
 			}
 
