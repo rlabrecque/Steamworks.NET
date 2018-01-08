@@ -70,7 +70,7 @@ public class RedistInstall {
 		}
 	}
 
-#if UNITY_5 || UNITY_2017_OR_NEWER
+#if UNITY_5 || UNITY_2017 || UNITY_2017_1_OR_NEWER
 	static void SetPlatformSettings() {
 		foreach(var plugin in PluginImporter.GetAllImporters()) {
 			// Skip any null plugins, why is this a thing?!
@@ -258,5 +258,5 @@ public class RedistInstall {
 		plugin.SetCompatibleWithPlatform(platform, enable);
 		return true;
 	}
-#endif // UNITY_5 || UNITY_2017_OR_NEWER
+#endif // UNITY_5 || UNITY_2017 || UNITY_2017_1_OR_NEWER
 }
