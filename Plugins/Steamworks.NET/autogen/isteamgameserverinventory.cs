@@ -426,17 +426,17 @@ namespace Steamworks {
 			}
 		}
 
-		public static bool SetProperty(SteamInventoryUpdateHandle_t handle, SteamItemInstanceID_t nItemID, string pchPropertyName, long nValue) {
+		public static bool SetProperty1(SteamInventoryUpdateHandle_t handle, SteamItemInstanceID_t nItemID, string pchPropertyName, long nValue) {
 			InteropHelp.TestIfAvailableGameServer();
 			using (var pchPropertyName2 = new InteropHelp.UTF8StringHandle(pchPropertyName)) {
-				return NativeMethods.ISteamInventory_SetProperty0(CSteamGameServerAPIContext.GetSteamInventory(), handle, nItemID, pchPropertyName2, nValue);
+				return NativeMethods.ISteamInventory_SetProperty1(CSteamGameServerAPIContext.GetSteamInventory(), handle, nItemID, pchPropertyName2, nValue);
 			}
 		}
 
-		public static bool SetProperty(SteamInventoryUpdateHandle_t handle, SteamItemInstanceID_t nItemID, string pchPropertyName, float flValue) {
+		public static bool SetProperty2(SteamInventoryUpdateHandle_t handle, SteamItemInstanceID_t nItemID, string pchPropertyName, float flValue) {
 			InteropHelp.TestIfAvailableGameServer();
 			using (var pchPropertyName2 = new InteropHelp.UTF8StringHandle(pchPropertyName)) {
-				return NativeMethods.ISteamInventory_SetProperty0(CSteamGameServerAPIContext.GetSteamInventory(), handle, nItemID, pchPropertyName2, flValue);
+				return NativeMethods.ISteamInventory_SetProperty2(CSteamGameServerAPIContext.GetSteamInventory(), handle, nItemID, pchPropertyName2, flValue);
 			}
 		}
 
