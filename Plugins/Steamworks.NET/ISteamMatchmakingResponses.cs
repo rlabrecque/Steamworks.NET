@@ -40,7 +40,6 @@ namespace Steamworks {
 
 		private VTable m_VTable;
 		private IntPtr m_pVTable;
-		private GCHandle m_pGCHandle;
 		private ServerResponded m_ServerResponded;
 		private ServerFailedToRespond m_ServerFailedToRespond;
 		private RefreshComplete m_RefreshComplete;
@@ -60,17 +59,11 @@ namespace Steamworks {
 			};
 			m_pVTable = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(VTable)));
 			Marshal.StructureToPtr(m_VTable, m_pVTable, false);
-
-			m_pGCHandle = GCHandle.Alloc(m_pVTable, GCHandleType.Pinned);
 		}
 
 		~ISteamMatchmakingServerListResponse() {
 			if (m_pVTable != IntPtr.Zero) {
 				Marshal.FreeHGlobal(m_pVTable);
-			}
-
-			if (m_pGCHandle.IsAllocated) {
-				m_pGCHandle.Free();
 			}
 		}
 		
@@ -124,7 +117,7 @@ namespace Steamworks {
 		}
 
 		public static explicit operator System.IntPtr(ISteamMatchmakingServerListResponse that) {
-			return that.m_pGCHandle.AddrOfPinnedObject();
+			return that.m_pVTable;
 		}
 	};
 
@@ -147,7 +140,6 @@ namespace Steamworks {
 
 		private VTable m_VTable;
 		private IntPtr m_pVTable;
-		private GCHandle m_pGCHandle;
 		private ServerResponded m_ServerResponded;
 		private ServerFailedToRespond m_ServerFailedToRespond;
 
@@ -164,17 +156,11 @@ namespace Steamworks {
 			};
 			m_pVTable = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(VTable)));
 			Marshal.StructureToPtr(m_VTable, m_pVTable, false);
-
-			m_pGCHandle = GCHandle.Alloc(m_pVTable, GCHandleType.Pinned);
 		}
 
 		~ISteamMatchmakingPingResponse() {
 			if (m_pVTable != IntPtr.Zero) {
 				Marshal.FreeHGlobal(m_pVTable);
-			}
-
-			if (m_pGCHandle.IsAllocated) {
-				m_pGCHandle.Free();
 			}
 		}
 
@@ -214,7 +200,7 @@ namespace Steamworks {
 		}
 
 		public static explicit operator System.IntPtr(ISteamMatchmakingPingResponse that) {
-			return that.m_pGCHandle.AddrOfPinnedObject();
+			return that.m_pVTable;
 		}
 	};
 
@@ -243,7 +229,6 @@ namespace Steamworks {
 
 		private VTable m_VTable;
 		private IntPtr m_pVTable;
-		private GCHandle m_pGCHandle;
 		private AddPlayerToList m_AddPlayerToList;
 		private PlayersFailedToRespond m_PlayersFailedToRespond;
 		private PlayersRefreshComplete m_PlayersRefreshComplete;
@@ -263,17 +248,11 @@ namespace Steamworks {
 			};
 			m_pVTable = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(VTable)));
 			Marshal.StructureToPtr(m_VTable, m_pVTable, false);
-
-			m_pGCHandle = GCHandle.Alloc(m_pVTable, GCHandleType.Pinned);
 		}
 
 		~ISteamMatchmakingPlayersResponse() {
 			if (m_pVTable != IntPtr.Zero) {
 				Marshal.FreeHGlobal(m_pVTable);
-			}
-
-			if (m_pGCHandle.IsAllocated) {
-				m_pGCHandle.Free();
 			}
 		}
 		
@@ -327,7 +306,7 @@ namespace Steamworks {
 		}
 
 		public static explicit operator System.IntPtr(ISteamMatchmakingPlayersResponse that) {
-			return that.m_pGCHandle.AddrOfPinnedObject();
+			return that.m_pVTable;
 		}
 	};
 
@@ -356,7 +335,6 @@ namespace Steamworks {
 
 		private VTable m_VTable;
 		private IntPtr m_pVTable;
-		private GCHandle m_pGCHandle;
 		private RulesResponded m_RulesResponded;
 		private RulesFailedToRespond m_RulesFailedToRespond;
 		private RulesRefreshComplete m_RulesRefreshComplete;
@@ -376,17 +354,11 @@ namespace Steamworks {
 			};
 			m_pVTable = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(VTable)));
 			Marshal.StructureToPtr(m_VTable, m_pVTable, false);
-
-			m_pGCHandle = GCHandle.Alloc(m_pVTable, GCHandleType.Pinned);
 		}
 
 		~ISteamMatchmakingRulesResponse() {
 			if (m_pVTable != IntPtr.Zero) {
 				Marshal.FreeHGlobal(m_pVTable);
-			}
-
-			if (m_pGCHandle.IsAllocated) {
-				m_pGCHandle.Free();
 			}
 		}
 		
@@ -440,7 +412,7 @@ namespace Steamworks {
 		}
 
 		public static explicit operator System.IntPtr(ISteamMatchmakingRulesResponse that) {
-			return that.m_pGCHandle.AddrOfPinnedObject();
+			return that.m_pVTable;
 		}
 	};
 }
