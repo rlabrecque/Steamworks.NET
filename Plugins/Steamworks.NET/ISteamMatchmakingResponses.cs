@@ -117,7 +117,7 @@ namespace Steamworks {
 		}
 
 		public static explicit operator System.IntPtr(ISteamMatchmakingServerListResponse that) {
-            return that.m_pVTable;
+			return that.m_pVTable;
 		}
 	};
 
@@ -200,7 +200,7 @@ namespace Steamworks {
 		}
 
 		public static explicit operator System.IntPtr(ISteamMatchmakingPingResponse that) {
-            return that.m_pVTable;
+			return that.m_pVTable;
 		}
 	};
 
@@ -306,7 +306,7 @@ namespace Steamworks {
 		}
 
 		public static explicit operator System.IntPtr(ISteamMatchmakingPlayersResponse that) {
-            return that.m_pVTable;
+			return that.m_pVTable;
 		}
 	};
 
@@ -412,7 +412,7 @@ namespace Steamworks {
 		}
 
 		public static explicit operator System.IntPtr(ISteamMatchmakingRulesResponse that) {
-            return that.m_pVTable;
+			return that.m_pVTable;
 		}
 	};
 }
