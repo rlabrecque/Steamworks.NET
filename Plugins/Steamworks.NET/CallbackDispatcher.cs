@@ -61,11 +61,11 @@ namespace Steamworks {
 #elif STEAMWORKS_WIN || STEAMWORKS_LIN_OSX
 			Console.WriteLine(e.Message);
 #endif
-        }
-    }
+		}
+	}
 
 	public sealed class Callback<T> : IDisposable {
-		private CCallbackBaseVTable VTable;
+		private CCallbackBaseVTable m_CallbackBaseVTable;
 		private IntPtr m_pVTable = IntPtr.Zero;
 		private CCallbackBase m_CCallbackBase;
 		private GCHandle m_pCCallbackBase;
@@ -80,7 +80,8 @@ namespace Steamworks {
 
 		/// <summary>
 		/// Creates a new Callback. You must be calling SteamAPI.RunCallbacks() to retrieve the callbacks.
-		/// <para>Returns a handle to the Callback. This must be assigned to a member variable to prevent the GC from cleaning it up.</para>
+		/// <para>Returns a handle to the Callback.</para>
+		/// <para>This MUST be assigned to a member variable to prevent the GC from cleaning it up.</para>
 		/// </summary>
 		public static Callback<T> Create(DispatchDelegate func) {
 			return new Callback<T>(func, bGameServer: false);
@@ -88,7 +89,8 @@ namespace Steamworks {
 
 		/// <summary>
 		/// Creates a new GameServer Callback. You must be calling GameServer.RunCallbacks() to retrieve the callbacks.
-		/// <para>Returns a handle to the Callback. This must be assigned to a member variable to prevent the GC from cleaning it up.</para>
+		/// <para>Returns a handle to the Callback.</para>
+		/// <para>This MUST be assigned to a member variable to prevent the GC from cleaning it up.</para>
 		/// </summary>
 		public static Callback<T> CreateGameServer(DispatchDelegate func) {
 			return new Callback<T>(func, bGameServer: true);
@@ -149,7 +151,9 @@ namespace Steamworks {
 			NativeMethods.SteamAPI_UnregisterCallback(m_pCCallbackBase.AddrOfPinnedObject());
 		}
 
-		public void SetGameserverFlag() { m_CCallbackBase.m_nCallbackFlags |= CCallbackBase.k_ECallbackFlagsGameServer; }
+		public void SetGameserverFlag() {
+			m_CCallbackBase.m_nCallbackFlags |= CCallbackBase.k_ECallbackFlagsGameServer;
+		}
 
 		private void OnRunCallback(
 #if !STDCALL
@@ -188,13 +192,13 @@ namespace Steamworks {
 
 		// Steamworks.NET Specific
 		private void BuildCCallbackBase() {
-			VTable = new CCallbackBaseVTable() {
+			m_CallbackBaseVTable = new CCallbackBaseVTable() {
 				m_RunCallResult = OnRunCallResult,
 				m_RunCallback = OnRunCallback,
 				m_GetCallbackSizeBytes = OnGetCallbackSizeBytes
 			};
 			m_pVTable = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(CCallbackBaseVTable)));
-			Marshal.StructureToPtr(VTable, m_pVTable, false);
+			Marshal.StructureToPtr(m_CallbackBaseVTable, m_pVTable, false);
 
 			m_CCallbackBase = new CCallbackBase() {
 				m_vfptr = m_pVTable,
@@ -206,7 +210,7 @@ namespace Steamworks {
 	}
 
 	public sealed class CallResult<T> : IDisposable {
-		private CCallbackBaseVTable VTable;
+		private CCallbackBaseVTable m_CallbackBaseVTable;
 		private IntPtr m_pVTable = IntPtr.Zero;
 		private CCallbackBase m_CCallbackBase;
 		private GCHandle m_pCCallbackBase;
@@ -223,7 +227,8 @@ namespace Steamworks {
 
 		/// <summary>
 		/// Creates a new async CallResult. You must be calling SteamAPI.RunCallbacks() to retrieve the callback.
-		/// <para>Returns a handle to the CallResult. This must be assigned to a member variable to prevent the GC from cleaning it up.</para>
+		/// <para>Returns a handle to the CallResult.</para>
+		/// <para>This MUST be assigned to a member variable to prevent the GC from cleaning it up.</para>
 		/// </summary>
 		public static CallResult<T> Create(APIDispatchDelegate func = null) {
 			return new CallResult<T>(func);
@@ -266,7 +271,7 @@ namespace Steamworks {
 			}
 
 			if (m_Func == null) {
-				throw new Exception("CallResult function was null, you must either set it in the CallResult Constructor or in Set()");
+				throw new Exception("CallResult function was null, you must either set it in the CallResult Constructor or via Set()");
 			}
 
 			if (m_hAPICall != SteamAPICall_t.Invalid) {
@@ -291,7 +296,9 @@ namespace Steamworks {
 			}
 		}
 
-		public void SetGameserverFlag() { m_CCallbackBase.m_nCallbackFlags |= CCallbackBase.k_ECallbackFlagsGameServer; }
+		public void SetGameserverFlag() {
+			m_CCallbackBase.m_nCallbackFlags |= CCallbackBase.k_ECallbackFlagsGameServer;
+		}
 
 		// Shouldn't ever get called here, but this is what C++ Steamworks does!
 		private void OnRunCallback(
@@ -308,7 +315,6 @@ namespace Steamworks {
 				CallbackDispatcher.ExceptionHandler(e);
 			}
 		}
-
 
 		private void OnRunCallResult(
 #if !STDCALL
@@ -338,13 +344,13 @@ namespace Steamworks {
 
 		// Steamworks.NET Specific
 		private void BuildCCallbackBase() {
-			VTable = new CCallbackBaseVTable() {
+			m_CallbackBaseVTable = new CCallbackBaseVTable() {
 				m_RunCallback = OnRunCallback,
 				m_RunCallResult = OnRunCallResult,
 				m_GetCallbackSizeBytes = OnGetCallbackSizeBytes
 			};
 			m_pVTable = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(CCallbackBaseVTable)));
-			Marshal.StructureToPtr(VTable, m_pVTable, false);
+			Marshal.StructureToPtr(m_CallbackBaseVTable, m_pVTable, false);
 
 			m_CCallbackBase = new CCallbackBase() {
 				m_vfptr = m_pVTable,
@@ -359,6 +365,7 @@ namespace Steamworks {
 	internal class CCallbackBase {
 		public const byte k_ECallbackFlagsRegistered = 0x01;
 		public const byte k_ECallbackFlagsGameServer = 0x02;
+
 		public IntPtr m_vfptr;
 		public byte m_nCallbackFlags;
 		public int m_iCallback;
