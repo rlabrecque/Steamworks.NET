@@ -78,7 +78,7 @@ public class RedistInstall {
 				continue;
 			}
 
-			// Skip any absolute paths, as they are only builtin plugins.
+			// Skip any absolute paths, as they are only built in plugins.
 			if(Path.IsPathRooted(plugin.assetPath)) {
 				continue;
 			}
@@ -87,7 +87,7 @@ public class RedistInstall {
 			string filename = Path.GetFileName(plugin.assetPath);
 
 			switch(filename) {
-				case "libsteam_api.dylib":
+				case "steam_api.bundle":
 					didUpdate |= ResetPluginSettings(plugin, "AnyCPU", "OSX");
 					didUpdate |= SetCompatibleWithOSX(plugin);
 					break;
