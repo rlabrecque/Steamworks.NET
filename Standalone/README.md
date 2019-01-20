@@ -15,13 +15,11 @@ This is the project file for the standalone version of _Steamworks.NET_. This is
     * **steam_appid.txt** - Required for testing your application outside of steam. *Do not ship this to customers!*
     * **Steamworks.NET.dll** - Make sure it's the correct version for the platform that you plan on shipping for! - When building for OSX or Linux the wrong Steamworks.NET.dll will be copied over by default, it is recommended that you create a post build script to copy the correct version.
   * Windows:
-    * **CSteamworks.dll**
     * **steam_api.dll**
   * OSX:
-    * **CSteamworks.bundle**
+    * **steam_api.bundle**
     * **Steamworks.NET.dll.config** - This lets Mono know where to find CSteamworks.
   * Linux:
-    * **libCSteamworks.so**
     * **libsteam_api.so**
 
 Have a look at this [example project](https://github.com/rlabrecque/Steamworks.NET-StandaloneTest) to get started.

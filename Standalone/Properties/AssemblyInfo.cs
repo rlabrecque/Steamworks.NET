@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Riley Labrecque")]
 [assembly: AssemblyProduct("Steamworks.NET")]
-[assembly: AssemblyCopyright("Copyright © Riley Labrecque 2013-2018")]
+[assembly: AssemblyCopyright("Copyright © Riley Labrecque 2013-2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
