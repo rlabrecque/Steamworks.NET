@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steamworks.NET.Core", "Steamworks.NET.Core.csproj", "{73C69F81-7C92-4656-AB02-EEF38531C293}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		OSX-Linux|Any CPU = OSX-Linux|Any CPU
+		OSX-Linux|x64 = OSX-Linux|x64
+		Windows|Any CPU = Windows|Any CPU
+		Windows|x64 = Windows|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{73C69F81-7C92-4656-AB02-EEF38531C293}.OSX-Linux|Any CPU.ActiveCfg = OSX-Linux|x64
+		{73C69F81-7C92-4656-AB02-EEF38531C293}.OSX-Linux|Any CPU.Build.0 = OSX-Linux|x64
+		{73C69F81-7C92-4656-AB02-EEF38531C293}.OSX-Linux|x64.ActiveCfg = OSX-Linux|x64
+		{73C69F81-7C92-4656-AB02-EEF38531C293}.OSX-Linux|x64.Build.0 = OSX-Linux|x64
+		{73C69F81-7C92-4656-AB02-EEF38531C293}.Windows|Any CPU.ActiveCfg = Windows|x64
+		{73C69F81-7C92-4656-AB02-EEF38531C293}.Windows|Any CPU.Build.0 = Windows|x64
+		{73C69F81-7C92-4656-AB02-EEF38531C293}.Windows|x64.ActiveCfg = Windows|x64
+		{73C69F81-7C92-4656-AB02-EEF38531C293}.Windows|x64.Build.0 = Windows|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E174CCAE-4D15-45AB-845D-1A5F437BCD0D}
+	EndGlobalSection
+EndGlobal
