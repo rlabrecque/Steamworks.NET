@@ -9,10 +9,12 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Windows|x64'">
     <DefineConstants>TRACE;STEAMWORKS_WIN;STEAMWORKS_X64</DefineConstants>
+	<OutputPath>bin\x64\Windows</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='OSX-Linux|x64'">
     <DefineConstants>TRACE;STEAMWORKS_LIN_OSX;STEAMWORKS_X64</DefineConstants>
+	<OutputPath>bin\x64\OSX-Linux</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
