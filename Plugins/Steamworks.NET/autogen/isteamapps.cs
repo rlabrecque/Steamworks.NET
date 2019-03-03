@@ -174,7 +174,8 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> returns the SteamID of the original owner. If different from current user, it's borrowed</para>
+		/// <para> returns the SteamID of the original owner. If this CSteamID is different from ISteamUser::GetSteamID(),</para>
+		/// <para> the user has a temporary license borrowed via Family Sharing</para>
 		/// </summary>
 		public static CSteamID GetAppOwner() {
 			InteropHelp.TestIfAvailableClient();
@@ -182,10 +183,11 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Returns the associated launch param if the game is run via steam://run/&lt;appid&gt;//?param1=value1;param2=value2;param3=value3 etc.</para>
+		/// <para> Returns the associated launch param if the game is run via steam://run/&lt;appid&gt;//?param1=value1&amp;param2=value2&amp;param3=value3 etc.</para>
 		/// <para> Parameter names starting with the character '@' are reserved for internal use and will always return and empty string.</para>
 		/// <para> Parameter names starting with an underscore '_' are reserved for steam features -- they can be queried by the game,</para>
 		/// <para> but it is advised that you not param names beginning with an underscore for your own features.</para>
+		/// <para> Check for new launch parameters on callback NewUrlLaunchParameters_t</para>
 		/// </summary>
 		public static string GetLaunchQueryParam(string pchKey) {
 			InteropHelp.TestIfAvailableClient();
@@ -226,6 +228,32 @@ namespace Steamworks {
 			using (var pszFileName2 = new InteropHelp.UTF8StringHandle(pszFileName)) {
 				return (SteamAPICall_t)NativeMethods.ISteamApps_GetFileDetails(CSteamAPIContext.GetSteamApps(), pszFileName2);
 			}
+		}
+
+		/// <summary>
+		/// <para> Get command line if game was launched via Steam URL, e.g. steam://run/&lt;appid&gt;//&lt;command line&gt;/.</para>
+		/// <para> This method of passing a connect string (used when joining via rich presence, accepting an</para>
+		/// <para> invite, etc) is preferable to passing the connect string on the operating system command</para>
+		/// <para> line, which is a security risk.  In order for rich presence joins to go through this</para>
+		/// <para> path and not be placed on the OS command line, you must set a value in your app's</para>
+		/// <para> configuration on Steam.  Ask Valve for help with this.</para>
+		/// <para> If game was already running and launched again, the NewUrlLaunchParameters_t will be fired.</para>
+		/// </summary>
+		public static int GetLaunchCommandLine(out string pszCommandLine, int cubCommandLine) {
+			InteropHelp.TestIfAvailableClient();
+			IntPtr pszCommandLine2 = Marshal.AllocHGlobal(cubCommandLine);
+			int ret = NativeMethods.ISteamApps_GetLaunchCommandLine(CSteamAPIContext.GetSteamApps(), pszCommandLine2, cubCommandLine);
+			pszCommandLine = ret != -1 ? InteropHelp.PtrToStringUTF8(pszCommandLine2) : null;
+			Marshal.FreeHGlobal(pszCommandLine2);
+			return ret;
+		}
+
+		/// <summary>
+		/// <para> Check if user borrowed this game via Family Sharing, If true, call GetAppOwner() to get the lender SteamID</para>
+		/// </summary>
+		public static bool BIsSubscribedFromFamilySharing() {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamApps_BIsSubscribedFromFamilySharing(CSteamAPIContext.GetSteamApps());
 		}
 	}
 }

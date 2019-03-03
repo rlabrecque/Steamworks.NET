@@ -165,11 +165,12 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> keyboard interactions, native keycode is the virtual key code value from your OS</para>
+		/// <para> keyboard interactions, native keycode is the virtual key code value from your OS, system key flags the key to not</para>
+		/// <para> be sent as a typed character as well as a key down</para>
 		/// </summary>
-		public static void KeyDown(HHTMLBrowser unBrowserHandle, uint nNativeKeyCode, EHTMLKeyModifiers eHTMLKeyModifiers) {
+		public static void KeyDown(HHTMLBrowser unBrowserHandle, uint nNativeKeyCode, EHTMLKeyModifiers eHTMLKeyModifiers, bool bIsSystemKey = false) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamHTMLSurface_KeyDown(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, nNativeKeyCode, eHTMLKeyModifiers);
+			NativeMethods.ISteamHTMLSurface_KeyDown(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, nNativeKeyCode, eHTMLKeyModifiers, bIsSystemKey);
 		}
 
 		public static void KeyUp(HHTMLBrowser unBrowserHandle, uint nNativeKeyCode, EHTMLKeyModifiers eHTMLKeyModifiers) {
@@ -295,6 +296,14 @@ namespace Steamworks {
 		public static void SetDPIScalingFactor(HHTMLBrowser unBrowserHandle, float flDPIScaling) {
 			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamHTMLSurface_SetDPIScalingFactor(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle, flDPIScaling);
+		}
+
+		/// <summary>
+		/// <para> Open HTML/JS developer tools</para>
+		/// </summary>
+		public static void OpenDeveloperTools(HHTMLBrowser unBrowserHandle) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamHTMLSurface_OpenDeveloperTools(CSteamAPIContext.GetSteamHTMLSurface(), unBrowserHandle);
 		}
 
 		/// <summary>

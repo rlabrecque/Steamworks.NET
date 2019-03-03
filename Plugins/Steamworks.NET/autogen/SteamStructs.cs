@@ -73,12 +73,61 @@ namespace Steamworks {
 		public byte m_uiPublishedToFriendsSessionInstance;
 	}
 
+	[StructLayout(LayoutKind.Sequential, Pack = 1)]
+	public struct InputAnalogActionData_t {
+		// Type of data coming from this action, this will match what got specified in the action set
+		public EInputSourceMode eMode;
+		
+		// The current state of this action; will be delta updates for mouse actions
+		public float x, y;
+		
+		// Whether or not this action is currently available to be bound in the active action set
+		[MarshalAs(UnmanagedType.I1)]
+		public bool bActive;
+	}
+
+	[StructLayout(LayoutKind.Sequential, Pack = 1)]
+	public struct InputDigitalActionData_t {
+		// The current state of this action; will be true if currently pressed
+		[MarshalAs(UnmanagedType.I1)]
+		public bool bState;
+		
+		// Whether or not this action is currently available to be bound in the active action set
+		[MarshalAs(UnmanagedType.I1)]
+		public bool bActive;
+	}
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	public struct InputMotionData_t {
+		// Sensor-fused absolute rotation; will drift in heading
+		public float rotQuatX;
+		public float rotQuatY;
+		public float rotQuatZ;
+		public float rotQuatW;
+		
+		// Positional acceleration
+		public float posAccelX;
+		public float posAccelY;
+		public float posAccelZ;
+		
+		// Angular velocity
+		public float rotVelX;
+		public float rotVelY;
+		public float rotVelZ;
+	}
+
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	public struct SteamItemDetails_t {
 		public SteamItemInstanceID_t m_itemId;
 		public SteamItemDef_t m_iDefinition;
 		public ushort m_unQuantity;
 		public ushort m_unFlags; // see ESteamItemFlags
+	}
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	public struct SteamPartyBeaconLocation_t {
+		public ESteamPartyBeaconLocationType m_eType;
+		public ulong m_ulLocationID;
 	}
 
 	// connection state to a specified user, returned by GetP2PSessionState()

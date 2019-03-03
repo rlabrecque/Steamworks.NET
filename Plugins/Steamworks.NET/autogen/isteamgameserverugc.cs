@@ -33,6 +33,16 @@ namespace Steamworks {
 		}
 
 		/// <summary>
+		/// <para> Query for all matching UGC using the new deep paging interface. Creator app id or consumer app id must be valid and be set to the current running app. pchCursor should be set to NULL or "*" to get the first result set.</para>
+		/// </summary>
+		public static UGCQueryHandle_t CreateQueryAllUGCRequest(EUGCQuery eQueryType, EUGCMatchingUGCType eMatchingeMatchingUGCTypeFileType, AppId_t nCreatorAppID, AppId_t nConsumerAppID, string pchCursor = null) {
+			InteropHelp.TestIfAvailableGameServer();
+			using (var pchCursor2 = new InteropHelp.UTF8StringHandle(pchCursor)) {
+				return (UGCQueryHandle_t)NativeMethods.ISteamUGC_CreateQueryAllUGCRequest0(CSteamGameServerAPIContext.GetSteamUGC(), eQueryType, eMatchingeMatchingUGCTypeFileType, nCreatorAppID, nConsumerAppID, pchCursor2);
+			}
+		}
+
+		/// <summary>
 		/// <para> Query for the details of the given published file ids (the RequestUGCDetails call is deprecated and replaced with this)</para>
 		/// </summary>
 		public static UGCQueryHandle_t CreateQueryUGCDetailsRequest(PublishedFileId_t[] pvecPublishedFileID, uint unNumPublishedFileIDs) {
@@ -332,6 +342,14 @@ namespace Steamworks {
 			using (var pszPreviewFile2 = new InteropHelp.UTF8StringHandle(pszPreviewFile)) {
 				return NativeMethods.ISteamUGC_SetItemPreview(CSteamGameServerAPIContext.GetSteamUGC(), handle, pszPreviewFile2);
 			}
+		}
+
+		/// <summary>
+		/// <para>  use legacy upload for a single small file. The parameter to SetItemContent() should either be a directory with one file or the full path to the file.  The file must also be less than 10MB in size.</para>
+		/// </summary>
+		public static bool SetAllowLegacyUpload(UGCUpdateHandle_t handle, bool bAllowLegacyUpload) {
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamUGC_SetAllowLegacyUpload(CSteamGameServerAPIContext.GetSteamUGC(), handle, bAllowLegacyUpload);
 		}
 
 		/// <summary>

@@ -247,7 +247,8 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Set that https request should require verified SSL certificate via machines certificate trust store</para>
+		/// <para> Disable or re-enable verification of SSL/TLS certificates.</para>
+		/// <para> By default, certificates are checked for all HTTPS requests.</para>
 		/// </summary>
 		public static bool SetHTTPRequestRequiresVerifiedCertificate(HTTPRequestHandle hRequest, bool bRequireVerifiedCertificate) {
 			InteropHelp.TestIfAvailableGameServer();

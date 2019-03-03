@@ -376,18 +376,18 @@ namespace Steamworks {
 		/// <para> Returns item definition ids and their prices in the user's local currency.</para>
 		/// <para> Need to call RequestPrices() first.</para>
 		/// </summary>
-		public static bool GetItemsWithPrices(SteamItemDef_t[] pArrayItemDefs, ulong[] pPrices, uint unArrayLength) {
+		public static bool GetItemsWithPrices(SteamItemDef_t[] pArrayItemDefs, ulong[] pCurrentPrices, ulong[] pBasePrices, uint unArrayLength) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamInventory_GetItemsWithPrices(CSteamGameServerAPIContext.GetSteamInventory(), pArrayItemDefs, pPrices, unArrayLength);
+			return NativeMethods.ISteamInventory_GetItemsWithPrices(CSteamGameServerAPIContext.GetSteamInventory(), pArrayItemDefs, pCurrentPrices, pBasePrices, unArrayLength);
 		}
 
 		/// <summary>
 		/// <para> Retrieves the price for the item definition id</para>
 		/// <para> Returns false if there is no price stored for the item definition.</para>
 		/// </summary>
-		public static bool GetItemPrice(SteamItemDef_t iDefinition, out ulong pPrice) {
+		public static bool GetItemPrice(SteamItemDef_t iDefinition, out ulong pCurrentPrice, out ulong pBasePrice) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamInventory_GetItemPrice(CSteamGameServerAPIContext.GetSteamInventory(), iDefinition, out pPrice);
+			return NativeMethods.ISteamInventory_GetItemPrice(CSteamGameServerAPIContext.GetSteamInventory(), iDefinition, out pCurrentPrice, out pBasePrice);
 		}
 
 		/// <summary>

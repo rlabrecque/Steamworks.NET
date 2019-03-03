@@ -16,11 +16,11 @@ using IntPtr = System.IntPtr;
 
 namespace Steamworks {
 	public static class Version {
-		public const string SteamworksNETVersion = "12.0.0";
-		public const string SteamworksSDKVersion = "1.42";
-		public const string SteamAPIDLLVersion = "04.28.51.07";
-		public const int SteamAPIDLLSize = 227616;
-		public const int SteamAPI64DLLSize = 250656;
+		public const string SteamworksNETVersion = "13.0.0";
+		public const string SteamworksSDKVersion = "1.43";
+		public const string SteamAPIDLLVersion = "04.95.20.30";
+		public const int SteamAPIDLLSize = 257312;
+		public const int SteamAPI64DLLSize = 288032;
 	}
 
 	public static class SteamAPI {
@@ -273,6 +273,7 @@ namespace Steamworks {
 			m_pSteamRemoteStorage = IntPtr.Zero;
 			m_pSteamHTTP = IntPtr.Zero;
 			m_pSteamScreenshots = IntPtr.Zero;
+			m_pSteamGameSearch = IntPtr.Zero;
 			m_pSteamMusic = IntPtr.Zero;
 			m_pController = IntPtr.Zero;
 			m_pSteamUGC = IntPtr.Zero;
@@ -283,6 +284,8 @@ namespace Steamworks {
 			m_pSteamInventory = IntPtr.Zero;
 			m_pSteamVideo = IntPtr.Zero;
 			m_pSteamParentalSettings = IntPtr.Zero;
+			m_pSteamInput = IntPtr.Zero;
+			m_pSteamParties = IntPtr.Zero;
 		}
 
 		internal static bool Init() {
@@ -326,6 +329,9 @@ namespace Steamworks {
 			m_pSteamScreenshots = SteamClient.GetISteamScreenshots(hSteamUser, hSteamPipe, Constants.STEAMSCREENSHOTS_INTERFACE_VERSION);
 			if (m_pSteamScreenshots == IntPtr.Zero) { return false; }
 
+			m_pSteamGameSearch = SteamClient.GetISteamGameSearch(hSteamUser, hSteamPipe, Constants.STEAMGAMESEARCH_INTERFACE_VERSION);
+			if (m_pSteamGameSearch == IntPtr.Zero) { return false; }
+
 			m_pSteamHTTP = SteamClient.GetISteamHTTP(hSteamUser, hSteamPipe, Constants.STEAMHTTP_INTERFACE_VERSION);
 			if (m_pSteamHTTP == IntPtr.Zero) { return false; }
 
@@ -356,6 +362,12 @@ namespace Steamworks {
 			m_pSteamParentalSettings = SteamClient.GetISteamParentalSettings(hSteamUser, hSteamPipe, Constants.STEAMPARENTALSETTINGS_INTERFACE_VERSION);
 			if (m_pSteamParentalSettings == IntPtr.Zero) { return false; }
 
+			m_pSteamInput = SteamClient.GetISteamInput(hSteamUser, hSteamPipe, Constants.STEAMINPUT_INTERFACE_VERSION);
+			if (m_pSteamInput == IntPtr.Zero) { return false; }
+
+			m_pSteamParties = SteamClient.GetISteamParties(hSteamUser, hSteamPipe, Constants.STEAMPARTIES_INTERFACE_VERSION);
+			if (m_pSteamParties == IntPtr.Zero) { return false; }
+
 			return true;
 		}
 
@@ -370,6 +382,7 @@ namespace Steamworks {
 		internal static IntPtr GetSteamNetworking() { return m_pSteamNetworking; }
 		internal static IntPtr GetSteamRemoteStorage() { return m_pSteamRemoteStorage; }
 		internal static IntPtr GetSteamScreenshots() { return m_pSteamScreenshots; }
+		internal static IntPtr GetSteamGameSearch() { return m_pSteamGameSearch; }
 		internal static IntPtr GetSteamHTTP() { return m_pSteamHTTP; }
 		internal static IntPtr GetSteamController() { return m_pController; }
 		internal static IntPtr GetSteamUGC() { return m_pSteamUGC; }
@@ -380,6 +393,8 @@ namespace Steamworks {
 		internal static IntPtr GetSteamInventory() { return m_pSteamInventory; }
 		internal static IntPtr GetSteamVideo() { return m_pSteamVideo; }
 		internal static IntPtr GetSteamParentalSettings() { return m_pSteamParentalSettings; }
+		internal static IntPtr GetSteamInput() { return m_pSteamInput; }
+		internal static IntPtr GetSteamParties() { return m_pSteamParties; }
 
 		private static IntPtr m_pSteamClient;
 		private static IntPtr m_pSteamUser;
@@ -392,6 +407,7 @@ namespace Steamworks {
 		private static IntPtr m_pSteamNetworking;
 		private static IntPtr m_pSteamRemoteStorage;
 		private static IntPtr m_pSteamScreenshots;
+		private static IntPtr m_pSteamGameSearch;
 		private static IntPtr m_pSteamHTTP;
 		private static IntPtr m_pController;
 		private static IntPtr m_pSteamUGC;
@@ -402,8 +418,9 @@ namespace Steamworks {
 		private static IntPtr m_pSteamInventory;
 		private static IntPtr m_pSteamVideo;
 		private static IntPtr m_pSteamParentalSettings;
+		private static IntPtr m_pSteamInput;
+		private static IntPtr m_pSteamParties;
 	}
-
 
 	internal static class CSteamGameServerAPIContext {
 		internal static void Clear() {

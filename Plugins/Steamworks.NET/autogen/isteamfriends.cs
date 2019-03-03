@@ -124,6 +124,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Returns nickname the current user has set for the specified player. Returns NULL if the no nickname has been set for that player.</para>
+		/// <para> DEPRECATED: GetPersonaName follows the Steam nickname preferences, so apps shouldn't need to care about nicknames explicitly.</para>
 		/// </summary>
 		public static string GetPlayerNickname(CSteamID steamIDPlayer) {
 			InteropHelp.TestIfAvailableClient();
@@ -253,7 +254,8 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> activates the game overlay, with an optional dialog to open</para>
-		/// <para> valid options are "Friends", "Community", "Players", "Settings", "OfficialGameGroup", "Stats", "Achievements"</para>
+		/// <para> valid options include "Friends", "Community", "Players", "Settings", "OfficialGameGroup", "Stats", "Achievements",</para>
+		/// <para> "chatroomgroup/nnnn"</para>
 		/// </summary>
 		public static void ActivateGameOverlay(string pchDialog) {
 			InteropHelp.TestIfAvailableClient();
@@ -286,10 +288,10 @@ namespace Steamworks {
 		/// <para> activates game overlay web browser directly to the specified URL</para>
 		/// <para> full address with protocol type is required, e.g. http://www.steamgames.com/</para>
 		/// </summary>
-		public static void ActivateGameOverlayToWebPage(string pchURL) {
+		public static void ActivateGameOverlayToWebPage(string pchURL, EActivateGameOverlayToWebPageMode eMode = EActivateGameOverlayToWebPageMode.k_EActivateGameOverlayToWebPageMode_Default) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchURL2 = new InteropHelp.UTF8StringHandle(pchURL)) {
-				NativeMethods.ISteamFriends_ActivateGameOverlayToWebPage(CSteamAPIContext.GetSteamFriends(), pchURL2);
+				NativeMethods.ISteamFriends_ActivateGameOverlayToWebPage(CSteamAPIContext.GetSteamFriends(), pchURL2, eMode);
 			}
 		}
 
@@ -454,10 +456,10 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> rich invite support</para>
-		/// <para> if the target accepts the invite, the pchConnectString gets added to the command-line for launching the game</para>
-		/// <para> if the game is already running, a GameRichPresenceJoinRequested_t callback is posted containing the connect string</para>
-		/// <para> invites can only be sent to friends</para>
+		/// <para> Rich invite support.</para>
+		/// <para> If the target accepts the invite, a GameRichPresenceJoinRequested_t callback is posted containing the connect string.</para>
+		/// <para> (Or you can configure yout game so that it is passed on the command line instead.  This is a deprecated path; ask us if you really need this.)</para>
+		/// <para> Invites can only be sent to friends.</para>
 		/// </summary>
 		public static bool InviteUserToGame(CSteamID steamIDFriend, string pchConnectString) {
 			InteropHelp.TestIfAvailableClient();
@@ -607,6 +609,19 @@ namespace Steamworks {
 		public static bool IsClanOfficialGameGroup(CSteamID steamIDClan) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamFriends_IsClanOfficialGameGroup(CSteamAPIContext.GetSteamFriends(), steamIDClan);
+		}
+
+		/// <summary>
+		/// <para>/ Return the number of chats (friends or chat rooms) with unread messages.</para>
+		/// <para>/ A "priority" message is one that would generate some sort of toast or</para>
+		/// <para>/ notification, and depends on user settings.</para>
+		/// <para>/</para>
+		/// <para>/ You can register for UnreadChatMessagesChanged_t callbacks to know when this</para>
+		/// <para>/ has potentially changed.</para>
+		/// </summary>
+		public static int GetNumChatsWithUnreadPriorityMessages() {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamFriends_GetNumChatsWithUnreadPriorityMessages(CSteamAPIContext.GetSteamFriends());
 		}
 	}
 }
