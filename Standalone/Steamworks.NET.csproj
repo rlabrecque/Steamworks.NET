@@ -108,6 +108,9 @@
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamhttp.cs">
       <Link>Steamworks.NET\autogen\isteamhttp.cs</Link>
     </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteaminput.cs">
+      <Link>Steamworks.NET\autogen\isteaminput.cs</Link>
+    </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteaminventory.cs">
       <Link>Steamworks.NET\autogen\isteaminventory.cs</Link>
     </Compile>
