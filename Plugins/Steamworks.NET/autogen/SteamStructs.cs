@@ -82,19 +82,16 @@ namespace Steamworks {
 		public float x, y;
 		
 		// Whether or not this action is currently available to be bound in the active action set
-		[MarshalAs(UnmanagedType.I1)]
-		public bool bActive;
+		public byte bActive;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = 1)]
 	public struct InputDigitalActionData_t {
 		// The current state of this action; will be true if currently pressed
-		[MarshalAs(UnmanagedType.I1)]
-		public bool bState;
+		public byte bState;
 		
 		// Whether or not this action is currently available to be bound in the active action set
-		[MarshalAs(UnmanagedType.I1)]
-		public bool bActive;
+		public byte bActive;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
