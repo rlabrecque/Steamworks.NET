@@ -201,10 +201,11 @@ namespace Steamworks {
 		/// This is an optional runtime check to ensure that the dlls are the correct version. Returns false only if the steam_api.dll is found and it's the wrong size or version number.
 		/// </summary>
 		public static bool Test() {
-#if DISABLED
-			bool ret = CheckSteamAPIDLL();
-#endif
+#if DISABLED && STEAMWORKS_WIN
+			return CheckSteamAPIDLL();
+#else
 			return true;
+#endif
 		}
 
 #if DISABLED
