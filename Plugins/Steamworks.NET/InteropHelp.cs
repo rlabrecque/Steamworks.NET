@@ -19,7 +19,7 @@ using System.Text;
 namespace Steamworks {
 	public class InteropHelp {
 		public static void TestIfPlatformSupported() {
-#if !UNITY_EDITOR && !UNITY_STANDALONE && !STEAMWORKS_WIN && !STEAMWORKS_LIN_OSX
+#if !UNITY_EDITOR && !UNITY_STANDALONE
 			throw new System.InvalidOperationException("Steamworks functions can only be called on platforms that Steam is available on.");
 #endif
 		}
@@ -65,7 +65,7 @@ namespace Steamworks {
 
 		// This is for 'const char *' arguments which we need to ensure do not get GC'd while Steam is using them.
 		// We can't use an ICustomMarshaler because Unity crashes when a string between 96 and 127 characters long is defined/initialized at the top of class scope...
-#if UNITY_EDITOR || UNITY_STANDALONE || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX
+#if UNITY_EDITOR || UNITY_STANDALONE
 		public class UTF8StringHandle : Microsoft.Win32.SafeHandles.SafeHandleZeroOrMinusOneIsInvalid {
 			public UTF8StringHandle(string str)
 				: base(true) {
@@ -201,7 +201,7 @@ namespace Steamworks {
 		/// This is an optional runtime check to ensure that the dlls are the correct version. Returns false only if the steam_api.dll is found and it's the wrong size or version number.
 		/// </summary>
 		public static bool Test() {
-#if DISABLED && STEAMWORKS_WIN
+#if DISABLED
 			return CheckSteamAPIDLL();
 #else
 			return true;
