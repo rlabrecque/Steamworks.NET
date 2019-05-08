@@ -11,6 +11,10 @@
 
 #if !DISABLESTEAMWORKS
 
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#define DISABLED
+#endif
+
 using System.Runtime.InteropServices;
 using IntPtr = System.IntPtr;
 
