@@ -240,10 +240,11 @@ namespace Steamworks {
 				if (fInfo.Length != fileBytes) {
 					return false;
 				}
-
+#if !ENABLE_IL2CPP
 				if (System.Diagnostics.FileVersionInfo.GetVersionInfo(file).FileVersion != Version.SteamAPIDLLVersion) {
 					return false;
 				}
+#endif
 			}
 			return true;
 		}
