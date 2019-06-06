@@ -12,7 +12,7 @@
 #if !DISABLESTEAMWORKS
 
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-#define DISABLED
+#define DLLCHECK
 #endif
 
 using System.Runtime.InteropServices;
@@ -193,7 +193,7 @@ namespace Steamworks {
 	}
 
 	public class DllCheck {
-#if DISABLED
+#if DLLCHECK
 		[DllImport("kernel32.dll")]
 		public static extern IntPtr GetModuleHandle(string lpModuleName);
 
@@ -205,14 +205,14 @@ namespace Steamworks {
 		/// This is an optional runtime check to ensure that the dlls are the correct version. Returns false only if the steam_api.dll is found and it's the wrong size or version number.
 		/// </summary>
 		public static bool Test() {
-#if DISABLED
+#if DLLCHECK
 			return CheckSteamAPIDLL();
 #else
 			return true;
 #endif
 		}
 
-#if DISABLED
+#if DLLCHECK
 		private static bool CheckSteamAPIDLL() {
 			string fileName;
 			int fileBytes;
