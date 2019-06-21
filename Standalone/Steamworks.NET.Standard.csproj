@@ -1,0 +1,159 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Steamworks</RootNamespace>
+    <AssemblyName>Steamworks.NET</AssemblyName>
+    <Platforms>x64;x86</Platforms>
+    <Configurations>Windows;OSX-Linux</Configurations>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="README.md" />
+    <None Remove="Steamworks.NET.dll.config" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Windows|x86'">
+    <OutputPath>bin\x86\Windows\</OutputPath>
+    <DefineConstants>TRACE;STEAMWORKS_WIN;STEAMWORKS_X86</DefineConstants>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OSX-Linux|x86'">
+    <OutputPath>bin\x86\OSX-Linux\</OutputPath>
+    <DefineConstants>TRACE;STEAMWORKS_LIN_OSX;STEAMWORKS_X86</DefineConstants>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Windows|x64'">
+    <OutputPath>bin\x64\Windows\</OutputPath>
+    <DefineConstants>TRACE;STEAMWORKS_WIN;STEAMWORKS_X64</DefineConstants>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OSX-Linux|x64'">
+    <OutputPath>bin\x64\OSX-Linux\</OutputPath>
+    <DefineConstants>TRACE;STEAMWORKS_LIN_OSX;STEAMWORKS_X64</DefineConstants>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamapplist.cs" Link="Steamworks.NET\autogen\isteamapplist.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamapps.cs" Link="Steamworks.NET\autogen\isteamapps.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamclient.cs" Link="Steamworks.NET\autogen\isteamclient.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamcontroller.cs" Link="Steamworks.NET\autogen\isteamcontroller.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamfriends.cs" Link="Steamworks.NET\autogen\isteamfriends.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamgameserver.cs" Link="Steamworks.NET\autogen\isteamgameserver.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamgameserverclient.cs" Link="Steamworks.NET\autogen\isteamgameserverclient.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamgameserverhttp.cs" Link="Steamworks.NET\autogen\isteamgameserverhttp.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamgameserverinventory.cs" Link="Steamworks.NET\autogen\isteamgameserverinventory.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamgameservernetworking.cs" Link="Steamworks.NET\autogen\isteamgameservernetworking.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamgameserverstats.cs" Link="Steamworks.NET\autogen\isteamgameserverstats.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamgameserverugc.cs" Link="Steamworks.NET\autogen\isteamgameserverugc.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamgameserverutils.cs" Link="Steamworks.NET\autogen\isteamgameserverutils.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamhtmlsurface.cs" Link="Steamworks.NET\autogen\isteamhtmlsurface.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamhttp.cs" Link="Steamworks.NET\autogen\isteamhttp.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteaminput.cs" Link="Steamworks.NET\autogen\isteaminput.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteaminventory.cs" Link="Steamworks.NET\autogen\isteaminventory.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteammatchmaking.cs" Link="Steamworks.NET\autogen\isteammatchmaking.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteammusic.cs" Link="Steamworks.NET\autogen\isteammusic.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteammusicremote.cs" Link="Steamworks.NET\autogen\isteammusicremote.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamnetworking.cs" Link="Steamworks.NET\autogen\isteamnetworking.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamparentalsettings.cs" Link="Steamworks.NET\autogen\isteamparentalsettings.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamremotestorage.cs" Link="Steamworks.NET\autogen\isteamremotestorage.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamscreenshots.cs" Link="Steamworks.NET\autogen\isteamscreenshots.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamugc.cs" Link="Steamworks.NET\autogen\isteamugc.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamuser.cs" Link="Steamworks.NET\autogen\isteamuser.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamuserstats.cs" Link="Steamworks.NET\autogen\isteamuserstats.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamutils.cs" Link="Steamworks.NET\autogen\isteamutils.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamvideo.cs" Link="Steamworks.NET\autogen\isteamvideo.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\NativeMethods.cs" Link="Steamworks.NET\autogen\NativeMethods.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\SteamCallbacks.cs" Link="Steamworks.NET\autogen\SteamCallbacks.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\SteamConstants.cs" Link="Steamworks.NET\autogen\SteamConstants.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\SteamEnums.cs" Link="Steamworks.NET\autogen\SteamEnums.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\SteamStructs.cs" Link="Steamworks.NET\autogen\SteamStructs.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\CallbackDispatcher.cs" Link="Steamworks.NET\CallbackDispatcher.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\CallbackIdentity.cs" Link="Steamworks.NET\CallbackIdentity.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\InteropHelp.cs" Link="Steamworks.NET\InteropHelp.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\ISteamMatchmakingResponses.cs" Link="Steamworks.NET\ISteamMatchmakingResponses.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\Packsize.cs" Link="Steamworks.NET\Packsize.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\Steam.cs" Link="Steamworks.NET\Steam.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\MatchmakingTypes\gameserveritem_t.cs" Link="Steamworks.NET\types\MatchmakingTypes\gameserveritem_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\MatchmakingTypes\servernetadr_t.cs" Link="Steamworks.NET\types\MatchmakingTypes\servernetadr_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamClientPublic\CGameID.cs" Link="Steamworks.NET\types\SteamClientPublic\CGameID.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamClientPublic\CSteamID.cs" Link="Steamworks.NET\types\SteamClientPublic\CSteamID.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamClientPublic\HAuthTicket.cs" Link="Steamworks.NET\types\SteamClientPublic\HAuthTicket.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamClient\SteamAPIWarningMessageHook_t.cs" Link="Steamworks.NET\types\SteamClient\SteamAPIWarningMessageHook_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamClient\SteamAPI_CheckCallbackRegistered_t.cs" Link="Steamworks.NET\types\SteamClient\SteamAPI_CheckCallbackRegistered_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamController\ControllerActionSetHandle_t.cs" Link="Steamworks.NET\types\SteamController\ControllerActionSetHandle_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamController\ControllerAnalogActionHandle_t.cs" Link="Steamworks.NET\types\SteamController\ControllerAnalogActionHandle_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamController\ControllerDigitalActionHandle_t.cs" Link="Steamworks.NET\types\SteamController\ControllerDigitalActionHandle_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamController\ControllerHandle_t.cs" Link="Steamworks.NET\types\SteamController\ControllerHandle_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamFriends\FriendsGroupID_t.cs" Link="Steamworks.NET\types\SteamFriends\FriendsGroupID_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamHTMLSurface\HHTMLBrowser.cs" Link="Steamworks.NET\types\SteamHTMLSurface\HHTMLBrowser.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamHTTP\HTTPCookieContainerHandle.cs" Link="Steamworks.NET\types\SteamHTTP\HTTPCookieContainerHandle.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamHTTP\HTTPRequestHandle.cs" Link="Steamworks.NET\types\SteamHTTP\HTTPRequestHandle.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamInput\InputActionSetHandle_t.cs" Link="Steamworks.NET\types\SteamInput\InputActionSetHandle_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamInput\InputAnalogActionHandle_t.cs" Link="Steamworks.NET\types\SteamInput\InputAnalogActionHandle_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamInput\InputDigitalActionHandle_t.cs" Link="Steamworks.NET\types\SteamInput\InputDigitalActionHandle_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamInput\InputHandle_t.cs" Link="Steamworks.NET\types\SteamInput\InputHandle_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamInventory\SteamInventoryResult_t.cs" Link="Steamworks.NET\types\SteamInventory\SteamInventoryResult_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamInventory\SteamInventoryUpdateHandle_t.cs" Link="Steamworks.NET\types\SteamInventory\SteamInventoryUpdateHandle_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamInventory\SteamItemDef_t.cs" Link="Steamworks.NET\types\SteamInventory\SteamItemDef_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamInventory\SteamItemInstanceID_t.cs" Link="Steamworks.NET\types\SteamInventory\SteamItemInstanceID_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamMatchmaking\HServerListRequest.cs" Link="Steamworks.NET\types\SteamMatchmaking\HServerListRequest.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamMatchmaking\HServerQuery.cs" Link="Steamworks.NET\types\SteamMatchmaking\HServerQuery.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworking\SNetListenSocket_t.cs" Link="Steamworks.NET\types\SteamNetworking\SNetListenSocket_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworking\SNetSocket_t.cs" Link="Steamworks.NET\types\SteamNetworking\SNetSocket_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamRemoteStorage\PublishedFileId_t.cs" Link="Steamworks.NET\types\SteamRemoteStorage\PublishedFileId_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamRemoteStorage\PublishedFileUpdateHandle_t.cs" Link="Steamworks.NET\types\SteamRemoteStorage\PublishedFileUpdateHandle_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamRemoteStorage\UGCFileWriteStreamHandle_t.cs" Link="Steamworks.NET\types\SteamRemoteStorage\UGCFileWriteStreamHandle_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamRemoteStorage\UGCHandle_t.cs" Link="Steamworks.NET\types\SteamRemoteStorage\UGCHandle_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamScreenshots\ScreenshotHandle.cs" Link="Steamworks.NET\types\SteamScreenshots\ScreenshotHandle.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamTypes\AccountID_t.cs" Link="Steamworks.NET\types\SteamTypes\AccountID_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamTypes\AppId_t.cs" Link="Steamworks.NET\types\SteamTypes\AppId_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamTypes\DepotId_t.cs" Link="Steamworks.NET\types\SteamTypes\DepotId_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamTypes\ManifestId_t.cs" Link="Steamworks.NET\types\SteamTypes\ManifestId_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamTypes\PartyBeaconID_t.cs" Link="Steamworks.NET\types\SteamTypes\PartyBeaconID_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamTypes\RTime32.cs" Link="Steamworks.NET\types\SteamTypes\RTime32.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamTypes\SiteId_t.cs" Link="Steamworks.NET\types\SteamTypes\SiteId_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamTypes\SteamAPICall_t.cs" Link="Steamworks.NET\types\SteamTypes\SteamAPICall_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamUGC\UGCQueryHandle_t.cs" Link="Steamworks.NET\types\SteamUGC\UGCQueryHandle_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamUGC\UGCUpdateHandle_t.cs" Link="Steamworks.NET\types\SteamUGC\UGCUpdateHandle_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamUserStats\SteamLeaderboardEntries_t.cs" Link="Steamworks.NET\types\SteamUserStats\SteamLeaderboardEntries_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamUserStats\SteamLeaderboard_t.cs" Link="Steamworks.NET\types\SteamUserStats\SteamLeaderboard_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\Steam_api_common\HSteamPipe.cs" Link="Steamworks.NET\types\SteamClient\HSteamPipe.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\Steam_api_common\HSteamUser.cs" Link="Steamworks.NET\types\SteamClient\HSteamUser.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\Plugins\Steamworks.NET\redist\steam_api.dll" Link="Steamworks.NET\redist\steam_api.dll" />
+    <Content Include="..\Plugins\Steamworks.NET\redist\steam_appid.txt" Link="Steamworks.NET\redist\steam_appid.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\Plugins\Steamworks.NET\redist\linux\launchscript" Link="Steamworks.NET\redist\linux\launchscript" />
+  </ItemGroup>
+
+</Project>
