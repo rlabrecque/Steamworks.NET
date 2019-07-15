@@ -97,13 +97,13 @@ namespace Steamworks
         public readonly GetListenSocketAddressDelegate GetListenSocketAddress;
         public readonly CreateSocketPairDelegate CreateSocketPair;
         public readonly GetIdentityDelegate GetIdentity;
-        //public readonly IntPtr ReceivedRelayAuthTicket;
-        //public readonly IntPtr FindRelayAuthTicketForServer;
-        //public readonly IntPtr ConnectToHostedDedicatedServer;
-        //public readonly IntPtr GetHostedDedicatedServerPort;
-        //public readonly IntPtr GetHostedDedicatedServerPOPID;
-        //public readonly IntPtr GetHostedDedicatedServerAddress;
-        //public readonly IntPtr CreateHostedDedicatedServerListenSocket;
+        public readonly IntPtr ReceivedRelayAuthTicket;
+        public readonly IntPtr FindRelayAuthTicketForServer;
+        public readonly IntPtr ConnectToHostedDedicatedServer;
+        public readonly IntPtr GetHostedDedicatedServerPort;
+        public readonly IntPtr GetHostedDedicatedServerPOPID;
+        public readonly IntPtr GetHostedDedicatedServerAddress;
+        public readonly IntPtr CreateHostedDedicatedServerListenSocket;
 
         public SteamNetworkingSocketsVTable(IntPtr nativeVTablePtr)
         {
@@ -131,13 +131,13 @@ namespace Steamworks
             Add(nativeVTablePtr, ref methodIndex, out GetListenSocketAddress);
             Add(nativeVTablePtr, ref methodIndex, out CreateSocketPair);
             Add(nativeVTablePtr, ref methodIndex, out GetIdentity);
-            //Add(nativeVTablePtr, ref methodIndex, out ReceivedRelayAuthTicket);
-            //Add(nativeVTablePtr, ref methodIndex, out FindRelayAuthTicketForServer);
-            //Add(nativeVTablePtr, ref methodIndex, out ConnectToHostedDedicatedServer);
-            //Add(nativeVTablePtr, ref methodIndex, out GetHostedDedicatedServerPort);
-            //Add(nativeVTablePtr, ref methodIndex, out GetHostedDedicatedServerPOPID);
-            //Add(nativeVTablePtr, ref methodIndex, out GetHostedDedicatedServerAddress);
-            //Add(nativeVTablePtr, ref methodIndex, out CreateHostedDedicatedServerListenSocket);
+            Add(nativeVTablePtr, ref methodIndex, out ReceivedRelayAuthTicket);
+            Add(nativeVTablePtr, ref methodIndex, out FindRelayAuthTicketForServer);
+            Add(nativeVTablePtr, ref methodIndex, out ConnectToHostedDedicatedServer);
+            Add(nativeVTablePtr, ref methodIndex, out GetHostedDedicatedServerPort);
+            Add(nativeVTablePtr, ref methodIndex, out GetHostedDedicatedServerPOPID);
+            Add(nativeVTablePtr, ref methodIndex, out GetHostedDedicatedServerAddress);
+            Add(nativeVTablePtr, ref methodIndex, out CreateHostedDedicatedServerListenSocket);
         }
 
         static void Add<T>(IntPtr nativeVTablePtr, ref int methodIndex, out T delegateVariable)
@@ -145,6 +145,12 @@ namespace Steamworks
         {
             IntPtr methodPtr = Marshal.ReadIntPtr(nativeVTablePtr, IntPtr.Size * methodIndex);
             delegateVariable = (T)Marshal.GetDelegateForFunctionPointer(methodPtr, typeof(T));
+            methodIndex++;
+        }
+
+        static void Add(IntPtr nativeVTablePtr, ref int methodIndex, out IntPtr methodPointerVariable)
+        {
+            methodPointerVariable = Marshal.ReadIntPtr(nativeVTablePtr, IntPtr.Size * methodIndex);
             methodIndex++;
         }
     }
