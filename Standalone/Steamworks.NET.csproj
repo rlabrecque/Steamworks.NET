@@ -108,6 +108,9 @@
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamhttp.cs">
       <Link>Steamworks.NET\autogen\isteamhttp.cs</Link>
     </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteaminput.cs">
+      <Link>Steamworks.NET\autogen\isteaminput.cs</Link>
+    </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteaminventory.cs">
       <Link>Steamworks.NET\autogen\isteaminventory.cs</Link>
     </Compile>
@@ -195,10 +198,10 @@
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamClientPublic\HAuthTicket.cs">
       <Link>Steamworks.NET\types\SteamClientPublic\HAuthTicket.cs</Link>
     </Compile>
-    <Compile Include="..\Plugins\Steamworks.NET\types\SteamClient\HSteamPipe.cs">
+    <Compile Include="..\Plugins\Steamworks.NET\types\Steam_api_common\HSteamPipe.cs">
       <Link>Steamworks.NET\types\SteamClient\HSteamPipe.cs</Link>
     </Compile>
-    <Compile Include="..\Plugins\Steamworks.NET\types\SteamClient\HSteamUser.cs">
+    <Compile Include="..\Plugins\Steamworks.NET\types\Steam_api_common\HSteamUser.cs">
       <Link>Steamworks.NET\types\SteamClient\HSteamUser.cs</Link>
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamClient\SteamAPIWarningMessageHook_t.cs">
@@ -230,6 +233,18 @@
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamHTTP\HTTPRequestHandle.cs">
       <Link>Steamworks.NET\types\SteamHTTP\HTTPRequestHandle.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamInput\InputActionSetHandle_t.cs">
+      <Link>Steamworks.NET\types\SteamInput\InputActionSetHandle_t.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamInput\InputAnalogActionHandle_t.cs">
+      <Link>Steamworks.NET\types\SteamInput\InputAnalogActionHandle_t.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamInput\InputDigitalActionHandle_t.cs">
+      <Link>Steamworks.NET\types\SteamInput\InputDigitalActionHandle_t.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamInput\InputHandle_t.cs">
+      <Link>Steamworks.NET\types\SteamInput\InputHandle_t.cs</Link>
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamInventory\SteamInventoryResult_t.cs">
       <Link>Steamworks.NET\types\SteamInventory\SteamInventoryResult_t.cs</Link>
@@ -281,6 +296,12 @@
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamTypes\ManifestId_t.cs">
       <Link>Steamworks.NET\types\SteamTypes\ManifestId_t.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamTypes\PartyBeaconID_t.cs">
+      <Link>Steamworks.NET\types\SteamTypes\PartyBeaconID_t.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamTypes\RTime32.cs">
+      <Link>Steamworks.NET\types\SteamTypes\RTime32.cs</Link>
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamTypes\SiteId_t.cs">
       <Link>Steamworks.NET\types\SteamTypes\SiteId_t.cs</Link>

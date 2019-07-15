@@ -16,48 +16,47 @@ using IntPtr = System.IntPtr;
 
 namespace Steamworks {
 	[System.Serializable]
-	public struct SiteId_t : System.IEquatable<SiteId_t>, System.IComparable<SiteId_t> {
-		public static readonly SiteId_t Invalid = new SiteId_t(0);
-		public ulong m_SiteId;
+	public struct RTime32 : System.IEquatable<RTime32>, System.IComparable<RTime32> {
+		public uint m_RTime32;
 
-		public SiteId_t(ulong value) {
-			m_SiteId = value;
+		public RTime32(uint value) {
+			m_RTime32 = value;
 		}
 
 		public override string ToString() {
-			return m_SiteId.ToString();
+			return m_RTime32.ToString();
 		}
 
 		public override bool Equals(object other) {
-			return other is SiteId_t && this == (SiteId_t)other;
+			return other is RTime32 && this == (RTime32)other;
 		}
 
 		public override int GetHashCode() {
-			return m_SiteId.GetHashCode();
+			return m_RTime32.GetHashCode();
 		}
 
-		public static bool operator ==(SiteId_t x, SiteId_t y) {
-			return x.m_SiteId == y.m_SiteId;
+		public static bool operator ==(RTime32 x, RTime32 y) {
+			return x.m_RTime32 == y.m_RTime32;
 		}
 
-		public static bool operator !=(SiteId_t x, SiteId_t y) {
+		public static bool operator !=(RTime32 x, RTime32 y) {
 			return !(x == y);
 		}
 
-		public static explicit operator SiteId_t(ulong value) {
-			return new SiteId_t(value);
+		public static explicit operator RTime32(uint value) {
+			return new RTime32(value);
 		}
 
-		public static explicit operator ulong(SiteId_t that) {
-			return that.m_SiteId;
+		public static explicit operator uint(RTime32 that) {
+			return that.m_RTime32;
 		}
 
-		public bool Equals(SiteId_t other) {
-			return m_SiteId == other.m_SiteId;
+		public bool Equals(RTime32 other) {
+			return m_RTime32 == other.m_RTime32;
 		}
 
-		public int CompareTo(SiteId_t other) {
-			return m_SiteId.CompareTo(other.m_SiteId);
+		public int CompareTo(RTime32 other) {
+			return m_RTime32.CompareTo(other.m_RTime32);
 		}
 	}
 }
