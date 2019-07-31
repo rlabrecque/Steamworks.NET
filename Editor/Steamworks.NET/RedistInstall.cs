@@ -11,64 +11,74 @@ using System.IO;
 
 // This copys various files into their required locations when Unity is launched to make installation a breeze.
 [InitializeOnLoad]
-public class RedistInstall {
-	static RedistInstall() {
-		CopyFile("Assets/Plugins/Steamworks.NET/redist", "steam_appid.txt", false);
+public class RedistInstall
+{
+    static RedistInstall()
+    {
+        CopyFile("Assets/Plugins/Steamworks.NET/redist", "steam_appid.txt", false);
 
-		// We only need to copy the dll into the project root on <= Unity 5.0
+        // We only need to copy the dll into the project root on <= Unity 5.0
 #if UNITY_EDITOR_WIN && (UNITY_4_7 || UNITY_5_0)
-	#if UNITY_EDITOR_64
+#if UNITY_EDITOR_64
 		CopyFile("Assets/Plugins/x86_64", "steam_api64.dll", true);
-	#else
+#else
 		CopyFile("Assets/Plugins/x86", "steam_api.dll", true);
-	#endif
+#endif
 #endif
 
 #if UNITY_5 || UNITY_2017
-	#if !DISABLEPLATFORMSETTINGS
+#if !DISABLEPLATFORMSETTINGS
 		SetPlatformSettings();
-	#endif
 #endif
-	}
+#endif
+    }
 
-	static void CopyFile(string path, string filename, bool bCheckDifference) {
-		string strCWD = Directory.GetCurrentDirectory();
-		string strSource = Path.Combine(Path.Combine(strCWD, path), filename);
-		string strDest = Path.Combine(strCWD, filename);
+    static void CopyFile(string path, string filename, bool bCheckDifference)
+    {
+        string strCWD = Directory.GetCurrentDirectory();
+        string strSource = Path.Combine(Path.Combine(strCWD, path), filename);
+        string strDest = Path.Combine(strCWD, filename);
 
-		if (!File.Exists(strSource)) {
-			Debug.LogWarning(string.Format("[Steamworks.NET] Could not copy {0} into the project root. {0} could not be found in '{1}'. Place {0} from the Steamworks SDK in the project root manually.", filename, Path.Combine(strCWD, path)));
-			return;
-		}
+        if (!File.Exists(strSource))
+        {
+            Debug.LogWarning(string.Format("[Steamworks.NET] Could not copy {0} into the project root. {0} could not be found in '{1}'. Place {0} from the Steamworks SDK in the project root manually.", filename, Path.Combine(strCWD, path)));
+            return;
+        }
 
-		if (File.Exists(strDest)) {
-			if (!bCheckDifference)
-				return;
+        if (File.Exists(strDest))
+        {
+            if (!bCheckDifference)
+                return;
 
-			if (File.GetLastWriteTime(strSource) == File.GetLastWriteTime(strDest)) {
-				FileInfo fInfo = new FileInfo(strSource);
-				FileInfo fInfo2 = new FileInfo(strDest);
-				if (fInfo.Length == fInfo2.Length) {
-					return;
-				}
-			}
+            if (File.GetLastWriteTime(strSource) == File.GetLastWriteTime(strDest))
+            {
+                FileInfo fInfo = new FileInfo(strSource);
+                FileInfo fInfo2 = new FileInfo(strDest);
+                if (fInfo.Length == fInfo2.Length)
+                {
+                    return;
+                }
+            }
 
-			Debug.Log(string.Format("[Steamworks.NET] {0} in the project root differs from the Steamworks.NET redistributable. Updating.... Please relaunch Unity.", filename));
-		}
-		else {
-			Debug.Log(string.Format("[Steamworks.NET] {0} is not present in the project root. Copying...", filename));
-		}
+            Debug.Log(string.Format("[Steamworks.NET] {0} in the project root differs from the Steamworks.NET redistributable. Updating.... Please relaunch Unity.", filename));
+        }
+        else
+        {
+            Debug.Log(string.Format("[Steamworks.NET] {0} is not present in the project root. Copying...", filename));
+        }
 
-		File.Copy(strSource, strDest, true);
-		File.SetAttributes(strDest, File.GetAttributes(strDest) & ~FileAttributes.ReadOnly);
+        File.Copy(strSource, strDest, true);
+        File.SetAttributes(strDest, File.GetAttributes(strDest) & ~FileAttributes.ReadOnly);
 
-		if (File.Exists(strDest)) {
-			Debug.Log(string.Format("[Steamworks.NET] Successfully copied {0} into the project root. Please relaunch Unity.", filename));
-		}
-		else {
-			Debug.LogWarning(string.Format("[Steamworks.NET] Could not copy {0} into the project root. File.Copy() Failed. Please copy {0} into the project root manually.", Path.Combine(path, filename)));
-		}
-	}
+        if (File.Exists(strDest))
+        {
+            Debug.Log(string.Format("[Steamworks.NET] Successfully copied {0} into the project root. Please relaunch Unity.", filename));
+        }
+        else
+        {
+            Debug.LogWarning(string.Format("[Steamworks.NET] Could not copy {0} into the project root. File.Copy() Failed. Please copy {0} into the project root manually.", Path.Combine(path, filename)));
+        }
+    }
 
 #if UNITY_5 || UNITY_2017 || UNITY_2017_1_OR_NEWER
 	static void SetPlatformSettings() {
@@ -96,10 +106,12 @@ public class RedistInstall {
 						didUpdate |= ResetPluginSettings(plugin, "x86_64", "Linux");
 						didUpdate |= SetCompatibleWithLinux(plugin, BuildTarget.StandaloneLinux64);
 					}
+#if !UNITY_2019_2_OR_NEWER
 					else {
 						didUpdate |= ResetPluginSettings(plugin, "x86", "Linux");
 						didUpdate |= SetCompatibleWithLinux(plugin, BuildTarget.StandaloneLinux);
 					}
+#endif
 					break;
 				case "steam_api.dll":
 				case "steam_api64.dll":
@@ -170,9 +182,13 @@ public class RedistInstall {
 		didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneOSXUniversal, true);
 #endif
 
+#if !UNITY_2019_2_OR_NEWER
 		didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneLinux, false);
+#endif
 		didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneLinux64, false);
+#if !UNITY_2019_2_OR_NEWER
 		didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneLinuxUniversal, false);
+#endif
 		didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneWindows, false);
 		didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneWindows64, false);
 
@@ -182,7 +198,10 @@ public class RedistInstall {
 	static bool SetCompatibleWithLinux(PluginImporter plugin, BuildTarget platform) {
 		bool didUpdate = false;
 
-		if (platform == BuildTarget.StandaloneLinux) {
+#if UNITY_2019_2_OR_NEWER
+        didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneLinux64, true);
+#else
+        if (platform == BuildTarget.StandaloneLinux) {
 			didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneLinux, true);
 			didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneLinux64, false);
 		}
@@ -190,10 +209,11 @@ public class RedistInstall {
 			didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneLinux, false);
 			didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneLinux64, true);
 		}
-		didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneLinuxUniversal, true);
+        didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneLinuxUniversal, true);
+#endif
 
 #if UNITY_2017_3_OR_NEWER
-		didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneOSX, false);
+        didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneOSX, false);
 #else
 		didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneOSXIntel, false);
 		didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneOSXIntel64, false);
@@ -218,8 +238,10 @@ public class RedistInstall {
 		}
 
 		didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneLinux64, false);
+#if !UNITY_2019_2_OR_NEWER
 		didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneLinux, false);
 		didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneLinuxUniversal, false);
+#endif
 #if UNITY_2017_3_OR_NEWER
 		didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneOSX, false);
 #else
@@ -235,8 +257,10 @@ public class RedistInstall {
 		bool didUpdate = false;
 
 		didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneLinux64, false);
+#if !UNITY_2019_2_OR_NEWER
 		didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneLinux, false);
 		didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneLinuxUniversal, false);
+#endif
 #if UNITY_2017_3_OR_NEWER
 		didUpdate |= SetCompatibleWithPlatform(plugin, BuildTarget.StandaloneOSX, false);
 #else
