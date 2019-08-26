@@ -329,6 +329,12 @@ namespace Steamworks {
 		k_EControllerActionOrigin_Switch_RightGrip_Lower,  // Right JoyCon SL Button
 		k_EControllerActionOrigin_Switch_RightGrip_Upper,  // Right JoyCon SR Button
 
+		// Added in SDK 1.45
+		k_EControllerActionOrigin_PS4_DPad_Move,
+		k_EControllerActionOrigin_XBoxOne_DPad_Move,
+		k_EControllerActionOrigin_XBox360_DPad_Move,
+		k_EControllerActionOrigin_Switch_DPad_Move,
+
 		k_EControllerActionOrigin_Count, // If Steam has added support for new controllers origins will go here.
 		k_EControllerActionOrigin_MaximumPossibleValue = 32767, // Origins are currently a maximum of 16 bits.
 	}
@@ -667,7 +673,7 @@ namespace Steamworks {
 		k_EInputActionOrigin_PS4_Gyro_Pitch,
 		k_EInputActionOrigin_PS4_Gyro_Yaw,
 		k_EInputActionOrigin_PS4_Gyro_Roll,
-		k_EInputActionOrigin_PS4_Reserved0,
+		k_EInputActionOrigin_PS4_DPad_Move,
 		k_EInputActionOrigin_PS4_Reserved1,
 		k_EInputActionOrigin_PS4_Reserved2,
 		k_EInputActionOrigin_PS4_Reserved3,
@@ -708,7 +714,7 @@ namespace Steamworks {
 		k_EInputActionOrigin_XBoxOne_DPad_South,
 		k_EInputActionOrigin_XBoxOne_DPad_West,
 		k_EInputActionOrigin_XBoxOne_DPad_East,
-		k_EInputActionOrigin_XBoxOne_Reserved0,
+		k_EInputActionOrigin_XBoxOne_DPad_Move,
 		k_EInputActionOrigin_XBoxOne_Reserved1,
 		k_EInputActionOrigin_XBoxOne_Reserved2,
 		k_EInputActionOrigin_XBoxOne_Reserved3,
@@ -749,7 +755,7 @@ namespace Steamworks {
 		k_EInputActionOrigin_XBox360_DPad_South,
 		k_EInputActionOrigin_XBox360_DPad_West,
 		k_EInputActionOrigin_XBox360_DPad_East,
-		k_EInputActionOrigin_XBox360_Reserved0,
+		k_EInputActionOrigin_XBox360_DPad_Move,
 		k_EInputActionOrigin_XBox360_Reserved1,
 		k_EInputActionOrigin_XBox360_Reserved2,
 		k_EInputActionOrigin_XBox360_Reserved3,
@@ -797,7 +803,7 @@ namespace Steamworks {
 		k_EInputActionOrigin_Switch_ProGyro_Pitch,  // Primary Gyro in Pro Controller, or Right JoyCon
 		k_EInputActionOrigin_Switch_ProGyro_Yaw,  // Primary Gyro in Pro Controller, or Right JoyCon
 		k_EInputActionOrigin_Switch_ProGyro_Roll,  // Primary Gyro in Pro Controller, or Right JoyCon
-		k_EInputActionOrigin_Switch_Reserved0,
+		k_EInputActionOrigin_Switch_DPad_Move,
 		k_EInputActionOrigin_Switch_Reserved1,
 		k_EInputActionOrigin_Switch_Reserved2,
 		k_EInputActionOrigin_Switch_Reserved3,
@@ -921,6 +927,8 @@ namespace Steamworks {
 		k_ELobbyTypeInvisible = 3,		// returned by search, but not visible to other friends
 										//    useful if you want a user in two lobbies, for example matching groups together
 										//	  a user can be in only one regular lobby, and up to two invisible lobbies
+		k_ELobbyTypePrivateUnique = 4,	// private, unique and does not delete when empty - only one of these may exist per unique keypair set
+										// can only create from webapi
 	}
 
 	// lobby search filter tools
@@ -1088,6 +1096,7 @@ namespace Steamworks {
 		k_ERemoteStoragePlatformLinux		= (1 << 3),
 		k_ERemoteStoragePlatformReserved2	= (1 << 4),
 		k_ERemoteStoragePlatformAndroid		= (1 << 5),
+		k_ERemoteStoragePlatformIOS			= (1 << 6),
 
 		k_ERemoteStoragePlatformAll = -1
 	}
@@ -1635,6 +1644,7 @@ namespace Steamworks {
 		k_EAppType_Music				= 0x2000,	// Music files
 		k_EAppType_Series				= 0x4000,	// Container app for video series
 		k_EAppType_Comic				= 0x8000,	// Comic Book
+		k_EAppType_Beta					= 0x10000,	// this is a beta version of a game
 
 		k_EAppType_Shortcut				= 0x40000000,	// just a shortcut, client side only
 		k_EAppType_DepotOnly			= -2147483647,	// placeholder since depots and apps share the same namespace
@@ -1814,7 +1824,8 @@ namespace Steamworks {
 
 		k_eEVRHMDType_Oculus_DK1 = 21, // Oculus DK1
 		k_eEVRHMDType_Oculus_DK2 = 22, // Oculus DK2
-		k_eEVRHMDType_Oculus_Rift = 23, // Oculus rift
+		k_eEVRHMDType_Oculus_Rift = 23, // Oculus Rift
+		k_eEVRHMDType_Oculus_RiftS = 24, // Oculus Rift S
 
 		k_eEVRHMDType_Oculus_Unknown = 40, // // Oculus unknown HMD
 
@@ -1841,6 +1852,9 @@ namespace Steamworks {
 		k_eEVRHMDType_Huawei_Unknown = 120, // Huawei unknown HMD
 		k_eEVRHMDType_Huawei_VR2 = 121, // Huawei VR2 3DOF headset
 		k_eEVRHMDType_Huawei_EndOfRange = 129, // end of Huawei HMD range
+
+		k_eEVRHmdType_Valve_Unknown = 130, // Valve Unknown HMD
+		k_eEVRHmdType_Valve_Index = 131, // Valve Index HMD
 
 	}
 
@@ -1901,6 +1915,27 @@ namespace Steamworks {
 
 		// User accepted a wallet gift that was recently purchased
 		k_EMarketNotAllowedReason_AcceptedWalletGift = (1 << 15),
+	}
+
+	//
+	// describes XP / progress restrictions to apply for games with duration control /
+	// anti-indulgence enabled for minor Steam China users.
+	//
+	public enum EDurationControlProgress : int {
+		k_EDurationControlProgress_Full,		// Full progress
+		k_EDurationControlProgress_Half,		// XP or persistent rewards should be halved
+		k_EDurationControlProgress_None,		// XP or persistent rewards should be stopped
+	}
+
+	//
+	// describes which notification timer has expired, for steam china duration control feature
+	//
+	public enum EDurationControlNotification : int {
+		k_EDurationControlNotification_None,			// just informing you about progress, no notification to show
+		k_EDurationControlNotification_1Hour,			// "you've been playing for an hour"
+		k_EDurationControlNotification_3Hours,			// "you've been playing for 3 hours; take a break"
+		k_EDurationControlNotification_HalfProgress,	// "your XP / progress is half normal"
+		k_EDurationControlNotification_NoProgress,		// "your XP / progress is zero"
 	}
 
 	public enum EGameSearchErrorCode_t : int {

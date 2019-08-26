@@ -129,6 +129,20 @@ namespace Steamworks {
 		}
 
 		/// <summary>
+		/// <para> Return the first value matching the pchKey. Note that a key may map to multiple values.  Returns false if there was an error or no matching value was found.</para>
+		/// </summary>
+		public static bool GetQueryUGCKeyValueTag(UGCQueryHandle_t handle, uint index, string pchKey, out string pchValue, uint cchValueSize) {
+			InteropHelp.TestIfAvailableClient();
+			IntPtr pchValue2 = Marshal.AllocHGlobal((int)cchValueSize);
+			using (var pchKey2 = new InteropHelp.UTF8StringHandle(pchKey)) {
+				bool ret = NativeMethods.ISteamUGC_GetQueryUGCKeyValueTag0(CSteamAPIContext.GetSteamUGC(), handle, index, pchKey2, pchValue2, cchValueSize);
+				pchValue = ret ? InteropHelp.PtrToStringUTF8(pchValue2) : null;
+				Marshal.FreeHGlobal(pchValue2);
+				return ret;
+			}
+		}
+
+		/// <summary>
 		/// <para> Release the request to free up memory, after retrieving results</para>
 		/// </summary>
 		public static bool ReleaseQueryUGCRequest(UGCQueryHandle_t handle) {
@@ -350,6 +364,14 @@ namespace Steamworks {
 		public static bool SetAllowLegacyUpload(UGCUpdateHandle_t handle, bool bAllowLegacyUpload) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_SetAllowLegacyUpload(CSteamAPIContext.GetSteamUGC(), handle, bAllowLegacyUpload);
+		}
+
+		/// <summary>
+		/// <para> remove all existing key-value tags (you can add new ones via the AddItemKeyValueTag function)</para>
+		/// </summary>
+		public static bool RemoveAllItemKeyValueTags(UGCUpdateHandle_t handle) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_RemoveAllItemKeyValueTags(CSteamAPIContext.GetSteamUGC(), handle);
 		}
 
 		/// <summary>

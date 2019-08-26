@@ -332,6 +332,14 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUser_GetMarketEligibility(CSteamAPIContext.GetSteamUser());
 		}
+
+		/// <summary>
+		/// <para> Retrieves anti indulgence / duration control for current user</para>
+		/// </summary>
+		public static SteamAPICall_t GetDurationControl() {
+			InteropHelp.TestIfAvailableClient();
+			return (SteamAPICall_t)NativeMethods.ISteamUser_GetDurationControl(CSteamAPIContext.GetSteamUser());
+		}
 	}
 }
 

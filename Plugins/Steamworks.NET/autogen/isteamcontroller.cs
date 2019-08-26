@@ -99,9 +99,14 @@ namespace Steamworks {
 			NativeMethods.ISteamController_DeactivateAllActionSetLayers(CSteamAPIContext.GetSteamController(), controllerHandle);
 		}
 
-		public static int GetActiveActionSetLayers(ControllerHandle_t controllerHandle, out ControllerActionSetHandle_t handlesOut) {
+		/// <summary>
+		/// <para> Enumerate currently active layers</para>
+		/// <para> handlesOut should point to a STEAM_CONTROLLER_MAX_ACTIVE_LAYERS sized array of ControllerActionSetHandle_t handles.</para>
+		/// <para> Returns the number of handles written to handlesOut</para>
+		/// </summary>
+		public static int GetActiveActionSetLayers(ControllerHandle_t controllerHandle, ControllerActionSetHandle_t[] handlesOut) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamController_GetActiveActionSetLayers(CSteamAPIContext.GetSteamController(), controllerHandle, out handlesOut);
+			return NativeMethods.ISteamController_GetActiveActionSetLayers(CSteamAPIContext.GetSteamController(), controllerHandle, handlesOut);
 		}
 
 		/// <summary>
@@ -266,7 +271,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Returns a localized string (from Steam's language setting) for the specified Xbox controller origin. This function is cheap.</para>
+		/// <para> Returns a localized string (from Steam's language setting) for the specified Xbox controller origin.</para>
 		/// </summary>
 		public static string GetStringForXboxOrigin(EXboxOrigin eOrigin) {
 			InteropHelp.TestIfAvailableClient();
@@ -274,7 +279,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Get a local path to art for on-screen glyph for a particular Xbox controller origin. This function is serialized.</para>
+		/// <para> Get a local path to art for on-screen glyph for a particular Xbox controller origin.</para>
 		/// </summary>
 		public static string GetGlyphForXboxOrigin(EXboxOrigin eOrigin) {
 			InteropHelp.TestIfAvailableClient();
@@ -296,6 +301,14 @@ namespace Steamworks {
 		public static EControllerActionOrigin TranslateActionOrigin(ESteamInputType eDestinationInputType, EControllerActionOrigin eSourceOrigin) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamController_TranslateActionOrigin(CSteamAPIContext.GetSteamController(), eDestinationInputType, eSourceOrigin);
+		}
+
+		/// <summary>
+		/// <para> Get the binding revision for a given device. Returns false if the handle was not valid or if a mapping is not yet loaded for the device</para>
+		/// </summary>
+		public static bool GetControllerBindingRevision(ControllerHandle_t controllerHandle, out int pMajor, out int pMinor) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamController_GetControllerBindingRevision(CSteamAPIContext.GetSteamController(), controllerHandle, out pMajor, out pMinor);
 		}
 	}
 }

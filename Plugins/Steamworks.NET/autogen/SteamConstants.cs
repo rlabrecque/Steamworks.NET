@@ -39,7 +39,7 @@ namespace Steamworks {
 		public const string STEAMPARTIES_INTERFACE_VERSION = "SteamParties002";
 		public const string STEAMREMOTESTORAGE_INTERFACE_VERSION = "STEAMREMOTESTORAGE_INTERFACE_VERSION014";
 		public const string STEAMSCREENSHOTS_INTERFACE_VERSION = "STEAMSCREENSHOTS_INTERFACE_VERSION003";
-		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION012";
+		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION013";
 		public const string STEAMUSER_INTERFACE_VERSION = "SteamUser020";
 		public const string STEAMUSERSTATS_INTERFACE_VERSION = "STEAMUSERSTATS_INTERFACE_VERSION011";
 		public const string STEAMUTILS_INTERFACE_VERSION = "SteamUtils009";
@@ -128,6 +128,7 @@ namespace Steamworks {
 		public const int k_iSteamNetworkingCallbacks = 1200;
 		public const int k_iSteamNetworkingSocketsCallbacks = 1220;
 		public const int k_iSteamNetworkingMessagesCallbacks = 1250;
+		public const int k_iSteamNetworkingUtilsCallbacks = 1280;
 		public const int k_iClientRemoteStorageCallbacks = 1300;
 		public const int k_iClientDepotBuilderCallbacks = 1400;
 		public const int k_iSteamGameServerItemsCallbacks = 1500;
@@ -170,6 +171,8 @@ namespace Steamworks {
 		public const int k_iSteamGameSearchCallbacks = 5200;
 		public const int k_iSteamPartiesCallbacks = 5300;
 		public const int k_iClientPartiesCallbacks = 5400;
+		public const int k_iSteamSTARCallbacks = 5500;
+		public const int k_iClientSTARCallbacks = 5600;
 		public const int k_unSteamAccountIDMask = -1;
 		public const int k_unSteamAccountInstanceMask = 0x000FFFFF;
 		// we allow 3 simultaneous user account instances right now, 1= desktop, 2 = console, 4 = web, 0 = all
@@ -182,7 +185,6 @@ namespace Steamworks {
 		public const ulong k_GIDNil = 0xffffffffffffffff;
 		public const ulong k_TxnIDNil = k_GIDNil;
 		public const ulong k_TxnIDUnknown = 0;
-		public const int k_uPackageIdFreeSub = 0x0;
 		public const int k_uPackageIdInvalid = -1;
 		public const ulong k_ulAssetClassIdInvalid = 0x0;
 		public const int k_uPhysicalItemIdInvalid = 0x0;
@@ -193,6 +195,7 @@ namespace Steamworks {
 		public const int STEAM_CONTROLLER_MAX_ANALOG_ACTIONS = 16;
 		public const int STEAM_CONTROLLER_MAX_DIGITAL_ACTIONS = 128;
 		public const int STEAM_CONTROLLER_MAX_ORIGINS = 8;
+		public const int STEAM_CONTROLLER_MAX_ACTIVE_LAYERS = 16;
 		// When sending an option to a specific controller handle, you can send to all controllers via this command
 		public const ulong STEAM_CONTROLLER_HANDLE_ALL_CONTROLLERS = 0xFFFFFFFFFFFFFFFF;
 		public const float STEAM_CONTROLLER_MIN_ANALOG_ACTION_DATA = -1.0f;
@@ -203,6 +206,7 @@ namespace Steamworks {
 		public const int STEAM_INPUT_MAX_ANALOG_ACTIONS = 16;
 		public const int STEAM_INPUT_MAX_DIGITAL_ACTIONS = 128;
 		public const int STEAM_INPUT_MAX_ORIGINS = 8;
+		public const int STEAM_INPUT_MAX_ACTIVE_LAYERS = 16;
 		// When sending an option to a specific controller handle, you can send to all devices via this command
 		public const ulong STEAM_INPUT_HANDLE_ALL_CONTROLLERS = 0xFFFFFFFFFFFFFFFF;
 		public const float STEAM_INPUT_MIN_ANALOG_ACTION_DATA = -1.0f;

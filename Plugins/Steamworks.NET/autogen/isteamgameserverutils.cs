@@ -276,6 +276,42 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamUtils_SetVRHeadsetStreamingEnabled(CSteamGameServerAPIContext.GetSteamUtils(), bEnabled);
 		}
+
+		/// <summary>
+		/// <para> Returns whether this steam client is a Steam China specific client, vs the global client.</para>
+		/// </summary>
+		public static bool IsSteamChinaLauncher() {
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamUtils_IsSteamChinaLauncher(CSteamGameServerAPIContext.GetSteamUtils());
+		}
+
+		/// <summary>
+		/// <para> Initializes text filtering.</para>
+		/// <para>   Returns false if filtering is unavailable for the language the user is currently running in.</para>
+		/// </summary>
+		public static bool InitFilterText() {
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamUtils_InitFilterText(CSteamGameServerAPIContext.GetSteamUtils());
+		}
+
+		/// <summary>
+		/// <para> Filters the provided input message and places the filtered result into pchOutFilteredText.</para>
+		/// <para>   pchOutFilteredText is where the output will be placed, even if no filtering or censoring is performed</para>
+		/// <para>   nByteSizeOutFilteredText is the size (in bytes) of pchOutFilteredText</para>
+		/// <para>   pchInputText is the input string that should be filtered, which can be ASCII or UTF-8</para>
+		/// <para>   bLegalOnly should be false if you want profanity and legally required filtering (where required) and true if you want legally required filtering only</para>
+		/// <para>   Returns the number of characters (not bytes) filtered.</para>
+		/// </summary>
+		public static int FilterText(out string pchOutFilteredText, uint nByteSizeOutFilteredText, string pchInputMessage, bool bLegalOnly) {
+			InteropHelp.TestIfAvailableGameServer();
+			IntPtr pchOutFilteredText2 = Marshal.AllocHGlobal((int)nByteSizeOutFilteredText);
+			using (var pchInputMessage2 = new InteropHelp.UTF8StringHandle(pchInputMessage)) {
+				int ret = NativeMethods.ISteamUtils_FilterText(CSteamGameServerAPIContext.GetSteamUtils(), pchOutFilteredText2, nByteSizeOutFilteredText, pchInputMessage2, bLegalOnly);
+				pchOutFilteredText = ret != -1 ? InteropHelp.PtrToStringUTF8(pchOutFilteredText2) : null;
+				Marshal.FreeHGlobal(pchOutFilteredText2);
+				return ret;
+			}
+		}
 	}
 }
 

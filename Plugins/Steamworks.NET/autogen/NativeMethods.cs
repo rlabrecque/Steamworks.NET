@@ -188,6 +188,10 @@ namespace Steamworks {
 
 		[DllImport(NativeLibrary_SDKEncryptedAppTicket, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SteamEncryptedAppTicket_GetUserVariableData(byte[] rgubTicketDecrypted, uint cubTicketDecrypted, out uint pcubUserData);
+
+		[DllImport(NativeLibrary_SDKEncryptedAppTicket, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool SteamEncryptedAppTicket_BIsTicketSigned([In, Out] byte[] rgubTicketDecrypted, uint cubTicketDecrypted, [In, Out] byte[] pubRSAKey, uint cubRSAKey);
 #endregion
 #region SteamAppList
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamAppList_GetNumInstalledApps", CallingConvention = CallingConvention.Cdecl)]
@@ -445,7 +449,7 @@ namespace Steamworks {
 		public static extern void ISteamController_DeactivateAllActionSetLayers(IntPtr instancePtr, ControllerHandle_t controllerHandle);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamController_GetActiveActionSetLayers", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamController_GetActiveActionSetLayers(IntPtr instancePtr, ControllerHandle_t controllerHandle, out ControllerActionSetHandle_t handlesOut);
+		public static extern int ISteamController_GetActiveActionSetLayers(IntPtr instancePtr, ControllerHandle_t controllerHandle, [In, Out] ControllerActionSetHandle_t[] handlesOut);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamController_GetDigitalActionHandle", CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong ISteamController_GetDigitalActionHandle(IntPtr instancePtr, InteropHelp.UTF8StringHandle pszActionName);
@@ -513,6 +517,10 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamController_TranslateActionOrigin", CallingConvention = CallingConvention.Cdecl)]
 		public static extern EControllerActionOrigin ISteamController_TranslateActionOrigin(IntPtr instancePtr, ESteamInputType eDestinationInputType, EControllerActionOrigin eSourceOrigin);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamController_GetControllerBindingRevision", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamController_GetControllerBindingRevision(IntPtr instancePtr, ControllerHandle_t controllerHandle, out int pMajor, out int pMinor);
 #endregion
 #region SteamFriends
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamFriends_GetPersonaName", CallingConvention = CallingConvention.Cdecl)]
@@ -1178,7 +1186,7 @@ namespace Steamworks {
 		public static extern void ISteamInput_DeactivateAllActionSetLayers(IntPtr instancePtr, InputHandle_t inputHandle);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamInput_GetActiveActionSetLayers", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamInput_GetActiveActionSetLayers(IntPtr instancePtr, InputHandle_t inputHandle, out InputActionSetHandle_t handlesOut);
+		public static extern int ISteamInput_GetActiveActionSetLayers(IntPtr instancePtr, InputHandle_t inputHandle, [In, Out] InputActionSetHandle_t[] handlesOut);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamInput_GetDigitalActionHandle", CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong ISteamInput_GetDigitalActionHandle(IntPtr instancePtr, InteropHelp.UTF8StringHandle pszActionName);
@@ -1246,6 +1254,10 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamInput_TranslateActionOrigin", CallingConvention = CallingConvention.Cdecl)]
 		public static extern EInputActionOrigin ISteamInput_TranslateActionOrigin(IntPtr instancePtr, ESteamInputType eDestinationInputType, EInputActionOrigin eSourceOrigin);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamInput_GetDeviceBindingRevision", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamInput_GetDeviceBindingRevision(IntPtr instancePtr, InputHandle_t inputHandle, out int pMajor, out int pMinor);
 #endregion
 #region SteamInventory
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamInventory_GetResultStatus", CallingConvention = CallingConvention.Cdecl)]
@@ -2219,6 +2231,10 @@ namespace Steamworks {
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamUGC_GetQueryUGCKeyValueTag(IntPtr instancePtr, UGCQueryHandle_t handle, uint index, uint keyValueTagIndex, IntPtr pchKey, uint cchKeySize, IntPtr pchValue, uint cchValueSize);
 
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_GetQueryUGCKeyValueTag0", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamUGC_GetQueryUGCKeyValueTag0(IntPtr instancePtr, UGCQueryHandle_t handle, uint index, InteropHelp.UTF8StringHandle pchKey, IntPtr pchValue, uint cchValueSize);
+
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_ReleaseQueryUGCRequest", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamUGC_ReleaseQueryUGCRequest(IntPtr instancePtr, UGCQueryHandle_t handle);
@@ -2335,6 +2351,10 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_SetAllowLegacyUpload", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamUGC_SetAllowLegacyUpload(IntPtr instancePtr, UGCUpdateHandle_t handle, [MarshalAs(UnmanagedType.I1)] bool bAllowLegacyUpload);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_RemoveAllItemKeyValueTags", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamUGC_RemoveAllItemKeyValueTags(IntPtr instancePtr, UGCUpdateHandle_t handle);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_RemoveItemKeyValueTags", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -2541,6 +2561,9 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUser_GetMarketEligibility", CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong ISteamUser_GetMarketEligibility(IntPtr instancePtr);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUser_GetDurationControl", CallingConvention = CallingConvention.Cdecl)]
+		public static extern ulong ISteamUser_GetDurationControl(IntPtr instancePtr);
 #endregion
 #region SteamUserStats
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUserStats_RequestCurrentStats", CallingConvention = CallingConvention.Cdecl)]
@@ -2808,6 +2831,17 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUtils_SetVRHeadsetStreamingEnabled", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ISteamUtils_SetVRHeadsetStreamingEnabled(IntPtr instancePtr, [MarshalAs(UnmanagedType.I1)] bool bEnabled);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUtils_IsSteamChinaLauncher", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamUtils_IsSteamChinaLauncher(IntPtr instancePtr);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUtils_InitFilterText", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamUtils_InitFilterText(IntPtr instancePtr);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUtils_FilterText", CallingConvention = CallingConvention.Cdecl)]
+		public static extern int ISteamUtils_FilterText(IntPtr instancePtr, IntPtr pchOutFilteredText, uint nByteSizeOutFilteredText, InteropHelp.UTF8StringHandle pchInputMessage, [MarshalAs(UnmanagedType.I1)] bool bLegalOnly);
 #endregion
 #region SteamVideo
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamVideo_GetVideoURL", CallingConvention = CallingConvention.Cdecl)]

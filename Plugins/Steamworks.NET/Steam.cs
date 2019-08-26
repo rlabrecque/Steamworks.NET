@@ -17,10 +17,10 @@ using IntPtr = System.IntPtr;
 namespace Steamworks {
 	public static class Version {
 		public const string SteamworksNETVersion = "13.0.0";
-		public const string SteamworksSDKVersion = "1.44";
-		public const string SteamAPIDLLVersion = "04.95.20.30";
-		public const int SteamAPIDLLSize = 257312;
-		public const int SteamAPI64DLLSize = 288032;
+		public const string SteamworksSDKVersion = "1.45";
+		public const string SteamAPIDLLVersion = "05.19.38.62";
+		public const int SteamAPIDLLSize = 259360;
+		public const int SteamAPI64DLLSize = 289056;
 	}
 
 	public static class SteamAPI {
@@ -256,6 +256,11 @@ namespace Steamworks {
 			byte[] ret = new byte[pcubUserData];
 			System.Runtime.InteropServices.Marshal.Copy(punSecretData, ret, 0, (int)pcubUserData);
 			return ret;
+		}
+
+		public static bool BIsTicketSigned(byte[] rgubTicketDecrypted, uint cubTicketDecrypted, byte[] pubRSAKey, uint cubRSAKey) {
+			InteropHelp.TestIfPlatformSupported();
+			return NativeMethods.SteamEncryptedAppTicket_BIsTicketSigned(rgubTicketDecrypted, cubTicketDecrypted, pubRSAKey, cubRSAKey);
 		}
 	}
 
