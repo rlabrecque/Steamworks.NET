@@ -17,10 +17,10 @@ using IntPtr = System.IntPtr;
 namespace Steamworks {
 	public static class Version {
 		public const string SteamworksNETVersion = "13.0.0";
-		public const string SteamworksSDKVersion = "1.45";
-		public const string SteamAPIDLLVersion = "05.19.38.62";
+		public const string SteamworksSDKVersion = "1.46";
+		public const string SteamAPIDLLVersion = "05.25.65.21";
 		public const int SteamAPIDLLSize = 259360;
-		public const int SteamAPI64DLLSize = 289056;
+		public const int SteamAPI64DLLSize = 289568;
 	}
 
 	public static class SteamAPI {
@@ -291,6 +291,7 @@ namespace Steamworks {
 			m_pSteamParentalSettings = IntPtr.Zero;
 			m_pSteamInput = IntPtr.Zero;
 			m_pSteamParties = IntPtr.Zero;
+			m_pSteamRemotePlay = IntPtr.Zero;
 		}
 
 		internal static bool Init() {
@@ -373,7 +374,10 @@ namespace Steamworks {
 			m_pSteamParties = SteamClient.GetISteamParties(hSteamUser, hSteamPipe, Constants.STEAMPARTIES_INTERFACE_VERSION);
 			if (m_pSteamParties == IntPtr.Zero) { return false; }
 
-			return true;
+            m_pSteamRemotePlay = SteamClient.GetISteamRemotePlay(hSteamUser, hSteamPipe, Constants.STEAMREMOTEPLAY_INTERFACE_VERSION);
+            if (m_pSteamRemotePlay == IntPtr.Zero) { return false; }
+
+            return true;
 		}
 
 		internal static IntPtr GetSteamClient() { return m_pSteamClient; }
@@ -400,6 +404,7 @@ namespace Steamworks {
 		internal static IntPtr GetSteamParentalSettings() { return m_pSteamParentalSettings; }
 		internal static IntPtr GetSteamInput() { return m_pSteamInput; }
 		internal static IntPtr GetSteamParties() { return m_pSteamParties; }
+		internal static IntPtr GetSteamRemotePlay() { return m_pSteamRemotePlay; }
 
 		private static IntPtr m_pSteamClient;
 		private static IntPtr m_pSteamUser;
@@ -425,6 +430,7 @@ namespace Steamworks {
 		private static IntPtr m_pSteamParentalSettings;
 		private static IntPtr m_pSteamInput;
 		private static IntPtr m_pSteamParties;
+		private static IntPtr m_pSteamRemotePlay;
 	}
 
 	internal static class CSteamGameServerAPIContext {

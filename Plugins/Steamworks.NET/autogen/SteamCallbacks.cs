@@ -1425,6 +1425,21 @@ namespace Steamworks {
 	}
 
 	// callbacks
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemotePlayCallbacks + 1)]
+	public struct SteamRemotePlaySessionConnected_t {
+		public const int k_iCallback = Constants.k_iSteamRemotePlayCallbacks + 1;
+		public uint m_unSessionID;
+	}
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemotePlayCallbacks + 2)]
+	public struct SteamRemotePlaySessionDisconnected_t {
+		public const int k_iCallback = Constants.k_iSteamRemotePlayCallbacks + 2;
+		public uint m_unSessionID;
+	}
+
+	// callbacks
 	//-----------------------------------------------------------------------------
 	// Purpose: sent when the local file cache is fully synced with the server for an app
 	//          That means that an application can be started and has all latest files

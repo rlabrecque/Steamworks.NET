@@ -1087,6 +1087,17 @@ namespace Steamworks {
 		k_EFeatureMax
 	}
 
+	//-----------------------------------------------------------------------------
+	// Purpose: The form factor of a device
+	//-----------------------------------------------------------------------------
+	public enum ESteamDeviceFormFactor : int {
+		k_ESteamDeviceFormFactorUnknown,
+		k_ESteamDeviceFormFactorPhone,
+		k_ESteamDeviceFormFactorTablet,
+		k_ESteamDeviceFormFactorComputer,
+		k_ESteamDeviceFormFactorTV,
+	}
+
 	[Flags]
 	public enum ERemoteStoragePlatform : int {
 		k_ERemoteStoragePlatformNone		= 0,
@@ -1819,6 +1830,7 @@ namespace Steamworks {
 		k_eEVRHMDType_HTC_VivePre = 2,	// htc vive pre
 		k_eEVRHMDType_HTC_Vive = 3,	// htc vive consumer release
 		k_eEVRHMDType_HTC_VivePro = 4,	// htc vive pro release
+		k_eEVRHMDType_HTC_ViveCosmos = 5,	// HTC Vive Cosmos
 
 		k_eEVRHMDType_HTC_Unknown = 20, // unknown htc hmd
 

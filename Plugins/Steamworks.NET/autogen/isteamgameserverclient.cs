@@ -360,6 +360,16 @@ namespace Steamworks {
 				return NativeMethods.ISteamClient_GetISteamParties(CSteamGameServerAPIContext.GetSteamClient(), hSteamUser, hSteamPipe, pchVersion2);
 			}
 		}
+
+		/// <summary>
+		/// <para> Steam Remote Play interface</para>
+		/// </summary>
+		public static IntPtr GetISteamRemotePlay(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
+			InteropHelp.TestIfAvailableGameServer();
+			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
+				return NativeMethods.ISteamClient_GetISteamRemotePlay(CSteamGameServerAPIContext.GetSteamClient(), hSteamUser, hSteamPipe, pchVersion2);
+			}
+		}
 	}
 }
 

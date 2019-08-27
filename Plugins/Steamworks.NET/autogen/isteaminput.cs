@@ -303,7 +303,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Convert an origin to another controller type - for inputs not present on the other controller type this will return k_EInputActionOrigin_None</para>
-		/// <para> When a new input type is added you will be able to pass in k_ESteamInputType_Unknown amd the closest origin that your version of the SDK regonized will be returned</para>
+		/// <para> When a new input type is added you will be able to pass in k_ESteamInputType_Unknown and the closest origin that your version of the SDK recognized will be returned</para>
 		/// <para> ex: if a Playstation 5 controller was released this function would return Playstation 4 origins.</para>
 		/// </summary>
 		public static EInputActionOrigin TranslateActionOrigin(ESteamInputType eDestinationInputType, EInputActionOrigin eSourceOrigin) {
@@ -317,6 +317,15 @@ namespace Steamworks {
 		public static bool GetDeviceBindingRevision(InputHandle_t inputHandle, out int pMajor, out int pMinor) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamInput_GetDeviceBindingRevision(CSteamAPIContext.GetSteamInput(), inputHandle, out pMajor, out pMinor);
+		}
+
+		/// <summary>
+		/// <para> Get the Steam Remote Play session ID associated with a device, or 0 if there is no session associated with it</para>
+		/// <para> See isteamremoteplay.h for more information on Steam Remote Play sessions</para>
+		/// </summary>
+		public static uint GetRemotePlaySessionID(InputHandle_t inputHandle) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamInput_GetRemotePlaySessionID(CSteamAPIContext.GetSteamInput(), inputHandle);
 		}
 	}
 }
