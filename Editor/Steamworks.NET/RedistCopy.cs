@@ -26,33 +26,41 @@ public class RedistCopy {
 		string pluginsDir;
 		switch(target)
 		{
-		case BuildTarget.StandaloneWindows:
-		case BuildTarget.StandaloneWindows64:
-			baseDir = Path.Combine(Path.GetDirectoryName(pathToBuiltProject), Path.GetFileNameWithoutExtension(pathToBuiltProject) + "_Data");
-			pluginsDir = Path.Combine(baseDir, "Plugins");
-			break;
+            case BuildTarget.StandaloneWindows:
+            case BuildTarget.StandaloneWindows64:
+            {
+                baseDir = Path.Combine(Path.GetDirectoryName(pathToBuiltProject), Path.GetFileNameWithoutExtension(pathToBuiltProject) + "_Data");
+                pluginsDir = Path.Combine(baseDir, "Plugins");
+                break;
+            }
 #if !UNITY_2019_2_OR_NEWER
-		case BuildTarget.StandaloneLinux:
-			baseDir = Path.Combine(Path.GetDirectoryName(pathToBuiltProject), Path.GetFileNameWithoutExtension(pathToBuiltProject) + "_Data");
-			pluginsDir = Path.Combine(Path.Combine(baseDir, "Plugins"), "x86");
-			break;
-		case BuildTarget.StandaloneLinuxUniversal:
+            case BuildTarget.StandaloneLinux:
+            {
+                baseDir = Path.Combine(Path.GetDirectoryName(pathToBuiltProject), Path.GetFileNameWithoutExtension(pathToBuiltProject) + "_Data");
+                pluginsDir = Path.Combine(Path.Combine(baseDir, "Plugins"), "x86");
+                break;
+            }
+            case BuildTarget.StandaloneLinuxUniversal:
 #endif
-		case BuildTarget.StandaloneLinux64:
-			baseDir = Path.Combine(Path.GetDirectoryName(pathToBuiltProject), Path.GetFileNameWithoutExtension(pathToBuiltProject) + "_Data");
-			pluginsDir = Path.Combine(Path.Combine(baseDir, "Plugins"), "x86_64");
-			break;
+            case BuildTarget.StandaloneLinux64:
+            {
+                baseDir = Path.Combine(Path.GetDirectoryName(pathToBuiltProject), Path.GetFileNameWithoutExtension(pathToBuiltProject) + "_Data");
+                pluginsDir = Path.Combine(Path.Combine(baseDir, "Plugins"), "x86_64");
+                break;
+            }
 #if UNITY_2017_3_OR_NEWER
-		case BuildTarget.StandaloneOSX:
+            case BuildTarget.StandaloneOSX:
 #else
-		case BuildTarget.StandaloneOSXIntel:
-		case BuildTarget.StandaloneOSXIntel64:
-		case BuildTarget.StandaloneOSXUniversal:
+		    case BuildTarget.StandaloneOSXIntel:
+		    case BuildTarget.StandaloneOSXIntel64:
+		    case BuildTarget.StandaloneOSXUniversal:
 #endif
-			baseDir = Path.Combine(Path.GetDirectoryName(pathToBuiltProject), Path.GetFileNameWithoutExtension(pathToBuiltProject) + ".app");
-			baseDir = Path.Combine(baseDir, "Contents");
-			pluginsDir = Path.Combine(baseDir, "Plugins");
-			break;
+            {
+                baseDir = Path.Combine(Path.GetDirectoryName(pathToBuiltProject), Path.GetFileNameWithoutExtension(pathToBuiltProject) + ".app");
+                baseDir = Path.Combine(baseDir, "Contents");
+                pluginsDir = Path.Combine(baseDir, "Plugins");
+                break;
+            }
 		default:
 			return;
 		}
