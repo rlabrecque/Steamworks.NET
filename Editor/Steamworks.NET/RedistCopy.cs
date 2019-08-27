@@ -31,12 +31,14 @@ public class RedistCopy {
 			baseDir = Path.Combine(Path.GetDirectoryName(pathToBuiltProject), Path.GetFileNameWithoutExtension(pathToBuiltProject) + "_Data");
 			pluginsDir = Path.Combine(baseDir, "Plugins");
 			break;
+#if !UNITY_2019_2_OR_NEWER
 		case BuildTarget.StandaloneLinux:
 			baseDir = Path.Combine(Path.GetDirectoryName(pathToBuiltProject), Path.GetFileNameWithoutExtension(pathToBuiltProject) + "_Data");
 			pluginsDir = Path.Combine(Path.Combine(baseDir, "Plugins"), "x86");
 			break;
-		case BuildTarget.StandaloneLinux64:
 		case BuildTarget.StandaloneLinuxUniversal:
+#endif
+		case BuildTarget.StandaloneLinux64:
 			baseDir = Path.Combine(Path.GetDirectoryName(pathToBuiltProject), Path.GetFileNameWithoutExtension(pathToBuiltProject) + "_Data");
 			pluginsDir = Path.Combine(Path.Combine(baseDir, "Plugins"), "x86_64");
 			break;
