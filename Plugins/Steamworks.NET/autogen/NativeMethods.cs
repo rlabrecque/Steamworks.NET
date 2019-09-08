@@ -1654,10 +1654,10 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamParties_GetAvailableBeaconLocations", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamParties_GetAvailableBeaconLocations(IntPtr instancePtr, out SteamPartyBeaconLocation_t pLocationList, uint uMaxNumLocations);
+		public static extern bool ISteamParties_GetAvailableBeaconLocations(IntPtr instancePtr, [In, Out] SteamPartyBeaconLocation_t[] pLocationList, uint uMaxNumLocations);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamParties_CreateBeacon", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamParties_CreateBeacon(IntPtr instancePtr, uint unOpenSlots, out SteamPartyBeaconLocation_t pBeaconLocation, InteropHelp.UTF8StringHandle pchConnectString, InteropHelp.UTF8StringHandle pchMetadata);
+		public static extern ulong ISteamParties_CreateBeacon(IntPtr instancePtr, uint unOpenSlots, ref SteamPartyBeaconLocation_t pBeaconLocation, InteropHelp.UTF8StringHandle pchConnectString, InteropHelp.UTF8StringHandle pchMetadata);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamParties_OnReservationCompleted", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ISteamParties_OnReservationCompleted(IntPtr instancePtr, PartyBeaconID_t ulBeacon, CSteamID steamIDUser);

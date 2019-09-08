@@ -819,9 +819,9 @@ namespace Steamworks {
 			return NativeMethods.ISteamParties_GetNumAvailableBeaconLocations(CSteamAPIContext.GetSteamParties(), out puNumLocations);
 		}
 
-		public static bool GetAvailableBeaconLocations(out SteamPartyBeaconLocation_t pLocationList, uint uMaxNumLocations) {
+		public static bool GetAvailableBeaconLocations(SteamPartyBeaconLocation_t[] pLocationList, uint uMaxNumLocations) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamParties_GetAvailableBeaconLocations(CSteamAPIContext.GetSteamParties(), out pLocationList, uMaxNumLocations);
+			return NativeMethods.ISteamParties_GetAvailableBeaconLocations(CSteamAPIContext.GetSteamParties(), pLocationList, uMaxNumLocations);
 		}
 
 		/// <summary>
@@ -830,11 +830,11 @@ namespace Steamworks {
 		/// <para> When people begin responding to your beacon, Steam will send you</para>
 		/// <para> PartyReservationCallback_t callbacks to let you know who is on the way.</para>
 		/// </summary>
-		public static SteamAPICall_t CreateBeacon(uint unOpenSlots, out SteamPartyBeaconLocation_t pBeaconLocation, string pchConnectString, string pchMetadata) {
+		public static SteamAPICall_t CreateBeacon(uint unOpenSlots, ref SteamPartyBeaconLocation_t pBeaconLocation, string pchConnectString, string pchMetadata) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchConnectString2 = new InteropHelp.UTF8StringHandle(pchConnectString))
 			using (var pchMetadata2 = new InteropHelp.UTF8StringHandle(pchMetadata)) {
-				return (SteamAPICall_t)NativeMethods.ISteamParties_CreateBeacon(CSteamAPIContext.GetSteamParties(), unOpenSlots, out pBeaconLocation, pchConnectString2, pchMetadata2);
+				return (SteamAPICall_t)NativeMethods.ISteamParties_CreateBeacon(CSteamAPIContext.GetSteamParties(), unOpenSlots, ref pBeaconLocation, pchConnectString2, pchMetadata2);
 			}
 		}
 
