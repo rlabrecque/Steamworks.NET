@@ -107,6 +107,9 @@ namespace Steamworks {
 		/// </summary>
 		public static int GetActiveActionSetLayers(InputHandle_t inputHandle, InputActionSetHandle_t[] handlesOut) {
 			InteropHelp.TestIfAvailableClient();
+			if (handlesOut.Length != Constants.STEAM_INPUT_MAX_ACTIVE_LAYERS) {
+				throw new System.ArgumentException("handlesOut must be the same size as Constants.STEAM_INPUT_MAX_ACTIVE_LAYERS!");
+			}
 			return NativeMethods.ISteamInput_GetActiveActionSetLayers(CSteamAPIContext.GetSteamInput(), inputHandle, handlesOut);
 		}
 
@@ -138,6 +141,9 @@ namespace Steamworks {
 		/// </summary>
 		public static int GetDigitalActionOrigins(InputHandle_t inputHandle, InputActionSetHandle_t actionSetHandle, InputDigitalActionHandle_t digitalActionHandle, EInputActionOrigin[] originsOut) {
 			InteropHelp.TestIfAvailableClient();
+			if (originsOut.Length != Constants.STEAM_INPUT_MAX_ORIGINS) {
+				throw new System.ArgumentException("originsOut must be the same size as Constants.STEAM_INPUT_MAX_ORIGINS!");
+			}
 			return NativeMethods.ISteamInput_GetDigitalActionOrigins(CSteamAPIContext.GetSteamInput(), inputHandle, actionSetHandle, digitalActionHandle, originsOut);
 		}
 
@@ -166,6 +172,9 @@ namespace Steamworks {
 		/// </summary>
 		public static int GetAnalogActionOrigins(InputHandle_t inputHandle, InputActionSetHandle_t actionSetHandle, InputAnalogActionHandle_t analogActionHandle, EInputActionOrigin[] originsOut) {
 			InteropHelp.TestIfAvailableClient();
+			if (originsOut.Length != Constants.STEAM_INPUT_MAX_ORIGINS) {
+				throw new System.ArgumentException("originsOut must be the same size as Constants.STEAM_INPUT_MAX_ORIGINS!");
+			}
 			return NativeMethods.ISteamInput_GetAnalogActionOrigins(CSteamAPIContext.GetSteamInput(), inputHandle, actionSetHandle, analogActionHandle, originsOut);
 		}
 
