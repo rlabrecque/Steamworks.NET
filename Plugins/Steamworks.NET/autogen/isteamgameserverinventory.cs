@@ -298,9 +298,9 @@ namespace Steamworks {
 		/// <para> contain the total size necessary for a subsequent call. Otherwise, the call will</para>
 		/// <para> return false if and only if there is not enough space in the output array.</para>
 		/// </summary>
-		public static bool GetItemDefinitionIDs(SteamItemDef_t[] pItemDefIDs, out uint punItemDefIDsArraySize) {
+		public static bool GetItemDefinitionIDs(SteamItemDef_t[] pItemDefIDs, ref uint punItemDefIDsArraySize) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamInventory_GetItemDefinitionIDs(CSteamGameServerAPIContext.GetSteamInventory(), pItemDefIDs, out punItemDefIDsArraySize);
+			return NativeMethods.ISteamInventory_GetItemDefinitionIDs(CSteamGameServerAPIContext.GetSteamInventory(), pItemDefIDs, ref punItemDefIDsArraySize);
 		}
 
 		/// <summary>

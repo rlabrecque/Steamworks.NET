@@ -1348,7 +1348,7 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamInventory_GetItemDefinitionIDs", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamInventory_GetItemDefinitionIDs(IntPtr instancePtr, [In, Out] SteamItemDef_t[] pItemDefIDs, out uint punItemDefIDsArraySize);
+		public static extern bool ISteamInventory_GetItemDefinitionIDs(IntPtr instancePtr, [In, Out] SteamItemDef_t[] pItemDefIDs, ref uint punItemDefIDsArraySize);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamInventory_GetItemDefinitionProperty", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
