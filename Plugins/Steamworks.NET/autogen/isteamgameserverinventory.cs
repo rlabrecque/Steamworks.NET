@@ -41,7 +41,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetResultItems(SteamInventoryResult_t resultHandle, SteamItemDetails_t[] pOutItemsArray, ref uint punOutItemsArraySize) {
 			InteropHelp.TestIfAvailableGameServer();
-			if (pOutItemsArray.Length != punOutItemsArraySize) {
+			if (pOutItemsArray != null && pOutItemsArray.Length != punOutItemsArraySize) {
 				throw new System.ArgumentException("pOutItemsArray must be the same size as punOutItemsArraySize!");
 			}
 			return NativeMethods.ISteamInventory_GetResultItems(CSteamGameServerAPIContext.GetSteamInventory(), resultHandle, pOutItemsArray, ref punOutItemsArraySize);
@@ -303,7 +303,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetItemDefinitionIDs(SteamItemDef_t[] pItemDefIDs, ref uint punItemDefIDsArraySize) {
 			InteropHelp.TestIfAvailableGameServer();
-			if (pItemDefIDs.Length != punItemDefIDsArraySize) {
+			if (pItemDefIDs != null && pItemDefIDs.Length != punItemDefIDsArraySize) {
 				throw new System.ArgumentException("pItemDefIDs must be the same size as punItemDefIDsArraySize!");
 			}
 			return NativeMethods.ISteamInventory_GetItemDefinitionIDs(CSteamGameServerAPIContext.GetSteamInventory(), pItemDefIDs, ref punItemDefIDsArraySize);
@@ -348,7 +348,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetEligiblePromoItemDefinitionIDs(CSteamID steamID, SteamItemDef_t[] pItemDefIDs, ref uint punItemDefIDsArraySize) {
 			InteropHelp.TestIfAvailableGameServer();
-			if (pItemDefIDs.Length != punItemDefIDsArraySize) {
+			if (pItemDefIDs != null && pItemDefIDs.Length != punItemDefIDsArraySize) {
 				throw new System.ArgumentException("pItemDefIDs must be the same size as punItemDefIDsArraySize!");
 			}
 			return NativeMethods.ISteamInventory_GetEligiblePromoItemDefinitionIDs(CSteamGameServerAPIContext.GetSteamInventory(), steamID, pItemDefIDs, ref punItemDefIDsArraySize);
@@ -387,13 +387,13 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetItemsWithPrices(SteamItemDef_t[] pArrayItemDefs, ulong[] pCurrentPrices, ulong[] pBasePrices, uint unArrayLength) {
 			InteropHelp.TestIfAvailableGameServer();
-			if (pArrayItemDefs.Length != unArrayLength) {
+			if (pArrayItemDefs != null && pArrayItemDefs.Length != unArrayLength) {
 				throw new System.ArgumentException("pArrayItemDefs must be the same size as unArrayLength!");
 			}
-			if (pCurrentPrices.Length != unArrayLength) {
+			if (pCurrentPrices != null && pCurrentPrices.Length != unArrayLength) {
 				throw new System.ArgumentException("pCurrentPrices must be the same size as unArrayLength!");
 			}
-			if (pBasePrices.Length != unArrayLength) {
+			if (pBasePrices != null && pBasePrices.Length != unArrayLength) {
 				throw new System.ArgumentException("pBasePrices must be the same size as unArrayLength!");
 			}
 			return NativeMethods.ISteamInventory_GetItemsWithPrices(CSteamGameServerAPIContext.GetSteamInventory(), pArrayItemDefs, pCurrentPrices, pBasePrices, unArrayLength);

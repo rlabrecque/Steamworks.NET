@@ -47,7 +47,7 @@ namespace Steamworks {
 		/// </summary>
 		public static int GetConnectedControllers(ControllerHandle_t[] handlesOut) {
 			InteropHelp.TestIfAvailableClient();
-			if (handlesOut.Length != Constants.STEAM_CONTROLLER_MAX_COUNT) {
+			if (handlesOut != null && handlesOut.Length != Constants.STEAM_CONTROLLER_MAX_COUNT) {
 				throw new System.ArgumentException("handlesOut must be the same size as Constants.STEAM_CONTROLLER_MAX_COUNT!");
 			}
 			return NativeMethods.ISteamController_GetConnectedControllers(CSteamAPIContext.GetSteamController(), handlesOut);
@@ -106,7 +106,7 @@ namespace Steamworks {
 		/// </summary>
 		public static int GetActiveActionSetLayers(ControllerHandle_t controllerHandle, ControllerActionSetHandle_t[] handlesOut) {
 			InteropHelp.TestIfAvailableClient();
-			if (handlesOut.Length != Constants.STEAM_CONTROLLER_MAX_ACTIVE_LAYERS) {
+			if (handlesOut != null && handlesOut.Length != Constants.STEAM_CONTROLLER_MAX_ACTIVE_LAYERS) {
 				throw new System.ArgumentException("handlesOut must be the same size as Constants.STEAM_CONTROLLER_MAX_ACTIVE_LAYERS!");
 			}
 			return NativeMethods.ISteamController_GetActiveActionSetLayers(CSteamAPIContext.GetSteamController(), controllerHandle, handlesOut);
@@ -140,7 +140,7 @@ namespace Steamworks {
 		/// </summary>
 		public static int GetDigitalActionOrigins(ControllerHandle_t controllerHandle, ControllerActionSetHandle_t actionSetHandle, ControllerDigitalActionHandle_t digitalActionHandle, EControllerActionOrigin[] originsOut) {
 			InteropHelp.TestIfAvailableClient();
-			if (originsOut.Length != Constants.STEAM_CONTROLLER_MAX_ORIGINS) {
+			if (originsOut != null && originsOut.Length != Constants.STEAM_CONTROLLER_MAX_ORIGINS) {
 				throw new System.ArgumentException("originsOut must be the same size as Constants.STEAM_CONTROLLER_MAX_ORIGINS!");
 			}
 			return NativeMethods.ISteamController_GetDigitalActionOrigins(CSteamAPIContext.GetSteamController(), controllerHandle, actionSetHandle, digitalActionHandle, originsOut);
@@ -171,7 +171,7 @@ namespace Steamworks {
 		/// </summary>
 		public static int GetAnalogActionOrigins(ControllerHandle_t controllerHandle, ControllerActionSetHandle_t actionSetHandle, ControllerAnalogActionHandle_t analogActionHandle, EControllerActionOrigin[] originsOut) {
 			InteropHelp.TestIfAvailableClient();
-			if (originsOut.Length != Constants.STEAM_CONTROLLER_MAX_ORIGINS) {
+			if (originsOut != null && originsOut.Length != Constants.STEAM_CONTROLLER_MAX_ORIGINS) {
 				throw new System.ArgumentException("originsOut must be the same size as Constants.STEAM_CONTROLLER_MAX_ORIGINS!");
 			}
 			return NativeMethods.ISteamController_GetAnalogActionOrigins(CSteamAPIContext.GetSteamController(), controllerHandle, actionSetHandle, analogActionHandle, originsOut);
