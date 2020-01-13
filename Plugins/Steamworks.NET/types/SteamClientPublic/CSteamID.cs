@@ -51,8 +51,7 @@ namespace Steamworks {
 				SetAccountInstance(0);
 			}
 			else {
-				// by default we pick the desktop instance
-				SetAccountInstance(Constants.k_unSteamUserDesktopInstance);
+				SetAccountInstance(Constants.k_unSteamUserDefaultInstance);
 			}
 		}
 
@@ -187,15 +186,6 @@ namespace Steamworks {
 			m_SteamID = (m_SteamID & ~(0xFFul << (ushort)56)) | (((ulong)(other) & 0xFFul) << (ushort)56);
 		}
 
-		public void ClearIndividualInstance() {
-			if (BIndividualAccount())
-				SetAccountInstance(0);
-		}
-
-		public bool HasNoIndividualInstance() {
-			return BIndividualAccount() && (GetUnAccountInstance() == 0);
-		}
-
 		public AccountID_t GetAccountID() {
 			return new AccountID_t((uint)(m_SteamID & 0xFFFFFFFFul));
 		}
@@ -220,7 +210,7 @@ namespace Steamworks {
 				return false;
 
 			if (GetEAccountType() == EAccountType.k_EAccountTypeIndividual) {
-				if (GetAccountID() == new AccountID_t(0) || GetUnAccountInstance() > Constants.k_unSteamUserWebInstance)
+				if (GetAccountID() == new AccountID_t(0) || GetUnAccountInstance() > Constants.k_unSteamUserDefaultInstance)
 					return false;
 			}
 

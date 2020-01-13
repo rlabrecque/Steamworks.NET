@@ -270,6 +270,9 @@
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworking\SNetSocket_t.cs">
       <Link>Steamworks.NET\types\SteamNetworking\SNetSocket_t.cs</Link>
     </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamRemotePlay\RemotePlaySessionID_t.cs">
+      <Link>Steamworks.NET\types\SteamRemotePlay\RemotePlaySessionID_t.cs</Link>
+    </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamRemoteStorage\PublishedFileId_t.cs">
       <Link>Steamworks.NET\types\SteamRemoteStorage\PublishedFileId_t.cs</Link>
     </Compile>
@@ -308,6 +311,9 @@
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamTypes\SteamAPICall_t.cs">
       <Link>Steamworks.NET\types\SteamTypes\SteamAPICall_t.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamTypes\SteamIPAddress_t.cs">
+      <Link>Steamworks.NET\types\SteamTypes\SteamIPAddress_t.cs</Link>
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamUGC\UGCQueryHandle_t.cs">
       <Link>Steamworks.NET\types\SteamUGC\UGCQueryHandle_t.cs</Link>

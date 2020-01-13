@@ -409,9 +409,15 @@ namespace Steamworks {
 		/// <para> Rich Presence data is automatically shared between friends who are in the same game</para>
 		/// <para> Each user has a set of Key/Value pairs</para>
 		/// <para> Note the following limits: k_cchMaxRichPresenceKeys, k_cchMaxRichPresenceKeyLength, k_cchMaxRichPresenceValueLength</para>
-		/// <para> There are two magic keys:</para>
+		/// <para> There are five magic keys:</para>
 		/// <para>		"status"  - a UTF-8 string that will show up in the 'view game info' dialog in the Steam friends list</para>
 		/// <para>		"connect" - a UTF-8 string that contains the command-line for how a friend can connect to a game</para>
+		/// <para>		"steam_display"				- Names a rich presence localization token that will be displayed in the viewing user's selected language</para>
+		/// <para>									  in the Steam client UI. For more info: https://partner.steamgames.com/doc/api/ISteamFriends#richpresencelocalization</para>
+		/// <para>		"steam_player_group"		- When set, indicates to the Steam client that the player is a member of a particular group. Players in the same group</para>
+		/// <para>									  may be organized together in various places in the Steam UI.</para>
+		/// <para>		"steam_player_group_size"	- When set, indicates the total number of players in the steam_player_group. The Steam client may use this number to</para>
+		/// <para>									  display additional information about a group when all of the members are not part of a user's friends list.</para>
 		/// <para> GetFriendRichPresence() returns an empty string "" if no value is set</para>
 		/// <para> SetRichPresence() to a NULL or an empty string deletes the key</para>
 		/// <para> You can iterate the current set of keys for a friend with GetFriendRichPresenceKeyCount()</para>
@@ -459,7 +465,6 @@ namespace Steamworks {
 		/// <para> Rich invite support.</para>
 		/// <para> If the target accepts the invite, a GameRichPresenceJoinRequested_t callback is posted containing the connect string.</para>
 		/// <para> (Or you can configure yout game so that it is passed on the command line instead.  This is a deprecated path; ask us if you really need this.)</para>
-		/// <para> Invites can only be sent to friends.</para>
 		/// </summary>
 		public static bool InviteUserToGame(CSteamID steamIDFriend, string pchConnectString) {
 			InteropHelp.TestIfAvailableClient();

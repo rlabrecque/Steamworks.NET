@@ -1429,14 +1429,14 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemotePlayCallbacks + 1)]
 	public struct SteamRemotePlaySessionConnected_t {
 		public const int k_iCallback = Constants.k_iSteamRemotePlayCallbacks + 1;
-		public uint m_unSessionID;
+		public RemotePlaySessionID_t m_unSessionID;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemotePlayCallbacks + 2)]
 	public struct SteamRemotePlaySessionDisconnected_t {
 		public const int k_iCallback = Constants.k_iSteamRemotePlayCallbacks + 2;
-		public uint m_unSessionID;
+		public RemotePlaySessionID_t m_unSessionID;
 	}
 
 	// callbacks
@@ -2227,8 +2227,8 @@ namespace Steamworks {
 
 	//-----------------------------------------------------------------------------
 	// Purpose: sent for games with enabled anti indulgence / duration control, for
-	// enabled users. Lets the game know whether persistent rewards or XP should be
-	// granted at normal rate, half rate, or zero rate.
+	// enabled users. Lets the game know whether the user can keep playing or
+	// whether the game should exit, and returns info about remaining gameplay time.
 	//
 	// This callback is fired asynchronously in response to timers triggering.
 	// It is also fired in response to calls to GetDurationControl().
@@ -2243,9 +2243,13 @@ namespace Steamworks {
 		
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bApplicable;							// is duration control applicable to user + game combination
-		public int m_csecsLast5h;							// playtime in trailing 5 hour window plus current session, in seconds
-		public EDurationControlProgress m_progress;			// recommended progress
+		public int m_csecsLast5h;							// playtime since most recent 5 hour gap in playtime, only counting up to regulatory limit of playtime, in seconds
+		
+		public EDurationControlProgress m_progress;			// recommended progress (either everything is fine, or please exit game)
 		public EDurationControlNotification m_notification;	// notification to show, if any (always k_EDurationControlNotification_None for API calls)
+		
+		public int m_csecsToday;							// playtime on current calendar day
+		public int m_csecsRemaining;						// playtime remaining until the user hits a regulatory limit
 	}
 
 	// callbacks

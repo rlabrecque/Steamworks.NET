@@ -126,6 +126,7 @@
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamMatchmaking\HServerQuery.cs" Link="Steamworks.NET\types\SteamMatchmaking\HServerQuery.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworking\SNetListenSocket_t.cs" Link="Steamworks.NET\types\SteamNetworking\SNetListenSocket_t.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworking\SNetSocket_t.cs" Link="Steamworks.NET\types\SteamNetworking\SNetSocket_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamRemotePlay\RemotePlaySessionID_t.cs" Link="Steamworks.NET\types\SteamRemotePlay\RemotePlaySessionID_t.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamRemoteStorage\PublishedFileId_t.cs" Link="Steamworks.NET\types\SteamRemoteStorage\PublishedFileId_t.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamRemoteStorage\PublishedFileUpdateHandle_t.cs" Link="Steamworks.NET\types\SteamRemoteStorage\PublishedFileUpdateHandle_t.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamRemoteStorage\UGCFileWriteStreamHandle_t.cs" Link="Steamworks.NET\types\SteamRemoteStorage\UGCFileWriteStreamHandle_t.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamTypes\RTime32.cs" Link="Steamworks.NET\types\SteamTypes\RTime32.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamTypes\SiteId_t.cs" Link="Steamworks.NET\types\SteamTypes\SiteId_t.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamTypes\SteamAPICall_t.cs" Link="Steamworks.NET\types\SteamTypes\SteamAPICall_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamTypes\SteamIPAddress_t.cs" Link="Steamworks.NET\types\SteamTypes\SteamIPAddress_t.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamUGC\UGCQueryHandle_t.cs" Link="Steamworks.NET\types\SteamUGC\UGCQueryHandle_t.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamUGC\UGCUpdateHandle_t.cs" Link="Steamworks.NET\types\SteamUGC\UGCUpdateHandle_t.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamUserStats\SteamLeaderboardEntries_t.cs" Link="Steamworks.NET\types\SteamUserStats\SteamLeaderboardEntries_t.cs" />

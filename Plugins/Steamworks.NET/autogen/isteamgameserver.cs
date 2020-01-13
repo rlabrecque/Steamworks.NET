@@ -382,7 +382,7 @@ namespace Steamworks {
 		/// <para> behind NAT and you want to advertise its IP in a lobby for other clients to directly</para>
 		/// <para> connect to</para>
 		/// </summary>
-		public static uint GetPublicIP() {
+		public static SteamIPAddress_t GetPublicIP() {
 			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamGameServer_GetPublicIP(CSteamGameServerAPIContext.GetSteamGameServer());
 		}

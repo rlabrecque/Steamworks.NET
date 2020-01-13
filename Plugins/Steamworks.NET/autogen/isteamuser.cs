@@ -252,7 +252,12 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> retrieve a finished ticket</para>
+		/// <para> Retrieves a finished ticket.</para>
+		/// <para> If no ticket is available, or your buffer is too small, returns false.</para>
+		/// <para> Upon exit, *pcbTicket will be either the size of the ticket copied into your buffer</para>
+		/// <para> (if true was returned), or the size needed (if false was returned).  To determine the</para>
+		/// <para> proper size of the ticket, you can pass pTicket=NULL and cbMaxTicket=0; if a ticket</para>
+		/// <para> is available, *pcbTicket will contain the size needed, otherwise it will be zero.</para>
 		/// </summary>
 		public static bool GetEncryptedAppTicket(byte[] pTicket, int cbMaxTicket, out uint pcbTicket) {
 			InteropHelp.TestIfAvailableClient();

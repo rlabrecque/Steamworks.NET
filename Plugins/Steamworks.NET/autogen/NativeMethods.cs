@@ -331,7 +331,7 @@ namespace Steamworks {
 		public static extern IntPtr ISteamClient_GetISteamGameServer(IntPtr instancePtr, HSteamUser hSteamUser, HSteamPipe hSteamPipe, InteropHelp.UTF8StringHandle pchVersion);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamClient_SetLocalIPBinding", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamClient_SetLocalIPBinding(IntPtr instancePtr, uint unIP, ushort usPort);
+		public static extern void ISteamClient_SetLocalIPBinding(IntPtr instancePtr, ref SteamIPAddress_t unIP, ushort usPort);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamClient_GetISteamFriends", CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr ISteamClient_GetISteamFriends(IntPtr instancePtr, HSteamUser hSteamUser, HSteamPipe hSteamPipe, InteropHelp.UTF8StringHandle pchVersion);
@@ -879,7 +879,7 @@ namespace Steamworks {
 		public static extern ulong ISteamGameServer_GetServerReputation(IntPtr instancePtr);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamGameServer_GetPublicIP", CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamGameServer_GetPublicIP(IntPtr instancePtr);
+		public static extern SteamIPAddress_t ISteamGameServer_GetPublicIP(IntPtr instancePtr);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamGameServer_HandleIncomingPacket", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -1869,13 +1869,13 @@ namespace Steamworks {
 		public static extern bool ISteamNetworking_AllowP2PPacketRelay(IntPtr instancePtr, [MarshalAs(UnmanagedType.I1)] bool bAllow);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworking_CreateListenSocket", CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamNetworking_CreateListenSocket(IntPtr instancePtr, int nVirtualP2PPort, uint nIP, ushort nPort, [MarshalAs(UnmanagedType.I1)] bool bAllowUseOfPacketRelay);
+		public static extern uint ISteamNetworking_CreateListenSocket(IntPtr instancePtr, int nVirtualP2PPort, SteamIPAddress_t nIP, ushort nPort, [MarshalAs(UnmanagedType.I1)] bool bAllowUseOfPacketRelay);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworking_CreateP2PConnectionSocket", CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint ISteamNetworking_CreateP2PConnectionSocket(IntPtr instancePtr, CSteamID steamIDTarget, int nVirtualPort, int nTimeoutSec, [MarshalAs(UnmanagedType.I1)] bool bAllowUseOfPacketRelay);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworking_CreateConnectionSocket", CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamNetworking_CreateConnectionSocket(IntPtr instancePtr, uint nIP, ushort nPort, int nTimeoutSec);
+		public static extern uint ISteamNetworking_CreateConnectionSocket(IntPtr instancePtr, SteamIPAddress_t nIP, ushort nPort, int nTimeoutSec);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworking_DestroySocket", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -1907,11 +1907,11 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworking_GetSocketInfo", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamNetworking_GetSocketInfo(IntPtr instancePtr, SNetSocket_t hSocket, out CSteamID pSteamIDRemote, out int peSocketStatus, out uint punIPRemote, out ushort punPortRemote);
+		public static extern bool ISteamNetworking_GetSocketInfo(IntPtr instancePtr, SNetSocket_t hSocket, out CSteamID pSteamIDRemote, out int peSocketStatus, out SteamIPAddress_t punIPRemote, out ushort punPortRemote);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworking_GetListenSocketInfo", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamNetworking_GetListenSocketInfo(IntPtr instancePtr, SNetListenSocket_t hListenSocket, out uint pnIP, out ushort pnPort);
+		public static extern bool ISteamNetworking_GetListenSocketInfo(IntPtr instancePtr, SNetListenSocket_t hListenSocket, out SteamIPAddress_t pnIP, out ushort pnPort);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworking_GetSocketConnectionType", CallingConvention = CallingConvention.Cdecl)]
 		public static extern ESNetSocketConnectionType ISteamNetworking_GetSocketConnectionType(IntPtr instancePtr, SNetSocket_t hSocket);
@@ -1952,17 +1952,21 @@ namespace Steamworks {
 		public static extern uint ISteamRemotePlay_GetSessionID(IntPtr instancePtr, int iSessionIndex);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_GetSessionSteamID", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamRemotePlay_GetSessionSteamID(IntPtr instancePtr, uint unSessionID);
+		public static extern ulong ISteamRemotePlay_GetSessionSteamID(IntPtr instancePtr, RemotePlaySessionID_t unSessionID);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_GetSessionClientName", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamRemotePlay_GetSessionClientName(IntPtr instancePtr, uint unSessionID);
+		public static extern IntPtr ISteamRemotePlay_GetSessionClientName(IntPtr instancePtr, RemotePlaySessionID_t unSessionID);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_GetSessionClientFormFactor", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ESteamDeviceFormFactor ISteamRemotePlay_GetSessionClientFormFactor(IntPtr instancePtr, uint unSessionID);
+		public static extern ESteamDeviceFormFactor ISteamRemotePlay_GetSessionClientFormFactor(IntPtr instancePtr, RemotePlaySessionID_t unSessionID);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_BGetSessionClientResolution", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamRemotePlay_BGetSessionClientResolution(IntPtr instancePtr, uint unSessionID, out int pnResolutionX, out int pnResolutionY);
+		public static extern bool ISteamRemotePlay_BGetSessionClientResolution(IntPtr instancePtr, RemotePlaySessionID_t unSessionID, out int pnResolutionX, out int pnResolutionY);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_BSendRemotePlayTogetherInvite", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamRemotePlay_BSendRemotePlayTogetherInvite(IntPtr instancePtr, CSteamID steamIDFriend);
 #endregion
 #region SteamRemoteStorage
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemoteStorage_FileWrite", CallingConvention = CallingConvention.Cdecl)]
@@ -2268,6 +2272,10 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_AddRequiredTag", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamUGC_AddRequiredTag(IntPtr instancePtr, UGCQueryHandle_t handle, InteropHelp.UTF8StringHandle pTagName);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_AddRequiredTagGroup", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamUGC_AddRequiredTagGroup(IntPtr instancePtr, UGCQueryHandle_t handle, IntPtr pTagGroups);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_AddExcludedTag", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -2868,6 +2876,9 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUtils_FilterText", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int ISteamUtils_FilterText(IntPtr instancePtr, IntPtr pchOutFilteredText, uint nByteSizeOutFilteredText, InteropHelp.UTF8StringHandle pchInputMessage, [MarshalAs(UnmanagedType.I1)] bool bLegalOnly);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUtils_GetIPv6ConnectivityState", CallingConvention = CallingConvention.Cdecl)]
+		public static extern ESteamIPv6ConnectivityState ISteamUtils_GetIPv6ConnectivityState(IntPtr instancePtr, ESteamIPv6ConnectivityProtocol eProtocol);
 #endregion
 #region SteamVideo
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamVideo_GetVideoURL", CallingConvention = CallingConvention.Cdecl)]

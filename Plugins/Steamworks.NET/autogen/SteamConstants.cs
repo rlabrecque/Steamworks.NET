@@ -19,11 +19,11 @@ namespace Steamworks {
 		public const string STEAMAPPLIST_INTERFACE_VERSION = "STEAMAPPLIST_INTERFACE_VERSION001";
 		public const string STEAMAPPS_INTERFACE_VERSION = "STEAMAPPS_INTERFACE_VERSION008";
 		public const string STEAMAPPTICKET_INTERFACE_VERSION = "STEAMAPPTICKET_INTERFACE_VERSION001";
-		public const string STEAMCLIENT_INTERFACE_VERSION = "SteamClient019";
+		public const string STEAMCLIENT_INTERFACE_VERSION = "SteamClient020";
 		public const string STEAMCONTROLLER_INTERFACE_VERSION = "SteamController007";
 		public const string STEAMFRIENDS_INTERFACE_VERSION = "SteamFriends017";
 		public const string STEAMGAMECOORDINATOR_INTERFACE_VERSION = "SteamGameCoordinator001";
-		public const string STEAMGAMESERVER_INTERFACE_VERSION = "SteamGameServer012";
+		public const string STEAMGAMESERVER_INTERFACE_VERSION = "SteamGameServer013";
 		public const string STEAMGAMESERVERSTATS_INTERFACE_VERSION = "SteamGameServerStats001";
 		public const string STEAMHTMLSURFACE_INTERFACE_VERSION = "STEAMHTMLSURFACE_INTERFACE_VERSION_005";
 		public const string STEAMHTTP_INTERFACE_VERSION = "STEAMHTTP_INTERFACE_VERSION003";
@@ -35,12 +35,12 @@ namespace Steamworks {
 		public const string STEAMPARTIES_INTERFACE_VERSION = "SteamParties002";
 		public const string STEAMMUSIC_INTERFACE_VERSION = "STEAMMUSIC_INTERFACE_VERSION001";
 		public const string STEAMMUSICREMOTE_INTERFACE_VERSION = "STEAMMUSICREMOTE_INTERFACE_VERSION001";
-		public const string STEAMNETWORKING_INTERFACE_VERSION = "SteamNetworking005";
+		public const string STEAMNETWORKING_INTERFACE_VERSION = "SteamNetworking006";
 		public const string STEAMPARENTALSETTINGS_INTERFACE_VERSION = "STEAMPARENTALSETTINGS_INTERFACE_VERSION001";
 		public const string STEAMREMOTEPLAY_INTERFACE_VERSION = "STEAMREMOTEPLAY_INTERFACE_VERSION001";
 		public const string STEAMREMOTESTORAGE_INTERFACE_VERSION = "STEAMREMOTESTORAGE_INTERFACE_VERSION014";
 		public const string STEAMSCREENSHOTS_INTERFACE_VERSION = "STEAMSCREENSHOTS_INTERFACE_VERSION003";
-		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION013";
+		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION014";
 		public const string STEAMUSER_INTERFACE_VERSION = "SteamUser020";
 		public const string STEAMUSERSTATS_INTERFACE_VERSION = "STEAMUSERSTATS_INTERFACE_VERSION011";
 		public const string STEAMUTILS_INTERFACE_VERSION = "SteamUtils009";
@@ -177,10 +177,7 @@ namespace Steamworks {
 		public const int k_iSteamRemotePlayCallbacks = 5700;
 		public const int k_unSteamAccountIDMask = -1;
 		public const int k_unSteamAccountInstanceMask = 0x000FFFFF;
-		// we allow 3 simultaneous user account instances right now, 1= desktop, 2 = console, 4 = web, 0 = all
-		public const int k_unSteamUserDesktopInstance = 1;
-		public const int k_unSteamUserConsoleInstance = 2;
-		public const int k_unSteamUserWebInstance = 4;
+		public const int k_unSteamUserDefaultInstance = 1; // fixed instance for all individual users
 		public const int k_cchGameExtraInfoMax = 64;
 		public const int k_nSteamEncryptedAppTicketSymmetricKeyLen = 32;
 		public const int k_cubSaltSize = 8;

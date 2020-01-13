@@ -86,9 +86,9 @@ namespace Steamworks {
 		/// <para> set the local IP and Port to bind to</para>
 		/// <para> this must be set before CreateLocalUser()</para>
 		/// </summary>
-		public static void SetLocalIPBinding(uint unIP, ushort usPort) {
+		public static void SetLocalIPBinding(ref SteamIPAddress_t unIP, ushort usPort) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamClient_SetLocalIPBinding(CSteamGameServerAPIContext.GetSteamClient(), unIP, usPort);
+			NativeMethods.ISteamClient_SetLocalIPBinding(CSteamGameServerAPIContext.GetSteamClient(), ref unIP, usPort);
 		}
 
 		/// <summary>

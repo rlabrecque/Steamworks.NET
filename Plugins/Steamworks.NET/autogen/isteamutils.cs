@@ -258,7 +258,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Returns true if the HMD content will be streamed via Steam In-Home Streaming</para>
+		/// <para> Returns true if the HMD content will be streamed via Steam Remote Play</para>
 		/// </summary>
 		public static bool IsVRHeadsetStreamingEnabled() {
 			InteropHelp.TestIfAvailableClient();
@@ -266,7 +266,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Set whether the HMD content will be streamed via Steam In-Home Streaming</para>
+		/// <para> Set whether the HMD content will be streamed via Steam Remote Play</para>
 		/// <para> If this is set to true, then the scene in the HMD headset will be streamed, and remote input will not be allowed.</para>
 		/// <para> If this is set to false, then the application window will be streamed instead, and remote input will be allowed.</para>
 		/// <para> The default is true unless "VRHeadsetStreaming" "0" is in the extended appinfo for a game.</para>
@@ -311,6 +311,15 @@ namespace Steamworks {
 				Marshal.FreeHGlobal(pchOutFilteredText2);
 				return ret;
 			}
+		}
+
+		/// <summary>
+		/// <para> Return what we believe your current ipv6 connectivity to "the internet" is on the specified protocol.</para>
+		/// <para> This does NOT tell you if the Steam client is currently connected to Steam via ipv6.</para>
+		/// </summary>
+		public static ESteamIPv6ConnectivityState GetIPv6ConnectivityState(ESteamIPv6ConnectivityProtocol eProtocol) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUtils_GetIPv6ConnectivityState(CSteamAPIContext.GetSteamUtils(), eProtocol);
 		}
 	}
 }

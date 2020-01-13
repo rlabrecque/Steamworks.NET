@@ -129,7 +129,7 @@ namespace Steamworks {
 		/// <para> unPort is the port to use</para>
 		/// <para>		pass in 0 if you don't want users to be able to connect via IP/Port, but expect to be always peer-to-peer connections only</para>
 		/// </summary>
-		public static SNetListenSocket_t CreateListenSocket(int nVirtualP2PPort, uint nIP, ushort nPort, bool bAllowUseOfPacketRelay) {
+		public static SNetListenSocket_t CreateListenSocket(int nVirtualP2PPort, SteamIPAddress_t nIP, ushort nPort, bool bAllowUseOfPacketRelay) {
 			InteropHelp.TestIfAvailableClient();
 			return (SNetListenSocket_t)NativeMethods.ISteamNetworking_CreateListenSocket(CSteamAPIContext.GetSteamNetworking(), nVirtualP2PPort, nIP, nPort, bAllowUseOfPacketRelay);
 		}
@@ -145,7 +145,7 @@ namespace Steamworks {
 			return (SNetSocket_t)NativeMethods.ISteamNetworking_CreateP2PConnectionSocket(CSteamAPIContext.GetSteamNetworking(), steamIDTarget, nVirtualPort, nTimeoutSec, bAllowUseOfPacketRelay);
 		}
 
-		public static SNetSocket_t CreateConnectionSocket(uint nIP, ushort nPort, int nTimeoutSec) {
+		public static SNetSocket_t CreateConnectionSocket(SteamIPAddress_t nIP, ushort nPort, int nTimeoutSec) {
 			InteropHelp.TestIfAvailableClient();
 			return (SNetSocket_t)NativeMethods.ISteamNetworking_CreateConnectionSocket(CSteamAPIContext.GetSteamNetworking(), nIP, nPort, nTimeoutSec);
 		}
@@ -228,7 +228,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> returns information about the specified socket, filling out the contents of the pointers</para>
 		/// </summary>
-		public static bool GetSocketInfo(SNetSocket_t hSocket, out CSteamID pSteamIDRemote, out int peSocketStatus, out uint punIPRemote, out ushort punPortRemote) {
+		public static bool GetSocketInfo(SNetSocket_t hSocket, out CSteamID pSteamIDRemote, out int peSocketStatus, out SteamIPAddress_t punIPRemote, out ushort punPortRemote) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamNetworking_GetSocketInfo(CSteamAPIContext.GetSteamNetworking(), hSocket, out pSteamIDRemote, out peSocketStatus, out punIPRemote, out punPortRemote);
 		}
@@ -237,7 +237,7 @@ namespace Steamworks {
 		/// <para> returns which local port the listen socket is bound to</para>
 		/// <para> *pnIP and *pnPort will be 0 if the socket is set to listen for P2P connections only</para>
 		/// </summary>
-		public static bool GetListenSocketInfo(SNetListenSocket_t hListenSocket, out uint pnIP, out ushort pnPort) {
+		public static bool GetListenSocketInfo(SNetListenSocket_t hListenSocket, out SteamIPAddress_t pnIP, out ushort pnPort) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamNetworking_GetListenSocketInfo(CSteamAPIContext.GetSteamNetworking(), hListenSocket, out pnIP, out pnPort);
 		}

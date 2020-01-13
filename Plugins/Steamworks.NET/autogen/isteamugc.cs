@@ -160,6 +160,14 @@ namespace Steamworks {
 			}
 		}
 
+		/// <summary>
+		/// <para> match any of the tags in this group</para>
+		/// </summary>
+		public static bool AddRequiredTagGroup(UGCQueryHandle_t handle, System.Collections.Generic.IList<string> pTagGroups) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_AddRequiredTagGroup(CSteamAPIContext.GetSteamUGC(), handle, new InteropHelp.SteamParamStringArray(pTagGroups));
+		}
+
 		public static bool AddExcludedTag(UGCQueryHandle_t handle, string pTagName) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pTagName2 = new InteropHelp.UTF8StringHandle(pTagName)) {
