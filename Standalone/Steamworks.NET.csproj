@@ -129,6 +129,9 @@
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamparentalsettings.cs">
       <Link>Steamworks.NET\autogen\isteamparentalsettings.cs</Link>
     </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamremoteplay.cs">
+      <Link>Steamworks.NET\autogen\isteamremoteplay.cs</Link>
+    </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamremotestorage.cs">
       <Link>Steamworks.NET\autogen\isteamremotestorage.cs</Link>
     </Compile>

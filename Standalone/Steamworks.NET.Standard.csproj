@@ -81,6 +81,7 @@
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteammusicremote.cs" Link="Steamworks.NET\autogen\isteammusicremote.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamnetworking.cs" Link="Steamworks.NET\autogen\isteamnetworking.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamparentalsettings.cs" Link="Steamworks.NET\autogen\isteamparentalsettings.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamremoteplay.cs" Link="Steamworks.NET\autogen\isteamremoteplay.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamremotestorage.cs" Link="Steamworks.NET\autogen\isteamremotestorage.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamscreenshots.cs" Link="Steamworks.NET\autogen\isteamscreenshots.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamugc.cs" Link="Steamworks.NET\autogen\isteamugc.cs" />
@@ -156,6 +157,10 @@
 
   <ItemGroup>
     <None Include="..\Plugins\Steamworks.NET\redist\linux\launchscript" Link="Steamworks.NET\redist\linux\launchscript" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Steamworks.NET\types\SteamRemotePlay\" />
   </ItemGroup>
 
 </Project>
