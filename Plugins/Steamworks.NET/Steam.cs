@@ -52,6 +52,7 @@ namespace Steamworks {
 		public static void Shutdown() {
 			InteropHelp.TestIfPlatformSupported();
 			NativeMethods.SteamAPI_Shutdown();
+			CSteamAPIContext.Clear();
 		}
 
 		// SteamAPI_RestartAppIfNecessary ensures that your executable was launched through Steam.
