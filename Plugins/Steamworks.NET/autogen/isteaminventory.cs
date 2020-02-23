@@ -433,28 +433,28 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchPropertyName2 = new InteropHelp.UTF8StringHandle(pchPropertyName))
 			using (var pchPropertyValue2 = new InteropHelp.UTF8StringHandle(pchPropertyValue)) {
-				return NativeMethods.ISteamInventory_SetProperty(CSteamAPIContext.GetSteamInventory(), handle, nItemID, pchPropertyName2, pchPropertyValue2);
+				return NativeMethods.ISteamInventory_SetPropertyString(CSteamAPIContext.GetSteamInventory(), handle, nItemID, pchPropertyName2, pchPropertyValue2);
 			}
 		}
 
 		public static bool SetProperty(SteamInventoryUpdateHandle_t handle, SteamItemInstanceID_t nItemID, string pchPropertyName, bool bValue) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchPropertyName2 = new InteropHelp.UTF8StringHandle(pchPropertyName)) {
-				return NativeMethods.ISteamInventory_SetProperty0(CSteamAPIContext.GetSteamInventory(), handle, nItemID, pchPropertyName2, bValue);
+				return NativeMethods.ISteamInventory_SetPropertyBool(CSteamAPIContext.GetSteamInventory(), handle, nItemID, pchPropertyName2, bValue);
 			}
 		}
 
-		public static bool SetProperty1(SteamInventoryUpdateHandle_t handle, SteamItemInstanceID_t nItemID, string pchPropertyName, long nValue) {
+		public static bool SetProperty(SteamInventoryUpdateHandle_t handle, SteamItemInstanceID_t nItemID, string pchPropertyName, long nValue) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchPropertyName2 = new InteropHelp.UTF8StringHandle(pchPropertyName)) {
-				return NativeMethods.ISteamInventory_SetProperty1(CSteamAPIContext.GetSteamInventory(), handle, nItemID, pchPropertyName2, nValue);
+				return NativeMethods.ISteamInventory_SetPropertyInt64(CSteamAPIContext.GetSteamInventory(), handle, nItemID, pchPropertyName2, nValue);
 			}
 		}
 
-		public static bool SetProperty2(SteamInventoryUpdateHandle_t handle, SteamItemInstanceID_t nItemID, string pchPropertyName, float flValue) {
+		public static bool SetProperty(SteamInventoryUpdateHandle_t handle, SteamItemInstanceID_t nItemID, string pchPropertyName, float flValue) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchPropertyName2 = new InteropHelp.UTF8StringHandle(pchPropertyName)) {
-				return NativeMethods.ISteamInventory_SetProperty2(CSteamAPIContext.GetSteamInventory(), handle, nItemID, pchPropertyName2, flValue);
+				return NativeMethods.ISteamInventory_SetPropertyFloat(CSteamAPIContext.GetSteamInventory(), handle, nItemID, pchPropertyName2, flValue);
 			}
 		}
 

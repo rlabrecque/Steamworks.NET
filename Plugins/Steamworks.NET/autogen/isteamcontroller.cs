@@ -128,7 +128,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Returns the current state of the supplied digital game action</para>
 		/// </summary>
-		public static ControllerDigitalActionData_t GetDigitalActionData(ControllerHandle_t controllerHandle, ControllerDigitalActionHandle_t digitalActionHandle) {
+		public static InputDigitalActionData_t GetDigitalActionData(ControllerHandle_t controllerHandle, ControllerDigitalActionHandle_t digitalActionHandle) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamController_GetDigitalActionData(CSteamAPIContext.GetSteamController(), controllerHandle, digitalActionHandle);
 		}
@@ -159,7 +159,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Returns the current state of these supplied analog game action</para>
 		/// </summary>
-		public static ControllerAnalogActionData_t GetAnalogActionData(ControllerHandle_t controllerHandle, ControllerAnalogActionHandle_t analogActionHandle) {
+		public static InputAnalogActionData_t GetAnalogActionData(ControllerHandle_t controllerHandle, ControllerAnalogActionHandle_t analogActionHandle) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamController_GetAnalogActionData(CSteamAPIContext.GetSteamController(), controllerHandle, analogActionHandle);
 		}
@@ -201,7 +201,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Returns raw motion data from the specified controller</para>
 		/// </summary>
-		public static ControllerMotionData_t GetMotionData(ControllerHandle_t controllerHandle) {
+		public static InputMotionData_t GetMotionData(ControllerHandle_t controllerHandle) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamController_GetMotionData(CSteamAPIContext.GetSteamController(), controllerHandle);
 		}

@@ -17,18 +17,6 @@ using IntPtr = System.IntPtr;
 namespace Steamworks {
 	public static class SteamGameServer {
 		/// <summary>
-		/// <para> Basic server data.  These properties, if set, must be set before before calling LogOn.  They</para>
-		/// <para> may not be changed after logged in.</para>
-		/// <para>/ This is called by SteamGameServer_Init, and you will usually not need to call it directly</para>
-		/// </summary>
-		public static bool InitGameServer(uint unIP, ushort usGamePort, ushort usQueryPort, uint unFlags, AppId_t nGameAppId, string pchVersionString) {
-			InteropHelp.TestIfAvailableGameServer();
-			using (var pchVersionString2 = new InteropHelp.UTF8StringHandle(pchVersionString)) {
-				return NativeMethods.ISteamGameServer_InitGameServer(CSteamGameServerAPIContext.GetSteamGameServer(), unIP, usGamePort, usQueryPort, unFlags, nGameAppId, pchVersionString2);
-			}
-		}
-
-		/// <summary>
 		/// <para>/ Game product identifier.  This is currently used by the master server for version checking purposes.</para>
 		/// <para>/ It's a required field, but will eventually will go away, and the AppID will be used for this purpose.</para>
 		/// </summary>

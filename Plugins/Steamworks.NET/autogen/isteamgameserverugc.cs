@@ -29,7 +29,7 @@ namespace Steamworks {
 		/// </summary>
 		public static UGCQueryHandle_t CreateQueryAllUGCRequest(EUGCQuery eQueryType, EUGCMatchingUGCType eMatchingeMatchingUGCTypeFileType, AppId_t nCreatorAppID, AppId_t nConsumerAppID, uint unPage) {
 			InteropHelp.TestIfAvailableGameServer();
-			return (UGCQueryHandle_t)NativeMethods.ISteamUGC_CreateQueryAllUGCRequest(CSteamGameServerAPIContext.GetSteamUGC(), eQueryType, eMatchingeMatchingUGCTypeFileType, nCreatorAppID, nConsumerAppID, unPage);
+			return (UGCQueryHandle_t)NativeMethods.ISteamUGC_CreateQueryAllUGCRequestPage(CSteamGameServerAPIContext.GetSteamUGC(), eQueryType, eMatchingeMatchingUGCTypeFileType, nCreatorAppID, nConsumerAppID, unPage);
 		}
 
 		/// <summary>
@@ -38,7 +38,7 @@ namespace Steamworks {
 		public static UGCQueryHandle_t CreateQueryAllUGCRequest(EUGCQuery eQueryType, EUGCMatchingUGCType eMatchingeMatchingUGCTypeFileType, AppId_t nCreatorAppID, AppId_t nConsumerAppID, string pchCursor = null) {
 			InteropHelp.TestIfAvailableGameServer();
 			using (var pchCursor2 = new InteropHelp.UTF8StringHandle(pchCursor)) {
-				return (UGCQueryHandle_t)NativeMethods.ISteamUGC_CreateQueryAllUGCRequest0(CSteamGameServerAPIContext.GetSteamUGC(), eQueryType, eMatchingeMatchingUGCTypeFileType, nCreatorAppID, nConsumerAppID, pchCursor2);
+				return (UGCQueryHandle_t)NativeMethods.ISteamUGC_CreateQueryAllUGCRequestCursor(CSteamGameServerAPIContext.GetSteamUGC(), eQueryType, eMatchingeMatchingUGCTypeFileType, nCreatorAppID, nConsumerAppID, pchCursor2);
 			}
 		}
 
@@ -135,7 +135,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableGameServer();
 			IntPtr pchValue2 = Marshal.AllocHGlobal((int)cchValueSize);
 			using (var pchKey2 = new InteropHelp.UTF8StringHandle(pchKey)) {
-				bool ret = NativeMethods.ISteamUGC_GetQueryUGCKeyValueTag0(CSteamGameServerAPIContext.GetSteamUGC(), handle, index, pchKey2, pchValue2, cchValueSize);
+				bool ret = NativeMethods.ISteamUGC_GetQueryFirstUGCKeyValueTag(CSteamGameServerAPIContext.GetSteamUGC(), handle, index, pchKey2, pchValue2, cchValueSize);
 				pchValue = ret ? InteropHelp.PtrToStringUTF8(pchValue2) : null;
 				Marshal.FreeHGlobal(pchValue2);
 				return ret;

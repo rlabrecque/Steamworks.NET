@@ -175,6 +175,7 @@ namespace Steamworks {
 		public const int k_iSteamSTARCallbacks = 5500;
 		public const int k_iClientSTARCallbacks = 5600;
 		public const int k_iSteamRemotePlayCallbacks = 5700;
+		public const int k_iClientCompatCallbacks = 5800;
 		public const int k_unSteamAccountIDMask = -1;
 		public const int k_unSteamAccountInstanceMask = 0x000FFFFF;
 		public const int k_unSteamUserDefaultInstance = 1; // fixed instance for all individual users

@@ -15,46 +15,6 @@ using System.Runtime.InteropServices;
 using IntPtr = System.IntPtr;
 
 namespace Steamworks {
-	[StructLayout(LayoutKind.Sequential, Pack = 1)]
-	public struct ControllerAnalogActionData_t {
-		// Type of data coming from this action, this will match what got specified in the action set
-		public EControllerSourceMode eMode;
-		
-		// The current state of this action; will be delta updates for mouse actions
-		public float x, y;
-		
-		// Whether or not this action is currently available to be bound in the active action set
-		public byte bActive;
-	}
-
-	[StructLayout(LayoutKind.Sequential, Pack = 1)]
-	public struct ControllerDigitalActionData_t {
-		// The current state of this action; will be true if currently pressed
-		public byte bState;
-		
-		// Whether or not this action is currently available to be bound in the active action set
-		public byte bActive;
-	}
-
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	public struct ControllerMotionData_t {
-		// Sensor-fused absolute rotation; will drift in heading
-		public float rotQuatX;
-		public float rotQuatY;
-		public float rotQuatZ;
-		public float rotQuatW;
-		
-		// Positional acceleration
-		public float posAccelX;
-		public float posAccelY;
-		public float posAccelZ;
-		
-		// Angular velocity
-		public float rotVelX;
-		public float rotVelY;
-		public float rotVelZ;
-	}
-
 	// friend game played information
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	public struct FriendGameInfo_t {
@@ -192,16 +152,6 @@ namespace Steamworks {
 		public uint m_unNumChildren;
 	}
 
-	// structure that contains client callback data
-	// see callbacks documentation for more details
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	public struct CallbackMsg_t {
-		public int m_hSteamUser;
-		public int m_iCallback;
-		public IntPtr m_pubParam;
-		public int m_cubParam;
-	}
-
 	// a single entry in a leaderboard, as returned by GetDownloadedLeaderboardEntry()
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	public struct LeaderboardEntry_t {
@@ -227,6 +177,18 @@ namespace Steamworks {
 		public string m_szKey;
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
 		public string m_szValue;
+	}
+
+	 // #ifndef API_GEN
+	// structure that contains client callback data
+	// see callbacks documentation for more details
+	/// Internal structure used in manual callback dispatch
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	public struct CallbackMsg_t {
+		public int m_hSteamUser; // Specific user to whom this callback applies.
+		public int m_iCallback; // Callback identifier.  (Corresponds to the k_iCallback enum in the callback structure.)
+		public IntPtr m_pubParam; // Points to the callback structure
+		public int m_cubParam; // Size of the data pointed to by m_pubParam
 	}
 
 }

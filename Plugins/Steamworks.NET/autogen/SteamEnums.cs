@@ -28,47 +28,6 @@ namespace Steamworks {
 		k_ERegisterActivationCodeAlreadyOwned = 4,
 	}
 
-	public enum EControllerSource : int {
-		k_EControllerSource_None,
-		k_EControllerSource_LeftTrackpad,
-		k_EControllerSource_RightTrackpad,
-		k_EControllerSource_Joystick,
-		k_EControllerSource_ABXY,
-		k_EControllerSource_Switch,
-		k_EControllerSource_LeftTrigger,
-		k_EControllerSource_RightTrigger,
-		k_EControllerSource_LeftBumper,
-		k_EControllerSource_RightBumper,
-		k_EControllerSource_Gyro,
-		k_EControllerSource_CenterTrackpad,		// PS4
-		k_EControllerSource_RightJoystick,		// Traditional Controllers
-		k_EControllerSource_DPad,				// Traditional Controllers
-		k_EControllerSource_Key,                // Keyboards with scan codes - Unused
-		k_EControllerSource_Mouse,              // Traditional mouse - Unused
-		k_EControllerSource_LeftGyro,			// Secondary Gyro - Switch - Unused
-		k_EControllerSource_Count
-	}
-
-	public enum EControllerSourceMode : int {
-		k_EControllerSourceMode_None,
-		k_EControllerSourceMode_Dpad,
-		k_EControllerSourceMode_Buttons,
-		k_EControllerSourceMode_FourButtons,
-		k_EControllerSourceMode_AbsoluteMouse,
-		k_EControllerSourceMode_RelativeMouse,
-		k_EControllerSourceMode_JoystickMove,
-		k_EControllerSourceMode_JoystickMouse,
-		k_EControllerSourceMode_JoystickCamera,
-		k_EControllerSourceMode_ScrollWheel,
-		k_EControllerSourceMode_Trigger,
-		k_EControllerSourceMode_TouchMenu,
-		k_EControllerSourceMode_MouseJoystick,
-		k_EControllerSourceMode_MouseRegion,
-		k_EControllerSourceMode_RadialMenu,
-		k_EControllerSourceMode_SingleButton,
-		k_EControllerSourceMode_Switches
-	}
-
 	// Note: Please do not use action origins as a way to identify controller types. There is no
 	// guarantee that they will be added in a contiguous manner - use GetInputTypeForHandle instead
 	// Versions of Steam that add new controller types in the future will extend this enum if you're
@@ -519,27 +478,6 @@ namespace Steamworks {
 		k_eHTMLKeyModifier_AltDown = 1 << 0,
 		k_eHTMLKeyModifier_CtrlDown = 1 << 1,
 		k_eHTMLKeyModifier_ShiftDown = 1 << 2,
-	}
-
-	public enum EInputSource : int {
-		k_EInputSource_None,
-		k_EInputSource_LeftTrackpad,
-		k_EInputSource_RightTrackpad,
-		k_EInputSource_Joystick,
-		k_EInputSource_ABXY,
-		k_EInputSource_Switch,
-		k_EInputSource_LeftTrigger,
-		k_EInputSource_RightTrigger,
-		k_EInputSource_LeftBumper,
-		k_EInputSource_RightBumper,
-		k_EInputSource_Gyro,
-		k_EInputSource_CenterTrackpad,		// PS4
-		k_EInputSource_RightJoystick,		// Traditional Controllers
-		k_EInputSource_DPad,				// Traditional Controllers
-		k_EInputSource_Key,                 // Keyboards with scan codes - Unused
-		k_EInputSource_Mouse,               // Traditional mouse - Unused
-		k_EInputSource_LeftGyro,			// Secondary Gyro - Switch - Unused
-		k_EInputSource_Count
 	}
 
 	public enum EInputSourceMode : int {
@@ -1084,6 +1022,7 @@ namespace Steamworks {
 		k_EFeatureParentalSetup = 10,
 		k_EFeatureLibrary = 11,
 		k_EFeatureTest = 12,
+		k_EFeatureSiteLicense = 13,
 		k_EFeatureMax
 	}
 
@@ -1117,6 +1056,7 @@ namespace Steamworks {
 		k_ERemoteStoragePublishedFileVisibilityPublic = 0,
 		k_ERemoteStoragePublishedFileVisibilityFriendsOnly = 1,
 		k_ERemoteStoragePublishedFileVisibilityPrivate = 2,
+		k_ERemoteStoragePublishedFileVisibilityUnlisted = 3,
 	}
 
 	public enum EWorkshopFileType : int {
@@ -1510,6 +1450,8 @@ namespace Steamworks {
 		k_EResultAccountNotFriends = 111,			// the user is not mutually friends
 		k_EResultLimitedUserAccount = 112,			// the user is limited
 		k_EResultCantRemoveItem = 113,				// item can't be removed
+		k_EResultAccountDeleted = 114,				// account has been deleted
+		k_EResultExistingUserCancelledLicense = 115,	// A license for this already exists, but cancelled
 	}
 
 	// Error codes for use with the voice functions
@@ -1842,6 +1784,7 @@ namespace Steamworks {
 		k_eEVRHMDType_Oculus_DK2 = 22, // Oculus DK2
 		k_eEVRHMDType_Oculus_Rift = 23, // Oculus Rift
 		k_eEVRHMDType_Oculus_RiftS = 24, // Oculus Rift S
+		k_eEVRHMDType_Oculus_Quest = 25, // Oculus Quest
 
 		k_eEVRHMDType_Oculus_Unknown = 40, // // Oculus unknown HMD
 

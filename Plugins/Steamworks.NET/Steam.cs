@@ -16,11 +16,11 @@ using IntPtr = System.IntPtr;
 
 namespace Steamworks {
 	public static class Version {
-		public const string SteamworksNETVersion = "13.0.0";
-		public const string SteamworksSDKVersion = "1.47";
-		public const string SteamAPIDLLVersion = "05.53.33.78";
-		public const int SteamAPIDLLSize = 261072;
-		public const int SteamAPI64DLLSize = 290768;
+		public const string SteamworksNETVersion = "14.0.0";
+		public const string SteamworksSDKVersion = "1.48";
+		public const string SteamAPIDLLVersion = "05.69.73.98";
+		public const int SteamAPIDLLSize = 237856;
+		public const int SteamAPI64DLLSize = 262944;
 	}
 
 	public static class SteamAPI {
@@ -30,6 +30,7 @@ namespace Steamworks {
 		//	These functions manage loading, initializing and shutdown of the steamclient.dll
 		//
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
+
 
 		// SteamAPI_Init must be called before using any other API functions. If it fails, an
 		// error message will be output to the debugger (or stderr) with further information.
@@ -49,6 +50,7 @@ namespace Steamworks {
 			return ret;
 		}
 
+		// SteamAPI_Shutdown should be called during process shutdown if possible.
 		public static void Shutdown() {
 			InteropHelp.TestIfPlatformSupported();
 			NativeMethods.SteamAPI_Shutdown();
@@ -79,7 +81,6 @@ namespace Steamworks {
 			NativeMethods.SteamAPI_ReleaseCurrentThreadMemory();
 		}
 
-
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
 		//	steam callback and call-result helpers
 		//
@@ -100,9 +101,14 @@ namespace Steamworks {
 		//
 		//	Callbacks and call-results are queued automatically and are only
 		//	delivered/executed when your application calls SteamAPI_RunCallbacks().
+		//
+		//	Note that there is an alternative, lower level callback dispatch mechanism.
+		//	See SteamAPI_ManualDispatch_Init
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
 
-		// SteamAPI_RunCallbacks is safe to call from multiple threads simultaneously,
+		// Dispatch all queued Steamworks callbacks.
+		//
+		// This is safe to call from multiple threads simultaneously,
 		// but if you choose to do this, callback code could be executed on any thread.
 		// One alternative is to call SteamAPI_RunCallbacks from the main thread only,
 		// and call SteamAPI_ReleaseCurrentThreadMemory regularly on other threads.
@@ -121,12 +127,6 @@ namespace Steamworks {
 		public static bool IsSteamRunning() {
 			InteropHelp.TestIfPlatformSupported();
 			return NativeMethods.SteamAPI_IsSteamRunning();
-		}
-
-		// returns the HSteamUser of the last user to dispatch a callback
-		public static HSteamUser GetHSteamUserCurrent() {
-			InteropHelp.TestIfPlatformSupported();
-			return (HSteamUser)NativeMethods.Steam_GetHSteamUserCurrent();
 		}
 
 		// returns the pipe we are communicating to Steam with

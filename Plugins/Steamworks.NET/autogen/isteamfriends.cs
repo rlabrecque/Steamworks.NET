@@ -628,6 +628,14 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamFriends_GetNumChatsWithUnreadPriorityMessages(CSteamAPIContext.GetSteamFriends());
 		}
+
+		/// <summary>
+		/// <para> activates game overlay to open the remote play together invite dialog. Invitations will be sent for remote play together</para>
+		/// </summary>
+		public static void ActivateGameOverlayRemotePlayTogetherInviteDialog(CSteamID steamIDLobby) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamFriends_ActivateGameOverlayRemotePlayTogetherInviteDialog(CSteamAPIContext.GetSteamFriends(), steamIDLobby);
+		}
 	}
 }
 
