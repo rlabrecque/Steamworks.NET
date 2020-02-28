@@ -1,12 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>Steamworks</RootNamespace>
-    <AssemblyName>Steamworks.NET</AssemblyName>
+    <AssemblyName>Steamworks.NET.Standard</AssemblyName>
     <Platforms>x64;x86</Platforms>
     <Configurations>Windows;OSX-Linux</Configurations>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Authors>Riley Labrecque</Authors>
+    <PackageId>Steamworks.NET.Standard.$(platform)</PackageId>
+	<PackageVersion>15.0.1.2</PackageVersion>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,6 +29,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OSX-Linux|x86'">
@@ -34,6 +41,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Windows|x64'">
@@ -45,6 +53,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OSX-Linux|x64'">
@@ -56,6 +65,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -150,17 +160,21 @@
     <Compile Include="..\Plugins\Steamworks.NET\types\Steam_api_common\HSteamUser.cs" Link="Steamworks.NET\types\SteamClient\HSteamUser.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="..\Plugins\Steamworks.NET\redist\steam_api.dll" Link="Steamworks.NET\redist\steam_api.dll" />
+  <ItemGroup Condition="'$(Platform)' == 'x86'">
     <Content Include="..\Plugins\Steamworks.NET\redist\steam_appid.txt" Link="Steamworks.NET\redist\steam_appid.txt" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(Platform)' == 'x64'">
+    <Content Include="..\Plugins\Steamworks.NET\redist\steam_appid.txt" Link="Steamworks.NET\redist\steam_appid.txt" />
+  </ItemGroup>
+	
   <ItemGroup>
     <None Include="..\Plugins\Steamworks.NET\redist\linux\launchscript" Link="Steamworks.NET\redist\linux\launchscript" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Steamworks.NET\types\SteamRemotePlay\" />
+    <Folder Include="lib\" />
   </ItemGroup>
 
 </Project>

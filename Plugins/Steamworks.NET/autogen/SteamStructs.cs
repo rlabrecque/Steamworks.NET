@@ -118,10 +118,10 @@ namespace Steamworks {
 		public EWorkshopFileType m_eFileType;									// Type of the file
 		public AppId_t m_nCreatorAppID;										// ID of the app that created this file.
 		public AppId_t m_nConsumerAppID;										// ID of the app that will consume this file.
-		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchPublishedDocumentTitleMax)]
-		public string m_rgchTitle;				// title of document
-		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchPublishedDocumentDescriptionMax)]
-		public string m_rgchDescription;	// description of document
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentTitleMax)]
+		public byte[] m_rgchTitle;				// title of document
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentDescriptionMax)]
+		public byte[] m_rgchDescription;	// description of document
 		public ulong m_ulSteamIDOwner;										// Steam ID of the user who created this content.
 		public uint m_rtimeCreated;											// time when the published file was created
 		public uint m_rtimeUpdated;											// time when the published file was last updated
@@ -133,17 +133,17 @@ namespace Steamworks {
 		public bool m_bAcceptedForUse;											// developer has specifically flagged this item as accepted in the Workshop
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bTagsTruncated;											// whether the list of tags was too long to be returned in the provided buffer
-		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchTagListMax)]
-		public string m_rgchTags;								// comma separated list of all tags associated with this file
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchTagListMax)]
+		public byte[] m_rgchTags;								// comma separated list of all tags associated with this file
 		// file/url information
 		public UGCHandle_t m_hFile;											// The handle of the primary file
 		public UGCHandle_t m_hPreviewFile;										// The handle of the preview file
-		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchFilenameMax)]
-		public string m_pchFileName;							// The cloud filename of the primary file
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
+		public byte[] m_pchFileName;							// The cloud filename of the primary file
 		public int m_nFileSize;												// Size of the primary file
 		public int m_nPreviewFileSize;										// Size of the preview file
-		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchPublishedFileURLMax)]
-		public string m_rgchURL;						// URL (for a video or a website)
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedFileURLMax)]
+		public byte[] m_rgchURL;						// URL (for a video or a website)
 		// voting information
 		public uint m_unVotesUp;												// number of votes up
 		public uint m_unVotesDown;											// number of votes down
@@ -170,13 +170,13 @@ namespace Steamworks {
 	[StructLayout(LayoutKind.Sequential)]
 	public struct MatchMakingKeyValuePair_t {
 		MatchMakingKeyValuePair_t(string strKey, string strValue) {
-			m_szKey = strKey;
-			m_szValue = strValue;
+			m_szKey = System.Text.Encoding.UTF8.GetBytes(strKey);
+			m_szValue = System.Text.Encoding.UTF8.GetBytes(strValue);
 		}
-		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-		public string m_szKey;
-		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-		public string m_szValue;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+		public byte[] m_szKey;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+		public byte[] m_szValue;
 	}
 
 	 // #ifndef API_GEN
