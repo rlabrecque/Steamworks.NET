@@ -119,9 +119,19 @@ namespace Steamworks {
 		public AppId_t m_nCreatorAppID;										// ID of the app that created this file.
 		public AppId_t m_nConsumerAppID;										// ID of the app that will consume this file.
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentTitleMax)]
-		public byte[] m_rgchTitle;				// title of document
+		public byte[] n_rgchTitle;              // title of document
+		public string m_rgchTitle
+		{
+			get => InteropHelp.Utf8ArrayToString(n_rgchTitle);
+			set => InteropHelp.WriteStringToArray(value, n_rgchTitle);
+		}
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentDescriptionMax)]
-		public byte[] m_rgchDescription;	// description of document
+		public byte[] n_rgchDescription;    // description of document
+		public string m_rgchDescription
+		{
+			get => InteropHelp.Utf8ArrayToString(n_rgchDescription);
+			set => InteropHelp.WriteStringToArray(value, n_rgchDescription);
+		}
 		public ulong m_ulSteamIDOwner;										// Steam ID of the user who created this content.
 		public uint m_rtimeCreated;											// time when the published file was created
 		public uint m_rtimeUpdated;											// time when the published file was last updated
@@ -134,16 +144,31 @@ namespace Steamworks {
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bTagsTruncated;											// whether the list of tags was too long to be returned in the provided buffer
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchTagListMax)]
-		public byte[] m_rgchTags;								// comma separated list of all tags associated with this file
+		public byte[] n_rgchTags;                               // comma separated list of all tags associated with this file
+		public string m_rgchTags
+		{
+			get => InteropHelp.Utf8ArrayToString(n_rgchTags);
+			set => InteropHelp.WriteStringToArray(value, n_rgchTags);
+		}
 		// file/url information
 		public UGCHandle_t m_hFile;											// The handle of the primary file
 		public UGCHandle_t m_hPreviewFile;										// The handle of the preview file
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
-		public byte[] m_pchFileName;							// The cloud filename of the primary file
+		public byte[] n_pchFileName;                            // The cloud filename of the primary file
+		public string m_pchFileName
+		{
+			get => InteropHelp.Utf8ArrayToString(n_pchFileName);
+			set => InteropHelp.WriteStringToArray(value, n_pchFileName);
+		}
 		public int m_nFileSize;												// Size of the primary file
 		public int m_nPreviewFileSize;										// Size of the preview file
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedFileURLMax)]
-		public byte[] m_rgchURL;						// URL (for a video or a website)
+		public byte[] n_rgchURL;                        // URL (for a video or a website)
+		public string m_rgchURL
+		{
+			get => InteropHelp.Utf8ArrayToString(n_rgchURL);
+			set => InteropHelp.WriteStringToArray(value, n_rgchURL);
+		}
 		// voting information
 		public uint m_unVotesUp;												// number of votes up
 		public uint m_unVotesDown;											// number of votes down
