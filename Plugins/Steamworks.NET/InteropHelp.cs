@@ -63,6 +63,31 @@ namespace Steamworks {
 			return Encoding.UTF8.GetString(buffer);
 		}
 
+		public static string Utf8ArrayToString(byte[] utf8)
+		{
+			int i = 0;
+
+			for (; i< utf8.Length && utf8[i] != 0; i++) ;
+
+			return Encoding.UTF8.GetString(utf8, 0, i);
+		}
+
+		public static void WriteStringToArray(string str, byte[] arr)
+		{
+			var span = System.MemoryExtensions.AsSpan(str);
+			
+			int nullidx = 0; //index of \0
+			for (; nullidx < span.Length && span[nullidx] != 0; nullidx++) ;
+
+			byte[] buff = Encoding.UTF8.GetBytes(str, 0, nullidx);
+
+			var buff_span = System.MemoryExtensions.AsSpan(buff);
+			var arr_span = System.MemoryExtensions.AsSpan(arr);
+
+			buff_span = buff_span.Slice(0, arr_span.Length - 1);
+			buff_span.CopyTo(arr_span);
+		}
+
 		// This is for 'const char *' arguments which we need to ensure do not get GC'd while Steam is using them.
 		// We can't use an ICustomMarshaler because Unity crashes when a string between 96 and 127 characters long is defined/initialized at the top of class scope...
 #if UNITY_EDITOR || UNITY_STANDALONE || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX

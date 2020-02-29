@@ -16,6 +16,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="lib\**" />
+    <Compile Remove="UTF8InterlopHelper\**" />
+    <EmbeddedResource Remove="lib\**" />
+    <EmbeddedResource Remove="UTF8InterlopHelper\**" />
+    <None Remove="lib\**" />
+    <None Remove="UTF8InterlopHelper\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="README.md" />
     <None Remove="Steamworks.NET.dll.config" />
   </ItemGroup>
@@ -174,7 +183,6 @@
 
   <ItemGroup>
     <Folder Include="Steamworks.NET\types\SteamRemotePlay\" />
-    <Folder Include="lib\" />
   </ItemGroup>
 
 </Project>
