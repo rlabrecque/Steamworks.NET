@@ -82,7 +82,12 @@ namespace Steamworks {
 		public uint m_nAppID;
 		public uint m_cchKeyLength;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cubAppProofOfPurchaseKeyMax)]
-		public byte[] m_rgchKey;
+		public byte[] n_rgchKey;
+		public string m_rgchKey
+		{
+			get => InteropHelp.Utf8ArrayToString(n_rgchKey);
+			set => InteropHelp.WriteStringToArray(value, n_rgchKey);
+		}
 	}
 
 	//-----------------------------------------------------------------------------
@@ -95,7 +100,13 @@ namespace Steamworks {
 		public EResult m_eResult;
 		public ulong m_ulFileSize;	// original file size in bytes
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
-		public byte[] m_FileSHA;	// original file SHA1 hash
+		public byte[] n_FileSHA;    // original file SHA1 hash
+		public string m_FileSHA
+		{
+			get => InteropHelp.Utf8ArrayToString(n_FileSHA);
+			set => InteropHelp.WriteStringToArray(value, n_FileSHA);
+		}
+
 		public uint m_unFlags;		//
 	}
 
@@ -132,9 +143,21 @@ namespace Steamworks {
 	public struct GameServerChangeRequested_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 32;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
-		public byte[] m_rgchServer;		// server address ("127.0.0.1:27015", "tf2.valvesoftware.com")
+		public byte[] n_rgchServer;     // server address ("127.0.0.1:27015", "tf2.valvesoftware.com")
+		public string m_rgchServer
+		{
+			get => InteropHelp.Utf8ArrayToString(n_rgchServer);
+			set => InteropHelp.WriteStringToArray(value, n_rgchServer);
+		}
+
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
-		public byte[] m_rgchPassword;	// server password, if any
+		public byte[] n_rgchPassword;   // server password, if any
+		public string m_rgchPassword
+		{
+			get => InteropHelp.Utf8ArrayToString(n_rgchPassword);
+			set => InteropHelp.WriteStringToArray(value, n_rgchPassword);
+		}
+
 	}
 
 	//-----------------------------------------------------------------------------
@@ -202,7 +225,13 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 37;
 		public CSteamID m_steamIDFriend;		// the friend they did the join via (will be invalid if not directly via a friend)
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchMaxRichPresenceValueLength)]
-		public byte[] m_rgchConnect;
+		public byte[] n_rgchConnect;
+		public string m_rgchConnect
+		{
+			get => InteropHelp.Utf8ArrayToString(n_rgchConnect);
+			set => InteropHelp.WriteStringToArray(value, n_rgchConnect);
+		}
+
 	}
 
 	//-----------------------------------------------------------------------------
@@ -367,7 +396,12 @@ namespace Steamworks {
 		public CSteamID m_SteamID;
 		public EDenyReason m_eDenyReason;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
-		public byte[] m_rgchOptionalText;
+		public byte[] n_rgchOptionalText;
+		public string m_rgchOptionalText
+		{
+			get => InteropHelp.Utf8ArrayToString(n_rgchOptionalText);
+			set => InteropHelp.WriteStringToArray(value, n_rgchOptionalText);
+		}
 	}
 
 	// request the game server should kick the user
@@ -388,7 +422,13 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 6;
 		public ulong m_SteamID;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
-		public byte[] m_pchAchievement;
+		public byte[] n_pchAchievement;
+		public string m_pchAchievement
+		{
+			get => InteropHelp.Utf8ArrayToString(n_pchAchievement);
+			set => InteropHelp.WriteStringToArray(value, n_pchAchievement);
+		}
+
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bUnlocked;
 	}
@@ -933,7 +973,12 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iClientInventoryCallbacks + 5;
 		public EResult m_result;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-		public byte[] m_rgchCurrency;
+		public byte[] n_rgchCurrency;
+		public string m_rgchCurrency
+		{
+			get => InteropHelp.Utf8ArrayToString(n_rgchCurrency);
+			set => InteropHelp.WriteStringToArray(value, n_rgchCurrency);
+		}
 	}
 
 	//-----------------------------------------------------------------------------
@@ -1227,7 +1272,13 @@ namespace Steamworks {
 		public PartyBeaconID_t m_ulBeaconID;
 		public CSteamID m_SteamIDBeaconOwner;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-		public byte[] m_rgchConnectString;
+		public byte[] n_rgchConnectString;
+		public string m_rgchConnectString
+		{
+			get => InteropHelp.Utf8ArrayToString(n_rgchConnectString);
+			set => InteropHelp.WriteStringToArray(value, n_rgchConnectString);
+		}
+
 	}
 
 	// Response to CreateBeacon request. If successful, the beacon ID is provided.
@@ -1475,7 +1526,13 @@ namespace Steamworks {
 	public struct RemoteStorageAppSyncProgress_t {
 		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 3;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
-		public byte[] m_rgchCurrentFile;				// Current file being transferred
+		public byte[] n_rgchCurrentFile;                // Current file being transferred
+		public string m_rgchCurrentFile
+		{
+			get => InteropHelp.Utf8ArrayToString(n_rgchCurrentFile);
+			set => InteropHelp.WriteStringToArray(value, n_rgchCurrentFile);
+		}
+
 		public AppId_t m_nAppID;							// App this info relates to
 		public uint m_uBytesTransferredThisChunk;		// Bytes transferred this chunk
 		public double m_dAppPercentComplete;				// Percent complete that this app's transfers are
@@ -1508,7 +1565,13 @@ namespace Steamworks {
 		public EResult m_eResult;			// The result of the operation
 		public UGCHandle_t m_hFile;		// The handle that can be shared with users and features
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
-		public byte[] m_rgchFilename; // The name of the file that was shared
+		public byte[] n_rgchFilename; // The name of the file that was shared
+		public string m_rgchFilename
+		{
+			get => InteropHelp.Utf8ArrayToString(n_rgchFilename);
+			set => InteropHelp.WriteStringToArray(value, n_rgchFilename);
+		}
+
 	}
 
 	// k_iClientRemoteStorageCallbacks + 8 is deprecated! Do not reuse
@@ -1613,7 +1676,12 @@ namespace Steamworks {
 		public AppId_t m_nAppID;				// ID of the app that created this file.
 		public int m_nSizeInBytes;			// The size of the file that was downloaded, in bytes.
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
-		public byte[] m_pchFileName;		// The name of the file that was downloaded.
+		private byte[] n_pchFileName;       // The name of the file that was downloaded. //native ptr char FileName
+		public string m_pchFileName
+		{
+			get => InteropHelp.Utf8ArrayToString(n_pchFileName);
+			set => InteropHelp.WriteStringToArray(value, n_pchFileName);
+		}
 		public ulong m_ulSteamIDOwner;		// Steam ID of the user who created this content.
 	}
 
@@ -1629,9 +1697,20 @@ namespace Steamworks {
 		public AppId_t m_nCreatorAppID;		// ID of the app that created this file.
 		public AppId_t m_nConsumerAppID;		// ID of the app that will consume this file.
 		[MarshalAs(UnmanagedType.ByValArray,SizeConst = Constants.k_cchPublishedDocumentTitleMax)]
-		public byte[] m_rgchTitle;		// title of document
+		public byte[] n_rgchTitle;      // title of document
+		public string m_rgchTitle
+		{
+			get => InteropHelp.Utf8ArrayToString(n_rgchTitle);
+			set => InteropHelp.WriteStringToArray(value, n_rgchTitle);
+		}
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentDescriptionMax)]
-		public byte[] m_rgchDescription;	// description of document
+		public byte[] n_rgchDescription;    // description of document
+		public string m_rgchDescription
+		{
+			get => InteropHelp.Utf8ArrayToString(n_rgchDescription);
+			set => InteropHelp.WriteStringToArray(value, n_rgchDescription);
+		}
+
 		public UGCHandle_t m_hFile;			// The handle of the primary file
 		public UGCHandle_t m_hPreviewFile;		// The handle of the preview file
 		public ulong m_ulSteamIDOwner;		// Steam ID of the user who created this content.
@@ -1641,15 +1720,32 @@ namespace Steamworks {
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bBanned;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchTagListMax)]
-		public byte[] m_rgchTags;	// comma separated list of all tags associated with this file
+		public byte[] n_rgchTags;   // comma separated list of all tags associated with this file
+		public string m_rgchTags
+		{
+			get => InteropHelp.Utf8ArrayToString(n_rgchTags);
+			set => InteropHelp.WriteStringToArray(value, n_rgchTags);
+		}
+
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bTagsTruncated;			// whether the list of tags was too long to be returned in the provided buffer
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
-		public byte[] m_pchFileName;		// The name of the primary file
+		public byte[] n_pchFileName;        // The name of the primary file
+		public string m_pchFileName
+		{
+			get => InteropHelp.Utf8ArrayToString(n_pchFileName);
+			set => InteropHelp.WriteStringToArray(value, n_pchFileName);
+		}
 		public int m_nFileSize;				// Size of the primary file
 		public int m_nPreviewFileSize;		// Size of the preview file
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedFileURLMax)]
-		public byte[] m_rgchURL;	// URL (for a video or a website)
+		public byte[] n_rgchURL;    // URL (for a video or a website)
+		public string m_rgchURL
+		{
+			get => InteropHelp.Utf8ArrayToString(n_rgchURL);
+			set => InteropHelp.WriteStringToArray(value, n_rgchURL);
+		}
+
 		public EWorkshopFileType m_eFileType;	// Type of the file
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bAcceptedForUse;			// developer has specifically flagged this item as accepted in the Workshop
@@ -1860,7 +1956,13 @@ namespace Steamworks {
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bCachedData;	// indicates whether this data was retrieved from the local on-disk cache
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedFileURLMax)]
-		public byte[] m_rgchNextCursor; // If a paging cursor was used, then this will be the next cursor to get the next result set.
+		public byte[] n_rgchNextCursor; // If a paging cursor was used, then this will be the next cursor to get the next result set.
+		public string m_rgchNextCursor
+		{
+			get => InteropHelp.Utf8ArrayToString(n_rgchNextCursor);
+			set => InteropHelp.WriteStringToArray(value, n_rgchNextCursor);
+		}
+
 	}
 
 	//-----------------------------------------------------------------------------
@@ -2195,7 +2297,13 @@ namespace Steamworks {
 	public struct GameWebCallback_t {
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 64;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-		public byte[] m_szURL;
+		public byte[] n_szURL;
+		public string m_szURL
+		{
+			get => InteropHelp.Utf8ArrayToString(n_szURL);
+			set => InteropHelp.WriteStringToArray(value, n_szURL);
+		}
+
 	}
 
 	//-----------------------------------------------------------------------------
@@ -2206,7 +2314,13 @@ namespace Steamworks {
 	public struct StoreAuthURLResponse_t {
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 65;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 512)]
-		public byte[] m_szURL;
+		public byte[] n_szURL;
+		public string m_szURL
+		{
+			get => InteropHelp.Utf8ArrayToString(n_szURL);
+			set => InteropHelp.WriteStringToArray(value, n_szURL);
+		}
+
 	}
 
 	//-----------------------------------------------------------------------------
@@ -2294,7 +2408,13 @@ namespace Steamworks {
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bGroupAchievement;	// if this is a "group" achievement
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchStatNameMax)]
-		public byte[] m_rgchAchievementName;		// name of the achievement
+		public byte[] n_rgchAchievementName;        // name of the achievement
+		public string m_rgchAchievementName
+		{
+			get => InteropHelp.Utf8ArrayToString(n_rgchAchievementName);
+			set => InteropHelp.WriteStringToArray(value, n_rgchAchievementName);
+		}
+
 		public uint m_nCurProgress;			// current progress towards the achievement
 		public uint m_nMaxProgress;			// "out of" this many
 	}
@@ -2369,7 +2489,13 @@ namespace Steamworks {
 		
 		public CGameID m_nGameID;				// Game this is for
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchStatNameMax)]
-		public byte[] m_rgchAchievementName;		// name of the achievement
+		public byte[] n_rgchAchievementName;        // name of the achievement
+		public string m_rgchAchievementName
+		{
+			get => InteropHelp.Utf8ArrayToString(n_rgchAchievementName);
+			set => InteropHelp.WriteStringToArray(value, n_rgchAchievementName);
+		}
+
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bAchieved;		// Is the icon for the achieved or not achieved version?
 		public int m_nIconHandle;		// Handle to the image, which can be used in SteamUtils()->GetImageRGBA(), 0 means no image is set for the achievement
@@ -2481,7 +2607,13 @@ namespace Steamworks {
 		public EResult m_eResult;
 		public AppId_t m_unVideoAppID;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-		public byte[] m_rgchURL;
+		public byte[] n_rgchURL;
+		public string m_rgchURL
+		{
+			get => InteropHelp.Utf8ArrayToString(n_rgchURL);
+			set => InteropHelp.WriteStringToArray(value, n_rgchURL);
+		}
+
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]

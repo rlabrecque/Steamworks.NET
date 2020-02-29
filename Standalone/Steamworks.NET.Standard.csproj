@@ -11,7 +11,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>Riley Labrecque</Authors>
     <PackageId>Steamworks.NET.Standard.$(platform)</PackageId>
-	<PackageVersion>15.0.1.2</PackageVersion>
+	<PackageVersion>15.0.1.3</PackageVersion>
 	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
