@@ -75,6 +75,17 @@ namespace Steamworks {
 				foreach (var iCallback in unusedICallbacks) {
 					m_registeredCallbacks.Remove(iCallback);
 				}
+
+				unusedICallbacks.Clear();
+
+				foreach (var pair in m_registeredGameServerCallbacks) {
+					if (pair.Value.Count == 0)
+						unusedICallbacks.Add(pair.Key);
+				}
+
+				foreach (var iCallback in unusedICallbacks) {
+					m_registeredGameServerCallbacks.Remove(iCallback);
+				}
 			}
 		}
 
