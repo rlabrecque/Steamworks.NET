@@ -122,41 +122,43 @@ namespace Steamworks {
 			HSteamPipe hSteamPipe = (HSteamPipe)(isGameServer ? NativeMethods.SteamGameServer_GetHSteamPipe() : NativeMethods.SteamAPI_GetHSteamPipe());
 			NativeMethods.SteamAPI_ManualDispatch_RunFrame(hSteamPipe);
 			var callbacksRegistry = isGameServer ? m_registeredGameServerCallbacks : m_registeredCallbacks;
-			lock (m_sync) {
-				while (NativeMethods.SteamAPI_ManualDispatch_GetNextCallback(hSteamPipe, m_pCallbackMsg.AddrOfPinnedObject())) {
-					try {
-						// Check for dispatching API call results
-						if (m_callbackMsg.m_iCallback == SteamAPICallCompleted_t.k_iCallback) {
-							SteamAPICallCompleted_t callCompletedCb;
-							Marshal.PtrToStructure(m_callbackMsg.m_pubParam, callCompletedCb);
-							IntPtr pTmpCallResult = Marshal.AllocHGlobal(callCompletedCb.m_cubParam);
-							bool bFailed;
-							try {
-								if (NativeMethods.SteamAPI_ManualDispatch_GetAPICallResult(hSteamPipe, callCompletedCb.m_hAsyncCall, pTmpCallResult, callCompletedCb.m_cubParam, callCompletedCb.m_iCallback, out bFailed)) {
-									if (m_registeredCallResults.TryGetValue((ulong)callCompletedCb.m_hAsyncCall, out CallResult cr)) {
-										cr.OnRunCallResult(pTmpCallResult, bFailed, (ulong)callCompletedCb.m_hAsyncCall);
-									}
-								}
-							} finally {
-								Marshal.FreeHGlobal(pTmpCallResult);
-								m_dispatchedApiCalls.Add((ulong)callCompletedCb.m_hAsyncCall);
-							}
-						} else {
-							if (callbacksRegistry.TryGetValue(m_callbackMsg.m_iCallback, out var callbacks)) {
-								foreach (var callback in callbacks) {
-									callback.OnRunCallback(m_callbackMsg.m_pubParam);
+			while (NativeMethods.SteamAPI_ManualDispatch_GetNextCallback(hSteamPipe, m_pCallbackMsg.AddrOfPinnedObject())) {
+				try {
+					// Check for dispatching API call results
+					if (m_callbackMsg.m_iCallback == SteamAPICallCompleted_t.k_iCallback) {
+						SteamAPICallCompleted_t callCompletedCb;
+						Marshal.PtrToStructure(m_callbackMsg.m_pubParam, callCompletedCb);
+						IntPtr pTmpCallResult = Marshal.AllocHGlobal(callCompletedCb.m_cubParam);
+						bool bFailed;
+						try {
+							if (NativeMethods.SteamAPI_ManualDispatch_GetAPICallResult(hSteamPipe, callCompletedCb.m_hAsyncCall, pTmpCallResult, callCompletedCb.m_cubParam, callCompletedCb.m_iCallback, out bFailed)) {
+								if (m_registeredCallResults.TryGetValue((ulong)callCompletedCb.m_hAsyncCall, out CallResult cr)) {
+									cr.OnRunCallResult(pTmpCallResult, bFailed, (ulong)callCompletedCb.m_hAsyncCall);
 								}
 							}
+						} finally {
+							Marshal.FreeHGlobal(pTmpCallResult);
+							m_dispatchedApiCalls.Add((ulong)callCompletedCb.m_hAsyncCall);
 						}
-					} catch (Exception e) {
-						ExceptionHandler(e);
-					} finally {
-						NativeMethods.SteamAPI_ManualDispatch_FreeLastCallback(hSteamPipe);
-						foreach (var call in m_dispatchedApiCalls) {
-							m_registeredCallResults.Remove(call);
+					} else {
+						if (callbacksRegistry.TryGetValue(m_callbackMsg.m_iCallback, out var callbacks)) {
+							List<Callback> callbacksCopy;
+							lock (m_sync) {
+								callbacksCopy = new List<Callback>(callbacks);
+							}
+							foreach (var callback in callbacksCopy) {
+								callback.OnRunCallback(m_callbackMsg.m_pubParam);
+							}
 						}
-						m_dispatchedApiCalls.Clear();
 					}
+				} catch (Exception e) {
+					ExceptionHandler(e);
+				} finally {
+					NativeMethods.SteamAPI_ManualDispatch_FreeLastCallback(hSteamPipe);
+					foreach (var call in m_dispatchedApiCalls) {
+						m_registeredCallResults.Remove(call);
+					}
+					m_dispatchedApiCalls.Clear();
 				}
 			}
 		}
