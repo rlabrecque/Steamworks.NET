@@ -49,19 +49,26 @@ namespace Steamworks {
 		private static object m_sync = new object();
 		private static CallbackMsg_t m_callbackMsg; // Preallocated
 		private static GCHandle m_pCallbackMsg;
+		private static int m_initCount;
 
-		public static bool IsInitialized { get; private set; }
+		public static bool IsInitialized => m_initCount > 0;
 
 		internal static void Initialize() {
-			NativeMethods.SteamAPI_ManualDispatch_Init();
-			m_pCallbackMsg = GCHandle.Alloc(m_callbackMsg, GCHandleType.Pinned);
-			IsInitialized = true;
+			lock (m_sync) {
+				if (m_initCount == 0) {
+					NativeMethods.SteamAPI_ManualDispatch_Init();
+					m_pCallbackMsg = GCHandle.Alloc(m_callbackMsg, GCHandleType.Pinned);
+				}
+				++m_initCount;
+			}
 		}
 
 		internal static void Shutdown() {
-			if (m_pCallbackMsg.IsAllocated)
-				m_pCallbackMsg.Free();
-			IsInitialized = false;
+			lock (m_sync) {
+				--m_initCount;
+				if (m_initCount == 0)
+					m_pCallbackMsg.Free();
+			}
 		}
 
 		public static void Prune() {
