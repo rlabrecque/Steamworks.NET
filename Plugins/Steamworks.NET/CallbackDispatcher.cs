@@ -106,7 +106,8 @@ namespace Steamworks {
 		internal static void Register(SteamAPICall_t asyncCall, CallResult cr) {
 			lock (m_sync) {
 				// Dispatch goes to last CallResult the SteamAPICall_t is set on
-				m_registeredCallResults[(ulong)asyncCall] = cr;
+				Unregister(asyncCall);
+				m_registeredCallResults.Add((ulong)asyncCall, cr);
 			}
 		}
 
@@ -123,7 +124,10 @@ namespace Steamworks {
 
 		internal static void Unregister(SteamAPICall_t asyncCall) {
 			lock (m_sync) {
-				m_registeredCallResults.Remove((ulong)asyncCall);
+				if (m_registeredCallResults.TryGetValue((ulong)asyncCall, out CallResult cr)) {
+					cr.SetUnregistered();
+					m_registeredCallResults.Remove((ulong)asyncCall);
+				}
 			}
 		}
 
@@ -250,7 +254,7 @@ namespace Steamworks {
 			m_bIsRegistered = false;
 		}
 
-		public override bool IsGameServer => m_bIsRegistered;
+		public override bool IsGameServer => m_bGameServer;
 
 		internal override Type GetCallbackType() {
 			return typeof(T);
@@ -269,6 +273,7 @@ namespace Steamworks {
 	public abstract class CallResult {
 		internal abstract Type GetCallbackType();
 		internal abstract void OnRunCallResult(IntPtr pvParam, bool bFailed, ulong hSteamAPICall);
+		internal abstract void SetUnregistered();
 	}
 
 	public sealed class CallResult<T> : IDisposable {
@@ -358,6 +363,10 @@ namespace Steamworks {
 					CallbackDispatcher.ExceptionHandler(e);
 				}
 			}
+		}
+
+		internal override void SetUnregistered() {
+			m_hAPICall = SteamAPICall_t.Invalid;
 		}
 	}
 }
