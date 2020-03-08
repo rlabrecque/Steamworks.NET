@@ -175,6 +175,7 @@ namespace Steamworks {
 				} finally {
 					NativeMethods.SteamAPI_ManualDispatch_FreeLastCallback(hSteamPipe);
 					foreach (var call in m_dispatchedApiCalls) {
+						m_registeredCallResults[call].SetUnregistered();
 						m_registeredCallResults.Remove(call);
 					}
 					m_dispatchedApiCalls.Clear();
@@ -345,10 +346,8 @@ namespace Steamworks {
 		}
 
 		public void Cancel() {
-			if (m_hAPICall != SteamAPICall_t.Invalid) {
+			if (IsActive())
 				CallbackDispatcher.Unregister(m_hAPICall, this);
-				m_hAPICall = SteamAPICall_t.Invalid;
-			}
 		}
 
 		internal override Type GetCallbackType() {
@@ -358,8 +357,6 @@ namespace Steamworks {
 		internal override void OnRunCallResult(IntPtr pvParam, bool bFailed, ulong hSteamAPICall_) {
 			SteamAPICall_t hSteamAPICall = (SteamAPICall_t)hSteamAPICall_;
 			if (hSteamAPICall == m_hAPICall) {
-				m_hAPICall = SteamAPICall_t.Invalid; // Caller unregisters for us
-
 				try {
 					m_Func((T)Marshal.PtrToStructure(pvParam, typeof(T)), bFailed);
 				}
