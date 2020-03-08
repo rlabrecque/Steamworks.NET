@@ -145,16 +145,13 @@ namespace Steamworks {
 						Marshal.PtrToStructure(m_callbackMsg.m_pubParam, callCompletedCb);
 						IntPtr pTmpCallResult = Marshal.AllocHGlobal(callCompletedCb.m_cubParam);
 						bool bFailed;
-						try {
-							if (NativeMethods.SteamAPI_ManualDispatch_GetAPICallResult(hSteamPipe, callCompletedCb.m_hAsyncCall, pTmpCallResult, callCompletedCb.m_cubParam, callCompletedCb.m_iCallback, out bFailed)) {
-								if (m_registeredCallResults.TryGetValue((ulong)callCompletedCb.m_hAsyncCall, out CallResult cr)) {
-									cr.OnRunCallResult(pTmpCallResult, bFailed, (ulong)callCompletedCb.m_hAsyncCall);
-								}
+						if (NativeMethods.SteamAPI_ManualDispatch_GetAPICallResult(hSteamPipe, callCompletedCb.m_hAsyncCall, pTmpCallResult, callCompletedCb.m_cubParam, callCompletedCb.m_iCallback, out bFailed)) {
+							if (m_registeredCallResults.TryGetValue((ulong)callCompletedCb.m_hAsyncCall, out CallResult cr)) {
+								cr.OnRunCallResult(pTmpCallResult, bFailed, (ulong)callCompletedCb.m_hAsyncCall);
 							}
-						} finally {
-							Marshal.FreeHGlobal(pTmpCallResult);
-							m_dispatchedApiCalls.Add((ulong)callCompletedCb.m_hAsyncCall);
 						}
+						Marshal.FreeHGlobal(pTmpCallResult);
+						m_dispatchedApiCalls.Add((ulong)callCompletedCb.m_hAsyncCall);
 					} else {
 						if (callbacksRegistry.TryGetValue(m_callbackMsg.m_iCallback, out var callbacks)) {
 							List<Callback> callbacksCopy;
