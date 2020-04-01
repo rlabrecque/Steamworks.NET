@@ -10,7 +10,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>Riley Labrecque</Authors>
-    <PackageId>Steamworks.NET.Standard.$(platform)</PackageId>
+    <PackageId>Steamworks.NET.Standard.$(Configuration).$(platform)</PackageId>
 	<PackageVersion>15.0.1.4</PackageVersion>
 	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
