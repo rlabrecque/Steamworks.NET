@@ -11,7 +11,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>Riley Labrecque</Authors>
     <PackageId>Steamworks.NET.Standard.$(platform)</PackageId>
-	<PackageVersion>15.0.1.3</PackageVersion>
+	<PackageVersion>15.0.1.4</PackageVersion>
 	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
@@ -170,11 +170,11 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Platform)' == 'x86'">
-    <Content Include="..\Plugins\Steamworks.NET\redist\steam_appid.txt" Link="Steamworks.NET\redist\steam_appid.txt" />
+    <None Include="..\Plugins\Steamworks.NET\redist\steam_appid.txt" Link="Steamworks.NET\redist\steam_appid.txt" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Platform)' == 'x64'">
-    <Content Include="..\Plugins\Steamworks.NET\redist\steam_appid.txt" Link="Steamworks.NET\redist\steam_appid.txt" />
+    <None Include="..\Plugins\Steamworks.NET\redist\steam_appid.txt" Link="Steamworks.NET\redist\steam_appid.txt" />
   </ItemGroup>
 	
   <ItemGroup>
