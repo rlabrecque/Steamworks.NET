@@ -181,6 +181,111 @@ namespace Steamworks {
 		public const int k_unSteamUserDefaultInstance = 1; // fixed instance for all individual users
 		public const int k_cchGameExtraInfoMax = 64;
 		public const int k_nSteamEncryptedAppTicketSymmetricKeyLen = 32;
+		/// Max length of diagnostic error message
+		public const int k_cchMaxSteamNetworkingErrMsg = 1024;
+		/// Max length, in bytes (including null terminator) of the reason string
+		/// when a connection is closed.
+		public const int k_cchSteamNetworkingMaxConnectionCloseReason = 128;
+		/// Max length, in bytes (include null terminator) of debug description
+		/// of a connection.
+		public const int k_cchSteamNetworkingMaxConnectionDescription = 128;
+		//
+		// Network messages
+		//
+		/// Max size of a single message that we can SEND.
+		/// Note: We might be wiling to receive larger messages,
+		/// and our peer might, too.
+		public const int k_cbMaxSteamNetworkingSocketsMessageSizeSend = 512 * 1024;
+		//
+		// Flags used to set options for message sending
+		//
+		// Send the message unreliably. Can be lost.  Messages *can* be larger than a
+		// single MTU (UDP packet), but there is no retransmission, so if any piece
+		// of the message is lost, the entire message will be dropped.
+		//
+		// The sending API does have some knowledge of the underlying connection, so
+		// if there is no NAT-traversal accomplished or there is a recognized adjustment
+		// happening on the connection, the packet will be batched until the connection
+		// is open again.
+		//
+		// Migration note: This is not exactly the same as k_EP2PSendUnreliable!  You
+		// probably want k_ESteamNetworkingSendType_UnreliableNoNagle
+		public const int k_nSteamNetworkingSend_Unreliable = 0;
+		// Disable Nagle's algorithm.
+		// By default, Nagle's algorithm is applied to all outbound messages.  This means
+		// that the message will NOT be sent immediately, in case further messages are
+		// sent soon after you send this, which can be grouped together.  Any time there
+		// is enough buffered data to fill a packet, the packets will be pushed out immediately,
+		// but partially-full packets not be sent until the Nagle timer expires.  See
+		// ISteamNetworkingSockets::FlushMessagesOnConnection, ISteamNetworkingMessages::FlushMessagesToUser
+		//
+		// NOTE: Don't just send every message without Nagle because you want packets to get there
+		// quicker.  Make sure you understand the problem that Nagle is solving before disabling it.
+		// If you are sending small messages, often many at the same time, then it is very likely that
+		// it will be more efficient to leave Nagle enabled.  A typical proper use of this flag is
+		// when you are sending what you know will be the last message sent for a while (e.g. the last
+		// in the server simulation tick to a particular client), and you use this flag to flush all
+		// messages.
+		public const int k_nSteamNetworkingSend_NoNagle = 1;
+		// Send a message unreliably, bypassing Nagle's algorithm for this message and any messages
+		// currently pending on the Nagle timer.  This is equivalent to using k_ESteamNetworkingSend_Unreliable
+		// and then immediately flushing the messages using ISteamNetworkingSockets::FlushMessagesOnConnection
+		// or ISteamNetworkingMessages::FlushMessagesToUser.  (But using this flag is more efficient since you
+		// only make one API call.)
+		public const int k_nSteamNetworkingSend_UnreliableNoNagle = k_nSteamNetworkingSend_Unreliable|k_nSteamNetworkingSend_NoNagle;
+		// If the message cannot be sent very soon (because the connection is still doing some initial
+		// handshaking, route negotiations, etc), then just drop it.  This is only applicable for unreliable
+		// messages.  Using this flag on reliable messages is invalid.
+		public const int k_nSteamNetworkingSend_NoDelay = 4;
+		// Send an unreliable message, but if it cannot be sent relatively quickly, just drop it instead of queuing it.
+		// This is useful for messages that are not useful if they are excessively delayed, such as voice data.
+		// NOTE: The Nagle algorithm is not used, and if the message is not dropped, any messages waiting on the
+		// Nagle timer are immediately flushed.
+		//
+		// A message will be dropped under the following circumstances:
+		// - the connection is not fully connected.  (E.g. the "Connecting" or "FindingRoute" states)
+		// - there is a sufficiently large number of messages queued up already such that the current message
+		//   will not be placed on the wire in the next ~200ms or so.
+		//
+		// If a message is dropped for these reasons, k_EResultIgnored will be returned.
+		public const int k_nSteamNetworkingSend_UnreliableNoDelay = k_nSteamNetworkingSend_Unreliable|k_nSteamNetworkingSend_NoDelay|k_nSteamNetworkingSend_NoNagle;
+		// Reliable message send. Can send up to k_cbMaxSteamNetworkingSocketsMessageSizeSend bytes in a single message.
+		// Does fragmentation/re-assembly of messages under the hood, as well as a sliding window for
+		// efficient sends of large chunks of data.
+		//
+		// The Nagle algorithm is used.  See notes on k_ESteamNetworkingSendType_Unreliable for more details.
+		// See k_ESteamNetworkingSendType_ReliableNoNagle, ISteamNetworkingSockets::FlushMessagesOnConnection,
+		// ISteamNetworkingMessages::FlushMessagesToUser
+		//
+		// Migration note: This is NOT the same as k_EP2PSendReliable, it's more like k_EP2PSendReliableWithBuffering
+		public const int k_nSteamNetworkingSend_Reliable = 8;
+		// Send a message reliably, but bypass Nagle's algorithm.
+		//
+		// Migration note: This is equivalent to k_EP2PSendReliable
+		public const int k_nSteamNetworkingSend_ReliableNoNagle = k_nSteamNetworkingSend_Reliable|k_nSteamNetworkingSend_NoNagle;
+		// By default, message sending is queued, and the work of encryption and talking to
+		// the operating system sockets, etc is done on a service thread.  This is usually a
+		// a performance win when messages are sent from the "main thread".  However, if this
+		// flag is set, and data is ready to be sent immediately (either from this message
+		// or earlier queued data), then that work will be done in the current thread, before
+		// the current call returns.  If data is not ready to be sent (due to rate limiting
+		// or Nagle), then this flag has no effect.
+		//
+		// This is an advanced flag used to control performance at a very low level.  For
+		// most applications running on modern hardware with more than one CPU core, doing
+		// the work of sending on a service thread will yield the best performance.  Only
+		// use this flag if you have a really good reason and understand what you are doing.
+		// Otherwise you will probably just make performance worse.
+		public const int k_nSteamNetworkingSend_UseCurrentThread = 16;
+		/// Max possible length of a ping location, in string format.  This is
+		/// an extremely conservative worst case value which leaves room for future
+		/// syntax enhancements.  Most strings in practice are a lot shorter.
+		/// If you are storing many of these, you will very likely benefit from
+		/// using dynamic memory.
+		public const int k_cchMaxSteamNetworkingPingLocationString = 1024;
+		/// Special values that are returned by some functions that return a ping.
+		public const int k_nSteamNetworkingPing_Failed = -1;
+		public const int k_nSteamNetworkingPing_Unknown = -2;
 		public const int k_cubSaltSize = 8;
 		public const ulong k_GIDNil = 0xffffffffffffffff;
 		public const ulong k_TxnIDNil = k_GIDNil;

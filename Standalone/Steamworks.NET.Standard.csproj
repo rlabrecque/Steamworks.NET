@@ -125,6 +125,16 @@
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamInventory\SteamItemInstanceID_t.cs" Link="Steamworks.NET\types\SteamInventory\SteamItemInstanceID_t.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamMatchmaking\HServerListRequest.cs" Link="Steamworks.NET\types\SteamMatchmaking\HServerListRequest.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamMatchmaking\HServerQuery.cs" Link="Steamworks.NET\types\SteamMatchmaking\HServerQuery.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\FSteamNetworkingSocketsDebugOutput.cs" Link="Steamworks.NET\types\SteamNetworkingTypes\FSteamNetworkingSocketsDebugOutput.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\HSteamListenSocket.cs" Link="Steamworks.NET\types\SteamNetworkingTypes\HSteamListenSocket.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\HSteamNetConnection.cs" Link="Steamworks.NET\types\SteamNetworkingTypes\HSteamNetConnection.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\HSteamNetPollGroup.cs" Link="Steamworks.NET\types\SteamNetworkingTypes\HSteamNetPollGroup.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingConfigValue_t.cs" Link="Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingConfigValue_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingIdentity.cs" Link="Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingIdentity.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingIPAddr.cs" Link="Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingIPAddr.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingMessage_t.cs" Link="Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingMessage_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingMicroseconds.cs" Link="Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingMicroseconds.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingPOPID.cs" Link="Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingPOPID.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworking\SNetListenSocket_t.cs" Link="Steamworks.NET\types\SteamNetworking\SNetListenSocket_t.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworking\SNetSocket_t.cs" Link="Steamworks.NET\types\SteamNetworking\SNetSocket_t.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamRemotePlay\RemotePlaySessionID_t.cs" Link="Steamworks.NET\types\SteamRemotePlay\RemotePlaySessionID_t.cs" />
@@ -160,6 +170,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Steamworks.NET\types\SteamNetworkingTypes\" />
     <Folder Include="Steamworks.NET\types\SteamRemotePlay\" />
   </ItemGroup>
 

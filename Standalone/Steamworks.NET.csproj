@@ -201,6 +201,36 @@
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamClientPublic\HAuthTicket.cs">
       <Link>Steamworks.NET\types\SteamClientPublic\HAuthTicket.cs</Link>
     </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\FSteamNetworkingSocketsDebugOutput.cs">
+      <Link>Steamworks.NET\types\SteamNetworkingTypes\FSteamNetworkingSocketsDebugOutput.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\HSteamListenSocket.cs">
+      <Link>Steamworks.NET\types\SteamNetworkingTypes\HSteamListenSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\HSteamNetConnection.cs">
+      <Link>Steamworks.NET\types\SteamNetworkingTypes\HSteamNetConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\HSteamNetPollGroup.cs">
+      <Link>Steamworks.NET\types\SteamNetworkingTypes\HSteamNetPollGroup.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingConfigValue_t.cs">
+      <Link>Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingConfigValue_t.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingIdentity.cs">
+      <Link>Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingIdentity.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingIPAddr.cs">
+      <Link>Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingIPAddr.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingMessage_t.cs">
+      <Link>Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingMessage_t.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingMicroseconds.cs">
+      <Link>Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingMicroseconds.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingPOPID.cs">
+      <Link>Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingPOPID.cs</Link>
+    </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\Steam_api_common\HSteamPipe.cs">
       <Link>Steamworks.NET\types\SteamClient\HSteamPipe.cs</Link>
     </Compile>

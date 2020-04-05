@@ -28,6 +28,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: information about user sessions
 	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	public struct FriendSessionStateInfo_t {
 		public uint m_uiOnlineSessionInstances;
 		public byte m_uiPublishedToFriendsSessionInstance;
@@ -179,7 +180,6 @@ namespace Steamworks {
 		public string m_szValue;
 	}
 
-	 // #ifndef API_GEN
 	// structure that contains client callback data
 	// see callbacks documentation for more details
 	/// Internal structure used in manual callback dispatch
@@ -189,6 +189,152 @@ namespace Steamworks {
 		public int m_iCallback; // Callback identifier.  (Corresponds to the k_iCallback enum in the callback structure.)
 		public IntPtr m_pubParam; // Points to the callback structure
 		public int m_cubParam; // Size of the data pointed to by m_pubParam
+	}
+
+	/// Describe the state of a connection.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	public struct SteamNetConnectionInfo_t {
+		
+		/// Who is on the other end?  Depending on the connection type and phase of the connection, we might not know
+		public SteamNetworkingIdentity m_identityRemote;
+		
+		/// Arbitrary user data set by the local application code
+		public long m_nUserData;
+		
+		/// Handle to listen socket this was connected on, or k_HSteamListenSocket_Invalid if we initiated the connection
+		public HSteamListenSocket m_hListenSocket;
+		
+		/// Remote address.  Might be all 0's if we don't know it, or if this is N/A.
+		/// (E.g. Basically everything except direct UDP connection.)
+		public SteamNetworkingIPAddr m_addrRemote;
+		public ushort m__pad1;
+		
+		/// What data center is the remote host in?  (0 if we don't know.)
+		public SteamNetworkingPOPID m_idPOPRemote;
+		
+		/// What relay are we using to communicate with the remote host?
+		/// (0 if not applicable.)
+		public SteamNetworkingPOPID m_idPOPRelay;
+		
+		/// High level state of the connection
+		public ESteamNetworkingConnectionState m_eState;
+		
+		/// Basic cause of the connection termination or problem.
+		/// See ESteamNetConnectionEnd for the values used
+		public int m_eEndReason;
+		
+		/// Human-readable, but non-localized explanation for connection
+		/// termination or problem.  This is intended for debugging /
+		/// diagnostic purposes only, not to display to users.  It might
+		/// have some details specific to the issue.
+		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchSteamNetworkingMaxConnectionCloseReason)]
+		public string m_szEndDebug;
+		
+		/// Debug description.  This includes the connection handle,
+		/// connection type (and peer information), and the app name.
+		/// This string is used in various internal logging messages
+		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchSteamNetworkingMaxConnectionDescription)]
+		public string m_szConnectionDescription;
+		
+		/// Internal stuff, room to change API easily
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
+		public uint[] reserved;
+	}
+
+	/// Quick connection state, pared down to something you could call
+	/// more frequently without it being too big of a perf hit.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	public struct SteamNetworkingQuickConnectionStatus {
+		
+		/// High level state of the connection
+		public ESteamNetworkingConnectionState m_eState;
+		
+		/// Current ping (ms)
+		public int m_nPing;
+		
+		/// Connection quality measured locally, 0...1.  (Percentage of packets delivered
+		/// end-to-end in order).
+		public float m_flConnectionQualityLocal;
+		
+		/// Packet delivery success rate as observed from remote host
+		public float m_flConnectionQualityRemote;
+		
+		/// Current data rates from recent history.
+		public float m_flOutPacketsPerSec;
+		public float m_flOutBytesPerSec;
+		public float m_flInPacketsPerSec;
+		public float m_flInBytesPerSec;
+		
+		/// Estimate rate that we believe that we can send data to our peer.
+		/// Note that this could be significantly higher than m_flOutBytesPerSec,
+		/// meaning the capacity of the channel is higher than you are sending data.
+		/// (That's OK!)
+		public int m_nSendRateBytesPerSecond;
+		
+		/// Number of bytes pending to be sent.  This is data that you have recently
+		/// requested to be sent but has not yet actually been put on the wire.  The
+		/// reliable number ALSO includes data that was previously placed on the wire,
+		/// but has now been scheduled for re-transmission.  Thus, it's possible to
+		/// observe m_cbPendingReliable increasing between two checks, even if no
+		/// calls were made to send reliable data between the checks.  Data that is
+		/// awaiting the Nagle delay will appear in these numbers.
+		public int m_cbPendingUnreliable;
+		public int m_cbPendingReliable;
+		
+		/// Number of bytes of reliable data that has been placed the wire, but
+		/// for which we have not yet received an acknowledgment, and thus we may
+		/// have to re-transmit.
+		public int m_cbSentUnackedReliable;
+		
+		/// If you asked us to send a message right now, how long would that message
+		/// sit in the queue before we actually started putting packets on the wire?
+		/// (And assuming Nagle does not cause any packets to be delayed.)
+		///
+		/// In general, data that is sent by the application is limited by the
+		/// bandwidth of the channel.  If you send data faster than this, it must
+		/// be queued and put on the wire at a metered rate.  Even sending a small amount
+		/// of data (e.g. a few MTU, say ~3k) will require some of the data to be delayed
+		/// a bit.
+		///
+		/// In general, the estimated delay will be approximately equal to
+		///
+		///		( m_cbPendingUnreliable+m_cbPendingReliable ) / m_nSendRateBytesPerSecond
+		///
+		/// plus or minus one MTU.  It depends on how much time has elapsed since the last
+		/// packet was put on the wire.  For example, the queue might have *just* been emptied,
+		/// and the last packet placed on the wire, and we are exactly up against the send
+		/// rate limit.  In that case we might need to wait for one packet's worth of time to
+		/// elapse before we can send again.  On the other extreme, the queue might have data
+		/// in it waiting for Nagle.  (This will always be less than one packet, because as soon
+		/// as we have a complete packet we would send it.)  In that case, we might be ready
+		/// to send data now, and this value will be 0.
+		public SteamNetworkingMicroseconds m_usecQueueTime;
+		
+		/// Internal stuff, room to change API easily
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
+		public uint[] reserved;
+	}
+
+	//
+	// Ping location / measurement
+	//
+	/// Object that describes a "location" on the Internet with sufficient
+	/// detail that we can reasonably estimate an upper bound on the ping between
+	/// the two hosts, even if a direct route between the hosts is not possible,
+	/// and the connection must be routed through the Steam Datagram Relay network.
+	/// This does not contain any information that identifies the host.  Indeed,
+	/// if two hosts are in the same building or otherwise have nearly identical
+	/// networking characteristics, then it's valid to use the same location
+	/// object for both of them.
+	///
+	/// NOTE: This object should only be used in the same process!  Do not serialize it,
+	/// send it over the wire, or persist it in a file or database!  If you need
+	/// to do that, convert it to a string representation using the methods in
+	/// ISteamNetworkingUtils().
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	public struct SteamNetworkPingLocation_t {
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 512)]
+		public byte[] m_data;
 	}
 
 }
