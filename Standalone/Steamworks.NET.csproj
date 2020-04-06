@@ -126,6 +126,9 @@
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamnetworking.cs">
       <Link>Steamworks.NET\autogen\isteamnetworking.cs</Link>
     </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamnetworkingutils.cs">
+      <Link>Steamworks.NET\autogen\isteamnetworkingutils.cs</Link>
+    </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamparentalsettings.cs">
       <Link>Steamworks.NET\autogen\isteamparentalsettings.cs</Link>
     </Compile>

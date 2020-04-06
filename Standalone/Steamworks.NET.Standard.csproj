@@ -80,6 +80,7 @@
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteammusic.cs" Link="Steamworks.NET\autogen\isteammusic.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteammusicremote.cs" Link="Steamworks.NET\autogen\isteammusicremote.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamnetworking.cs" Link="Steamworks.NET\autogen\isteamnetworking.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamnetworkingutils.cs" Link="Steamworks.NET\autogen\isteamnetworkingutils.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamparentalsettings.cs" Link="Steamworks.NET\autogen\isteamparentalsettings.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamremoteplay.cs" Link="Steamworks.NET\autogen\isteamremoteplay.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamremotestorage.cs" Link="Steamworks.NET\autogen\isteamremotestorage.cs" />

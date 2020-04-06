@@ -293,6 +293,7 @@ namespace Steamworks {
 			m_pSteamInput = IntPtr.Zero;
 			m_pSteamParties = IntPtr.Zero;
 			m_pSteamRemotePlay = IntPtr.Zero;
+			m_pSteamNetworkingUtils = IntPtr.Zero;
 		}
 
 		internal static bool Init() {
@@ -375,10 +376,19 @@ namespace Steamworks {
 			m_pSteamParties = SteamClient.GetISteamParties(hSteamUser, hSteamPipe, Constants.STEAMPARTIES_INTERFACE_VERSION);
 			if (m_pSteamParties == IntPtr.Zero) { return false; }
 
-            m_pSteamRemotePlay = SteamClient.GetISteamRemotePlay(hSteamUser, hSteamPipe, Constants.STEAMREMOTEPLAY_INTERFACE_VERSION);
-            if (m_pSteamRemotePlay == IntPtr.Zero) { return false; }
+			m_pSteamRemotePlay = SteamClient.GetISteamRemotePlay(hSteamUser, hSteamPipe, Constants.STEAMREMOTEPLAY_INTERFACE_VERSION);
+			if (m_pSteamRemotePlay == IntPtr.Zero) { return false; }
 
-            return true;
+			using (var pchVersionString = new InteropHelp.UTF8StringHandle(Constants.STEAMNETWORKINGUTILS_INTERFACE_VERSION))
+			{
+				m_pSteamNetworkingUtils =
+					NativeMethods.SteamInternal_FindOrCreateUserInterface(hSteamUser, pchVersionString) != IntPtr.Zero ?
+					NativeMethods.SteamInternal_FindOrCreateUserInterface(hSteamUser, pchVersionString) :
+					NativeMethods.SteamInternal_FindOrCreateGameServerInterface(hSteamUser, pchVersionString);
+			}
+			if (m_pSteamNetworkingUtils == IntPtr.Zero) { return false; }
+
+			return true;
 		}
 
 		internal static IntPtr GetSteamClient() { return m_pSteamClient; }
@@ -406,6 +416,7 @@ namespace Steamworks {
 		internal static IntPtr GetSteamInput() { return m_pSteamInput; }
 		internal static IntPtr GetSteamParties() { return m_pSteamParties; }
 		internal static IntPtr GetSteamRemotePlay() { return m_pSteamRemotePlay; }
+		internal static IntPtr GetSteamNetworkingUtils() { return m_pSteamNetworkingUtils; }
 
 		private static IntPtr m_pSteamClient;
 		private static IntPtr m_pSteamUser;
@@ -432,6 +443,7 @@ namespace Steamworks {
 		private static IntPtr m_pSteamInput;
 		private static IntPtr m_pSteamParties;
 		private static IntPtr m_pSteamRemotePlay;
+		private static IntPtr m_pSteamNetworkingUtils;
 	}
 
 	internal static class CSteamGameServerAPIContext {
