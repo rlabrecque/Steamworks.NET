@@ -10,6 +10,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="%2a%2a\**" />
+    <EmbeddedResource Remove="%2a%2a\**" />
+    <None Remove="%2a%2a\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="%2a%2a/%2a.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="%2a%2a/%2a.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="%2a%2a/%2a" />
     <None Remove="README.md" />
     <None Remove="Steamworks.NET.dll.config" />
   </ItemGroup>
@@ -168,11 +183,6 @@
 
   <ItemGroup>
     <None Include="..\Plugins\Steamworks.NET\redist\linux\launchscript" Link="Steamworks.NET\redist\linux\launchscript" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Steamworks.NET\types\SteamNetworkingTypes\" />
-    <Folder Include="Steamworks.NET\types\SteamRemotePlay\" />
   </ItemGroup>
 
 </Project>
