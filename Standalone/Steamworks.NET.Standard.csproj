@@ -1,15 +1,44 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>Steamworks</RootNamespace>
     <AssemblyName>Steamworks.NET</AssemblyName>
     <Platforms>x64;x86</Platforms>
     <Configurations>Windows;OSX-Linux</Configurations>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
+  
+  <PropertyGroup Label="Nuget PM">
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Steamworks.NET.Standard.$(Configuration).$(platform)</PackageId>
+    <Authors>rlabrecque</Authors>
+    <PackageVersion>14.0.1.2</PackageVersion>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/rlabrecque/Steamworks.NET</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/rlabrecque/Steamworks.NET.git</RepositoryUrl>
+  </PropertyGroup>
+    
+  <ItemGroup>
+    <Compile Remove="%2a%2a\**" />
+    <Compile Remove="Steamworks.NET\redist\**" />
+    <EmbeddedResource Remove="%2a%2a\**" />
+    <EmbeddedResource Remove="Steamworks.NET\redist\**" />
+    <None Remove="%2a%2a\**" />
+    <None Remove="Steamworks.NET\redist\**" />
+  </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="%2a%2a/%2a.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="%2a%2a/%2a.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="%2a%2a/%2a" />
     <None Remove="README.md" />
     <None Remove="Steamworks.NET.dll.config" />
   </ItemGroup>
@@ -34,8 +63,8 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
+  
+  </PropertyGroup>    
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Windows|x64'">
     <OutputPath>bin\x64\Windows\</OutputPath>
     <DefineConstants>TRACE;STEAMWORKS_WIN;STEAMWORKS_X64</DefineConstants>
@@ -161,18 +190,9 @@
     <Compile Include="..\Plugins\Steamworks.NET\types\Steam_api_common\HSteamUser.cs" Link="Steamworks.NET\types\SteamClient\HSteamUser.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="..\Plugins\Steamworks.NET\redist\steam_api.dll" Link="Steamworks.NET\redist\steam_api.dll" />
-    <Content Include="..\Plugins\Steamworks.NET\redist\steam_appid.txt" Link="Steamworks.NET\redist\steam_appid.txt" />
-  </ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\Plugins\Steamworks.NET\redist\linux\launchscript" Link="Steamworks.NET\redist\linux\launchscript" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Steamworks.NET\types\SteamNetworkingTypes\" />
-    <Folder Include="Steamworks.NET\types\SteamRemotePlay\" />
-  </ItemGroup>
+  <Target Name="Copy Nuget packages" AfterTargets="Pack">
+    <Copy  SourceFiles="$(outdir)..\$(PackageId).$(packageversion).nupkg" DestinationFolder="$(projectdir)/bin/Nuget Packages/" />
+  </Target>
 
 </Project>
