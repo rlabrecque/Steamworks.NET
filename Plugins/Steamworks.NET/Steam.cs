@@ -294,6 +294,7 @@ namespace Steamworks {
 			m_pSteamParties = IntPtr.Zero;
 			m_pSteamRemotePlay = IntPtr.Zero;
 			m_pSteamNetworkingUtils = IntPtr.Zero;
+			m_pSteamNetworkingSockets = IntPtr.Zero;
 		}
 
 		internal static bool Init() {
@@ -388,6 +389,13 @@ namespace Steamworks {
 			}
 			if (m_pSteamNetworkingUtils == IntPtr.Zero) { return false; }
 
+			using (var pchVersionString = new InteropHelp.UTF8StringHandle(Constants.STEAMNETWORKINGSOCKETS_INTERFACE_VERSION))
+			{
+				m_pSteamNetworkingSockets =
+					NativeMethods.SteamInternal_FindOrCreateUserInterface(hSteamUser, pchVersionString);
+			}
+			if (m_pSteamNetworkingSockets == IntPtr.Zero) { return false; }
+
 			return true;
 		}
 
@@ -417,6 +425,7 @@ namespace Steamworks {
 		internal static IntPtr GetSteamParties() { return m_pSteamParties; }
 		internal static IntPtr GetSteamRemotePlay() { return m_pSteamRemotePlay; }
 		internal static IntPtr GetSteamNetworkingUtils() { return m_pSteamNetworkingUtils; }
+		internal static IntPtr GetSteamNetworkingSockets() { return m_pSteamNetworkingSockets; }
 
 		private static IntPtr m_pSteamClient;
 		private static IntPtr m_pSteamUser;
@@ -444,6 +453,7 @@ namespace Steamworks {
 		private static IntPtr m_pSteamParties;
 		private static IntPtr m_pSteamRemotePlay;
 		private static IntPtr m_pSteamNetworkingUtils;
+		private static IntPtr m_pSteamNetworkingSockets;
 	}
 
 	internal static class CSteamGameServerAPIContext {
@@ -457,7 +467,9 @@ namespace Steamworks {
 			m_pSteamInventory = IntPtr.Zero;
 			m_pSteamUGC = IntPtr.Zero;
 			m_pSteamApps = IntPtr.Zero;
-		}
+			m_pSteamNetworkingUtils = IntPtr.Zero;
+			m_pSteamNetworkingSockets = IntPtr.Zero;
+	}
 
 		internal static bool Init() {
 			HSteamUser hSteamUser = GameServer.GetHSteamUser();
@@ -493,6 +505,22 @@ namespace Steamworks {
 			m_pSteamApps = SteamGameServerClient.GetISteamApps(hSteamUser, hSteamPipe, Constants.STEAMAPPS_INTERFACE_VERSION);
 			if (m_pSteamApps == IntPtr.Zero) { return false; }
 
+			using (var pchVersionString = new InteropHelp.UTF8StringHandle(Constants.STEAMNETWORKINGUTILS_INTERFACE_VERSION))
+			{
+				m_pSteamNetworkingUtils =
+					NativeMethods.SteamInternal_FindOrCreateUserInterface(hSteamUser, pchVersionString) != IntPtr.Zero ?
+					NativeMethods.SteamInternal_FindOrCreateUserInterface(hSteamUser, pchVersionString) :
+					NativeMethods.SteamInternal_FindOrCreateGameServerInterface(hSteamUser, pchVersionString);
+			}
+			if (m_pSteamNetworkingUtils == IntPtr.Zero) { return false; }
+
+			using (var pchVersionString = new InteropHelp.UTF8StringHandle(Constants.STEAMNETWORKINGSOCKETS_INTERFACE_VERSION))
+			{
+				m_pSteamNetworkingSockets =
+					NativeMethods.SteamInternal_FindOrCreateGameServerInterface(hSteamUser, pchVersionString);
+			}
+			if (m_pSteamNetworkingSockets == IntPtr.Zero) { return false; }
+
 			return true;
 		}
 
@@ -505,6 +533,8 @@ namespace Steamworks {
 		internal static IntPtr GetSteamInventory() { return m_pSteamInventory; }
 		internal static IntPtr GetSteamUGC() { return m_pSteamUGC; }
 		internal static IntPtr GetSteamApps() { return m_pSteamApps; }
+		internal static IntPtr GetSteamNetworkingUtils() { return m_pSteamNetworkingUtils; }
+		internal static IntPtr GetSteamNetworkingSockets() { return m_pSteamNetworkingSockets; }
 
 		private static IntPtr m_pSteamClient;
 		private static IntPtr m_pSteamGameServer;
@@ -515,6 +545,8 @@ namespace Steamworks {
 		private static IntPtr m_pSteamInventory;
 		private static IntPtr m_pSteamUGC;
 		private static IntPtr m_pSteamApps;
+		private static IntPtr m_pSteamNetworkingUtils;
+		private static IntPtr m_pSteamNetworkingSockets;
 	}
 }
 

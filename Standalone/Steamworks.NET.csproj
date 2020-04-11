@@ -93,6 +93,12 @@
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamgameservernetworking.cs">
       <Link>Steamworks.NET\autogen\isteamgameservernetworking.cs</Link>
     </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamgameservernetworkingsockets.cs">
+      <Link>Steamworks.NET\autogen\isteamgameservernetworkingsockets.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamgameservernetworkingutils.cs">
+      <Link>Steamworks.NET\autogen\isteamgameservernetworkingutils.cs</Link>
+    </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamgameserverstats.cs">
       <Link>Steamworks.NET\autogen\isteamgameserverstats.cs</Link>
     </Compile>
@@ -125,6 +131,9 @@
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamnetworking.cs">
       <Link>Steamworks.NET\autogen\isteamnetworking.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamnetworkingsockets.cs">
+      <Link>Steamworks.NET\autogen\isteamnetworkingsockets.cs</Link>
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamnetworkingutils.cs">
       <Link>Steamworks.NET\autogen\isteamnetworkingutils.cs</Link>
@@ -203,6 +212,18 @@
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamClientPublic\HAuthTicket.cs">
       <Link>Steamworks.NET\types\SteamClientPublic\HAuthTicket.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamDatagramTickets\SteamDatagramHostedAddress.cs">
+      <Link>Steamworks.NET\types\SteamDatagramTickets\SteamDatagramHostedAddress.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamDatagramTickets\SteamDatagramRelayAuthTicket.cs">
+      <Link>Steamworks.NET\types\SteamDatagramTickets\SteamDatagramRelayAuthTicket.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingConnectionCustomSignaling.cs">
+      <Link>Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingConnectionCustomSignaling.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingCustomSignalingRecvContext.cs">
+      <Link>Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingCustomSignalingRecvContext.cs</Link>
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\FSteamNetworkingSocketsDebugOutput.cs">
       <Link>Steamworks.NET\types\SteamNetworkingTypes\FSteamNetworkingSocketsDebugOutput.cs</Link>

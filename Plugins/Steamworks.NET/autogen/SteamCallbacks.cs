@@ -1416,6 +1416,79 @@ namespace Steamworks {
 		public int m_eSNetSocketState;				// socket state, ESNetSocketState
 	}
 
+	/// Callback struct used to notify when a connection has changed state
+	/// This callback is posted whenever a connection is created, destroyed, or changes state.
+	/// The m_info field will contain a complete description of the connection at the time the
+	/// change occurred and the callback was posted.  In particular, m_eState will have the
+	/// new connection state.
+	///
+	/// You will usually need to listen for this callback to know when:
+	/// - A new connection arrives on a listen socket.
+	///   m_info.m_hListenSocket will be set, m_eOldState = k_ESteamNetworkingConnectionState_None,
+	///   and m_info.m_eState = k_ESteamNetworkingConnectionState_Connecting.
+	///   See ISteamNetworkigSockets::AcceptConnection.
+	/// - A connection you initiated has been accepted by the remote host.
+	///   m_eOldState = k_ESteamNetworkingConnectionState_Connecting, and
+	///   m_info.m_eState = k_ESteamNetworkingConnectionState_Connected.
+	///   Some connections might transition to k_ESteamNetworkingConnectionState_FindingRoute first.
+	/// - A connection has been actively rejected or closed by the remote host.
+	///   m_eOldState = k_ESteamNetworkingConnectionState_Connecting or k_ESteamNetworkingConnectionState_Connected,
+	///   and m_info.m_eState = k_ESteamNetworkingConnectionState_ClosedByPeer.  m_info.m_eEndReason
+	///   and m_info.m_szEndDebug will have for more details.
+	///   NOTE: upon receiving this callback, you must still destroy the connection using
+	///   ISteamNetworkingSockets::CloseConnection to free up local resources.  (The details
+	///   passed to the function are not used in this case, since the connection is already closed.)
+	/// - A problem was detected with the connection, and it has been closed by the local host.
+	///   The most common failure is timeout, but other configuration or authentication failures
+	///   can cause this.  m_eOldState = k_ESteamNetworkingConnectionState_Connecting or
+	///   k_ESteamNetworkingConnectionState_Connected, and m_info.m_eState = k_ESteamNetworkingConnectionState_ProblemDetectedLocally.
+	///   m_info.m_eEndReason and m_info.m_szEndDebug will have for more details.
+	///   NOTE: upon receiving this callback, you must still destroy the connection using
+	///   ISteamNetworkingSockets::CloseConnection to free up local resources.  (The details
+	///   passed to the function are not used in this case, since the connection is already closed.)
+	///
+	/// Remember that callbacks are posted to a queue, and networking connections can
+	/// change at any time.  It is possible that the connection has already changed
+	/// state by the time you process this callback.
+	///
+	/// Also note that callbacks will be posted when connections are created and destroyed by your own API calls.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamNetworkingSocketsCallbacks + 1)]
+	public struct SteamNetConnectionStatusChangedCallback_t {
+		public const int k_iCallback = Constants.k_iSteamNetworkingSocketsCallbacks + 1;
+		
+		/// Connection handle
+		public HSteamNetConnection m_hConn;
+		
+		/// Full connection info
+		public SteamNetConnectionInfo_t m_info;
+		
+		/// Previous state.  (Current state is in m_info.m_eState)
+		public ESteamNetworkingConnectionState m_eOldState;
+	}
+
+	/// A struct used to describe our readiness to participate in authenticated,
+	/// encrypted communication.  In order to do this we need:
+	///
+	/// - The list of trusted CA certificates that might be relevant for this
+	///   app.
+	/// - A valid certificate issued by a CA.
+	///
+	/// This callback is posted whenever the state of our readiness changes.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamNetworkingSocketsCallbacks + 2)]
+	public struct SteamNetAuthenticationStatus_t {
+		public const int k_iCallback = Constants.k_iSteamNetworkingSocketsCallbacks + 2;
+		
+		/// Status
+		public ESteamNetworkingAvailability m_eAvail;
+		
+		/// Non-localized English language status.  For diagnostic/debugging
+		/// purposes only.
+		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
+		public string m_debugMsg;
+	}
+
 	/// A struct used to describe our readiness to use the relay network.
 	/// To do this we first need to fetch the network configuration,
 	/// which describes what POPs are available.

@@ -37,6 +37,8 @@ namespace Steamworks {
 		public const string STEAMMUSICREMOTE_INTERFACE_VERSION = "STEAMMUSICREMOTE_INTERFACE_VERSION001";
 		public const string STEAMNETWORKING_INTERFACE_VERSION = "SteamNetworking006";
 		// Silence some warnings
+		public const string STEAMNETWORKINGSOCKETS_INTERFACE_VERSION = "SteamNetworkingSockets008";
+		// Silence some warnings
 		public const string STEAMNETWORKINGUTILS_INTERFACE_VERSION = "SteamNetworkingUtils003";
 		public const string STEAMPARENTALSETTINGS_INTERFACE_VERSION = "STEAMPARENTALSETTINGS_INTERFACE_VERSION001";
 		public const string STEAMREMOTEPLAY_INTERFACE_VERSION = "STEAMREMOTEPLAY_INTERFACE_VERSION001";
@@ -182,6 +184,14 @@ namespace Steamworks {
 		public const int k_unSteamAccountInstanceMask = 0x000FFFFF;
 		public const int k_unSteamUserDefaultInstance = 1; // fixed instance for all individual users
 		public const int k_cchGameExtraInfoMax = 64;
+		/// Max length of serialized auth ticket.  This is important so that we
+		/// can ensure that we always fit into a single UDP datagram (along with
+		/// other certs and signatures) and keep the implementation simple.
+		public const int k_cbSteamDatagramMaxSerializedTicket = 512;
+		/// Max size of user data blob
+		public const int k_cbMaxSteamDatagramGameCoordinatorServerLoginAppData = 2048;
+		/// Max size of serialized data blob
+		public const int k_cbMaxSteamDatagramGameCoordinatorServerLoginSerialized = 4096;
 		public const int k_nSteamEncryptedAppTicketSymmetricKeyLen = 32;
 		/// Max length of diagnostic error message
 		public const int k_cchMaxSteamNetworkingErrMsg = 1024;
