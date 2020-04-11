@@ -160,6 +160,7 @@
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\HSteamNetConnection.cs" Link="Steamworks.NET\types\SteamNetworkingTypes\HSteamNetConnection.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\HSteamNetPollGroup.cs" Link="Steamworks.NET\types\SteamNetworkingTypes\HSteamNetPollGroup.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingConfigValue_t.cs" Link="Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingConfigValue_t.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingErrMsg.cs" Link="Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingErrMsg.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingIdentity.cs" Link="Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingIdentity.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingIPAddr.cs" Link="Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingIPAddr.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingMessage_t.cs" Link="Steamworks.NET\types\SteamNetworkingTypes\SteamNetworkingMessage_t.cs" />
@@ -192,7 +193,7 @@
 
 
   <Target Name="Copy Nuget packages" AfterTargets="Pack">
-    <Copy  SourceFiles="$(outdir)..\$(PackageId).$(packageversion).nupkg" DestinationFolder="$(projectdir)/bin/Nuget Packages/" />
+    <Copy SourceFiles="$(outdir)..\$(PackageId).$(packageversion).nupkg" DestinationFolder="$(projectdir)/bin/Nuget Packages/" />
   </Target>
 
 </Project>
