@@ -53,7 +53,7 @@ namespace Steamworks
 			public float m_float;
 
 			[FieldOffset(0)]
-			public string m_string; // Points to your '\0'-terminated buffer
+			public IntPtr m_string; // Points to your '\0'-terminated buffer
 
 			[FieldOffset(0)]
 			public IntPtr m_functionPtr;
