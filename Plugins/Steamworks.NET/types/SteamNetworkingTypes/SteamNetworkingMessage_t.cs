@@ -95,7 +95,7 @@ namespace Steamworks
 		/// You MUST call this when you're done with the object,
 		/// to free up memory, etc.
 		public void Release() {
-			NativeMethods.SteamAPI_SteamNetworkingMessage_t_Release(ref this);
+			NativeMethods.SteamAPI_SteamNetworkingMessage_t_Release(m_pfnRelease);
 		}
 	}
 }

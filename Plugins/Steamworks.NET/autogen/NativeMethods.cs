@@ -274,7 +274,7 @@ namespace Steamworks {
 #endregion
 #region SteamNetworkingMessage_t Accessors
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_SteamNetworkingMessage_t_Release", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void SteamAPI_SteamNetworkingMessage_t_Release(ref SteamNetworkingMessage_t self);
+		public static extern void SteamAPI_SteamNetworkingMessage_t_Release(IntPtr self);
 #endregion
 #region ISteamNetworkingConnectionCustomSignaling Accessors
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworkingConnectionCustomSignaling_SendSignal", CallingConvention = CallingConvention.Cdecl)]
@@ -2097,7 +2097,7 @@ namespace Steamworks {
 		public static extern EResult ISteamNetworkingSockets_FlushMessagesOnConnection(IntPtr instancePtr, HSteamNetConnection hConn);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworkingSockets_ReceiveMessagesOnConnection", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamNetworkingSockets_ReceiveMessagesOnConnection(IntPtr instancePtr, HSteamNetConnection hConn, out SteamNetworkingMessage_t ppOutMessages, int nMaxMessages);
+		public static extern int ISteamNetworkingSockets_ReceiveMessagesOnConnection(IntPtr instancePtr, HSteamNetConnection hConn, [In, Out] IntPtr[] ppOutMessages, int nMaxMessages);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworkingSockets_GetConnectionInfo", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -2140,7 +2140,7 @@ namespace Steamworks {
 		public static extern bool ISteamNetworkingSockets_SetConnectionPollGroup(IntPtr instancePtr, HSteamNetConnection hConn, HSteamNetPollGroup hPollGroup);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworkingSockets_ReceiveMessagesOnPollGroup", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamNetworkingSockets_ReceiveMessagesOnPollGroup(IntPtr instancePtr, HSteamNetPollGroup hPollGroup, out SteamNetworkingMessage_t ppOutMessages, int nMaxMessages);
+		public static extern int ISteamNetworkingSockets_ReceiveMessagesOnPollGroup(IntPtr instancePtr, HSteamNetPollGroup hPollGroup, [In, Out] IntPtr[] ppOutMessages, int nMaxMessages);
 #if STEAMNETWORKINGSOCKETS_ENABLE_SDR
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworkingSockets_ReceivedRelayAuthTicket", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]

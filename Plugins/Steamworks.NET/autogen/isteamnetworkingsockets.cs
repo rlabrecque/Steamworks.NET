@@ -360,9 +360,9 @@ namespace Steamworks {
 		/// <para>/ of them free up resources after you are done.  It is safe to keep the object alive for</para>
 		/// <para>/ a little while (put it into some queue, etc), and you may call Release() from any thread.</para>
 		/// </summary>
-		public static int ReceiveMessagesOnConnection(HSteamNetConnection hConn, out SteamNetworkingMessage_t ppOutMessages, int nMaxMessages) {
+		public static int ReceiveMessagesOnConnection(HSteamNetConnection hConn, IntPtr[] ppOutMessages, int nMaxMessages) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamNetworkingSockets_ReceiveMessagesOnConnection(CSteamAPIContext.GetSteamNetworkingSockets(), hConn, out ppOutMessages, nMaxMessages);
+			return NativeMethods.ISteamNetworkingSockets_ReceiveMessagesOnConnection(CSteamAPIContext.GetSteamNetworkingSockets(), hConn, ppOutMessages, nMaxMessages);
 		}
 
 		/// <summary>
@@ -558,9 +558,9 @@ namespace Steamworks {
 		/// <para>/ appear consecutively in the list; they may be interleaved with messages for</para>
 		/// <para>/ other connections.)</para>
 		/// </summary>
-		public static int ReceiveMessagesOnPollGroup(HSteamNetPollGroup hPollGroup, out SteamNetworkingMessage_t ppOutMessages, int nMaxMessages) {
+		public static int ReceiveMessagesOnPollGroup(HSteamNetPollGroup hPollGroup, IntPtr[] ppOutMessages, int nMaxMessages) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamNetworkingSockets_ReceiveMessagesOnPollGroup(CSteamAPIContext.GetSteamNetworkingSockets(), hPollGroup, out ppOutMessages, nMaxMessages);
+			return NativeMethods.ISteamNetworkingSockets_ReceiveMessagesOnPollGroup(CSteamAPIContext.GetSteamNetworkingSockets(), hPollGroup, ppOutMessages, nMaxMessages);
 		}
 #if STEAMNETWORKINGSOCKETS_ENABLE_SDR
 		/// <summary>
