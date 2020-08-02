@@ -47,6 +47,9 @@ namespace Steamworks {
 				ret = CSteamAPIContext.Init();
 			}
 
+			if (ret)
+				CallbackDispatcher.Initialize();
+
 			return ret;
 		}
 
@@ -55,6 +58,7 @@ namespace Steamworks {
 			InteropHelp.TestIfPlatformSupported();
 			NativeMethods.SteamAPI_Shutdown();
 			CSteamAPIContext.Clear();
+			CallbackDispatcher.Shutdown();
 		}
 
 		// SteamAPI_RestartAppIfNecessary ensures that your executable was launched through Steam.
@@ -113,8 +117,7 @@ namespace Steamworks {
 		// One alternative is to call SteamAPI_RunCallbacks from the main thread only,
 		// and call SteamAPI_ReleaseCurrentThreadMemory regularly on other threads.
 		public static void RunCallbacks() {
-			InteropHelp.TestIfPlatformSupported();
-			NativeMethods.SteamAPI_RunCallbacks();
+			CallbackDispatcher.RunFrame(false);
 		}
 
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -170,6 +173,9 @@ namespace Steamworks {
 				ret = CSteamGameServerAPIContext.Init();
 			}
 
+			if (ret)
+				CallbackDispatcher.Initialize();
+
 			return ret;
 		}
 
@@ -177,11 +183,11 @@ namespace Steamworks {
 			InteropHelp.TestIfPlatformSupported();
 			NativeMethods.SteamGameServer_Shutdown();
 			CSteamGameServerAPIContext.Clear();
+			CallbackDispatcher.Shutdown();
 		}
 
 		public static void RunCallbacks() {
-			InteropHelp.TestIfPlatformSupported();
-			NativeMethods.SteamGameServer_RunCallbacks();
+			CallbackDispatcher.RunFrame(true);
 		}
 
 		// Most Steam API functions allocate some amount of thread-local memory for

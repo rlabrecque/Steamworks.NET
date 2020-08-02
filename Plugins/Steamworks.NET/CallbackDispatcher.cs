@@ -25,29 +25,8 @@
 	#error You need to define STEAMWORKS_WIN, or STEAMWORKS_LIN_OSX. Refer to the readme for more details.
 #endif
 
-// Unity 32bit Mono on Windows crashes with ThisCall/Cdecl for some reason, StdCall without the 'this' ptr is the only thing that works..?
-#if (UNITY_EDITOR_WIN && !UNITY_EDITOR_64) || (!UNITY_EDITOR && UNITY_STANDALONE_WIN && !UNITY_64)
-	#define STDCALL
-#elif STEAMWORKS_WIN
-	#define THISCALL
-#endif
-
-// Calling Conventions:
-// Unity x86 Windows        - StdCall (No this pointer)
-// Unity x86 Linux          - Cdecl
-// Unity x86 OSX            - Cdecl
-// Unity x64 Windows        - Cdecl
-// Unity x64 Linux          - Cdecl
-// Unity x64 OSX            - Cdecl
-// Microsoft x86 Windows    - ThisCall
-// Microsoft x64 Windows    - ThisCall
-// Mono x86 Linux           - Cdecl
-// Mono x86 OSX             - Cdecl
-// Mono x64 Linux           - Cdecl
-// Mono x64 OSX             - Cdecl
-// Mono on Windows is probably not supported.
-
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Steamworks {
@@ -62,19 +41,173 @@ namespace Steamworks {
 			Console.WriteLine(e.Message);
 #endif
 		}
+
+		private static Dictionary<int, List<Callback>> m_registeredCallbacks = new Dictionary<int, List<Callback>>();
+		private static Dictionary<int, List<Callback>> m_registeredGameServerCallbacks = new Dictionary<int, List<Callback>>();
+		private static Dictionary<ulong, List<CallResult>> m_registeredCallResults = new Dictionary<ulong, List<CallResult>>();
+		private static object m_sync = new object();
+		private static IntPtr m_pCallbackMsg;
+		private static int m_initCount;
+
+		public static bool IsInitialized => m_initCount > 0;
+
+		internal static void Initialize() {
+			lock (m_sync) {
+				if (m_initCount == 0) {
+					NativeMethods.SteamAPI_ManualDispatch_Init();
+					m_pCallbackMsg = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(CallbackMsg_t)));
+				}
+				++m_initCount;
+			}
+		}
+
+		internal static void Shutdown() {
+			lock (m_sync) {
+				--m_initCount;
+				if (m_initCount == 0) {
+					UnregisterAll();
+					Marshal.FreeHGlobal(m_pCallbackMsg);
+					m_pCallbackMsg = IntPtr.Zero;
+				}
+			}
+		}
+
+		internal static void Register(Callback cb) {
+			int iCallback = CallbackIdentities.GetCallbackIdentity(cb.GetCallbackType());
+			var callbacksRegistry = cb.IsGameServer ? m_registeredGameServerCallbacks : m_registeredCallbacks;
+			lock (m_sync) {
+				List<Callback> callbacksList;
+				if (!callbacksRegistry.TryGetValue(iCallback, out callbacksList)) {
+					callbacksList = new List<Callback>();
+					callbacksRegistry.Add(iCallback, callbacksList);
+				}
+
+				callbacksList.Add(cb);
+			}
+		}
+
+		internal static void Register(SteamAPICall_t asyncCall, CallResult cr) {
+			lock (m_sync) {
+				List<CallResult> callResultsList;
+				if (!m_registeredCallResults.TryGetValue((ulong)asyncCall, out callResultsList)) {
+					callResultsList = new List<CallResult>();
+					m_registeredCallResults.Add((ulong)asyncCall, callResultsList);
+				}
+
+				callResultsList.Add(cr);
+			}
+		}
+
+		internal static void Unregister(Callback cb) {
+			int iCallback = CallbackIdentities.GetCallbackIdentity(cb.GetCallbackType());
+			var callbacksRegistry = cb.IsGameServer ? m_registeredGameServerCallbacks : m_registeredCallbacks;
+			lock (m_sync) {
+				if (callbacksRegistry.TryGetValue(iCallback, out var callbacksList)) {
+					callbacksList.Remove(cb);
+					if (callbacksList.Count == 0)
+						callbacksRegistry.Remove(iCallback);
+				}
+			}
+		}
+
+		internal static void Unregister(SteamAPICall_t asyncCall, CallResult cr) {
+			lock (m_sync) {
+				if (m_registeredCallResults.TryGetValue((ulong)asyncCall, out var callResultsList)) {
+					callResultsList.Remove(cr);
+					if (callResultsList.Count == 0)
+						m_registeredCallResults.Remove((ulong)asyncCall);
+				}
+			}
+		}
+
+		private static void UnregisterAll() {
+			List<Callback> callbacks = new List<Callback>();
+			List<CallResult> callResults = new List<CallResult>();
+			lock (m_sync) {
+				foreach (var pair in m_registeredCallbacks) {
+					callbacks.AddRange(pair.Value);
+				}
+				m_registeredCallbacks.Clear();
+
+				foreach (var pair in m_registeredGameServerCallbacks) {
+					callbacks.AddRange(pair.Value);
+				}
+				m_registeredGameServerCallbacks.Clear();
+
+				foreach (var pair in m_registeredCallResults) {
+					callResults.AddRange(pair.Value);
+				}
+				m_registeredCallResults.Clear();
+
+				foreach (var callback in callbacks) {
+					callback.SetUnregistered();
+				}
+
+				foreach (var callResult in callResults) {
+					callResult.SetUnregistered();
+				}
+			}
+		}
+
+		internal static void RunFrame(bool isGameServer) {
+			if (!IsInitialized) throw new InvalidOperationException("Callback dispatcher is not initialized.");
+
+			HSteamPipe hSteamPipe = (HSteamPipe)(isGameServer ? NativeMethods.SteamGameServer_GetHSteamPipe() : NativeMethods.SteamAPI_GetHSteamPipe());
+			NativeMethods.SteamAPI_ManualDispatch_RunFrame(hSteamPipe);
+			var callbacksRegistry = isGameServer ? m_registeredGameServerCallbacks : m_registeredCallbacks;
+			while (NativeMethods.SteamAPI_ManualDispatch_GetNextCallback(hSteamPipe, m_pCallbackMsg)) {
+				CallbackMsg_t callbackMsg = (CallbackMsg_t)Marshal.PtrToStructure(m_pCallbackMsg, typeof(CallbackMsg_t));
+				try {
+					// Check for dispatching API call results
+					if (callbackMsg.m_iCallback == SteamAPICallCompleted_t.k_iCallback) {
+						SteamAPICallCompleted_t callCompletedCb = (SteamAPICallCompleted_t)Marshal.PtrToStructure(callbackMsg.m_pubParam, typeof(SteamAPICallCompleted_t));
+						IntPtr pTmpCallResult = Marshal.AllocHGlobal((int)callCompletedCb.m_cubParam);
+						bool bFailed;
+						if (NativeMethods.SteamAPI_ManualDispatch_GetAPICallResult(hSteamPipe, callCompletedCb.m_hAsyncCall, pTmpCallResult, (int)callCompletedCb.m_cubParam, callCompletedCb.m_iCallback, out bFailed)) {
+							lock (m_sync) {
+								if (m_registeredCallResults.TryGetValue((ulong)callCompletedCb.m_hAsyncCall, out var callResults)) {
+									m_registeredCallResults.Remove((ulong)callCompletedCb.m_hAsyncCall);
+									foreach (var cr in callResults) {
+										cr.OnRunCallResult(pTmpCallResult, bFailed, (ulong)callCompletedCb.m_hAsyncCall);
+										cr.SetUnregistered();
+									}
+								}
+							}
+						}
+						Marshal.FreeHGlobal(pTmpCallResult);
+					} else {
+						if (callbacksRegistry.TryGetValue(callbackMsg.m_iCallback, out var callbacks)) {
+							List<Callback> callbacksCopy;
+							lock (m_sync) {
+								callbacksCopy = new List<Callback>(callbacks);
+							}
+							foreach (var callback in callbacksCopy) {
+								callback.OnRunCallback(callbackMsg.m_pubParam);
+							}
+						}
+					}
+				} catch (Exception e) {
+					ExceptionHandler(e);
+				} finally {
+					NativeMethods.SteamAPI_ManualDispatch_FreeLastCallback(hSteamPipe);
+				}
+			}
+		}
 	}
 
-	public sealed class Callback<T> : IDisposable {
-		private CCallbackBaseVTable m_CallbackBaseVTable;
-		private IntPtr m_pVTable = IntPtr.Zero;
-		private CCallbackBase m_CCallbackBase;
-		private GCHandle m_pCCallbackBase;
+	public abstract class Callback {
+		public abstract bool IsGameServer { get; }
+		internal abstract Type GetCallbackType();
+		internal abstract void OnRunCallback(IntPtr pvParam);
+		internal abstract void SetUnregistered();
+	}
 
+	public sealed class Callback<T> : Callback, IDisposable {
 		public delegate void DispatchDelegate(T param);
 		private event DispatchDelegate m_Func;
 
 		private bool m_bGameServer;
-		private readonly int m_size = Marshal.SizeOf(typeof(T));
+		private bool m_bIsRegistered;
 
 		private bool m_bDisposed = false;
 
@@ -98,7 +231,6 @@ namespace Steamworks {
 
 		public Callback(DispatchDelegate func, bool bGameServer = false) {
 			m_bGameServer = bGameServer;
-			BuildCCallbackBase();
 			Register(func);
 		}
 
@@ -113,15 +245,8 @@ namespace Steamworks {
 
 			GC.SuppressFinalize(this);
 
-			Unregister();
-
-			if (m_pVTable != IntPtr.Zero) {
-				Marshal.FreeHGlobal(m_pVTable);
-			}
-
-			if (m_pCCallbackBase.IsAllocated) {
-				m_pCCallbackBase.Free();
-			}
+			if (m_bIsRegistered)
+				Unregister();
 
 			m_bDisposed = true;
 		}
@@ -132,34 +257,28 @@ namespace Steamworks {
 				throw new Exception("Callback function must not be null.");
 			}
 
-			if ((m_CCallbackBase.m_nCallbackFlags & CCallbackBase.k_ECallbackFlagsRegistered) == CCallbackBase.k_ECallbackFlagsRegistered) {
+			if (m_bIsRegistered) {
 				Unregister();
-			}
-
-			if (m_bGameServer) {
-				SetGameserverFlag();
 			}
 
 			m_Func = func;
 
-			// k_ECallbackFlagsRegistered is set by SteamAPI_RegisterCallback.
-			NativeMethods.SteamAPI_RegisterCallback(m_pCCallbackBase.AddrOfPinnedObject(), CallbackIdentities.GetCallbackIdentity(typeof(T)));
+			CallbackDispatcher.Register(this);
+			m_bIsRegistered = true;
 		}
 
 		public void Unregister() {
-			// k_ECallbackFlagsRegistered is removed by SteamAPI_UnregisterCallback.
-			NativeMethods.SteamAPI_UnregisterCallback(m_pCCallbackBase.AddrOfPinnedObject());
+			CallbackDispatcher.Unregister(this);
+			m_bIsRegistered = false;
 		}
 
-		public void SetGameserverFlag() {
-			m_CCallbackBase.m_nCallbackFlags |= CCallbackBase.k_ECallbackFlagsGameServer;
+		public override bool IsGameServer => m_bGameServer;
+
+		internal override Type GetCallbackType() {
+			return typeof(T);
 		}
 
-		private void OnRunCallback(
-#if !STDCALL
-			IntPtr thisptr,
-#endif
-			IntPtr pvParam) {
+		internal override void OnRunCallback(IntPtr pvParam) {
 			try {
 				m_Func((T)Marshal.PtrToStructure(pvParam, typeof(T)));
 			}
@@ -168,60 +287,23 @@ namespace Steamworks {
 			}
 		}
 
-		// Shouldn't ever get called here, but this is what C++ Steamworks does!
-		private void OnRunCallResult(
-#if !STDCALL
-			IntPtr thisptr,
-#endif
-			IntPtr pvParam, bool bFailed, ulong hSteamAPICall) {
-			try { 
-				m_Func((T)Marshal.PtrToStructure(pvParam, typeof(T)));
-			}
-			catch (Exception e) {
-				CallbackDispatcher.ExceptionHandler(e);
-			}
-		}
-
-		private int OnGetCallbackSizeBytes(
-#if !STDCALL
-			IntPtr thisptr
-#endif
-			) {
-			return m_size;
-		}
-
-		// Steamworks.NET Specific
-		private void BuildCCallbackBase() {
-			m_CallbackBaseVTable = new CCallbackBaseVTable() {
-				m_RunCallResult = OnRunCallResult,
-				m_RunCallback = OnRunCallback,
-				m_GetCallbackSizeBytes = OnGetCallbackSizeBytes
-			};
-			m_pVTable = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(CCallbackBaseVTable)));
-			Marshal.StructureToPtr(m_CallbackBaseVTable, m_pVTable, false);
-
-			m_CCallbackBase = new CCallbackBase() {
-				m_vfptr = m_pVTable,
-				m_nCallbackFlags = 0,
-				m_iCallback = CallbackIdentities.GetCallbackIdentity(typeof(T))
-			};
-			m_pCCallbackBase = GCHandle.Alloc(m_CCallbackBase, GCHandleType.Pinned);
+		internal override void SetUnregistered() {
+			m_bIsRegistered = false;
 		}
 	}
 
-	public sealed class CallResult<T> : IDisposable {
-		private CCallbackBaseVTable m_CallbackBaseVTable;
-		private IntPtr m_pVTable = IntPtr.Zero;
-		private CCallbackBase m_CCallbackBase;
-		private GCHandle m_pCCallbackBase;
+	public abstract class CallResult {
+		internal abstract Type GetCallbackType();
+		internal abstract void OnRunCallResult(IntPtr pvParam, bool bFailed, ulong hSteamAPICall);
+		internal abstract void SetUnregistered();
+	}
 
+	public sealed class CallResult<T> : CallResult, IDisposable {
 		public delegate void APIDispatchDelegate(T param, bool bIOFailure);
 		private event APIDispatchDelegate m_Func;
 
 		private SteamAPICall_t m_hAPICall = SteamAPICall_t.Invalid;
 		public SteamAPICall_t Handle { get { return m_hAPICall; } }
-
-		private readonly int m_size = Marshal.SizeOf(typeof(T));
 
 		private bool m_bDisposed = false;
 
@@ -236,7 +318,6 @@ namespace Steamworks {
 
 		public CallResult(APIDispatchDelegate func = null) {
 			m_Func = func;
-			BuildCCallbackBase();
 		}
 
 		~CallResult() {
@@ -251,14 +332,6 @@ namespace Steamworks {
 			GC.SuppressFinalize(this);
 
 			Cancel();
-
-			if (m_pVTable != IntPtr.Zero) {
-				Marshal.FreeHGlobal(m_pVTable);
-			}
-
-			if (m_pCCallbackBase.IsAllocated) {
-				m_pCCallbackBase.Free();
-			}
 
 			m_bDisposed = true;
 		}
@@ -275,13 +348,13 @@ namespace Steamworks {
 			}
 
 			if (m_hAPICall != SteamAPICall_t.Invalid) {
-				NativeMethods.SteamAPI_UnregisterCallResult(m_pCCallbackBase.AddrOfPinnedObject(), (ulong)m_hAPICall);
+				CallbackDispatcher.Unregister(m_hAPICall, this);
 			}
 
 			m_hAPICall = hAPICall;
 
 			if (hAPICall != SteamAPICall_t.Invalid) {
-				NativeMethods.SteamAPI_RegisterCallResult(m_pCCallbackBase.AddrOfPinnedObject(), (ulong)hAPICall);
+				CallbackDispatcher.Register(hAPICall, this);
 			}
 		}
 
@@ -290,41 +363,17 @@ namespace Steamworks {
 		}
 
 		public void Cancel() {
-			if (m_hAPICall != SteamAPICall_t.Invalid) {
-				NativeMethods.SteamAPI_UnregisterCallResult(m_pCCallbackBase.AddrOfPinnedObject(), (ulong)m_hAPICall);
-				m_hAPICall = SteamAPICall_t.Invalid;
-			}
+			if (IsActive())
+				CallbackDispatcher.Unregister(m_hAPICall, this);
 		}
 
-		public void SetGameserverFlag() {
-			m_CCallbackBase.m_nCallbackFlags |= CCallbackBase.k_ECallbackFlagsGameServer;
+		internal override Type GetCallbackType() {
+			return typeof(T);
 		}
 
-		// Shouldn't ever get called here, but this is what C++ Steamworks does!
-		private void OnRunCallback(
-#if !STDCALL
-			IntPtr thisptr,
-#endif
-			IntPtr pvParam) {
-			m_hAPICall = SteamAPICall_t.Invalid; // Caller unregisters for us
-
-			try {
-				m_Func((T)Marshal.PtrToStructure(pvParam, typeof(T)), false);
-			}
-			catch (Exception e) {
-				CallbackDispatcher.ExceptionHandler(e);
-			}
-		}
-
-		private void OnRunCallResult(
-#if !STDCALL
-			IntPtr thisptr,
-#endif
-			IntPtr pvParam, bool bFailed, ulong hSteamAPICall_) {
+		internal override void OnRunCallResult(IntPtr pvParam, bool bFailed, ulong hSteamAPICall_) {
 			SteamAPICall_t hSteamAPICall = (SteamAPICall_t)hSteamAPICall_;
 			if (hSteamAPICall == m_hAPICall) {
-				m_hAPICall = SteamAPICall_t.Invalid; // Caller unregisters for us
-
 				try {
 					m_Func((T)Marshal.PtrToStructure(pvParam, typeof(T)), bFailed);
 				}
@@ -334,86 +383,9 @@ namespace Steamworks {
 			}
 		}
 
-		private int OnGetCallbackSizeBytes(
-#if !STDCALL
-			IntPtr thisptr
-#endif
-			) {
-			return m_size;
+		internal override void SetUnregistered() {
+			m_hAPICall = SteamAPICall_t.Invalid;
 		}
-
-		// Steamworks.NET Specific
-		private void BuildCCallbackBase() {
-			m_CallbackBaseVTable = new CCallbackBaseVTable() {
-				m_RunCallback = OnRunCallback,
-				m_RunCallResult = OnRunCallResult,
-				m_GetCallbackSizeBytes = OnGetCallbackSizeBytes
-			};
-			m_pVTable = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(CCallbackBaseVTable)));
-			Marshal.StructureToPtr(m_CallbackBaseVTable, m_pVTable, false);
-
-			m_CCallbackBase = new CCallbackBase() {
-				m_vfptr = m_pVTable,
-				m_nCallbackFlags = 0,
-				m_iCallback = CallbackIdentities.GetCallbackIdentity(typeof(T))
-			};
-			m_pCCallbackBase = GCHandle.Alloc(m_CCallbackBase, GCHandleType.Pinned);
-		}
-	}
-
-	[StructLayout(LayoutKind.Sequential)]
-	internal class CCallbackBase {
-		public const byte k_ECallbackFlagsRegistered = 0x01;
-		public const byte k_ECallbackFlagsGameServer = 0x02;
-
-		public IntPtr m_vfptr;
-		public byte m_nCallbackFlags;
-		public int m_iCallback;
-	}
-
-	[StructLayout(LayoutKind.Sequential)]
-	internal class CCallbackBaseVTable {
-#if STDCALL
-		private const CallingConvention cc = CallingConvention.StdCall;
-
-		[UnmanagedFunctionPointer(cc)]
-		public delegate void RunCBDel(IntPtr pvParam);
-		[UnmanagedFunctionPointer(cc)]
-		public delegate void RunCRDel(IntPtr pvParam, [MarshalAs(UnmanagedType.I1)] bool bIOFailure, ulong hSteamAPICall);
-		[UnmanagedFunctionPointer(cc)]
-		public delegate int GetCallbackSizeBytesDel();
-#else
-	#if THISCALL
-		private const CallingConvention cc = CallingConvention.ThisCall;
-	#else
-		private const CallingConvention cc = CallingConvention.Cdecl;
-	#endif
-
-		[UnmanagedFunctionPointer(cc)]
-		public delegate void RunCBDel(IntPtr thisptr, IntPtr pvParam);
-		[UnmanagedFunctionPointer(cc)]
-		public delegate void RunCRDel(IntPtr thisptr, IntPtr pvParam, [MarshalAs(UnmanagedType.I1)] bool bIOFailure, ulong hSteamAPICall);
-		[UnmanagedFunctionPointer(cc)]
-		public delegate int GetCallbackSizeBytesDel(IntPtr thisptr);
-#endif
-
-		// RunCallback and RunCallResult are swapped in MSVC ABI
-#if WINDOWS_BUILD
-		[NonSerialized]
-		[MarshalAs(UnmanagedType.FunctionPtr)]
-		public RunCRDel m_RunCallResult;
-#endif
-		[NonSerialized]
-		[MarshalAs(UnmanagedType.FunctionPtr)]
-		public RunCBDel m_RunCallback;
-#if !WINDOWS_BUILD
-		[NonSerialized]
-		[MarshalAs(UnmanagedType.FunctionPtr)]
-		public RunCRDel m_RunCallResult;
-#endif
-		[NonSerialized]
-		[MarshalAs(UnmanagedType.FunctionPtr)]
-		public GetCallbackSizeBytesDel m_GetCallbackSizeBytes;
 	}
 }
 

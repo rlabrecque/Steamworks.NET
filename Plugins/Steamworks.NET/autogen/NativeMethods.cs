@@ -129,6 +129,10 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ManualDispatch_FreeLastCallback", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_ManualDispatch_FreeLastCallback(HSteamPipe hSteamPipe);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ManualDispatch_GetAPICallResult", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool SteamAPI_ManualDispatch_GetAPICallResult(HSteamPipe hSteamPipe, SteamAPICall_t hSteamAPICall, IntPtr pCallback, int cubCallback, int iCallbackExpected, out bool pbFailed);
 #endregion
 #region steam_gameserver.h
 		[DllImport(NativeLibraryName, EntryPoint = "SteamGameServer_InitSafe", CallingConvention = CallingConvention.Cdecl)]
