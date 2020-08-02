@@ -85,8 +85,8 @@ namespace Steamworks {
 		private byte[] m_rgchKey_;
 		public string m_rgchKey
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_rgchKey_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_rgchKey_, Constants.k_cubAppProofOfPurchaseKeyMax);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchKey_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchKey_, Constants.k_cubAppProofOfPurchaseKeyMax); }
 		}
 	}
 
@@ -154,15 +154,15 @@ namespace Steamworks {
 		private byte[] m_rgchServer_;
 		public string m_rgchServer		// server address ("127.0.0.1:27015", "tf2.valvesoftware.com")
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_rgchServer_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_rgchServer_, 64);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchServer_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchServer_, 64); }
 		}
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
 		private byte[] m_rgchPassword_;
 		public string m_rgchPassword	// server password, if any
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_rgchPassword_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_rgchPassword_, 64);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchPassword_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchPassword_, 64); }
 		}
 	}
 
@@ -234,8 +234,8 @@ namespace Steamworks {
 		private byte[] m_rgchConnect_;
 		public string m_rgchConnect
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_rgchConnect_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_rgchConnect_, Constants.k_cchMaxRichPresenceValueLength);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchConnect_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchConnect_, Constants.k_cchMaxRichPresenceValueLength); }
 		}
 	}
 
@@ -371,8 +371,13 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 49)]
 	public struct OverlayBrowserProtocolNavigation_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 49;
-		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 1024)]
-		public string rgchURI;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 1024)]
+		private byte[] rgchURI_;
+		public string rgchURI
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(rgchURI_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, rgchURI_, 1024); }
+		}
 	}
 
 	// callbacks
@@ -415,8 +420,8 @@ namespace Steamworks {
 		private byte[] m_rgchOptionalText_;
 		public string m_rgchOptionalText
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_rgchOptionalText_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_rgchOptionalText_, 128);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchOptionalText_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchOptionalText_, 128); }
 		}
 	}
 
@@ -441,8 +446,8 @@ namespace Steamworks {
 		private byte[] m_pchAchievement_;
 		public string m_pchAchievement
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_pchAchievement_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_pchAchievement_, 128);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_pchAchievement_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_pchAchievement_, 128); }
 		}
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bUnlocked;
@@ -991,8 +996,8 @@ namespace Steamworks {
 		private byte[] m_rgchCurrency_;
 		public string m_rgchCurrency
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_rgchCurrency_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_rgchCurrency_, 4);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchCurrency_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchCurrency_, 4); }
 		}
 	}
 
@@ -1290,8 +1295,8 @@ namespace Steamworks {
 		private byte[] m_rgchConnectString_;
 		public string m_rgchConnectString
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_rgchConnectString_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_rgchConnectString_, 256);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchConnectString_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchConnectString_, 256); }
 		}
 	}
 
@@ -1554,8 +1559,8 @@ namespace Steamworks {
 		private byte[] m_debugMsg_;
 		public string m_debugMsg
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_debugMsg_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_debugMsg_, 256);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_debugMsg_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_debugMsg_, 256); }
 		}
 	}
 
@@ -1595,8 +1600,8 @@ namespace Steamworks {
 		private byte[] m_debugMsg_;
 		public string m_debugMsg
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_debugMsg_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_debugMsg_, 256);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_debugMsg_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_debugMsg_, 256); }
 		}
 	}
 
@@ -1662,8 +1667,8 @@ namespace Steamworks {
 		private byte[] m_rgchCurrentFile_;
 		public string m_rgchCurrentFile				// Current file being transferred
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_rgchCurrentFile_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_rgchCurrentFile_, Constants.k_cchFilenameMax);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchCurrentFile_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchCurrentFile_, Constants.k_cchFilenameMax); }
 		}
 		public AppId_t m_nAppID;							// App this info relates to
 		public uint m_uBytesTransferredThisChunk;		// Bytes transferred this chunk
@@ -1700,8 +1705,8 @@ namespace Steamworks {
 		private byte[] m_rgchFilename_;
 		public string m_rgchFilename // The name of the file that was shared
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_rgchFilename_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_rgchFilename_, Constants.k_cchFilenameMax);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchFilename_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchFilename_, Constants.k_cchFilenameMax); }
 		}
 	}
 
@@ -1810,8 +1815,8 @@ namespace Steamworks {
 		private byte[] m_pchFileName_;
 		public string m_pchFileName		// The name of the file that was downloaded.
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_pchFileName_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_pchFileName_, Constants.k_cchFilenameMax);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_pchFileName_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_pchFileName_, Constants.k_cchFilenameMax); }
 		}
 		public ulong m_ulSteamIDOwner;		// Steam ID of the user who created this content.
 	}
@@ -1831,15 +1836,15 @@ namespace Steamworks {
 		private byte[] m_rgchTitle_;
 		public string m_rgchTitle		// title of document
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_rgchTitle_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_rgchTitle_, Constants.k_cchPublishedDocumentTitleMax);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTitle_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchTitle_, Constants.k_cchPublishedDocumentTitleMax); }
 		}
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentDescriptionMax)]
 		private byte[] m_rgchDescription_;
 		public string m_rgchDescription	// description of document
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_rgchDescription_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_rgchDescription_, Constants.k_cchPublishedDocumentDescriptionMax);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchDescription_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchDescription_, Constants.k_cchPublishedDocumentDescriptionMax); }
 		}
 		public UGCHandle_t m_hFile;			// The handle of the primary file
 		public UGCHandle_t m_hPreviewFile;		// The handle of the preview file
@@ -1853,8 +1858,8 @@ namespace Steamworks {
 		private byte[] m_rgchTags_;
 		public string m_rgchTags	// comma separated list of all tags associated with this file
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_rgchTags_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_rgchTags_, Constants.k_cchTagListMax);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTags_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchTags_, Constants.k_cchTagListMax); }
 		}
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bTagsTruncated;			// whether the list of tags was too long to be returned in the provided buffer
@@ -1862,8 +1867,8 @@ namespace Steamworks {
 		private byte[] m_pchFileName_;
 		public string m_pchFileName		// The name of the primary file
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_pchFileName_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_pchFileName_, Constants.k_cchFilenameMax);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_pchFileName_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_pchFileName_, Constants.k_cchFilenameMax); }
 		}
 		public int m_nFileSize;				// Size of the primary file
 		public int m_nPreviewFileSize;		// Size of the preview file
@@ -1871,8 +1876,8 @@ namespace Steamworks {
 		private byte[] m_rgchURL_;
 		public string m_rgchURL	// URL (for a video or a website)
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_rgchURL_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_rgchURL_, Constants.k_cchPublishedFileURLMax);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchURL_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchURL_, Constants.k_cchPublishedFileURLMax); }
 		}
 		public EWorkshopFileType m_eFileType;	// Type of the file
 		[MarshalAs(UnmanagedType.I1)]
@@ -2087,8 +2092,8 @@ namespace Steamworks {
 		private byte[] m_rgchNextCursor_;
 		public string m_rgchNextCursor // If a paging cursor was used, then this will be the next cursor to get the next result set.
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_rgchNextCursor_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_rgchNextCursor_, Constants.k_cchPublishedFileURLMax);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchNextCursor_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchNextCursor_, Constants.k_cchPublishedFileURLMax); }
 		}
 	}
 
@@ -2427,8 +2432,8 @@ namespace Steamworks {
 		private byte[] m_szURL_;
 		public string m_szURL
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_szURL_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_szURL_, 256);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_szURL_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_szURL_, 256); }
 		}
 	}
 
@@ -2443,8 +2448,8 @@ namespace Steamworks {
 		private byte[] m_szURL_;
 		public string m_szURL
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_szURL_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_szURL_, 512);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_szURL_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_szURL_, 512); }
 		}
 	}
 
@@ -2536,8 +2541,8 @@ namespace Steamworks {
 		private byte[] m_rgchAchievementName_;
 		public string m_rgchAchievementName		// name of the achievement
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_rgchAchievementName_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_rgchAchievementName_, Constants.k_cchStatNameMax);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchAchievementName_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchAchievementName_, Constants.k_cchStatNameMax); }
 		}
 		public uint m_nCurProgress;			// current progress towards the achievement
 		public uint m_nMaxProgress;			// "out of" this many
@@ -2616,8 +2621,8 @@ namespace Steamworks {
 		private byte[] m_rgchAchievementName_;
 		public string m_rgchAchievementName		// name of the achievement
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_rgchAchievementName_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_rgchAchievementName_, Constants.k_cchStatNameMax);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchAchievementName_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchAchievementName_, Constants.k_cchStatNameMax); }
 		}
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bAchieved;		// Is the icon for the achieved or not achieved version?
@@ -2733,8 +2738,8 @@ namespace Steamworks {
 		private byte[] m_rgchURL_;
 		public string m_rgchURL
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_rgchURL_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_rgchURL_, 256);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchURL_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchURL_, 256); }
 		}
 	}
 

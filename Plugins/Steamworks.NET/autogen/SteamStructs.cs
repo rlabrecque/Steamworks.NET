@@ -114,15 +114,15 @@ namespace Steamworks {
 		private byte[] m_rgchTitle_;
 		public string m_rgchTitle				// title of document
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_rgchTitle_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_rgchTitle_, Constants.k_cchPublishedDocumentTitleMax);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTitle_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchTitle_, Constants.k_cchPublishedDocumentTitleMax); }
 		}
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentDescriptionMax)]
 		private byte[] m_rgchDescription_;
 		public string m_rgchDescription	// description of document
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_rgchDescription_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_rgchDescription_, Constants.k_cchPublishedDocumentDescriptionMax);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchDescription_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchDescription_, Constants.k_cchPublishedDocumentDescriptionMax); }
 		}
 		public ulong m_ulSteamIDOwner;										// Steam ID of the user who created this content.
 		public uint m_rtimeCreated;											// time when the published file was created
@@ -139,8 +139,8 @@ namespace Steamworks {
 		private byte[] m_rgchTags_;
 		public string m_rgchTags								// comma separated list of all tags associated with this file
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_rgchTags_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_rgchTags_, Constants.k_cchTagListMax);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTags_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchTags_, Constants.k_cchTagListMax); }
 		}
 		// file/url information
 		public UGCHandle_t m_hFile;											// The handle of the primary file
@@ -149,8 +149,8 @@ namespace Steamworks {
 		private byte[] m_pchFileName_;
 		public string m_pchFileName							// The cloud filename of the primary file
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_pchFileName_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_pchFileName_, Constants.k_cchFilenameMax);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_pchFileName_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_pchFileName_, Constants.k_cchFilenameMax); }
 		}
 		public int m_nFileSize;												// Size of the primary file
 		public int m_nPreviewFileSize;										// Size of the preview file
@@ -158,8 +158,8 @@ namespace Steamworks {
 		private byte[] m_rgchURL_;
 		public string m_rgchURL						// URL (for a video or a website)
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_rgchURL_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_rgchURL_, Constants.k_cchPublishedFileURLMax);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchURL_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchURL_, Constants.k_cchPublishedFileURLMax); }
 		}
 		// voting information
 		public uint m_unVotesUp;												// number of votes up
@@ -196,15 +196,15 @@ namespace Steamworks {
 		private byte[] m_szKey_;
 		public string m_szKey
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_szKey_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_szKey_, 256);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_szKey_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_szKey_, 256); }
 		}
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
 		private byte[] m_szValue_;
 		public string m_szValue
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_szValue_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_szValue_, 256);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_szValue_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_szValue_, 256); }
 		}
 	}
 
@@ -296,8 +296,8 @@ namespace Steamworks {
 		private byte[] m_szEndDebug_;
 		public string m_szEndDebug
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_szEndDebug_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_szEndDebug_, Constants.k_cchSteamNetworkingMaxConnectionCloseReason);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_szEndDebug_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_szEndDebug_, Constants.k_cchSteamNetworkingMaxConnectionCloseReason); }
 		}
 		
 		/// Debug description.  This includes the connection handle,
@@ -307,8 +307,8 @@ namespace Steamworks {
 		private byte[] m_szConnectionDescription_;
 		public string m_szConnectionDescription
 		{
-			get => InteropHelp.ByteArrayToStringUTF8(m_szConnectionDescription_);
-			set => InteropHelp.StringToByteArrayUTF8(value, m_szConnectionDescription_, Constants.k_cchSteamNetworkingMaxConnectionDescription);
+			get { return InteropHelp.ByteArrayToStringUTF8(m_szConnectionDescription_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_szConnectionDescription_, Constants.k_cchSteamNetworkingMaxConnectionDescription); }
 		}
 		
 		/// Internal stuff, room to change API easily
