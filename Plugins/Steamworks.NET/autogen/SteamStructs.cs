@@ -110,10 +110,20 @@ namespace Steamworks {
 		public EWorkshopFileType m_eFileType;									// Type of the file
 		public AppId_t m_nCreatorAppID;										// ID of the app that created this file.
 		public AppId_t m_nConsumerAppID;										// ID of the app that will consume this file.
-		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchPublishedDocumentTitleMax)]
-		public string m_rgchTitle;				// title of document
-		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchPublishedDocumentDescriptionMax)]
-		public string m_rgchDescription;	// description of document
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentTitleMax)]
+		private byte[] m_rgchTitle_;
+		public string m_rgchTitle				// title of document
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTitle_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchTitle_, Constants.k_cchPublishedDocumentTitleMax); }
+		}
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentDescriptionMax)]
+		private byte[] m_rgchDescription_;
+		public string m_rgchDescription	// description of document
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchDescription_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchDescription_, Constants.k_cchPublishedDocumentDescriptionMax); }
+		}
 		public ulong m_ulSteamIDOwner;										// Steam ID of the user who created this content.
 		public uint m_rtimeCreated;											// time when the published file was created
 		public uint m_rtimeUpdated;											// time when the published file was last updated
@@ -125,17 +135,32 @@ namespace Steamworks {
 		public bool m_bAcceptedForUse;											// developer has specifically flagged this item as accepted in the Workshop
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bTagsTruncated;											// whether the list of tags was too long to be returned in the provided buffer
-		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchTagListMax)]
-		public string m_rgchTags;								// comma separated list of all tags associated with this file
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchTagListMax)]
+		private byte[] m_rgchTags_;
+		public string m_rgchTags								// comma separated list of all tags associated with this file
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTags_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchTags_, Constants.k_cchTagListMax); }
+		}
 		// file/url information
 		public UGCHandle_t m_hFile;											// The handle of the primary file
 		public UGCHandle_t m_hPreviewFile;										// The handle of the preview file
-		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchFilenameMax)]
-		public string m_pchFileName;							// The cloud filename of the primary file
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
+		private byte[] m_pchFileName_;
+		public string m_pchFileName							// The cloud filename of the primary file
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_pchFileName_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_pchFileName_, Constants.k_cchFilenameMax); }
+		}
 		public int m_nFileSize;												// Size of the primary file
 		public int m_nPreviewFileSize;										// Size of the preview file
-		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchPublishedFileURLMax)]
-		public string m_rgchURL;						// URL (for a video or a website)
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedFileURLMax)]
+		private byte[] m_rgchURL_;
+		public string m_rgchURL						// URL (for a video or a website)
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchURL_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchURL_, Constants.k_cchPublishedFileURLMax); }
+		}
 		// voting information
 		public uint m_unVotesUp;												// number of votes up
 		public uint m_unVotesDown;											// number of votes down
@@ -162,13 +187,25 @@ namespace Steamworks {
 	[StructLayout(LayoutKind.Sequential)]
 	public struct MatchMakingKeyValuePair_t {
 		MatchMakingKeyValuePair_t(string strKey, string strValue) {
+			m_szKey_ = null;
+			m_szValue_ = null;
 			m_szKey = strKey;
 			m_szValue = strValue;
 		}
-		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-		public string m_szKey;
-		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-		public string m_szValue;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+		private byte[] m_szKey_;
+		public string m_szKey
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_szKey_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_szKey_, 256); }
+		}
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+		private byte[] m_szValue_;
+		public string m_szValue
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_szValue_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_szValue_, 256); }
+		}
 	}
 
 	// structure that contains client callback data
@@ -255,14 +292,24 @@ namespace Steamworks {
 		/// termination or problem.  This is intended for debugging /
 		/// diagnostic purposes only, not to display to users.  It might
 		/// have some details specific to the issue.
-		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchSteamNetworkingMaxConnectionCloseReason)]
-		public string m_szEndDebug;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchSteamNetworkingMaxConnectionCloseReason)]
+		private byte[] m_szEndDebug_;
+		public string m_szEndDebug
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_szEndDebug_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_szEndDebug_, Constants.k_cchSteamNetworkingMaxConnectionCloseReason); }
+		}
 		
 		/// Debug description.  This includes the connection handle,
 		/// connection type (and peer information), and the app name.
 		/// This string is used in various internal logging messages
-		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.k_cchSteamNetworkingMaxConnectionDescription)]
-		public string m_szConnectionDescription;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchSteamNetworkingMaxConnectionDescription)]
+		private byte[] m_szConnectionDescription_;
+		public string m_szConnectionDescription
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_szConnectionDescription_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_szConnectionDescription_, Constants.k_cchSteamNetworkingMaxConnectionDescription); }
+		}
 		
 		/// Internal stuff, room to change API easily
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
