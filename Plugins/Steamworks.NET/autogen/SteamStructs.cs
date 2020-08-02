@@ -25,15 +25,6 @@ namespace Steamworks {
 		public CSteamID m_steamIDLobby;
 	}
 
-	//-----------------------------------------------------------------------------
-	// Purpose: information about user sessions
-	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	public struct FriendSessionStateInfo_t {
-		public uint m_uiOnlineSessionInstances;
-		public byte m_uiPublishedToFriendsSessionInstance;
-	}
-
 	[StructLayout(LayoutKind.Sequential, Pack = 1)]
 	public struct InputAnalogActionData_t {
 		// Type of data coming from this action, this will match what got specified in the action set

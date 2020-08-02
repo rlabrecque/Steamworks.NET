@@ -1452,6 +1452,7 @@ namespace Steamworks {
 		k_EResultCantRemoveItem = 113,				// item can't be removed
 		k_EResultAccountDeleted = 114,				// account has been deleted
 		k_EResultExistingUserCancelledLicense = 115,	// A license for this already exists, but cancelled
+		k_EResultCommunityCooldown = 116,			// access is denied because of a community cooldown (probably from support profile data resets)
 	}
 
 	// Error codes for use with the voice functions
@@ -1543,9 +1544,9 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	public enum EAppReleaseState : int {
 		k_EAppReleaseState_Unknown			= 0,	// unknown, required appinfo or license info is missing
-		k_EAppReleaseState_Unavailable		= 1,	// even if user 'just' owns it, can see game at all
-		k_EAppReleaseState_Prerelease		= 2,	// can be purchased and is visible in games list, nothing else. Common appInfo section released
-		k_EAppReleaseState_PreloadOnly		= 3,	// owners can preload app, not play it. AppInfo fully released.
+		k_EAppReleaseState_Unavailable		= 1,	// even owners can't see game in library yet, no AppInfo released
+		k_EAppReleaseState_Prerelease		= 2,	// app can be purchased and is visible in library, nothing else. Only Common AppInfo section released
+		k_EAppReleaseState_PreloadOnly		= 3,	// owners can preload app, but not play it. All AppInfo sections fully released
 		k_EAppReleaseState_Released			= 4,	// owners can download and play app.
 	}
 
@@ -1576,6 +1577,7 @@ namespace Steamworks {
 		k_EAppOwnershipFlags_SiteLicense		= 0x40000,	// Is from a site license
 		k_EAppOwnershipFlags_LegacyFreeSub		= 0x80000,	// App only owned through Steam's legacy free sub
 		k_EAppOwnershipFlags_InvalidOSType		= 0x100000,	// app not supported on current OS version, used to indicate a game is 32-bit on post-catalina. Currently it's own flag so the library will display a notice.
+		k_EAppOwnershipFlags_TimedTrial			= 0x200000,	// App is playable only for limited time
 	}
 
 	//-----------------------------------------------------------------------------
@@ -1909,6 +1911,16 @@ namespace Steamworks {
 		k_EDurationControlNotification_ExitSoon_Night = 7,// game running after day period, game should exit - steam will terminate the game soon
 	}
 
+	//
+	// Specifies a game's online state in relation to duration control
+	//
+	public enum EDurationControlOnlineState : int {
+		k_EDurationControlOnlineState_Invalid = 0,				// nil value
+		k_EDurationControlOnlineState_Offline = 1,				// currently in offline play - single-player, offline co-op, etc.
+		k_EDurationControlOnlineState_Online = 2,				// currently in online play
+		k_EDurationControlOnlineState_OnlineHighPri = 3,		// currently in online play and requests not to be interrupted
+	}
+
 	public enum EGameSearchErrorCode_t : int {
 		k_EGameSearchErrorCode_OK = 1,
 		k_EGameSearchErrorCode_Failed_Search_Already_In_Progress = 2,
@@ -2011,6 +2023,7 @@ namespace Steamworks {
 		k_EHTTPStatusCode417ExpectationFailed =		417,
 		k_EHTTPStatusCode4xxUnknown = 				418, // 418 is reserved, so we'll use it to mean unknown
 		k_EHTTPStatusCode429TooManyRequests	=		429,
+		k_EHTTPStatusCode444ConnectionClosed =		444, // nginx only?
 
 		// Server error codes
 		k_EHTTPStatusCode500InternalServerError =	500,
@@ -2276,7 +2289,7 @@ namespace Steamworks {
 			// on our end
 		k_ESteamNetConnectionEnd_Local_HostedServerPrimaryRelay = 3003,
 
-			// We're not able to get the network config.  This is
+			// We're not able to get the SDR network config.  This is
 			// *almost* always a local issue, since the network config
 			// comes from the CDN, which is pretty darn reliable.
 		k_ESteamNetConnectionEnd_Local_NetworkConfig = 3004,
@@ -2284,6 +2297,14 @@ namespace Steamworks {
 			// Steam rejected our request because we don't have rights
 			// to do this.
 		k_ESteamNetConnectionEnd_Local_Rights = 3005,
+
+			// ICE P2P rendezvous failed because we were not able to
+			// determine our "public" address (e.g. reflexive address via STUN)
+			//
+			// If relay fallback is available (it always is on Steam), then
+			// this is only used internally and will not be returned as a high
+			// level failure.
+		k_ESteamNetConnectionEnd_Local_P2P_ICE_NoPublicAddresses = 3006,
 
 		k_ESteamNetConnectionEnd_Local_Max = 3999,
 
@@ -2327,6 +2348,15 @@ namespace Steamworks {
 			// (Probably the code you are running is too old.)
 		k_ESteamNetConnectionEnd_Remote_BadProtocolVersion = 4006,
 
+			// NAT punch failed failed because we never received any public
+			// addresses from the remote host.  (But we did receive some
+			// signals form them.)
+			//
+			// If relay fallback is available (it always is on Steam), then
+			// this is only used internally and will not be returned as a high
+			// level failure.
+		k_ESteamNetConnectionEnd_Remote_P2P_ICE_NoPublicAddresses = 4007,
+
 		k_ESteamNetConnectionEnd_Remote_Max = 4999,
 
 		// 5xxx: Connection failed for some other reason.
@@ -2358,6 +2388,21 @@ namespace Steamworks {
 			// active with which to talk back to a client.  (It's the client's
 			// job to open and maintain those sessions.)
 		k_ESteamNetConnectionEnd_Misc_NoRelaySessionsToClient = 5006,
+
+			// While trying to initiate a connection, we never received
+			// *any* communication from the peer.
+			//k_ESteamNetConnectionEnd_Misc_ServerNeverReplied = 5007,
+
+			// P2P rendezvous failed in a way that we don't have more specific
+			// information
+		k_ESteamNetConnectionEnd_Misc_P2P_Rendezvous = 5008,
+
+			// NAT punch failed, probably due to NAT/firewall configuration.
+			//
+			// If relay fallback is available (it always is on Steam), then
+			// this is only used internally and will not be returned as a high
+			// level failure.
+		k_ESteamNetConnectionEnd_Misc_P2P_NAT_Firewall = 5009,
 
 		k_ESteamNetConnectionEnd_Misc_Max = 5999,
 
@@ -2505,6 +2550,39 @@ namespace Steamworks {
 		k_ESteamNetworkingConfig_EnumerateDevVars = 35,
 
 		//
+		// P2P settings
+		//
+
+	//	/// [listen socket int32] When you create a P2P listen socket, we will automatically
+	//	/// open up a UDP port to listen for LAN connections.  LAN connections can be made
+	//	/// without any signaling: both sides can be disconnected from the Internet.
+	//	///
+	//	/// This value can be set to zero to disable the feature.
+	//	k_ESteamNetworkingConfig_P2P_Discovery_Server_LocalPort = 101,
+	//
+	//	/// [connection int32] P2P connections can perform broadcasts looking for the peer
+	//	/// on the LAN.
+	//	k_ESteamNetworkingConfig_P2P_Discovery_Client_RemotePort = 102,
+
+		/// [connection string] Comma-separated list of STUN servers that can be used
+		/// for NAT piercing.  If you set this to an empty string, NAT piercing will
+		/// not be attempted.  Also if "public" candidates are not allowed for
+		/// P2P_Transport_ICE_Enable, then this is ignored.
+		k_ESteamNetworkingConfig_P2P_STUN_ServerList = 103,
+
+		/// [connection int32] What types of ICE candidates to share with the peer.
+		/// See k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_xxx values
+		k_ESteamNetworkingConfig_P2P_Transport_ICE_Enable = 104,
+
+		/// [connection int32] When selecting P2P transport, add various
+		/// penalties to the scores for selected transports.  (Route selection
+		/// scores are on a scale of milliseconds.  The score begins with the
+		/// route ping time and is then adjusted.)
+		k_ESteamNetworkingConfig_P2P_Transport_ICE_Penalty = 105,
+		k_ESteamNetworkingConfig_P2P_Transport_SDR_Penalty = 106,
+		//k_ESteamNetworkingConfig_P2P_Transport_LANBeacon_Penalty = 107,
+
+		//
 		// Settings for SDR relayed connections
 		//
 
@@ -2554,11 +2632,15 @@ namespace Steamworks {
 		k_ESteamNetworkingConfig_SDRClient_FakeClusterPing = 36,
 
 		//
-		// Log levels for debuging information.  A higher priority
-		// (lower numeric value) will cause more stuff to be printed.
+		// Log levels for debugging information of various subsystems.
+		// Higher numeric values will cause more stuff to be printed.
+		// See ISteamNetworkingUtils::SetDebugOutputFunction for more
+		// information
+		//
+		// The default for all values is k_ESteamNetworkingSocketsDebugOutputType_Warning.
 		//
 		k_ESteamNetworkingConfig_LogLevel_AckRTT = 13, // [connection int32] RTT calculations for inline pings and replies
-		k_ESteamNetworkingConfig_LogLevel_PacketDecode = 14, // [connection int32] log SNP packets send
+		k_ESteamNetworkingConfig_LogLevel_PacketDecode = 14, // [connection int32] log SNP packets send/recv
 		k_ESteamNetworkingConfig_LogLevel_Message = 15, // [connection int32] log each message send/recv
 		k_ESteamNetworkingConfig_LogLevel_PacketGaps = 16, // [connection int32] dropped packets
 		k_ESteamNetworkingConfig_LogLevel_P2PRendezvous = 17, // [connection int32] P2P rendezvous messages

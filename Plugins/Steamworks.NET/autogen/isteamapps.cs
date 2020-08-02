@@ -255,6 +255,14 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamApps_BIsSubscribedFromFamilySharing(CSteamAPIContext.GetSteamApps());
 		}
+
+		/// <summary>
+		/// <para> check if game is a timed trial with limited playtime</para>
+		/// </summary>
+		public static bool BIsTimedTrial(out uint punSecondsAllowed, out uint punSecondsPlayed) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamApps_BIsTimedTrial(CSteamAPIContext.GetSteamApps(), out punSecondsAllowed, out punSecondsPlayed);
+		}
 	}
 }
 

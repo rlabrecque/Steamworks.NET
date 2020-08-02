@@ -45,8 +45,8 @@ namespace Steamworks {
 		public const string STEAMREMOTESTORAGE_INTERFACE_VERSION = "STEAMREMOTESTORAGE_INTERFACE_VERSION014";
 		public const string STEAMSCREENSHOTS_INTERFACE_VERSION = "STEAMSCREENSHOTS_INTERFACE_VERSION003";
 		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION014";
-		public const string STEAMUSER_INTERFACE_VERSION = "SteamUser020";
-		public const string STEAMUSERSTATS_INTERFACE_VERSION = "STEAMUSERSTATS_INTERFACE_VERSION011";
+		public const string STEAMUSER_INTERFACE_VERSION = "SteamUser021";
+		public const string STEAMUSERSTATS_INTERFACE_VERSION = "STEAMUSERSTATS_INTERFACE_VERSION012";
 		public const string STEAMUTILS_INTERFACE_VERSION = "SteamUtils009";
 		public const string STEAMVIDEO_INTERFACE_VERSION = "STEAMVIDEO_INTERFACE_V002";
 		public const int k_cubAppProofOfPurchaseKeyMax = 240; // max supported length of a legacy cd key
@@ -180,6 +180,7 @@ namespace Steamworks {
 		public const int k_iClientSTARCallbacks = 5600;
 		public const int k_iSteamRemotePlayCallbacks = 5700;
 		public const int k_iClientCompatCallbacks = 5800;
+		public const int k_iSteamChatCallbacks = 5900;
 		public const int k_unSteamAccountIDMask = -1;
 		public const int k_unSteamAccountInstanceMask = 0x000FFFFF;
 		public const int k_unSteamUserDefaultInstance = 1; // fixed instance for all individual users
@@ -298,6 +299,13 @@ namespace Steamworks {
 		/// Special values that are returned by some functions that return a ping.
 		public const int k_nSteamNetworkingPing_Failed = -1;
 		public const int k_nSteamNetworkingPing_Unknown = -2;
+		// Bitmask of types to share
+		public const int k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Default = -1; // Special value - use user defaults
+		public const int k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Disable = 0; // Do not do any ICE work at all or share any IP addresses with peer
+		public const int k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Relay = 1; // Relayed connection via TURN server.
+		public const int k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Private = 2; // host addresses that appear to be link-local or RFC1918 addresses
+		public const int k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Public = 4; // STUN reflexive addresses, or host address that isn't a "private" address
+		public const int k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_All = 0x7fffffff;
 		public const int k_cubSaltSize = 8;
 		public const ulong k_GIDNil = 0xffffffffffffffff;
 		public const ulong k_TxnIDNil = k_GIDNil;

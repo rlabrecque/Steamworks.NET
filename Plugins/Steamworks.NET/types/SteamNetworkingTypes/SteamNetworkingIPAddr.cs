@@ -76,9 +76,11 @@ namespace Steamworks
 		/// form according to RFC5952.  If you include the port, IPv6 will be surrounded by
 		/// brackets, e.g. [::1:2]:80.  Your buffer should be at least k_cchMaxString bytes
 		/// to avoid truncation
+		///
+		/// See also SteamNetworkingIdentityRender
 		public void ToString(out string buf, bool bWithPort) {
 			IntPtr buf2 = Marshal.AllocHGlobal(k_cchMaxString);
-			NativeMethods.SteamAPI_SteamNetworkingIPAddr_ToString(ref this, buf2, k_cchMaxString, bWithPort);
+			NativeMethods.SteamNetworkingIPAddr_ToString(ref this, buf2, k_cchMaxString, bWithPort);
 			buf = InteropHelp.PtrToStringUTF8(buf2);
 			Marshal.FreeHGlobal(buf2);
 		}
@@ -87,7 +89,7 @@ namespace Steamworks
 		/// (This means that you cannot tell if a zero port was explicitly specified.)
 		public bool ParseString(string pszStr) {
 			using (var pszStr2 = new InteropHelp.UTF8StringHandle(pszStr)) {
-				return NativeMethods.SteamAPI_SteamNetworkingIPAddr_ParseString(ref this, pszStr2);
+				return NativeMethods.SteamNetworkingIPAddr_ParseString(ref this, pszStr2);
 			}
 		}
 

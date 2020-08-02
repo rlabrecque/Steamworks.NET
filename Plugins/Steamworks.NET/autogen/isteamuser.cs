@@ -345,6 +345,16 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUser_GetDurationControl(CSteamAPIContext.GetSteamUser());
 		}
+
+		/// <summary>
+		/// <para> Advise steam china duration control system about the online state of the game.</para>
+		/// <para> This will prevent offline gameplay time from counting against a user's</para>
+		/// <para> playtime limits.</para>
+		/// </summary>
+		public static bool BSetDurationControlOnlineState(EDurationControlOnlineState eNewState) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUser_BSetDurationControlOnlineState(CSteamAPIContext.GetSteamUser(), eNewState);
+		}
 	}
 }
 

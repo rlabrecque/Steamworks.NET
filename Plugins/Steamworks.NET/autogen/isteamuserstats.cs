@@ -449,45 +449,25 @@ namespace Steamworks {
 				return NativeMethods.ISteamUserStats_GetGlobalStatHistoryDouble(CSteamAPIContext.GetSteamUserStats(), pchStatName2, pData, cubData);
 			}
 		}
-#if _PS3
-		/// <summary>
-		/// <para> Call to kick off installation of the PS3 trophies. This call is asynchronous, and the results will be returned in a PS3TrophiesInstalled_t</para>
-		/// <para> callback.</para>
-		/// </summary>
-		public static bool InstallPS3Trophies() {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_InstallPS3Trophies(CSteamAPIContext.GetSteamUserStats());
-		}
 
 		/// <summary>
-		/// <para> Returns the amount of space required at boot to install trophies. This value can be used when comparing the amount of space needed</para>
-		/// <para> by the game to the available space value passed to the game at boot. The value is set during InstallPS3Trophies().</para>
+		/// <para> For achievements that have related Progress stats, use this to query what the bounds of that progress are.</para>
+		/// <para> You may want this info to selectively call IndicateAchievementProgress when appropriate milestones of progress</para>
+		/// <para> have been made, to show a progress notification to the user.</para>
 		/// </summary>
-		public static ulong GetTrophySpaceRequiredBeforeInstall() {
+		public static bool GetAchievementProgressLimits(string pchName, out int pnMinProgress, out int pnMaxProgress) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetTrophySpaceRequiredBeforeInstall(CSteamAPIContext.GetSteamUserStats());
+			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName)) {
+				return NativeMethods.ISteamUserStats_GetAchievementProgressLimitsInt32(CSteamAPIContext.GetSteamUserStats(), pchName2, out pnMinProgress, out pnMaxProgress);
+			}
 		}
 
-		/// <summary>
-		/// <para> On PS3, user stats &amp; achievement progress through Steam must be stored with the user's saved game data.</para>
-		/// <para> At startup, before calling RequestCurrentStats(), you must pass the user's stats data to Steam via this method.</para>
-		/// <para> If you do not have any user data, call this function with pvData = NULL and cubData = 0</para>
-		/// </summary>
-		public static bool SetUserStatsData(IntPtr pvData, uint cubData) {
+		public static bool GetAchievementProgressLimits(string pchName, out float pfMinProgress, out float pfMaxProgress) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_SetUserStatsData(CSteamAPIContext.GetSteamUserStats(), pvData, cubData);
+			using (var pchName2 = new InteropHelp.UTF8StringHandle(pchName)) {
+				return NativeMethods.ISteamUserStats_GetAchievementProgressLimitsFloat(CSteamAPIContext.GetSteamUserStats(), pchName2, out pfMinProgress, out pfMaxProgress);
+			}
 		}
-
-		/// <summary>
-		/// <para> Call to get the user's current stats data. You should retrieve this data after receiving successful UserStatsReceived_t &amp; UserStatsStored_t</para>
-		/// <para> callbacks, and store the data with the user's save game data. You can call this method with pvData = NULL and cubData = 0 to get the required</para>
-		/// <para> buffer size.</para>
-		/// </summary>
-		public static bool GetUserStatsData(IntPtr pvData, uint cubData, out uint pcubWritten) {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_GetUserStatsData(CSteamAPIContext.GetSteamUserStats(), pvData, cubData, out pcubWritten);
-		}
-#endif
 	}
 }
 

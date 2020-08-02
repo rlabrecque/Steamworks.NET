@@ -99,6 +99,20 @@ namespace Steamworks {
 		public uint m_unFlags;		//
 	}
 
+	//-----------------------------------------------------------------------------
+	// Purpose: called for games in Timed Trial mode
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 30)]
+	public struct TimedTrialStatus_t {
+		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 30;
+		public AppId_t m_unAppID;			// appID
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bIsOffline;		// if true, time allowed / played refers to offline time, not total time
+		public uint m_unSecondsAllowed;	// how many seconds the app can be played in total
+		public uint m_unSecondsPlayed;	// how many seconds the app was already played
+	}
+
 	// callbacks
 	//-----------------------------------------------------------------------------
 	// Purpose: called when a friends' status changes
@@ -328,6 +342,17 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 48)]
 	public struct UnreadChatMessagesChanged_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 48;
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Dispatched when an overlay browser instance is navigated to a protocol/scheme registered by RegisterProtocolInOverlayBrowser()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 49)]
+	public struct OverlayBrowserProtocolNavigation_t {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 49;
+		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 1024)]
+		public string rgchURI;
 	}
 
 	// callbacks

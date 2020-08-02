@@ -636,6 +636,18 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamFriends_ActivateGameOverlayRemotePlayTogetherInviteDialog(CSteamAPIContext.GetSteamFriends(), steamIDLobby);
 		}
+
+		/// <summary>
+		/// <para> Call this before calling ActivateGameOverlayToWebPage() to have the Steam Overlay Browser block navigations</para>
+		/// <para> to your specified protocol (scheme) uris and instead dispatch a OverlayBrowserProtocolNavigation_t callback to your game.</para>
+		/// <para> ActivateGameOverlayToWebPage() must have been called with k_EActivateGameOverlayToWebPageMode_Modal</para>
+		/// </summary>
+		public static bool RegisterProtocolInOverlayBrowser(string pchProtocol) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchProtocol2 = new InteropHelp.UTF8StringHandle(pchProtocol)) {
+				return NativeMethods.ISteamFriends_RegisterProtocolInOverlayBrowser(CSteamAPIContext.GetSteamFriends(), pchProtocol2);
+			}
+		}
 	}
 }
 

@@ -251,6 +251,10 @@ namespace Steamworks {
 		/// <para>/ value means more important, and the value you pass is the lowest priority (highest</para>
 		/// <para>/ numeric value) you wish to receive callbacks for.</para>
 		/// <para>/</para>
+		/// <para>/ The value here controls the detail level for most messages.  You can control the</para>
+		/// <para>/ detail level for various subsystems (perhaps only for certain connections) by</para>
+		/// <para>/ adjusting the configuration values k_ESteamNetworkingConfig_LogLevel_Xxxxx.</para>
+		/// <para>/</para>
 		/// <para>/ Except when debugging, you should only use k_ESteamNetworkingSocketsDebugOutputType_Msg</para>
 		/// <para>/ or k_ESteamNetworkingSocketsDebugOutputType_Warning.  For best performance, do NOT</para>
 		/// <para>/ request a high detail level and then filter out messages in your callback.  This incurs</para>

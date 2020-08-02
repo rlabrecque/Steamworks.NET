@@ -465,6 +465,13 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamInventory_SubmitUpdateProperties(CSteamAPIContext.GetSteamInventory(), handle, out pResultHandle);
 		}
+
+		public static bool InspectItem(out SteamInventoryResult_t pResultHandle, string pchItemToken) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchItemToken2 = new InteropHelp.UTF8StringHandle(pchItemToken)) {
+				return NativeMethods.ISteamInventory_InspectItem(CSteamAPIContext.GetSteamInventory(), out pResultHandle, pchItemToken2);
+			}
+		}
 	}
 }
 

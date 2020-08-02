@@ -131,21 +131,23 @@ namespace Steamworks
 		/// or any other time you need to encode the identity as a string.  It has a
 		/// URL-like format (type:<type-data>).  Your buffer should be at least
 		/// k_cchMaxString bytes big to avoid truncation.
+		///
+		/// See also SteamNetworkingIPAddrRender
 		public void ToString(out string buf) {
 			IntPtr buf2 = Marshal.AllocHGlobal(k_cchMaxString);
-			NativeMethods.SteamAPI_SteamNetworkingIdentity_ToString(ref this, buf2, k_cchMaxString);
+			NativeMethods.SteamNetworkingIdentity_ToString(ref this, buf2, k_cchMaxString);
 			buf = InteropHelp.PtrToStringUTF8(buf2);
 			Marshal.FreeHGlobal(buf2);
 		}
 
 		/// Parse back a string that was generated using ToString.  If we don't understand the
 		/// string, but it looks "reasonable" (it matches the pattern type:<type-data> and doesn't
-		/// have any funcky characters, etc), then we will return true, and the type is set to
+		/// have any funky characters, etc), then we will return true, and the type is set to
 		/// k_ESteamNetworkingIdentityType_UnknownType.  false will only be returned if the string
 		/// looks invalid.
 		public bool ParseString(string pszStr) {
 			using (var pszStr2 = new InteropHelp.UTF8StringHandle(pszStr)) {
-				return NativeMethods.SteamAPI_SteamNetworkingIdentity_ParseString(ref this, pszStr2);
+				return NativeMethods.SteamNetworkingIdentity_ParseString(ref this, pszStr2);
 			}
 		}
 	}
