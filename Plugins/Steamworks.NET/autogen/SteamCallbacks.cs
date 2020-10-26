@@ -1486,6 +1486,37 @@ namespace Steamworks {
 		public int m_eSNetSocketState;				// socket state, ESNetSocketState
 	}
 
+	//
+	// Callbacks
+	//
+	/// Posted when a remote host is sending us a message, and we do not already have a session with them
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamNetworkingMessagesCallbacks + 1)]
+	public struct SteamNetworkingMessagesSessionRequest_t {
+		public const int k_iCallback = Constants.k_iSteamNetworkingMessagesCallbacks + 1;
+		public SteamNetworkingIdentity m_identityRemote;			// user who wants to talk to us
+	}
+
+	/// Posted when we fail to establish a connection, or we detect that communications
+	/// have been disrupted it an unusual way.  There is no notification when a peer proactively
+	/// closes the session.  ("Closed by peer" is not a concept of UDP-style communications, and
+	/// SteamNetworkingMessages is primarily intended to make porting UDP code easy.)
+	///
+	/// Remember: callbacks are asynchronous.   See notes on SendMessageToUser,
+	/// and k_nSteamNetworkingSend_AutoRestartBrokwnSession in particular.
+	///
+	/// Also, if a session times out due to inactivity, no callbacks will be posted.  The only
+	/// way to detect that this is happening is that querying the session state may return
+	/// none, connecting, and findingroute again.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamNetworkingMessagesCallbacks + 2)]
+	public struct SteamNetworkingMessagesSessionFailed_t {
+		public const int k_iCallback = Constants.k_iSteamNetworkingMessagesCallbacks + 2;
+		
+		/// Detailed info about the connection.  This will include the
+		public SteamNetConnectionInfo_t m_info;
+	}
+
 	/// Callback struct used to notify when a connection has changed state
 	/// This callback is posted whenever a connection is created, destroyed, or changes state.
 	/// The m_info field will contain a complete description of the connection at the time the

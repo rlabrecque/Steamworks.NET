@@ -287,26 +287,28 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Initializes text filtering.</para>
-		/// <para>   Returns false if filtering is unavailable for the language the user is currently running in.</para>
+		/// <para>   unFilterOptions are reserved for future use and should be set to 0</para>
+		/// <para> Returns false if filtering is unavailable for the language the user is currently running in.</para>
 		/// </summary>
-		public static bool InitFilterText() {
+		public static bool InitFilterText(uint unFilterOptions = 0) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUtils_InitFilterText(CSteamAPIContext.GetSteamUtils());
+			return NativeMethods.ISteamUtils_InitFilterText(CSteamAPIContext.GetSteamUtils(), unFilterOptions);
 		}
 
 		/// <summary>
-		/// <para> Filters the provided input message and places the filtered result into pchOutFilteredText.</para>
-		/// <para>   pchOutFilteredText is where the output will be placed, even if no filtering or censoring is performed</para>
-		/// <para>   nByteSizeOutFilteredText is the size (in bytes) of pchOutFilteredText</para>
+		/// <para> Filters the provided input message and places the filtered result into pchOutFilteredText, using legally required filtering and additional filtering based on the context and user settings</para>
+		/// <para>   eContext is the type of content in the input string</para>
+		/// <para>   sourceSteamID is the Steam ID that is the source of the input string (e.g. the player with the name, or who said the chat text)</para>
 		/// <para>   pchInputText is the input string that should be filtered, which can be ASCII or UTF-8</para>
-		/// <para>   bLegalOnly should be false if you want profanity and legally required filtering (where required) and true if you want legally required filtering only</para>
-		/// <para>   Returns the number of characters (not bytes) filtered.</para>
+		/// <para>   pchOutFilteredText is where the output will be placed, even if no filtering is performed</para>
+		/// <para>   nByteSizeOutFilteredText is the size (in bytes) of pchOutFilteredText, should be at least strlen(pchInputText)+1</para>
+		/// <para> Returns the number of characters (not bytes) filtered</para>
 		/// </summary>
-		public static int FilterText(out string pchOutFilteredText, uint nByteSizeOutFilteredText, string pchInputMessage, bool bLegalOnly) {
+		public static int FilterText(ETextFilteringContext eContext, CSteamID sourceSteamID, string pchInputMessage, out string pchOutFilteredText, uint nByteSizeOutFilteredText) {
 			InteropHelp.TestIfAvailableClient();
 			IntPtr pchOutFilteredText2 = Marshal.AllocHGlobal((int)nByteSizeOutFilteredText);
 			using (var pchInputMessage2 = new InteropHelp.UTF8StringHandle(pchInputMessage)) {
-				int ret = NativeMethods.ISteamUtils_FilterText(CSteamAPIContext.GetSteamUtils(), pchOutFilteredText2, nByteSizeOutFilteredText, pchInputMessage2, bLegalOnly);
+				int ret = NativeMethods.ISteamUtils_FilterText(CSteamAPIContext.GetSteamUtils(), eContext, sourceSteamID, pchInputMessage2, pchOutFilteredText2, nByteSizeOutFilteredText);
 				pchOutFilteredText = ret != -1 ? InteropHelp.PtrToStringUTF8(pchOutFilteredText2) : null;
 				Marshal.FreeHGlobal(pchOutFilteredText2);
 				return ret;

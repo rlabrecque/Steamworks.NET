@@ -23,6 +23,8 @@ namespace Steamworks {
 		/// <para> For a more TCP-style interface (meaning you have a connection handle), see the functions below.</para>
 		/// <para> Both interface styles can send both reliable and unreliable messages.</para>
 		/// <para> Automatically establishes NAT-traversing or Relay server connections</para>
+		/// <para> These APIs are deprecated, and may be removed in a future version of the Steamworks</para>
+		/// <para> SDK.  See ISteamNetworkingMessages.</para>
 		/// <para> Sends a P2P packet to the specified user</para>
 		/// <para> UDP-like, unreliable and a max packet size of 1200 bytes</para>
 		/// <para> the first packet send may be delayed as the NAT-traversal code runs</para>
@@ -103,6 +105,9 @@ namespace Steamworks {
 		/// <para> or NAT-traversal cannot be established. Only applies to connections created after setting this value,</para>
 		/// <para> or to existing connections that need to automatically reconnect after this value is set.</para>
 		/// <para> P2P packet relay is allowed by default</para>
+		/// <para> NOTE: This function is deprecated and may be removed in a future version of the SDK.  For</para>
+		/// <para> security purposes, we may decide to relay the traffic to certain peers, even if you pass false</para>
+		/// <para> to this function, to prevent revealing the client's IP address top another peer.</para>
 		/// </summary>
 		public static bool AllowP2PPacketRelay(bool bAllow) {
 			InteropHelp.TestIfAvailableClient();
@@ -119,6 +124,8 @@ namespace Steamworks {
 		/// <para> For a more UDP-style interface, where you do not track connection handles but</para>
 		/// <para> simply send messages to a SteamID, use the UDP-style functions above.</para>
 		/// <para> Both methods can send both reliable and unreliable methods.</para>
+		/// <para> These APIs are deprecated, and may be removed in a future version of the Steamworks</para>
+		/// <para> SDK.  See ISteamNetworkingSockets.</para>
 		/// <para>//////////////////////////////////////////////////////////////////////////////////////////</para>
 		/// <para> creates a socket and listens others to connect</para>
 		/// <para> will trigger a SocketStatusCallback_t callback on another client connecting</para>

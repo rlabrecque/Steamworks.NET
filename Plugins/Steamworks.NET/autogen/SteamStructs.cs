@@ -300,9 +300,10 @@ namespace Steamworks {
 			set { InteropHelp.StringToByteArrayUTF8(value, m_szEndDebug_, Constants.k_cchSteamNetworkingMaxConnectionCloseReason); }
 		}
 		
-		/// Debug description.  This includes the connection handle,
-		/// connection type (and peer information), and the app name.
-		/// This string is used in various internal logging messages
+		/// Debug description.  This includes the internal connection ID,
+		/// connection type (and peer information), and any name
+		/// given to the connection by the app.  This string is used in various
+		/// internal logging messages.
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchSteamNetworkingMaxConnectionDescription)]
 		private byte[] m_szConnectionDescription_;
 		public string m_szConnectionDescription

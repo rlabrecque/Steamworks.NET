@@ -36,8 +36,9 @@ namespace Steamworks {
 		public const string STEAMMUSIC_INTERFACE_VERSION = "STEAMMUSIC_INTERFACE_VERSION001";
 		public const string STEAMMUSICREMOTE_INTERFACE_VERSION = "STEAMMUSICREMOTE_INTERFACE_VERSION001";
 		public const string STEAMNETWORKING_INTERFACE_VERSION = "SteamNetworking006";
+		public const string STEAMNETWORKINGMESSAGES_VERSION = "SteamNetworkingMessages002";
 		// Silence some warnings
-		public const string STEAMNETWORKINGSOCKETS_INTERFACE_VERSION = "SteamNetworkingSockets008";
+		public const string STEAMNETWORKINGSOCKETS_INTERFACE_VERSION = "SteamNetworkingSockets009";
 		// Silence some warnings
 		public const string STEAMNETWORKINGUTILS_INTERFACE_VERSION = "SteamNetworkingUtils003";
 		public const string STEAMPARENTALSETTINGS_INTERFACE_VERSION = "STEAMPARENTALSETTINGS_INTERFACE_VERSION001";
@@ -47,7 +48,7 @@ namespace Steamworks {
 		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION014";
 		public const string STEAMUSER_INTERFACE_VERSION = "SteamUser021";
 		public const string STEAMUSERSTATS_INTERFACE_VERSION = "STEAMUSERSTATS_INTERFACE_VERSION012";
-		public const string STEAMUTILS_INTERFACE_VERSION = "SteamUtils009";
+		public const string STEAMUTILS_INTERFACE_VERSION = "SteamUtils010";
 		public const string STEAMVIDEO_INTERFACE_VERSION = "STEAMVIDEO_INTERFACE_V002";
 		public const int k_cubAppProofOfPurchaseKeyMax = 240; // max supported length of a legacy cd key
 		// maximum length of friend group name (not including terminating nul!)
@@ -290,6 +291,26 @@ namespace Steamworks {
 		// use this flag if you have a really good reason and understand what you are doing.
 		// Otherwise you will probably just make performance worse.
 		public const int k_nSteamNetworkingSend_UseCurrentThread = 16;
+		// When sending a message using ISteamNetworkingMessages, automatically re-establish
+		// a broken session, without returning k_EResultNoConnection.  Without this flag,
+		// if you attempt to send a message, and the session was proactively closed by the
+		// peer, or an error occurred that disrupted communications, then you must close the
+		// session using ISteamNetworkingMessages::CloseSessionWithUser before attempting to
+		// send another message.  (Or you can simply add this flag and retry.)  In this way,
+		// the disruption cannot go unnoticed, and a more clear order of events can be
+		// ascertained. This is especially important when reliable messages are used, since
+		// if the connection is disrupted, some of those messages will not have been delivered,
+		// and it is in general not possible to know which.  Although a
+		// SteamNetworkingMessagesSessionFailed_t callback will be posted when an error occurs
+		// to notify you that a failure has happened, callbacks are asynchronous, so it is not
+		// possible to tell exactly when it happened.  And because the primary purpose of
+		// ISteamNetworkingMessages is to be like UDP, there is no notification when a peer closes
+		// the session.
+		//
+		// If you are not using any reliable messages (e.g. you are using ISteamNetworkingMessages
+		// exactly as a transport replacement for UDP-style datagrams only), you may not need to
+		// know when an underlying connection fails, and so you may not need this notification.
+		public const int k_nSteamNetworkingSend_AutoRestartBrokenSession = 32;
 		/// Max possible length of a ping location, in string format.  This is
 		/// an extremely conservative worst case value which leaves room for future
 		/// syntax enhancements.  Most strings in practice are a lot shorter.

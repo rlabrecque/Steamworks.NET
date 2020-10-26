@@ -71,15 +71,15 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableGameServer();
 			return (HSteamNetConnection)NativeMethods.ISteamNetworkingSockets_ConnectByIPAddress(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), ref address, nOptions, pOptions);
 		}
-#if STEAMNETWORKINGSOCKETS_ENABLE_SDR
+
 		/// <summary>
 		/// <para>/ Like CreateListenSocketIP, but clients will connect using ConnectP2P</para>
 		/// <para>/</para>
-		/// <para>/ nVirtualPort specifies how clients can connect to this socket using</para>
+		/// <para>/ nLocalVirtualPort specifies how clients can connect to this socket using</para>
 		/// <para>/ ConnectP2P.  It's very common for applications to only have one listening socket;</para>
 		/// <para>/ in that case, use zero.  If you need to open multiple listen sockets and have clients</para>
-		/// <para>/ be able to connect to one or the other, then nVirtualPort should be a small integer (&lt;1000)</para>
-		/// <para>/ unique to each listen socket you create.</para>
+		/// <para>/ be able to connect to one or the other, then nLocalVirtualPort should be a small</para>
+		/// <para>/ integer (&lt;1000) unique to each listen socket you create.</para>
 		/// <para>/</para>
 		/// <para>/ If you use this, you probably want to call ISteamNetworkingUtils::InitRelayNetworkAccess()</para>
 		/// <para>/ when your app initializes</para>
@@ -88,29 +88,25 @@ namespace Steamworks {
 		/// <para>/ SteamNetworkingConfigValue_t for more about why this is preferable to</para>
 		/// <para>/ setting the options "immediately" after creation.</para>
 		/// </summary>
-		public static HSteamListenSocket CreateListenSocketP2P(int nVirtualPort, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
+		public static HSteamListenSocket CreateListenSocketP2P(int nLocalVirtualPort, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
 			InteropHelp.TestIfAvailableGameServer();
-			return (HSteamListenSocket)NativeMethods.ISteamNetworkingSockets_CreateListenSocketP2P(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), nVirtualPort, nOptions, pOptions);
+			return (HSteamListenSocket)NativeMethods.ISteamNetworkingSockets_CreateListenSocketP2P(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), nLocalVirtualPort, nOptions, pOptions);
 		}
 
 		/// <summary>
-		/// <para>/ Begin connecting to a server that is identified using a platform-specific identifier.</para>
+		/// <para>/ Begin connecting to a peer that is identified using a platform-specific identifier.</para>
 		/// <para>/ This uses the default rendezvous service, which depends on the platform and library</para>
-		/// <para>/ configuration.  (E.g. on Steam, it goes through the steam backend.)  The traffic is relayed</para>
-		/// <para>/ over the Steam Datagram Relay network.</para>
-		/// <para>/</para>
-		/// <para>/ If you use this, you probably want to call ISteamNetworkingUtils::InitRelayNetworkAccess()</para>
-		/// <para>/ when your app initializes</para>
+		/// <para>/ configuration.  (E.g. on Steam, it goes through the steam backend.)</para>
 		/// <para>/</para>
 		/// <para>/ If you need to set any initial config options, pass them here.  See</para>
 		/// <para>/ SteamNetworkingConfigValue_t for more about why this is preferable to</para>
 		/// <para>/ setting the options "immediately" after creation.</para>
 		/// </summary>
-		public static HSteamNetConnection ConnectP2P(ref SteamNetworkingIdentity identityRemote, int nVirtualPort, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
+		public static HSteamNetConnection ConnectP2P(ref SteamNetworkingIdentity identityRemote, int nRemoteVirtualPort, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
 			InteropHelp.TestIfAvailableGameServer();
-			return (HSteamNetConnection)NativeMethods.ISteamNetworkingSockets_ConnectP2P(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), ref identityRemote, nVirtualPort, nOptions, pOptions);
+			return (HSteamNetConnection)NativeMethods.ISteamNetworkingSockets_ConnectP2P(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), ref identityRemote, nRemoteVirtualPort, nOptions, pOptions);
 		}
-#endif
+
 		/// <summary>
 		/// <para>/ Accept an incoming connection that has been received on a listen socket.</para>
 		/// <para>/</para>
@@ -584,9 +580,9 @@ namespace Steamworks {
 		/// <para>/ Typically this is useful just to confirm that you have a ticket, before you</para>
 		/// <para>/ call ConnectToHostedDedicatedServer to connect to the server.</para>
 		/// </summary>
-		public static int FindRelayAuthTicketForServer(ref SteamNetworkingIdentity identityGameServer, int nVirtualPort, out SteamDatagramRelayAuthTicket pOutParsedTicket) {
+		public static int FindRelayAuthTicketForServer(ref SteamNetworkingIdentity identityGameServer, int nRemoteVirtualPort, out SteamDatagramRelayAuthTicket pOutParsedTicket) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamNetworkingSockets_FindRelayAuthTicketForServer(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), ref identityGameServer, nVirtualPort, out pOutParsedTicket);
+			return NativeMethods.ISteamNetworkingSockets_FindRelayAuthTicketForServer(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), ref identityGameServer, nRemoteVirtualPort, out pOutParsedTicket);
 		}
 
 		/// <summary>
@@ -604,9 +600,9 @@ namespace Steamworks {
 		/// <para>/ SteamNetworkingConfigValue_t for more about why this is preferable to</para>
 		/// <para>/ setting the options "immediately" after creation.</para>
 		/// </summary>
-		public static HSteamNetConnection ConnectToHostedDedicatedServer(ref SteamNetworkingIdentity identityTarget, int nVirtualPort, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
+		public static HSteamNetConnection ConnectToHostedDedicatedServer(ref SteamNetworkingIdentity identityTarget, int nRemoteVirtualPort, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
 			InteropHelp.TestIfAvailableGameServer();
-			return (HSteamNetConnection)NativeMethods.ISteamNetworkingSockets_ConnectToHostedDedicatedServer(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), ref identityTarget, nVirtualPort, nOptions, pOptions);
+			return (HSteamNetConnection)NativeMethods.ISteamNetworkingSockets_ConnectToHostedDedicatedServer(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), ref identityTarget, nRemoteVirtualPort, nOptions, pOptions);
 		}
 
 		/// <summary>
@@ -677,9 +673,9 @@ namespace Steamworks {
 		/// <para>/ SteamNetworkingConfigValue_t for more about why this is preferable to</para>
 		/// <para>/ setting the options "immediately" after creation.</para>
 		/// </summary>
-		public static HSteamListenSocket CreateHostedDedicatedServerListenSocket(int nVirtualPort, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
+		public static HSteamListenSocket CreateHostedDedicatedServerListenSocket(int nLocalVirtualPort, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
 			InteropHelp.TestIfAvailableGameServer();
-			return (HSteamListenSocket)NativeMethods.ISteamNetworkingSockets_CreateHostedDedicatedServerListenSocket(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), nVirtualPort, nOptions, pOptions);
+			return (HSteamListenSocket)NativeMethods.ISteamNetworkingSockets_CreateHostedDedicatedServerListenSocket(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), nLocalVirtualPort, nOptions, pOptions);
 		}
 
 		/// <summary>
@@ -718,8 +714,9 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamNetworkingSockets_GetGameCoordinatorServerLogin(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), out pLoginInfo, out pcbSignedBlob, pBlob);
 		}
-
+#endif
 		/// <summary>
+		/// <para> #ifndef STEAMNETWORKINGSOCKETS_ENABLE_SDR</para>
 		/// <para> Relayed connections using custom signaling protocol</para>
 		/// <para> This is used if you have your own method of sending out-of-band</para>
 		/// <para> signaling / rendezvous messages through a mutually trusted channel.</para>
@@ -757,9 +754,9 @@ namespace Steamworks {
 		/// <para>/ SteamNetworkingConfigValue_t for more about why this is preferable to</para>
 		/// <para>/ setting the options "immediately" after creation.</para>
 		/// </summary>
-		public static HSteamNetConnection ConnectP2PCustomSignaling(out ISteamNetworkingConnectionCustomSignaling pSignaling, ref SteamNetworkingIdentity pPeerIdentity, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
+		public static HSteamNetConnection ConnectP2PCustomSignaling(out ISteamNetworkingConnectionCustomSignaling pSignaling, ref SteamNetworkingIdentity pPeerIdentity, int nRemoteVirtualPort, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
 			InteropHelp.TestIfAvailableGameServer();
-			return (HSteamNetConnection)NativeMethods.ISteamNetworkingSockets_ConnectP2PCustomSignaling(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), out pSignaling, ref pPeerIdentity, nOptions, pOptions);
+			return (HSteamNetConnection)NativeMethods.ISteamNetworkingSockets_ConnectP2PCustomSignaling(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), out pSignaling, ref pPeerIdentity, nRemoteVirtualPort, nOptions, pOptions);
 		}
 
 		/// <summary>
@@ -797,9 +794,8 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamNetworkingSockets_ReceivedP2PCustomSignal(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), pMsg, cbMsg, out pContext);
 		}
-#endif
+
 		/// <summary>
-		/// <para> #ifndef STEAMNETWORKINGSOCKETS_ENABLE_SDR</para>
 		/// <para> Certificate provision by the application.  On Steam, we normally handle all this automatically</para>
 		/// <para> and you will not need to use these advanced functions.</para>
 		/// <para>/ Get blob that describes a certificate request.  You can send this to your game coordinator.</para>
@@ -822,18 +818,18 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamNetworkingSockets_SetCertificate(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), pCertificate, cbCertificate, out errMsg);
 		}
-#if STEAMNETWORKINGSOCKETS_STANDALONELIB
+
 		/// <summary>
-		/// <para> Invoke all callbacks queued for this interface.</para>
-		/// <para> On Steam, callbacks are dispatched via the ordinary Steamworks callbacks mechanism.</para>
-		/// <para> So if you have code that is also targeting Steam, you should call this at about the</para>
-		/// <para> same time you would call SteamAPI_RunCallbacks and SteamGameServer_RunCallbacks.</para>
+		/// <para>/ Invoke all callback functions queued for this interface.</para>
+		/// <para>/ See k_ESteamNetworkingConfig_Callback_ConnectionStatusChanged, etc</para>
+		/// <para>/</para>
+		/// <para>/ You don't need to call this if you are using Steam's callback dispatch</para>
+		/// <para>/ mechanism (SteamAPI_RunCallbacks and SteamGameserver_RunCallbacks).</para>
 		/// </summary>
-		public static void RunCallbacks(out ISteamNetworkingSocketsCallbacks pCallbacks) {
+		public static void RunCallbacks() {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamNetworkingSockets_RunCallbacks(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), out pCallbacks);
+			NativeMethods.ISteamNetworkingSockets_RunCallbacks(CSteamGameServerAPIContext.GetSteamNetworkingSockets());
 		}
-#endif
 	}
 }
 

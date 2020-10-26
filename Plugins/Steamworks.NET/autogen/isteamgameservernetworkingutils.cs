@@ -273,6 +273,10 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Set and get configuration values, see ESteamNetworkingConfigValue for individual descriptions.</para>
 		/// <para> Shortcuts for common cases.  (Implemented as inline functions below)</para>
+		/// <para> Set global callbacks.  If you do not want to use Steam's callback dispatch mechanism and you</para>
+		/// <para> want to use the same callback on all (or most) listen sockets and connections, then</para>
+		/// <para> simply install these callbacks first thing, and you are good to go.</para>
+		/// <para> See ISteamNetworkingSockets::RunCallbacks</para>
 		/// <para>/ Set a configuration value.</para>
 		/// <para>/ - eValue: which value is being set</para>
 		/// <para>/ - eScope: Onto what type of object are you applying the setting?</para>
@@ -281,7 +285,7 @@ namespace Steamworks {
 		/// <para>/ - pArg: Value to set it to.  You can pass NULL to remove a non-global setting at this scope,</para>
 		/// <para>/   causing the value for that object to use global defaults.  Or at global scope, passing NULL</para>
 		/// <para>/   will reset any custom value and restore it to the system default.</para>
-		/// <para>/   NOTE: When setting callback functions, do not pass the function pointer directly.</para>
+		/// <para>/   NOTE: When setting pointers (e.g. callback functions), do not pass the function pointer directly.</para>
 		/// <para>/   Your argument should be a pointer to a function pointer.</para>
 		/// </summary>
 		public static bool SetConfigValue(ESteamNetworkingConfigValue eValue, ESteamNetworkingConfigScope eScopeType, IntPtr scopeObj, ESteamNetworkingConfigDataType eDataType, IntPtr pArg) {
