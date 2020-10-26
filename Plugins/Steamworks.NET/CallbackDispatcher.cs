@@ -49,7 +49,9 @@ namespace Steamworks {
 		private static IntPtr m_pCallbackMsg;
 		private static int m_initCount;
 
-		public static bool IsInitialized => m_initCount > 0;
+		public static bool IsInitialized {
+			get { return m_initCount > 0; }
+		}
 
 		internal static void Initialize() {
 			lock (m_sync) {
@@ -102,7 +104,8 @@ namespace Steamworks {
 			int iCallback = CallbackIdentities.GetCallbackIdentity(cb.GetCallbackType());
 			var callbacksRegistry = cb.IsGameServer ? m_registeredGameServerCallbacks : m_registeredCallbacks;
 			lock (m_sync) {
-				if (callbacksRegistry.TryGetValue(iCallback, out var callbacksList)) {
+				List<Callback> callbacksList;
+				if (callbacksRegistry.TryGetValue(iCallback, out callbacksList)) {
 					callbacksList.Remove(cb);
 					if (callbacksList.Count == 0)
 						callbacksRegistry.Remove(iCallback);
@@ -112,7 +115,8 @@ namespace Steamworks {
 
 		internal static void Unregister(SteamAPICall_t asyncCall, CallResult cr) {
 			lock (m_sync) {
-				if (m_registeredCallResults.TryGetValue((ulong)asyncCall, out var callResultsList)) {
+				List<CallResult> callResultsList;
+				if (m_registeredCallResults.TryGetValue((ulong)asyncCall, out callResultsList)) {
 					callResultsList.Remove(cr);
 					if (callResultsList.Count == 0)
 						m_registeredCallResults.Remove((ulong)asyncCall);
@@ -165,7 +169,8 @@ namespace Steamworks {
 						bool bFailed;
 						if (NativeMethods.SteamAPI_ManualDispatch_GetAPICallResult(hSteamPipe, callCompletedCb.m_hAsyncCall, pTmpCallResult, (int)callCompletedCb.m_cubParam, callCompletedCb.m_iCallback, out bFailed)) {
 							lock (m_sync) {
-								if (m_registeredCallResults.TryGetValue((ulong)callCompletedCb.m_hAsyncCall, out var callResults)) {
+								List<CallResult> callResults;
+								if (m_registeredCallResults.TryGetValue((ulong)callCompletedCb.m_hAsyncCall, out callResults)) {
 									m_registeredCallResults.Remove((ulong)callCompletedCb.m_hAsyncCall);
 									foreach (var cr in callResults) {
 										cr.OnRunCallResult(pTmpCallResult, bFailed, (ulong)callCompletedCb.m_hAsyncCall);
@@ -176,7 +181,8 @@ namespace Steamworks {
 						}
 						Marshal.FreeHGlobal(pTmpCallResult);
 					} else {
-						if (callbacksRegistry.TryGetValue(callbackMsg.m_iCallback, out var callbacks)) {
+						List<Callback> callbacks;
+						if (callbacksRegistry.TryGetValue(callbackMsg.m_iCallback, out callbacks)) {
 							List<Callback> callbacksCopy;
 							lock (m_sync) {
 								callbacksCopy = new List<Callback>(callbacks);
@@ -272,7 +278,9 @@ namespace Steamworks {
 			m_bIsRegistered = false;
 		}
 
-		public override bool IsGameServer => m_bGameServer;
+		public override bool IsGameServer {
+			get { return m_bGameServer; }
+		}
 
 		internal override Type GetCallbackType() {
 			return typeof(T);
