@@ -66,6 +66,9 @@ public class RedistCopy {
 
 		string pluginsDir = Path.Combine(baseDir, "Plugins");
 
+		// Create if it doesn't exist yet
+		Directory.CreateDirectory(pluginsDir);
+
 		string[] DebugInfo = {
 			"Steamworks.NET created by Riley Labrecque",
 			"http://steamworks.github.io",
