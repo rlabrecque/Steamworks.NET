@@ -2,7 +2,7 @@
 // Copyright (c) 2013-2019 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
-#if !(UNITY_WINDOWS || UNITY_LINUX || UNITY_MACOS || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
+#if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
 #define DISABLESTEAMWORKS
 #endif
 
