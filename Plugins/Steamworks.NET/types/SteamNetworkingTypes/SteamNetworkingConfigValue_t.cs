@@ -41,6 +41,7 @@ namespace Steamworks
 		public OptionValue m_val;
 
 		[StructLayout(LayoutKind.Explicit)]
+		[System.Serializable]
 		public struct OptionValue
 		{
 			[FieldOffset(0)]

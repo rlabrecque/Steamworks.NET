@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>Steamworks</RootNamespace>
     <AssemblyName>Steamworks.NET</AssemblyName>
     <Platforms>x64;x86</Platforms>
@@ -52,6 +52,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OSX-Linux|x86'">
@@ -63,6 +64,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   
   </PropertyGroup>    
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Windows|x64'">
@@ -74,6 +76,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OSX-Linux|x64'">
@@ -85,6 +88,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -127,7 +131,6 @@
     <Compile Include="..\Plugins\Steamworks.NET\autogen\SteamConstants.cs" Link="Steamworks.NET\autogen\SteamConstants.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\autogen\SteamEnums.cs" Link="Steamworks.NET\autogen\SteamEnums.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\autogen\SteamStructs.cs" Link="Steamworks.NET\autogen\SteamStructs.cs" />
-    <Compile Include="..\Plugins\Steamworks.NET\CallbackDispatcher.cs" Link="Steamworks.NET\CallbackDispatcher.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\CallbackIdentity.cs" Link="Steamworks.NET\CallbackIdentity.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\InteropHelp.cs" Link="Steamworks.NET\InteropHelp.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\ISteamMatchmakingResponses.cs" Link="Steamworks.NET\ISteamMatchmakingResponses.cs" />

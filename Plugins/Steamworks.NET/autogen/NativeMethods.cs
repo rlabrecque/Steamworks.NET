@@ -38,7 +38,7 @@ using IntPtr = System.IntPtr;
 
 namespace Steamworks {
 	[System.Security.SuppressUnmanagedCodeSecurity()]
-	internal static class NativeMethods {
+	internal static partial class NativeMethods {
 #if STEAMWORKS_WIN && STEAMWORKS_X64
 		internal const string NativeLibraryName = "steam_api64";
 		internal const string NativeLibrary_SDKEncryptedAppTicket = "sdkencryptedappticket64";
