@@ -14,7 +14,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Steamworks.NET.Standard.$(Configuration).$(platform)</PackageId>
     <Authors>rlabrecque</Authors>
-    <PackageVersion>14.0.1.2</PackageVersion>
+    <PackageVersion>15.0.0</PackageVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/rlabrecque/Steamworks.NET</PackageProjectUrl>
     <RepositoryUrl>https://github.com/rlabrecque/Steamworks.NET.git</RepositoryUrl>
