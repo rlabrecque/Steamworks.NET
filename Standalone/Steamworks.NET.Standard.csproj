@@ -202,7 +202,7 @@
   </ItemGroup>
 
 
-  <Target Name="Copy Nuget packages" AfterTargets="Pack">
+  <Target Name="Copy Nuget packages" BeforeTargets="Pack">
     <Copy SourceFiles="$(outdir)..\$(PackageId).$(packageversion).nupkg" DestinationFolder="$(projectdir)/bin/Nuget Packages/" />
   </Target>
 
