@@ -294,6 +294,64 @@ namespace Steamworks {
 		k_EControllerActionOrigin_XBox360_DPad_Move,
 		k_EControllerActionOrigin_Switch_DPad_Move,
 
+		// Added in SDK 1.51
+		k_EControllerActionOrigin_PS5_X,
+		k_EControllerActionOrigin_PS5_Circle,
+		k_EControllerActionOrigin_PS5_Triangle,
+		k_EControllerActionOrigin_PS5_Square,
+		k_EControllerActionOrigin_PS5_LeftBumper,
+		k_EControllerActionOrigin_PS5_RightBumper,
+		k_EControllerActionOrigin_PS5_Option,  //Start
+		k_EControllerActionOrigin_PS5_Create,	//Back
+		k_EControllerActionOrigin_PS5_Mute,
+		k_EControllerActionOrigin_PS5_LeftPad_Touch,
+		k_EControllerActionOrigin_PS5_LeftPad_Swipe,
+		k_EControllerActionOrigin_PS5_LeftPad_Click,
+		k_EControllerActionOrigin_PS5_LeftPad_DPadNorth,
+		k_EControllerActionOrigin_PS5_LeftPad_DPadSouth,
+		k_EControllerActionOrigin_PS5_LeftPad_DPadWest,
+		k_EControllerActionOrigin_PS5_LeftPad_DPadEast,
+		k_EControllerActionOrigin_PS5_RightPad_Touch,
+		k_EControllerActionOrigin_PS5_RightPad_Swipe,
+		k_EControllerActionOrigin_PS5_RightPad_Click,
+		k_EControllerActionOrigin_PS5_RightPad_DPadNorth,
+		k_EControllerActionOrigin_PS5_RightPad_DPadSouth,
+		k_EControllerActionOrigin_PS5_RightPad_DPadWest,
+		k_EControllerActionOrigin_PS5_RightPad_DPadEast,
+		k_EControllerActionOrigin_PS5_CenterPad_Touch,
+		k_EControllerActionOrigin_PS5_CenterPad_Swipe,
+		k_EControllerActionOrigin_PS5_CenterPad_Click,
+		k_EControllerActionOrigin_PS5_CenterPad_DPadNorth,
+		k_EControllerActionOrigin_PS5_CenterPad_DPadSouth,
+		k_EControllerActionOrigin_PS5_CenterPad_DPadWest,
+		k_EControllerActionOrigin_PS5_CenterPad_DPadEast,
+		k_EControllerActionOrigin_PS5_LeftTrigger_Pull,
+		k_EControllerActionOrigin_PS5_LeftTrigger_Click,
+		k_EControllerActionOrigin_PS5_RightTrigger_Pull,
+		k_EControllerActionOrigin_PS5_RightTrigger_Click,
+		k_EControllerActionOrigin_PS5_LeftStick_Move,
+		k_EControllerActionOrigin_PS5_LeftStick_Click,
+		k_EControllerActionOrigin_PS5_LeftStick_DPadNorth,
+		k_EControllerActionOrigin_PS5_LeftStick_DPadSouth,
+		k_EControllerActionOrigin_PS5_LeftStick_DPadWest,
+		k_EControllerActionOrigin_PS5_LeftStick_DPadEast,
+		k_EControllerActionOrigin_PS5_RightStick_Move,
+		k_EControllerActionOrigin_PS5_RightStick_Click,
+		k_EControllerActionOrigin_PS5_RightStick_DPadNorth,
+		k_EControllerActionOrigin_PS5_RightStick_DPadSouth,
+		k_EControllerActionOrigin_PS5_RightStick_DPadWest,
+		k_EControllerActionOrigin_PS5_RightStick_DPadEast,
+		k_EControllerActionOrigin_PS5_DPad_Move,
+		k_EControllerActionOrigin_PS5_DPad_North,
+		k_EControllerActionOrigin_PS5_DPad_South,
+		k_EControllerActionOrigin_PS5_DPad_West,
+		k_EControllerActionOrigin_PS5_DPad_East,
+		k_EControllerActionOrigin_PS5_Gyro_Move,
+		k_EControllerActionOrigin_PS5_Gyro_Pitch,
+		k_EControllerActionOrigin_PS5_Gyro_Yaw,
+		k_EControllerActionOrigin_PS5_Gyro_Roll,
+
+
 		k_EControllerActionOrigin_Count, // If Steam has added support for new controllers origins will go here.
 		k_EControllerActionOrigin_MaximumPossibleValue = 32767, // Origins are currently a maximum of 16 bits.
 	}
@@ -777,6 +835,83 @@ namespace Steamworks {
 		k_EInputActionOrigin_Switch_Reserved19,
 		k_EInputActionOrigin_Switch_Reserved20,
 
+		// Added in SDK 1.51
+		k_EInputActionOrigin_PS5_X,
+		k_EInputActionOrigin_PS5_Circle,
+		k_EInputActionOrigin_PS5_Triangle,
+		k_EInputActionOrigin_PS5_Square,
+		k_EInputActionOrigin_PS5_LeftBumper,
+		k_EInputActionOrigin_PS5_RightBumper,
+		k_EInputActionOrigin_PS5_Option,	//Start
+		k_EInputActionOrigin_PS5_Create,		//Back
+		k_EInputActionOrigin_PS5_Mute,
+		k_EInputActionOrigin_PS5_LeftPad_Touch,
+		k_EInputActionOrigin_PS5_LeftPad_Swipe,
+		k_EInputActionOrigin_PS5_LeftPad_Click,
+		k_EInputActionOrigin_PS5_LeftPad_DPadNorth,
+		k_EInputActionOrigin_PS5_LeftPad_DPadSouth,
+		k_EInputActionOrigin_PS5_LeftPad_DPadWest,
+		k_EInputActionOrigin_PS5_LeftPad_DPadEast,
+		k_EInputActionOrigin_PS5_RightPad_Touch,
+		k_EInputActionOrigin_PS5_RightPad_Swipe,
+		k_EInputActionOrigin_PS5_RightPad_Click,
+		k_EInputActionOrigin_PS5_RightPad_DPadNorth,
+		k_EInputActionOrigin_PS5_RightPad_DPadSouth,
+		k_EInputActionOrigin_PS5_RightPad_DPadWest,
+		k_EInputActionOrigin_PS5_RightPad_DPadEast,
+		k_EInputActionOrigin_PS5_CenterPad_Touch,
+		k_EInputActionOrigin_PS5_CenterPad_Swipe,
+		k_EInputActionOrigin_PS5_CenterPad_Click,
+		k_EInputActionOrigin_PS5_CenterPad_DPadNorth,
+		k_EInputActionOrigin_PS5_CenterPad_DPadSouth,
+		k_EInputActionOrigin_PS5_CenterPad_DPadWest,
+		k_EInputActionOrigin_PS5_CenterPad_DPadEast,
+		k_EInputActionOrigin_PS5_LeftTrigger_Pull,
+		k_EInputActionOrigin_PS5_LeftTrigger_Click,
+		k_EInputActionOrigin_PS5_RightTrigger_Pull,
+		k_EInputActionOrigin_PS5_RightTrigger_Click,
+		k_EInputActionOrigin_PS5_LeftStick_Move,
+		k_EInputActionOrigin_PS5_LeftStick_Click,
+		k_EInputActionOrigin_PS5_LeftStick_DPadNorth,
+		k_EInputActionOrigin_PS5_LeftStick_DPadSouth,
+		k_EInputActionOrigin_PS5_LeftStick_DPadWest,
+		k_EInputActionOrigin_PS5_LeftStick_DPadEast,
+		k_EInputActionOrigin_PS5_RightStick_Move,
+		k_EInputActionOrigin_PS5_RightStick_Click,
+		k_EInputActionOrigin_PS5_RightStick_DPadNorth,
+		k_EInputActionOrigin_PS5_RightStick_DPadSouth,
+		k_EInputActionOrigin_PS5_RightStick_DPadWest,
+		k_EInputActionOrigin_PS5_RightStick_DPadEast,
+		k_EInputActionOrigin_PS5_DPad_North,
+		k_EInputActionOrigin_PS5_DPad_South,
+		k_EInputActionOrigin_PS5_DPad_West,
+		k_EInputActionOrigin_PS5_DPad_East,
+		k_EInputActionOrigin_PS5_Gyro_Move,
+		k_EInputActionOrigin_PS5_Gyro_Pitch,
+		k_EInputActionOrigin_PS5_Gyro_Yaw,
+		k_EInputActionOrigin_PS5_Gyro_Roll,
+		k_EInputActionOrigin_PS5_DPad_Move,
+		k_EInputActionOrigin_PS5_Reserved1,
+		k_EInputActionOrigin_PS5_Reserved2,
+		k_EInputActionOrigin_PS5_Reserved3,
+		k_EInputActionOrigin_PS5_Reserved4,
+		k_EInputActionOrigin_PS5_Reserved5,
+		k_EInputActionOrigin_PS5_Reserved6,
+		k_EInputActionOrigin_PS5_Reserved7,
+		k_EInputActionOrigin_PS5_Reserved8,
+		k_EInputActionOrigin_PS5_Reserved9,
+		k_EInputActionOrigin_PS5_Reserved10,
+		k_EInputActionOrigin_PS5_Reserved11,
+		k_EInputActionOrigin_PS5_Reserved12,
+		k_EInputActionOrigin_PS5_Reserved13,
+		k_EInputActionOrigin_PS5_Reserved14,
+		k_EInputActionOrigin_PS5_Reserved15,
+		k_EInputActionOrigin_PS5_Reserved16,
+		k_EInputActionOrigin_PS5_Reserved17,
+		k_EInputActionOrigin_PS5_Reserved18,
+		k_EInputActionOrigin_PS5_Reserved19,
+		k_EInputActionOrigin_PS5_Reserved20,
+
 		k_EInputActionOrigin_Count, // If Steam has added support for new controllers origins will go here.
 		k_EInputActionOrigin_MaximumPossibleValue = 32767, // Origins are currently a maximum of 16 bits.
 	}
@@ -832,6 +967,7 @@ namespace Steamworks {
 		k_ESteamInputType_SwitchProController,
 		k_ESteamInputType_MobileTouch,			// Steam Link App On-screen Virtual Controller
 		k_ESteamInputType_PS3Controller,		// Currently uses PS4 Origins
+		k_ESteamInputType_PS5Controller,		// Added in SDK 151
 		k_ESteamInputType_Count,
 		k_ESteamInputType_MaximumPossibleValue = 255,
 	}
@@ -939,12 +1075,16 @@ namespace Steamworks {
 	// these will be posted in the P2PSessionConnectFail_t callback
 	public enum EP2PSessionError : int {
 		k_EP2PSessionErrorNone = 0,
-		k_EP2PSessionErrorNotRunningApp = 1,			// target is not running the same game
 		k_EP2PSessionErrorNoRightsToApp = 2,			// local user doesn't own the app that is running
-		k_EP2PSessionErrorDestinationNotLoggedIn = 3,	// target user isn't connected to Steam
 		k_EP2PSessionErrorTimeout = 4,					// target isn't responding, perhaps not calling AcceptP2PSessionWithUser()
 														// corporate firewalls can also block this (NAT traversal is not firewall traversal)
 														// make sure that UDP ports 3478, 4379, and 4380 are open in an outbound direction
+
+		// The following error codes were removed and will never be sent.
+		// For privacy reasons, there is no reply if the user is offline or playing another game.
+		k_EP2PSessionErrorNotRunningApp_DELETED = 1,
+		k_EP2PSessionErrorDestinationNotLoggedIn_DELETED = 3,
+
 		k_EP2PSessionErrorMax = 5
 	}
 
@@ -1461,6 +1601,9 @@ namespace Steamworks {
 		k_EResultAccountDeleted = 114,				// account has been deleted
 		k_EResultExistingUserCancelledLicense = 115,	// A license for this already exists, but cancelled
 		k_EResultCommunityCooldown = 116,			// access is denied because of a community cooldown (probably from support profile data resets)
+		k_EResultNoLauncherSpecified = 117,			// No launcher was specified, but a launcher was needed to choose correct realm for operation.
+		k_EResultMustAgreeToSSA = 118,				// User must agree to china SSA or global SSA before login
+		k_EResultLauncherMigrated = 119,			// The specified launcher type is no longer supported; the user should be directed elsewhere
 	}
 
 	// Error codes for use with the voice functions
@@ -1614,7 +1757,7 @@ namespace Steamworks {
 		k_EAppType_Beta					= 0x10000,	// this is a beta version of a game
 
 		k_EAppType_Shortcut				= 0x40000000,	// just a shortcut, client side only
-		k_EAppType_DepotOnly			= -2147483647,	// placeholder since depots and apps share the same namespace
+		k_EAppType_DepotOnly_DEPRECATED = -2147483647,	// there shouldn't be any appinfo for depots
 	}
 
 	//-----------------------------------------------------------------------------
@@ -1810,6 +1953,7 @@ namespace Steamworks {
 		k_eEVRHMDType_HP_Unknown = 80, // HP unknown HMD
 		k_eEVRHMDType_HP_WindowsMR = 81, // HP Windows MR headset
 		k_eEVRHMDType_HP_Reverb = 82, // HP Reverb Windows MR headset
+		k_eEVRHMDType_HP_ReverbG2 = 1463, // HP Reverb G2 Windows MR headset
 
 		k_eEVRHMDType_Samsung_Unknown = 90, // Samsung unknown HMD
 		k_eEVRHMDType_Samsung_Odyssey = 91, // Samsung Odyssey Windows MR headset
@@ -2733,6 +2877,12 @@ namespace Steamworks {
 		/// connection in some unexpected way.
 		/// See: ISteamNetworkingUtils::SetGlobalCallback_MessagesSessionFailed
 		k_ESteamNetworkingConfig_Callback_MessagesSessionFailed = 205,
+
+		/// [global FnSteamNetworkingSocketsCreateConnectionSignaling] Callback that will
+		/// be invoked when we need to create a signaling object for a connection
+		/// initiated locally.  See: ISteamNetworkingSockets::ConnectP2P,
+		/// ISteamNetworkingMessages.
+		k_ESteamNetworkingConfig_Callback_CreateConnectionSignaling = 206,
 
 		//
 		// P2P settings

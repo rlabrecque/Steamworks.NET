@@ -73,14 +73,6 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> returns the IP of the reporting server for valve - currently only used in Source engine games</para>
-		/// </summary>
-		public static bool GetCSERIPPort(out uint unIP, out ushort usPort) {
-			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamUtils_GetCSERIPPort(CSteamGameServerAPIContext.GetSteamUtils(), out unIP, out usPort);
-		}
-
-		/// <summary>
 		/// <para> return the amount of battery power left in the current system in % [0..100], 255 for being on AC power</para>
 		/// </summary>
 		public static byte GetCurrentBatteryPower() {
@@ -286,9 +278,11 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Initializes text filtering.</para>
+		/// <para> Initializes text filtering, loading dictionaries for the language the game is running in.</para>
 		/// <para>   unFilterOptions are reserved for future use and should be set to 0</para>
-		/// <para> Returns false if filtering is unavailable for the language the user is currently running in.</para>
+		/// <para> Returns false if filtering is unavailable for the game's language, in which case FilterText() will act as a passthrough.</para>
+		/// <para> Users can customize the text filter behavior in their Steam Account preferences:</para>
+		/// <para> https://store.steampowered.com/account/preferences#CommunityContentPreferences</para>
 		/// </summary>
 		public static bool InitFilterText(uint unFilterOptions = 0) {
 			InteropHelp.TestIfAvailableGameServer();

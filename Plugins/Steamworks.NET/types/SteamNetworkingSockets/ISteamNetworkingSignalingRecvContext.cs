@@ -20,7 +20,7 @@ namespace Steamworks
 	/// See ISteamNetworkingSockets::ReceivedP2PCustomSignal
 	[System.Serializable]
 	[StructLayout(LayoutKind.Sequential)]
-	public struct ISteamNetworkingCustomSignalingRecvContext
+	public struct ISteamNetworkingSignalingRecvContext
 	{
 		/// Called when the signal represents a request for a new connection.
 		///
@@ -48,16 +48,16 @@ namespace Steamworks
 		///
 		/// After accepting a connection (through either means), the connection
 		/// will transition into the "finding route" state.
-		public IntPtr OnConnectRequest(HSteamNetConnection hConn, ref SteamNetworkingIdentity identityPeer) {
-			return NativeMethods.SteamAPI_ISteamNetworkingCustomSignalingRecvContext_OnConnectRequest(ref this, hConn, ref identityPeer);
+		public IntPtr OnConnectRequest(HSteamNetConnection hConn, ref SteamNetworkingIdentity identityPeer, int nLocalVirtualPort) {
+			return NativeMethods.SteamAPI_ISteamNetworkingSignalingRecvContext_OnConnectRequest(ref this, hConn, ref identityPeer, nLocalVirtualPort);
 		}
 
-		/// This is called actively communication rejection or failure
+		/// This is called to actively communicate rejection or failure
 		/// to the incoming message.  If you intend to ignore all incoming requests
 		/// that you do not wish to accept, then it's not strictly necessary to
 		/// implement this.
 		public void SendRejectionSignal(ref SteamNetworkingIdentity identityPeer, IntPtr pMsg, int cbMsg) {
-			NativeMethods.SteamAPI_ISteamNetworkingCustomSignalingRecvContext_SendRejectionSignal(ref this, ref identityPeer, pMsg, cbMsg);
+			NativeMethods.SteamAPI_ISteamNetworkingSignalingRecvContext_SendRejectionSignal(ref this, ref identityPeer, pMsg, cbMsg);
 		}
 	}
 }

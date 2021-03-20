@@ -17,10 +17,10 @@ using IntPtr = System.IntPtr;
 namespace Steamworks {
 	public static class Version {
 		public const string SteamworksNETVersion = "15.0.0";
-		public const string SteamworksSDKVersion = "1.50";
-		public const string SteamAPIDLLVersion = "06.06.99.59";
-		public const int SteamAPIDLLSize = 239392;
-		public const int SteamAPI64DLLSize = 264480;
+		public const string SteamworksSDKVersion = "1.51";
+		public const string SteamAPIDLLVersion = "06.28.18.86";
+		public const int SteamAPIDLLSize = 239904;
+		public const int SteamAPI64DLLSize = 265504;
 	}
 
 	public static class SteamAPI {
@@ -42,13 +42,13 @@ namespace Steamworks {
 			// Steamworks.NET specific: We initialize the SteamAPI Context like this for now, but we need to do it
 			// every time that Unity reloads binaries, so we also check if the pointers are available and initialized
 			// before each call to any interface functions. That is in InteropHelp.cs
-			if (ret)
-			{
+			if (ret) {
 				ret = CSteamAPIContext.Init();
 			}
 
-			if (ret)
+			if (ret) {
 				CallbackDispatcher.Initialize();
+			}
 
 			return ret;
 		}
@@ -145,25 +145,28 @@ namespace Steamworks {
 	}
 
 	public static class GameServer {
-		// Initialize ISteamGameServer interface object, and set server properties which may not be changed.
+		// Initialize SteamGameServer client and interface objects, and set server properties which may not be changed.
 		//
 		// After calling this function, you should set any additional server parameters, and then
 		// call ISteamGameServer::LogOnAnonymous() or ISteamGameServer::LogOn()
 		//
-		// - usSteamPort is the local port used to communicate with the steam servers.
-		// - usGamePort is the port that clients will connect to for gameplay.
+		// - unIP will usually be zero.  If you are on a machine with multiple IP addresses, you can pass a non-zero
+		//   value here and the relevant sockets will be bound to that IP.  This can be used to ensure that
+		//   the IP you desire is the one used in the server browser.
+		// - usGamePort is the port that clients will connect to for gameplay.  You will usually open up your
+		//   own socket bound to this port.
 		// - usQueryPort is the port that will manage server browser related duties and info
 		//		pings from clients.  If you pass MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE for usQueryPort, then it
 		//		will use "GameSocketShare" mode, which means that the game is responsible for sending and receiving
 		//		UDP packets for the master  server updater. See references to GameSocketShare in isteamgameserver.h.
-		// - The version string is usually in the form x.x.x.x, and is used by the master server to detect when the
+		// - The version string should be in the form x.x.x.x, and is used by the master server to detect when the
 		//		server is out of date.  (Only servers with the latest version will be listed.)
-		public static bool Init(uint unIP, ushort usSteamPort, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, string pchVersionString) {
+		public static bool Init(uint unIP, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, string pchVersionString) {
 			InteropHelp.TestIfPlatformSupported();
 
 			bool ret;
 			using (var pchVersionString2 = new InteropHelp.UTF8StringHandle(pchVersionString)) {
-				ret = NativeMethods.SteamGameServer_Init(unIP, usSteamPort, usGamePort, usQueryPort, eServerMode, pchVersionString2);
+				ret = NativeMethods.SteamGameServer_Init(unIP, usGamePort, usQueryPort, eServerMode, pchVersionString2);
 			}
 
 			// Steamworks.NET specific: We initialize the SteamAPI Context like this for now, but we need to do it
@@ -173,12 +176,14 @@ namespace Steamworks {
 				ret = CSteamGameServerAPIContext.Init();
 			}
 
-			if (ret)
+			if (ret) {
 				CallbackDispatcher.Initialize();
+			}
 
 			return ret;
 		}
 
+		// Shutdown SteamGameSeverXxx interfaces, log out, and free resources.
 		public static void Shutdown() {
 			InteropHelp.TestIfPlatformSupported();
 			NativeMethods.SteamGameServer_Shutdown();
@@ -403,7 +408,7 @@ namespace Steamworks {
 			}
 			if (m_pSteamNetworkingSockets == IntPtr.Zero) { return false; }
 
-			using (var pchVersionString = new InteropHelp.UTF8StringHandle(Constants.STEAMNETWORKINGMESSAGES_VERSION))
+			using (var pchVersionString = new InteropHelp.UTF8StringHandle(Constants.STEAMNETWORKINGMESSAGES_INTERFACE_VERSION))
 			{
 				m_pSteamNetworkingMessages =
 					NativeMethods.SteamInternal_FindOrCreateUserInterface(hSteamUser, pchVersionString);
@@ -538,7 +543,7 @@ namespace Steamworks {
 			}
 			if (m_pSteamNetworkingSockets == IntPtr.Zero) { return false; }
 
-			using (var pchVersionString = new InteropHelp.UTF8StringHandle(Constants.STEAMNETWORKINGMESSAGES_VERSION))
+			using (var pchVersionString = new InteropHelp.UTF8StringHandle(Constants.STEAMNETWORKINGMESSAGES_INTERFACE_VERSION))
 			{
 				m_pSteamNetworkingMessages =
 					NativeMethods.SteamInternal_FindOrCreateGameServerInterface(hSteamUser, pchVersionString);

@@ -219,11 +219,11 @@
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamDatagramTickets\SteamDatagramRelayAuthTicket.cs">
       <Link>Steamworks.NET\types\SteamDatagramTickets\SteamDatagramRelayAuthTicket.cs</Link>
     </Compile>
-    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingConnectionCustomSignaling.cs">
-      <Link>Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingConnectionCustomSignaling.cs</Link>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingConnectionSignaling.cs">
+      <Link>Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingConnectionSignaling.cs</Link>
     </Compile>
-    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingCustomSignalingRecvContext.cs">
-      <Link>Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingCustomSignalingRecvContext.cs</Link>
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingSignalingRecvContext.cs">
+      <Link>Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingSignalingRecvContext.cs</Link>
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\FSteamNetworkingSocketsDebugOutput.cs">
       <Link>Steamworks.NET\types\SteamNetworkingTypes\FSteamNetworkingSocketsDebugOutput.cs</Link>

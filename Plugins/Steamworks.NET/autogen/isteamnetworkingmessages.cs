@@ -38,7 +38,7 @@ namespace Steamworks {
 		/// <para>/</para>
 		/// <para>/ It is guaranteed that reliable messages to the same host on the same channel</para>
 		/// <para>/ will be be received by the remote host (if they are received at all) exactly once,</para>
-		/// <para>/ and in the same order that they were send.</para>
+		/// <para>/ and in the same order that they were sent.</para>
 		/// <para>/</para>
 		/// <para>/ NO other order guarantees exist!  In particular, unreliable messages may be dropped,</para>
 		/// <para>/ received out of order with respect to each other and with respect to reliable data,</para>
@@ -55,10 +55,10 @@ namespace Steamworks {
 		/// <para>/ Returns:</para>
 		/// <para>/ - k_EREsultOK on success.</para>
 		/// <para>/ - k_EResultNoConnection will be returned if the session has failed or was closed by the peer,</para>
-		/// <para>/   and k_nSteamNetworkingSend_AutoRestartBrokwnSession is not used.  (You can use</para>
+		/// <para>/   and k_nSteamNetworkingSend_AutoRestartBrokenSession is not used.  (You can use</para>
 		/// <para>/   GetSessionConnectionInfo to get the details.)  In order to acknowledge the broken session</para>
 		/// <para>/   and start a new one, you must call CloseSessionWithUser</para>
-		/// <para>/ - See SendMessageToConnection::SendMessageToConnection for more</para>
+		/// <para>/ - See ISteamNetworkingSockets::SendMessageToConnection for more possible return values</para>
 		/// </summary>
 		public static EResult SendMessageToUser(ref SteamNetworkingIdentity identityRemote, IntPtr pubData, uint cubData, int nSendFlags, int nRemoteChannel) {
 			InteropHelp.TestIfAvailableClient();
@@ -69,7 +69,7 @@ namespace Steamworks {
 		/// <para>/ Reads the next message that has been sent from another user via SendMessageToUser() on the given channel.</para>
 		/// <para>/ Returns number of messages returned into your list.  (0 if no message are available on that channel.)</para>
 		/// <para>/</para>
-		/// <para>/ When you're done with the message object(s), make sure and call Release()!</para>
+		/// <para>/ When you're done with the message object(s), make sure and call SteamNetworkingMessage_t::Release()!</para>
 		/// </summary>
 		public static int ReceiveMessagesOnChannel(int nLocalChannel, IntPtr[] ppOutMessages, int nMaxMessages) {
 			InteropHelp.TestIfAvailableClient();
@@ -77,13 +77,16 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>/ AcceptSessionWithUser() should only be called in response to a SteamP2PSessionRequest_t callback</para>
-		/// <para>/ SteamP2PSessionRequest_t will be posted if another user tries to send you a message, and you haven't</para>
-		/// <para>/ tried to talk to them.  If you don't want to talk to them, just ignore the request.</para>
-		/// <para>/ If the user continues to send you messages, SteamP2PSessionRequest_t callbacks will continue to</para>
-		/// <para>/ be posted periodically.  This may be called multiple times for a single user.</para>
+		/// <para>/ Call this in response to a SteamNetworkingMessagesSessionRequest_t callback.</para>
+		/// <para>/ SteamNetworkingMessagesSessionRequest_t are posted when a user tries to send you a message,</para>
+		/// <para>/ and you haven't tried to talk to them first.  If you don't want to talk to them, just ignore</para>
+		/// <para>/ the request.  If the user continues to send you messages, SteamNetworkingMessagesSessionRequest_t</para>
+		/// <para>/ callbacks will continue to be posted periodically.</para>
 		/// <para>/</para>
-		/// <para>/ Calling SendMessage() on the other user, this implicitly accepts any pending session request.</para>
+		/// <para>/ Returns false if there is no session with the user pending or otherwise.  If there is an</para>
+		/// <para>/ existing active session, this function will return true, even if it is not pending.</para>
+		/// <para>/</para>
+		/// <para>/ Calling SendMessageToUser() will implicitly accepts any pending session request to that user.</para>
 		/// </summary>
 		public static bool AcceptSessionWithUser(ref SteamNetworkingIdentity identityRemote) {
 			InteropHelp.TestIfAvailableClient();
@@ -92,8 +95,8 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para>/ Call this when you're done talking to a user to immediately free up resources under-the-hood.</para>
-		/// <para>/ If the remote user tries to send data to you again, another P2PSessionRequest_t callback will</para>
-		/// <para>/ be posted.</para>
+		/// <para>/ If the remote user tries to send data to you again, another SteamNetworkingMessagesSessionRequest_t</para>
+		/// <para>/ callback will be posted.</para>
 		/// <para>/</para>
 		/// <para>/ Note that sessions that go unused for a few minutes are automatically timed out.</para>
 		/// </summary>
@@ -105,8 +108,8 @@ namespace Steamworks {
 		/// <summary>
 		/// <para>/ Call this  when you're done talking to a user on a specific channel.  Once all</para>
 		/// <para>/ open channels to a user have been closed, the open session to the user will be</para>
-		/// <para>/ closed, and any new data from this user will trigger a SteamP2PSessionRequest_t</para>
-		/// <para>/ callback</para>
+		/// <para>/ closed, and any new data from this user will trigger a</para>
+		/// <para>/ SteamSteamNetworkingMessagesSessionRequest_t callback</para>
 		/// </summary>
 		public static bool CloseChannelWithUser(ref SteamNetworkingIdentity identityRemote, int nLocalChannel) {
 			InteropHelp.TestIfAvailableClient();
@@ -116,12 +119,12 @@ namespace Steamworks {
 		/// <summary>
 		/// <para>/ Returns information about the latest state of a connection, if any, with the given peer.</para>
 		/// <para>/ Primarily intended for debugging purposes, but can also be used to get more detailed</para>
-		/// <para>/ failure information.  (See SendMessageToUser and k_nSteamNetworkingSend_AutoRestartBrokwnSession.)</para>
+		/// <para>/ failure information.  (See SendMessageToUser and k_nSteamNetworkingSend_AutoRestartBrokenSession.)</para>
 		/// <para>/</para>
 		/// <para>/ Returns the value of SteamNetConnectionInfo_t::m_eState, or k_ESteamNetworkingConnectionState_None</para>
 		/// <para>/ if no connection exists with specified peer.  You may pass nullptr for either parameter if</para>
 		/// <para>/ you do not need the corresponding details.  Note that sessions time out after a while,</para>
-		/// <para>/ so if a connection fails, or SendMessageToUser returns SendMessageToUser, you cannot wait</para>
+		/// <para>/ so if a connection fails, or SendMessageToUser returns k_EResultNoConnection, you cannot wait</para>
 		/// <para>/ indefinitely to obtain the reason for failure.</para>
 		/// </summary>
 		public static ESteamNetworkingConnectionState GetSessionConnectionInfo(ref SteamNetworkingIdentity identityRemote, out SteamNetConnectionInfo_t pConnectionInfo, out SteamNetworkingQuickConnectionStatus pQuickStatus) {

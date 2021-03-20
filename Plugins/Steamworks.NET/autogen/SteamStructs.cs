@@ -293,6 +293,9 @@ namespace Steamworks {
 		/// connection type (and peer information), and any name
 		/// given to the connection by the app.  This string is used in various
 		/// internal logging messages.
+		///
+		/// Note that the connection ID *usually* matches the HSteamNetConnection
+		/// handle, but in certain cases with symmetric connections it might not.
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchSteamNetworkingMaxConnectionDescription)]
 		private byte[] m_szConnectionDescription_;
 		public string m_szConnectionDescription

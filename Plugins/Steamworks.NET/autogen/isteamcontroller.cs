@@ -255,7 +255,8 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Returns the input type for a particular handle</para>
+		/// <para> Returns the input type for a particular handle - unlike EControllerActionOrigin which update with Steam and may return unrecognized values</para>
+		/// <para> ESteamInputType will remain static and only return valid values from your SDK version</para>
 		/// </summary>
 		public static ESteamInputType GetInputTypeForHandle(ControllerHandle_t controllerHandle) {
 			InteropHelp.TestIfAvailableClient();

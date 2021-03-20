@@ -38,7 +38,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamNetworkingUtils_AllocateMessage(CSteamAPIContext.GetSteamNetworkingUtils(), cbAllocateBuffer);
 		}
-#if STEAMNETWORKINGSOCKETS_ENABLE_SDR
+
 		/// <summary>
 		/// <para>/ Fetch current status of the relay network.</para>
 		/// <para>/</para>
@@ -213,9 +213,8 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamNetworkingUtils_GetPOPList(CSteamAPIContext.GetSteamNetworkingUtils(), out list, nListSz);
 		}
-#endif
+
 		/// <summary>
-		/// <para> #ifdef STEAMNETWORKINGSOCKETS_ENABLE_SDR</para>
 		/// <para> Misc</para>
 		/// <para>/ Fetch current timestamp.  This timer has the following properties:</para>
 		/// <para>/</para>

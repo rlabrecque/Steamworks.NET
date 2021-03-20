@@ -160,8 +160,8 @@
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamInventory\SteamItemInstanceID_t.cs" Link="Steamworks.NET\types\SteamInventory\SteamItemInstanceID_t.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamMatchmaking\HServerListRequest.cs" Link="Steamworks.NET\types\SteamMatchmaking\HServerListRequest.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamMatchmaking\HServerQuery.cs" Link="Steamworks.NET\types\SteamMatchmaking\HServerQuery.cs" />
-    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingConnectionCustomSignaling.cs" Link="Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingConnectionCustomSignaling.cs" />
-    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingCustomSignalingRecvContext.cs" Link="Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingCustomSignalingRecvContext.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingConnectionSignaling.cs" Link="Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingConnectionSignaling.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingSignalingRecvContext.cs" Link="Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingSignalingRecvContext.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\FSteamNetworkingSocketsDebugOutput.cs" Link="Steamworks.NET\types\SteamNetworkingTypes\FSteamNetworkingSocketsDebugOutput.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\HSteamListenSocket.cs" Link="Steamworks.NET\types\SteamNetworkingTypes\HSteamListenSocket.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\HSteamNetConnection.cs" Link="Steamworks.NET\types\SteamNetworkingTypes\HSteamNetConnection.cs" />
