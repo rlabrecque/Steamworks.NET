@@ -72,9 +72,6 @@
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamclient.cs">
       <Link>Steamworks.NET\autogen\isteamclient.cs</Link>
     </Compile>
-    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamcontroller.cs">
-      <Link>Steamworks.NET\autogen\isteamcontroller.cs</Link>
-    </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamfriends.cs">
       <Link>Steamworks.NET\autogen\isteamfriends.cs</Link>
     </Compile>
@@ -269,18 +266,6 @@
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamClient\SteamAPI_CheckCallbackRegistered_t.cs">
       <Link>Steamworks.NET\types\SteamClient\SteamAPI_CheckCallbackRegistered_t.cs</Link>
-    </Compile>
-    <Compile Include="..\Plugins\Steamworks.NET\types\SteamController\ControllerActionSetHandle_t.cs">
-      <Link>Steamworks.NET\types\SteamController\ControllerActionSetHandle_t.cs</Link>
-    </Compile>
-    <Compile Include="..\Plugins\Steamworks.NET\types\SteamController\ControllerAnalogActionHandle_t.cs">
-      <Link>Steamworks.NET\types\SteamController\ControllerAnalogActionHandle_t.cs</Link>
-    </Compile>
-    <Compile Include="..\Plugins\Steamworks.NET\types\SteamController\ControllerDigitalActionHandle_t.cs">
-      <Link>Steamworks.NET\types\SteamController\ControllerDigitalActionHandle_t.cs</Link>
-    </Compile>
-    <Compile Include="..\Plugins\Steamworks.NET\types\SteamController\ControllerHandle_t.cs">
-      <Link>Steamworks.NET\types\SteamController\ControllerHandle_t.cs</Link>
     </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamFriends\FriendsGroupID_t.cs">
       <Link>Steamworks.NET\types\SteamFriends\FriendsGroupID_t.cs</Link>

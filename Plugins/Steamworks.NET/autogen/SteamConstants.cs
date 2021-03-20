@@ -20,7 +20,6 @@ namespace Steamworks {
 		public const string STEAMAPPS_INTERFACE_VERSION = "STEAMAPPS_INTERFACE_VERSION008";
 		public const string STEAMAPPTICKET_INTERFACE_VERSION = "STEAMAPPTICKET_INTERFACE_VERSION001";
 		public const string STEAMCLIENT_INTERFACE_VERSION = "SteamClient020";
-		public const string STEAMCONTROLLER_INTERFACE_VERSION = "SteamController008";
 		public const string STEAMFRIENDS_INTERFACE_VERSION = "SteamFriends017";
 		public const string STEAMGAMECOORDINATOR_INTERFACE_VERSION = "SteamGameCoordinator001";
 		public const string STEAMGAMESERVER_INTERFACE_VERSION = "SteamGameServer013";
@@ -329,15 +328,6 @@ namespace Steamworks {
 		public const int k_uCellIDInvalid = -1;
 		public const int k_uPartnerIdInvalid = 0;
 		public const ulong k_ulPartyBeaconIdInvalid = 0;
-		public const int STEAM_CONTROLLER_MAX_COUNT = 16;
-		public const int STEAM_CONTROLLER_MAX_ANALOG_ACTIONS = 16;
-		public const int STEAM_CONTROLLER_MAX_DIGITAL_ACTIONS = 128;
-		public const int STEAM_CONTROLLER_MAX_ORIGINS = 8;
-		public const int STEAM_CONTROLLER_MAX_ACTIVE_LAYERS = 16;
-		// When sending an option to a specific controller handle, you can send to all controllers via this command
-		public const ulong STEAM_CONTROLLER_HANDLE_ALL_CONTROLLERS = 0xFFFFFFFFFFFFFFFF;
-		public const float STEAM_CONTROLLER_MIN_ANALOG_ACTION_DATA = -1.0f;
-		public const float STEAM_CONTROLLER_MAX_ANALOG_ACTION_DATA = 1.0f;
 		public const int INVALID_HTTPREQUEST_HANDLE		= 0;
 		public const int STEAM_INPUT_MAX_COUNT = 16;
 		public const int STEAM_INPUT_MAX_ANALOG_ACTIONS = 16;

@@ -356,9 +356,6 @@ namespace Steamworks {
 			m_pSteamHTTP = SteamClient.GetISteamHTTP(hSteamUser, hSteamPipe, Constants.STEAMHTTP_INTERFACE_VERSION);
 			if (m_pSteamHTTP == IntPtr.Zero) { return false; }
 
-			m_pController = SteamClient.GetISteamController(hSteamUser, hSteamPipe, Constants.STEAMCONTROLLER_INTERFACE_VERSION);
-			if (m_pController == IntPtr.Zero) { return false; }
-
 			m_pSteamUGC = SteamClient.GetISteamUGC(hSteamUser, hSteamPipe, Constants.STEAMUGC_INTERFACE_VERSION);
 			if (m_pSteamUGC == IntPtr.Zero) { return false; }
 

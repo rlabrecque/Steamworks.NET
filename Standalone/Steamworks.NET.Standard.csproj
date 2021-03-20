@@ -91,7 +91,6 @@
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamapplist.cs" Link="Steamworks.NET\autogen\isteamapplist.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamapps.cs" Link="Steamworks.NET\autogen\isteamapps.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamclient.cs" Link="Steamworks.NET\autogen\isteamclient.cs" />
-    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamcontroller.cs" Link="Steamworks.NET\autogen\isteamcontroller.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamfriends.cs" Link="Steamworks.NET\autogen\isteamfriends.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamgameserver.cs" Link="Steamworks.NET\autogen\isteamgameserver.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamgameserverclient.cs" Link="Steamworks.NET\autogen\isteamgameserverclient.cs" />
@@ -140,10 +139,6 @@
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamClientPublic\HAuthTicket.cs" Link="Steamworks.NET\types\SteamClientPublic\HAuthTicket.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamClient\SteamAPIWarningMessageHook_t.cs" Link="Steamworks.NET\types\SteamClient\SteamAPIWarningMessageHook_t.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamClient\SteamAPI_CheckCallbackRegistered_t.cs" Link="Steamworks.NET\types\SteamClient\SteamAPI_CheckCallbackRegistered_t.cs" />
-    <Compile Include="..\Plugins\Steamworks.NET\types\SteamController\ControllerActionSetHandle_t.cs" Link="Steamworks.NET\types\SteamController\ControllerActionSetHandle_t.cs" />
-    <Compile Include="..\Plugins\Steamworks.NET\types\SteamController\ControllerAnalogActionHandle_t.cs" Link="Steamworks.NET\types\SteamController\ControllerAnalogActionHandle_t.cs" />
-    <Compile Include="..\Plugins\Steamworks.NET\types\SteamController\ControllerDigitalActionHandle_t.cs" Link="Steamworks.NET\types\SteamController\ControllerDigitalActionHandle_t.cs" />
-    <Compile Include="..\Plugins\Steamworks.NET\types\SteamController\ControllerHandle_t.cs" Link="Steamworks.NET\types\SteamController\ControllerHandle_t.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamDatagramTickets\SteamDatagramHostedAddress.cs" Link="Steamworks.NET\types\SteamDatagramTickets\SteamDatagramHostedAddress.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamDatagramTickets\SteamDatagramRelayAuthTicket.cs" Link="Steamworks.NET\types\SteamDatagramTickets\SteamDatagramRelayAuthTicket.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamFriends\FriendsGroupID_t.cs" Link="Steamworks.NET\types\SteamFriends\FriendsGroupID_t.cs" />
