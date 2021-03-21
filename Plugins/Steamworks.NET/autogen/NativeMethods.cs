@@ -2131,6 +2131,9 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworkingUtils_AllocateMessage", CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr ISteamNetworkingUtils_AllocateMessage(IntPtr instancePtr, int cbAllocateBuffer);
 
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworkingUtils_InitRelayNetworkAccess", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamNetworkingUtils_InitRelayNetworkAccess(IntPtr instancePtr);
+
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworkingUtils_GetRelayNetworkStatus", CallingConvention = CallingConvention.Cdecl)]
 		public static extern ESteamNetworkingAvailability ISteamNetworkingUtils_GetRelayNetworkStatus(IntPtr instancePtr, out SteamRelayNetworkStatus_t pDetails);
 
