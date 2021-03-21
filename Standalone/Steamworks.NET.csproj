@@ -195,6 +195,9 @@
     <Compile Include="..\Plugins\Steamworks.NET\Steam.cs">
       <Link>Steamworks.NET\Steam.cs</Link>
     </Compile>
+    <Compile Include="..\Plugins\Steamworks.NET\Version.cs">
+      <Link>Steamworks.NET\Version.cs</Link>
+    </Compile>
     <Compile Include="..\Plugins\Steamworks.NET\types\MatchmakingTypes\gameserveritem_t.cs">
       <Link>Steamworks.NET\types\MatchmakingTypes\gameserveritem_t.cs</Link>
     </Compile>
@@ -388,7 +391,7 @@
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

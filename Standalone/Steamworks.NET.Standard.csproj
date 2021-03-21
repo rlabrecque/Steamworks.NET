@@ -9,7 +9,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
-  
+
   <PropertyGroup Label="Nuget PM">
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Steamworks.NET.Standard.$(Configuration).$(platform)</PackageId>
@@ -19,7 +19,7 @@
     <PackageProjectUrl>https://github.com/rlabrecque/Steamworks.NET</PackageProjectUrl>
     <RepositoryUrl>https://github.com/rlabrecque/Steamworks.NET.git</RepositoryUrl>
   </PropertyGroup>
-    
+
   <ItemGroup>
     <Compile Remove="%2a%2a\**" />
     <Compile Remove="Steamworks.NET\redist\**" />
@@ -63,8 +63,8 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  
-  </PropertyGroup>    
+
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Windows|x64'">
     <OutputPath>bin\x64\Windows\</OutputPath>
     <DefineConstants>TRACE;STEAMWORKS_WIN;STEAMWORKS_X64</DefineConstants>
@@ -132,6 +132,7 @@
     <Compile Include="..\Plugins\Steamworks.NET\ISteamMatchmakingResponses.cs" Link="Steamworks.NET\ISteamMatchmakingResponses.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\Packsize.cs" Link="Steamworks.NET\Packsize.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\Steam.cs" Link="Steamworks.NET\Steam.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\Version.cs" Link="Steamworks.NET\Version.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\MatchmakingTypes\gameserveritem_t.cs" Link="Steamworks.NET\types\MatchmakingTypes\gameserveritem_t.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\MatchmakingTypes\servernetadr_t.cs" Link="Steamworks.NET\types\MatchmakingTypes\servernetadr_t.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamClientPublic\CGameID.cs" Link="Steamworks.NET\types\SteamClientPublic\CGameID.cs" />
