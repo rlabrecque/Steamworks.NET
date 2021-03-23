@@ -38,7 +38,36 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamNetworkingUtils_AllocateMessage(CSteamGameServerAPIContext.GetSteamNetworkingUtils(), cbAllocateBuffer);
 		}
-#if STEAMNETWORKINGSOCKETS_ENABLE_SDR
+
+		/// <summary>
+		/// <para> Access to Steam Datagram Relay (SDR) network</para>
+		/// <para> Initialization and status check</para>
+		/// <para>/ If you know that you are going to be using the relay network (for example,</para>
+		/// <para>/ because you anticipate making P2P connections), call this to initialize the</para>
+		/// <para>/ relay network.  If you do not call this, the initialization will</para>
+		/// <para>/ be delayed until the first time you use a feature that requires access</para>
+		/// <para>/ to the relay network, which will delay that first access.</para>
+		/// <para>/</para>
+		/// <para>/ You can also call this to force a retry if the previous attempt has failed.</para>
+		/// <para>/ Performing any action that requires access to the relay network will also</para>
+		/// <para>/ trigger a retry, and so calling this function is never strictly necessary,</para>
+		/// <para>/ but it can be useful to call it a program launch time, if access to the</para>
+		/// <para>/ relay network is anticipated.</para>
+		/// <para>/</para>
+		/// <para>/ Use GetRelayNetworkStatus or listen for SteamRelayNetworkStatus_t</para>
+		/// <para>/ callbacks to know when initialization has completed.</para>
+		/// <para>/ Typically initialization completes in a few seconds.</para>
+		/// <para>/</para>
+		/// <para>/ Note: dedicated servers hosted in known data centers do *not* need</para>
+		/// <para>/ to call this, since they do not make routing decisions.  However, if</para>
+		/// <para>/ the dedicated server will be using P2P functionality, it will act as</para>
+		/// <para>/ a "client" and this should be called.</para>
+		/// </summary>
+		public static void InitRelayNetworkAccess() {
+			InteropHelp.TestIfAvailableGameServer();
+			NativeMethods.ISteamNetworkingUtils_InitRelayNetworkAccess(CSteamGameServerAPIContext.GetSteamNetworkingUtils());
+		}
+
 		/// <summary>
 		/// <para>/ Fetch current status of the relay network.</para>
 		/// <para>/</para>
@@ -213,9 +242,8 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamNetworkingUtils_GetPOPList(CSteamGameServerAPIContext.GetSteamNetworkingUtils(), out list, nListSz);
 		}
-#endif
+
 		/// <summary>
-		/// <para> #ifdef STEAMNETWORKINGSOCKETS_ENABLE_SDR</para>
 		/// <para> Misc</para>
 		/// <para>/ Fetch current timestamp.  This timer has the following properties:</para>
 		/// <para>/</para>

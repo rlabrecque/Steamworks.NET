@@ -9,7 +9,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
-  
+
   <PropertyGroup Label="Nuget PM">
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Steamworks.NET.Standard.$(Configuration).$(platform)</PackageId>
@@ -19,7 +19,7 @@
     <PackageProjectUrl>https://github.com/rlabrecque/Steamworks.NET</PackageProjectUrl>
     <RepositoryUrl>https://github.com/rlabrecque/Steamworks.NET.git</RepositoryUrl>
   </PropertyGroup>
-    
+
   <ItemGroup>
     <Compile Remove="%2a%2a\**" />
     <Compile Remove="Steamworks.NET\redist\**" />
@@ -64,8 +64,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks> 
   </PropertyGroup>    
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Windows|x64'">
     <OutputPath>bin\x64\Windows\</OutputPath>
@@ -95,7 +94,6 @@
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamapplist.cs" Link="Steamworks.NET\autogen\isteamapplist.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamapps.cs" Link="Steamworks.NET\autogen\isteamapps.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamclient.cs" Link="Steamworks.NET\autogen\isteamclient.cs" />
-    <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamcontroller.cs" Link="Steamworks.NET\autogen\isteamcontroller.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamfriends.cs" Link="Steamworks.NET\autogen\isteamfriends.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamgameserver.cs" Link="Steamworks.NET\autogen\isteamgameserver.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\autogen\isteamgameserverclient.cs" Link="Steamworks.NET\autogen\isteamgameserverclient.cs" />
@@ -136,6 +134,7 @@
     <Compile Include="..\Plugins\Steamworks.NET\ISteamMatchmakingResponses.cs" Link="Steamworks.NET\ISteamMatchmakingResponses.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\Packsize.cs" Link="Steamworks.NET\Packsize.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\Steam.cs" Link="Steamworks.NET\Steam.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\Version.cs" Link="Steamworks.NET\Version.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\MatchmakingTypes\gameserveritem_t.cs" Link="Steamworks.NET\types\MatchmakingTypes\gameserveritem_t.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\MatchmakingTypes\servernetadr_t.cs" Link="Steamworks.NET\types\MatchmakingTypes\servernetadr_t.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamClientPublic\CGameID.cs" Link="Steamworks.NET\types\SteamClientPublic\CGameID.cs" />
@@ -143,10 +142,6 @@
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamClientPublic\HAuthTicket.cs" Link="Steamworks.NET\types\SteamClientPublic\HAuthTicket.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamClient\SteamAPIWarningMessageHook_t.cs" Link="Steamworks.NET\types\SteamClient\SteamAPIWarningMessageHook_t.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamClient\SteamAPI_CheckCallbackRegistered_t.cs" Link="Steamworks.NET\types\SteamClient\SteamAPI_CheckCallbackRegistered_t.cs" />
-    <Compile Include="..\Plugins\Steamworks.NET\types\SteamController\ControllerActionSetHandle_t.cs" Link="Steamworks.NET\types\SteamController\ControllerActionSetHandle_t.cs" />
-    <Compile Include="..\Plugins\Steamworks.NET\types\SteamController\ControllerAnalogActionHandle_t.cs" Link="Steamworks.NET\types\SteamController\ControllerAnalogActionHandle_t.cs" />
-    <Compile Include="..\Plugins\Steamworks.NET\types\SteamController\ControllerDigitalActionHandle_t.cs" Link="Steamworks.NET\types\SteamController\ControllerDigitalActionHandle_t.cs" />
-    <Compile Include="..\Plugins\Steamworks.NET\types\SteamController\ControllerHandle_t.cs" Link="Steamworks.NET\types\SteamController\ControllerHandle_t.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamDatagramTickets\SteamDatagramHostedAddress.cs" Link="Steamworks.NET\types\SteamDatagramTickets\SteamDatagramHostedAddress.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamDatagramTickets\SteamDatagramRelayAuthTicket.cs" Link="Steamworks.NET\types\SteamDatagramTickets\SteamDatagramRelayAuthTicket.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamFriends\FriendsGroupID_t.cs" Link="Steamworks.NET\types\SteamFriends\FriendsGroupID_t.cs" />
@@ -163,8 +158,8 @@
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamInventory\SteamItemInstanceID_t.cs" Link="Steamworks.NET\types\SteamInventory\SteamItemInstanceID_t.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamMatchmaking\HServerListRequest.cs" Link="Steamworks.NET\types\SteamMatchmaking\HServerListRequest.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamMatchmaking\HServerQuery.cs" Link="Steamworks.NET\types\SteamMatchmaking\HServerQuery.cs" />
-    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingConnectionCustomSignaling.cs" Link="Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingConnectionCustomSignaling.cs" />
-    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingCustomSignalingRecvContext.cs" Link="Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingCustomSignalingRecvContext.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingConnectionSignaling.cs" Link="Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingConnectionSignaling.cs" />
+    <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingSignalingRecvContext.cs" Link="Steamworks.NET\types\SteamNetworkingSockets\ISteamNetworkingSignalingRecvContext.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\FSteamNetworkingSocketsDebugOutput.cs" Link="Steamworks.NET\types\SteamNetworkingTypes\FSteamNetworkingSocketsDebugOutput.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\HSteamListenSocket.cs" Link="Steamworks.NET\types\SteamNetworkingTypes\HSteamListenSocket.cs" />
     <Compile Include="..\Plugins\Steamworks.NET\types\SteamNetworkingTypes\HSteamNetConnection.cs" Link="Steamworks.NET\types\SteamNetworkingTypes\HSteamNetConnection.cs" />

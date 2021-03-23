@@ -20,14 +20,13 @@ namespace Steamworks {
 		public const string STEAMAPPS_INTERFACE_VERSION = "STEAMAPPS_INTERFACE_VERSION008";
 		public const string STEAMAPPTICKET_INTERFACE_VERSION = "STEAMAPPTICKET_INTERFACE_VERSION001";
 		public const string STEAMCLIENT_INTERFACE_VERSION = "SteamClient020";
-		public const string STEAMCONTROLLER_INTERFACE_VERSION = "SteamController007";
 		public const string STEAMFRIENDS_INTERFACE_VERSION = "SteamFriends017";
 		public const string STEAMGAMECOORDINATOR_INTERFACE_VERSION = "SteamGameCoordinator001";
 		public const string STEAMGAMESERVER_INTERFACE_VERSION = "SteamGameServer013";
 		public const string STEAMGAMESERVERSTATS_INTERFACE_VERSION = "SteamGameServerStats001";
 		public const string STEAMHTMLSURFACE_INTERFACE_VERSION = "STEAMHTMLSURFACE_INTERFACE_VERSION_005";
 		public const string STEAMHTTP_INTERFACE_VERSION = "STEAMHTTP_INTERFACE_VERSION003";
-		public const string STEAMINPUT_INTERFACE_VERSION = "SteamInput001";
+		public const string STEAMINPUT_INTERFACE_VERSION = "SteamInput002";
 		public const string STEAMINVENTORY_INTERFACE_VERSION = "STEAMINVENTORY_INTERFACE_V003";
 		public const string STEAMMATCHMAKING_INTERFACE_VERSION = "SteamMatchMaking009";
 		public const string STEAMMATCHMAKINGSERVERS_INTERFACE_VERSION = "SteamMatchMakingServers002";
@@ -36,7 +35,7 @@ namespace Steamworks {
 		public const string STEAMMUSIC_INTERFACE_VERSION = "STEAMMUSIC_INTERFACE_VERSION001";
 		public const string STEAMMUSICREMOTE_INTERFACE_VERSION = "STEAMMUSICREMOTE_INTERFACE_VERSION001";
 		public const string STEAMNETWORKING_INTERFACE_VERSION = "SteamNetworking006";
-		public const string STEAMNETWORKINGMESSAGES_VERSION = "SteamNetworkingMessages002";
+		public const string STEAMNETWORKINGMESSAGES_INTERFACE_VERSION = "SteamNetworkingMessages002";
 		// Silence some warnings
 		public const string STEAMNETWORKINGSOCKETS_INTERFACE_VERSION = "SteamNetworkingSockets009";
 		// Silence some warnings
@@ -45,7 +44,7 @@ namespace Steamworks {
 		public const string STEAMREMOTEPLAY_INTERFACE_VERSION = "STEAMREMOTEPLAY_INTERFACE_VERSION001";
 		public const string STEAMREMOTESTORAGE_INTERFACE_VERSION = "STEAMREMOTESTORAGE_INTERFACE_VERSION014";
 		public const string STEAMSCREENSHOTS_INTERFACE_VERSION = "STEAMSCREENSHOTS_INTERFACE_VERSION003";
-		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION014";
+		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION015";
 		public const string STEAMUSER_INTERFACE_VERSION = "SteamUser021";
 		public const string STEAMUSERSTATS_INTERFACE_VERSION = "STEAMUSERSTATS_INTERFACE_VERSION012";
 		public const string STEAMUTILS_INTERFACE_VERSION = "SteamUtils010";
@@ -67,14 +66,6 @@ namespace Steamworks {
 		public const int k_cchMaxRichPresenceKeys = 30;
 		public const int k_cchMaxRichPresenceKeyLength = 64;
 		public const int k_cchMaxRichPresenceValueLength = 256;
-		// game server flags
-		public const int k_unServerFlagNone = 0x00;
-		public const int k_unServerFlagActive = 0x01; // server has users playing
-		public const int k_unServerFlagSecure = 0x02; // server wants to be secure
-		public const int k_unServerFlagDedicated = 0x04; // server is dedicated
-		public const int k_unServerFlagLinux = 0x08; // linux build
-		public const int k_unServerFlagPassworded = 0x10; // password protected
-		public const int k_unServerFlagPrivate = 0x20; // server shouldn't list on master server and
 		// game server flags
 		public const int k_unFavoriteFlagNone = 0x00;
 		public const int k_unFavoriteFlagFavorite = 0x01; // this game favorite entry is for the favorites list
@@ -337,16 +328,6 @@ namespace Steamworks {
 		public const int k_uCellIDInvalid = -1;
 		public const int k_uPartnerIdInvalid = 0;
 		public const ulong k_ulPartyBeaconIdInvalid = 0;
-		public const int STEAM_CONTROLLER_MAX_COUNT = 16;
-		public const int STEAM_CONTROLLER_MAX_ANALOG_ACTIONS = 16;
-		public const int STEAM_CONTROLLER_MAX_DIGITAL_ACTIONS = 128;
-		public const int STEAM_CONTROLLER_MAX_ORIGINS = 8;
-		public const int STEAM_CONTROLLER_MAX_ACTIVE_LAYERS = 16;
-		// When sending an option to a specific controller handle, you can send to all controllers via this command
-		public const ulong STEAM_CONTROLLER_HANDLE_ALL_CONTROLLERS = 0xFFFFFFFFFFFFFFFF;
-		public const float STEAM_CONTROLLER_MIN_ANALOG_ACTION_DATA = -1.0f;
-		public const float STEAM_CONTROLLER_MAX_ANALOG_ACTION_DATA = 1.0f;
-		public const ushort MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE	= 0xFFFF;
 		public const int INVALID_HTTPREQUEST_HANDLE		= 0;
 		public const int STEAM_INPUT_MAX_COUNT = 16;
 		public const int STEAM_INPUT_MAX_ANALOG_ACTIONS = 16;
@@ -361,6 +342,11 @@ namespace Steamworks {
 		public const byte k_nMaxLobbyKeyLength = 255;
 		public const int k_SteamMusicNameMaxLength = 255;
 		public const int k_SteamMusicPNGMaxLength = 65535;
+		/// Pass to SteamGameServer_Init to indicate that the same UDP port will be used for game traffic
+		/// UDP queries.  In this case, Steam will not open up a socket to handle server browser queries,
+		/// and you must use ISteamGameServer::HandleIncomingPacket and ISteamGameServer::GetNextOutgoingPacket
+		/// to handle packets related to server discovery on your socket.
+		public const ushort MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE	= 0xFFFF;
 		//-----------------------------------------------------------------------------
 		// Constants used for query ports.
 		//-----------------------------------------------------------------------------

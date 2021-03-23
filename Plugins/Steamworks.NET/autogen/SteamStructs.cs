@@ -187,25 +187,14 @@ namespace Steamworks {
 	[StructLayout(LayoutKind.Sequential)]
 	public struct MatchMakingKeyValuePair_t {
 		MatchMakingKeyValuePair_t(string strKey, string strValue) {
-			m_szKey_ = null;
-			m_szValue_ = null;
 			m_szKey = strKey;
 			m_szValue = strValue;
 		}
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-		private byte[] m_szKey_;
-		public string m_szKey
-		{
-			get { return InteropHelp.ByteArrayToStringUTF8(m_szKey_); }
-			set { InteropHelp.StringToByteArrayUTF8(value, m_szKey_, 256); }
-		}
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-		private byte[] m_szValue_;
-		public string m_szValue
-		{
-			get { return InteropHelp.ByteArrayToStringUTF8(m_szValue_); }
-			set { InteropHelp.StringToByteArrayUTF8(value, m_szValue_, 256); }
-		}
+
+		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
+		public string m_szKey;
+		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
+		public string m_szValue;
 	}
 
 	// structure that contains client callback data
@@ -304,6 +293,9 @@ namespace Steamworks {
 		/// connection type (and peer information), and any name
 		/// given to the connection by the app.  This string is used in various
 		/// internal logging messages.
+		///
+		/// Note that the connection ID *usually* matches the HSteamNetConnection
+		/// handle, but in certain cases with symmetric connections it might not.
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchSteamNetworkingMaxConnectionDescription)]
 		private byte[] m_szConnectionDescription_;
 		public string m_szConnectionDescription

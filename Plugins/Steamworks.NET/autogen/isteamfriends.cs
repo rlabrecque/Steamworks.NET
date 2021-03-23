@@ -464,7 +464,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Rich invite support.</para>
 		/// <para> If the target accepts the invite, a GameRichPresenceJoinRequested_t callback is posted containing the connect string.</para>
-		/// <para> (Or you can configure yout game so that it is passed on the command line instead.  This is a deprecated path; ask us if you really need this.)</para>
+		/// <para> (Or you can configure your game so that it is passed on the command line instead.  This is a deprecated path; ask us if you really need this.)</para>
 		/// </summary>
 		public static bool InviteUserToGame(CSteamID steamIDFriend, string pchConnectString) {
 			InteropHelp.TestIfAvailableClient();
@@ -646,6 +646,16 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchProtocol2 = new InteropHelp.UTF8StringHandle(pchProtocol)) {
 				return NativeMethods.ISteamFriends_RegisterProtocolInOverlayBrowser(CSteamAPIContext.GetSteamFriends(), pchProtocol2);
+			}
+		}
+
+		/// <summary>
+		/// <para> Activates the game overlay to open an invite dialog that will send the provided Rich Presence connect string to selected friends</para>
+		/// </summary>
+		public static void ActivateGameOverlayInviteDialogConnectString(string pchConnectString) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchConnectString2 = new InteropHelp.UTF8StringHandle(pchConnectString)) {
+				NativeMethods.ISteamFriends_ActivateGameOverlayInviteDialogConnectString(CSteamAPIContext.GetSteamFriends(), pchConnectString2);
 			}
 		}
 	}

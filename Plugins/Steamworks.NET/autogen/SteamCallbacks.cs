@@ -396,9 +396,6 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamGameCoordinatorCallbacks + 2;
 	}
 
-														// won't enforce authentication of users that connect to the server.
-														// Useful when you run a server where the clients may not
-														// be connected to the internet but you want them to play (i.e LANs)
 	// callbacks
 	// client has been approved to connect to this game server
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -1503,7 +1500,7 @@ namespace Steamworks {
 	/// SteamNetworkingMessages is primarily intended to make porting UDP code easy.)
 	///
 	/// Remember: callbacks are asynchronous.   See notes on SendMessageToUser,
-	/// and k_nSteamNetworkingSend_AutoRestartBrokwnSession in particular.
+	/// and k_nSteamNetworkingSend_AutoRestartBrokenSession in particular.
 	///
 	/// Also, if a session times out due to inactivity, no callbacks will be posted.  The only
 	/// way to detect that this is happening is that querying the session state may return
@@ -1513,7 +1510,9 @@ namespace Steamworks {
 	public struct SteamNetworkingMessagesSessionFailed_t {
 		public const int k_iCallback = Constants.k_iSteamNetworkingMessagesCallbacks + 2;
 		
-		/// Detailed info about the connection.  This will include the
+		/// Detailed info about the session that failed.
+		/// SteamNetConnectionInfo_t::m_identityRemote indicates who this session
+		/// was with.
 		public SteamNetConnectionInfo_t m_info;
 	}
 

@@ -73,7 +73,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>/ Like CreateListenSocketIP, but clients will connect using ConnectP2P</para>
+		/// <para>/ Like CreateListenSocketIP, but clients will connect using ConnectP2P.</para>
 		/// <para>/</para>
 		/// <para>/ nLocalVirtualPort specifies how clients can connect to this socket using</para>
 		/// <para>/ ConnectP2P.  It's very common for applications to only have one listening socket;</para>
@@ -82,7 +82,16 @@ namespace Steamworks {
 		/// <para>/ integer (&lt;1000) unique to each listen socket you create.</para>
 		/// <para>/</para>
 		/// <para>/ If you use this, you probably want to call ISteamNetworkingUtils::InitRelayNetworkAccess()</para>
-		/// <para>/ when your app initializes</para>
+		/// <para>/ when your app initializes.</para>
+		/// <para>/</para>
+		/// <para>/ If you are listening on a dedicated servers in known data center,</para>
+		/// <para>/ then you can listen using this function instead of CreateHostedDedicatedServerListenSocket,</para>
+		/// <para>/ to allow clients to connect without a ticket.  Any user that owns</para>
+		/// <para>/ the app and is signed into Steam will be able to attempt to connect to</para>
+		/// <para>/ your server.  Also, a connection attempt may require the client to</para>
+		/// <para>/ be connected to Steam, which is one more moving part that may fail.  When</para>
+		/// <para>/ tickets are used, then once a ticket is obtained, a client can connect to</para>
+		/// <para>/ your server even if they got disconnected from Steam or Steam is offline.</para>
 		/// <para>/</para>
 		/// <para>/ If you need to set any initial config options, pass them here.  See</para>
 		/// <para>/ SteamNetworkingConfigValue_t for more about why this is preferable to</para>
@@ -101,6 +110,10 @@ namespace Steamworks {
 		/// <para>/ If you need to set any initial config options, pass them here.  See</para>
 		/// <para>/ SteamNetworkingConfigValue_t for more about why this is preferable to</para>
 		/// <para>/ setting the options "immediately" after creation.</para>
+		/// <para>/</para>
+		/// <para>/ To use your own signaling service, see:</para>
+		/// <para>/ - ConnectP2PCustomSignaling</para>
+		/// <para>/ - k_ESteamNetworkingConfig_Callback_CreateConnectionSignaling</para>
 		/// </summary>
 		public static HSteamNetConnection ConnectP2P(ref SteamNetworkingIdentity identityRemote, int nRemoteVirtualPort, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
 			InteropHelp.TestIfAvailableClient();
@@ -558,10 +571,12 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamNetworkingSockets_ReceiveMessagesOnPollGroup(CSteamAPIContext.GetSteamNetworkingSockets(), hPollGroup, ppOutMessages, nMaxMessages);
 		}
-#if STEAMNETWORKINGSOCKETS_ENABLE_SDR
+
 		/// <summary>
 		/// <para> Clients connecting to dedicated servers hosted in a data center,</para>
-		/// <para> using central-authority-granted tickets.</para>
+		/// <para> using tickets issued by your game coordinator.  If you are not</para>
+		/// <para> issuing your own tickets to restrict who can attempt to connect</para>
+		/// <para> to your server, then you won't use these functions.</para>
 		/// <para>/ Call this when you receive a ticket from your backend / matchmaking system.  Puts the</para>
 		/// <para>/ ticket into a persistent cache, and optionally returns the parsed ticket.</para>
 		/// <para>/</para>
@@ -587,7 +602,10 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para>/ Client call to connect to a server hosted in a Valve data center, on the specified virtual</para>
-		/// <para>/ port.  You must have placed a ticket for this server into the cache, or else this connect attempt will fail!</para>
+		/// <para>/ port.  You must have placed a ticket for this server into the cache, or else this connect</para>
+		/// <para>/ attempt will fail!  If you are not issuing your own tickets, then to connect to a dedicated</para>
+		/// <para>/ server via SDR in auto-ticket mode, use ConnectP2P.  (The server must be configured to allow</para>
+		/// <para>/ this type of connection by listening using CreateListenSocketP2P.)</para>
 		/// <para>/</para>
 		/// <para>/ You may wonder why tickets are stored in a cache, instead of simply being passed as an argument</para>
 		/// <para>/ here.  The reason is to make reconnection to a gameserver robust, even if the client computer loses</para>
@@ -667,7 +685,11 @@ namespace Steamworks {
 		/// <para>/ will be determined by the SDR_LISTEN_PORT environment variable.  If a UDP port is not</para>
 		/// <para>/ configured, this call will fail.</para>
 		/// <para>/</para>
-		/// <para>/ Note that this call MUST be made through the SteamGameServerNetworkingSockets() interface</para>
+		/// <para>/ This call MUST be made through the SteamGameServerNetworkingSockets() interface.</para>
+		/// <para>/</para>
+		/// <para>/ This function should be used when you are using the ticket generator library</para>
+		/// <para>/ to issue your own tickets.  Clients connecting to the server on this virtual</para>
+		/// <para>/ port will need a ticket, and they must connect using ConnectToHostedDedicatedServer.</para>
 		/// <para>/</para>
 		/// <para>/ If you need to set any initial config options, pass them here.  See</para>
 		/// <para>/ SteamNetworkingConfigValue_t for more about why this is preferable to</para>
@@ -714,9 +736,8 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamNetworkingSockets_GetGameCoordinatorServerLogin(CSteamAPIContext.GetSteamNetworkingSockets(), out pLoginInfo, out pcbSignedBlob, pBlob);
 		}
-#endif
+
 		/// <summary>
-		/// <para> #ifndef STEAMNETWORKINGSOCKETS_ENABLE_SDR</para>
 		/// <para> Relayed connections using custom signaling protocol</para>
 		/// <para> This is used if you have your own method of sending out-of-band</para>
 		/// <para> signaling / rendezvous messages through a mutually trusted channel.</para>
@@ -735,10 +756,10 @@ namespace Steamworks {
 		/// <para>/ This function will immediately construct a connection in the "connecting"</para>
 		/// <para>/ state.  Soon after (perhaps before this function returns, perhaps in another thread),</para>
 		/// <para>/ the connection will begin sending signaling messages by calling</para>
-		/// <para>/ ISteamNetworkingConnectionCustomSignaling::SendSignal.</para>
+		/// <para>/ ISteamNetworkingConnectionSignaling::SendSignal.</para>
 		/// <para>/</para>
 		/// <para>/ When the remote peer accepts the connection (See</para>
-		/// <para>/ ISteamNetworkingCustomSignalingRecvContext::OnConnectRequest),</para>
+		/// <para>/ ISteamNetworkingSignalingRecvContext::OnConnectRequest),</para>
 		/// <para>/ it will begin sending signaling messages.  When these messages are received,</para>
 		/// <para>/ you can pass them to the connection using ReceivedP2PCustomSignal.</para>
 		/// <para>/</para>
@@ -754,7 +775,7 @@ namespace Steamworks {
 		/// <para>/ SteamNetworkingConfigValue_t for more about why this is preferable to</para>
 		/// <para>/ setting the options "immediately" after creation.</para>
 		/// </summary>
-		public static HSteamNetConnection ConnectP2PCustomSignaling(out ISteamNetworkingConnectionCustomSignaling pSignaling, ref SteamNetworkingIdentity pPeerIdentity, int nRemoteVirtualPort, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
+		public static HSteamNetConnection ConnectP2PCustomSignaling(out ISteamNetworkingConnectionSignaling pSignaling, ref SteamNetworkingIdentity pPeerIdentity, int nRemoteVirtualPort, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
 			InteropHelp.TestIfAvailableClient();
 			return (HSteamNetConnection)NativeMethods.ISteamNetworkingSockets_ConnectP2PCustomSignaling(CSteamAPIContext.GetSteamNetworkingSockets(), out pSignaling, ref pPeerIdentity, nRemoteVirtualPort, nOptions, pOptions);
 		}
@@ -769,7 +790,7 @@ namespace Steamworks {
 		/// <para>/</para>
 		/// <para>/ - If the signal is associated with existing connection, it is dealt</para>
 		/// <para>/   with immediately.  If any replies need to be sent, they will be</para>
-		/// <para>/   dispatched using the ISteamNetworkingConnectionCustomSignaling</para>
+		/// <para>/   dispatched using the ISteamNetworkingConnectionSignaling</para>
 		/// <para>/   associated with the connection.</para>
 		/// <para>/ - If the message represents a connection request (and the request</para>
 		/// <para>/   is not redundant for an existing connection), a new connection</para>
@@ -790,7 +811,7 @@ namespace Steamworks {
 		/// <para>/ If you expect to be using relayed connections, then you probably want</para>
 		/// <para>/ to call ISteamNetworkingUtils::InitRelayNetworkAccess() when your app initializes</para>
 		/// </summary>
-		public static bool ReceivedP2PCustomSignal(IntPtr pMsg, int cbMsg, out ISteamNetworkingCustomSignalingRecvContext pContext) {
+		public static bool ReceivedP2PCustomSignal(IntPtr pMsg, int cbMsg, out ISteamNetworkingSignalingRecvContext pContext) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamNetworkingSockets_ReceivedP2PCustomSignal(CSteamAPIContext.GetSteamNetworkingSockets(), pMsg, cbMsg, out pContext);
 		}

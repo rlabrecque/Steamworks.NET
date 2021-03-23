@@ -239,7 +239,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return (UGCHandle_t)NativeMethods.ISteamRemoteStorage_GetCachedUGCHandle(CSteamAPIContext.GetSteamRemoteStorage(), iCachedContent);
 		}
-#if _PS3 || _SERVER
+#if _SERVER
 		/// <summary>
 		/// <para> The following functions are only necessary on the Playstation 3. On PC &amp; Mac, the Steam client will handle these operations for you</para>
 		/// <para> On Playstation 3, the game controls which files are stored in the cloud, via FilePersist, FileFetch, and FileForget.</para>
