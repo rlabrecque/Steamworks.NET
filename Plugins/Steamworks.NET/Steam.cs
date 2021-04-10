@@ -158,7 +158,7 @@ namespace Steamworks {
 
 			bool ret;
 			using (var pchVersionString2 = new InteropHelp.UTF8StringHandle(pchVersionString)) {
-				ret = NativeMethods.SteamGameServer_Init(unIP, usGamePort, usQueryPort, eServerMode, pchVersionString2);
+				ret = NativeMethods.SteamInternal_GameServer_Init(unIP, 0, usGamePort, usQueryPort, eServerMode, pchVersionString2);
 			}
 
 			// Steamworks.NET specific: We initialize the SteamAPI Context like this for now, but we need to do it

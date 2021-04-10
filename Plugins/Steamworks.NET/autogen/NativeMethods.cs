@@ -135,10 +135,6 @@ namespace Steamworks {
 		public static extern bool SteamAPI_ManualDispatch_GetAPICallResult(HSteamPipe hSteamPipe, SteamAPICall_t hSteamAPICall, IntPtr pCallback, int cubCallback, int iCallbackExpected, out bool pbFailed);
 #endregion
 #region steam_gameserver.h
-		[DllImport(NativeLibraryName, EntryPoint = "SteamGameServer_Init", CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool SteamGameServer_Init(uint unIP, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, InteropHelp.UTF8StringHandle pchVersionString);
-
 		[DllImport(NativeLibraryName, EntryPoint = "SteamGameServer_Shutdown", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamGameServer_Shutdown();
 
