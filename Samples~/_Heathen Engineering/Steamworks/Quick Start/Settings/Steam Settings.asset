@@ -1,0 +1,128 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4756058687597709802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0ba82a2bdc69364fb12b4be8fb1f32b, type: 3}
+  m_Name: Local User Data
+  m_EditorClassIdentifier: 
+  id:
+    m_SteamID: 0
+  evtAvatarLoaded:
+    m_PersistentCalls:
+      m_Calls: []
+  evtAvatarChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  evtNameChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  evtStateChange:
+    m_PersistentCalls:
+      m_Calls: []
+  evtComeOnline:
+    m_PersistentCalls:
+      m_Calls: []
+  evtGoneOffline:
+    m_PersistentCalls:
+      m_Calls: []
+  evtGameChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 242f29df75dec3d4cb1cbb74a477bee6, type: 3}
+  m_Name: Steam Settings
+  m_EditorClassIdentifier: 
+  applicationId:
+    m_AppId: 480
+  isDebugging: 0
+  stats: []
+  achievements: []
+  server:
+    autoInitalize: 0
+    enableMirror: 1
+    ip: 0
+    queryPort: 27016
+    gamePort: 27015
+    serverVersion: 1.0.0.0
+    spectatorPort: 27017
+    serverId:
+      m_SteamID: 0
+    usingGameServerAuthApi: 0
+    enableHeartbeats: 1
+    supportSpectators: 0
+    spectatorServerName: Usually GameDescription + Spectator
+    anonymousServerLogin: 0
+    gameServerToken: See https://steamcommunity.com/dev/managegameservers
+    isPasswordProtected: 0
+    serverName: My Server Name
+    gameDescription: Usually the name of your game
+    gameDirectory: e.g. its folder name
+    isDedicated: 0
+    maxPlayerCount: 4
+    botPlayerCount: 0
+    mapName: 
+    gameData: 
+    rulePairs: []
+    gameServerShuttingDown:
+      m_PersistentCalls:
+        m_Calls: []
+    disconnected:
+      m_PersistentCalls:
+        m_Calls: []
+    connected:
+      m_PersistentCalls:
+        m_Calls: []
+    failure:
+      m_PersistentCalls:
+        m_Calls: []
+  client:
+    user: {fileID: -4756058687597709802}
+    overlay:
+      notificationInset: {x: 0, y: 0}
+      notificationPosition: 3
+    lastKnownPlayerCount: 0
+    evtAvatarLoaded:
+      m_PersistentCalls:
+        m_Calls: []
+    evtPersonaStateChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    evtUserStatsReceived:
+      m_PersistentCalls:
+        m_Calls: []
+    evtUserStatsStored:
+      m_PersistentCalls:
+        m_Calls: []
+    evtOverlayActivated:
+      m_PersistentCalls:
+        m_Calls: []
+    evtAchievementStored:
+      m_PersistentCalls:
+        m_Calls: []
+    evtRecievedFriendChatMessage:
+      m_PersistentCalls:
+        m_Calls: []
+    evtNumberOfCurrentPlayersResult:
+      m_PersistentCalls:
+        m_Calls: []
+  onInitalized:
+    m_PersistentCalls:
+      m_Calls: []
+  onInitalizationError:
+    m_PersistentCalls:
+      m_Calls: []

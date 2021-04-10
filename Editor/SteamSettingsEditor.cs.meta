@@ -1,0 +1,25 @@
+fileFormatVersion: 2
+guid: bf1831df0d2c7bf4e97085657e2f8631
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - achievementIcon: {fileID: 2800000, guid: 99bc6da3c0b26a64496768624802904a, type: 3}
+  - dataModelIcon: {fileID: 2800000, guid: 0c49f44b39f85c944bd3f4285e767d27, type: 3}
+  - legacyDataModelIcon: {fileID: 2800000, guid: cfcf9b792cc971341aa3eee258b897af,
+      type: 3}
+  - statIcon: {fileID: 2800000, guid: dd1e67a82f8c7aa43b82d33989fe7cce, type: 3}
+  - leaderboardIcon: {fileID: 2800000, guid: 314bf17a6c46f104e845c48972785140, type: 3}
+  - dlcIcon: {fileID: 2800000, guid: 948715a56f2207b459ffcb3b84e01ca1, type: 3}
+  - itemIcon: {fileID: 2800000, guid: cfcf9b792cc971341aa3eee258b897af, type: 3}
+  - generatorIcon: {fileID: 2800000, guid: 0c49f44b39f85c944bd3f4285e767d27, type: 3}
+  - tagIcon: {fileID: 2800000, guid: ddb992426a1eb594e90d1a6b8bc3af5b, type: 3}
+  - bundleIcon: {fileID: 2800000, guid: 21a77fb982787b245982d52458f5e50c, type: 3}
+  - recipeIcon: {fileID: 2800000, guid: cb885c625a2d9844296cbc98546ced72, type: 3}
+  - pointerIcon: {fileID: 2800000, guid: 94c2c0b47ed0018428c1631da718fd82, type: 3}
+  - dropBoxTexture: {fileID: 2800000, guid: 45f2cea549306e34e8509d7efaa76fe0, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
