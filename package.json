@@ -10,11 +10,6 @@
         "integration"
     ],
     "description": "Steamworks.NET with Heathen Engineering's Steamworks Foundation extensions.",
-    "repository"
-    {
-      "url":"https://github.com/heathen-engineering/Steamworks.net.git",
-      "type":"git"
-    }
     "samples": [
         {
             "displayName": "Quick Start",
