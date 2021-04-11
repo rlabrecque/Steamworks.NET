@@ -1,6 +1,6 @@
 {
     "name": "com.heathenengineering.steamworks",
-    "author": "Riley Labrecque and Heathen Engineering",
+    "author": "Heathen Engineering",
     "displayName": "Steamworks.NET",
     "version": "15.1.0",
     "unity": "2019.4",
@@ -9,7 +9,7 @@
         "steamworks",
         "integration"
     ],
-    "description": "Steamworks.NET with Heathen Engineering's Steamworks Foundation extensions.",
+    "description": "Steamworks.NET with Heathen Engineering's Steamworks Foundation extensions. Steamworks.NET is authored by Riley Labrecque (https://github.com/rlabrecque) and provided on the MIT license (see the license.txt included in the package). Steamworks.NET provides a C# wrapper around the Steamworks SDK. Heathen Engineering's Steamworks Foundation is a set of Unity editor extensions, componenets and behaviours which expand on the Steam API making it more Unity friendly. Heathen's Steamworks Foundation is a free open source lite version of Heathen Engineering's Steamworks Complete which is available on the Unity Asset Store (https://assetstore.unity.com/packages/tools/integration/steamworks-v2-complete-190316)",
     "samples": [
         {
             "displayName": "Quick Start",
