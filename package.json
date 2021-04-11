@@ -8,5 +8,11 @@
         "steamworks",
         "integration"
     ],
-    "description": "Steamworks.NET is a C# wrapper around the Steamworks SDK"
+    "description": "Steamworks.NET is a C# wrapper around the Steamworks SDK",
+    "samples": [
+        {
+            "displayName": "Spacewar Example",
+            "description": "An example built on app id 480 (Spacewar) which demonstrates basic funcitons of the Steam API",
+            "path": "Samples~/Spacewar"
+        }
 }
