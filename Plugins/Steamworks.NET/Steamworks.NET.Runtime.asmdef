@@ -1,11 +1,12 @@
 {
-    "name": "HeathenEngineering.Steamworks.MenuEditor",
-    "references": [
-        "GUID:b8b27f84d07f1e245985cb51de3f79d1",
-        "GUID:3e1f55b641cbc824881f0d12f6a5c69a"
-    ],
+    "name": "Steamworks.NET.Runtime",
+    "references": [],
     "includePlatforms": [
-        "Editor"
+        "Editor",
+        "LinuxStandalone64",
+        "macOSStandalone",
+        "WindowsStandalone32",
+        "WindowsStandalone64"
     ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

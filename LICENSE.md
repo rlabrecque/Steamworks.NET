@@ -1,7 +1,6 @@
 The MIT License (MIT)
 
-Heathen Engineering Steamworks Foundation Extensions 
-Copyright (c) 2016-2021 Heathen Engineering Limited
+Copyright (c) 2013-2020 Riley Labrecque
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
