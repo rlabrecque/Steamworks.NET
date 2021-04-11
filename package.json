@@ -15,4 +15,5 @@
             "description": "An example built on app id 480 (Spacewar) which demonstrates basic funcitons of the Steam API",
             "path": "Samples~/Spacewar"
         }
+    ]
 }
