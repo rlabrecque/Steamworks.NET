@@ -1,10 +1,6 @@
 {
     "name": "com.heathenengineering.steamworks",
-    "author": { 
-        "name" : "Heathen Engineering",
-        "email" : "heimdal@heathenengineering.com",
-        "url" : "https://heathenengineering.com/"
-    }
+    "author": "Heathen Engineering",
     "displayName": "Steamworks.NET",
     "version": "15.1.0",
     "unity": "2019.4",
