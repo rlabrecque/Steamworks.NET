@@ -22,8 +22,6 @@ _Steamworks.NET_ currently fully supports Windows, OSX, and Linux in both 32 and
 2) Select `Add package from git URL...` when prompted provide the following URL:  
 `https://github.com/heathen-engineering/Steamworks.NET.git`  
 
-* A version of the package will be made availabel via the [Unity Asset Store](http://comingSoon) at a later date. 
-
 * Git Releases
 You can find the installation instructions [here](http://steamworks.github.io/installation/).
 
