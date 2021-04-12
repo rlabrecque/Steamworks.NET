@@ -131,7 +131,7 @@ namespace Steamworks.HeathenExtensions.Editor
                     File.WriteAllText(appIdPath, buffer.ToString());
                     Undo.RecordObject(settings, "editor");
                     settings.applicationId = new AppId_t(buffer);
-
+                    EditorUtility.SetDirty(settings);
                     Debug.LogWarning("When updating the App ID we also update the steam_appid.txt for you. You must restart Unity and Visual Studio for this change to take full effect as seen from the Steamworks Client.");
                 }
             }

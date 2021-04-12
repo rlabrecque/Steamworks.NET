@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: NumGames
   m_EditorClassIdentifier: 
   statName: NumGames
-  ValueChanged:
+  eventValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  value: 0
+  value: 21
 --- !u!114 &-6282296831570943080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30,10 +30,10 @@ MonoBehaviour:
   m_Name: NumWins
   m_EditorClassIdentifier: 
   statName: NumWins
-  ValueChanged:
+  eventValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  value: 0
+  value: 8
 --- !u!114 &-4505727936390808802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,10 +79,10 @@ MonoBehaviour:
   m_Name: FeetTraveled
   m_EditorClassIdentifier: 
   statName: FeetTraveled
-  ValueChanged:
+  eventValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  value: 0
+  value: 240.85977
 --- !u!114 &-1840769842991654356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,10 +112,10 @@ MonoBehaviour:
   m_Name: AverageSpeed
   m_EditorClassIdentifier: 
   statName: AverageSpeed
-  ValueChanged:
+  eventValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  value: 0
+  value: 0.3086726
 --- !u!114 &-671076116242617287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Name: Example Steam System
   m_EditorClassIdentifier: Assembly-CSharp:Steamworks.HeathenExtensions:SteamSystem
   applicationId:
-    m_AppId: 0
+    m_AppId: 480
   stats:
   - {fileID: -7359795490039041566}
   - {fileID: -6282296831570943080}
@@ -156,7 +156,6 @@ MonoBehaviour:
   achievements:
   - {fileID: -4505727936390808802}
   - {fileID: -3931879968767379616}
-  - {fileID: 4635318717133254669}
   - {fileID: -671076116242617287}
   - {fileID: -1840769842991654356}
   dlc: []
@@ -240,10 +239,10 @@ MonoBehaviour:
   m_Name: MaxFeetTraveled
   m_EditorClassIdentifier: 
   statName: MaxFeetTraveled
-  ValueChanged:
+  eventValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  value: 0
+  value: 98.92927
 --- !u!114 &8723369849963470494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,7 +256,7 @@ MonoBehaviour:
   m_Name: NumLosses
   m_EditorClassIdentifier: 
   statName: NumLosses
-  ValueChanged:
+  eventValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  value: 0
+  value: 9
