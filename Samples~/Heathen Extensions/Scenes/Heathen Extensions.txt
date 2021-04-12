@@ -1,9 +1,0 @@
-This scene demonstrates the use of Heathen Engineering's Steamworks Extensions.
-
-Heathen's Extensions is a lite open source variant of Heathen Engineering's Steamworks Unity Asset. It is built ontop of Steamworks.NET and extends the API with Unity developer friendly editor integrations, debugging tools, Unity centric wrappers around complex Steam API interfaces and game ready systems to help accellerate your next project as well as integrations with popular 3rd parties such as Mirror and MLAPI.
-
-You can learn more about Heathen Engineering's Steamworks on its main site
-https://www.heathenengineering.com/steamworks
-
-Or on the Unity Asset Store
-https://assetstore.unity.com/packages/tools/integration/steamworks-v2-complete-190316

@@ -9,17 +9,5 @@
     "url": "https://steamworks.github.io"
   },
   "keywords": [],
-  "description": "Steamworks.NET is a C# Wrapper for Valve's Steamworks API.\n\nCreated by Riley Labrecque",
-    "samples": [
-        {
-            "displayName": "Heathen Extensions",
-            "description": "A lite open source variant of Heathen Engineering's Steamworks Unity integration including a simple Spacewar (480) example.",
-            "path": "Samples~/Heathen Extensions"
-        },
-        {
-            "displayName": "Spacewar Example",
-            "description": "An example built on app id 480 (Spacewar) which demonstrates basic funcitons of the Steam API",
-            "path": "Samples~/Spacewar"
-        }
-    ]
+  "description": "Steamworks.NET is a C# Wrapper for Valve's Steamworks API.\n\nCreated by Riley Labrecque"
 }
