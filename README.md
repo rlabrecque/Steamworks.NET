@@ -17,12 +17,12 @@ _Steamworks.NET_ currently fully supports Windows, OSX, and Linux in both 32 and
 [![Support via Paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YFZZER8VNXKRC)
 
 ## Installation
-* Package Manager
+### Package Manager
 1) Open the package manager and click the '+' (plus) button located in the upper left of the window
 2) Select `Add package from git URL...` when prompted provide the following URL:  
 `https://github.com/heathen-engineering/Steamworks.NET.git?path=\UnityPackage`  
 
-* Git Releases
+### Git Releases 
 You can find the installation instructions [here](http://steamworks.github.io/installation/).
 
 ## Samples
