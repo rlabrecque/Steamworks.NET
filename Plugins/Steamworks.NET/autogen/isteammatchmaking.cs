@@ -205,7 +205,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Gets the number of users in a lobby.</para>
         /// <para> Can be used for lobby iteration, for viewing details of users in a lobby</para>
-		/// <para> Steam IDs of other users are only accessible if the lobby user is a member of the specified lobby</para>
+        /// <para> Steam IDs of other users are only accessible if the lobby user is a member of the specified lobby</para>
 		/// <para> persona information for other lobby members (name, avatar, etc.) will be asynchronously received</para>
 		/// <para> and accessible via ISteamFriends interface</para>
 		/// <para> returns the number of users in the specified lobby</para>
