@@ -1,0 +1,49 @@
+namespace Steamworks {
+	[System.Serializable]
+	public struct {NAME} : System.IEquatable<{NAME}>, System.IComparable<{NAME}> {
+{READONLY}
+		public {TYPE} m_{NAMESTRIPPED};
+
+		public {NAME}({TYPE} value) {
+			m_{NAMESTRIPPED} = value;
+		}
+
+		public override string ToString() {
+			return m_{NAMESTRIPPED}.ToString();
+		}
+
+		public override bool Equals(object other) {
+			return other is {NAME} && this == ({NAME})other;
+		}
+
+		public override int GetHashCode() {
+			return m_{NAMESTRIPPED}.GetHashCode();
+		}
+
+		public static bool operator ==({NAME} x, {NAME} y) {
+			return x.m_{NAMESTRIPPED} == y.m_{NAMESTRIPPED};
+		}
+
+		public static bool operator !=({NAME} x, {NAME} y) {
+			return !(x == y);
+		}
+
+		public static explicit operator {NAME}({TYPE} value) {
+			return new {NAME}(value);
+		}
+
+		public static explicit operator {TYPE}({NAME} that) {
+			return that.m_{NAMESTRIPPED};
+		}
+
+		public bool Equals({NAME} other) {
+			return m_{NAMESTRIPPED} == other.m_{NAMESTRIPPED};
+		}
+
+		public int CompareTo({NAME} other) {
+			return m_{NAMESTRIPPED}.CompareTo(other.m_{NAMESTRIPPED});
+		}
+	}
+}
+
+#endif // !DISABLESTEAMWORKS
