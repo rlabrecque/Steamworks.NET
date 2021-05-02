@@ -117,7 +117,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> returns only lobbies with the specified number of slots available</para>
+		/// <para> returns only lobbies with AT LEAST the specified number of slots available</para>
 		/// </summary>
 		public static void AddRequestLobbyListFilterSlotsAvailable(int nSlotsAvailable) {
 			InteropHelp.TestIfAvailableClient();
@@ -203,11 +203,11 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Lobby iteration, for viewing details of users in a lobby</para>
-		/// <para> only accessible if the lobby user is a member of the specified lobby</para>
+		/// <para> Returns the number of users in the specified lobby</para>
+		/// <para> Can be used for lobby iteration, for viewing details of users in a lobby</para>
+		/// <para> Steam IDs of other users are only accessible if the lobby user is a member of the specified lobby</para>
 		/// <para> persona information for other lobby members (name, avatar, etc.) will be asynchronously received</para>
 		/// <para> and accessible via ISteamFriends interface</para>
-		/// <para> returns the number of users in the specified lobby</para>
 		/// </summary>
 		public static int GetNumLobbyMembers(CSteamID steamIDLobby) {
 			InteropHelp.TestIfAvailableClient();
