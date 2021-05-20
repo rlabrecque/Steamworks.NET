@@ -26,23 +26,27 @@ namespace Steamworks {
 
 		// SteamAPI_Init must be called before using any other API functions. If it fails, an
 		// error message will be output to the debugger (or stderr) with further information.
-		public static bool Init() {
+		public static FailureReason Init() {
 			InteropHelp.TestIfPlatformSupported();
 
+			var reason = FailureReason.None;
 			bool ret = NativeMethods.SteamAPI_Init();
-
+			if (!ret)
+			{
+				reason |= FailureReason.SteamAPI_Init;
+			}
 			// Steamworks.NET specific: We initialize the SteamAPI Context like this for now, but we need to do it
 			// every time that Unity reloads binaries, so we also check if the pointers are available and initialized
 			// before each call to any interface functions. That is in InteropHelp.cs
-			if (ret) {
-				ret = CSteamAPIContext.Init();
+			if (reason == FailureReason.None) {
+				reason |= CSteamAPIContext.Init();
 			}
 
-			if (ret) {
+			if (reason == FailureReason.None) {
 				CallbackDispatcher.Initialize();
 			}
 
-			return ret;
+			return reason;
 		}
 
 		// SteamAPI_Shutdown should be called during process shutdown if possible.
@@ -301,85 +305,161 @@ namespace Steamworks {
 			m_pSteamNetworkingMessages = IntPtr.Zero;
 		}
 
-		internal static bool Init() {
+		internal static FailureReason Init() {
 			HSteamUser hSteamUser = SteamAPI.GetHSteamUser();
 			HSteamPipe hSteamPipe = SteamAPI.GetHSteamPipe();
-			if (hSteamPipe == (HSteamPipe)0) { return false; }
+			var failureReason = FailureReason.None;
+			if (hSteamPipe == (HSteamPipe) 0)
+			{
+				failureReason |= FailureReason.hSteamPipe;
+			}
 
 			using (var pchVersionString = new InteropHelp.UTF8StringHandle(Constants.STEAMCLIENT_INTERFACE_VERSION)) {
 				m_pSteamClient = NativeMethods.SteamInternal_CreateInterface(pchVersionString);
 			}
 
-			if (m_pSteamClient == IntPtr.Zero) { return false; }
+			if (m_pSteamClient == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamClient;
+			}
 
 			m_pSteamUser = SteamClient.GetISteamUser(hSteamUser, hSteamPipe, Constants.STEAMUSER_INTERFACE_VERSION);
-			if (m_pSteamUser == IntPtr.Zero) { return false; }
+			if (m_pSteamUser == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamUser;
+			}
 
 			m_pSteamFriends = SteamClient.GetISteamFriends(hSteamUser, hSteamPipe, Constants.STEAMFRIENDS_INTERFACE_VERSION);
-			if (m_pSteamFriends == IntPtr.Zero) { return false; }
+			if (m_pSteamFriends == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamFriends;
+			}
 
 			m_pSteamUtils = SteamClient.GetISteamUtils(hSteamPipe, Constants.STEAMUTILS_INTERFACE_VERSION);
-			if (m_pSteamUtils == IntPtr.Zero) { return false; }
+			if (m_pSteamUtils == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamUtils;
+			}
 
 			m_pSteamMatchmaking = SteamClient.GetISteamMatchmaking(hSteamUser, hSteamPipe, Constants.STEAMMATCHMAKING_INTERFACE_VERSION);
-			if (m_pSteamMatchmaking == IntPtr.Zero) { return false; }
+			if (m_pSteamMatchmaking == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamMatchmaking;
+			}
 
 			m_pSteamMatchmakingServers = SteamClient.GetISteamMatchmakingServers(hSteamUser, hSteamPipe, Constants.STEAMMATCHMAKINGSERVERS_INTERFACE_VERSION);
-			if (m_pSteamMatchmakingServers == IntPtr.Zero) { return false; }
+			if (m_pSteamMatchmakingServers == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamMatchmakingServers;
+			}
 
 			m_pSteamUserStats = SteamClient.GetISteamUserStats(hSteamUser, hSteamPipe, Constants.STEAMUSERSTATS_INTERFACE_VERSION);
-			if (m_pSteamUserStats == IntPtr.Zero) { return false; }
+			if (m_pSteamUserStats == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamUserStats;
+			}
 
 			m_pSteamApps = SteamClient.GetISteamApps(hSteamUser, hSteamPipe, Constants.STEAMAPPS_INTERFACE_VERSION);
-			if (m_pSteamApps == IntPtr.Zero) { return false; }
+			if (m_pSteamApps == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamApps;
+			}
 
 			m_pSteamNetworking = SteamClient.GetISteamNetworking(hSteamUser, hSteamPipe, Constants.STEAMNETWORKING_INTERFACE_VERSION);
-			if (m_pSteamNetworking == IntPtr.Zero) { return false; }
+			if (m_pSteamNetworking == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamNetworking;
+			}
 
 			m_pSteamRemoteStorage = SteamClient.GetISteamRemoteStorage(hSteamUser, hSteamPipe, Constants.STEAMREMOTESTORAGE_INTERFACE_VERSION);
-			if (m_pSteamRemoteStorage == IntPtr.Zero) { return false; }
+			if (m_pSteamRemoteStorage == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamRemoteStorage;
+			}
 
 			m_pSteamScreenshots = SteamClient.GetISteamScreenshots(hSteamUser, hSteamPipe, Constants.STEAMSCREENSHOTS_INTERFACE_VERSION);
-			if (m_pSteamScreenshots == IntPtr.Zero) { return false; }
+			if (m_pSteamScreenshots == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamScreenshots;
+			}
 
 			m_pSteamGameSearch = SteamClient.GetISteamGameSearch(hSteamUser, hSteamPipe, Constants.STEAMGAMESEARCH_INTERFACE_VERSION);
-			if (m_pSteamGameSearch == IntPtr.Zero) { return false; }
+			if (m_pSteamGameSearch == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamGameSearch;
+			}
 
 			m_pSteamHTTP = SteamClient.GetISteamHTTP(hSteamUser, hSteamPipe, Constants.STEAMHTTP_INTERFACE_VERSION);
-			if (m_pSteamHTTP == IntPtr.Zero) { return false; }
+			if (m_pSteamHTTP == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamHTTP;
+			}
 
 			m_pSteamUGC = SteamClient.GetISteamUGC(hSteamUser, hSteamPipe, Constants.STEAMUGC_INTERFACE_VERSION);
-			if (m_pSteamUGC == IntPtr.Zero) { return false; }
+			if (m_pSteamUGC == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamUGC;
+			}
 
 			m_pSteamAppList = SteamClient.GetISteamAppList(hSteamUser, hSteamPipe, Constants.STEAMAPPLIST_INTERFACE_VERSION);
-			if (m_pSteamAppList == IntPtr.Zero) { return false; }
+			if (m_pSteamAppList == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamAppList;
+			}
 
 			m_pSteamMusic = SteamClient.GetISteamMusic(hSteamUser, hSteamPipe, Constants.STEAMMUSIC_INTERFACE_VERSION);
-			if (m_pSteamMusic == IntPtr.Zero) { return false; }
+			if (m_pSteamMusic == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamMusic;
+			}
 
 			m_pSteamMusicRemote = SteamClient.GetISteamMusicRemote(hSteamUser, hSteamPipe, Constants.STEAMMUSICREMOTE_INTERFACE_VERSION);
-			if (m_pSteamMusicRemote == IntPtr.Zero) { return false; }
+			if (m_pSteamMusicRemote == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamMusicRemote;
+			}
 
 			m_pSteamHTMLSurface = SteamClient.GetISteamHTMLSurface(hSteamUser, hSteamPipe, Constants.STEAMHTMLSURFACE_INTERFACE_VERSION);
-			if (m_pSteamHTMLSurface == IntPtr.Zero) { return false; }
+			if (m_pSteamHTMLSurface == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamHTMLSurface;
+			}
 
 			m_pSteamInventory = SteamClient.GetISteamInventory(hSteamUser, hSteamPipe, Constants.STEAMINVENTORY_INTERFACE_VERSION);
-			if (m_pSteamInventory == IntPtr.Zero) { return false; }
+			if (m_pSteamInventory == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamInventory;
+			}
 
 			m_pSteamVideo = SteamClient.GetISteamVideo(hSteamUser, hSteamPipe, Constants.STEAMVIDEO_INTERFACE_VERSION);
-			if (m_pSteamVideo == IntPtr.Zero) { return false; }
+			if (m_pSteamVideo == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamVideo;
+			}
 
 			m_pSteamParentalSettings = SteamClient.GetISteamParentalSettings(hSteamUser, hSteamPipe, Constants.STEAMPARENTALSETTINGS_INTERFACE_VERSION);
-			if (m_pSteamParentalSettings == IntPtr.Zero) { return false; }
+			if (m_pSteamParentalSettings == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamParentalSettings;
+			}
 
 			m_pSteamInput = SteamClient.GetISteamInput(hSteamUser, hSteamPipe, Constants.STEAMINPUT_INTERFACE_VERSION);
-			if (m_pSteamInput == IntPtr.Zero) { return false; }
+			if (m_pSteamInput == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamInput;
+			}
 
 			m_pSteamParties = SteamClient.GetISteamParties(hSteamUser, hSteamPipe, Constants.STEAMPARTIES_INTERFACE_VERSION);
-			if (m_pSteamParties == IntPtr.Zero) { return false; }
+			if (m_pSteamParties == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamParties;
+			}
 
 			m_pSteamRemotePlay = SteamClient.GetISteamRemotePlay(hSteamUser, hSteamPipe, Constants.STEAMREMOTEPLAY_INTERFACE_VERSION);
-			if (m_pSteamRemotePlay == IntPtr.Zero) { return false; }
+			if (m_pSteamRemotePlay == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamRemotePlay;
+			}
 
 			using (var pchVersionString = new InteropHelp.UTF8StringHandle(Constants.STEAMNETWORKINGUTILS_INTERFACE_VERSION))
 			{
@@ -388,23 +468,35 @@ namespace Steamworks {
 					NativeMethods.SteamInternal_FindOrCreateUserInterface(hSteamUser, pchVersionString) :
 					NativeMethods.SteamInternal_FindOrCreateGameServerInterface(hSteamUser, pchVersionString);
 			}
-			if (m_pSteamNetworkingUtils == IntPtr.Zero) { return false; }
+
+			if (m_pSteamNetworkingUtils == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamNetworkingUtils;
+			}
 
 			using (var pchVersionString = new InteropHelp.UTF8StringHandle(Constants.STEAMNETWORKINGSOCKETS_INTERFACE_VERSION))
 			{
 				m_pSteamNetworkingSockets =
 					NativeMethods.SteamInternal_FindOrCreateUserInterface(hSteamUser, pchVersionString);
 			}
-			if (m_pSteamNetworkingSockets == IntPtr.Zero) { return false; }
+
+			if (m_pSteamNetworkingSockets == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamNetworkingSockets;
+			}
 
 			using (var pchVersionString = new InteropHelp.UTF8StringHandle(Constants.STEAMNETWORKINGMESSAGES_INTERFACE_VERSION))
 			{
 				m_pSteamNetworkingMessages =
 					NativeMethods.SteamInternal_FindOrCreateUserInterface(hSteamUser, pchVersionString);
 			}
-			if (m_pSteamNetworkingMessages == IntPtr.Zero) { return false; }
 
-			return true;
+			if (m_pSteamNetworkingMessages == IntPtr.Zero)
+			{
+				failureReason |= FailureReason.m_pSteamNetworkingMessages;
+			}
+
+			return failureReason;
 		}
 
 		internal static IntPtr GetSteamClient() { return m_pSteamClient; }
