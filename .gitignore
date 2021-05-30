@@ -1,4 +1,5 @@
-/Standalone/bin
-/Standalone/obj
-/Standalone/.vs
-/.vs
+bin/
+obj/
+.vs/
+__pycache__/
+/CodeGen/steam/lib/
