@@ -95,7 +95,20 @@ namespace Steamworks
 		/// You MUST call this when you're done with the object,
 		/// to free up memory, etc.
 		public void Release() {
-			NativeMethods.SteamAPI_SteamNetworkingMessage_t_Release(m_pfnRelease);
+			throw new System.NotImplementedException("Please use the static Release function instead which takes an IntPtr.");
+		}
+
+		/// You MUST call this when you're done with the object,
+		/// to free up memory, etc.
+		/// This is a Steamworks.NET extension.
+		public static void Release(IntPtr pointer) {
+			NativeMethods.SteamAPI_SteamNetworkingMessage_t_Release(pointer);
+		}
+
+		/// Convert an IntPtr received from ISteamNetworkingSockets.ReceiveMessagesOnPollGroup into our structure.
+		/// This is a Steamworks.NET extension.
+		public static SteamNetworkingMessage_t FromIntPtr(IntPtr pointer) {
+			return (SteamNetworkingMessage_t)Marshal.PtrToStructure(pointer, typeof(SteamNetworkingMessage_t));
 		}
 	}
 }
