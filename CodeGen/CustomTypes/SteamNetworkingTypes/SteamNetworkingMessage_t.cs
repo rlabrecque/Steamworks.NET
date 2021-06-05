@@ -53,7 +53,7 @@ namespace Steamworks
 		/// usually be something like:
 		///
 		/// free( pMsg->m_pData );
-		internal IntPtr m_pfnFreeData;
+		public IntPtr m_pfnFreeData;
 
 		/// Function to used to decrement the internal reference count and, if
 		/// it's zero, release the message.  You should not set this function pointer,
