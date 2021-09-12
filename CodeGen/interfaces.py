@@ -409,6 +409,13 @@ g_SpecialArgsDict = {
         "cbBuf": "uint",
     },
 
+    "ISteamNetworkingUtils_GetConfigValue": {
+        "cbResult": "ref ulong",
+    },
+    "ISteamGameServerNetworkingUtils_GetConfigValue": {
+        "cbResult": "ref ulong",
+    },
+
     "ISteamNetworkingSockets_SendMessages": {
         "pMessages": "SteamNetworkingMessage_t[]",
         "pOutMessageNumberOrResult": "long[]",
