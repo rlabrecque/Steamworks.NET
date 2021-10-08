@@ -25,25 +25,13 @@ g_TypeDict = {
 }
 
 g_UnusedTypedefs = [
-    # SteamClientPublic
-    "BREAKPAD_HANDLE",
-
     # SteamTypes
-    "AssetClassId_t",
-    "BundleId_t",
-    "CellID_t",
-    "GID_t",
     "int8",
     "int16",
     "int32",
     "int64",
     "intp",
-    "JobID_t",
     "lint64",
-    "PackageId_t",
-    "PartnerId_t",
-    "PhysicalItemId_t",
-    "TxnID_t",
     "uint8",
     "uint16",
     "uint32",
@@ -114,10 +102,6 @@ g_ReadOnlyValues = {
     ]),
 
     "DepotId_t": OrderedDict([
-        ("Invalid", "0x0"),
-    ]),
-
-    "ManifestId_t": OrderedDict([
         ("Invalid", "0x0"),
     ]),
 

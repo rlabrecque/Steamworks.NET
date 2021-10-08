@@ -129,6 +129,8 @@
     <Compile Include="..\com.rlabrecque.steamworks.net\Runtime\types\SteamInput\InputAnalogActionHandle_t.cs" Link="Steamworks.NET\types\SteamInput\InputAnalogActionHandle_t.cs" />
     <Compile Include="..\com.rlabrecque.steamworks.net\Runtime\types\SteamInput\InputDigitalActionHandle_t.cs" Link="Steamworks.NET\types\SteamInput\InputDigitalActionHandle_t.cs" />
     <Compile Include="..\com.rlabrecque.steamworks.net\Runtime\types\SteamInput\InputHandle_t.cs" Link="Steamworks.NET\types\SteamInput\InputHandle_t.cs" />
+    <Compile Include="..\com.rlabrecque.steamworks.net\Runtime\types\SteamInput\SteamInputActionEvent_t.cs" Link="Steamworks.NET\types\SteamInput\SteamInputActionEvent_t.cs" />
+    <Compile Include="..\com.rlabrecque.steamworks.net\Runtime\types\SteamInput\SteamInputActionEventCallbackPointer.cs" Link="Steamworks.NET\types\SteamInput\SteamInputActionEventCallbackPointer.cs" />
     <Compile Include="..\com.rlabrecque.steamworks.net\Runtime\types\SteamInventory\SteamInventoryResult_t.cs" Link="Steamworks.NET\types\SteamInventory\SteamInventoryResult_t.cs" />
     <Compile Include="..\com.rlabrecque.steamworks.net\Runtime\types\SteamInventory\SteamInventoryUpdateHandle_t.cs" Link="Steamworks.NET\types\SteamInventory\SteamInventoryUpdateHandle_t.cs" />
     <Compile Include="..\com.rlabrecque.steamworks.net\Runtime\types\SteamInventory\SteamItemDef_t.cs" Link="Steamworks.NET\types\SteamInventory\SteamItemDef_t.cs" />
@@ -159,10 +161,8 @@
     <Compile Include="..\com.rlabrecque.steamworks.net\Runtime\types\SteamTypes\AccountID_t.cs" Link="Steamworks.NET\types\SteamTypes\AccountID_t.cs" />
     <Compile Include="..\com.rlabrecque.steamworks.net\Runtime\types\SteamTypes\AppId_t.cs" Link="Steamworks.NET\types\SteamTypes\AppId_t.cs" />
     <Compile Include="..\com.rlabrecque.steamworks.net\Runtime\types\SteamTypes\DepotId_t.cs" Link="Steamworks.NET\types\SteamTypes\DepotId_t.cs" />
-    <Compile Include="..\com.rlabrecque.steamworks.net\Runtime\types\SteamTypes\ManifestId_t.cs" Link="Steamworks.NET\types\SteamTypes\ManifestId_t.cs" />
     <Compile Include="..\com.rlabrecque.steamworks.net\Runtime\types\SteamTypes\PartyBeaconID_t.cs" Link="Steamworks.NET\types\SteamTypes\PartyBeaconID_t.cs" />
     <Compile Include="..\com.rlabrecque.steamworks.net\Runtime\types\SteamTypes\RTime32.cs" Link="Steamworks.NET\types\SteamTypes\RTime32.cs" />
-    <Compile Include="..\com.rlabrecque.steamworks.net\Runtime\types\SteamTypes\SiteId_t.cs" Link="Steamworks.NET\types\SteamTypes\SiteId_t.cs" />
     <Compile Include="..\com.rlabrecque.steamworks.net\Runtime\types\SteamTypes\SteamAPICall_t.cs" Link="Steamworks.NET\types\SteamTypes\SteamAPICall_t.cs" />
     <Compile Include="..\com.rlabrecque.steamworks.net\Runtime\types\SteamTypes\SteamIPAddress_t.cs" Link="Steamworks.NET\types\SteamTypes\SteamIPAddress_t.cs" />
     <Compile Include="..\com.rlabrecque.steamworks.net\Runtime\types\SteamUGC\UGCQueryHandle_t.cs" Link="Steamworks.NET\types\SteamUGC\UGCQueryHandle_t.cs" />

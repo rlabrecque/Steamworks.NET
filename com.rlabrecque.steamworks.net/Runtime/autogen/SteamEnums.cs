@@ -378,11 +378,11 @@ namespace Steamworks {
 		k_EInputActionOrigin_XBoxOne_DPad_West,
 		k_EInputActionOrigin_XBoxOne_DPad_East,
 		k_EInputActionOrigin_XBoxOne_DPad_Move,
-		k_EInputActionOrigin_XBoxOne_Reserved1,
-		k_EInputActionOrigin_XBoxOne_Reserved2,
-		k_EInputActionOrigin_XBoxOne_Reserved3,
-		k_EInputActionOrigin_XBoxOne_Reserved4,
-		k_EInputActionOrigin_XBoxOne_Reserved5,
+		k_EInputActionOrigin_XBoxOne_LeftGrip_Lower,
+		k_EInputActionOrigin_XBoxOne_LeftGrip_Upper,
+		k_EInputActionOrigin_XBoxOne_RightGrip_Lower,
+		k_EInputActionOrigin_XBoxOne_RightGrip_Upper,
+		k_EInputActionOrigin_XBoxOne_Share, // Xbox Series X controllers only
 		k_EInputActionOrigin_XBoxOne_Reserved6,
 		k_EInputActionOrigin_XBoxOne_Reserved7,
 		k_EInputActionOrigin_XBoxOne_Reserved8,
@@ -620,6 +620,18 @@ namespace Steamworks {
 		k_ESteamControllerPad_Right
 	}
 
+	public enum EControllerHapticLocation : int {
+		k_EControllerHapticLocation_Left = ( 1 << ESteamControllerPad.k_ESteamControllerPad_Left ),
+		k_EControllerHapticLocation_Right = ( 1 << ESteamControllerPad.k_ESteamControllerPad_Right ),
+		k_EControllerHapticLocation_Both = ( 1 << ESteamControllerPad.k_ESteamControllerPad_Left | 1 << ESteamControllerPad.k_ESteamControllerPad_Right ),
+	}
+
+	public enum EControllerHapticType : int {
+		k_EControllerHapticType_Off,
+		k_EControllerHapticType_Tick,
+		k_EControllerHapticType_Click,
+	}
+
 	public enum ESteamInputType : int {
 		k_ESteamInputType_Unknown,
 		k_ESteamInputType_SteamController,
@@ -639,12 +651,33 @@ namespace Steamworks {
 		k_ESteamInputType_MaximumPossibleValue = 255,
 	}
 
+	// Individual values are used by the GetSessionInputConfigurationSettings bitmask
+	public enum ESteamInputConfigurationEnableType : int {
+		k_ESteamInputConfigurationEnableType_None			= 0x0000,
+		k_ESteamInputConfigurationEnableType_Playstation	= 0x0001,
+		k_ESteamInputConfigurationEnableType_Xbox			= 0x0002,
+		k_ESteamInputConfigurationEnableType_Generic		= 0x0004,
+		k_ESteamInputConfigurationEnableType_Switch			= 0x0008,
+	}
+
 	// These values are passed into SetLEDColor
 	public enum ESteamInputLEDFlag : int {
 		k_ESteamInputLEDFlag_SetColor,
 		// Restore the LED color to the user's preference setting as set in the controller personalization menu.
 		// This also happens automatically on exit of your game.
 		k_ESteamInputLEDFlag_RestoreUserDefault
+	}
+
+	// These values are passed into GetGlyphPNGForActionOrigin
+	public enum ESteamInputGlyphSize : int {
+		k_ESteamInputGlyphSize_Small,
+		k_ESteamInputGlyphSize_Medium,
+		k_ESteamInputGlyphSize_Large,
+	}
+
+	public enum ESteamInputActionEventType : int {
+		ESteamInputActionEventType_DigitalAction,
+		ESteamInputActionEventType_AnalogAction,
 	}
 
 	[Flags]
@@ -933,6 +966,26 @@ namespace Steamworks {
 		k_EUGCRead_Close = 2,
 	}
 
+	public enum ERemoteStorageLocalFileChange : int {
+		k_ERemoteStorageLocalFileChange_Invalid = 0,
+
+		// The file was updated from another device
+		k_ERemoteStorageLocalFileChange_FileUpdated = 1,
+
+		// The file was deleted by another device
+		k_ERemoteStorageLocalFileChange_FileDeleted = 2,
+	}
+
+	public enum ERemoteStorageFilePathType : int {
+		k_ERemoteStorageFilePathType_Invalid = 0,
+
+		// The file is directly accessed by the game and this is the full path
+		k_ERemoteStorageFilePathType_Absolute = 1,
+
+		// The file is accessed via the ISteamRemoteStorage API and this is the filename
+		k_ERemoteStorageFilePathType_APIFilename = 2,
+	}
+
 	public enum EVRScreenshotType : int {
 		k_EVRScreenshotType_None			= 0,
 		k_EVRScreenshotType_Mono			= 1,
@@ -1006,6 +1059,7 @@ namespace Steamworks {
 		k_EUGCQuery_RankedByLifetimeAveragePlaytime				  = 16,
 		k_EUGCQuery_RankedByPlaytimeSessionsTrend				  = 17,
 		k_EUGCQuery_RankedByLifetimePlaytimeSessions			  = 18,
+		k_EUGCQuery_RankedByLastUpdatedDate						  = 19,
 	}
 
 	public enum EItemUpdateStatus : int {
@@ -1115,6 +1169,14 @@ namespace Steamworks {
 	public enum EGamepadTextInputLineMode : int {
 		k_EGamepadTextInputLineModeSingleLine = 0,
 		k_EGamepadTextInputLineModeMultipleLines = 1
+	}
+
+	public enum EFloatingGamepadTextInputMode : int {
+		k_EFloatingGamepadTextInputModeModeSingleLine = 0, // Enter dismisses the keyboard
+		k_EFloatingGamepadTextInputModeModeMultipleLines = 1, // User needs to explictly close the keyboard
+		k_EFloatingGamepadTextInputModeModeEmail = 2,
+		k_EFloatingGamepadTextInputModeModeNumeric = 3,
+
 	}
 
 	// The context where text filtering is being done
@@ -1271,6 +1333,9 @@ namespace Steamworks {
 		k_EResultNoLauncherSpecified = 117,			// No launcher was specified, but a launcher was needed to choose correct realm for operation.
 		k_EResultMustAgreeToSSA = 118,				// User must agree to china SSA or global SSA before login
 		k_EResultLauncherMigrated = 119,			// The specified launcher type is no longer supported; the user should be directed elsewhere
+		k_EResultSteamRealmMismatch = 120,			// The user's realm does not match the realm of the requested resource
+		k_EResultInvalidSignature = 121,			// signature check did not match
+		k_EResultParseFailure = 122,				// Failed to parse input
 	}
 
 	// Error codes for use with the voice functions
@@ -1358,93 +1423,6 @@ namespace Steamworks {
 	}
 
 	//-----------------------------------------------------------------------------
-	// Purpose:
-	//-----------------------------------------------------------------------------
-	public enum EAppReleaseState : int {
-		k_EAppReleaseState_Unknown			= 0,	// unknown, required appinfo or license info is missing
-		k_EAppReleaseState_Unavailable		= 1,	// even owners can't see game in library yet, no AppInfo released
-		k_EAppReleaseState_Prerelease		= 2,	// app can be purchased and is visible in library, nothing else. Only Common AppInfo section released
-		k_EAppReleaseState_PreloadOnly		= 3,	// owners can preload app, but not play it. All AppInfo sections fully released
-		k_EAppReleaseState_Released			= 4,	// owners can download and play app.
-	}
-
-	//-----------------------------------------------------------------------------
-	// Purpose:
-	//-----------------------------------------------------------------------------
-	[Flags]
-	public enum EAppOwnershipFlags : int {
-		k_EAppOwnershipFlags_None				= 0x0000,	// unknown
-		k_EAppOwnershipFlags_OwnsLicense		= 0x0001,	// owns license for this game
-		k_EAppOwnershipFlags_FreeLicense		= 0x0002,	// not paid for game
-		k_EAppOwnershipFlags_RegionRestricted	= 0x0004,	// owns app, but not allowed to play in current region
-		k_EAppOwnershipFlags_LowViolence		= 0x0008,	// only low violence version
-		k_EAppOwnershipFlags_InvalidPlatform	= 0x0010,	// app not supported on current platform
-		k_EAppOwnershipFlags_SharedLicense		= 0x0020,	// license was granted by authorized local device
-		k_EAppOwnershipFlags_FreeWeekend		= 0x0040,	// owned by a free weekend licenses
-		k_EAppOwnershipFlags_RetailLicense		= 0x0080,	// has a retail license for game, (CD-Key etc)
-		k_EAppOwnershipFlags_LicenseLocked		= 0x0100,	// shared license is locked (in use) by other user
-		k_EAppOwnershipFlags_LicensePending		= 0x0200,	// owns app, but transaction is still pending. Can't install or play
-		k_EAppOwnershipFlags_LicenseExpired		= 0x0400,	// doesn't own app anymore since license expired
-		k_EAppOwnershipFlags_LicensePermanent	= 0x0800,	// permanent license, not borrowed, or guest or freeweekend etc
-		k_EAppOwnershipFlags_LicenseRecurring	= 0x1000,	// Recurring license, user is charged periodically
-		k_EAppOwnershipFlags_LicenseCanceled	= 0x2000,	// Mark as canceled, but might be still active if recurring
-		k_EAppOwnershipFlags_AutoGrant			= 0x4000,	// Ownership is based on any kind of autogrant license
-		k_EAppOwnershipFlags_PendingGift		= 0x8000,	// user has pending gift to redeem
-		k_EAppOwnershipFlags_RentalNotActivated	= 0x10000,	// Rental hasn't been activated yet
-		k_EAppOwnershipFlags_Rental				= 0x20000,	// Is a rental
-		k_EAppOwnershipFlags_SiteLicense		= 0x40000,	// Is from a site license
-		k_EAppOwnershipFlags_LegacyFreeSub		= 0x80000,	// App only owned through Steam's legacy free sub
-		k_EAppOwnershipFlags_InvalidOSType		= 0x100000,	// app not supported on current OS version, used to indicate a game is 32-bit on post-catalina. Currently it's own flag so the library will display a notice.
-		k_EAppOwnershipFlags_TimedTrial			= 0x200000,	// App is playable only for limited time
-	}
-
-	//-----------------------------------------------------------------------------
-	// Purpose: designed as flags to allow filters masks
-	// NOTE: If you add to this, please update PackageAppType (SteamConfig) as well as populatePackageAppType
-	//-----------------------------------------------------------------------------
-	[Flags]
-	public enum EAppType : int {
-		k_EAppType_Invalid				= 0x000,	// unknown / invalid
-		k_EAppType_Game					= 0x001,	// playable game, default type
-		k_EAppType_Application			= 0x002,	// software application
-		k_EAppType_Tool					= 0x004,	// SDKs, editors & dedicated servers
-		k_EAppType_Demo					= 0x008,	// game demo
-		k_EAppType_Media_DEPRECATED		= 0x010,	// legacy - was used for game trailers, which are now just videos on the web
-		k_EAppType_DLC					= 0x020,	// down loadable content
-		k_EAppType_Guide				= 0x040,	// game guide, PDF etc
-		k_EAppType_Driver				= 0x080,	// hardware driver updater (ATI, Razor etc)
-		k_EAppType_Config				= 0x100,	// hidden app used to config Steam features (backpack, sales, etc)
-		k_EAppType_Hardware				= 0x200,	// a hardware device (Steam Machine, Steam Controller, Steam Link, etc.)
-		k_EAppType_Franchise			= 0x400,	// A hub for collections of multiple apps, eg films, series, games
-		k_EAppType_Video				= 0x800,	// A video component of either a Film or TVSeries (may be the feature, an episode, preview, making-of, etc)
-		k_EAppType_Plugin				= 0x1000,	// Plug-in types for other Apps
-		k_EAppType_MusicAlbum			= 0x2000,	// "Video game soundtrack album"
-		k_EAppType_Series				= 0x4000,	// Container app for video series
-		k_EAppType_Comic_UNUSED			= 0x8000,	// Comic Book
-		k_EAppType_Beta					= 0x10000,	// this is a beta version of a game
-
-		k_EAppType_Shortcut				= 0x40000000,	// just a shortcut, client side only
-		k_EAppType_DepotOnly_DEPRECATED = -2147483647,	// there shouldn't be any appinfo for depots
-	}
-
-	//-----------------------------------------------------------------------------
-	// types of user game stats fields
-	// WARNING: DO NOT RENUMBER EXISTING VALUES - STORED IN DATABASE
-	//-----------------------------------------------------------------------------
-	public enum ESteamUserStatType : int {
-		k_ESteamUserStatTypeINVALID = 0,
-		k_ESteamUserStatTypeINT = 1,
-		k_ESteamUserStatTypeFLOAT = 2,
-		// Read as FLOAT, set with count / session length
-		k_ESteamUserStatTypeAVGRATE = 3,
-		k_ESteamUserStatTypeACHIEVEMENTS = 4,
-		k_ESteamUserStatTypeGROUPACHIEVEMENTS = 5,
-
-		// max, for sanity checks
-		k_ESteamUserStatTypeMAX
-	}
-
-	//-----------------------------------------------------------------------------
 	// Purpose: Chat Entry Types (previously was only friend-to-friend message types)
 	//-----------------------------------------------------------------------------
 	public enum EChatEntryType : int {
@@ -1501,24 +1479,6 @@ namespace Steamworks {
 	}
 
 	//-----------------------------------------------------------------------------
-	// Purpose: Marketing message flags that change how a client should handle them
-	//-----------------------------------------------------------------------------
-	[Flags]
-	public enum EMarketingMessageFlags : int {
-		k_EMarketingMessageFlagsNone = 0,
-		k_EMarketingMessageFlagsHighPriority = 1 << 0,
-		k_EMarketingMessageFlagsPlatformWindows = 1 << 1,
-		k_EMarketingMessageFlagsPlatformMac = 1 << 2,
-		k_EMarketingMessageFlagsPlatformLinux = 1 << 3,
-
-		//aggregate flags
-		k_EMarketingMessageFlagsPlatformRestrictions =
-		k_EMarketingMessageFlagsPlatformWindows |
-		k_EMarketingMessageFlagsPlatformMac |
-		k_EMarketingMessageFlagsPlatformLinux,
-	}
-
-	//-----------------------------------------------------------------------------
 	// Purpose: Possible positions to tell the overlay to show notifications in
 	//-----------------------------------------------------------------------------
 	public enum ENotificationPosition : int {
@@ -1556,87 +1516,6 @@ namespace Steamworks {
 		k_EBroadcastUploadResultDisconnect = 21,	// broadcast uploader TCP disconnected
 		k_EBroadcastUploadResultVideoInitFailed = 22,	// invalid video settings
 		k_EBroadcastUploadResultAudioInitFailed = 23,	// invalid audio settings
-	}
-
-	//-----------------------------------------------------------------------------
-	// Purpose: codes for well defined launch options
-	//-----------------------------------------------------------------------------
-	public enum ELaunchOptionType : int {
-		k_ELaunchOptionType_None		= 0,	// unknown what launch option does
-		k_ELaunchOptionType_Default		= 1,	// runs the game, app, whatever in default mode
-		k_ELaunchOptionType_SafeMode	= 2,	// runs the game in safe mode
-		k_ELaunchOptionType_Multiplayer = 3,	// runs the game in multiplayer mode
-		k_ELaunchOptionType_Config		= 4,	// runs config tool for this game
-		k_ELaunchOptionType_OpenVR		= 5,	// runs game in VR mode using OpenVR
-		k_ELaunchOptionType_Server		= 6,	// runs dedicated server for this game
-		k_ELaunchOptionType_Editor		= 7,	// runs game editor
-		k_ELaunchOptionType_Manual		= 8,	// shows game manual
-		k_ELaunchOptionType_Benchmark	= 9,	// runs game benchmark
-		k_ELaunchOptionType_Option1		= 10,	// generic run option, uses description field for game name
-		k_ELaunchOptionType_Option2		= 11,	// generic run option, uses description field for game name
-		k_ELaunchOptionType_Option3     = 12,	// generic run option, uses description field for game name
-		k_ELaunchOptionType_OculusVR	= 13,	// runs game in VR mode using the Oculus SDK
-		k_ELaunchOptionType_OpenVROverlay = 14,	// runs an OpenVR dashboard overlay
-		k_ELaunchOptionType_OSVR		= 15,	// runs game in VR mode using the OSVR SDK
-
-
-		k_ELaunchOptionType_Dialog 		= 1000, // show launch options dialog
-	}
-
-	//-----------------------------------------------------------------------------
-	// Purpose: code points for VR HMD vendors and models
-	// WARNING: DO NOT RENUMBER EXISTING VALUES - STORED IN A DATABASE
-	//-----------------------------------------------------------------------------
-	public enum EVRHMDType : int {
-		k_eEVRHMDType_None = -1, // unknown vendor and model
-
-		k_eEVRHMDType_Unknown = 0, // unknown vendor and model
-
-		k_eEVRHMDType_HTC_Dev = 1,	// original HTC dev kits
-		k_eEVRHMDType_HTC_VivePre = 2,	// htc vive pre
-		k_eEVRHMDType_HTC_Vive = 3,	// htc vive consumer release
-		k_eEVRHMDType_HTC_VivePro = 4,	// htc vive pro release
-		k_eEVRHMDType_HTC_ViveCosmos = 5,	// HTC Vive Cosmos
-
-		k_eEVRHMDType_HTC_Unknown = 20, // unknown htc hmd
-
-		k_eEVRHMDType_Oculus_DK1 = 21, // Oculus DK1
-		k_eEVRHMDType_Oculus_DK2 = 22, // Oculus DK2
-		k_eEVRHMDType_Oculus_Rift = 23, // Oculus Rift
-		k_eEVRHMDType_Oculus_RiftS = 24, // Oculus Rift S
-		k_eEVRHMDType_Oculus_Quest = 25, // Oculus Quest
-
-		k_eEVRHMDType_Oculus_Unknown = 40, // // Oculus unknown HMD
-
-		k_eEVRHMDType_Acer_Unknown = 50, // Acer unknown HMD
-		k_eEVRHMDType_Acer_WindowsMR = 51, // Acer QHMD Windows MR headset
-
-		k_eEVRHMDType_Dell_Unknown = 60, // Dell unknown HMD
-		k_eEVRHMDType_Dell_Visor = 61, // Dell Visor Windows MR headset
-
-		k_eEVRHMDType_Lenovo_Unknown = 70, // Lenovo unknown HMD
-		k_eEVRHMDType_Lenovo_Explorer = 71, // Lenovo Explorer Windows MR headset
-
-		k_eEVRHMDType_HP_Unknown = 80, // HP unknown HMD
-		k_eEVRHMDType_HP_WindowsMR = 81, // HP Windows MR headset
-		k_eEVRHMDType_HP_Reverb = 82, // HP Reverb Windows MR headset
-		k_eEVRHMDType_HP_ReverbG2 = 1463, // HP Reverb G2 Windows MR headset
-
-		k_eEVRHMDType_Samsung_Unknown = 90, // Samsung unknown HMD
-		k_eEVRHMDType_Samsung_Odyssey = 91, // Samsung Odyssey Windows MR headset
-
-		k_eEVRHMDType_Unannounced_Unknown = 100, // Unannounced unknown HMD
-		k_eEVRHMDType_Unannounced_WindowsMR = 101, // Unannounced Windows MR headset
-
-		k_eEVRHMDType_vridge = 110, // VRIDGE tool
-
-		k_eEVRHMDType_Huawei_Unknown = 120, // Huawei unknown HMD
-		k_eEVRHMDType_Huawei_VR2 = 121, // Huawei VR2 3DOF headset
-		k_eEVRHMDType_Huawei_EndOfRange = 129, // end of Huawei HMD range
-
-		k_eEVRHmdType_Valve_Unknown = 130, // Valve Unknown HMD
-		k_eEVRHmdType_Valve_Index = 131, // Valve Index HMD
-
 	}
 
 	//-----------------------------------------------------------------------------
@@ -1886,7 +1765,7 @@ namespace Steamworks {
 	/// Different methods of describing the identity of a network host
 	public enum ESteamNetworkingIdentityType : int {
 		// Dummy/empty/invalid.
-		// Plese note that if we parse a string that we don't recognize
+		// Please note that if we parse a string that we don't recognize
 		// but that appears reasonable, we will NOT use this type.  Instead
 		// we'll use k_ESteamNetworkingIdentityType_UnknownType.
 		k_ESteamNetworkingIdentityType_Invalid = 0,
@@ -2155,13 +2034,9 @@ namespace Steamworks {
 			// - etc
 		k_ESteamNetConnectionEnd_Remote_BadCert = 4003,
 
-			// We couldn't rendezvous with the remote host because
-			// they aren't logged into Steam
-		k_ESteamNetConnectionEnd_Remote_NotLoggedIn = 4004,
-
-			// We couldn't rendezvous with the remote host because
-			// they aren't running the right application.
-		k_ESteamNetConnectionEnd_Remote_NotRunningApp = 4005,
+			// These will never be returned
+			//k_ESteamNetConnectionEnd_Remote_NotLoggedIn_DEPRECATED = 4004,
+			//k_ESteamNetConnectionEnd_Remote_NotRunningApp_DEPRECATED = 4005,
 
 			// Something wrong with the protocol version you are using.
 			// (Probably the code you are running is too old.)
@@ -2195,10 +2070,7 @@ namespace Steamworks {
 			// or on their end.
 		k_ESteamNetConnectionEnd_Misc_Timeout = 5003,
 
-			// We're having trouble talking to the relevant relay.
-			// We don't have enough information to say whether the
-			// problem is on our end or not.
-		k_ESteamNetConnectionEnd_Misc_RelayConnectivity = 5004,
+			//k_ESteamNetConnectionEnd_Misc_RelayConnectivity_DEPRECATED = 5004,
 
 			// There's some trouble talking to Steam.
 		k_ESteamNetConnectionEnd_Misc_SteamConnectivity = 5005,
@@ -2288,31 +2160,9 @@ namespace Steamworks {
 	public enum ESteamNetworkingConfigValue : int {
 		k_ESteamNetworkingConfig_Invalid = 0,
 
-		/// [global float, 0--100] Randomly discard N pct of packets instead of sending/recv
-		/// This is a global option only, since it is applied at a low level
-		/// where we don't have much context
-		k_ESteamNetworkingConfig_FakePacketLoss_Send = 2,
-		k_ESteamNetworkingConfig_FakePacketLoss_Recv = 3,
-
-		/// [global int32].  Delay all outbound/inbound packets by N ms
-		k_ESteamNetworkingConfig_FakePacketLag_Send = 4,
-		k_ESteamNetworkingConfig_FakePacketLag_Recv = 5,
-
-		/// [global float] 0-100 Percentage of packets we will add additional delay
-		/// to (causing them to be reordered)
-		k_ESteamNetworkingConfig_FakePacketReorder_Send = 6,
-		k_ESteamNetworkingConfig_FakePacketReorder_Recv = 7,
-
-		/// [global int32] Extra delay, in ms, to apply to reordered packets.
-		k_ESteamNetworkingConfig_FakePacketReorder_Time = 8,
-
-		/// [global float 0--100] Globally duplicate some percentage of packets we send
-		k_ESteamNetworkingConfig_FakePacketDup_Send = 26,
-		k_ESteamNetworkingConfig_FakePacketDup_Recv = 27,
-
-		/// [global int32] Amount of delay, in ms, to delay duplicated packets.
-		/// (We chose a random delay between 0 and this value)
-		k_ESteamNetworkingConfig_FakePacketDup_TimeMax = 28,
+	//
+	// Connection options
+	//
 
 		/// [connection int32] Timeout value (in ms) to use when first connecting
 		k_ESteamNetworkingConfig_TimeoutInitial = 24,
@@ -2324,6 +2174,41 @@ namespace Steamworks {
 		/// if this is reached SendMessage will return k_EResultLimitExceeded
 		/// Default is 512k (524288 bytes)
 		k_ESteamNetworkingConfig_SendBufferSize = 9,
+
+		/// [connection int64] Get/set userdata as a configuration option.
+		/// The default value is -1.   You may want to set the user data as
+		/// a config value, instead of using ISteamNetworkingSockets::SetConnectionUserData
+		/// in two specific instances:
+		///
+		/// - You wish to set the userdata atomically when creating
+		///   an outbound connection, so that the userdata is filled in properly
+		///   for any callbacks that happen.  However, note that this trick
+		///   only works for connections initiated locally!  For incoming
+		///   connections, multiple state transitions may happen and
+		///   callbacks be queued, before you are able to service the first
+		///   callback!  Be careful!
+		///
+		/// - You can set the default userdata for all newly created connections
+		///   by setting this value at a higher level (e.g. on the listen
+		///   socket or at the global level.)  Then this default
+		///   value will be inherited when the connection is created.
+		///   This is useful in case -1 is a valid userdata value, and you
+		///   wish to use something else as the default value so you can
+		///   tell if it has been set or not.
+		///
+		///   HOWEVER: once a connection is created, the effective value is
+		///   then bound to the connection.  Unlike other connection options,
+		///   if you change it again at a higher level, the new value will not
+		///   be inherited by connections.
+		///
+		/// Using the userdata field in callback structs is not advised because
+		/// of tricky race conditions.  Instead, you might try one of these methods:
+		///
+		/// - Use a separate map with the HSteamNetConnection as the key.
+		/// - Fetch the userdata from the connection in your callback
+		///   using ISteamNetworkingSockets::GetConnectionUserData, to
+		//    ensure you have the current value.
+		k_ESteamNetworkingConfig_ConnectionUserData = 40,
 
 		/// [connection int32] Minimum/maximum send rate clamp, 0 is no limit.
 		/// This value will control the min/max allowed sending rate that
@@ -2484,9 +2369,62 @@ namespace Steamworks {
 		/// This value should not be read or written in any other context.
 		k_ESteamNetworkingConfig_LocalVirtualPort = 38,
 
-		//
-		// Callbacks
-		//
+
+	//
+	// Simulating network conditions
+	//
+	// These are global (not per-connection) because they apply at
+	// a relatively low UDP layer.
+	//
+
+		/// [global float, 0--100] Randomly discard N pct of packets instead of sending/recv
+		/// This is a global option only, since it is applied at a low level
+		/// where we don't have much context
+		k_ESteamNetworkingConfig_FakePacketLoss_Send = 2,
+		k_ESteamNetworkingConfig_FakePacketLoss_Recv = 3,
+
+		/// [global int32].  Delay all outbound/inbound packets by N ms
+		k_ESteamNetworkingConfig_FakePacketLag_Send = 4,
+		k_ESteamNetworkingConfig_FakePacketLag_Recv = 5,
+
+		/// [global float] 0-100 Percentage of packets we will add additional delay
+		/// to (causing them to be reordered)
+		k_ESteamNetworkingConfig_FakePacketReorder_Send = 6,
+		k_ESteamNetworkingConfig_FakePacketReorder_Recv = 7,
+
+		/// [global int32] Extra delay, in ms, to apply to reordered packets.
+		k_ESteamNetworkingConfig_FakePacketReorder_Time = 8,
+
+		/// [global float 0--100] Globally duplicate some percentage of packets we send
+		k_ESteamNetworkingConfig_FakePacketDup_Send = 26,
+		k_ESteamNetworkingConfig_FakePacketDup_Recv = 27,
+
+		/// [global int32] Amount of delay, in ms, to delay duplicated packets.
+		/// (We chose a random delay between 0 and this value)
+		k_ESteamNetworkingConfig_FakePacketDup_TimeMax = 28,
+
+		/// [global int32] Trace every UDP packet, similar to Wireshark or tcpdump.
+		/// Value is max number of bytes to dump.  -1 disables tracing.
+		// 0 only traces the info but no actual data bytes
+		k_ESteamNetworkingConfig_PacketTraceMaxBytes = 41,
+
+
+		// [global int32] Global UDP token bucket rate limits.
+		// "Rate" refers to the steady state rate. (Bytes/sec, the
+		// rate that tokens are put into the bucket.)  "Burst"
+		// refers to the max amount that could be sent in a single
+		// burst.  (In bytes, the max capacity of the bucket.)
+		// Rate=0 disables the limiter entirely, which is the default.
+		// Burst=0 disables burst.  (This is not realistic.  A
+		// burst of at least 4K is recommended; the default is higher.)
+		k_ESteamNetworkingConfig_FakeRateLimit_Send_Rate = 42,
+		k_ESteamNetworkingConfig_FakeRateLimit_Send_Burst = 43,
+		k_ESteamNetworkingConfig_FakeRateLimit_Recv_Rate = 44,
+		k_ESteamNetworkingConfig_FakeRateLimit_Recv_Burst = 45,
+
+	//
+	// Callbacks
+	//
 
 		// On Steam, you may use the default Steam callback dispatch mechanism.  If you prefer
 		// to not use this dispatch mechanism (or you are not running with Steam), or you want
@@ -2551,9 +2489,9 @@ namespace Steamworks {
 		/// ISteamNetworkingMessages.
 		k_ESteamNetworkingConfig_Callback_CreateConnectionSignaling = 206,
 
-		//
-		// P2P settings
-		//
+	//
+	// P2P connection settings
+	//
 
 	//	/// [listen socket int32] When you create a P2P listen socket, we will automatically
 	//	/// open up a UDP port to listen for LAN connections.  LAN connections can be made
@@ -2584,9 +2522,9 @@ namespace Steamworks {
 		k_ESteamNetworkingConfig_P2P_Transport_SDR_Penalty = 106,
 		//k_ESteamNetworkingConfig_P2P_Transport_LANBeacon_Penalty = 107,
 
-		//
-		// Settings for SDR relayed connections
-		//
+	//
+	// Settings for SDR relayed connections
+	//
 
 		/// [int32 global] If the first N pings to a port all fail, mark that port as unavailable for
 		/// a while, and try a different one.  Some ISPs and routers may drop the first
@@ -2633,14 +2571,14 @@ namespace Steamworks {
 		/// in production.
 		k_ESteamNetworkingConfig_SDRClient_FakeClusterPing = 36,
 
-		//
-		// Log levels for debugging information of various subsystems.
-		// Higher numeric values will cause more stuff to be printed.
-		// See ISteamNetworkingUtils::SetDebugOutputFunction for more
-		// information
-		//
-		// The default for all values is k_ESteamNetworkingSocketsDebugOutputType_Warning.
-		//
+	//
+	// Log levels for debugging information of various subsystems.
+	// Higher numeric values will cause more stuff to be printed.
+	// See ISteamNetworkingUtils::SetDebugOutputFunction for more
+	// information
+	//
+	// The default for all values is k_ESteamNetworkingSocketsDebugOutputType_Warning.
+	//
 		k_ESteamNetworkingConfig_LogLevel_AckRTT = 13, // [connection int32] RTT calculations for inline pings and replies
 		k_ESteamNetworkingConfig_LogLevel_PacketDecode = 14, // [connection int32] log SNP packets send/recv
 		k_ESteamNetworkingConfig_LogLevel_Message = 15, // [connection int32] log each message send/recv

@@ -6,19 +6,17 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 #if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
-#define DISABLESTEAMWORKS
+	#define DISABLESTEAMWORKS
 #endif
 
 #if !DISABLESTEAMWORKS
 
+using System.Runtime.InteropServices;
+using IntPtr = System.IntPtr;
+
 namespace Steamworks {
-	public static class Version {
-		public const string SteamworksNETVersion = "15.0.1";
-		public const string SteamworksSDKVersion = "1.52";
-		public const string SteamAPIDLLVersion = "06.75.97.18";
-		public const int SteamAPIDLLSize = 260840;
-		public const int SteamAPI64DLLSize = 290536;
-	}
+	[System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.Cdecl)]
+	public delegate void SteamInputActionEventCallbackPointer(IntPtr /* SteamInputActionEvent_t* */ SteamInputActionEvent);
 }
 
 #endif // !DISABLESTEAMWORKS

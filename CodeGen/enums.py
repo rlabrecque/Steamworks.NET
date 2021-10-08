@@ -23,10 +23,7 @@ g_FlagEnums = (
     "EItemState",
 
     # SteamClientPublic
-    "EAppOwnershipFlags",
-    "EAppType",
     "EChatSteamIDInstanceFlags",
-    "EMarketingMessageFlags",
     "EMarketNotAllowedReasonFlags",
 )
 
@@ -37,7 +34,6 @@ g_SkippedEnums = {
     # Valve redefined these twice, and ifdef decided which one to use. :(
     # We use the newer ones from isteaminput.h and skip the ones in
     # isteamcontroller.h because it is deprecated.
-    "ESteamControllerPad": "isteamcontroller.h",
     "EXboxOrigin": "isteamcontroller.h",
     "ESteamInputType": "isteamcontroller.h",
 }
@@ -46,6 +42,9 @@ g_ValueConversionDict = {
     "0xffffffff": "-1",
     "0x80000000": "-2147483647",
     "k_unSteamAccountInstanceMask": "Constants.k_unSteamAccountInstanceMask",
+    "( 1 << k_ESteamControllerPad_Left )": "( 1 << ESteamControllerPad.k_ESteamControllerPad_Left )",
+    "( 1 << k_ESteamControllerPad_Right )": "( 1 << ESteamControllerPad.k_ESteamControllerPad_Right )",
+    "( 1 << k_ESteamControllerPad_Left | 1 << k_ESteamControllerPad_Right )": "( 1 << ESteamControllerPad.k_ESteamControllerPad_Left | 1 << ESteamControllerPad.k_ESteamControllerPad_Right )",
 }
 
 def main(parser):

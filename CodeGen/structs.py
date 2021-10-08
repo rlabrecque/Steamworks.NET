@@ -62,6 +62,7 @@ g_SkippedStructs = (
 
     # CustomType
     "SteamIPAddress_t",
+    "SteamInputActionEvent_t",
 )
 
 g_SequentialStructs = (
@@ -85,10 +86,6 @@ g_SpecialFieldTypes = {
     "InputDigitalActionData_t": {
         "bState":  "byte", # Originally bool
         "bActive": "byte", # Originally bool
-    },
-
-    "SteamDatagramGameCoordinatorServerLogin": {
-        "m_appData": "byte", # Originally char
     },
 }
 

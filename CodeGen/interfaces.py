@@ -77,6 +77,10 @@ g_TypeDict = {
     "SteamNetworkingErrMsg &": "out SteamNetworkingErrMsg",
     "const SteamNetConnectionInfo_t &": "ref SteamNetConnectionInfo_t",
     "SteamNetworkingMessage_t **": "IntPtr[]",
+
+    # SteamNetworkingTypes which are stubbed
+    "SteamDatagramGameCoordinatorServerLogin *": "IntPtr",
+
 }
 
 g_WrapperArgsTypeDict = {
@@ -142,7 +146,7 @@ g_SpecialArgsDict = {
     "ISteamApps_GetInstalledDepots": {
         "pvecDepots": "DepotId_t[]",
     },
-    "ISteamGameServer_SendUserConnectAndAuthenticate": {
+    "ISteamGameServer_SendUserConnectAndAuthenticate_DEPRECATED": {
         "pvAuthBlob": "byte[]",
     },
     "ISteamGameServer_GetAuthSessionTicket": {
@@ -238,7 +242,7 @@ g_SpecialArgsDict = {
     "ISteamUGC_StopPlaytimeTracking": {
         "pvecPublishedFileID": "PublishedFileId_t[]",
     },
-    "ISteamUser_InitiateGameConnection": {
+    "ISteamUser_InitiateGameConnection_DEPRECATED": {
         "pAuthBlob": "byte[]",
     },
     "ISteamUser_GetAvailableVoice": {
@@ -276,9 +280,6 @@ g_SpecialArgsDict = {
     },
 
     # GameServer Copies
-    "ISteamGameServerApps_GetInstalledDepots": {
-        "pvecDepots": "DepotId_t[]",
-    },
     "ISteamGameServerHTTP_GetHTTPResponseHeaderValue": {
         "pHeaderValueBuffer": "byte[]",
     },
