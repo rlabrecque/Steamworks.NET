@@ -134,7 +134,7 @@ namespace Steamworks {
 		/// <para>/ currently answer the question for some other reason.</para>
 		/// <para>/</para>
 		/// <para>/ Do you need to be able to do this from a backend/matchmaking server?</para>
-		/// <para>/ You are looking for the "ticketgen" library.</para>
+		/// <para>/ You are looking for the "game coordinator" library.</para>
 		/// </summary>
 		public static int EstimatePingTimeBetweenTwoLocations(ref SteamNetworkPingLocation_t location1, ref SteamNetworkPingLocation_t location2) {
 			InteropHelp.TestIfAvailableGameServer();

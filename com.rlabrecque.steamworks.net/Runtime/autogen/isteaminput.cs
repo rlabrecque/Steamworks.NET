@@ -17,11 +17,13 @@ using IntPtr = System.IntPtr;
 namespace Steamworks {
 	public static class SteamInput {
 		/// <summary>
-		/// <para> Init and Shutdown must be called when starting/ending use of this interface</para>
+		/// <para> Init and Shutdown must be called when starting/ending use of this interface.</para>
+		/// <para> if bExplicitlyCallRunFrame is called then you will need to manually call RunFrame</para>
+		/// <para> each frame, otherwise Steam Input will updated when SteamAPI_RunCallbacks() is called</para>
 		/// </summary>
-		public static bool Init() {
+		public static bool Init(bool bExplicitlyCallRunFrame) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamInput_Init(CSteamAPIContext.GetSteamInput());
+			return NativeMethods.ISteamInput_Init(CSteamAPIContext.GetSteamInput(), bExplicitlyCallRunFrame);
 		}
 
 		public static bool Shutdown() {
@@ -30,14 +32,47 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Synchronize API state with the latest Steam Controller inputs available. This</para>
-		/// <para> is performed automatically by SteamAPI_RunCallbacks, but for the absolute lowest</para>
-		/// <para> possible latency, you call this directly before reading controller state. This must</para>
-		/// <para> be called from somewhere before GetConnectedControllers will return any handles</para>
+		/// <para> Set the absolute path to the Input Action Manifest file containing the in-game actions</para>
+		/// <para> and file paths to the official configurations. Used in games that bundle Steam Input</para>
+		/// <para> configurations inside of the game depot instead of using the Steam Workshop</para>
 		/// </summary>
-		public static void RunFrame() {
+		public static bool SetInputActionManifestFilePath(string pchInputActionManifestAbsolutePath) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamInput_RunFrame(CSteamAPIContext.GetSteamInput());
+			using (var pchInputActionManifestAbsolutePath2 = new InteropHelp.UTF8StringHandle(pchInputActionManifestAbsolutePath)) {
+				return NativeMethods.ISteamInput_SetInputActionManifestFilePath(CSteamAPIContext.GetSteamInput(), pchInputActionManifestAbsolutePath2);
+			}
+		}
+
+		/// <summary>
+		/// <para> Synchronize API state with the latest Steam Input action data available. This</para>
+		/// <para> is performed automatically by SteamAPI_RunCallbacks, but for the absolute lowest</para>
+		/// <para> possible latency, you call this directly before reading controller state.</para>
+		/// <para> Note: This must be called from somewhere before GetConnectedControllers will</para>
+		/// <para> return any handles</para>
+		/// </summary>
+		public static void RunFrame(bool bReservedValue = true) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamInput_RunFrame(CSteamAPIContext.GetSteamInput(), bReservedValue);
+		}
+
+		/// <summary>
+		/// <para> Waits on an IPC event from Steam sent when there is new data to be fetched from</para>
+		/// <para> the data drop. Returns true when data was recievied before the timeout expires.</para>
+		/// <para> Useful for games with a dedicated input thread</para>
+		/// </summary>
+		public static bool BWaitForData(bool bWaitForever, uint unTimeout) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamInput_BWaitForData(CSteamAPIContext.GetSteamInput(), bWaitForever, unTimeout);
+		}
+
+		/// <summary>
+		/// <para> Returns true if new data has been received since the last time action data was accessed</para>
+		/// <para> via GetDigitalActionData or GetAnalogActionData. The game will still need to call</para>
+		/// <para> SteamInput()-&gt;RunFrame() or SteamAPI_RunCallbacks() before this to update the data stream</para>
+		/// </summary>
+		public static bool BNewDataAvailable() {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamInput_BNewDataAvailable(CSteamAPIContext.GetSteamInput());
 		}
 
 		/// <summary>
@@ -52,6 +87,35 @@ namespace Steamworks {
 				throw new System.ArgumentException("handlesOut must be the same size as Constants.STEAM_INPUT_MAX_COUNT!");
 			}
 			return NativeMethods.ISteamInput_GetConnectedControllers(CSteamAPIContext.GetSteamInput(), handlesOut);
+		}
+
+		/// <summary>
+		/// <para>-----------------------------------------------------------------------------</para>
+		/// <para> CALLBACKS</para>
+		/// <para>-----------------------------------------------------------------------------</para>
+		/// <para> Controller configuration loaded - these callbacks will always fire if you have</para>
+		/// <para> a handler. Note: this is called within either SteamInput()-&gt;RunFrame or by SteamAPI_RunCallbacks</para>
+		/// <para> Enable SteamInputDeviceConnected_t and SteamInputDeviceDisconnected_t callbacks.</para>
+		/// <para> Each controller that is already connected will generate a device connected</para>
+		/// <para> callback when you enable them</para>
+		/// </summary>
+		public static void EnableDeviceCallbacks() {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamInput_EnableDeviceCallbacks(CSteamAPIContext.GetSteamInput());
+		}
+
+		/// <summary>
+		/// <para> Controller Connected - provides info about a single newly connected controller</para>
+		/// <para> Note: this is called within either SteamInput()-&gt;RunFrame or by SteamAPI_RunCallbacks</para>
+		/// <para> Controller Disconnected - provides info about a single disconnected controller</para>
+		/// <para> Note: this is called within either SteamInput()-&gt;RunFrame or by SteamAPI_RunCallbacks</para>
+		/// <para> Enable SteamInputActionEvent_t callbacks. Directly calls your callback function</para>
+		/// <para> for lower latency than standard Steam callbacks. Supports one callback at a time.</para>
+		/// <para> Note: this is called within either SteamInput()-&gt;RunFrame or by SteamAPI_RunCallbacks</para>
+		/// </summary>
+		public static void EnableActionEventCallbacks(SteamInputActionEventCallbackPointer pCallback) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamInput_EnableActionEventCallbacks(CSteamAPIContext.GetSteamInput(), pCallback);
 		}
 
 		/// <summary>
@@ -102,7 +166,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Enumerate currently active layers.</para>
-		/// <para> handlesOut should point to a STEAM_INPUT_MAX_ACTIVE_LAYERS sized array of ControllerActionSetHandle_t handles</para>
+		/// <para> handlesOut should point to a STEAM_INPUT_MAX_ACTIVE_LAYERS sized array of InputActionSetHandle_t handles</para>
 		/// <para> Returns the number of handles written to handlesOut</para>
 		/// </summary>
 		public static int GetActiveActionSetLayers(InputHandle_t inputHandle, InputActionSetHandle_t[] handlesOut) {
@@ -148,6 +212,14 @@ namespace Steamworks {
 		}
 
 		/// <summary>
+		/// <para> Returns a localized string (from Steam's language setting) for the user-facing action name corresponding to the specified handle</para>
+		/// </summary>
+		public static string GetStringForDigitalActionName(InputDigitalActionHandle_t eActionHandle) {
+			InteropHelp.TestIfAvailableClient();
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamInput_GetStringForDigitalActionName(CSteamAPIContext.GetSteamInput(), eActionHandle));
+		}
+
+		/// <summary>
 		/// <para> Lookup the handle for an analog action. Best to do this once on startup, and store the handles for all future API calls.</para>
 		/// </summary>
 		public static InputAnalogActionHandle_t GetAnalogActionHandle(string pszActionName) {
@@ -179,11 +251,27 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Get a local path to art for on-screen glyph for a particular origin</para>
+		/// <para> Get a local path to a PNG file for the provided origin's glyph.</para>
 		/// </summary>
-		public static string GetGlyphForActionOrigin(EInputActionOrigin eOrigin) {
+		public static string GetGlyphPNGForActionOrigin(EInputActionOrigin eOrigin, ESteamInputGlyphSize eSize, uint unFlags) {
 			InteropHelp.TestIfAvailableClient();
-			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamInput_GetGlyphForActionOrigin(CSteamAPIContext.GetSteamInput(), eOrigin));
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamInput_GetGlyphPNGForActionOrigin(CSteamAPIContext.GetSteamInput(), eOrigin, eSize, unFlags));
+		}
+
+		/// <summary>
+		/// <para> Get a local path to a SVG file for the provided origin's glyph.</para>
+		/// </summary>
+		public static string GetGlyphSVGForActionOrigin(EInputActionOrigin eOrigin, uint unFlags) {
+			InteropHelp.TestIfAvailableClient();
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamInput_GetGlyphSVGForActionOrigin(CSteamAPIContext.GetSteamInput(), eOrigin, unFlags));
+		}
+
+		/// <summary>
+		/// <para> Get a local path to an older, Big Picture Mode-style PNG file for a particular origin</para>
+		/// </summary>
+		public static string GetGlyphForActionOrigin_Legacy(EInputActionOrigin eOrigin) {
+			InteropHelp.TestIfAvailableClient();
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamInput_GetGlyphForActionOrigin_Legacy(CSteamAPIContext.GetSteamInput(), eOrigin));
 		}
 
 		/// <summary>
@@ -192,6 +280,14 @@ namespace Steamworks {
 		public static string GetStringForActionOrigin(EInputActionOrigin eOrigin) {
 			InteropHelp.TestIfAvailableClient();
 			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamInput_GetStringForActionOrigin(CSteamAPIContext.GetSteamInput(), eOrigin));
+		}
+
+		/// <summary>
+		/// <para> Returns a localized string (from Steam's language setting) for the user-facing action name corresponding to the specified handle</para>
+		/// </summary>
+		public static string GetStringForAnalogActionName(InputAnalogActionHandle_t eActionHandle) {
+			InteropHelp.TestIfAvailableClient();
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamInput_GetStringForAnalogActionName(CSteamAPIContext.GetSteamInput(), eActionHandle));
 		}
 
 		/// <summary>
@@ -222,6 +318,22 @@ namespace Steamworks {
 		}
 
 		/// <summary>
+		/// <para> Trigger a vibration event on supported controllers including Xbox trigger impulse rumble - Steam will translate these commands into haptic pulses for Steam Controllers</para>
+		/// </summary>
+		public static void TriggerVibrationExtended(InputHandle_t inputHandle, ushort usLeftSpeed, ushort usRightSpeed, ushort usLeftTriggerSpeed, ushort usRightTriggerSpeed) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamInput_TriggerVibrationExtended(CSteamAPIContext.GetSteamInput(), inputHandle, usLeftSpeed, usRightSpeed, usLeftTriggerSpeed, usRightTriggerSpeed);
+		}
+
+		/// <summary>
+		/// <para> Send a haptic pulse, works on Steam Deck and Steam Controller devices</para>
+		/// </summary>
+		public static void TriggerSimpleHapticEvent(InputHandle_t inputHandle, EControllerHapticLocation eHapticLocation, byte nIntensity, char nGainDB, byte nOtherIntensity, char nOtherGainDB) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamInput_TriggerSimpleHapticEvent(CSteamAPIContext.GetSteamInput(), inputHandle, eHapticLocation, nIntensity, nGainDB, nOtherIntensity, nOtherGainDB);
+		}
+
+		/// <summary>
 		/// <para> Set the controller LED color on supported controllers. nFlags is a bitmask of values from ESteamInputLEDFlag - 0 will default to setting a color. Steam will handle</para>
 		/// <para> the behavior on exit of your program so you don't need to try restore the default as you are shutting down</para>
 		/// </summary>
@@ -234,23 +346,23 @@ namespace Steamworks {
 		/// <para> Trigger a haptic pulse on a Steam Controller - if you are approximating rumble you may want to use TriggerVibration instead.</para>
 		/// <para> Good uses for Haptic pulses include chimes, noises, or directional gameplay feedback (taking damage, footstep locations, etc).</para>
 		/// </summary>
-		public static void TriggerHapticPulse(InputHandle_t inputHandle, ESteamControllerPad eTargetPad, ushort usDurationMicroSec) {
+		public static void Legacy_TriggerHapticPulse(InputHandle_t inputHandle, ESteamControllerPad eTargetPad, ushort usDurationMicroSec) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamInput_TriggerHapticPulse(CSteamAPIContext.GetSteamInput(), inputHandle, eTargetPad, usDurationMicroSec);
+			NativeMethods.ISteamInput_Legacy_TriggerHapticPulse(CSteamAPIContext.GetSteamInput(), inputHandle, eTargetPad, usDurationMicroSec);
 		}
 
 		/// <summary>
 		/// <para> Trigger a haptic pulse with a duty cycle of usDurationMicroSec / usOffMicroSec, unRepeat times. If you are approximating rumble you may want to use TriggerVibration instead.</para>
 		/// <para> nFlags is currently unused and reserved for future use.</para>
 		/// </summary>
-		public static void TriggerRepeatedHapticPulse(InputHandle_t inputHandle, ESteamControllerPad eTargetPad, ushort usDurationMicroSec, ushort usOffMicroSec, ushort unRepeat, uint nFlags) {
+		public static void Legacy_TriggerRepeatedHapticPulse(InputHandle_t inputHandle, ESteamControllerPad eTargetPad, ushort usDurationMicroSec, ushort usOffMicroSec, ushort unRepeat, uint nFlags) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamInput_TriggerRepeatedHapticPulse(CSteamAPIContext.GetSteamInput(), inputHandle, eTargetPad, usDurationMicroSec, usOffMicroSec, unRepeat, nFlags);
+			NativeMethods.ISteamInput_Legacy_TriggerRepeatedHapticPulse(CSteamAPIContext.GetSteamInput(), inputHandle, eTargetPad, usDurationMicroSec, usOffMicroSec, unRepeat, nFlags);
 		}
 
 		/// <summary>
 		/// <para>-----------------------------------------------------------------------------</para>
-		/// <para> Utility functions availible without using the rest of Steam Input API</para>
+		/// <para> Utility functions available without using the rest of Steam Input API</para>
 		/// <para>-----------------------------------------------------------------------------</para>
 		/// <para> Invokes the Steam overlay and brings up the binding screen if the user is using Big Picture Mode</para>
 		/// <para> If the user is not in Big Picture Mode it will open up the binding in a new window</para>
@@ -336,6 +448,15 @@ namespace Steamworks {
 		public static uint GetRemotePlaySessionID(InputHandle_t inputHandle) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamInput_GetRemotePlaySessionID(CSteamAPIContext.GetSteamInput(), inputHandle);
+		}
+
+		/// <summary>
+		/// <para> Get a bitmask of the Steam Input Configuration types opted in for the current session. Returns ESteamInputConfigurationEnableType values.?</para>
+		/// <para> Note: user can override the settings from the Steamworks Partner site so the returned values may not exactly match your default configuration</para>
+		/// </summary>
+		public static ushort GetSessionInputConfigurationSettings() {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamInput_GetSessionInputConfigurationSettings(CSteamAPIContext.GetSteamInput());
 		}
 	}
 }

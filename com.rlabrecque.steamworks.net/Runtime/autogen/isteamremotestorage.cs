@@ -239,61 +239,7 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return (UGCHandle_t)NativeMethods.ISteamRemoteStorage_GetCachedUGCHandle(CSteamAPIContext.GetSteamRemoteStorage(), iCachedContent);
 		}
-#if _SERVER
-		/// <summary>
-		/// <para> The following functions are only necessary on the Playstation 3. On PC &amp; Mac, the Steam client will handle these operations for you</para>
-		/// <para> On Playstation 3, the game controls which files are stored in the cloud, via FilePersist, FileFetch, and FileForget.</para>
-		/// <para> Connect to Steam and get a list of files in the Cloud - results in a RemoteStorageAppSyncStatusCheck_t callback</para>
-		/// </summary>
-		public static void GetFileListFromServer() {
-			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamRemoteStorage_GetFileListFromServer(CSteamAPIContext.GetSteamRemoteStorage());
-		}
 
-		/// <summary>
-		/// <para> Indicate this file should be downloaded in the next sync</para>
-		/// </summary>
-		public static bool FileFetch(string pchFile) {
-			InteropHelp.TestIfAvailableClient();
-			using (var pchFile2 = new InteropHelp.UTF8StringHandle(pchFile)) {
-				return NativeMethods.ISteamRemoteStorage_FileFetch(CSteamAPIContext.GetSteamRemoteStorage(), pchFile2);
-			}
-		}
-
-		/// <summary>
-		/// <para> Indicate this file should be persisted in the next sync</para>
-		/// </summary>
-		public static bool FilePersist(string pchFile) {
-			InteropHelp.TestIfAvailableClient();
-			using (var pchFile2 = new InteropHelp.UTF8StringHandle(pchFile)) {
-				return NativeMethods.ISteamRemoteStorage_FilePersist(CSteamAPIContext.GetSteamRemoteStorage(), pchFile2);
-			}
-		}
-
-		/// <summary>
-		/// <para> Pull any requested files down from the Cloud - results in a RemoteStorageAppSyncedClient_t callback</para>
-		/// </summary>
-		public static bool SynchronizeToClient() {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamRemoteStorage_SynchronizeToClient(CSteamAPIContext.GetSteamRemoteStorage());
-		}
-
-		/// <summary>
-		/// <para> Upload any requested files to the Cloud - results in a RemoteStorageAppSyncedServer_t callback</para>
-		/// </summary>
-		public static bool SynchronizeToServer() {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamRemoteStorage_SynchronizeToServer(CSteamAPIContext.GetSteamRemoteStorage());
-		}
-
-		/// <summary>
-		/// <para> Reset any fetch/persist/etc requests</para>
-		/// </summary>
-		public static bool ResetFileRequestState() {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamRemoteStorage_ResetFileRequestState(CSteamAPIContext.GetSteamRemoteStorage());
-		}
-#endif
 		/// <summary>
 		/// <para> publishing UGC</para>
 		/// </summary>
@@ -454,6 +400,33 @@ namespace Steamworks {
 			using (var pchLocation2 = new InteropHelp.UTF8StringHandle(pchLocation)) {
 				return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_UGCDownloadToLocation(CSteamAPIContext.GetSteamRemoteStorage(), hContent, pchLocation2, unPriority);
 			}
+		}
+
+		/// <summary>
+		/// <para> Cloud dynamic state change notification</para>
+		/// </summary>
+		public static int GetLocalFileChangeCount() {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamRemoteStorage_GetLocalFileChangeCount(CSteamAPIContext.GetSteamRemoteStorage());
+		}
+
+		public static string GetLocalFileChange(int iFile, out ERemoteStorageLocalFileChange pEChangeType, out ERemoteStorageFilePathType pEFilePathType) {
+			InteropHelp.TestIfAvailableClient();
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamRemoteStorage_GetLocalFileChange(CSteamAPIContext.GetSteamRemoteStorage(), iFile, out pEChangeType, out pEFilePathType));
+		}
+
+		/// <summary>
+		/// <para> Indicate to Steam the beginning / end of a set of local file</para>
+		/// <para> operations - for example, writing a game save that requires updating two files.</para>
+		/// </summary>
+		public static bool BeginFileWriteBatch() {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamRemoteStorage_BeginFileWriteBatch(CSteamAPIContext.GetSteamRemoteStorage());
+		}
+
+		public static bool EndFileWriteBatch() {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamRemoteStorage_EndFileWriteBatch(CSteamAPIContext.GetSteamRemoteStorage());
 		}
 	}
 }

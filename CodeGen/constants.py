@@ -14,6 +14,8 @@ class InternalConstant:
 g_TypeDict = {
     # Not a bug... But, it's a giant hack.
     # The issue is that most of these are used as the MarshalAs SizeConst in C# amongst other things and C# wont auto convert them.
+    "uint16": "ushort",
+
     "uint32": "int",
     "unsigned int": "int",
 
@@ -48,7 +50,6 @@ g_SkippedDefines = (
     "k_steamIDLanModeGS",
     "k_steamIDNotInitYetGS",
     "k_steamIDNonSteamGS",
-    "BREAKPAD_INVALID_HANDLE",
     "STEAM_PS3_PATH_MAX",
     "STEAM_PS3_SERVICE_ID_MAX",
     "STEAM_PS3_COMMUNICATION_ID_MAX",
@@ -101,13 +102,9 @@ g_SkippedConstants = (
     "k_HAuthTicketInvalid",
 
     # SteamTypes
-    "k_JobIDNil",
-    "k_uBundleIdInvalid",
     "k_uAppIdInvalid",
     "k_uDepotIdInvalid",
     "k_uAPICallInvalid",
-    "k_uManifestIdInvalid",
-    "k_ulSiteIdInvalid",
 
     # steamnetworkingtypes.h
     "k_HSteamNetConnection_Invalid",
@@ -115,21 +112,14 @@ g_SkippedConstants = (
     "k_HSteamNetPollGroup_Invalid",
     "k_SteamDatagramPOPID_dev",
 
-    #TODO: Skip all these once we have typedef autogen hooked up.
-    #public const ulong k_GIDNil = 0xffffffffffffffffull;
-    #public const ulong k_TxnIDNil = k_GIDNil;
-    #public const ulong k_TxnIDUnknown = 0;
-    #public const int k_uPackageIdFreeSub = 0x0;
-    #public const int k_uPackageIdInvalid = 0xFFFFFFFF;
-    #public const ulong k_ulAssetClassIdInvalid = 0x0;
-    #public const int k_uPhysicalItemIdInvalid = 0x0;
-    #public const int k_uCellIDInvalid = 0xFFFFFFFF;
-    #public const int k_uPartnerIdInvalid = 0;
+    # steam_gameserver.h
+    "MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE",
 )
 
 g_SkippedTypedefs = (
     "uint8",
     "int8",
+    "uint16",
     "int32",
     "uint32",
     "int64",
@@ -138,7 +128,6 @@ g_SkippedTypedefs = (
 
 g_CustomDefines = {
     # "Name": ("Type", "Value"),
-    "MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE": ("ushort", "0xFFFF"),
     "k_nMaxLobbyKeyLength": ("byte", None),
     "STEAM_CONTROLLER_HANDLE_ALL_CONTROLLERS": ("ulong", "0xFFFFFFFFFFFFFFFF"),
     "STEAM_CONTROLLER_MIN_ANALOG_ACTION_DATA": ("float", "-1.0f"),

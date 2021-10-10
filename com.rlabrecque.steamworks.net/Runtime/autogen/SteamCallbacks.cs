@@ -24,6 +24,7 @@ namespace Steamworks {
 	public struct SteamAppInstalled_t {
 		public const int k_iCallback = Constants.k_iSteamAppListCallbacks + 1;
 		public AppId_t m_nAppID;			// ID of the app that installs
+		public int m_iInstallFolderIndex; // library folder the app is installed
 	}
 
 	//---------------------------------------------------------------------------------
@@ -34,6 +35,7 @@ namespace Steamworks {
 	public struct SteamAppUninstalled_t {
 		public const int k_iCallback = Constants.k_iSteamAppListCallbacks + 2;
 		public AppId_t m_nAppID;			// ID of the app that installs
+		public int m_iInstallFolderIndex; // library folder the app was installed
 	}
 
 	// callbacks
@@ -926,6 +928,49 @@ namespace Steamworks {
 		public uint m_cBytesReceived;
 	}
 
+	//-----------------------------------------------------------------------------
+	// Purpose: called when a new controller has been connected, will fire once
+	// per controller if multiple new controllers connect in the same frame
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamControllerCallbacks + 1)]
+	public struct SteamInputDeviceConnected_t {
+		public const int k_iCallback = Constants.k_iSteamControllerCallbacks + 1;
+		public InputHandle_t m_ulConnectedDeviceHandle;	// Handle for device
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: called when a new controller has been connected, will fire once
+	// per controller if multiple new controllers connect in the same frame
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamControllerCallbacks + 2)]
+	public struct SteamInputDeviceDisconnected_t {
+		public const int k_iCallback = Constants.k_iSteamControllerCallbacks + 2;
+		public InputHandle_t m_ulDisconnectedDeviceHandle;	// Handle for device
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: called when a controller configuration has been loaded, will fire once
+	// per controller per focus change for Steam Input enabled controllers
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamControllerCallbacks + 3)]
+	public struct SteamInputConfigurationLoaded_t {
+		public const int k_iCallback = Constants.k_iSteamControllerCallbacks + 3;
+		public AppId_t m_unAppID;
+		public InputHandle_t m_ulDeviceHandle;		// Handle for device
+		public CSteamID m_ulMappingCreator;		// May differ from local user when using
+												// an unmodified community or official config
+		public uint m_unMajorRevision;		// Binding revision from In-game Action File.
+												// Same value as queried by GetDeviceBindingRevision
+		public uint m_unMinorRevision;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bUsesSteamInputAPI;	// Does the configuration contain any Analog/Digital actions?
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bUsesGamepadAPI;		// Does the configuration contain any Xinput bindings?
+	}
+
 	// SteamInventoryResultReady_t callbacks are fired whenever asynchronous
 	// results transition from "Pending" to "OK" or an error state. There will
 	// always be exactly one callback per handle.
@@ -1659,69 +1704,9 @@ namespace Steamworks {
 	}
 
 	// callbacks
-	//-----------------------------------------------------------------------------
-	// Purpose: sent when the local file cache is fully synced with the server for an app
-	//          That means that an application can be started and has all latest files
-	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	[CallbackIdentity(Constants.k_iClientRemoteStorageCallbacks + 1)]
-	public struct RemoteStorageAppSyncedClient_t {
-		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 1;
-		public AppId_t m_nAppID;
-		public EResult m_eResult;
-		public int m_unNumDownloads;
-	}
-
-	//-----------------------------------------------------------------------------
-	// Purpose: sent when the server is fully synced with the local file cache for an app
-	//          That means that we can shutdown Steam and our data is stored on the server
-	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	[CallbackIdentity(Constants.k_iClientRemoteStorageCallbacks + 2)]
-	public struct RemoteStorageAppSyncedServer_t {
-		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 2;
-		public AppId_t m_nAppID;
-		public EResult m_eResult;
-		public int m_unNumUploads;
-	}
-
-	//-----------------------------------------------------------------------------
-	// Purpose: Status of up and downloads during a sync session
 	//
-	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	[CallbackIdentity(Constants.k_iClientRemoteStorageCallbacks + 3)]
-	public struct RemoteStorageAppSyncProgress_t {
-		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 3;
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
-		private byte[] m_rgchCurrentFile_;
-		public string m_rgchCurrentFile				// Current file being transferred
-		{
-			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchCurrentFile_); }
-			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchCurrentFile_, Constants.k_cchFilenameMax); }
-		}
-		public AppId_t m_nAppID;							// App this info relates to
-		public uint m_uBytesTransferredThisChunk;		// Bytes transferred this chunk
-		public double m_dAppPercentComplete;				// Percent complete that this app's transfers are
-		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bUploading;							// if false, downloading
-	}
-
+	// IMPORTANT! k_iClientRemoteStorageCallbacks 1 through 6 are used, see iclientremotestorage.h
 	//
-	// IMPORTANT! k_iClientRemoteStorageCallbacks + 4 is used, see iclientremotestorage.h
-	//
-	//-----------------------------------------------------------------------------
-	// Purpose: Sent after we've determined the list of files that are out of sync
-	//          with the server.
-	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	[CallbackIdentity(Constants.k_iClientRemoteStorageCallbacks + 5)]
-	public struct RemoteStorageAppSyncStatusCheck_t {
-		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 5;
-		public AppId_t m_nAppID;
-		public EResult m_eResult;
-	}
-
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to FileShare()
 	//-----------------------------------------------------------------------------
@@ -1754,6 +1739,7 @@ namespace Steamworks {
 		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
 	}
 
+	// k_iClientRemoteStorageCallbacks + 10 is deprecated! Do not reuse
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to DeletePublishedFile()
 	//-----------------------------------------------------------------------------
@@ -2081,6 +2067,17 @@ namespace Steamworks {
 		public uint m_cubRead;						// amount read - will the <= the amount requested
 	}
 
+	//-----------------------------------------------------------------------------
+	// Purpose: one or more files for this app have changed locally after syncing
+	//			to remote session changes
+	//			Note: only posted if this happens DURING the local app session
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iClientRemoteStorageCallbacks + 33)]
+	public struct RemoteStorageLocalFileChange_t {
+		public const int k_iCallback = Constants.k_iClientRemoteStorageCallbacks + 33;
+	}
+
 	// callbacks
 	//-----------------------------------------------------------------------------
 	// Purpose: Screenshot successfully written or otherwise added to the library
@@ -2324,6 +2321,33 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iClientUGCCallbacks + 17;
 		public EResult m_eResult;
 		public PublishedFileId_t m_nPublishedFileId;
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: signal that the list of subscribed items changed
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iClientUGCCallbacks + 18)]
+	public struct UserSubscribedItemsListChanged_t {
+		public const int k_iCallback = Constants.k_iClientUGCCallbacks + 18;
+		public AppId_t m_nAppID;
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Status of the user's acceptable/rejection of the app's specific Workshop EULA
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iClientUGCCallbacks + 20)]
+	public struct WorkshopEULAStatus_t {
+		public const int k_iCallback = Constants.k_iClientUGCCallbacks + 20;
+		public EResult m_eResult;
+		public AppId_t m_nAppID;
+		public uint m_unVersion;
+		public RTime32 m_rtAction;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bAccepted;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bNeedsAction;
 	}
 
 	// callbacks
@@ -2747,7 +2771,7 @@ namespace Steamworks {
 
 	// k_iSteamUtilsCallbacks + 13 is taken
 	//-----------------------------------------------------------------------------
-	// Big Picture gamepad text input has been closed
+	// Full Screen gamepad text input has been closed
 	//-----------------------------------------------------------------------------
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 14)]
@@ -2756,6 +2780,23 @@ namespace Steamworks {
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bSubmitted;										// true if user entered & accepted text (Call ISteamUtils::GetEnteredGamepadTextInput() for text), false if canceled input
 		public uint m_unSubmittedText;
+	}
+
+	// k_iSteamUtilsCallbacks + 15 through 35 are taken
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 36)]
+	public struct AppResumingFromSuspend_t {
+		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 36;
+	}
+
+	// k_iSteamUtilsCallbacks + 37 is taken
+	//-----------------------------------------------------------------------------
+	// The floating on-screen keyboard has been closed
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 38)]
+	public struct FloatingGamepadTextInputDismissed_t {
+		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 38;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]

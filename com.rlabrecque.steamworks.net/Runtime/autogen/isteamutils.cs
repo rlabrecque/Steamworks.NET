@@ -180,7 +180,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Activates the Big Picture text input dialog which only supports gamepad input</para>
+		/// <para> Activates the full-screen text input dialog which takes a initial text string and returns the text the user has typed</para>
 		/// </summary>
 		public static bool ShowGamepadTextInput(EGamepadTextInputMode eInputMode, EGamepadTextInputLineMode eLineInputMode, string pchDescription, uint unCharMax, string pchExistingText) {
 			InteropHelp.TestIfAvailableClient();
@@ -316,6 +316,31 @@ namespace Steamworks {
 		public static ESteamIPv6ConnectivityState GetIPv6ConnectivityState(ESteamIPv6ConnectivityProtocol eProtocol) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUtils_GetIPv6ConnectivityState(CSteamAPIContext.GetSteamUtils(), eProtocol);
+		}
+
+		/// <summary>
+		/// <para> returns true if currently running on the Steam Deck device</para>
+		/// </summary>
+		public static bool IsSteamRunningOnSteamDeck() {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUtils_IsSteamRunningOnSteamDeck(CSteamAPIContext.GetSteamUtils());
+		}
+
+		/// <summary>
+		/// <para> Opens a floating keyboard over the game content and sends OS keyboard keys directly to the game.</para>
+		/// <para> The text field position is specified in pixels relative the origin of the game window and is used to position the floating keyboard in a way that doesn't cover the text field</para>
+		/// </summary>
+		public static bool ShowFloatingGamepadTextInput(EFloatingGamepadTextInputMode eKeyboardMode, int nTextFieldXPosition, int nTextFieldYPosition, int nTextFieldWidth, int nTextFieldHeight) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUtils_ShowFloatingGamepadTextInput(CSteamAPIContext.GetSteamUtils(), eKeyboardMode, nTextFieldXPosition, nTextFieldYPosition, nTextFieldWidth, nTextFieldHeight);
+		}
+
+		/// <summary>
+		/// <para> In game launchers that don't have controller support you can call this to have Steam Input translate the controller input into mouse/kb to navigate the launcher</para>
+		/// </summary>
+		public static void SetGameLauncherMode(bool bLauncherMode) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamUtils_SetGameLauncherMode(CSteamAPIContext.GetSteamUtils(), bLauncherMode);
 		}
 	}
 }

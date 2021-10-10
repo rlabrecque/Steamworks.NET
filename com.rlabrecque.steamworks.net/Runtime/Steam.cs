@@ -148,9 +148,10 @@ namespace Steamworks {
 		// - usGamePort is the port that clients will connect to for gameplay.  You will usually open up your
 		//   own socket bound to this port.
 		// - usQueryPort is the port that will manage server browser related duties and info
-		//		pings from clients.  If you pass MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE for usQueryPort, then it
+		//		pings from clients.  If you pass STEAMGAMESERVER_QUERY_PORT_SHARED for usQueryPort, then it
 		//		will use "GameSocketShare" mode, which means that the game is responsible for sending and receiving
-		//		UDP packets for the master  server updater. See references to GameSocketShare in isteamgameserver.h.
+		//		UDP packets for the master  server updater.  (See ISteamGameServer::HandleIncomingPacket and
+		//		ISteamGameServer::GetNextOutgoingPacket.)
 		// - The version string should be in the form x.x.x.x, and is used by the master server to detect when the
 		//		server is out of date.  (Only servers with the latest version will be listed.)
 		public static bool Init(uint unIP, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, string pchVersionString) {
@@ -476,7 +477,6 @@ namespace Steamworks {
 			m_pSteamHTTP = IntPtr.Zero;
 			m_pSteamInventory = IntPtr.Zero;
 			m_pSteamUGC = IntPtr.Zero;
-			m_pSteamApps = IntPtr.Zero;
 			m_pSteamNetworkingUtils = IntPtr.Zero;
 			m_pSteamNetworkingSockets = IntPtr.Zero;
 			m_pSteamNetworkingMessages = IntPtr.Zero;
@@ -513,9 +513,6 @@ namespace Steamworks {
 			m_pSteamUGC = SteamGameServerClient.GetISteamUGC(hSteamUser, hSteamPipe, Constants.STEAMUGC_INTERFACE_VERSION);
 			if (m_pSteamUGC == IntPtr.Zero) { return false; }
 
-			m_pSteamApps = SteamGameServerClient.GetISteamApps(hSteamUser, hSteamPipe, Constants.STEAMAPPS_INTERFACE_VERSION);
-			if (m_pSteamApps == IntPtr.Zero) { return false; }
-
 			using (var pchVersionString = new InteropHelp.UTF8StringHandle(Constants.STEAMNETWORKINGUTILS_INTERFACE_VERSION))
 			{
 				m_pSteamNetworkingUtils =
@@ -550,7 +547,6 @@ namespace Steamworks {
 		internal static IntPtr GetSteamHTTP() { return m_pSteamHTTP; }
 		internal static IntPtr GetSteamInventory() { return m_pSteamInventory; }
 		internal static IntPtr GetSteamUGC() { return m_pSteamUGC; }
-		internal static IntPtr GetSteamApps() { return m_pSteamApps; }
 		internal static IntPtr GetSteamNetworkingUtils() { return m_pSteamNetworkingUtils; }
 		internal static IntPtr GetSteamNetworkingSockets() { return m_pSteamNetworkingSockets; }
 		internal static IntPtr GetSteamNetworkingMessages() { return m_pSteamNetworkingMessages; }
@@ -563,7 +559,6 @@ namespace Steamworks {
 		private static IntPtr m_pSteamHTTP;
 		private static IntPtr m_pSteamInventory;
 		private static IntPtr m_pSteamUGC;
-		private static IntPtr m_pSteamApps;
 		private static IntPtr m_pSteamNetworkingUtils;
 		private static IntPtr m_pSteamNetworkingSockets;
 		private static IntPtr m_pSteamNetworkingMessages;

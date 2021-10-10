@@ -22,11 +22,11 @@ namespace Steamworks {
 		public const string STEAMCLIENT_INTERFACE_VERSION = "SteamClient020";
 		public const string STEAMFRIENDS_INTERFACE_VERSION = "SteamFriends017";
 		public const string STEAMGAMECOORDINATOR_INTERFACE_VERSION = "SteamGameCoordinator001";
-		public const string STEAMGAMESERVER_INTERFACE_VERSION = "SteamGameServer013";
+		public const string STEAMGAMESERVER_INTERFACE_VERSION = "SteamGameServer014";
 		public const string STEAMGAMESERVERSTATS_INTERFACE_VERSION = "SteamGameServerStats001";
 		public const string STEAMHTMLSURFACE_INTERFACE_VERSION = "STEAMHTMLSURFACE_INTERFACE_VERSION_005";
 		public const string STEAMHTTP_INTERFACE_VERSION = "STEAMHTTP_INTERFACE_VERSION003";
-		public const string STEAMINPUT_INTERFACE_VERSION = "SteamInput002";
+		public const string STEAMINPUT_INTERFACE_VERSION = "SteamInput005";
 		public const string STEAMINVENTORY_INTERFACE_VERSION = "STEAMINVENTORY_INTERFACE_V003";
 		public const string STEAMMATCHMAKING_INTERFACE_VERSION = "SteamMatchMaking009";
 		public const string STEAMMATCHMAKINGSERVERS_INTERFACE_VERSION = "SteamMatchMakingServers002";
@@ -42,7 +42,7 @@ namespace Steamworks {
 		public const string STEAMNETWORKINGUTILS_INTERFACE_VERSION = "SteamNetworkingUtils003";
 		public const string STEAMPARENTALSETTINGS_INTERFACE_VERSION = "STEAMPARENTALSETTINGS_INTERFACE_VERSION001";
 		public const string STEAMREMOTEPLAY_INTERFACE_VERSION = "STEAMREMOTEPLAY_INTERFACE_VERSION001";
-		public const string STEAMREMOTESTORAGE_INTERFACE_VERSION = "STEAMREMOTESTORAGE_INTERFACE_VERSION014";
+		public const string STEAMREMOTESTORAGE_INTERFACE_VERSION = "STEAMREMOTESTORAGE_INTERFACE_VERSION016";
 		public const string STEAMSCREENSHOTS_INTERFACE_VERSION = "STEAMSCREENSHOTS_INTERFACE_VERSION003";
 		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION015";
 		public const string STEAMUSER_INTERFACE_VERSION = "SteamUser021";
@@ -173,18 +173,18 @@ namespace Steamworks {
 		public const int k_iSteamRemotePlayCallbacks = 5700;
 		public const int k_iClientCompatCallbacks = 5800;
 		public const int k_iSteamChatCallbacks = 5900;
+		public const int k_iClientNetworkingUtilsCallbacks = 6000;
+		public const int k_iClientSystemManagerCallbacks = 6100;
+		public const int k_iClientStorageDeviceManagerCallbacks = 6200;
+		/// Pass to SteamGameServer_Init to indicate that the same UDP port will be used for game traffic
+		/// UDP queries for server browser pings and LAN discovery.  In this case, Steam will not open up a
+		/// socket to handle server browser queries, and you must use ISteamGameServer::HandleIncomingPacket
+		/// and ISteamGameServer::GetNextOutgoingPacket to handle packets related to server discovery on your socket.
+		public const ushort STEAMGAMESERVER_QUERY_PORT_SHARED = 0xffff;
 		public const int k_unSteamAccountIDMask = -1;
 		public const int k_unSteamAccountInstanceMask = 0x000FFFFF;
 		public const int k_unSteamUserDefaultInstance = 1; // fixed instance for all individual users
 		public const int k_cchGameExtraInfoMax = 64;
-		/// Max length of serialized auth ticket.  This is important so that we
-		/// can ensure that we always fit into a single UDP datagram (along with
-		/// other certs and signatures) and keep the implementation simple.
-		public const int k_cbSteamDatagramMaxSerializedTicket = 512;
-		/// Max size of user data blob
-		public const int k_cbMaxSteamDatagramGameCoordinatorServerLoginAppData = 2048;
-		/// Max size of serialized data blob
-		public const int k_cbMaxSteamDatagramGameCoordinatorServerLoginSerialized = 4096;
 		public const int k_nSteamEncryptedAppTicketSymmetricKeyLen = 32;
 		/// Max length of diagnostic error message
 		public const int k_cchMaxSteamNetworkingErrMsg = 1024;
@@ -318,15 +318,6 @@ namespace Steamworks {
 		public const int k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Private = 2; // host addresses that appear to be link-local or RFC1918 addresses
 		public const int k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Public = 4; // STUN reflexive addresses, or host address that isn't a "private" address
 		public const int k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_All = 0x7fffffff;
-		public const int k_cubSaltSize = 8;
-		public const ulong k_GIDNil = 0xffffffffffffffff;
-		public const ulong k_TxnIDNil = k_GIDNil;
-		public const ulong k_TxnIDUnknown = 0;
-		public const int k_uPackageIdInvalid = -1;
-		public const ulong k_ulAssetClassIdInvalid = 0x0;
-		public const int k_uPhysicalItemIdInvalid = 0x0;
-		public const int k_uCellIDInvalid = -1;
-		public const int k_uPartnerIdInvalid = 0;
 		public const ulong k_ulPartyBeaconIdInvalid = 0;
 		public const int INVALID_HTTPREQUEST_HANDLE		= 0;
 		public const int STEAM_INPUT_MAX_COUNT = 16;
@@ -342,16 +333,6 @@ namespace Steamworks {
 		public const byte k_nMaxLobbyKeyLength = 255;
 		public const int k_SteamMusicNameMaxLength = 255;
 		public const int k_SteamMusicPNGMaxLength = 65535;
-		/// Pass to SteamGameServer_Init to indicate that the same UDP port will be used for game traffic
-		/// UDP queries.  In this case, Steam will not open up a socket to handle server browser queries,
-		/// and you must use ISteamGameServer::HandleIncomingPacket and ISteamGameServer::GetNextOutgoingPacket
-		/// to handle packets related to server discovery on your socket.
-		public const ushort MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE	= 0xFFFF;
-		//-----------------------------------------------------------------------------
-		// Constants used for query ports.
-		//-----------------------------------------------------------------------------
-		public const int QUERY_PORT_NOT_INITIALIZED		= 0xFFFF; // We haven't asked the GS for this query port's actual value yet.
-		public const int QUERY_PORT_ERROR				= 0xFFFE; // We were unable to get the query port for this server.
 	}
 }
 

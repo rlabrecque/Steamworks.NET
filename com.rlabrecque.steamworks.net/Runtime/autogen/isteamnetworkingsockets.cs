@@ -209,7 +209,23 @@ namespace Steamworks {
 		/// <para>/ Set connection user data.  the data is returned in the following places</para>
 		/// <para>/ - You can query it using GetConnectionUserData.</para>
 		/// <para>/ - The SteamNetworkingmessage_t structure.</para>
-		/// <para>/ - The SteamNetConnectionInfo_t structure.  (Which is a member of SteamNetConnectionStatusChangedCallback_t.)</para>
+		/// <para>/ - The SteamNetConnectionInfo_t structure.</para>
+		/// <para>/   (Which is a member of SteamNetConnectionStatusChangedCallback_t -- but see WARNINGS below!!!!)</para>
+		/// <para>/</para>
+		/// <para>/ Do you need to set this atomically when the connection is created?</para>
+		/// <para>/ See k_ESteamNetworkingConfig_ConnectionUserData.</para>
+		/// <para>/</para>
+		/// <para>/ WARNING: Be *very careful* when using the value provided in callbacks structs.</para>
+		/// <para>/ Callbacks are queued, and the value that you will receive in your</para>
+		/// <para>/ callback is the userdata that was effective at the time the callback</para>
+		/// <para>/ was queued.  There are subtle race conditions that can happen if you</para>
+		/// <para>/ don't understand this!</para>
+		/// <para>/</para>
+		/// <para>/ If any incoming messages for this connection are queued, the userdata</para>
+		/// <para>/ field is updated, so that when when you receive messages (e.g. with</para>
+		/// <para>/ ReceiveMessagesOnConnection), they will always have the very latest</para>
+		/// <para>/ userdata.  So the tricky race conditions that can happen with callbacks</para>
+		/// <para>/ do not apply to retrieving messages.</para>
 		/// <para>/</para>
 		/// <para>/ Returns false if the handle is invalid.</para>
 		/// </summary>
@@ -306,7 +322,7 @@ namespace Steamworks {
 		/// <para>/ m_pData at your buffer and set the callback to the appropriate function</para>
 		/// <para>/ to free it.  Note that if you use your own buffer, it MUST remain valid</para>
 		/// <para>/ until the callback is executed.  And also note that your callback can be</para>
-		/// <para>/ invoked at ant time from any thread (perhaps even before SendMessages</para>
+		/// <para>/ invoked at any time from any thread (perhaps even before SendMessages</para>
 		/// <para>/ returns!), so it MUST be fast and threadsafe.</para>
 		/// <para>/</para>
 		/// <para>/ You MUST also fill in:</para>
@@ -732,9 +748,9 @@ namespace Steamworks {
 		/// <para>/ NOTE: The routing blob returned here is not encrypted.  Send it to your backend</para>
 		/// <para>/       and don't share it directly with clients.</para>
 		/// </summary>
-		public static EResult GetGameCoordinatorServerLogin(out SteamDatagramGameCoordinatorServerLogin pLoginInfo, out int pcbSignedBlob, IntPtr pBlob) {
+		public static EResult GetGameCoordinatorServerLogin(IntPtr pLoginInfo, out int pcbSignedBlob, IntPtr pBlob) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamNetworkingSockets_GetGameCoordinatorServerLogin(CSteamAPIContext.GetSteamNetworkingSockets(), out pLoginInfo, out pcbSignedBlob, pBlob);
+			return NativeMethods.ISteamNetworkingSockets_GetGameCoordinatorServerLogin(CSteamAPIContext.GetSteamNetworkingSockets(), pLoginInfo, out pcbSignedBlob, pBlob);
 		}
 
 		/// <summary>
@@ -822,7 +838,7 @@ namespace Steamworks {
 		/// <para>/ Get blob that describes a certificate request.  You can send this to your game coordinator.</para>
 		/// <para>/ Upon entry, *pcbBlob should contain the size of the buffer.  On successful exit, it will</para>
 		/// <para>/ return the number of bytes that were populated.  You can pass pBlob=NULL to query for the required</para>
-		/// <para>/ size.  (256 bytes is a very conservative estimate.)</para>
+		/// <para>/ size.  (512 bytes is a conservative estimate.)</para>
 		/// <para>/</para>
 		/// <para>/ Pass this blob to your game coordinator and call SteamDatagram_CreateCert.</para>
 		/// </summary>
