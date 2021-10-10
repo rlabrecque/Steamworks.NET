@@ -18,6 +18,17 @@ _Steamworks.NET_ currently fully supports Windows, OSX, and Linux in both 32 and
 
 ## Installation
 
+### Package Manager
+
+1. Open the Package Manager
+2. Click the "+" (plus) button located in the upper left of the window
+3. Select the "Add package from git URL..." option
+4. Enter the following URL:
+    `https://github.com/rlabrecque/Steamworks.NET.git?path=/com.rlabrecque.steamworks.net`
+6. Click the "Add" button and wait several seconds for the system to download and install the Steamworks.NET package from GitHub.
+
+### Traditional
+
 You can find the installation instructions [here](http://steamworks.github.io/installation/).
 
 ## Samples
