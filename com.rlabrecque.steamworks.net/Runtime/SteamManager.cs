@@ -23,7 +23,10 @@ using UnityEngine.Events;
 [DisallowMultipleComponent]
 public class SteamManager : MonoBehaviour {
 #if !DISABLESTEAMWORKS
-	private static UnityEvent OnInitialized;
+	public class SteamInitializedEvent : UnityEvent<string, FailureReason> {}
+	private static SteamInitializedEvent OnInitialized;
+	private static string currentError;
+	private static FailureReason failureReason = FailureReason.None;
 	protected static bool s_EverInitialized = false;
 
 	protected static SteamManager s_instance;
@@ -43,6 +46,7 @@ public class SteamManager : MonoBehaviour {
 		get {
 			return Instance.m_bInitialized;
 		}
+		private set { Instance.m_bInitialized = value; }
 	}
 
 	protected SteamAPIWarningMessageHook_t m_SteamAPIWarningMessageHook;
@@ -58,7 +62,7 @@ public class SteamManager : MonoBehaviour {
 	private static void InitOnPlayMode()
 	{
 		Debug.Log("SteamManager InitOnPlayMode");
-		OnInitialized = new UnityEvent();
+		OnInitialized = new SteamInitializedEvent();
 		s_EverInitialized = false;
 		s_instance = null;
 	}
@@ -68,11 +72,11 @@ public class SteamManager : MonoBehaviour {
 	/// Creates and waits until steam manager is initialized.
 	/// </summary>
 	/// <param name="call"></param>
-	public static void AddOnInitialized(UnityAction call)
+	public static void AddOnInitialized(UnityAction<string, FailureReason> call)
 	{
 		if (Initialized)
 		{
-			call.Invoke();
+			call.Invoke(currentError, failureReason);
 		}
 		else
 		{
@@ -82,15 +86,16 @@ public class SteamManager : MonoBehaviour {
 
 	protected virtual void Awake() 
 	{
-		Debug.Log("SteamManager Awake");
 		// Only one instance of SteamManager at a time!
-		if (s_instance != null) {
+		if (s_instance != null) 
+		{
 			Destroy(gameObject);
 			return;
 		}
 		s_instance = this;
 
-		if(s_EverInitialized) {
+		if(s_EverInitialized) 
+		{
 			// This is almost always an error.
 			// The most common case where this happens is when SteamManager gets destroyed because of Application.Quit(),
 			// and then some Steamworks code in some other OnDestroy gets called afterwards, creating a new SteamManager.
@@ -101,15 +106,20 @@ public class SteamManager : MonoBehaviour {
 		// We want our SteamManager Instance to persist across scenes.
 		DontDestroyOnLoad(gameObject);
 
-		if (!Packsize.Test()) {
-			Debug.LogError("[Steamworks.NET] Packsize Test returned false, the wrong version of Steamworks.NET is being run in this platform.", this);
+		if (!Packsize.Test())
+		{
+			currentError = "[Steamworks.NET] Packsize Test returned false, the wrong version of Steamworks.NET is being run in this platform.";
+			Debug.LogError(currentError, this);
 		}
 
-		if (!DllCheck.Test()) {
-			Debug.LogError("[Steamworks.NET] DllCheck Test returned false, One or more of the Steamworks binaries seems to be the wrong version.", this);
+		if (!DllCheck.Test())
+		{
+			currentError = "[Steamworks.NET] DllCheck Test returned false, One or more of the Steamworks binaries seems to be the wrong version.";
+			Debug.LogError(currentError, this);
 		}
 
-		try {
+		try 
+		{
 			// If Steam is not running or the game wasn't started through Steam, SteamAPI_RestartAppIfNecessary starts the
 			// Steam client and also launches this game again if the User owns it. This can act as a rudimentary form of DRM.
 
@@ -122,12 +132,18 @@ public class SteamManager : MonoBehaviour {
 			}
 		}
 		catch (System.DllNotFoundException e) { // We catch this exception here, as it will be the first occurrence of it.
-			Debug.LogError("[Steamworks.NET] Could not load [lib]steam_api.dll/so/dylib. It's likely not in the correct location. Refer to the README for more details.\n" + e, this);
+			currentError = "[Steamworks.NET] Could not load [lib]steam_api.dll/so/dylib. It's likely not in the correct location. Refer to the README for more details.\n" + e;
+			Debug.LogError(currentError, this);
 
 			Application.Quit();
 			return;
 		}
 
+		Initialize();
+	}
+
+	public static void Initialize()
+	{
 		// Initializes the Steamworks API.
 		// If this returns false then this indicates one of the following conditions:
 		// [*] The Steam client isn't running. A running Steam client is required to provide implementations of the various Steamworks interfaces.
@@ -137,17 +153,19 @@ public class SteamManager : MonoBehaviour {
 		// [*] Your App ID is not completely set up, i.e. in Release State: Unavailable, or it's missing default packages.
 		// Valve's documentation for this is located here:
 		// https://partner.steamgames.com/doc/sdk/api#initialization_and_shutdown
-		var reason = SteamAPI.Init();
-		m_bInitialized = reason == FailureReason.None;
-		if (!m_bInitialized) {
-			Debug.LogError("[Steamworks.NET] SteamAPI_Init() failed. Refer to Valve's documentation or the comment above this line for more information.\nFailure reason: " + reason, this);
-
+		failureReason = SteamAPI.Init();
+		Initialized = failureReason == FailureReason.None;
+		if (!Initialized)
+		{
+			currentError = "[Steamworks.NET] SteamAPI_Init() failed. Refer to Valve's documentation or the comment above this line for more information.\nFailure reason: " + failureReason;
+			OnInitialized.Invoke(currentError, failureReason);
 			return;
 		}
 
+		currentError = null;
 		s_EverInitialized = true;
 
-		OnInitialized?.Invoke();
+		OnInitialized?.Invoke(currentError, failureReason);
 	}
 
 	// This should only ever get called on first load and after an Assembly reload, You should never Disable the Steamworks Manager yourself.
