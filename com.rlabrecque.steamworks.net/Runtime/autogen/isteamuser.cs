@@ -57,19 +57,23 @@ namespace Steamworks {
 		/// <para> bool bSecure - whether or not the client thinks that the game server is reporting itself as secure (i.e. VAC is running)</para>
 		/// <para> return value - returns the number of bytes written to pBlob. If the return is 0, then the buffer passed in was too small, and the call has failed</para>
 		/// <para> The contents of pBlob should then be sent to the game server, for it to use to complete the authentication process.</para>
+		/// <para> DEPRECATED!  This function will be removed from the SDK in an upcoming version.</para>
+		/// <para>              Please migrate to BeginAuthSession and related functions.</para>
 		/// </summary>
-		public static int InitiateGameConnection(byte[] pAuthBlob, int cbMaxAuthBlob, CSteamID steamIDGameServer, uint unIPServer, ushort usPortServer, bool bSecure) {
+		public static int InitiateGameConnection_DEPRECATED(byte[] pAuthBlob, int cbMaxAuthBlob, CSteamID steamIDGameServer, uint unIPServer, ushort usPortServer, bool bSecure) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUser_InitiateGameConnection(CSteamAPIContext.GetSteamUser(), pAuthBlob, cbMaxAuthBlob, steamIDGameServer, unIPServer, usPortServer, bSecure);
+			return NativeMethods.ISteamUser_InitiateGameConnection_DEPRECATED(CSteamAPIContext.GetSteamUser(), pAuthBlob, cbMaxAuthBlob, steamIDGameServer, unIPServer, usPortServer, bSecure);
 		}
 
 		/// <summary>
 		/// <para> notify of disconnect</para>
 		/// <para> needs to occur when the game client leaves the specified game server, needs to match with the InitiateGameConnection() call</para>
+		/// <para> DEPRECATED!  This function will be removed from the SDK in an upcoming version.</para>
+		/// <para>              Please migrate to BeginAuthSession and related functions.</para>
 		/// </summary>
-		public static void TerminateGameConnection(uint unIPServer, ushort usPortServer) {
+		public static void TerminateGameConnection_DEPRECATED(uint unIPServer, ushort usPortServer) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamUser_TerminateGameConnection(CSteamAPIContext.GetSteamUser(), unIPServer, usPortServer);
+			NativeMethods.ISteamUser_TerminateGameConnection_DEPRECATED(CSteamAPIContext.GetSteamUser(), unIPServer, usPortServer);
 		}
 
 		/// <summary>

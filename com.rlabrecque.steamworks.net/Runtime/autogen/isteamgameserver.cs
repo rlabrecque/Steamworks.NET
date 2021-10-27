@@ -153,7 +153,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para>/ Set name of map to report in the server browser</para>
 		/// <para>/</para>
-		/// <para>/ @see k_cbMaxGameServerName</para>
+		/// <para>/ @see k_cbMaxGameServerMapName</para>
 		/// </summary>
 		public static void SetMapName(string pszMapName) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -171,8 +171,17 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>/ Spectator server.  The default value is zero, meaning the service</para>
-		/// <para>/ is not used.</para>
+		/// <para>/ Spectator server port to advertise.  The default value is zero, meaning the</para>
+		/// <para>/ service is not used.  If your server receives any info requests on the LAN,</para>
+		/// <para>/ this is the value that will be placed into the reply for such local queries.</para>
+		/// <para>/</para>
+		/// <para>/ This is also the value that will be advertised by the master server.</para>
+		/// <para>/ The only exception is if your server is using a FakeIP.  Then then the second</para>
+		/// <para>/ fake port number (index 1) assigned to your server will be listed on the master</para>
+		/// <para>/ server as the spectator port, if you set this value to any nonzero value.</para>
+		/// <para>/</para>
+		/// <para>/ This function merely controls the values that are advertised -- it's up to you to</para>
+		/// <para>/ configure the server to actually listen on this port and handle any spectator traffic</para>
 		/// </summary>
 		public static void SetSpectatorPort(ushort unSpectatorPort) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -226,8 +235,6 @@ namespace Steamworks {
 		/// <summary>
 		/// <para>/ Sets a string defining the "gamedata" for this server, this is optional, but if it is set</para>
 		/// <para>/ it allows users to filter in the matchmaking/server-browser interfaces based on the value</para>
-		/// <para>/ don't set this unless it actually changes, its only uploaded to the master once (when</para>
-		/// <para>/ acknowledged)</para>
 		/// <para>/</para>
 		/// <para>/ @see k_cbMaxGameServerGameData</para>
 		/// </summary>
@@ -249,57 +256,22 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Player list management / authentication</para>
-		/// <para> Handles receiving a new connection from a Steam user.  This call will ask the Steam</para>
-		/// <para> servers to validate the users identity, app ownership, and VAC status.  If the Steam servers</para>
-		/// <para> are off-line, then it will validate the cached ticket itself which will validate app ownership</para>
-		/// <para> and identity.  The AuthBlob here should be acquired on the game client using SteamUser()-&gt;InitiateGameConnection()</para>
-		/// <para> and must then be sent up to the game server for authentication.</para>
-		/// <para> Return Value: returns true if the users ticket passes basic checks. pSteamIDUser will contain the Steam ID of this user. pSteamIDUser must NOT be NULL</para>
-		/// <para> If the call succeeds then you should expect a GSClientApprove_t or GSClientDeny_t callback which will tell you whether authentication</para>
-		/// <para> for the user has succeeded or failed (the steamid in the callback will match the one returned by this call)</para>
+		/// <para>/ Indicate whether you wish to be listed on the master server list</para>
+		/// <para>/ and/or respond to server browser / LAN discovery packets.</para>
+		/// <para>/ The server starts with this value set to false.  You should set all</para>
+		/// <para>/ relevant server parameters before enabling advertisement on the server.</para>
+		/// <para>/</para>
+		/// <para>/ (This function used to be named EnableHeartbeats, so if you are wondering</para>
+		/// <para>/ where that function went, it's right here.  It does the same thing as before,</para>
+		/// <para>/ the old name was just confusing.)</para>
 		/// </summary>
-		public static bool SendUserConnectAndAuthenticate(uint unIPClient, byte[] pvAuthBlob, uint cubAuthBlobSize, out CSteamID pSteamIDUser) {
+		public static void SetAdvertiseServerActive(bool bActive) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServer_SendUserConnectAndAuthenticate(CSteamGameServerAPIContext.GetSteamGameServer(), unIPClient, pvAuthBlob, cubAuthBlobSize, out pSteamIDUser);
+			NativeMethods.ISteamGameServer_SetAdvertiseServerActive(CSteamGameServerAPIContext.GetSteamGameServer(), bActive);
 		}
 
 		/// <summary>
-		/// <para> Creates a fake user (ie, a bot) which will be listed as playing on the server, but skips validation.</para>
-		/// <para> Return Value: Returns a SteamID for the user to be tracked with, you should call HandleUserDisconnect()</para>
-		/// <para> when this user leaves the server just like you would for a real user.</para>
-		/// </summary>
-		public static CSteamID CreateUnauthenticatedUserConnection() {
-			InteropHelp.TestIfAvailableGameServer();
-			return (CSteamID)NativeMethods.ISteamGameServer_CreateUnauthenticatedUserConnection(CSteamGameServerAPIContext.GetSteamGameServer());
-		}
-
-		/// <summary>
-		/// <para> Should be called whenever a user leaves our game server, this lets Steam internally</para>
-		/// <para> track which users are currently on which servers for the purposes of preventing a single</para>
-		/// <para> account being logged into multiple servers, showing who is currently on a server, etc.</para>
-		/// </summary>
-		public static void SendUserDisconnect(CSteamID steamIDUser) {
-			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_SendUserDisconnect(CSteamGameServerAPIContext.GetSteamGameServer(), steamIDUser);
-		}
-
-		/// <summary>
-		/// <para> Update the data to be displayed in the server browser and matchmaking interfaces for a user</para>
-		/// <para> currently connected to the server.  For regular users you must call this after you receive a</para>
-		/// <para> GSUserValidationSuccess callback.</para>
-		/// <para> Return Value: true if successful, false if failure (ie, steamIDUser wasn't for an active player)</para>
-		/// </summary>
-		public static bool BUpdateUserData(CSteamID steamIDUser, string pchPlayerName, uint uScore) {
-			InteropHelp.TestIfAvailableGameServer();
-			using (var pchPlayerName2 = new InteropHelp.UTF8StringHandle(pchPlayerName)) {
-				return NativeMethods.ISteamGameServer_BUpdateUserData(CSteamGameServerAPIContext.GetSteamGameServer(), steamIDUser, pchPlayerName2, uScore);
-			}
-		}
-
-		/// <summary>
-		/// <para> New auth system APIs - do not mix with the old auth system APIs.</para>
-		/// <para> ----------------------------------------------------------------</para>
+		/// <para> Player list management / authentication.</para>
 		/// <para> Retrieve ticket to be sent to the entity who wishes to authenticate you ( using BeginAuthSession API ).</para>
 		/// <para> pcbTicket retrieves the length of the actual ticket.</para>
 		/// </summary>
@@ -376,11 +348,9 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> These are in GameSocketShare mode, where instead of ISteamGameServer creating its own</para>
-		/// <para> socket to talk to the master server on, it lets the game use its socket to forward messages</para>
-		/// <para> back and forth. This prevents us from requiring server ops to open up yet another port</para>
-		/// <para> in their firewalls.</para>
-		/// <para> the IP address and port should be in host order, i.e 127.0.0.1 == 0x7f000001</para>
+		/// <para> Server browser related query packet processing for shared socket mode.  These are used</para>
+		/// <para> when you pass STEAMGAMESERVER_QUERY_PORT_SHARED as the query port to SteamGameServer_Init.</para>
+		/// <para> IP address and port are in host order, i.e 127.0.0.1 == 0x7f000001</para>
 		/// <para> These are used when you've elected to multiplex the game server's UDP socket</para>
 		/// <para> rather than having the master server updater use its own sockets.</para>
 		/// <para> Source games use this to simplify the job of the server admins, so they</para>
@@ -405,34 +375,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Control heartbeats / advertisement with master server</para>
-		/// <para> Call this as often as you like to tell the master server updater whether or not</para>
-		/// <para> you want it to be active (default: off).</para>
-		/// </summary>
-		public static void EnableHeartbeats(bool bActive) {
-			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_EnableHeartbeats(CSteamGameServerAPIContext.GetSteamGameServer(), bActive);
-		}
-
-		/// <summary>
-		/// <para> You usually don't need to modify this.</para>
-		/// <para> Pass -1 to use the default value for iHeartbeatInterval.</para>
-		/// <para> Some mods change this.</para>
-		/// </summary>
-		public static void SetHeartbeatInterval(int iHeartbeatInterval) {
-			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_SetHeartbeatInterval(CSteamGameServerAPIContext.GetSteamGameServer(), iHeartbeatInterval);
-		}
-
-		/// <summary>
-		/// <para> Force a heartbeat to steam at the next opportunity</para>
-		/// </summary>
-		public static void ForceHeartbeat() {
-			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServer_ForceHeartbeat(CSteamGameServerAPIContext.GetSteamGameServer());
-		}
-
-		/// <summary>
+		/// <para> Server clan association</para>
 		/// <para> associate this game server with this clan for the purposes of computing player compat</para>
 		/// </summary>
 		public static SteamAPICall_t AssociateWithClan(CSteamID steamIDClan) {
@@ -446,6 +389,58 @@ namespace Steamworks {
 		public static SteamAPICall_t ComputeNewPlayerCompatibility(CSteamID steamIDNewPlayer) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamGameServer_ComputeNewPlayerCompatibility(CSteamGameServerAPIContext.GetSteamGameServer(), steamIDNewPlayer);
+		}
+
+		/// <summary>
+		/// <para> Handles receiving a new connection from a Steam user.  This call will ask the Steam</para>
+		/// <para> servers to validate the users identity, app ownership, and VAC status.  If the Steam servers</para>
+		/// <para> are off-line, then it will validate the cached ticket itself which will validate app ownership</para>
+		/// <para> and identity.  The AuthBlob here should be acquired on the game client using SteamUser()-&gt;InitiateGameConnection()</para>
+		/// <para> and must then be sent up to the game server for authentication.</para>
+		/// <para> Return Value: returns true if the users ticket passes basic checks. pSteamIDUser will contain the Steam ID of this user. pSteamIDUser must NOT be NULL</para>
+		/// <para> If the call succeeds then you should expect a GSClientApprove_t or GSClientDeny_t callback which will tell you whether authentication</para>
+		/// <para> for the user has succeeded or failed (the steamid in the callback will match the one returned by this call)</para>
+		/// <para> DEPRECATED!  This function will be removed from the SDK in an upcoming version.</para>
+		/// <para>              Please migrate to BeginAuthSession and related functions.</para>
+		/// </summary>
+		public static bool SendUserConnectAndAuthenticate_DEPRECATED(uint unIPClient, byte[] pvAuthBlob, uint cubAuthBlobSize, out CSteamID pSteamIDUser) {
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamGameServer_SendUserConnectAndAuthenticate_DEPRECATED(CSteamGameServerAPIContext.GetSteamGameServer(), unIPClient, pvAuthBlob, cubAuthBlobSize, out pSteamIDUser);
+		}
+
+		/// <summary>
+		/// <para> Creates a fake user (ie, a bot) which will be listed as playing on the server, but skips validation.</para>
+		/// <para> Return Value: Returns a SteamID for the user to be tracked with, you should call EndAuthSession()</para>
+		/// <para> when this user leaves the server just like you would for a real user.</para>
+		/// </summary>
+		public static CSteamID CreateUnauthenticatedUserConnection() {
+			InteropHelp.TestIfAvailableGameServer();
+			return (CSteamID)NativeMethods.ISteamGameServer_CreateUnauthenticatedUserConnection(CSteamGameServerAPIContext.GetSteamGameServer());
+		}
+
+		/// <summary>
+		/// <para> Should be called whenever a user leaves our game server, this lets Steam internally</para>
+		/// <para> track which users are currently on which servers for the purposes of preventing a single</para>
+		/// <para> account being logged into multiple servers, showing who is currently on a server, etc.</para>
+		/// <para> DEPRECATED!  This function will be removed from the SDK in an upcoming version.</para>
+		/// <para>              Please migrate to BeginAuthSession and related functions.</para>
+		/// </summary>
+		public static void SendUserDisconnect_DEPRECATED(CSteamID steamIDUser) {
+			InteropHelp.TestIfAvailableGameServer();
+			NativeMethods.ISteamGameServer_SendUserDisconnect_DEPRECATED(CSteamGameServerAPIContext.GetSteamGameServer(), steamIDUser);
+		}
+
+		/// <summary>
+		/// <para> Update the data to be displayed in the server browser and matchmaking interfaces for a user</para>
+		/// <para> currently connected to the server.  For regular users you must call this after you receive a</para>
+		/// <para> GSUserValidationSuccess callback.</para>
+		/// <para> Return Value: true if successful, false if failure (ie, steamIDUser wasn't for an active player)</para>
+		/// </summary>
+		public static bool BUpdateUserData(CSteamID steamIDUser, string pchPlayerName, uint uScore) {
+			InteropHelp.TestIfAvailableGameServer();
+			using (var pchPlayerName2 = new InteropHelp.UTF8StringHandle(pchPlayerName)) {
+				return NativeMethods.ISteamGameServer_BUpdateUserData(CSteamGameServerAPIContext.GetSteamGameServer(), steamIDUser, pchPlayerName2, uScore);
+			}
 		}
 	}
 }

@@ -149,9 +149,11 @@ namespace Steamworks {
 			}
 
 			~SteamParamStringArray() {
-				foreach (IntPtr ptr in m_Strings) {
-					Marshal.FreeHGlobal(ptr);
-				}
+				if (m_Strings != null) {
+					foreach (IntPtr ptr in m_Strings) {
+						Marshal.FreeHGlobal(ptr);
+					}
+                }
 
 				if (m_ptrStrings != IntPtr.Zero) {
 					Marshal.FreeHGlobal(m_ptrStrings);

@@ -36,11 +36,7 @@ public class RedistCopy {
 				break;
 			}
 			case BuildTarget.StandaloneOSX:
-			{
-				baseDir = Path.Combine(Path.Combine(Path.GetDirectoryName(pathToBuiltProject), Path.GetFileNameWithoutExtension(pathToBuiltProject) + ".app"), "Contents");
-				break;
-			}
-		default:
+			default:
 			{
 				return;
 			}

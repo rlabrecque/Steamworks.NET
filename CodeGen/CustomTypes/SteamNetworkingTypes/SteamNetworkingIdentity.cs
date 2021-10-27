@@ -119,7 +119,7 @@ namespace Steamworks
 		/// See also SteamNetworkingIPAddrRender
 		public void ToString(out string buf) {
 			IntPtr buf2 = Marshal.AllocHGlobal(k_cchMaxString);
-			NativeMethods.SteamNetworkingIdentity_ToString(ref this, buf2, k_cchMaxString);
+			NativeMethods.SteamAPI_SteamNetworkingIdentity_ToString(ref this, buf2, k_cchMaxString);
 			buf = InteropHelp.PtrToStringUTF8(buf2);
 			Marshal.FreeHGlobal(buf2);
 		}
@@ -131,7 +131,7 @@ namespace Steamworks
 		/// looks invalid.
 		public bool ParseString(string pszStr) {
 			using (var pszStr2 = new InteropHelp.UTF8StringHandle(pszStr)) {
-				return NativeMethods.SteamNetworkingIdentity_ParseString(ref this, pszStr2);
+				return NativeMethods.SteamAPI_SteamNetworkingIdentity_ParseString(ref this, pszStr2);
 			}
 		}
 	}

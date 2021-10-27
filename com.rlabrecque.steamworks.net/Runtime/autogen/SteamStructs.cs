@@ -208,43 +208,6 @@ namespace Steamworks {
 		public int m_cubParam; // Size of the data pointed to by m_pubParam
 	}
 
-	/// Structure that describes a gameserver attempting to authenticate
-	/// with your central server allocator / matchmaking service ("game coordinator").
-	/// This is useful because the game coordinator needs to know:
-	///
-	/// - What data center is the gameserver running in?
-	/// - The routing blob of the gameserver
-	/// - Is the gameserver actually trusted?
-	///
-	/// Using this structure, you can securely communicate this information
-	/// to your server, and you can do this WITHOUT maintaining any
-	/// whitelists or tables of IP addresses.
-	///
-	/// See ISteamNetworkingSockets::GetGameCoordinatorServerLogin
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	public struct SteamDatagramGameCoordinatorServerLogin {
-		/// Server's identity
-		public SteamNetworkingIdentity m_identity;
-		
-		/// Routing info.  Note that this includes the POPID
-		public SteamDatagramHostedAddress m_routing;
-		
-		/// AppID that the server thinks it is running
-		public AppId_t m_nAppID;
-		
-		/// Unix timestamp when this was generated
-		public RTime32 m_rtime;
-		
-		/// Size of application data
-		public int m_cbAppData;
-		
-		/// Application data.  This is any additional information
-		/// that you need to identify the server not contained above.
-		/// (E.g. perhaps a public IP as seen by the coordinator service.)
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cbMaxSteamDatagramGameCoordinatorServerLoginAppData)]
-		public byte[] m_appData;
-	}
-
 	/// Describe the state of a connection.
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	public struct SteamNetConnectionInfo_t {

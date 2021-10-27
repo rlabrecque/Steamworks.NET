@@ -662,6 +662,22 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_DeleteItem(CSteamAPIContext.GetSteamUGC(), nPublishedFileID);
 		}
+
+		/// <summary>
+		/// <para> Show the app's latest Workshop EULA to the user in an overlay window, where they can accept it or not</para>
+		/// </summary>
+		public static bool ShowWorkshopEULA() {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_ShowWorkshopEULA(CSteamAPIContext.GetSteamUGC());
+		}
+
+		/// <summary>
+		/// <para> Retrieve information related to the user's acceptance or not of the app's specific Workshop EULA</para>
+		/// </summary>
+		public static SteamAPICall_t GetWorkshopEULAStatus() {
+			InteropHelp.TestIfAvailableClient();
+			return (SteamAPICall_t)NativeMethods.ISteamUGC_GetWorkshopEULAStatus(CSteamAPIContext.GetSteamUGC());
+		}
 	}
 }
 
