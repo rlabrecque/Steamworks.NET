@@ -5,7 +5,6 @@ import constants
 import enums
 import structs
 import typedefs
-import output_dummy_files
 
 def main():
     if len(sys.argv) == 2:
@@ -25,7 +24,6 @@ def main():
     enums.main(___parser)
     structs.main(___parser)
     typedefs.main(___parser)
-    output_dummy_files.main()
 
 if __name__ == "__main__":
     main()
