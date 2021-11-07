@@ -139,7 +139,7 @@ g_CustomDefines = {
 
 def main(parser):
     try:
-        os.makedirs("autogen/")
+        os.makedirs("../com.rlabrecque.steamworks.net/Runtime/autogen/")
     except OSError:
         pass
 
@@ -150,7 +150,7 @@ def main(parser):
             lines.append("//" + precomment)
         lines.append("public const " + constant.type + " " + constant.name + constant.spacing + "= " + constant.value + ";" + constant.comment)
 
-    with open("autogen/SteamConstants.cs", "wb") as out:
+    with open("../com.rlabrecque.steamworks.net/Runtime/autogen/SteamConstants.cs", "wb") as out:
         with open("templates/header.txt", "r") as f:
             out.write(bytes(f.read(), "utf-8"))
         out.write(bytes("namespace Steamworks {\n", "utf-8"))

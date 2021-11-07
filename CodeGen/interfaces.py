@@ -499,7 +499,7 @@ g_Typedefs = None
 
 def main(parser):
     try:
-        os.makedirs("autogen/")
+        os.makedirs("../com.rlabrecque.steamworks.net/Runtime/autogen/")
     except OSError:
         pass
 
@@ -512,7 +512,7 @@ def main(parser):
     for f in parser.files:
         parse(f)
 
-    with open("autogen/NativeMethods.cs", "wb") as out:
+    with open("../com.rlabrecque.steamworks.net/Runtime/autogen/NativeMethods.cs", "wb") as out:
         #out.write(bytes(HEADER, "utf-8"))
         with open("templates/nativemethods.txt", "r") as f:
             out.write(bytes(f.read(), "utf-8"))
@@ -534,7 +534,7 @@ def parse(f):
         parse_interface(f, interface)
 
     if g_Output:
-        with open('autogen/' + os.path.splitext(f.name)[0] + '.cs', 'wb') as out:
+        with open('../com.rlabrecque.steamworks.net/Runtime/autogen/' + os.path.splitext(f.name)[0] + '.cs', 'wb') as out:
             if f.name in ["isteamnetworkingutils.h", "isteamnetworkingsockets.h", "isteamgameservernetworkingutils.h", "isteamgameservernetworkingsockets.h"]:
                 out.write(bytes("#define STEAMNETWORKINGSOCKETS_ENABLE_SDR\n", "utf-8"))
             out.write(bytes(HEADER, "utf-8"))

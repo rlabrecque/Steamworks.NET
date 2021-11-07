@@ -1,7 +1,5 @@
 import os
 import sys
-import errno
-import shutil
 from collections import OrderedDict
 from SteamworksParser import steamworksparser
 
@@ -148,11 +146,6 @@ g_ReadOnlyValues = {
 
 
 def main(parser):
-    try:
-        shutil.rmtree("types/")
-    except FileNotFoundError:
-        pass
-
     with open("templates/header.txt", "r") as f:
         HEADER = f.read()
 
@@ -161,7 +154,7 @@ def main(parser):
 
     for root, directories, filenames in os.walk('CustomTypes/'):
         for filename in filenames:
-            outputdir = "types/" + root[len('CustomTypes/'):]
+            outputdir = "../com.rlabrecque.steamworks.net/Runtime/types/" + root[len('CustomTypes/'):]
             try:
                 os.makedirs(outputdir)
             except OSError:
@@ -204,11 +197,11 @@ def main(parser):
         foldername = g_PrettyFilenames.get(foldername, foldername)
 
         try:
-            os.makedirs("types/" + foldername)
+            os.makedirs("../com.rlabrecque.steamworks.net/Runtime/types/" + foldername)
         except OSError:
             pass
 
-        with open("types/" + foldername + "/" + t.name + ".cs", "wb") as out:
+        with open("../com.rlabrecque.steamworks.net/Runtime/types/" + foldername + "/" + t.name + ".cs", "wb") as out:
             out.write(bytes(HEADER, "utf-8"))
             out.write(bytes(ourtemplate, "utf-8"))
 

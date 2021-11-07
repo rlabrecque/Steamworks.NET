@@ -6,9 +6,9 @@ Outputs empty files when Valve removes interfaces so that people upgrading don't
 """
 def main():
     list_of_files = (
-        ("autogen", "isteamunifiedmessages.cs"),
-        ("types/SteamUnifiedMessages", "ClientUnifiedMessageHandle.cs"),
-        ("types/SteamClient", "SteamAPI_PostAPIResultInProcess_t.cs"),
+        ("../com.rlabrecque.steamworks.net/Runtime/autogen", "isteamunifiedmessages.cs"),
+        ("../com.rlabrecque.steamworks.net/Runtime/types/SteamUnifiedMessages", "ClientUnifiedMessageHandle.cs"),
+        ("../com.rlabrecque.steamworks.net/Runtime/types/SteamClient", "SteamAPI_PostAPIResultInProcess_t.cs"),
     )
 
     for f in list_of_files:

@@ -49,7 +49,7 @@ g_ValueConversionDict = {
 
 def main(parser):
     try:
-        os.makedirs("autogen/")
+        os.makedirs("../com.rlabrecque.steamworks.net/Runtime/autogen/")
     except OSError:
         pass
 
@@ -105,7 +105,7 @@ def main(parser):
             lines.append("\t}")
             lines.append("")
 
-    with open("autogen/SteamEnums.cs", "wb") as out:
+    with open("../com.rlabrecque.steamworks.net/Runtime/autogen/SteamEnums.cs", "wb") as out:
         with open("templates/header.txt", "r") as f:
             out.write(bytes(f.read(), "utf-8"))
         out.write(bytes("using Flags = System.FlagsAttribute;\n\n", "utf-8"))
