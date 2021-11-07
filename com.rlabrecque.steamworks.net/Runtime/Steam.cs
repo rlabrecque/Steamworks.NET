@@ -26,7 +26,11 @@ namespace Steamworks {
 
 		// SteamAPI_Init must be called before using any other API functions. If it fails, an
 		// error message will be output to the debugger (or stderr) with further information.
-		public static bool Init() {
+		public static bool Init(AppId_t appIdT) {
+			Environment.SetEnvironmentVariable("SteamAppId", appIdT.ToString());
+			Environment.SetEnvironmentVariable("SteamOverlayGameId", appIdT.ToString());
+			Environment.SetEnvironmentVariable("SteamGameId", appIdT.ToString());
+			
 			InteropHelp.TestIfPlatformSupported();
 
 			bool ret = NativeMethods.SteamAPI_Init();
