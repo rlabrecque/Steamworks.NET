@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Riley Labrecque")]
 [assembly: AssemblyProduct("Steamworks.NET")]
-[assembly: AssemblyCopyright("Copyright © Riley Labrecque 2013-2019")]
+[assembly: AssemblyCopyright("Copyright © Riley Labrecque 2013-2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -24,7 +24,7 @@ using System.Runtime.InteropServices;
 // Version information for an assembly consists of the following four values:
 //
 //      Major Version
-//      Minor Version 
+//      Minor Version
 //      Build Number
 //      Revision
 //
