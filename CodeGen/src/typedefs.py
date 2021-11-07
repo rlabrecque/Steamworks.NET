@@ -152,9 +152,9 @@ def main(parser):
     with open("templates/typetemplate.txt", "r") as f:
         template = f.read()
 
-    for root, directories, filenames in os.walk('CustomTypes/'):
+    for root, directories, filenames in os.walk('templates/custom_types/'):
         for filename in filenames:
-            outputdir = "../com.rlabrecque.steamworks.net/Runtime/types/" + root[len('CustomTypes/'):]
+            outputdir = "../com.rlabrecque.steamworks.net/Runtime/types/" + root[len('templates/custom_types/'):]
             try:
                 os.makedirs(outputdir)
             except OSError:
