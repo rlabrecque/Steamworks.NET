@@ -1,5 +1,5 @@
-Steamworks.NET
-=======
+Steamworks.NET Standalone
+==============
 
 This is the project file for the standalone version of _Steamworks.NET_. This is designed to be used with non Unity applications.
 

@@ -13,7 +13,7 @@
 
 namespace Steamworks {
 	public static class Version {
-		public const string SteamworksNETVersion = "15.0.1";
+		public const string SteamworksNETVersion = "20.0.0";
 		public const string SteamworksSDKVersion = "1.52";
 		public const string SteamAPIDLLVersion = "06.75.97.18";
 		public const int SteamAPIDLLSize = 260840;
