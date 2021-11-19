@@ -5,20 +5,26 @@
 using UnityEngine;
 using UnityEditor;
 using System.IO;
+using System.Collections.Generic;
 
 // This copys various files into their required locations when Unity is launched to make installation a breeze.
 [InitializeOnLoad]
-public class RedistInstall {
-	static RedistInstall() {
+public class RedistInstall
+{
+	static RedistInstall()
+	{
 		WriteSteamAppIdTxtFile();
+		AddDefineSymbols();
 	}
 
-	static void WriteSteamAppIdTxtFile() {
+	static void WriteSteamAppIdTxtFile()
+	{
 		string strCWD = Directory.GetCurrentDirectory();
 		string strDest = Path.Combine(strCWD, "steam_appid.txt");
 
 		// If the steam_appid.txt file already exists, then we skip this!
-		if (File.Exists(strDest)) {
+		if (File.Exists(strDest))
+		{
 			return;
 		}
 
@@ -32,9 +38,26 @@ public class RedistInstall {
 
 			Debug.Log("[Steamworks.NET] Successfully copied 'steam_appid.txt' into the project root. Please relaunch Unity.");
 		}
-		catch (System.Exception e) {
+		catch (System.Exception e)
+		{
 			Debug.LogWarning("[Steamworks.NET] Could not copy 'steam_appid.txt' into the project root. Please place 'steam_appid.txt' into the project root manually.");
 			Debug.LogException(e);
+		}
+	}
+
+	public static void AddDefineSymbols()
+	{
+		string currentDefines = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
+		HashSet<string> defines = new HashSet<string>(currentDefines.Split(';'))
+			{
+				"STEAMWORKS_NET"
+			};
+
+		string newDefines = string.Join(";", defines);
+		if (newDefines != currentDefines)
+		{
+			PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, newDefines);
+			Debug.Log("Added STEAMWORKS_NET script define");
 		}
 	}
 }
