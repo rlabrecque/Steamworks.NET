@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#if STEAMWORKS_NET
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,3 +35,4 @@ namespace Steamworks.Samples
         }
     }
 }
+#endif

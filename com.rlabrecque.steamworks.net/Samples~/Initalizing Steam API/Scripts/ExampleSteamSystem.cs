@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if STEAMWORKS_NET
+using UnityEngine;
 
 namespace Steamworks.Samples
 {
@@ -172,3 +173,4 @@ namespace Steamworks.Samples
         }
     }
 }
+#endif
