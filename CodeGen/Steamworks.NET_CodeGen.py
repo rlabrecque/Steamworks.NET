@@ -1,4 +1,3 @@
-import sys
 from SteamworksParser import steamworksparser
 from src import interfaces
 from src import constants
