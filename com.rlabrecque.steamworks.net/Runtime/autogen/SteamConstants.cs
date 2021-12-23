@@ -26,7 +26,7 @@ namespace Steamworks {
 		public const string STEAMGAMESERVERSTATS_INTERFACE_VERSION = "SteamGameServerStats001";
 		public const string STEAMHTMLSURFACE_INTERFACE_VERSION = "STEAMHTMLSURFACE_INTERFACE_VERSION_005";
 		public const string STEAMHTTP_INTERFACE_VERSION = "STEAMHTTP_INTERFACE_VERSION003";
-		public const string STEAMINPUT_INTERFACE_VERSION = "SteamInput005";
+		public const string STEAMINPUT_INTERFACE_VERSION = "SteamInput006";
 		public const string STEAMINVENTORY_INTERFACE_VERSION = "STEAMINVENTORY_INTERFACE_V003";
 		public const string STEAMMATCHMAKING_INTERFACE_VERSION = "SteamMatchMaking009";
 		public const string STEAMMATCHMAKINGSERVERS_INTERFACE_VERSION = "SteamMatchMakingServers002";
@@ -37,14 +37,14 @@ namespace Steamworks {
 		public const string STEAMNETWORKING_INTERFACE_VERSION = "SteamNetworking006";
 		public const string STEAMNETWORKINGMESSAGES_INTERFACE_VERSION = "SteamNetworkingMessages002";
 		// Silence some warnings
-		public const string STEAMNETWORKINGSOCKETS_INTERFACE_VERSION = "SteamNetworkingSockets009";
+		public const string STEAMNETWORKINGSOCKETS_INTERFACE_VERSION = "SteamNetworkingSockets012";
 		// Silence some warnings
-		public const string STEAMNETWORKINGUTILS_INTERFACE_VERSION = "SteamNetworkingUtils003";
+		public const string STEAMNETWORKINGUTILS_INTERFACE_VERSION = "SteamNetworkingUtils004";
 		public const string STEAMPARENTALSETTINGS_INTERFACE_VERSION = "STEAMPARENTALSETTINGS_INTERFACE_VERSION001";
 		public const string STEAMREMOTEPLAY_INTERFACE_VERSION = "STEAMREMOTEPLAY_INTERFACE_VERSION001";
 		public const string STEAMREMOTESTORAGE_INTERFACE_VERSION = "STEAMREMOTESTORAGE_INTERFACE_VERSION016";
 		public const string STEAMSCREENSHOTS_INTERFACE_VERSION = "STEAMSCREENSHOTS_INTERFACE_VERSION003";
-		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION015";
+		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION016";
 		public const string STEAMUSER_INTERFACE_VERSION = "SteamUser021";
 		public const string STEAMUSERSTATS_INTERFACE_VERSION = "STEAMUSERSTATS_INTERFACE_VERSION012";
 		public const string STEAMUTILS_INTERFACE_VERSION = "SteamUtils010";
@@ -118,64 +118,38 @@ namespace Steamworks {
 		public const int k_iSteamMatchmakingCallbacks = 500;
 		public const int k_iSteamContentServerCallbacks = 600;
 		public const int k_iSteamUtilsCallbacks = 700;
-		public const int k_iClientFriendsCallbacks = 800;
-		public const int k_iClientUserCallbacks = 900;
 		public const int k_iSteamAppsCallbacks = 1000;
 		public const int k_iSteamUserStatsCallbacks = 1100;
 		public const int k_iSteamNetworkingCallbacks = 1200;
 		public const int k_iSteamNetworkingSocketsCallbacks = 1220;
 		public const int k_iSteamNetworkingMessagesCallbacks = 1250;
 		public const int k_iSteamNetworkingUtilsCallbacks = 1280;
-		public const int k_iClientRemoteStorageCallbacks = 1300;
-		public const int k_iClientDepotBuilderCallbacks = 1400;
+		public const int k_iSteamRemoteStorageCallbacks = 1300;
 		public const int k_iSteamGameServerItemsCallbacks = 1500;
-		public const int k_iClientUtilsCallbacks = 1600;
 		public const int k_iSteamGameCoordinatorCallbacks = 1700;
 		public const int k_iSteamGameServerStatsCallbacks = 1800;
 		public const int k_iSteam2AsyncCallbacks = 1900;
 		public const int k_iSteamGameStatsCallbacks = 2000;
-		public const int k_iClientHTTPCallbacks = 2100;
-		public const int k_iClientScreenshotsCallbacks = 2200;
+		public const int k_iSteamHTTPCallbacks = 2100;
 		public const int k_iSteamScreenshotsCallbacks = 2300;
-		public const int k_iClientAudioCallbacks = 2400;
-		public const int k_iClientUnifiedMessagesCallbacks = 2500;
+		// NOTE: 2500-2599 are reserved
 		public const int k_iSteamStreamLauncherCallbacks = 2600;
-		public const int k_iClientControllerCallbacks = 2700;
 		public const int k_iSteamControllerCallbacks = 2800;
-		public const int k_iClientParentalSettingsCallbacks = 2900;
-		public const int k_iClientDeviceAuthCallbacks = 3000;
-		public const int k_iClientNetworkDeviceManagerCallbacks = 3100;
-		public const int k_iClientMusicCallbacks = 3200;
-		public const int k_iClientRemoteClientManagerCallbacks = 3300;
-		public const int k_iClientUGCCallbacks = 3400;
+		public const int k_iSteamUGCCallbacks = 3400;
 		public const int k_iSteamStreamClientCallbacks = 3500;
-		public const int k_IClientProductBuilderCallbacks = 3600;
-		public const int k_iClientShortcutsCallbacks = 3700;
-		public const int k_iClientRemoteControlManagerCallbacks = 3800;
 		public const int k_iSteamAppListCallbacks = 3900;
 		public const int k_iSteamMusicCallbacks = 4000;
 		public const int k_iSteamMusicRemoteCallbacks = 4100;
-		public const int k_iClientVRCallbacks = 4200;
-		public const int k_iClientGameNotificationCallbacks = 4300;
 		public const int k_iSteamGameNotificationCallbacks = 4400;
 		public const int k_iSteamHTMLSurfaceCallbacks = 4500;
-		public const int k_iClientVideoCallbacks = 4600;
-		public const int k_iClientInventoryCallbacks = 4700;
-		public const int k_iClientBluetoothManagerCallbacks = 4800;
-		public const int k_iClientSharedConnectionCallbacks = 4900;
+		public const int k_iSteamVideoCallbacks = 4600;
+		public const int k_iSteamInventoryCallbacks = 4700;
 		public const int k_ISteamParentalSettingsCallbacks = 5000;
-		public const int k_iClientShaderCallbacks = 5100;
 		public const int k_iSteamGameSearchCallbacks = 5200;
 		public const int k_iSteamPartiesCallbacks = 5300;
-		public const int k_iClientPartiesCallbacks = 5400;
 		public const int k_iSteamSTARCallbacks = 5500;
-		public const int k_iClientSTARCallbacks = 5600;
 		public const int k_iSteamRemotePlayCallbacks = 5700;
-		public const int k_iClientCompatCallbacks = 5800;
 		public const int k_iSteamChatCallbacks = 5900;
-		public const int k_iClientNetworkingUtilsCallbacks = 6000;
-		public const int k_iClientSystemManagerCallbacks = 6100;
-		public const int k_iClientStorageDeviceManagerCallbacks = 6200;
 		/// Pass to SteamGameServer_Init to indicate that the same UDP port will be used for game traffic
 		/// UDP queries for server browser pings and LAN discovery.  In this case, Steam will not open up a
 		/// socket to handle server browser queries, and you must use ISteamGameServer::HandleIncomingPacket
@@ -186,6 +160,13 @@ namespace Steamworks {
 		public const int k_unSteamUserDefaultInstance = 1; // fixed instance for all individual users
 		public const int k_cchGameExtraInfoMax = 64;
 		public const int k_nSteamEncryptedAppTicketSymmetricKeyLen = 32;
+		/// Port number(s) assigned to us.  Only the first entries will contain
+		/// nonzero values.  Entries corresponding to ports beyond what was
+		/// allocated for you will be zero.
+		///
+		/// (NOTE: At the time of this writing, the maximum number of ports you may
+		/// request is 4.)
+		public const int k_nMaxReturnPorts = 8;
 		/// Max length of diagnostic error message
 		public const int k_cchMaxSteamNetworkingErrMsg = 1024;
 		/// Max length, in bytes (including null terminator) of the reason string
@@ -194,6 +175,14 @@ namespace Steamworks {
 		/// Max length, in bytes (include null terminator) of debug description
 		/// of a connection.
 		public const int k_cchSteamNetworkingMaxConnectionDescription = 128;
+		/// Max length of the app's part of the description
+		public const int k_cchSteamNetworkingMaxConnectionAppName = 32;
+		public const int k_nSteamNetworkConnectionInfoFlags_Unauthenticated = 1; // We don't have a certificate for the remote host.
+		public const int k_nSteamNetworkConnectionInfoFlags_Unencrypted = 2; // Information is being sent out over a wire unencrypted (by this library)
+		public const int k_nSteamNetworkConnectionInfoFlags_LoopbackBuffers = 4; // Internal loopback buffers.  Won't be true for localhost.  (You can check the address to determine that.)  This implies k_nSteamNetworkConnectionInfoFlags_FastLAN
+		public const int k_nSteamNetworkConnectionInfoFlags_Fast = 8; // The connection is "fast" and "reliable".  Either internal/localhost (check the address to find out), or the peer is on the same LAN.  (Probably.  It's based on the address and the ping time, this is actually hard to determine unambiguously).
+		public const int k_nSteamNetworkConnectionInfoFlags_Relayed = 16; // The connection is relayed somehow (SDR or TURN).
+		public const int k_nSteamNetworkConnectionInfoFlags_DualWifi = 32; // We're taking advantage of dual-wifi multi-path
 		//
 		// Network messages
 		//

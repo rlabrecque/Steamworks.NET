@@ -54,10 +54,12 @@ namespace Steamworks {
 		/// <para>/</para>
 		/// <para>/ Returns:</para>
 		/// <para>/ - k_EREsultOK on success.</para>
-		/// <para>/ - k_EResultNoConnection will be returned if the session has failed or was closed by the peer,</para>
-		/// <para>/   and k_nSteamNetworkingSend_AutoRestartBrokenSession is not used.  (You can use</para>
-		/// <para>/   GetSessionConnectionInfo to get the details.)  In order to acknowledge the broken session</para>
-		/// <para>/   and start a new one, you must call CloseSessionWithUser</para>
+		/// <para>/ - k_EResultNoConnection, if the session has failed or was closed by the peer and</para>
+		/// <para>/   k_nSteamNetworkingSend_AutoRestartBrokenSession was not specified.  (You can</para>
+		/// <para>/   use GetSessionConnectionInfo to get the details.)  In order to acknowledge the</para>
+		/// <para>/   broken session and start a new one, you must call CloseSessionWithUser, or you may</para>
+		/// <para>/   repeat the call with k_nSteamNetworkingSend_AutoRestartBrokenSession.  See</para>
+		/// <para>/   k_nSteamNetworkingSend_AutoRestartBrokenSession for more details.</para>
 		/// <para>/ - See ISteamNetworkingSockets::SendMessageToConnection for more possible return values</para>
 		/// </summary>
 		public static EResult SendMessageToUser(ref SteamNetworkingIdentity identityRemote, IntPtr pubData, uint cubData, int nSendFlags, int nRemoteChannel) {
@@ -127,7 +129,7 @@ namespace Steamworks {
 		/// <para>/ so if a connection fails, or SendMessageToUser returns k_EResultNoConnection, you cannot wait</para>
 		/// <para>/ indefinitely to obtain the reason for failure.</para>
 		/// </summary>
-		public static ESteamNetworkingConnectionState GetSessionConnectionInfo(ref SteamNetworkingIdentity identityRemote, out SteamNetConnectionInfo_t pConnectionInfo, out SteamNetworkingQuickConnectionStatus pQuickStatus) {
+		public static ESteamNetworkingConnectionState GetSessionConnectionInfo(ref SteamNetworkingIdentity identityRemote, out SteamNetConnectionInfo_t pConnectionInfo, out SteamNetConnectionRealTimeStatus_t pQuickStatus) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamNetworkingMessages_GetSessionConnectionInfo(CSteamAPIContext.GetSteamNetworkingMessages(), ref identityRemote, out pConnectionInfo, out pQuickStatus);
 		}

@@ -81,6 +81,17 @@ namespace Steamworks
 		public bool Equals(SteamNetworkingIPAddr x) {
 			return NativeMethods.SteamAPI_SteamNetworkingIPAddr_IsEqualTo(ref this, ref x);
 		}
+
+		/// Classify address as FakeIP.  This function never returns
+		/// k_ESteamNetworkingFakeIPType_Invalid.
+		public ESteamNetworkingFakeIPType GetFakeIPType() {
+			return NativeMethods.SteamAPI_SteamNetworkingIPAddr_GetFakeIPType(ref this);
+		}
+
+		/// Return true if we are a FakeIP
+		public bool IsFakeIP() {
+			return GetFakeIPType() > ESteamNetworkingFakeIPType.k_ESteamNetworkingFakeIPType_NotFake;
+		}
 	}
 }
 

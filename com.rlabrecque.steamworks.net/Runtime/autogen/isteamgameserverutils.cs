@@ -342,6 +342,14 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamUtils_SetGameLauncherMode(CSteamGameServerAPIContext.GetSteamUtils(), bLauncherMode);
 		}
+
+		/// <summary>
+		/// <para> Dismisses the floating keyboard.</para>
+		/// </summary>
+		public static bool DismissFloatingGamepadTextInput() {
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamUtils_DismissFloatingGamepadTextInput(CSteamGameServerAPIContext.GetSteamUtils());
+		}
 	}
 }
 

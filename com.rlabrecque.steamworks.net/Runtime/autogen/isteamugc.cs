@@ -280,6 +280,16 @@ namespace Steamworks {
 			return NativeMethods.ISteamUGC_SetRankedByTrendDays(CSteamAPIContext.GetSteamUGC(), handle, unDays);
 		}
 
+		public static bool SetTimeCreatedDateRange(UGCQueryHandle_t handle, uint rtStart, uint rtEnd) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_SetTimeCreatedDateRange(CSteamAPIContext.GetSteamUGC(), handle, rtStart, rtEnd);
+		}
+
+		public static bool SetTimeUpdatedDateRange(UGCQueryHandle_t handle, uint rtStart, uint rtEnd) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_SetTimeUpdatedDateRange(CSteamAPIContext.GetSteamUGC(), handle, rtStart, rtEnd);
+		}
+
 		public static bool AddRequiredKeyValueTag(UGCQueryHandle_t handle, string pKey, string pValue) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pKey2 = new InteropHelp.UTF8StringHandle(pKey))

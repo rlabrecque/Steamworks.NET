@@ -33,7 +33,7 @@ namespace Steamworks
 
 		[System.Serializable]
 		[StructLayout(LayoutKind.Sequential)]
-		public struct SteamInputAnalogActionEvent_t
+		public struct AnalogAction_t
 		{
 				public InputAnalogActionHandle_t actionHandle;
 
@@ -42,7 +42,7 @@ namespace Steamworks
 
 		[System.Serializable]
 		[StructLayout(LayoutKind.Sequential)]
-		public struct SteamInputDigitalActionEvent_t
+		public struct DigitalAction_t
 		{
 				public InputDigitalActionHandle_t actionHandle;
 
@@ -54,10 +54,10 @@ namespace Steamworks
 		public struct OptionValue
 		{
 			[FieldOffset(0)]
-			public SteamInputAnalogActionEvent_t analogAction;
+			public AnalogAction_t analogAction;
 
 			[FieldOffset(0)]
-			public SteamInputDigitalActionEvent_t digitalAction;
+			public DigitalAction_t digitalAction;
 		}
 	}
 }
