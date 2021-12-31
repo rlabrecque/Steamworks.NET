@@ -579,6 +579,81 @@ namespace Steamworks {
 		k_EInputActionOrigin_PS5_Reserved19,
 		k_EInputActionOrigin_PS5_Reserved20,
 
+		// Added in SDK 1.53
+		k_EInputActionOrigin_SteamDeck_A,
+		k_EInputActionOrigin_SteamDeck_B,
+		k_EInputActionOrigin_SteamDeck_X,
+		k_EInputActionOrigin_SteamDeck_Y,
+		k_EInputActionOrigin_SteamDeck_L1,
+		k_EInputActionOrigin_SteamDeck_R1,
+		k_EInputActionOrigin_SteamDeck_Menu,
+		k_EInputActionOrigin_SteamDeck_View,
+		k_EInputActionOrigin_SteamDeck_LeftPad_Touch,
+		k_EInputActionOrigin_SteamDeck_LeftPad_Swipe,
+		k_EInputActionOrigin_SteamDeck_LeftPad_Click,
+		k_EInputActionOrigin_SteamDeck_LeftPad_DPadNorth,
+		k_EInputActionOrigin_SteamDeck_LeftPad_DPadSouth,
+		k_EInputActionOrigin_SteamDeck_LeftPad_DPadWest,
+		k_EInputActionOrigin_SteamDeck_LeftPad_DPadEast,
+		k_EInputActionOrigin_SteamDeck_RightPad_Touch,
+		k_EInputActionOrigin_SteamDeck_RightPad_Swipe,
+		k_EInputActionOrigin_SteamDeck_RightPad_Click,
+		k_EInputActionOrigin_SteamDeck_RightPad_DPadNorth,
+		k_EInputActionOrigin_SteamDeck_RightPad_DPadSouth,
+		k_EInputActionOrigin_SteamDeck_RightPad_DPadWest,
+		k_EInputActionOrigin_SteamDeck_RightPad_DPadEast,
+		k_EInputActionOrigin_SteamDeck_L2_SoftPull,
+		k_EInputActionOrigin_SteamDeck_L2,
+		k_EInputActionOrigin_SteamDeck_R2_SoftPull,
+		k_EInputActionOrigin_SteamDeck_R2,
+		k_EInputActionOrigin_SteamDeck_LeftStick_Move,
+		k_EInputActionOrigin_SteamDeck_L3,
+		k_EInputActionOrigin_SteamDeck_LeftStick_DPadNorth,
+		k_EInputActionOrigin_SteamDeck_LeftStick_DPadSouth,
+		k_EInputActionOrigin_SteamDeck_LeftStick_DPadWest,
+		k_EInputActionOrigin_SteamDeck_LeftStick_DPadEast,
+		k_EInputActionOrigin_SteamDeck_LeftStick_Touch,
+		k_EInputActionOrigin_SteamDeck_RightStick_Move,
+		k_EInputActionOrigin_SteamDeck_R3,
+		k_EInputActionOrigin_SteamDeck_RightStick_DPadNorth,
+		k_EInputActionOrigin_SteamDeck_RightStick_DPadSouth,
+		k_EInputActionOrigin_SteamDeck_RightStick_DPadWest,
+		k_EInputActionOrigin_SteamDeck_RightStick_DPadEast,
+		k_EInputActionOrigin_SteamDeck_RightStick_Touch,
+		k_EInputActionOrigin_SteamDeck_L4,
+		k_EInputActionOrigin_SteamDeck_R4,
+		k_EInputActionOrigin_SteamDeck_L5,
+		k_EInputActionOrigin_SteamDeck_R5,
+		k_EInputActionOrigin_SteamDeck_DPad_Move,
+		k_EInputActionOrigin_SteamDeck_DPad_North,
+		k_EInputActionOrigin_SteamDeck_DPad_South,
+		k_EInputActionOrigin_SteamDeck_DPad_West,
+		k_EInputActionOrigin_SteamDeck_DPad_East,
+		k_EInputActionOrigin_SteamDeck_Gyro_Move,
+		k_EInputActionOrigin_SteamDeck_Gyro_Pitch,
+		k_EInputActionOrigin_SteamDeck_Gyro_Yaw,
+		k_EInputActionOrigin_SteamDeck_Gyro_Roll,
+		k_EInputActionOrigin_SteamDeck_Reserved1,
+		k_EInputActionOrigin_SteamDeck_Reserved2,
+		k_EInputActionOrigin_SteamDeck_Reserved3,
+		k_EInputActionOrigin_SteamDeck_Reserved4,
+		k_EInputActionOrigin_SteamDeck_Reserved5,
+		k_EInputActionOrigin_SteamDeck_Reserved6,
+		k_EInputActionOrigin_SteamDeck_Reserved7,
+		k_EInputActionOrigin_SteamDeck_Reserved8,
+		k_EInputActionOrigin_SteamDeck_Reserved9,
+		k_EInputActionOrigin_SteamDeck_Reserved10,
+		k_EInputActionOrigin_SteamDeck_Reserved11,
+		k_EInputActionOrigin_SteamDeck_Reserved12,
+		k_EInputActionOrigin_SteamDeck_Reserved13,
+		k_EInputActionOrigin_SteamDeck_Reserved14,
+		k_EInputActionOrigin_SteamDeck_Reserved15,
+		k_EInputActionOrigin_SteamDeck_Reserved16,
+		k_EInputActionOrigin_SteamDeck_Reserved17,
+		k_EInputActionOrigin_SteamDeck_Reserved18,
+		k_EInputActionOrigin_SteamDeck_Reserved19,
+		k_EInputActionOrigin_SteamDeck_Reserved20,
+
 		k_EInputActionOrigin_Count, // If Steam has added support for new controllers origins will go here.
 		k_EInputActionOrigin_MaximumPossibleValue = 32767, // Origins are currently a maximum of 16 bits.
 	}
@@ -647,6 +722,7 @@ namespace Steamworks {
 		k_ESteamInputType_MobileTouch,			// Steam Link App On-screen Virtual Controller
 		k_ESteamInputType_PS3Controller,		// Currently uses PS4 Origins
 		k_ESteamInputType_PS5Controller,		// Added in SDK 151
+		k_ESteamInputType_SteamDeckController,	// Added in SDK 153
 		k_ESteamInputType_Count,
 		k_ESteamInputType_MaximumPossibleValue = 255,
 	}
@@ -670,9 +746,23 @@ namespace Steamworks {
 
 	// These values are passed into GetGlyphPNGForActionOrigin
 	public enum ESteamInputGlyphSize : int {
-		k_ESteamInputGlyphSize_Small,
-		k_ESteamInputGlyphSize_Medium,
-		k_ESteamInputGlyphSize_Large,
+		k_ESteamInputGlyphSize_Small,	// 32x32 pixels
+		k_ESteamInputGlyphSize_Medium,	// 128x128 pixels
+		k_ESteamInputGlyphSize_Large,	// 256x256 pixels
+		k_ESteamInputGlyphSize_Count,
+	}
+
+	public enum ESteamInputGlyphStyle : int {
+		// Base-styles - cannot mix
+		ESteamInputGlyphStyle_Knockout 	= 0x0, // Face buttons will have colored labels/outlines on a knocked out background
+											   // Rest of inputs will have white detail/borders on a knocked out background
+		ESteamInputGlyphStyle_Light		= 0x1, // Black detail/borders on a white background
+		ESteamInputGlyphStyle_Dark 		= 0x2, // White detail/borders on a black background
+
+		// Modifiers
+		// Default ABXY/PS equivalent glyphs have a solid fill w/ color matching the physical buttons on the device
+		ESteamInputGlyphStyle_NeutralColorABXY 	= 0x10, // ABXY Buttons will match the base style color instead of their normal associated color
+		ESteamInputGlyphStyle_SolidABXY 		= 0x20,	// ABXY Buttons will have a solid fill
 	}
 
 	public enum ESteamInputActionEventType : int {
@@ -1336,6 +1426,7 @@ namespace Steamworks {
 		k_EResultSteamRealmMismatch = 120,			// The user's realm does not match the realm of the requested resource
 		k_EResultInvalidSignature = 121,			// signature check did not match
 		k_EResultParseFailure = 122,				// Failed to parse input
+		k_EResultNoVerifiedPhone = 123,				// account does not have a verified phone number
 	}
 
 	// Error codes for use with the voice functions
@@ -1809,6 +1900,17 @@ namespace Steamworks {
 		k_ESteamNetworkingIdentityType__Force32bit = 0x7fffffff,
 	}
 
+	/// "Fake IPs" are assigned to hosts, to make it easier to interface with
+	/// older code that assumed all hosts will have an IPv4 address
+	public enum ESteamNetworkingFakeIPType : int {
+		k_ESteamNetworkingFakeIPType_Invalid, // Error, argument was not even an IP address, etc.
+		k_ESteamNetworkingFakeIPType_NotFake, // Argument was a valid IP, but was not from the reserved "fake" range
+		k_ESteamNetworkingFakeIPType_GlobalIPv4, // Globally unique (for a given app) IPv4 address.  Address space managed by Steam
+		k_ESteamNetworkingFakeIPType_LocalIPv4, // Locally unique IPv4 address.  Address space managed by the local process.  For internal use only; should not be shared!
+
+		k_ESteamNetworkingFakeIPType__Force32Bit = 0x7fffffff
+	}
+
 	//
 	// Connection status
 	//
@@ -2255,19 +2357,6 @@ namespace Steamworks {
 		/// the peer to also modify their value in order for encryption to be disabled.)
 		k_ESteamNetworkingConfig_Unencrypted = 34,
 
-		/// [global int32] 0 or 1.  Some variables are "dev" variables.  They are useful
-		/// for debugging, but should not be adjusted in production.  When this flag is false (the default),
-		/// such variables will not be enumerated by the ISteamnetworkingUtils::GetFirstConfigValue
-		/// ISteamNetworkingUtils::GetConfigValueInfo functions.  The idea here is that you
-		/// can use those functions to provide a generic mechanism to set any configuration
-		/// value from a console or configuration file, looking up the variable by name.  Depending
-		/// on your game, modifying other configuration values may also have negative effects, and
-		/// you may wish to further lock down which variables are allowed to be modified by the user.
-		/// (Maybe no variables!)  Or maybe you use a whitelist or blacklist approach.
-		///
-		/// (This flag is itself a dev variable.)
-		k_ESteamNetworkingConfig_EnumerateDevVars = 35,
-
 		/// [connection int32] Set this to 1 on outbound connections and listen sockets,
 		/// to enable "symmetric connect mode", which is useful in the following
 		/// common peer-to-peer use case:
@@ -2369,6 +2458,13 @@ namespace Steamworks {
 		/// This value should not be read or written in any other context.
 		k_ESteamNetworkingConfig_LocalVirtualPort = 38,
 
+		/// [connection int32] Enable Dual wifi band support for this connection
+		/// 0 = no, 1 = yes, 2 = simulate it for debugging, even if dual wifi not available
+		k_ESteamNetworkingConfig_DualWifi_Enable = 39,
+
+		/// [connection int32] True to enable diagnostics reporting through
+		/// generic platform UI.  (Only available on Steam.)
+		k_ESteamNetworkingConfig_EnableDiagnosticsUI = 46,
 
 	//
 	// Simulating network conditions
@@ -2489,6 +2585,11 @@ namespace Steamworks {
 		/// ISteamNetworkingMessages.
 		k_ESteamNetworkingConfig_Callback_CreateConnectionSignaling = 206,
 
+		/// [global FnSteamNetworkingFakeIPResult] Callback that's invoked when
+		/// a FakeIP allocation finishes.  See: ISteamNetworkingSockets::BeginAsyncRequestFakeIP,
+		/// ISteamNetworkingUtils::SetGlobalCallback_FakeIPResult
+		k_ESteamNetworkingConfig_Callback_FakeIPResult = 207,
+
 	//
 	// P2P connection settings
 	//
@@ -2585,6 +2686,10 @@ namespace Steamworks {
 		k_ESteamNetworkingConfig_LogLevel_PacketGaps = 16, // [connection int32] dropped packets
 		k_ESteamNetworkingConfig_LogLevel_P2PRendezvous = 17, // [connection int32] P2P rendezvous messages
 		k_ESteamNetworkingConfig_LogLevel_SDRRelayPings = 18, // [global int32] Ping relays
+
+
+		// Deleted, do not use
+		k_ESteamNetworkingConfig_DELETED_EnumerateDevVars = 35,
 
 		k_ESteamNetworkingConfigValue__Force32Bit = 0x7fffffff
 	}

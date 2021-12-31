@@ -84,7 +84,26 @@ namespace Steamworks
 		// returns null if we are not an IP address.
 		public SteamNetworkingIPAddr GetIPAddr(){
 			throw new System.NotImplementedException();
+			// TODO: Should SteamNetworkingIPAddr be a class?
+			//       or should this return some kind of pointer instead?
 			//return NativeMethods.SteamAPI_SteamNetworkingIdentity_GetIPAddr(ref this);
+		}
+
+		public void SetIPv4Addr(uint nIPv4, ushort nPort) {
+			NativeMethods.SteamAPI_SteamNetworkingIdentity_SetIPv4Addr(ref this, nIPv4, nPort);
+		}
+
+		// returns 0 if we are not an IPv4 address.
+		public uint GetIPv4() {
+			return NativeMethods.SteamAPI_SteamNetworkingIdentity_GetIPv4(ref this);
+		}
+
+		public ESteamNetworkingFakeIPType GetFakeIPType() {
+			return NativeMethods.SteamAPI_SteamNetworkingIdentity_GetFakeIPType(ref this);
+		}
+
+		public bool IsFakeIP() {
+			return GetFakeIPType() > ESteamNetworkingFakeIPType.k_ESteamNetworkingFakeIPType_NotFake;
 		}
 
 		// "localhost" is equivalent for many purposes to "anonymous."  Our remote

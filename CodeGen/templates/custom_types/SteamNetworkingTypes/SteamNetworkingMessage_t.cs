@@ -36,15 +36,17 @@ namespace Steamworks
 		/// - You might have closed the connection, so fetching the user data
 		///   would not be possible.
 		///
-		/// Not used when sending messages,
+		/// Not used when sending messages.
 		public long m_nConnUserData;
 
 		/// Local timestamp when the message was received
 		/// Not used for outbound messages.
 		public SteamNetworkingMicroseconds m_usecTimeReceived;
 
-		/// Message number assigned by the sender.
-		/// This is not used for outbound messages
+		/// Message number assigned by the sender.  This is not used for outbound
+		/// messages.  Note that if multiple lanes are used, each lane has its own
+		/// message numbers, which are assigned sequentially, so messages from
+		/// different lanes will share the same numbers.
 		public long m_nMessageNumber;
 
 		/// Function used to free up m_pData.  This mechanism exists so that
@@ -75,6 +77,12 @@ namespace Steamworks
 		///
 		/// Not used for received messages.
 		public long m_nUserData;
+
+		/// For outbound messages, which lane to use?  See ISteamNetworkingSockets::ConfigureConnectionLanes.
+		/// For inbound messages, what lane was the message received on?
+		public ushort m_idxLane;
+
+		public ushort _pad1__;
 
 		/// You MUST call this when you're done with the object,
 		/// to free up memory, etc.

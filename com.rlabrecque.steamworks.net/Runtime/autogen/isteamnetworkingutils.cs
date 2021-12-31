@@ -299,6 +299,42 @@ namespace Steamworks {
 		}
 
 		/// <summary>
+		/// <para> Fake IP</para>
+		/// <para> Useful for interfacing with code that assumes peers are identified using an IPv4 address</para>
+		/// <para>/ Return true if an IPv4 address is one that might be used as a "fake" one.</para>
+		/// <para>/ This function is fast; it just does some logical tests on the IP and does</para>
+		/// <para>/ not need to do any lookup operations.</para>
+		/// </summary>
+		public static bool IsFakeIPv4(uint nIPv4) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamNetworkingUtils_IsFakeIPv4(CSteamAPIContext.GetSteamNetworkingUtils(), nIPv4);
+		}
+
+		public static ESteamNetworkingFakeIPType GetIPv4FakeIPType(uint nIPv4) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamNetworkingUtils_GetIPv4FakeIPType(CSteamAPIContext.GetSteamNetworkingUtils(), nIPv4);
+		}
+
+		/// <summary>
+		/// <para>/ Get the real identity associated with a given FakeIP.</para>
+		/// <para>/</para>
+		/// <para>/ On failure, returns:</para>
+		/// <para>/ - k_EResultInvalidParam: the IP is not a FakeIP.</para>
+		/// <para>/ - k_EResultNoMatch: we don't recognize that FakeIP and don't know the corresponding identity.</para>
+		/// <para>/</para>
+		/// <para>/ FakeIP's used by active connections, or the FakeIPs assigned to local identities,</para>
+		/// <para>/ will always work.  FakeIPs for recently destroyed connections will continue to</para>
+		/// <para>/ return results for a little while, but not forever.  At some point, we will forget</para>
+		/// <para>/ FakeIPs to save space.  It's reasonably safe to assume that you can read back the</para>
+		/// <para>/ real identity of a connection very soon after it is destroyed.  But do not wait</para>
+		/// <para>/ indefinitely.</para>
+		/// </summary>
+		public static EResult GetRealIdentityForFakeIP(ref SteamNetworkingIPAddr fakeIP, out SteamNetworkingIdentity pOutRealIdentity) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamNetworkingUtils_GetRealIdentityForFakeIP(CSteamAPIContext.GetSteamNetworkingUtils(), ref fakeIP, out pOutRealIdentity);
+		}
+
+		/// <summary>
 		/// <para> Set and get configuration values, see ESteamNetworkingConfigValue for individual descriptions.</para>
 		/// <para> Shortcuts for common cases.  (Implemented as inline functions below)</para>
 		/// <para> Set global callbacks.  If you do not want to use Steam's callback dispatch mechanism and you</para>
@@ -340,25 +376,28 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>/ Returns info about a configuration value.  Returns false if the value does not exist.</para>
-		/// <para>/ pOutNextValue can be used to iterate through all of the known configuration values.</para>
-		/// <para>/ (Use GetFirstConfigValue() to begin the iteration, will be k_ESteamNetworkingConfig_Invalid on the last value)</para>
-		/// <para>/ Any of the output parameters can be NULL if you do not need that information.</para>
-		/// <para>/</para>
-		/// <para>/ See k_ESteamNetworkingConfig_EnumerateDevVars for some more info about "dev" variables,</para>
-		/// <para>/ which are usually excluded from the set of variables enumerated using this function.</para>
+		/// <para>/ Get info about a configuration value.  Returns the name of the value,</para>
+		/// <para>/ or NULL if the value doesn't exist.  Other output parameters can be NULL</para>
+		/// <para>/ if you do not need them.</para>
 		/// </summary>
-		public static bool GetConfigValueInfo(ESteamNetworkingConfigValue eValue, IntPtr pOutName, out ESteamNetworkingConfigDataType pOutDataType, out ESteamNetworkingConfigScope pOutScope, out ESteamNetworkingConfigValue pOutNextValue) {
+		public static string GetConfigValueInfo(ESteamNetworkingConfigValue eValue, out ESteamNetworkingConfigDataType pOutDataType, out ESteamNetworkingConfigScope pOutScope) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamNetworkingUtils_GetConfigValueInfo(CSteamAPIContext.GetSteamNetworkingUtils(), eValue, pOutName, out pOutDataType, out pOutScope, out pOutNextValue);
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamNetworkingUtils_GetConfigValueInfo(CSteamAPIContext.GetSteamNetworkingUtils(), eValue, out pOutDataType, out pOutScope));
 		}
 
 		/// <summary>
-		/// <para>/ Return the lowest numbered configuration value available in the current environment.</para>
+		/// <para>/ Iterate the list of all configuration values in the current environment that it might</para>
+		/// <para>/ be possible to display or edit using a generic UI.  To get the first iterable value,</para>
+		/// <para>/ pass k_ESteamNetworkingConfig_Invalid.  Returns k_ESteamNetworkingConfig_Invalid</para>
+		/// <para>/ to signal end of list.</para>
+		/// <para>/</para>
+		/// <para>/ The bEnumerateDevVars argument can be used to include "dev" vars.  These are vars that</para>
+		/// <para>/ are recommended to only be editable in "debug" or "dev" mode and typically should not be</para>
+		/// <para>/ shown in a retail environment where a malicious local user might use this to cheat.</para>
 		/// </summary>
-		public static ESteamNetworkingConfigValue GetFirstConfigValue() {
+		public static ESteamNetworkingConfigValue IterateGenericEditableConfigValues(ESteamNetworkingConfigValue eCurrent, bool bEnumerateDevVars) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamNetworkingUtils_GetFirstConfigValue(CSteamAPIContext.GetSteamNetworkingUtils());
+			return NativeMethods.ISteamNetworkingUtils_IterateGenericEditableConfigValues(CSteamAPIContext.GetSteamNetworkingUtils(), eCurrent, bEnumerateDevVars);
 		}
 
 		/// <summary>
@@ -378,6 +417,11 @@ namespace Steamworks {
 			using (var pszStr2 = new InteropHelp.UTF8StringHandle(pszStr)) {
 				return NativeMethods.ISteamNetworkingUtils_SteamNetworkingIPAddr_ParseString(CSteamAPIContext.GetSteamNetworkingUtils(), out pAddr, pszStr2);
 			}
+		}
+
+		public static ESteamNetworkingFakeIPType SteamNetworkingIPAddr_GetFakeIPType(ref SteamNetworkingIPAddr addr) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamNetworkingUtils_SteamNetworkingIPAddr_GetFakeIPType(CSteamAPIContext.GetSteamNetworkingUtils(), ref addr);
 		}
 
 		public static void SteamNetworkingIdentity_ToString(ref SteamNetworkingIdentity identity, out string buf, uint cbBuf) {

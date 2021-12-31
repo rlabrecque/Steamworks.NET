@@ -17,6 +17,7 @@ g_SkippedInterfaces = (
     "ISteamGameServerNetworkingConnectionCustomSignaling",
     "ISteamNetworkingCustomSignalingRecvContext",
     "ISteamGameServerNetworkingCustomSignalingRecvContext",
+    "ISteamNetworkingFakeUDPPort",
 )
 
 g_TypeDict = {
@@ -80,7 +81,7 @@ g_TypeDict = {
 
     # SteamNetworkingTypes which are stubbed
     "SteamDatagramGameCoordinatorServerLogin *": "IntPtr",
-
+    "ISteamNetworkingFakeUDPPort *": "IntPtr",
 }
 
 g_WrapperArgsTypeDict = {
@@ -424,6 +425,15 @@ g_SpecialArgsDict = {
     "ISteamGameServerNetworkingSockets_SendMessages": {
         "pMessages": "SteamNetworkingMessage_t[]",
         "pOutMessageNumberOrResult": "long[]",
+    },
+
+    "ISteamNetworkingSockets_GetConnectionRealTimeStatus": {
+        "pStatus": "ref SteamNetConnectionRealTimeStatus_t",
+        "pLanes": "ref SteamNetConnectionRealTimeLaneStatus_t",
+    },
+    "ISteamGameServerNetworkingSockets_GetConnectionRealTimeStatus": {
+        "pStatus": "ref SteamNetConnectionRealTimeStatus_t",
+        "pLanes": "ref SteamNetConnectionRealTimeLaneStatus_t",
     },
 }
 
@@ -779,7 +789,7 @@ def parse_args(strEntryPoint, args):
     for arg in args:
         argtype = g_TypeDict.get(arg.type, arg.type)
         if argtype.endswith("*"):
-            potentialtype = arg.type.rstrip("*").rstrip()
+            potentialtype = arg.type.rstrip("*").lstrip("const ").rstrip()
             argtype = "out " + g_TypeDict.get(potentialtype, potentialtype)
         argtype = g_SpecialArgsDict.get(strEntryPoint, dict()).get(arg.name, argtype)
 
