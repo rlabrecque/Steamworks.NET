@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project>
+	<Target Name="PrepareFolderStructure" DependsOnTargets="Build"
+			Outputs="@(O_PrepareFolderStructure)">
+		<PropertyGroup>
+			<AsmBase>$(ProjectDir)bin\nuget\runtime\</AsmBase>
+			<PdbBase>$(ProjectDir)bin\nugetsyms\runtime\</PdbBase>
+			<FrameworkBase>lib\$(TargetFramework)\</FrameworkBase>
+		</PropertyGroup>
+		<ItemGroup Condition="'$(Configuration)'=='Windows'">
+			<LibDir Include="$(AsmBase)win-$(Platform)\$(FrameworkBase)" />
+			<SymDir Include="$(PdbBase)win-$(Platform)\$(FrameworkBase)\" />
+		</ItemGroup>
+		<ItemGroup Condition="'$(Configuration)'=='OSX-Linux'">
+			<LibDir Include="$(AsmBase)linux-$(Platform)\$(FrameworkBase)\" />
+			<SymDir Include="$(PdbBase)linux-$(Platform)\$(FrameworkBase)\" />
+			<LibDir Include="$(AsmBase)osx-$(Platform)\$(FrameworkBase)\" />
+			<SymDir Include="$(PdbBase)osx-$(Platform)\$(FrameworkBase)\" />
+		</ItemGroup>
+		<Copy SourceFiles="$(OutDir)$(AssemblyName).dll" DestinationFolder="%(LibDir.Identity)">
+			<Output	ItemName="O_PrepareFolderStructure" TaskParameter="CopiedFiles"/>
+		</Copy>
+		<Copy SourceFiles="$(OutDir)$(AssemblyName).pdb" Condition="Exists('$(OutDir)$(AssemblyName).pdb')" DestinationFolder="%(SymDir.Identity)">
+			<Output	ItemName="O_PrepareFolderStructure" TaskParameter="CopiedFiles"/>
+		</Copy>
+	</Target>
+	<Target Name="BatchBuild" BeforeTargets="Pack"
+			Outputs="@(O_BatchBuild)">
+		<ItemGroup>
+			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+				<Properties>Platform=x64;Configuration=Windows;PackagingBuild=true</Properties>
+			</ToBuilt>
+			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+				<Properties>Platform=x64;Configuration=OSX-Linux;PackagingBuild=true</Properties>
+			</ToBuilt>
+			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+				<Properties>Platform=x86;Configuration=Windows;PackagingBuild=true</Properties>
+			</ToBuilt>
+			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+				<Properties>Platform=x86;Configuration=OSX-Linux;PackagingBuild=true</Properties>
+			</ToBuilt>
+			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+				<Properties>
+					Platform=x64;
+					Configuration=Windows;
+					ProduceOnlyReferenceAssembly=true;
+					OutDir=$(ProjectDir)bin\ref
+				</Properties>
+			</ToBuilt>
+		</ItemGroup>
+		<MSBuild BuildInParallel="true" StopOnFirstFailure="true" Projects="@(ToBuilt)"
+				 Targets="Build;PrepareFolderStructure">
+			<Output TaskParameter="TargetOutputs" ItemName="O_BatchBuild" />
+		</MSBuild>
+	</Target>
+	<Target Name="CollectNugetContent" DependsOnTargets="BatchBuild" BeforeTargets="_GetPackageFiles;GenerateNuspec">
+		<ItemGroup>
+			<None Remove="%(Complie.Identity)" />
+			<None Remove="*" />
+			<None Remove="MainPackage\*" />
+			<Asm Include="$(ProjectDir)bin\ref\*">
+				<Pack>true</Pack>
+				<PackagePath>ref\$(TargetFramework)\</PackagePath>
+			</Asm>
+			<Content Include="../README.md" Pack="true" PackagePath="" />
+		</ItemGroup>
+		<ItemGroup>
+			<Paths Include="linux-x64;osx-x64;win-x64;linux-x86;osx-x86;win-x86" />
+		</ItemGroup>
+		<PropertyGroup>
+			<AsmBase>$(ProjectDir)bin\nuget\runtime\lib\</AsmBase>
+			<PdbBase>$(ProjectDir)bin\nugetsyms\runtime\lib\</PdbBase>
+			<FrameworkBase>lib\$(TargetFramework)\</FrameworkBase>
+		</PropertyGroup>
+		<ItemGroup>
+			<Asm Include="@(Paths->'$(AsmBase)%(Identity)\$(FrameworkBase)\$(AssemblyName).dll')"
+				 Pack="true" PackagePath="@(Paths->'runtime\lib\%(Identity)\$(FrameworkBase)\')" />
+			<Pdb Include="@(Paths->'$(PdbBase)%(Identity)\$(FrameworkBase)\$(AssemblyName).pdb')"
+				 Pack="true" PackagePath="@(Paths->'runtime\lib\$(FrameworkBase)\%(Identity)\')" />
+
+			<_PackageFiles Include="@(Asm)" />
+		</ItemGroup>
+
+		<Message Text="Asm target: @(Asm->'%(identity) -> %(PackagePath)')" Importance="high" />
+		<Message Text="Pdb target: @(Pdb->'%(identity) -> %(PackagePath)')" Importance="high" />
+	</Target>
+	<Target Name="OverrideSymbolFiles" DependsOnTargets="_GetDebugSymbolsWithTfm"
+			BeforeTargets="GenerateNuspec"
+			Returns="@(_TargetPathsToSymbolsWithTfm)">
+
+		<ItemGroup>
+			<None Remove="%(_TargetPathsToSymbols.Identity)" />
+			<_TargetPathsToSymbols Include="@(Pdb)" />
+		</ItemGroup>
+	</Target>
+			
+	<Target Name="ShowPackagedFiles" AfterTargets="CollectNugetContent">
+		<Message Text="Package Files: @(_PackageFiles)" Importance="high" />
+	</Target>
+</Project>
