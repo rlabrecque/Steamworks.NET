@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+	<metadata>
+		<id>Steamworks.NET</id>
+		<version>15.0.1</version>
+		<description>Steamworks.NET</description>
+		<authors>rileylabrecque</authors>
+		<license type="expression">MIT</license>
+		<projectUrl>https://github.com/rlabrecque/Steamworks.NET</projectUrl>
+		<repository type="git" url="https://github.com/rlabrecque/Steamworks.NET.git" commit="15.0.1"/>
+		<dependencies>
+			<group targetFramework="netstandard2.1">
+			</group>
+		</dependencies>
+		<references>
+			<group targetFramework="netstandard2.1">
+				<reference file="Steamworks.NET.dll"/>
+			</group>
+		</references>
+	</metadata>
+	<files>
+		<file src="..\readme.md" target="readme.md"/>
+		<file src="bin\nuget\runtime\" target="runtimes"/>
+		<file src="bin\ref\*.dll" target="ref\netstandard2.1\"/>
+		<file src="bin\ref\*.dll" target="lib\netstandard2.1\"/>
+	</files>
+</package>
