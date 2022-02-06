@@ -1,5 +1,5 @@
 // This file is provided under The MIT License as part of Steamworks.NET.
-// Copyright (c) 2013-2021 Riley Labrecque
+// Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
 #if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
