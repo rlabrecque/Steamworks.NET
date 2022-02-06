@@ -11,30 +11,47 @@ using System.IO;
 public class RedistInstall {
 	static RedistInstall() {
 		WriteSteamAppIdTxtFile();
+
+		CheckForOldDlls();
 	}
 
 	static void WriteSteamAppIdTxtFile() {
-		string strCWD = Directory.GetCurrentDirectory();
-		string strDest = Path.Combine(strCWD, "steam_appid.txt");
+		string strCWDPath = Directory.GetCurrentDirectory();
+		string strSteamAppIdPath = Path.Combine(strCWDPath, "steam_appid.txt");
 
-		// If the steam_appid.txt file already exists, then we skip this!
-		if (File.Exists(strDest)) {
+		// If the steam_appid.txt file already exists, then there's nothing to do.
+		if (File.Exists(strSteamAppIdPath)) {
 			return;
 		}
 
 		Debug.Log("[Steamworks.NET] 'steam_appid.txt' is not present in the project root. Writing...");
 
-		try
-		{
-			StreamWriter appIdFile = File.CreateText(strDest);
+		try {
+			StreamWriter appIdFile = File.CreateText(strSteamAppIdPath);
 			appIdFile.Write("480");
 			appIdFile.Close();
 
-			Debug.Log("[Steamworks.NET] Successfully copied 'steam_appid.txt' into the project root. Please relaunch Unity.");
+			Debug.Log("[Steamworks.NET] Successfully copied 'steam_appid.txt' into the project root.");
 		}
 		catch (System.Exception e) {
 			Debug.LogWarning("[Steamworks.NET] Could not copy 'steam_appid.txt' into the project root. Please place 'steam_appid.txt' into the project root manually.");
 			Debug.LogException(e);
+		}
+	}
+
+	static void CheckForOldDlls() {
+		string strCwdPath = Directory.GetCurrentDirectory();
+
+		// Unfortunately we can't just delete these outright because Unity loads the dlls in the project root instantly and Windows won't let us delete them because they are in use.
+
+		string strDllPath = Path.Combine(strCwdPath, "steam_api.dll");
+		if (File.Exists(strDllPath)) {
+			Debug.LogError("[Steamworks.NET] Please delete the old version of 'steam_api.dll' in your project root before continuing.");
+		}
+
+		string strDll64Path = Path.Combine(strCwdPath, "steam_api64.dll");
+		if (File.Exists(strDll64Path)) {
+			Debug.LogError("[Steamworks.NET] Please delete the old version of 'steam_api64.dll' in your project root before continuing.");
 		}
 	}
 }
