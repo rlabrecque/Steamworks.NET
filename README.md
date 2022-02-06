@@ -8,9 +8,9 @@ Niceties and C# Idioms can be easily implemented on top of _Steamworks.NET_.
 _Steamworks.NET_ fully supports Windows (32 and 64 bit), OSX, and Linux. Currently building against Steamworks SDK 1.53a.
 
 * Author: [Riley Labrecque](https://github.com/rlabrecque)
-* License: [MIT](http://www.opensource.org/licenses/mit-license.php)
+* License: [MIT](https://www.opensource.org/licenses/mit-license.php)
 * [Documentation](https://steamworks.github.io/)
-* [Discussion Thread](http://steamcommunity.com/groups/steamworks/discussions/0/666827974770212954/)
+* [Discussion Thread](https://steamcommunity.com/groups/steamworks/discussions/0/666827974770212954/)
 * [Reporting Issues](https://github.com/rlabrecque/Steamworks.NET/issues)
   Note that only Steamworks.NET specific issues should be reported, general API questions/issues should be asked on the [Steamworks discussion board](http://steamcommunity.com/groups/steamworks/discussions).
 
@@ -18,19 +18,7 @@ _Steamworks.NET_ fully supports Windows (32 and 64 bit), OSX, and Linux. Current
 
 ## Installation
 
-You can find the installation instructions [here](http://steamworks.github.io/installation/).
-
-### Unity Package Manager
-
-Unity Package Manager support is still fairly new but you can use it like so:
-
-1. Open the Package Manager
-2. Click the "+" (plus) button located in the upper left of the window
-3. Select the "Add package from git URL..." option
-4. Enter the following URL:
-    `https://github.com/rlabrecque/Steamworks.NET.git?path=/com.rlabrecque.steamworks.net`
-5. Click the "Add" button and wait several seconds for the system to download and install the Steamworks.NET package from GitHub.
-6. Optionally: Manually download and import the [SteamManager](https://github.com/rlabrecque/Steamworks.NET-SteamManager/blob/master/SteamManager.cs) MonoBehavior which contains a starting point for using the Steamworks API in your project.
+You can find the installation instructions [here](https://steamworks.github.io/installation/).
 
 ## Samples
 
