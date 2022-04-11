@@ -7,7 +7,7 @@ using UnityEditor;
 using System.IO;
 using System.Collections.Generic;
 
-// This copys various files into their required locations when Unity is launched to make installation a breeze.
+// This copies various files into their required locations when Unity is launched to make installation a breeze.
 [InitializeOnLoad]
 public class RedistInstall {
 	static RedistInstall() {
