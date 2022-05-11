@@ -14,7 +14,7 @@
 // If we're running in the Unity Editor we need the editors platform.
 #if UNITY_EDITOR_WIN
 	#define VALVE_CALLBACK_PACK_LARGE
-#elif UNITY_EDITOR_OSX
+#elif UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX
 	#define VALVE_CALLBACK_PACK_SMALL
 
 // Otherwise we want the target platform.
