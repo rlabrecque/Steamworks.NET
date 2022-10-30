@@ -26,6 +26,7 @@ namespace Steamworks
 		// Max sizes
 		public const int k_cchMaxString = 128; // Max length of the buffer needed to hold any identity, formatted in string format by ToString
 		public const int k_cchMaxGenericString = 32; // Max length of the string for generic string identities.  Including terminating '\0'
+		public const int k_cchMaxXboxPairwiseID = 33; // Including terminating '\0'
 		public const int k_cbMaxGenericBytes = 32;
 
 		//
@@ -58,6 +59,42 @@ namespace Steamworks
 		// Returns 0 if identity is not SteamID
 		public ulong GetSteamID64() {
 			return NativeMethods.SteamAPI_SteamNetworkingIdentity_GetSteamID64(ref this);
+		}
+
+		// Returns false if invalid length
+		public bool SetXboxPairwiseID(string pszString)
+		{
+			using (var pszString2 = new InteropHelp.UTF8StringHandle(pszString)) {
+				return NativeMethods.SteamAPI_SteamNetworkingIdentity_SetXboxPairwiseID(ref this, pszString2);
+			}
+		}
+
+		// Returns nullptr if not Xbox ID
+		public string GetXboxPairwiseID()
+		{
+			return InteropHelp.PtrToStringUTF8(NativeMethods.SteamAPI_SteamNetworkingIdentity_GetXboxPairwiseID(ref this));
+		}
+
+		public void SetPSNID(ulong id)
+		{
+			NativeMethods.SteamAPI_SteamNetworkingIdentity_SetPSNID(ref this, id);
+		}
+
+		// Returns 0 if not PSN
+		public ulong GetPSNID()
+		{
+			return NativeMethods.SteamAPI_SteamNetworkingIdentity_GetPSNID(ref this);
+		}
+
+		public void SetStadiaID(ulong id)
+		{
+			NativeMethods.SteamAPI_SteamNetworkingIdentity_SetStadiaID(ref this, id);
+		}
+
+		// Returns 0 if not Stadia
+		public ulong GetStadiaID()
+		{
+			return NativeMethods.SteamAPI_SteamNetworkingIdentity_GetStadiaID(ref this);
 		}
 
 		// Set to specified IP:port

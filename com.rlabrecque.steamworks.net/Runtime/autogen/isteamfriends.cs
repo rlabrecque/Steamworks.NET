@@ -658,6 +658,30 @@ namespace Steamworks {
 				NativeMethods.ISteamFriends_ActivateGameOverlayInviteDialogConnectString(CSteamAPIContext.GetSteamFriends(), pchConnectString2);
 			}
 		}
+
+		/// <summary>
+		/// <para> Steam Community items equipped by a user on their profile</para>
+		/// <para> You can register for EquippedProfileItemsChanged_t to know when a friend has changed their equipped profile items</para>
+		/// </summary>
+		public static SteamAPICall_t RequestEquippedProfileItems(CSteamID steamID) {
+			InteropHelp.TestIfAvailableClient();
+			return (SteamAPICall_t)NativeMethods.ISteamFriends_RequestEquippedProfileItems(CSteamAPIContext.GetSteamFriends(), steamID);
+		}
+
+		public static bool BHasEquippedProfileItem(CSteamID steamID, ECommunityProfileItemType itemType) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamFriends_BHasEquippedProfileItem(CSteamAPIContext.GetSteamFriends(), steamID, itemType);
+		}
+
+		public static string GetProfileItemPropertyString(CSteamID steamID, ECommunityProfileItemType itemType, ECommunityProfileItemProperty prop) {
+			InteropHelp.TestIfAvailableClient();
+			return InteropHelp.PtrToStringUTF8(NativeMethods.ISteamFriends_GetProfileItemPropertyString(CSteamAPIContext.GetSteamFriends(), steamID, itemType, prop));
+		}
+
+		public static uint GetProfileItemPropertyUint(CSteamID steamID, ECommunityProfileItemType itemType, ECommunityProfileItemProperty prop) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamFriends_GetProfileItemPropertyUint(CSteamAPIContext.GetSteamFriends(), steamID, itemType, prop);
+		}
 	}
 }
 

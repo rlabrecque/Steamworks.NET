@@ -115,6 +115,32 @@ namespace Steamworks {
 																// will also close. When the user closes the browser window, the overlay will automatically close.
 	}
 
+	//-----------------------------------------------------------------------------
+	// Purpose: See GetProfileItemPropertyString and GetProfileItemPropertyUint
+	//-----------------------------------------------------------------------------
+	public enum ECommunityProfileItemType : int {
+		k_ECommunityProfileItemType_AnimatedAvatar		 = 0,
+		k_ECommunityProfileItemType_AvatarFrame			 = 1,
+		k_ECommunityProfileItemType_ProfileModifier		 = 2,
+		k_ECommunityProfileItemType_ProfileBackground	 = 3,
+		k_ECommunityProfileItemType_MiniProfileBackground = 4,
+	}
+
+	public enum ECommunityProfileItemProperty : int {
+		k_ECommunityProfileItemProperty_ImageSmall	   = 0, // string
+		k_ECommunityProfileItemProperty_ImageLarge	   = 1, // string
+		k_ECommunityProfileItemProperty_InternalName   = 2, // string
+		k_ECommunityProfileItemProperty_Title		   = 3, // string
+		k_ECommunityProfileItemProperty_Description	   = 4, // string
+		k_ECommunityProfileItemProperty_AppID		   = 5, // uint32
+		k_ECommunityProfileItemProperty_TypeID		   = 6, // uint32
+		k_ECommunityProfileItemProperty_Class		   = 7, // uint32
+		k_ECommunityProfileItemProperty_MovieWebM	   = 8, // string
+		k_ECommunityProfileItemProperty_MovieMP4	   = 9, // string
+		k_ECommunityProfileItemProperty_MovieWebMSmall = 10, // string
+		k_ECommunityProfileItemProperty_MovieMP4Small  = 11, // string
+	}
+
 	// used in PersonaStateChange_t::m_nChangeFlags to describe what's changed about a user
 	// these flags describe what the client has learned has changed recently, so on startup you'll see a name, avatar & relationship change for every friend
 	[Flags]
@@ -1262,10 +1288,10 @@ namespace Steamworks {
 	}
 
 	public enum EFloatingGamepadTextInputMode : int {
-		k_EFloatingGamepadTextInputModeModeSingleLine = 0, // Enter dismisses the keyboard
-		k_EFloatingGamepadTextInputModeModeMultipleLines = 1, // User needs to explictly close the keyboard
-		k_EFloatingGamepadTextInputModeModeEmail = 2,
-		k_EFloatingGamepadTextInputModeModeNumeric = 3,
+		k_EFloatingGamepadTextInputModeModeSingleLine = 0,		// Enter dismisses the keyboard
+		k_EFloatingGamepadTextInputModeModeMultipleLines = 1,	// User needs to explictly close the keyboard
+		k_EFloatingGamepadTextInputModeModeEmail = 2,			// Keyboard layout is email, enter dismisses the keyboard
+		k_EFloatingGamepadTextInputModeModeNumeric = 3,			// Keyboard layout is numeric, enter dismisses the keyboard
 
 	}
 
@@ -1427,6 +1453,9 @@ namespace Steamworks {
 		k_EResultInvalidSignature = 121,			// signature check did not match
 		k_EResultParseFailure = 122,				// Failed to parse input
 		k_EResultNoVerifiedPhone = 123,				// account does not have a verified phone number
+		k_EResultInsufficientBattery = 124,			// user device doesn't have enough battery charge currently to complete the action
+		k_EResultChargerRequired = 125,				// The operation requires a charger to be plugged in, which wasn't present
+		k_EResultCachedCredentialInvalid = 126,		// Cached credential was invalid - user must reauthenticate
 	}
 
 	// Error codes for use with the voice functions
@@ -1865,6 +1894,12 @@ namespace Steamworks {
 		// Basic platform-specific identifiers.
 		//
 		k_ESteamNetworkingIdentityType_SteamID = 16, // 64-bit CSteamID
+		k_ESteamNetworkingIdentityType_XboxPairwiseID = 17, // Publisher-specific user identity, as string
+		k_ESteamNetworkingIdentityType_SonyPSN = 18, // 64-bit ID
+		k_ESteamNetworkingIdentityType_GoogleStadia = 19, // 64-bit ID
+		//k_ESteamNetworkingIdentityType_NintendoNetworkServiceAccount,
+		//k_ESteamNetworkingIdentityType_EpicGameStore
+		//k_ESteamNetworkingIdentityType_WeGame
 
 		//
 		// Special identifiers.
@@ -2621,7 +2656,11 @@ namespace Steamworks {
 		/// route ping time and is then adjusted.)
 		k_ESteamNetworkingConfig_P2P_Transport_ICE_Penalty = 105,
 		k_ESteamNetworkingConfig_P2P_Transport_SDR_Penalty = 106,
+		k_ESteamNetworkingConfig_P2P_TURN_ServerList = 107,
+		k_ESteamNetworkingConfig_P2P_TURN_UserList = 108,
+		k_ESteamNetworkingConfig_P2P_TURN_PassList = 109,
 		//k_ESteamNetworkingConfig_P2P_Transport_LANBeacon_Penalty = 107,
+		k_ESteamNetworkingConfig_P2P_Transport_ICE_Implementation = 110,
 
 	//
 	// Settings for SDR relayed connections

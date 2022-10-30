@@ -382,6 +382,37 @@ namespace Steamworks {
 		}
 	}
 
+	//-----------------------------------------------------------------------------
+	// Purpose: A user's equipped profile items have changed
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 50)]
+	public struct EquippedProfileItemsChanged_t {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 50;
+		public CSteamID m_steamID;
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose:
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 51)]
+	public struct EquippedProfileItems_t {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 51;
+		public EResult m_eResult;
+		public CSteamID m_steamID;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bHasAnimatedAvatar;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bHasAvatarFrame;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bHasProfileModifier;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bHasProfileBackground;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bHasMiniProfileBackground;
+	}
+
 	// callbacks
 	// callback notification - A new message is available for reading from the message queue
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
