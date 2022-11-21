@@ -458,6 +458,14 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamInput_GetSessionInputConfigurationSettings(CSteamAPIContext.GetSteamInput());
 		}
+
+		/// <summary>
+		/// <para> Set the trigger effect for a DualSense controller</para>
+		/// </summary>
+		public static void SetDualSenseTriggerEffect(InputHandle_t inputHandle, IntPtr pParam) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamInput_SetDualSenseTriggerEffect(CSteamAPIContext.GetSteamInput(), inputHandle, pParam);
+		}
 	}
 }
 

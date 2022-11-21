@@ -1716,7 +1716,9 @@ inline SteamNetworkingPOPID CalculateSteamNetworkingPOPIDFromString( const char 
 template <int N>
 inline void GetSteamNetworkingLocationPOPStringFromID( SteamNetworkingPOPID id, char (&szCode)[N] )
 {
+#if !defined( __GNUC__ ) || __GNUC__ >= 5
 	static_assert( N >= 5, "Fixed-size buffer not big enough to hold SDR POP ID" );
+#endif
 	szCode[0] = char( id >> 16U );
 	szCode[1] = char( id >> 8U );
 	szCode[2] = char( id );

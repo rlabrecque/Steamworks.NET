@@ -263,6 +263,14 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamApps_BIsTimedTrial(CSteamAPIContext.GetSteamApps(), out punSecondsAllowed, out punSecondsPlayed);
 		}
+
+		/// <summary>
+		/// <para> set current DLC AppID being played (or 0 if none). Allows Steam to track usage of major DLC extensions</para>
+		/// </summary>
+		public static bool SetDlcContext(AppId_t nAppID) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamApps_SetDlcContext(CSteamAPIContext.GetSteamApps(), nAppID);
+		}
 	}
 }
 

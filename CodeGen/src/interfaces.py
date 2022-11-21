@@ -82,6 +82,9 @@ g_TypeDict = {
     # SteamNetworkingTypes which are stubbed
     "SteamDatagramGameCoordinatorServerLogin *": "IntPtr",
     "ISteamNetworkingFakeUDPPort *": "IntPtr",
+
+    # External type that we don't currently support.
+    "const ScePadTriggerEffectParam *": "IntPtr"
 }
 
 g_WrapperArgsTypeDict = {

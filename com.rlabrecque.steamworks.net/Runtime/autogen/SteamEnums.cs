@@ -1456,6 +1456,7 @@ namespace Steamworks {
 		k_EResultInsufficientBattery = 124,			// user device doesn't have enough battery charge currently to complete the action
 		k_EResultChargerRequired = 125,				// The operation requires a charger to be plugged in, which wasn't present
 		k_EResultCachedCredentialInvalid = 126,		// Cached credential was invalid - user must reauthenticate
+		K_EResultPhoneNumberIsVOIP = 127,			// The phone number provided is a Voice Over IP number
 	}
 
 	// Error codes for use with the voice functions
