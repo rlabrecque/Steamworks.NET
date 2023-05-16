@@ -10,6 +10,9 @@ g_FlagEnums = (
     #ISteamHTMLSurface
     "EHTMLKeyModifiers",
 
+    #ISteamInput
+    "EControllerHapticLocation",
+
     #ISteamInventory
     "ESteamItemFlags",
 
