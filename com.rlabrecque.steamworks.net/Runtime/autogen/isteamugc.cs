@@ -165,6 +165,11 @@ namespace Steamworks {
 			}
 		}
 
+		public static uint GetQueryUGCContentDescriptors(UGCQueryHandle_t handle, uint index, out EUGCContentDescriptorID pvecDescriptors, uint cMaxEntries) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_GetQueryUGCContentDescriptors(CSteamAPIContext.GetSteamUGC(), handle, index, out pvecDescriptors, cMaxEntries);
+		}
+
 		/// <summary>
 		/// <para> Release the request to free up memory, after retrieving results</para>
 		/// </summary>
@@ -482,6 +487,16 @@ namespace Steamworks {
 		public static bool RemoveItemPreview(UGCUpdateHandle_t handle, uint index) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_RemoveItemPreview(CSteamAPIContext.GetSteamUGC(), handle, index);
+		}
+
+		public static bool AddContentDescriptor(UGCUpdateHandle_t handle, EUGCContentDescriptorID descid) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_AddContentDescriptor(CSteamAPIContext.GetSteamUGC(), handle, descid);
+		}
+
+		public static bool RemoveContentDescriptor(UGCUpdateHandle_t handle, EUGCContentDescriptorID descid) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_RemoveContentDescriptor(CSteamAPIContext.GetSteamUGC(), handle, descid);
 		}
 
 		/// <summary>

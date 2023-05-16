@@ -109,6 +109,10 @@ namespace Steamworks {
 		/// <para> Note: this is called within either SteamInput()-&gt;RunFrame or by SteamAPI_RunCallbacks</para>
 		/// <para> Controller Disconnected - provides info about a single disconnected controller</para>
 		/// <para> Note: this is called within either SteamInput()-&gt;RunFrame or by SteamAPI_RunCallbacks</para>
+		/// <para> Controllers using Gamepad emulation (XInput, DirectInput, etc) will be seated in the order that</para>
+		/// <para> input is sent by the device. This callback will fire on first input for each device and when the</para>
+		/// <para> a user has manually changed the order via the Steam overlay. This also has the device type info</para>
+		/// <para> so that you can change out glyph sets without making additional API calls</para>
 		/// <para> Enable SteamInputActionEvent_t callbacks. Directly calls your callback function</para>
 		/// <para> for lower latency than standard Steam callbacks. Supports one callback at a time.</para>
 		/// <para> Note: this is called within either SteamInput()-&gt;RunFrame or by SteamAPI_RunCallbacks</para>
@@ -451,7 +455,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Get a bitmask of the Steam Input Configuration types opted in for the current session. Returns ESteamInputConfigurationEnableType values.?</para>
+		/// <para> Get a bitmask of the Steam Input Configuration types opted in for the current session. Returns ESteamInputConfigurationEnableType values.</para>
 		/// <para> Note: user can override the settings from the Steamworks Partner site so the returned values may not exactly match your default configuration</para>
 		/// </summary>
 		public static ushort GetSessionInputConfigurationSettings() {

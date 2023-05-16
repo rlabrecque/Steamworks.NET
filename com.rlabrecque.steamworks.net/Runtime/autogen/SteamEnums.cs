@@ -18,17 +18,6 @@ using Flags = System.FlagsAttribute;
 
 namespace Steamworks {
 	//-----------------------------------------------------------------------------
-	// Purpose: possible results when registering an activation code
-	//-----------------------------------------------------------------------------
-	public enum ERegisterActivationCodeResult : int {
-		k_ERegisterActivationCodeResultOK = 0,
-		k_ERegisterActivationCodeResultFail = 1,
-		k_ERegisterActivationCodeResultAlreadyRegistered = 2,
-		k_ERegisterActivationCodeResultTimeout = 3,
-		k_ERegisterActivationCodeAlreadyOwned = 4,
-	}
-
-	//-----------------------------------------------------------------------------
 	// Purpose: set of relationships to other users
 	//-----------------------------------------------------------------------------
 	public enum EFriendRelationship : int {
@@ -517,10 +506,10 @@ namespace Steamworks {
 		k_EInputActionOrigin_Switch_LeftGrip_Upper, // Left JoyCon SL Button
 		k_EInputActionOrigin_Switch_RightGrip_Lower,  // Right JoyCon SL Button
 		k_EInputActionOrigin_Switch_RightGrip_Upper,  // Right JoyCon SR Button
-		k_EInputActionOrigin_Switch_Reserved11,
-		k_EInputActionOrigin_Switch_Reserved12,
-		k_EInputActionOrigin_Switch_Reserved13,
-		k_EInputActionOrigin_Switch_Reserved14,
+		k_EInputActionOrigin_Switch_JoyConButton_N, // With a Horizontal JoyCon this will be Y or what would be Dpad Right when vertical
+		k_EInputActionOrigin_Switch_JoyConButton_E, // X
+		k_EInputActionOrigin_Switch_JoyConButton_S, // A
+		k_EInputActionOrigin_Switch_JoyConButton_W, // B
 		k_EInputActionOrigin_Switch_Reserved15,
 		k_EInputActionOrigin_Switch_Reserved16,
 		k_EInputActionOrigin_Switch_Reserved17,
@@ -584,10 +573,10 @@ namespace Steamworks {
 		k_EInputActionOrigin_PS5_Gyro_Yaw,
 		k_EInputActionOrigin_PS5_Gyro_Roll,
 		k_EInputActionOrigin_PS5_DPad_Move,
-		k_EInputActionOrigin_PS5_Reserved1,
-		k_EInputActionOrigin_PS5_Reserved2,
-		k_EInputActionOrigin_PS5_Reserved3,
-		k_EInputActionOrigin_PS5_Reserved4,
+		k_EInputActionOrigin_PS5_LeftGrip,
+		k_EInputActionOrigin_PS5_RightGrip,
+		k_EInputActionOrigin_PS5_LeftFn,
+		k_EInputActionOrigin_PS5_RightFn,
 		k_EInputActionOrigin_PS5_Reserved5,
 		k_EInputActionOrigin_PS5_Reserved6,
 		k_EInputActionOrigin_PS5_Reserved7,
@@ -721,6 +710,7 @@ namespace Steamworks {
 		k_ESteamControllerPad_Right
 	}
 
+	[Flags]
 	public enum EControllerHapticLocation : int {
 		k_EControllerHapticLocation_Left = ( 1 << ESteamControllerPad.k_ESteamControllerPad_Left ),
 		k_EControllerHapticLocation_Right = ( 1 << ESteamControllerPad.k_ESteamControllerPad_Right ),
@@ -979,6 +969,7 @@ namespace Steamworks {
 		k_EFeatureLibrary = 11,
 		k_EFeatureTest = 12,
 		k_EFeatureSiteLicense = 13,
+		k_EFeatureKioskMode = 14,
 		k_EFeatureMax
 	}
 
@@ -1230,6 +1221,14 @@ namespace Steamworks {
 		k_EItemPreviewType_ReservedMax						= 255,	// you can specify your own types above this value
 	}
 
+	public enum EUGCContentDescriptorID : int {
+		k_EUGCContentDescriptor_NudityOrSexualContent	= 1,
+		k_EUGCContentDescriptor_FrequentViolenceOrGore	= 2,
+		k_EUGCContentDescriptor_AdultOnlySexualContent	= 3,
+		k_EUGCContentDescriptor_GratuitousSexualContent = 4,
+		k_EUGCContentDescriptor_AnyMatureContent		= 5,
+	}
+
 	public enum EFailureType : int {
 		k_EFailureFlushedCallbackQueue,
 		k_EFailurePipeFail,
@@ -1395,7 +1394,7 @@ namespace Steamworks {
 		k_EResultAccountLogonDenied = 63,			// account login denied due to 2nd factor authentication failure
 		k_EResultCannotUseOldPassword = 64,			// The requested new password is not legal
 		k_EResultInvalidLoginAuthCode = 65,			// account login denied due to auth code invalid
-		k_EResultAccountLogonDeniedNoMail = 66,		// account login denied due to 2nd factor auth failure - and no mail has been sent
+		k_EResultAccountLogonDeniedNoMail = 66,		// account login denied due to 2nd factor auth failure - and no mail has been sent - partner site specific
 		k_EResultHardwareNotCapableOfIPT = 67,		//
 		k_EResultIPTInitError = 68,					//
 		k_EResultParentalControlRestricted = 69,	// operation failed due to parental control restrictions for current user
@@ -1516,6 +1515,7 @@ namespace Steamworks {
 		k_EAuthSessionResponseAuthTicketInvalidAlreadyUsed = 7,	// This ticket has already been used, it is not valid.
 		k_EAuthSessionResponseAuthTicketInvalid = 8,			// This ticket is not from a user instance currently connected to steam.
 		k_EAuthSessionResponsePublisherIssuedBan = 9,			// The user is banned for this game. The ban came via the web api and not VAC
+		k_EAuthSessionResponseAuthTicketNetworkIdentityFailure = 10,	// The network identity in the ticket does not match the server authenticating the ticket
 	}
 
 	// results from UserHasLicenseForApp
@@ -1603,6 +1603,7 @@ namespace Steamworks {
 	// Purpose: Possible positions to tell the overlay to show notifications in
 	//-----------------------------------------------------------------------------
 	public enum ENotificationPosition : int {
+		k_EPositionInvalid = -1,
 		k_EPositionTopLeft = 0,
 		k_EPositionTopRight = 1,
 		k_EPositionBottomLeft = 2,
@@ -1820,6 +1821,7 @@ namespace Steamworks {
 		k_EHTTPStatusCode305UseProxy =				305,
 		//k_EHTTPStatusCode306Unused =				306, (used in old HTTP spec, now unused in 1.1)
 		k_EHTTPStatusCode307TemporaryRedirect =		307,
+		k_EHTTPStatusCode308PermanentRedirect =		308,
 
 		// Error codes
 		k_EHTTPStatusCode400BadRequest =			400,

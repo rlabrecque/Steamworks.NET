@@ -274,10 +274,12 @@ namespace Steamworks {
 		/// <para> Player list management / authentication.</para>
 		/// <para> Retrieve ticket to be sent to the entity who wishes to authenticate you ( using BeginAuthSession API ).</para>
 		/// <para> pcbTicket retrieves the length of the actual ticket.</para>
+		/// <para> SteamNetworkingIdentity is an optional parameter to hold the public IP address of the entity you are connecting to</para>
+		/// <para> if an IP address is passed Steam will only allow the ticket to be used by an entity with that IP address</para>
 		/// </summary>
-		public static HAuthTicket GetAuthSessionTicket(byte[] pTicket, int cbMaxTicket, out uint pcbTicket) {
+		public static HAuthTicket GetAuthSessionTicket(byte[] pTicket, int cbMaxTicket, out uint pcbTicket, ref SteamNetworkingIdentity pSnid) {
 			InteropHelp.TestIfAvailableGameServer();
-			return (HAuthTicket)NativeMethods.ISteamGameServer_GetAuthSessionTicket(CSteamGameServerAPIContext.GetSteamGameServer(), pTicket, cbMaxTicket, out pcbTicket);
+			return (HAuthTicket)NativeMethods.ISteamGameServer_GetAuthSessionTicket(CSteamGameServerAPIContext.GetSteamGameServer(), pTicket, cbMaxTicket, out pcbTicket, ref pSnid);
 		}
 
 		/// <summary>

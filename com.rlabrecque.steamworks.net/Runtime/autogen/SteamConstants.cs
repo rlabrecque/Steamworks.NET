@@ -22,7 +22,7 @@ namespace Steamworks {
 		public const string STEAMCLIENT_INTERFACE_VERSION = "SteamClient020";
 		public const string STEAMFRIENDS_INTERFACE_VERSION = "SteamFriends017";
 		public const string STEAMGAMECOORDINATOR_INTERFACE_VERSION = "SteamGameCoordinator001";
-		public const string STEAMGAMESERVER_INTERFACE_VERSION = "SteamGameServer014";
+		public const string STEAMGAMESERVER_INTERFACE_VERSION = "SteamGameServer015";
 		public const string STEAMGAMESERVERSTATS_INTERFACE_VERSION = "SteamGameServerStats001";
 		public const string STEAMHTMLSURFACE_INTERFACE_VERSION = "STEAMHTMLSURFACE_INTERFACE_VERSION_005";
 		public const string STEAMHTTP_INTERFACE_VERSION = "STEAMHTTP_INTERFACE_VERSION003";
@@ -44,8 +44,8 @@ namespace Steamworks {
 		public const string STEAMREMOTEPLAY_INTERFACE_VERSION = "STEAMREMOTEPLAY_INTERFACE_VERSION001";
 		public const string STEAMREMOTESTORAGE_INTERFACE_VERSION = "STEAMREMOTESTORAGE_INTERFACE_VERSION016";
 		public const string STEAMSCREENSHOTS_INTERFACE_VERSION = "STEAMSCREENSHOTS_INTERFACE_VERSION003";
-		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION016";
-		public const string STEAMUSER_INTERFACE_VERSION = "SteamUser021";
+		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION017";
+		public const string STEAMUSER_INTERFACE_VERSION = "SteamUser023";
 		public const string STEAMUSERSTATS_INTERFACE_VERSION = "STEAMUSERSTATS_INTERFACE_VERSION012";
 		public const string STEAMUTILS_INTERFACE_VERSION = "SteamUtils010";
 		public const string STEAMVIDEO_INTERFACE_VERSION = "STEAMVIDEO_INTERFACE_V002";
@@ -91,6 +91,7 @@ namespace Steamworks {
 		public const int k_ScreenshotThumbWidth = 200;
 		public const int kNumUGCResultsPerPage = 50;
 		public const int k_cchDeveloperMetadataMax = 5000;
+		public const int k_nCubTicketMaxLength = 2560;
 		// size limit on stat or achievement name (UTF-8 encoded)
 		public const int k_cchStatNameMax = 128;
 		// maximum number of bytes for a leaderboard name (UTF-8 encoded)
@@ -107,6 +108,7 @@ namespace Steamworks {
 		public const int k_cbMaxGameServerName = 64;
 		public const int k_cbMaxGameServerTags = 128;
 		public const int k_cbMaxGameServerGameData = 2048;
+		// Forward declare types
 		//-----------------------------------------------------------------------------
 		// Purpose: Base values for callback identifiers, each callback must
 		//			have a unique ID.
@@ -310,8 +312,8 @@ namespace Steamworks {
 		public const ulong k_ulPartyBeaconIdInvalid = 0;
 		public const int INVALID_HTTPREQUEST_HANDLE		= 0;
 		public const int STEAM_INPUT_MAX_COUNT = 16;
-		public const int STEAM_INPUT_MAX_ANALOG_ACTIONS = 16;
-		public const int STEAM_INPUT_MAX_DIGITAL_ACTIONS = 128;
+		public const int STEAM_INPUT_MAX_ANALOG_ACTIONS = 24;
+		public const int STEAM_INPUT_MAX_DIGITAL_ACTIONS = 256;
 		public const int STEAM_INPUT_MAX_ORIGINS = 8;
 		public const int STEAM_INPUT_MAX_ACTIVE_LAYERS = 16;
 		// When sending an option to a specific controller handle, you can send to all devices via this command
