@@ -67,7 +67,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Invite a friend to Remote Play Together</para>
+		/// <para> Invite a friend to Remote Play Together, or create a guest invite if steamIDFriend is empty</para>
 		/// <para> This returns false if the invite can't be sent</para>
 		/// </summary>
 		public static bool BSendRemotePlayTogetherInvite(CSteamID steamIDFriend) {

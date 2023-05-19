@@ -934,7 +934,7 @@ namespace Steamworks {
 		public static extern void ISteamGameServer_SetAdvertiseServerActive(IntPtr instancePtr, [MarshalAs(UnmanagedType.I1)] bool bActive);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamGameServer_GetAuthSessionTicket", CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamGameServer_GetAuthSessionTicket(IntPtr instancePtr, byte[] pTicket, int cbMaxTicket, out uint pcbTicket);
+		public static extern uint ISteamGameServer_GetAuthSessionTicket(IntPtr instancePtr, byte[] pTicket, int cbMaxTicket, out uint pcbTicket, ref SteamNetworkingIdentity pSnid);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamGameServer_BeginAuthSession", CallingConvention = CallingConvention.Cdecl)]
 		public static extern EBeginAuthSessionResult ISteamGameServer_BeginAuthSession(IntPtr instancePtr, byte[] pAuthTicket, int cbAuthTicket, CSteamID steamID);
@@ -2665,6 +2665,9 @@ namespace Steamworks {
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamUGC_GetQueryFirstUGCKeyValueTag(IntPtr instancePtr, UGCQueryHandle_t handle, uint index, InteropHelp.UTF8StringHandle pchKey, IntPtr pchValue, uint cchValueSize);
 
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_GetQueryUGCContentDescriptors", CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint ISteamUGC_GetQueryUGCContentDescriptors(IntPtr instancePtr, UGCQueryHandle_t handle, uint index, out EUGCContentDescriptorID pvecDescriptors, uint cMaxEntries);
+
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_ReleaseQueryUGCRequest", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamUGC_ReleaseQueryUGCRequest(IntPtr instancePtr, UGCQueryHandle_t handle);
@@ -2826,6 +2829,14 @@ namespace Steamworks {
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamUGC_RemoveItemPreview(IntPtr instancePtr, UGCUpdateHandle_t handle, uint index);
 
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_AddContentDescriptor", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamUGC_AddContentDescriptor(IntPtr instancePtr, UGCUpdateHandle_t handle, EUGCContentDescriptorID descid);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_RemoveContentDescriptor", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamUGC_RemoveContentDescriptor(IntPtr instancePtr, UGCUpdateHandle_t handle, EUGCContentDescriptorID descid);
+
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_SubmitItemUpdate", CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong ISteamUGC_SubmitItemUpdate(IntPtr instancePtr, UGCUpdateHandle_t handle, InteropHelp.UTF8StringHandle pchChangeNote);
 
@@ -2955,7 +2966,10 @@ namespace Steamworks {
 		public static extern uint ISteamUser_GetVoiceOptimalSampleRate(IntPtr instancePtr);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUser_GetAuthSessionTicket", CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamUser_GetAuthSessionTicket(IntPtr instancePtr, byte[] pTicket, int cbMaxTicket, out uint pcbTicket);
+		public static extern uint ISteamUser_GetAuthSessionTicket(IntPtr instancePtr, byte[] pTicket, int cbMaxTicket, out uint pcbTicket, ref SteamNetworkingIdentity pSteamNetworkingIdentity);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUser_GetAuthTicketForWebApi", CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint ISteamUser_GetAuthTicketForWebApi(IntPtr instancePtr, InteropHelp.UTF8StringHandle pchIdentity);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUser_BeginAuthSession", CallingConvention = CallingConvention.Cdecl)]
 		public static extern EBeginAuthSessionResult ISteamUser_BeginAuthSession(IntPtr instancePtr, byte[] pAuthTicket, int cbAuthTicket, CSteamID steamID);

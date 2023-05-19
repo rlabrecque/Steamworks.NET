@@ -186,10 +186,26 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Retrieve ticket to be sent to the entity who wishes to authenticate you.</para>
 		/// <para> pcbTicket retrieves the length of the actual ticket.</para>
+		/// <para> SteamNetworkingIdentity is an optional input parameter to hold the public IP address or SteamID of the entity you are connecting to</para>
+		/// <para> if an IP address is passed Steam will only allow the ticket to be used by an entity with that IP address</para>
+		/// <para> if a Steam ID is passed Steam will only allow the ticket to be used by that Steam ID</para>
+		/// <para> not to be used for "ISteamUserAuth\AuthenticateUserTicket" - it will fail</para>
 		/// </summary>
-		public static HAuthTicket GetAuthSessionTicket(byte[] pTicket, int cbMaxTicket, out uint pcbTicket) {
+		public static HAuthTicket GetAuthSessionTicket(byte[] pTicket, int cbMaxTicket, out uint pcbTicket, ref SteamNetworkingIdentity pSteamNetworkingIdentity) {
 			InteropHelp.TestIfAvailableClient();
-			return (HAuthTicket)NativeMethods.ISteamUser_GetAuthSessionTicket(CSteamAPIContext.GetSteamUser(), pTicket, cbMaxTicket, out pcbTicket);
+			return (HAuthTicket)NativeMethods.ISteamUser_GetAuthSessionTicket(CSteamAPIContext.GetSteamUser(), pTicket, cbMaxTicket, out pcbTicket, ref pSteamNetworkingIdentity);
+		}
+
+		/// <summary>
+		/// <para> Request a ticket which will be used for webapi "ISteamUserAuth\AuthenticateUserTicket"</para>
+		/// <para> pchIdentity is an optional input parameter to identify the service the ticket will be sent to</para>
+		/// <para> the ticket will be returned in callback GetTicketForWebApiResponse_t</para>
+		/// </summary>
+		public static HAuthTicket GetAuthTicketForWebApi(string pchIdentity) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchIdentity2 = new InteropHelp.UTF8StringHandle(pchIdentity)) {
+				return (HAuthTicket)NativeMethods.ISteamUser_GetAuthTicketForWebApi(CSteamAPIContext.GetSteamUser(), pchIdentity2);
+			}
 		}
 
 		/// <summary>

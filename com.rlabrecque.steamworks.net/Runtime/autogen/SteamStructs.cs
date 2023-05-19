@@ -48,7 +48,7 @@ namespace Steamworks {
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	public struct InputMotionData_t {
-		// Sensor-fused absolute rotation; will drift in heading
+		// Sensor-fused absolute rotation; will drift in heading toward average
 		public float rotQuatX;
 		public float rotQuatY;
 		public float rotQuatZ;
@@ -63,6 +63,57 @@ namespace Steamworks {
 		public float rotVelX;
 		public float rotVelY;
 		public float rotVelZ;
+	}
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	public struct InputMotionDataV2_t {
+		//
+		// Gyro post processing:
+		//
+		
+		// Drift Corrected Quaternion is calculated after steam input controller calibration values have been applied.
+		// Rawest _useful_ version of a quaternion.
+		// Most camera implementations should use this by comparing last rotation against current rotation, and applying the difference to the in game camera (plus your own sensitivity tweaks)
+		// It is worth viewing
+		public float driftCorrectedQuatX;
+		public float driftCorrectedQuatY;
+		public float driftCorrectedQuatZ;
+		public float driftCorrectedQuatW;
+		
+		// Sensor fusion corrects using accelerometer, and "average forward over time" for "forward".
+		// This can "ouija" your aim, so it's not so  appropriate for camera controls (sensor fusion was originally made for racing game steering )
+		// Same result as from old InputMotionData_t::rotQuatX/Y/Z/W
+		public float sensorFusionQuatX;
+		public float sensorFusionQuatY;
+		public float sensorFusionQuatZ;
+		public float sensorFusionQuatW;
+		
+		// Deferred Sensor fusion quaternion with deferred correction
+		// Reduces perception of "ouija" effect by only applying correction when the controller is below "low noise" thresholds,
+		// while the controller rotates fast - never when the user is attempting precision aim.
+		public float deferredSensorFusionQuatX;
+		public float deferredSensorFusionQuatY;
+		public float deferredSensorFusionQuatZ;
+		public float deferredSensorFusionQuatW;
+		
+		// Same as accel but values are calibrated such that 1 unit = 1G.
+		// X = Right
+		// Y = Forward out through the joystick USB port.
+		// Z = Up through the joystick axis.
+		public float gravityX;
+		public float gravityY;
+		public float gravityZ;
+		
+		//
+		// Same as rotVel values in GetMotionData but values are calibrated to degrees per second.
+		// Local Space (controller relative)
+		// X = Pitch = left to right axis
+		// Y = Roll = axis through charging port
+		// Z = Yaw = axis through sticks
+		public float degreesPerSecondX;
+		public float degreesPerSecondY;
+		public float degreesPerSecondZ;
+		
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
