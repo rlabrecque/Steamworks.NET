@@ -546,9 +546,9 @@ namespace Steamworks {
 		/// <para>/ See also:</para>
 		/// <para>/ SteamNetworkingMessage_t::m_idxLane</para>
 		/// </summary>
-		public static EResult ConfigureConnectionLanes(HSteamNetConnection hConn, int nNumLanes, out int pLanePriorities, out ushort pLaneWeights) {
+		public static EResult ConfigureConnectionLanes(HSteamNetConnection hConn, int nNumLanes, int[] pLanePriorities, ushort[] pLaneWeights) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamNetworkingSockets_ConfigureConnectionLanes(CSteamAPIContext.GetSteamNetworkingSockets(), hConn, nNumLanes, out pLanePriorities, out pLaneWeights);
+			return NativeMethods.ISteamNetworkingSockets_ConfigureConnectionLanes(CSteamAPIContext.GetSteamNetworkingSockets(), hConn, nNumLanes, pLanePriorities, pLaneWeights);
 		}
 
 		/// <summary>

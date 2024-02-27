@@ -438,6 +438,15 @@ g_SpecialArgsDict = {
         "pStatus": "ref SteamNetConnectionRealTimeStatus_t",
         "pLanes": "ref SteamNetConnectionRealTimeLaneStatus_t",
     },
+
+    "ISteamNetworkingSockets_ConfigureConnectionLanes": {
+        "pLanePriorities": "int[]",
+        "pLaneWeights": "ushort[]",
+    },
+    "ISteamGameServerNetworkingSockets_ConfigureConnectionLanes": {
+        "pLanePriorities": "int[]",
+        "pLaneWeights": "ushort[]",
+    },
 }
 
 g_SpecialWrapperArgsDict = {
