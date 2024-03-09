@@ -36,8 +36,39 @@ namespace Steamworks
 		// with new identity types.
 		private int m_cbSize;
 
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
-		private uint[] m_reserved; // Pad structure to leave easy room for future expansion
+		// Note this is written out as such because we want this to be a blittable/unmanaged type.
+		private uint m_reserved0; // Pad structure to leave easy room for future expansion
+		private uint m_reserved1;
+		private uint m_reserved2;
+		private uint m_reserved3;
+		private uint m_reserved4;
+		private uint m_reserved5;
+		private uint m_reserved6;
+		private uint m_reserved7;
+		private uint m_reserved8;
+		private uint m_reserved9;
+		private uint m_reserved10;
+		private uint m_reserved11;
+		private uint m_reserved12;
+		private uint m_reserved13;
+		private uint m_reserved14;
+		private uint m_reserved15;
+		private uint m_reserved16;
+		private uint m_reserved17;
+		private uint m_reserved18;
+		private uint m_reserved19;
+		private uint m_reserved20;
+		private uint m_reserved21;
+		private uint m_reserved22;
+		private uint m_reserved23;
+		private uint m_reserved24;
+		private uint m_reserved25;
+		private uint m_reserved26;
+		private uint m_reserved27;
+		private uint m_reserved28;
+		private uint m_reserved29;
+		private uint m_reserved30;
+		private uint m_reserved31;
 
 		// Max sizes
 		public const int k_cchMaxString = 128; // Max length of the buffer needed to hold any identity, formatted in string format by ToString
