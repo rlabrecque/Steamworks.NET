@@ -343,7 +343,7 @@ namespace Steamworks {
 		/// <para>/ See ISteamNetworkingSockets::SendMessageToConnection for possible</para>
 		/// <para>/ failure codes.</para>
 		/// </summary>
-		public static void SendMessages(int nMessages, SteamNetworkingMessage_t[] pMessages, long[] pOutMessageNumberOrResult) {
+		public static void SendMessages(int nMessages, IntPtr[] pMessages, long[] pOutMessageNumberOrResult) {
 			InteropHelp.TestIfAvailableGameServer();
 			NativeMethods.ISteamNetworkingSockets_SendMessages(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), nMessages, pMessages, pOutMessageNumberOrResult);
 		}

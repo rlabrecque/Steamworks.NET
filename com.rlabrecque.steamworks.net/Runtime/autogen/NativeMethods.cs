@@ -2114,7 +2114,7 @@ namespace Steamworks {
 		public static extern EResult ISteamNetworkingSockets_SendMessageToConnection(IntPtr instancePtr, HSteamNetConnection hConn, IntPtr pData, uint cbData, int nSendFlags, out long pOutMessageNumber);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworkingSockets_SendMessages", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamNetworkingSockets_SendMessages(IntPtr instancePtr, int nMessages, [In, Out] SteamNetworkingMessage_t[] pMessages, [In, Out] long[] pOutMessageNumberOrResult);
+		public static extern void ISteamNetworkingSockets_SendMessages(IntPtr instancePtr, int nMessages, [In, Out] IntPtr[] pMessages, [In, Out] long[] pOutMessageNumberOrResult);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworkingSockets_FlushMessagesOnConnection", CallingConvention = CallingConvention.Cdecl)]
 		public static extern EResult ISteamNetworkingSockets_FlushMessagesOnConnection(IntPtr instancePtr, HSteamNetConnection hConn);

@@ -422,11 +422,11 @@ g_SpecialArgsDict = {
     },
 
     "ISteamNetworkingSockets_SendMessages": {
-        "pMessages": "SteamNetworkingMessage_t[]",
+        "pMessages": "IntPtr[]",
         "pOutMessageNumberOrResult": "long[]",
     },
     "ISteamGameServerNetworkingSockets_SendMessages": {
-        "pMessages": "SteamNetworkingMessage_t[]",
+        "pMessages": "IntPtr[]",
         "pOutMessageNumberOrResult": "long[]",
     },
 
