@@ -10,10 +10,30 @@ using System.Collections.Generic;
 // This copies various files into their required locations when Unity is launched to make installation a breeze.
 [InitializeOnLoad]
 public class RedistInstall {
+	
+	const string STEAMWORKS_AUTOFIX_DISABLED_MENU_ITEM = "Steamworks.NET/Disable Autofix";
+	const string STEAMWORKS_AUTOFIX_DISABLED = "STEAMWORKS_AUTOFIX_DISABLED";
+	
+	[MenuItem(STEAMWORKS_AUTOFIX_DISABLED_MENU_ITEM)]
+	static void SwitchAutofixDisabled() {
+		var autofixDisabled = !IsAutofixDisabled();
+		EditorPrefs.SetBool(STEAMWORKS_AUTOFIX_DISABLED, autofixDisabled);
+		UpdateMenuItems();
+	}
+	
+	static bool IsAutofixDisabled(){
+		return EditorPrefs.GetBool(STEAMWORKS_AUTOFIX_DISABLED, false);
+	}
+	
+	static void UpdateMenuItems() {
+		Menu.SetChecked(STEAMWORKS_AUTOFIX_DISABLED_MENU_ITEM, IsAutofixDisabled());
+	}
+	
 	static RedistInstall() {
 		WriteSteamAppIdTxtFile();
 		AddDefineSymbols();
 		CheckForOldDlls();
+		UpdateMenuItems();
 	}
 
 	static void WriteSteamAppIdTxtFile() {
@@ -57,6 +77,9 @@ public class RedistInstall {
 	}
 
 	static void AddDefineSymbols() {
+		if (IsAutofixDisabled())
+			return;
+		
 		string currentDefines = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
 		HashSet<string> defines = new HashSet<string>(currentDefines.Split(';')) {
 			"STEAMWORKS_NET"
