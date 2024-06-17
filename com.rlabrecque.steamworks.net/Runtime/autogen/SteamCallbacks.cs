@@ -16,29 +16,6 @@ using IntPtr = System.IntPtr;
 
 namespace Steamworks {
 	// callbacks
-	//---------------------------------------------------------------------------------
-	// Purpose: Sent when a new app is installed (not downloaded yet)
-	//---------------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	[CallbackIdentity(Constants.k_iSteamAppListCallbacks + 1)]
-	public struct SteamAppInstalled_t {
-		public const int k_iCallback = Constants.k_iSteamAppListCallbacks + 1;
-		public AppId_t m_nAppID;			// ID of the app that installs
-		public int m_iInstallFolderIndex; // library folder the app is installed
-	}
-
-	//---------------------------------------------------------------------------------
-	// Purpose: Sent when an app is uninstalled
-	//---------------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	[CallbackIdentity(Constants.k_iSteamAppListCallbacks + 2)]
-	public struct SteamAppUninstalled_t {
-		public const int k_iCallback = Constants.k_iSteamAppListCallbacks + 2;
-		public AppId_t m_nAppID;			// ID of the app that installs
-		public int m_iInstallFolderIndex; // library folder the app was installed
-	}
-
-	// callbacks
 	//-----------------------------------------------------------------------------
 	// Purpose: posted after the user gains ownership of DLC & that DLC is installed
 	//-----------------------------------------------------------------------------

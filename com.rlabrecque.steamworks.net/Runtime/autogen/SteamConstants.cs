@@ -16,10 +16,9 @@ using IntPtr = System.IntPtr;
 
 namespace Steamworks {
 	public static class Constants {
-		public const string STEAMAPPLIST_INTERFACE_VERSION = "STEAMAPPLIST_INTERFACE_VERSION001";
 		public const string STEAMAPPS_INTERFACE_VERSION = "STEAMAPPS_INTERFACE_VERSION008";
 		public const string STEAMAPPTICKET_INTERFACE_VERSION = "STEAMAPPTICKET_INTERFACE_VERSION001";
-		public const string STEAMCLIENT_INTERFACE_VERSION = "SteamClient020";
+		public const string STEAMCLIENT_INTERFACE_VERSION = "SteamClient021";
 		public const string STEAMFRIENDS_INTERFACE_VERSION = "SteamFriends017";
 		public const string STEAMGAMECOORDINATOR_INTERFACE_VERSION = "SteamGameCoordinator001";
 		public const string STEAMGAMESERVER_INTERFACE_VERSION = "SteamGameServer015";
@@ -55,6 +54,9 @@ namespace Steamworks {
 		// maximum number of groups a single user is allowed
 		public const int k_cFriendsGroupLimit = 100;
 		public const int k_cEnumerateFollowersMax = 50;
+		// special values for FriendGameInfo_t::m_usQueryPort
+		public const ushort k_usFriendGameInfoQueryPort_NotInitialized = 0xFFFF; // We haven't asked the GS for this query port's actual value yet.  Was #define QUERY_PORT_NOT_INITIALIZED in older versions of Steamworks SDK.
+		public const ushort k_usFriendGameInfoQueryPort_Error = 0xFFFE; // We were unable to get the query port for this server.  Was #define QUERY_PORT_ERROR in older versions of Steamworks SDK.
 		// maximum number of characters in a user's name. Two flavors; one for UTF-8 and one for UTF-16.
 		// The UTF-8 version has to be very generous to accomodate characters that get large when encoded
 		// in UTF-8.
@@ -142,7 +144,6 @@ namespace Steamworks {
 		public const int k_iSteamControllerCallbacks = 2800;
 		public const int k_iSteamUGCCallbacks = 3400;
 		public const int k_iSteamStreamClientCallbacks = 3500;
-		public const int k_iSteamAppListCallbacks = 3900;
 		public const int k_iSteamMusicCallbacks = 4000;
 		public const int k_iSteamMusicRemoteCallbacks = 4100;
 		public const int k_iSteamGameNotificationCallbacks = 4400;

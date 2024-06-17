@@ -350,6 +350,14 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamUtils_DismissFloatingGamepadTextInput(CSteamGameServerAPIContext.GetSteamUtils());
 		}
+
+		/// <summary>
+		/// <para> Dismisses the full-screen text input dialog.</para>
+		/// </summary>
+		public static bool DismissGamepadTextInput() {
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamUtils_DismissGamepadTextInput(CSteamGameServerAPIContext.GetSteamUtils());
+		}
 	}
 }
 

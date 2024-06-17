@@ -103,6 +103,10 @@ struct FriendGameInfo_t
 };
 #pragma pack( pop )
 
+// special values for FriendGameInfo_t::m_usQueryPort
+const uint16 k_usFriendGameInfoQueryPort_NotInitialized = 0xFFFF;		// We haven't asked the GS for this query port's actual value yet.  Was #define QUERY_PORT_NOT_INITIALIZED in older versions of Steamworks SDK.
+const uint16 k_usFriendGameInfoQueryPort_Error          = 0xFFFE;		// We were unable to get the query port for this server.  Was #define QUERY_PORT_ERROR in older versions of Steamworks SDK.
+
 // maximum number of characters in a user's name. Two flavors; one for UTF-8 and one for UTF-16.
 // The UTF-8 version has to be very generous to accomodate characters that get large when encoded
 // in UTF-8.

@@ -969,7 +969,7 @@ namespace Steamworks {
 		k_EFeatureLibrary = 11,
 		k_EFeatureTest = 12,
 		k_EFeatureSiteLicense = 13,
-		k_EFeatureKioskMode = 14,
+		k_EFeatureKioskMode_Deprecated = 14,
 		k_EFeatureMax
 	}
 
@@ -982,6 +982,7 @@ namespace Steamworks {
 		k_ESteamDeviceFormFactorTablet		= 2,
 		k_ESteamDeviceFormFactorComputer	= 3,
 		k_ESteamDeviceFormFactorTV			= 4,
+		k_ESteamDeviceFormFactorVRHeadset	= 5,
 	}
 
 	[Flags]
@@ -1025,9 +1026,10 @@ namespace Steamworks {
 		k_EWorkshopFileTypeSteamworksAccessInvite = 13,		// internal
 		k_EWorkshopFileTypeSteamVideo			  = 14,		// Steam video
 		k_EWorkshopFileTypeGameManagedItem		  = 15,		// managed completely by the game, not the user, and not shown on the web
+		k_EWorkshopFileTypeClip					  = 16,		// internal
 
 		// Update k_EWorkshopFileTypeMax if you add values.
-		k_EWorkshopFileTypeMax = 16
+		k_EWorkshopFileTypeMax = 17
 
 	}
 
@@ -1187,6 +1189,7 @@ namespace Steamworks {
 		k_EItemStateNeedsUpdate		= 8,	// items needs an update. Either because it's not installed yet or creator updated content
 		k_EItemStateDownloading		= 16,	// item update is currently downloading
 		k_EItemStateDownloadPending	= 32,	// DownloadItem() was called for this item, content isn't available until DownloadItemResult_t is fired
+		k_EItemStateDisabledLocally = 64,	// Item is disabled locally, so it shouldn't be considered subscribed
 	}
 
 	public enum EItemStatistic : int {
@@ -1218,6 +1221,7 @@ namespace Steamworks {
 																	// |   |Dn |       |
 																	// +---+---+---+---+
 		k_EItemPreviewType_EnvironmentMap_LatLong			= 4,	// standard image file expected
+		k_EItemPreviewType_Clip								= 5,	// clip id is stored
 		k_EItemPreviewType_ReservedMax						= 255,	// you can specify your own types above this value
 	}
 
@@ -1469,6 +1473,8 @@ namespace Steamworks {
 		k_EResultChargerRequired = 125,				// The operation requires a charger to be plugged in, which wasn't present
 		k_EResultCachedCredentialInvalid = 126,		// Cached credential was invalid - user must reauthenticate
 		K_EResultPhoneNumberIsVOIP = 127,			// The phone number provided is a Voice Over IP number
+		k_EResultNotSupported = 128,				// The data being accessed is not supported by this API
+		k_EResultFamilySizeLimitExceeded = 129,		// Reached the maximum size of the family
 	}
 
 	// Error codes for use with the voice functions
@@ -2608,6 +2614,32 @@ namespace Steamworks {
 		k_ESteamNetworkingConfig_FakeRateLimit_Recv_Rate = 44,
 		k_ESteamNetworkingConfig_FakeRateLimit_Recv_Burst = 45,
 
+		// Timeout used for out-of-order correction.  This is used when we see a small
+		// gap in the sequence number on a packet flow.  For example let's say we are
+		// processing packet 105 when the most recent one was 103.  104 might have dropped,
+		// but there is also a chance that packets are simply being reordered.  It is very
+		// common on certain types of connections for packet 104 to arrive very soon after 105,
+		// especially if 104 was large and 104 was small.  In this case, when we see packet 105
+		// we will shunt it aside and pend it, in the hopes of seeing 104 soon after.  If 104
+		// arrives before the a timeout occurs, then we can deliver the packets in order to the
+		// remainder of packet processing, and we will record this as a "correctable" out-of-order
+		// situation.  If the timer expires, then we will process packet 105, and assume for now
+		// that 104 has dropped.  (If 104 later arrives, we will process it, but that will be
+		// accounted for as uncorrected.)
+		//
+		// The default value is 1000 microseconds.  Note that the Windows scheduler does not
+		// have microsecond precision.
+		//
+		// Set the value to 0 to disable out of order correction at the packet layer.
+		// In many cases we are still effectively able to correct the situation because
+		// reassembly of message fragments is tolerant of fragments packets arriving out of
+		// order.  Also, when messages are decoded and inserted into the queue for the app
+		// to receive them, we will correct out of order messages that have not been
+		// dequeued by the app yet.  However, when out-of-order packets are corrected
+		// at the packet layer, they will not reduce the connection quality measure.
+		// (E.g. SteamNetConnectionRealTimeStatus_t::m_flConnectionQualityLocal)
+		k_ESteamNetworkingConfig_OutOfOrderCorrectionWindowMicroseconds = 51,
+
 	//
 	// Callbacks
 	//
@@ -2721,24 +2753,24 @@ namespace Steamworks {
 	// Settings for SDR relayed connections
 	//
 
-		/// [int32 global] If the first N pings to a port all fail, mark that port as unavailable for
+		/// [global int32] If the first N pings to a port all fail, mark that port as unavailable for
 		/// a while, and try a different one.  Some ISPs and routers may drop the first
 		/// packet, so setting this to 1 may greatly disrupt communications.
 		k_ESteamNetworkingConfig_SDRClient_ConsecutitivePingTimeoutsFailInitial = 19,
 
-		/// [int32 global] If N consecutive pings to a port fail, after having received successful
+		/// [global int32] If N consecutive pings to a port fail, after having received successful
 		/// communication, mark that port as unavailable for a while, and try a
 		/// different one.
 		k_ESteamNetworkingConfig_SDRClient_ConsecutitivePingTimeoutsFail = 20,
 
-		/// [int32 global] Minimum number of lifetime pings we need to send, before we think our estimate
+		/// [global int32] Minimum number of lifetime pings we need to send, before we think our estimate
 		/// is solid.  The first ping to each cluster is very often delayed because of NAT,
 		/// routers not having the best route, etc.  Until we've sent a sufficient number
 		/// of pings, our estimate is often inaccurate.  Keep pinging until we get this
 		/// many pings.
 		k_ESteamNetworkingConfig_SDRClient_MinPingsBeforePingAccurate = 21,
 
-		/// [int32 global] Set all steam datagram traffic to originate from the same
+		/// [global int32] Set all steam datagram traffic to originate from the same
 		/// local port. By default, we open up a new UDP socket (on a different local
 		/// port) for each relay.  This is slightly less optimal, but it works around
 		/// some routers that don't implement NAT properly.  If you have intermittent
@@ -2750,10 +2782,13 @@ namespace Steamworks {
 		/// only use relays in that cluster.  E.g. 'iad'
 		k_ESteamNetworkingConfig_SDRClient_ForceRelayCluster = 29,
 
-		/// [connection string] For debugging, generate our own (unsigned) ticket, using
-		/// the specified  gameserver address.  Router must be configured to accept unsigned
-		/// tickets.
-		k_ESteamNetworkingConfig_SDRClient_DebugTicketAddress = 30,
+		/// [connection string] For development, a base-64 encoded ticket generated
+		/// using the cert tool.  This can be used to connect to a gameserver via SDR
+		/// without a ticket generated using the game coordinator.  (You will still
+		/// need a key that is trusted for your app, however.)
+		///
+		/// This can also be passed using the SDR_DEVTICKET environment variable
+		k_ESteamNetworkingConfig_SDRClient_DevTicket = 30,
 
 		/// [global string] For debugging.  Override list of relays from the config with
 		/// this set (maybe just one).  Comma-separated list.
@@ -2765,6 +2800,10 @@ namespace Steamworks {
 		/// This is a dev configuration value, you probably should not let users modify it
 		/// in production.
 		k_ESteamNetworkingConfig_SDRClient_FakeClusterPing = 36,
+
+		/// [global int32] When probing the SteamDatagram network, we limit exploration
+		/// to the closest N POPs, based on our current best approximated ping to that POP.
+		k_ESteamNetworkingConfig_SDRClient_LimitPingProbesToNearestN = 60,
 
 	//
 	// Log levels for debugging information of various subsystems.
@@ -2781,6 +2820,10 @@ namespace Steamworks {
 		k_ESteamNetworkingConfig_LogLevel_P2PRendezvous = 17, // [connection int32] P2P rendezvous messages
 		k_ESteamNetworkingConfig_LogLevel_SDRRelayPings = 18, // [global int32] Ping relays
 
+		// Experimental.  Set the ECN header field on all outbound UDP packets
+		// -1 = the default, and means "don't set anything".
+		// 0..3 = set that value.  (Even though 0 is the default UDP ECN value, a 0 here means "explicitly set a 0".)
+		k_ESteamNetworkingConfig_ECN = 999,
 
 		// Deleted, do not use
 		k_ESteamNetworkingConfig_DELETED_EnumerateDevVars = 35,
