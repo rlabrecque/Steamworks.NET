@@ -36,7 +36,6 @@
 #include "isteamhttp.h"
 #include "isteamcontroller.h"
 #include "isteamugc.h"
-#include "isteamapplist.h"
 #include "isteamhtmlsurface.h"
 #include "isteaminventory.h"
 #include "isteamvideo.h"
@@ -63,9 +62,27 @@ enum ESteamAPIInitResult
 	k_ESteamAPIInitResult_VersionMismatch = 3, // Steam client appears to be out of date
 };
 
-// Initialize the Steamworks SDK.
-// On success k_ESteamAPIInitResult_OK is returned.  Otherwise, if pOutErrMsg is non-NULL,
-// it will receive a non-localized message that explains the reason for the failure
+// Initializing the Steamworks SDK
+// -----------------------------
+// 
+// There are three different methods you can use to initialize the Steamworks SDK, depending on
+// your project's environment. You should only use one method in your project.
+// 
+// If you are able to include this C++ header in your project, we recommend using the following
+// initialization methods. They will ensure that all ISteam* interfaces defined in other
+// C++ header files have versions that are supported by the user's Steam Client:
+// - SteamAPI_InitEx() for new projects so you can show a detailed error message to the user
+// - SteamAPI_Init() for existing projects that only display a generic error message
+// 
+// If you are unable to include this C++ header in your project and are dynamically loading
+// Steamworks SDK methods from dll/so, you can use the following method:
+// - SteamAPI_InitFlat()
+
+
+// See "Initializing the Steamworks SDK" above for how to choose an init method.
+// On success k_ESteamAPIInitResult_OK is returned. Otherwise, returns a value that can be used
+// to create a localized error message for the user. If pOutErrMsg is non-NULL,
+// it will receive an example error message, in English, that explains the reason for the failure.
 //
 // Example usage:
 // 
@@ -74,13 +91,17 @@ enum ESteamAPIInitResult
 //       FatalError( "Failed to init Steam.  %s", errMsg );
 inline ESteamAPIInitResult SteamAPI_InitEx( SteamErrMsg *pOutErrMsg );
 
-// Initialize the SDK, without worrying about the cause of failure.
-// This function is included for compatibility with older SDK.
-// You can use it if you don't care about decent error handling
+// See "Initializing the Steamworks SDK" above for how to choose an init method.
+// Returns true on success
 inline bool SteamAPI_Init()
 {
 	return SteamAPI_InitEx( NULL ) == k_ESteamAPIInitResult_OK;
 }
+
+// See "Initializing the Steamworks SDK" above for how to choose an init method.
+// Same usage as SteamAPI_InitEx(), however does not verify ISteam* interfaces are
+// supported by the user's client and is exported from the dll
+S_API ESteamAPIInitResult S_CALLTYPE SteamAPI_InitFlat( SteamErrMsg *pOutErrMsg );
 
 // SteamAPI_Shutdown should be called during process shutdown if possible.
 S_API void S_CALLTYPE SteamAPI_Shutdown();
@@ -277,10 +298,6 @@ inline bool CSteamAPIContext::Init()
 	if ( !m_pSteamUGC )
 		return false;
 
-	m_pSteamAppList = ::SteamAppList();
-	if ( !m_pSteamAppList )
-		return false;
-
 	m_pSteamMusic = ::SteamMusic();
 	if ( !m_pSteamMusic )
 		return false;
@@ -318,17 +335,12 @@ inline bool CSteamAPIContext::Init()
 
 // Internal implementation of SteamAPI_InitEx.  This is done in a way that checks
 // all of the versions of interfaces from headers being compiled into this code.
-// If you are not using any of the C++ interfaces and do not need this version checking
-// (for example if you are only using the "flat" interfaces, which have a different type
-// of version checking), you can pass a NULL interface version string.
 S_API ESteamAPIInitResult S_CALLTYPE SteamInternal_SteamAPI_Init( const char *pszInternalCheckInterfaceVersions, SteamErrMsg *pOutErrMsg );
 inline ESteamAPIInitResult SteamAPI_InitEx( SteamErrMsg *pOutErrMsg )
 {
 	const char *pszInternalCheckInterfaceVersions = 
 		STEAMUTILS_INTERFACE_VERSION "\0"
 		STEAMNETWORKINGUTILS_INTERFACE_VERSION "\0"
-
-		STEAMAPPLIST_INTERFACE_VERSION "\0"
 		STEAMAPPS_INTERFACE_VERSION "\0"
 		STEAMCONTROLLER_INTERFACE_VERSION "\0"
 		STEAMFRIENDS_INTERFACE_VERSION "\0"

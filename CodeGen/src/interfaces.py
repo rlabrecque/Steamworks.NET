@@ -108,7 +108,6 @@ g_ReturnTypeDict = {
     "SteamNetworkingMessage_t *": "IntPtr",
 
     # TODO: UGH
-    "ISteamAppList *": "IntPtr",
     "ISteamApps *": "IntPtr",
     "ISteamController *": "IntPtr",
     "ISteamFriends *": "IntPtr",
@@ -144,9 +143,6 @@ g_SpecialReturnTypeDict = {
 
 g_SpecialArgsDict = {
     # These args are missing a clang attribute like ARRAY_COUNT
-    "ISteamAppList_GetInstalledApps": {
-        "pvecAppID": "AppId_t[]",
-    },
     "ISteamApps_GetInstalledDepots": {
         "pvecDepots": "DepotId_t[]",
     },

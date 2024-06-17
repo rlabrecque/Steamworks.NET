@@ -121,6 +121,7 @@ enum EItemState
 	k_EItemStateNeedsUpdate		= 8,	// items needs an update. Either because it's not installed yet or creator updated content
 	k_EItemStateDownloading		= 16,	// item update is currently downloading
 	k_EItemStateDownloadPending	= 32,	// DownloadItem() was called for this item, content isn't available until DownloadItemResult_t is fired
+	k_EItemStateDisabledLocally = 64,	// Item is disabled locally, so it shouldn't be considered subscribed
 };
 
 enum EItemStatistic
@@ -154,6 +155,7 @@ enum EItemPreviewType
 																// |   |Dn |       |
 																// +---+---+---+---+
 	k_EItemPreviewType_EnvironmentMap_LatLong			= 4,	// standard image file expected
+	k_EItemPreviewType_Clip								= 5,	// clip id is stored
 	k_EItemPreviewType_ReservedMax						= 255,	// you can specify your own types above this value
 };
 

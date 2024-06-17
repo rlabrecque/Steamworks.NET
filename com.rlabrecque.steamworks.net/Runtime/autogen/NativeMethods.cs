@@ -362,22 +362,6 @@ namespace Steamworks {
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool SteamEncryptedAppTicket_BIsLicenseTemporary([In, Out] byte[] rgubTicketDecrypted, uint cubTicketDecrypted);
 #endregion
-#region SteamAppList
-		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamAppList_GetNumInstalledApps", CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamAppList_GetNumInstalledApps(IntPtr instancePtr);
-
-		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamAppList_GetInstalledApps", CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamAppList_GetInstalledApps(IntPtr instancePtr, [In, Out] AppId_t[] pvecAppID, uint unMaxAppIDs);
-
-		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamAppList_GetAppName", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamAppList_GetAppName(IntPtr instancePtr, AppId_t nAppID, IntPtr pchName, int cchNameMax);
-
-		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamAppList_GetAppInstallDir", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamAppList_GetAppInstallDir(IntPtr instancePtr, AppId_t nAppID, IntPtr pchDirectory, int cchNameMax);
-
-		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamAppList_GetAppBuildId", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int ISteamAppList_GetAppBuildId(IntPtr instancePtr, AppId_t nAppID);
-#endregion
 #region SteamApps
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamApps_BIsSubscribed", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -564,9 +548,6 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamClient_GetISteamUGC", CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr ISteamClient_GetISteamUGC(IntPtr instancePtr, HSteamUser hSteamUser, HSteamPipe hSteamPipe, InteropHelp.UTF8StringHandle pchVersion);
-
-		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamClient_GetISteamAppList", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr ISteamClient_GetISteamAppList(IntPtr instancePtr, HSteamUser hSteamUser, HSteamPipe hSteamPipe, InteropHelp.UTF8StringHandle pchVersion);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamClient_GetISteamMusic", CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr ISteamClient_GetISteamMusic(IntPtr instancePtr, HSteamUser hSteamuser, HSteamPipe hSteamPipe, InteropHelp.UTF8StringHandle pchVersion);
@@ -3320,6 +3301,10 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUtils_DismissFloatingGamepadTextInput", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamUtils_DismissFloatingGamepadTextInput(IntPtr instancePtr);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUtils_DismissGamepadTextInput", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamUtils_DismissGamepadTextInput(IntPtr instancePtr);
 #endregion
 #region SteamVideo
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamVideo_GetVideoURL", CallingConvention = CallingConvention.Cdecl)]

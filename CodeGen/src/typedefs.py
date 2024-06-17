@@ -142,6 +142,10 @@ g_ReadOnlyValues = {
     "HSteamNetPollGroup": OrderedDict([
         ("Invalid", "0"),
     ]),
+
+    "AccountID_t": OrderedDict([
+        ("Invalid", "0"),
+    ]),
 }
 
 
