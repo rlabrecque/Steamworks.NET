@@ -41,10 +41,10 @@ namespace Steamworks {
 		// Silence some warnings
 		public const string STEAMNETWORKINGUTILS_INTERFACE_VERSION = "SteamNetworkingUtils004";
 		public const string STEAMPARENTALSETTINGS_INTERFACE_VERSION = "STEAMPARENTALSETTINGS_INTERFACE_VERSION001";
-		public const string STEAMREMOTEPLAY_INTERFACE_VERSION = "STEAMREMOTEPLAY_INTERFACE_VERSION001";
+		public const string STEAMREMOTEPLAY_INTERFACE_VERSION = "STEAMREMOTEPLAY_INTERFACE_VERSION002";
 		public const string STEAMREMOTESTORAGE_INTERFACE_VERSION = "STEAMREMOTESTORAGE_INTERFACE_VERSION016";
 		public const string STEAMSCREENSHOTS_INTERFACE_VERSION = "STEAMSCREENSHOTS_INTERFACE_VERSION003";
-		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION017";
+		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION018";
 		public const string STEAMUSER_INTERFACE_VERSION = "SteamUser023";
 		public const string STEAMUSERSTATS_INTERFACE_VERSION = "STEAMUSERSTATS_INTERFACE_VERSION012";
 		public const string STEAMUTILS_INTERFACE_VERSION = "SteamUtils010";
@@ -108,6 +108,9 @@ namespace Steamworks {
 		public const int k_cbMaxGameServerName = 64;
 		public const int k_cbMaxGameServerTags = 128;
 		public const int k_cbMaxGameServerGameData = 2048;
+		// A fixed size buffer to receive an error message that is returned by some API
+		// calls.
+		public const int k_cchMaxSteamErrMsg = 1024;
 		// Forward declare types
 		//-----------------------------------------------------------------------------
 		// Purpose: Base values for callback identifiers, each callback must

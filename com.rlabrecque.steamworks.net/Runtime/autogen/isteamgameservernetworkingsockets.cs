@@ -218,7 +218,7 @@ namespace Steamworks {
 		/// <para>/ WARNING: Be *very careful* when using the value provided in callbacks structs.</para>
 		/// <para>/ Callbacks are queued, and the value that you will receive in your</para>
 		/// <para>/ callback is the userdata that was effective at the time the callback</para>
-		/// <para>/ was queued.  There are subtle race conditions that can hapen if you</para>
+		/// <para>/ was queued.  There are subtle race conditions that can happen if you</para>
 		/// <para>/ don't understand this!</para>
 		/// <para>/</para>
 		/// <para>/ If any incoming messages for this connection are queued, the userdata</para>
@@ -483,10 +483,9 @@ namespace Steamworks {
 		/// <para>/ lanes may be sent out of order.  Each lane has its own message number</para>
 		/// <para>/ sequence.  The first message sent on each lane will be assigned the number 1.</para>
 		/// <para>/</para>
-		/// <para>/ Each lane has a "priority".  Lower priority lanes will only be processed</para>
-		/// <para>/ when all higher-priority lanes are empty.  The magnitudes of the priority</para>
-		/// <para>/ values are not relevant, only their sort order.  Higher numeric values</para>
-		/// <para>/ take priority over lower numeric values.</para>
+		/// <para>/ Each lane has a "priority".  Lanes with higher numeric values will only be processed</para>
+		/// <para>/ when all lanes with lower number values are empty.  The magnitudes of the priority</para>
+		/// <para>/ values are not relevant, only their sort order.</para>
 		/// <para>/</para>
 		/// <para>/ Each lane also is assigned a weight, which controls the approximate proportion</para>
 		/// <para>/ of the bandwidth that will be consumed by the lane, relative to other lanes</para>
@@ -997,7 +996,7 @@ namespace Steamworks {
 		/// <para>/ different types of traffic.  Because these allocations come from a global</para>
 		/// <para>/ namespace, there is a relatively strict limit on the maximum number of</para>
 		/// <para>/ ports you may request.  (At the time of this writing, the limit is 4.)</para>
-		/// <para>/ The Port assignments are *not* guaranteed to have any particular order</para>
+		/// <para>/ The port assignments are *not* guaranteed to have any particular order</para>
 		/// <para>/ or relationship!  Do *not* assume they are contiguous, even though that</para>
 		/// <para>/ may often occur in practice.</para>
 		/// <para>/</para>

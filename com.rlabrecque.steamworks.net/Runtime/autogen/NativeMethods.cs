@@ -48,9 +48,8 @@ namespace Steamworks {
 #endif
 
 #region steam_api.h
-		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_Init", CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool SteamAPI_Init();
+		[DllImport(NativeLibraryName, EntryPoint = "SteamInternal_SteamAPI_Init", CallingConvention = CallingConvention.Cdecl)]
+		public static extern ESteamAPIInitResult SteamInternal_SteamAPI_Init(IntPtr pszInternalCheckInterfaceVersions, IntPtr pOutErrMsg);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_Shutdown", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_Shutdown();
@@ -157,9 +156,8 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, EntryPoint = "SteamGameServer_GetHSteamUser", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SteamGameServer_GetHSteamUser();
 
-		[DllImport(NativeLibraryName, EntryPoint = "SteamInternal_GameServer_Init", CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool SteamInternal_GameServer_Init(uint unIP, ushort usPort, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, InteropHelp.UTF8StringHandle pchVersionString);
+		[DllImport(NativeLibraryName, EntryPoint = "SteamInternal_GameServer_Init_V2", CallingConvention = CallingConvention.Cdecl)]
+		public static extern ESteamAPIInitResult SteamInternal_GameServer_Init_V2(uint unIP, ushort usPort, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, InteropHelp.UTF8StringHandle pchVersionString, IntPtr pszInternalCheckInterfaceVersions, IntPtr pOutErrMsg);
 #endregion
 #region SteamAPI Accessors
 		[DllImport(NativeLibraryName, EntryPoint = "SteamClient", CallingConvention = CallingConvention.Cdecl)]
@@ -2362,6 +2360,10 @@ namespace Steamworks {
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamRemotePlay_BGetSessionClientResolution(IntPtr instancePtr, RemotePlaySessionID_t unSessionID, out int pnResolutionX, out int pnResolutionY);
 
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_BStartRemotePlayTogether", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamRemotePlay_BStartRemotePlayTogether(IntPtr instancePtr, [MarshalAs(UnmanagedType.I1)] bool bShowOverlay);
+
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_BSendRemotePlayTogetherInvite", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamRemotePlay_BSendRemotePlayTogetherInvite(IntPtr instancePtr, CSteamID steamIDFriend);
@@ -2783,7 +2785,7 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_SetItemTags", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamUGC_SetItemTags(IntPtr instancePtr, UGCUpdateHandle_t updateHandle, IntPtr pTags);
+		public static extern bool ISteamUGC_SetItemTags(IntPtr instancePtr, UGCUpdateHandle_t updateHandle, IntPtr pTags, [MarshalAs(UnmanagedType.I1)] bool bAllowAdminTags);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_SetItemContent", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -2922,6 +2924,9 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_GetWorkshopEULAStatus", CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong ISteamUGC_GetWorkshopEULAStatus(IntPtr instancePtr);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_GetUserContentDescriptorPreferences", CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint ISteamUGC_GetUserContentDescriptorPreferences(IntPtr instancePtr, [In, Out] EUGCContentDescriptorID[] pvecDescriptors, uint cMaxEntries);
 #endregion
 #region SteamUser
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUser_GetHSteamUser", CallingConvention = CallingConvention.Cdecl)]
