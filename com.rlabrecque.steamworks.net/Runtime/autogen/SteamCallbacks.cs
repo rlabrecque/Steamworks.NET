@@ -134,6 +134,7 @@ namespace Steamworks {
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bUserInitiated;	// true if the user asked for the overlay to be activated/deactivated
 		public AppId_t m_nAppID;		// the appID of the game (should always be the current game)
+		public uint m_dwOverlayPID;	// used internally
 	}
 
 	//-----------------------------------------------------------------------------
@@ -2791,7 +2792,7 @@ namespace Steamworks {
 	}
 
 	//-----------------------------------------------------------------------------
-	// Purpose: Fired when running on a laptop and less than 10 minutes of battery is left, fires then every minute
+	// Purpose: Fired when running on a handheld PC or laptop with less than 10 minutes of battery is left, fires then every minute
 	//-----------------------------------------------------------------------------
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 2)]

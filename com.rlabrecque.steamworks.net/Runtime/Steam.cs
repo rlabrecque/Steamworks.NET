@@ -29,20 +29,27 @@ namespace Steamworks {
 		public static bool Init() {
 			InteropHelp.TestIfPlatformSupported();
 
-			bool ret = NativeMethods.SteamAPI_Init();
+			IntPtr SteamErrorMsgPtr = Marshal.AllocHGlobal(Constants.k_cchMaxSteamErrMsg);
+			ESteamAPIInitResult initResult = NativeMethods.SteamInternal_SteamAPI_Init(IntPtr.Zero, SteamErrorMsgPtr);
+			string SteamErrorMsg = InteropHelp.PtrToStringUTF8(SteamErrorMsgPtr);
+			Marshal.FreeHGlobal(SteamErrorMsgPtr);
+
+			if (initResult != ESteamAPIInitResult.k_ESteamAPIInitResult_OK)
+			{
+				return false;
+			}
 
 			// Steamworks.NET specific: We initialize the SteamAPI Context like this for now, but we need to do it
 			// every time that Unity reloads binaries, so we also check if the pointers are available and initialized
 			// before each call to any interface functions. That is in InteropHelp.cs
-			if (ret) {
-				ret = CSteamAPIContext.Init();
+			bool ret = CSteamAPIContext.Init();
+			if (!ret) {
+				return false;
 			}
 
-			if (ret) {
-				CallbackDispatcher.Initialize();
-			}
+			CallbackDispatcher.Initialize();
 
-			return ret;
+			return true;
 		}
 
 		// SteamAPI_Shutdown should be called during process shutdown if possible.
@@ -157,23 +164,29 @@ namespace Steamworks {
 		public static bool Init(uint unIP, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, string pchVersionString) {
 			InteropHelp.TestIfPlatformSupported();
 
-			bool ret;
 			using (var pchVersionString2 = new InteropHelp.UTF8StringHandle(pchVersionString)) {
-				ret = NativeMethods.SteamInternal_GameServer_Init(unIP, 0, usGamePort, usQueryPort, eServerMode, pchVersionString2);
+				IntPtr SteamErrorMsgPtr = Marshal.AllocHGlobal(Constants.k_cchMaxSteamErrMsg);
+				ESteamAPIInitResult initResult = NativeMethods.SteamInternal_GameServer_Init_V2(unIP, 0, usGamePort, usQueryPort, eServerMode, pchVersionString2, IntPtr.Zero, SteamErrorMsgPtr);
+				string SteamErrorMsg = InteropHelp.PtrToStringUTF8(SteamErrorMsgPtr);
+				Marshal.FreeHGlobal(SteamErrorMsgPtr);
+
+				if (initResult != ESteamAPIInitResult.k_ESteamAPIInitResult_OK)
+				{
+					return false;
+				}
 			}
 
 			// Steamworks.NET specific: We initialize the SteamAPI Context like this for now, but we need to do it
 			// every time that Unity reloads binaries, so we also check if the pointers are available and initialized
 			// before each call to any interface functions. That is in InteropHelp.cs
-			if (ret) {
-				ret = CSteamGameServerAPIContext.Init();
+			bool ret = CSteamGameServerAPIContext.Init();
+			if (!ret) {
+				return false;
 			}
 
-			if (ret) {
-				CallbackDispatcher.Initialize();
-			}
+			CallbackDispatcher.Initialize();
 
-			return ret;
+			return true;
 		}
 
 		// Shutdown SteamGameSeverXxx interfaces, log out, and free resources.

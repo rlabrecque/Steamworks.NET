@@ -246,6 +246,9 @@ g_SpecialArgsDict = {
     "ISteamUGC_StopPlaytimeTracking": {
         "pvecPublishedFileID": "PublishedFileId_t[]",
     },
+    "ISteamUGC_GetUserContentDescriptorPreferences": {
+        "pvecDescriptors": "EUGCContentDescriptorID[]",
+    },
     "ISteamUser_InitiateGameConnection_DEPRECATED": {
         "pAuthBlob": "byte[]",
     },
@@ -334,6 +337,9 @@ g_SpecialArgsDict = {
     },
     "ISteamGameServerUGC_StopPlaytimeTracking": {
         "pvecPublishedFileID": "PublishedFileId_t[]",
+    },
+    "ISteamGameServerUGC_GetUserContentDescriptorPreferences": {
+        "pvecDescriptors": "EUGCContentDescriptorID[]",
     },
 
     # This is a little nicety that we provide, I don't know why Valve doesn't just change it.

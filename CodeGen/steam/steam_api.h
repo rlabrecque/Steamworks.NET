@@ -55,10 +55,32 @@
 //
 //----------------------------------------------------------------------------------------------------------------------------------------------------------//
 
+enum ESteamAPIInitResult
+{
+	k_ESteamAPIInitResult_OK = 0,
+	k_ESteamAPIInitResult_FailedGeneric = 1, // Some other failure
+	k_ESteamAPIInitResult_NoSteamClient = 2, // We cannot connect to Steam, steam probably isn't running
+	k_ESteamAPIInitResult_VersionMismatch = 3, // Steam client appears to be out of date
+};
 
-// SteamAPI_Init must be called before using any other API functions. If it fails, an
-// error message will be output to the debugger (or stderr) with further information.
-S_API bool S_CALLTYPE SteamAPI_Init();
+// Initialize the Steamworks SDK.
+// On success k_ESteamAPIInitResult_OK is returned.  Otherwise, if pOutErrMsg is non-NULL,
+// it will receive a non-localized message that explains the reason for the failure
+//
+// Example usage:
+// 
+//   SteamErrMsg errMsg;
+//   if ( SteamAPI_Init(&errMsg) != k_ESteamAPIInitResult_OK )
+//       FatalError( "Failed to init Steam.  %s", errMsg );
+inline ESteamAPIInitResult SteamAPI_InitEx( SteamErrMsg *pOutErrMsg );
+
+// Initialize the SDK, without worrying about the cause of failure.
+// This function is included for compatibility with older SDK.
+// You can use it if you don't care about decent error handling
+inline bool SteamAPI_Init()
+{
+	return SteamAPI_InitEx( NULL ) == k_ESteamAPIInitResult_OK;
+}
 
 // SteamAPI_Shutdown should be called during process shutdown if possible.
 S_API void S_CALLTYPE SteamAPI_Shutdown();
@@ -293,5 +315,48 @@ inline bool CSteamAPIContext::Init()
 }
 
 #endif
+
+// Internal implementation of SteamAPI_InitEx.  This is done in a way that checks
+// all of the versions of interfaces from headers being compiled into this code.
+// If you are not using any of the C++ interfaces and do not need this version checking
+// (for example if you are only using the "flat" interfaces, which have a different type
+// of version checking), you can pass a NULL interface version string.
+S_API ESteamAPIInitResult S_CALLTYPE SteamInternal_SteamAPI_Init( const char *pszInternalCheckInterfaceVersions, SteamErrMsg *pOutErrMsg );
+inline ESteamAPIInitResult SteamAPI_InitEx( SteamErrMsg *pOutErrMsg )
+{
+	const char *pszInternalCheckInterfaceVersions = 
+		STEAMUTILS_INTERFACE_VERSION "\0"
+		STEAMNETWORKINGUTILS_INTERFACE_VERSION "\0"
+
+		STEAMAPPLIST_INTERFACE_VERSION "\0"
+		STEAMAPPS_INTERFACE_VERSION "\0"
+		STEAMCONTROLLER_INTERFACE_VERSION "\0"
+		STEAMFRIENDS_INTERFACE_VERSION "\0"
+		STEAMGAMESEARCH_INTERFACE_VERSION "\0"
+		STEAMHTMLSURFACE_INTERFACE_VERSION "\0"
+		STEAMHTTP_INTERFACE_VERSION "\0"
+		STEAMINPUT_INTERFACE_VERSION "\0"
+		STEAMINVENTORY_INTERFACE_VERSION "\0"
+		STEAMMATCHMAKINGSERVERS_INTERFACE_VERSION "\0"
+		STEAMMATCHMAKING_INTERFACE_VERSION "\0"
+		STEAMMUSICREMOTE_INTERFACE_VERSION "\0"
+		STEAMMUSIC_INTERFACE_VERSION "\0"
+		STEAMNETWORKINGMESSAGES_INTERFACE_VERSION "\0"
+		STEAMNETWORKINGSOCKETS_INTERFACE_VERSION "\0"
+		STEAMNETWORKING_INTERFACE_VERSION "\0"
+		STEAMPARENTALSETTINGS_INTERFACE_VERSION "\0"
+		STEAMPARTIES_INTERFACE_VERSION "\0"
+		STEAMREMOTEPLAY_INTERFACE_VERSION "\0"
+		STEAMREMOTESTORAGE_INTERFACE_VERSION "\0"
+		STEAMSCREENSHOTS_INTERFACE_VERSION "\0"
+		STEAMUGC_INTERFACE_VERSION "\0"
+		STEAMUSERSTATS_INTERFACE_VERSION "\0"
+		STEAMUSER_INTERFACE_VERSION "\0"
+		STEAMVIDEO_INTERFACE_VERSION "\0"
+
+		"\0";
+
+	return SteamInternal_SteamAPI_Init( pszInternalCheckInterfaceVersions, pOutErrMsg );
+}
 
 #endif // STEAM_API_H
