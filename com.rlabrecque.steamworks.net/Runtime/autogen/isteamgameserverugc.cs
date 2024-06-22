@@ -379,9 +379,9 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> change the tags of an UGC item</para>
 		/// </summary>
-		public static bool SetItemTags(UGCUpdateHandle_t updateHandle, System.Collections.Generic.IList<string> pTags) {
+		public static bool SetItemTags(UGCUpdateHandle_t updateHandle, System.Collections.Generic.IList<string> pTags, bool bAllowAdminTags = false) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamUGC_SetItemTags(CSteamGameServerAPIContext.GetSteamUGC(), updateHandle, new InteropHelp.SteamParamStringArray(pTags));
+			return NativeMethods.ISteamUGC_SetItemTags(CSteamGameServerAPIContext.GetSteamUGC(), updateHandle, new InteropHelp.SteamParamStringArray(pTags), bAllowAdminTags);
 		}
 
 		/// <summary>
@@ -702,6 +702,14 @@ namespace Steamworks {
 		public static SteamAPICall_t GetWorkshopEULAStatus() {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_GetWorkshopEULAStatus(CSteamGameServerAPIContext.GetSteamUGC());
+		}
+
+		/// <summary>
+		/// <para> Return the user's community content descriptor preferences</para>
+		/// </summary>
+		public static uint GetUserContentDescriptorPreferences(EUGCContentDescriptorID[] pvecDescriptors, uint cMaxEntries) {
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamUGC_GetUserContentDescriptorPreferences(CSteamGameServerAPIContext.GetSteamUGC(), pvecDescriptors, cMaxEntries);
 		}
 	}
 }

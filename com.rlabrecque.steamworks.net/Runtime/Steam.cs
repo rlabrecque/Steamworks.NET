@@ -24,25 +24,67 @@ namespace Steamworks {
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 
-		// SteamAPI_Init must be called before using any other API functions. If it fails, an
-		// error message will be output to the debugger (or stderr) with further information.
-		public static bool Init() {
+		// Initializing the Steamworks SDK
+		// -----------------------------
+		//
+		// There are three different methods you can use to initialize the Steamworks SDK, depending on
+		// your project's environment. You should only use one method in your project.
+		//
+		// If you are able to include this C++ header in your project, we recommend using the following
+		// initialization methods. They will ensure that all ISteam* interfaces defined in other
+		// C++ header files have versions that are supported by the user's Steam Client:
+		// - SteamAPI_InitEx() for new projects so you can show a detailed error message to the user
+		// - SteamAPI_Init() for existing projects that only display a generic error message
+		//
+		// If you are unable to include this C++ header in your project and are dynamically loading
+		// Steamworks SDK methods from dll/so, you can use the following method:
+		// - SteamAPI_InitFlat()
+
+
+		// See "Initializing the Steamworks SDK" above for how to choose an init method.
+		// On success k_ESteamAPIInitResult_OK is returned. Otherwise, returns a value that can be used
+		// to create a localized error message for the user. If pOutErrMsg is non-NULL,
+		// it will receive an example error message, in English, that explains the reason for the failure.
+		//
+		// Example usage:
+		//
+		//   SteamErrMsg errMsg;
+		//   if ( SteamAPI_Init(&errMsg) != k_ESteamAPIInitResult_OK )
+		//       FatalError( "Failed to init Steam.  %s", errMsg );
+
+		// See "Initializing the Steamworks SDK" above for how to choose an init method.
+		// Returns true on success
+		public static ESteamAPIInitResult InitEx(out string OutSteamErrMsg)
+		{
 			InteropHelp.TestIfPlatformSupported();
 
-			bool ret = NativeMethods.SteamAPI_Init();
+			IntPtr SteamErrorMsgPtr = Marshal.AllocHGlobal(Constants.k_cchMaxSteamErrMsg);
+			ESteamAPIInitResult initResult = NativeMethods.SteamInternal_SteamAPI_Init(IntPtr.Zero, SteamErrorMsgPtr);
+			OutSteamErrMsg = InteropHelp.PtrToStringUTF8(SteamErrorMsgPtr);
+			Marshal.FreeHGlobal(SteamErrorMsgPtr);
 
 			// Steamworks.NET specific: We initialize the SteamAPI Context like this for now, but we need to do it
 			// every time that Unity reloads binaries, so we also check if the pointers are available and initialized
 			// before each call to any interface functions. That is in InteropHelp.cs
-			if (ret) {
-				ret = CSteamAPIContext.Init();
-			}
+			if (initResult == ESteamAPIInitResult.k_ESteamAPIInitResult_OK)
+			{
+				bool ret = CSteamAPIContext.Init();
+				if (!ret) {
+					initResult = ESteamAPIInitResult.k_ESteamAPIInitResult_FailedGeneric;
+				}
 
-			if (ret) {
 				CallbackDispatcher.Initialize();
 			}
 
-			return ret;
+			return initResult;
+		}
+
+		public static bool Init() {
+			InteropHelp.TestIfPlatformSupported();
+
+			string SteamErrorMsg;
+			ESteamAPIInitResult initResult = InitEx(out SteamErrorMsg);
+			return initResult == ESteamAPIInitResult.k_ESteamAPIInitResult_OK;
 		}
 
 		// SteamAPI_Shutdown should be called during process shutdown if possible.
@@ -157,23 +199,29 @@ namespace Steamworks {
 		public static bool Init(uint unIP, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, string pchVersionString) {
 			InteropHelp.TestIfPlatformSupported();
 
-			bool ret;
 			using (var pchVersionString2 = new InteropHelp.UTF8StringHandle(pchVersionString)) {
-				ret = NativeMethods.SteamInternal_GameServer_Init(unIP, 0, usGamePort, usQueryPort, eServerMode, pchVersionString2);
+				IntPtr SteamErrorMsgPtr = Marshal.AllocHGlobal(Constants.k_cchMaxSteamErrMsg);
+				ESteamAPIInitResult initResult = NativeMethods.SteamInternal_GameServer_Init_V2(unIP, 0, usGamePort, usQueryPort, eServerMode, pchVersionString2, IntPtr.Zero, SteamErrorMsgPtr);
+				string SteamErrorMsg = InteropHelp.PtrToStringUTF8(SteamErrorMsgPtr);
+				Marshal.FreeHGlobal(SteamErrorMsgPtr);
+
+				if (initResult != ESteamAPIInitResult.k_ESteamAPIInitResult_OK)
+				{
+					return false;
+				}
 			}
 
 			// Steamworks.NET specific: We initialize the SteamAPI Context like this for now, but we need to do it
 			// every time that Unity reloads binaries, so we also check if the pointers are available and initialized
 			// before each call to any interface functions. That is in InteropHelp.cs
-			if (ret) {
-				ret = CSteamGameServerAPIContext.Init();
+			bool ret = CSteamGameServerAPIContext.Init();
+			if (!ret) {
+				return false;
 			}
 
-			if (ret) {
-				CallbackDispatcher.Initialize();
-			}
+			CallbackDispatcher.Initialize();
 
-			return ret;
+			return true;
 		}
 
 		// Shutdown SteamGameSeverXxx interfaces, log out, and free resources.
@@ -287,7 +335,6 @@ namespace Steamworks {
 			m_pSteamMusic = IntPtr.Zero;
 			m_pController = IntPtr.Zero;
 			m_pSteamUGC = IntPtr.Zero;
-			m_pSteamAppList = IntPtr.Zero;
 			m_pSteamMusic = IntPtr.Zero;
 			m_pSteamMusicRemote = IntPtr.Zero;
 			m_pSteamHTMLSurface = IntPtr.Zero;
@@ -351,9 +398,6 @@ namespace Steamworks {
 
 			m_pSteamUGC = SteamClient.GetISteamUGC(hSteamUser, hSteamPipe, Constants.STEAMUGC_INTERFACE_VERSION);
 			if (m_pSteamUGC == IntPtr.Zero) { return false; }
-
-			m_pSteamAppList = SteamClient.GetISteamAppList(hSteamUser, hSteamPipe, Constants.STEAMAPPLIST_INTERFACE_VERSION);
-			if (m_pSteamAppList == IntPtr.Zero) { return false; }
 
 			m_pSteamMusic = SteamClient.GetISteamMusic(hSteamUser, hSteamPipe, Constants.STEAMMUSIC_INTERFACE_VERSION);
 			if (m_pSteamMusic == IntPtr.Zero) { return false; }
@@ -423,7 +467,6 @@ namespace Steamworks {
 		internal static IntPtr GetSteamHTTP() { return m_pSteamHTTP; }
 		internal static IntPtr GetSteamController() { return m_pController; }
 		internal static IntPtr GetSteamUGC() { return m_pSteamUGC; }
-		internal static IntPtr GetSteamAppList() { return m_pSteamAppList; }
 		internal static IntPtr GetSteamMusic() { return m_pSteamMusic; }
 		internal static IntPtr GetSteamMusicRemote() { return m_pSteamMusicRemote; }
 		internal static IntPtr GetSteamHTMLSurface() { return m_pSteamHTMLSurface; }
@@ -452,7 +495,6 @@ namespace Steamworks {
 		private static IntPtr m_pSteamHTTP;
 		private static IntPtr m_pController;
 		private static IntPtr m_pSteamUGC;
-		private static IntPtr m_pSteamAppList;
 		private static IntPtr m_pSteamMusic;
 		private static IntPtr m_pSteamMusicRemote;
 		private static IntPtr m_pSteamHTMLSurface;

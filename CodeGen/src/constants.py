@@ -64,6 +64,7 @@ g_SkippedDefines = (
     "POSIX",
     "STEAM_PRIVATE_API(",
     "STEAMNETWORKINGSOCKETS_INTERFACE",
+    "S_OVERRIDE",
 
     # We just create multiple versions of this struct, Valve renamed them.
     "ControllerAnalogActionData_t",
@@ -105,6 +106,7 @@ g_SkippedConstants = (
     "k_uAppIdInvalid",
     "k_uDepotIdInvalid",
     "k_uAPICallInvalid",
+    "k_uAccountIdInvalid",
 
     # steamnetworkingtypes.h
     "k_HSteamNetConnection_Invalid",
