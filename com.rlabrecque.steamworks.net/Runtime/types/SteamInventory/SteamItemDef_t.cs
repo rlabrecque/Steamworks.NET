@@ -17,9 +17,9 @@ using IntPtr = System.IntPtr;
 namespace Steamworks {
 	[System.Serializable]
 	public struct SteamItemDef_t : System.IEquatable<SteamItemDef_t>, System.IComparable<SteamItemDef_t> {
-		public int m_SteamItemDef;
+		public uint m_SteamItemDef;
 
-		public SteamItemDef_t(int value) {
+		public SteamItemDef_t(uint value) {
 			m_SteamItemDef = value;
 		}
 
@@ -43,11 +43,11 @@ namespace Steamworks {
 			return !(x == y);
 		}
 
-		public static explicit operator SteamItemDef_t(int value) {
+		public static explicit operator SteamItemDef_t(uint value) {
 			return new SteamItemDef_t(value);
 		}
 
-		public static explicit operator int(SteamItemDef_t that) {
+		public static explicit operator uint(SteamItemDef_t that) {
 			return that.m_SteamItemDef;
 		}
 
@@ -55,7 +55,7 @@ namespace Steamworks {
 			return m_SteamItemDef == other.m_SteamItemDef;
 		}
 
-		public int CompareTo(SteamItemDef_t other) {
+		public uint CompareTo(SteamItemDef_t other) {
 			return m_SteamItemDef.CompareTo(other.m_SteamItemDef);
 		}
 	}
