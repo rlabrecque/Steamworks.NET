@@ -347,6 +347,7 @@ namespace Steamworks {
 			m_pSteamNetworkingUtils = IntPtr.Zero;
 			m_pSteamNetworkingSockets = IntPtr.Zero;
 			m_pSteamNetworkingMessages = IntPtr.Zero;
+			m_pSteamTimeline = IntPtr.Zero;
 		}
 
 		internal static bool Init() {
@@ -437,17 +438,21 @@ namespace Steamworks {
 
 			using (var pchVersionString = new InteropHelp.UTF8StringHandle(Constants.STEAMNETWORKINGSOCKETS_INTERFACE_VERSION))
 			{
-				m_pSteamNetworkingSockets =
-					NativeMethods.SteamInternal_FindOrCreateUserInterface(hSteamUser, pchVersionString);
+				m_pSteamNetworkingSockets = NativeMethods.SteamInternal_FindOrCreateUserInterface(hSteamUser, pchVersionString);
 			}
 			if (m_pSteamNetworkingSockets == IntPtr.Zero) { return false; }
 
 			using (var pchVersionString = new InteropHelp.UTF8StringHandle(Constants.STEAMNETWORKINGMESSAGES_INTERFACE_VERSION))
 			{
-				m_pSteamNetworkingMessages =
-					NativeMethods.SteamInternal_FindOrCreateUserInterface(hSteamUser, pchVersionString);
+				m_pSteamNetworkingMessages = NativeMethods.SteamInternal_FindOrCreateUserInterface(hSteamUser, pchVersionString);
 			}
 			if (m_pSteamNetworkingMessages == IntPtr.Zero) { return false; }
+
+			using (var pchVersionString = new InteropHelp.UTF8StringHandle(Constants.STEAMTIMELINE_INTERFACE_VERSION))
+			{
+				m_pSteamTimeline = NativeMethods.SteamInternal_FindOrCreateUserInterface(hSteamUser, pchVersionString);
+			}
+			if (m_pSteamTimeline == IntPtr.Zero) { return false; }
 
 			return true;
 		}
@@ -479,6 +484,7 @@ namespace Steamworks {
 		internal static IntPtr GetSteamNetworkingUtils() { return m_pSteamNetworkingUtils; }
 		internal static IntPtr GetSteamNetworkingSockets() { return m_pSteamNetworkingSockets; }
 		internal static IntPtr GetSteamNetworkingMessages() { return m_pSteamNetworkingMessages; }
+		internal static IntPtr GetSteamTimeline() { return m_pSteamTimeline; }
 
 		private static IntPtr m_pSteamClient;
 		private static IntPtr m_pSteamUser;
@@ -507,6 +513,7 @@ namespace Steamworks {
 		private static IntPtr m_pSteamNetworkingUtils;
 		private static IntPtr m_pSteamNetworkingSockets;
 		private static IntPtr m_pSteamNetworkingMessages;
+		private static IntPtr m_pSteamTimeline;
 	}
 
 	internal static class CSteamGameServerAPIContext {
