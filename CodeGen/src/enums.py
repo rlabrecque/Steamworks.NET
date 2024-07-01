@@ -28,6 +28,7 @@ g_FlagEnums = (
     # SteamClientPublic
     "EChatSteamIDInstanceFlags",
     "EMarketNotAllowedReasonFlags",
+    "EBetaBranchFlags",
 )
 
 g_SkippedEnums = {

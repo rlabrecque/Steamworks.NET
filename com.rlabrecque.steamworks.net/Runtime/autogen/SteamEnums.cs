@@ -970,6 +970,7 @@ namespace Steamworks {
 		k_EFeatureTest = 12,
 		k_EFeatureSiteLicense = 13,
 		k_EFeatureKioskMode_Deprecated = 14,
+		k_EFeatureBlockAlways = 15,
 		k_EFeatureMax
 	}
 
@@ -1102,6 +1103,31 @@ namespace Steamworks {
 		k_EVRScreenshotType_MonoCubemap		= 3,
 		k_EVRScreenshotType_MonoPanorama	= 4,
 		k_EVRScreenshotType_StereoPanorama	= 5
+	}
+
+	// callbacks
+	// Controls the color of the timeline bar segments. The value names listed here map to a multiplayer game, where
+	// the user starts a game (in menus), then joins a multiplayer session that first has a character selection lobby
+	// then finally the multiplayer session starts. However, you can also map these values to any type of game. In a single
+	// player game where you visit towns & dungeons, you could set k_ETimelineGameMode_Menus when the player is in a town
+	// buying items, k_ETimelineGameMode_Staging for when a dungeon is loading and k_ETimelineGameMode_Playing for when
+	// inside the dungeon fighting monsters.
+	public enum ETimelineGameMode : int {
+		k_ETimelineGameMode_Invalid = 0,
+		k_ETimelineGameMode_Playing = 1,
+		k_ETimelineGameMode_Staging = 2,
+		k_ETimelineGameMode_Menus = 3,
+		k_ETimelineGameMode_LoadingScreen = 4,
+
+		k_ETimelineGameMode_Max, // one past the last valid value
+	}
+
+	// Used in AddTimelineEvent, where Featured events will be offered before Standard events
+	public enum ETimelineEventClipPriority : int {
+		k_ETimelineEventClipPriority_Invalid = 0,
+		k_ETimelineEventClipPriority_None = 1,
+		k_ETimelineEventClipPriority_Standard = 2,
+		k_ETimelineEventClipPriority_Featured = 3,
 	}
 
 	// Matching UGC types for queries
@@ -1758,6 +1784,16 @@ namespace Steamworks {
 		k_EDurationControlOnlineState_Offline = 1,				// currently in offline play - single-player, offline co-op, etc.
 		k_EDurationControlOnlineState_Online = 2,				// currently in online play
 		k_EDurationControlOnlineState_OnlineHighPri = 3,		// currently in online play and requests not to be interrupted
+	}
+
+	[Flags]
+	public enum EBetaBranchFlags : int {
+		k_EBetaBranch_None			= 0,
+		k_EBetaBranch_Default		= 1,	// this is the default branch ("public")
+		k_EBetaBranch_Available		= 2,	// this branch can be selected (available)
+		k_EBetaBranch_Private		= 4,	// this is a private branch (password protected)
+		k_EBetaBranch_Selected		= 8,	// this is the currently selected branch (active)
+		k_EBetaBranch_Installed		= 16,	// this is the currently installed branch (mounted)
 	}
 
 	public enum EGameSearchErrorCode_t : int {
@@ -2429,9 +2465,18 @@ namespace Steamworks {
 		/// we won't automatically reject a connection due to a failure to authenticate.
 		/// (You can examine the incoming connection and decide whether to accept it.)
 		///
+		/// 0: Don't attempt or accept unauthorized connections
+		/// 1: Attempt authorization when connecting, and allow unauthorized peers, but emit warnings
+		/// 2: don't attempt authentication, or complain if peer is unauthenticated
+		///
 		/// This is a dev configuration value, and you should not let users modify it in
 		/// production.
 		k_ESteamNetworkingConfig_IP_AllowWithoutAuth = 23,
+
+		/// [connection int32] The same as IP_AllowWithoutAuth, but will only apply
+		/// for connections to/from localhost addresses.  Whichever value is larger
+		/// (more permissive) will be used.
+		k_ESteamNetworkingConfig_IPLocalHost_AllowWithoutAuth = 52,
 
 		/// [connection int32] Do not send UDP packets with a payload of
 		/// larger than N bytes.  If you set this, k_ESteamNetworkingConfig_MTU_DataSize

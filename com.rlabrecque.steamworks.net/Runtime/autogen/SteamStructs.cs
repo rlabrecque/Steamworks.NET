@@ -152,7 +152,7 @@ namespace Steamworks {
 			get { return InteropHelp.ByteArrayToStringUTF8(m_pchFileName_); }
 			set { InteropHelp.StringToByteArrayUTF8(value, m_pchFileName_, Constants.k_cchFilenameMax); }
 		}
-		public int m_nFileSize;												// Size of the primary file
+		public int m_nFileSize;												// Size of the primary file (for legacy items which only support one file). This may not be accurate for non-legacy items which can be greater than 4gb in size.
 		public int m_nPreviewFileSize;										// Size of the preview file
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedFileURLMax)]
 		private byte[] m_rgchURL_;
@@ -167,6 +167,7 @@ namespace Steamworks {
 		public float m_flScore;												// calculated score
 		// collection details
 		public uint m_unNumChildren;
+		public ulong m_ulTotalFilesSize;										// Total size of all files (non-legacy), excluding the preview file
 	}
 
 	// a single entry in a leaderboard, as returned by GetDownloadedLeaderboardEntry()

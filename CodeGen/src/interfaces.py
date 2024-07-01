@@ -491,6 +491,16 @@ g_FixedAttributeValues = {
             "STEAM_OUT_ARRAY_COUNT": "unArrayLength"
         },
     },
+    "ISteamUGC_GetQueryUGCAdditionalPreview": {
+        "pchOriginalFileName": {
+            "STEAM_OUT_STRING_COUNT": "cchOriginalFileNameSize"
+        },
+    },
+    "ISteamGameServerUGC_GetQueryUGCAdditionalPreview": {
+        "pchOriginalFileName": {
+            "STEAM_OUT_STRING_COUNT": "cchOriginalFileNameSize"
+        },
+    },
 }
 
 g_SpecialOutStringRetCmp = {
@@ -798,7 +808,8 @@ def parse_args(strEntryPoint, args):
     else:
         argnames = "CSteamAPIContext.Get" + ifacename + "(), "
 
-    getsize = False
+    getNextArgAsStringSize = False
+    argNamesToAddAsStringSize = []
 
     for arg in args:
         argtype = g_TypeDict.get(arg.type, arg.type)
@@ -811,7 +822,6 @@ def parse_args(strEntryPoint, args):
             if arg.attribute.name == "STEAM_OUT_ARRAY" or arg.attribute.name == "STEAM_OUT_ARRAY_CALL" or arg.attribute.name == "STEAM_OUT_ARRAY_COUNT" or arg.attribute.name == "STEAM_ARRAY_COUNT" or arg.attribute.name == "STEAM_ARRAY_COUNT_D":
                 potentialtype = arg.type.rstrip("*").rstrip()
                 argtype = g_TypeDict.get(potentialtype, potentialtype) + "[]"
-            #if arg.attribute.name == "OUT_STRING" or arg.attribute.name == "OUT_STRING_COUNT":  #Unused for now
 
             if arg.attribute.name == "STEAM_OUT_ARRAY_COUNT":
                 fixedattrvalue = g_FixedAttributeValues.get(strEntryPoint, dict()).get(arg.name, dict()).get(arg.attribute.name, arg.attribute.value)
@@ -869,9 +879,13 @@ def parse_args(strEntryPoint, args):
         else:
             argnames += arg.name
 
-        if getsize:
-            getsize = False
+        if getNextArgAsStringSize:
+            getNextArgAsStringSize = False
             outstringsize.append(arg)
+
+        for tempargname in argNamesToAddAsStringSize:
+            if tempargname == arg.name:
+                outstringsize.append(arg)
 
         if wrapperargtype == "string":
             stringargs.append(arg.name)
@@ -879,8 +893,14 @@ def parse_args(strEntryPoint, args):
         elif wrapperargtype == "out string":
             outstringargs.append(arg.name)
             argnames += "2"
-            if strEntryPoint != "ISteamRemoteStorage_GetUGCDetails":
-                getsize = True
+            if arg.attribute:
+                if arg.attribute.name == "STEAM_OUT_STRING_COUNT":
+                    fixedattrvalue = g_FixedAttributeValues.get(strEntryPoint, dict()).get(arg.name, dict()).get(arg.attribute.name, arg.attribute.value)
+                    argNamesToAddAsStringSize.append(fixedattrvalue)
+                if arg.attribute.name == "STEAM_OUT_STRING":
+                    pass
+            else:
+                getNextArgAsStringSize = True
 
         argnames += ", "
 

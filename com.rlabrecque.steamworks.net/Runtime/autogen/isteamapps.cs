@@ -213,7 +213,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Request all proof of purchase keys for the calling appid and asociated DLC.</para>
+		/// <para> Request all proof of purchase keys for the calling appid and associated DLC.</para>
 		/// <para> A series of AppProofOfPurchaseKeyResponse_t callbacks will be sent with</para>
 		/// <para> appropriate appid values, ending with a final callback where the m_nAppId</para>
 		/// <para> member is k_uAppIdInvalid (zero).</para>
@@ -270,6 +270,40 @@ namespace Steamworks {
 		public static bool SetDlcContext(AppId_t nAppID) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamApps_SetDlcContext(CSteamAPIContext.GetSteamApps(), nAppID);
+		}
+
+		/// <summary>
+		/// <para> returns total number of known app beta branches (including default "public" branch )</para>
+		/// </summary>
+		public static int GetNumBetas(out int pnAvailable, out int pnPrivate) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamApps_GetNumBetas(CSteamAPIContext.GetSteamApps(), out pnAvailable, out pnPrivate);
+		}
+
+		/// <summary>
+		/// <para> return beta branch details, name, description, current BuildID and state flags (EBetaBranchFlags)</para>
+		/// <para> iterate through</para>
+		/// </summary>
+		public static bool GetBetaInfo(int iBetaIndex, out uint punFlags, out uint punBuildID, out string pchBetaName, int cchBetaName, out string pchDescription, int cchDescription) {
+			InteropHelp.TestIfAvailableClient();
+			IntPtr pchBetaName2 = Marshal.AllocHGlobal(cchBetaName);
+			IntPtr pchDescription2 = Marshal.AllocHGlobal(cchDescription);
+			bool ret = NativeMethods.ISteamApps_GetBetaInfo(CSteamAPIContext.GetSteamApps(), iBetaIndex, out punFlags, out punBuildID, pchBetaName2, cchBetaName, pchDescription2, cchDescription);
+			pchBetaName = ret ? InteropHelp.PtrToStringUTF8(pchBetaName2) : null;
+			Marshal.FreeHGlobal(pchBetaName2);
+			pchDescription = ret ? InteropHelp.PtrToStringUTF8(pchDescription2) : null;
+			Marshal.FreeHGlobal(pchDescription2);
+			return ret;
+		}
+
+		/// <summary>
+		/// <para> select this beta branch for this app as active, might need the game to restart so Steam can update to that branch</para>
+		/// </summary>
+		public static bool SetActiveBeta(string pchBetaName) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchBetaName2 = new InteropHelp.UTF8StringHandle(pchBetaName)) {
+				return NativeMethods.ISteamApps_SetActiveBeta(CSteamAPIContext.GetSteamApps(), pchBetaName2);
+			}
 		}
 	}
 }
