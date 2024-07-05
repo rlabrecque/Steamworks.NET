@@ -185,9 +185,12 @@ namespace Steamworks {
 			return ret;
 		}
 
-		public static uint GetQueryUGCContentDescriptors(UGCQueryHandle_t handle, uint index, out EUGCContentDescriptorID pvecDescriptors, uint cMaxEntries) {
+		public static uint GetQueryUGCContentDescriptors(UGCQueryHandle_t handle, uint index, EUGCContentDescriptorID[] pvecDescriptors, uint cMaxEntries) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamUGC_GetQueryUGCContentDescriptors(CSteamGameServerAPIContext.GetSteamUGC(), handle, index, out pvecDescriptors, cMaxEntries);
+			if (pvecDescriptors != null && pvecDescriptors.Length != cMaxEntries) {
+				throw new System.ArgumentException("pvecDescriptors must be the same size as cMaxEntries!");
+			}
+			return NativeMethods.ISteamUGC_GetQueryUGCContentDescriptors(CSteamGameServerAPIContext.GetSteamUGC(), handle, index, pvecDescriptors, cMaxEntries);
 		}
 
 		/// <summary>

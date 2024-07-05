@@ -485,6 +485,12 @@ g_FixedAttributeValues = {
     "ISteamGameServerUGC_GetQueryUGCAdditionalPreview": {
         "pchOriginalFileName": steamworksparser.ArgAttribute("STEAM_OUT_STRING_COUNT", "cchOriginalFileNameSize"),
     },
+    "ISteamUGC_GetQueryUGCContentDescriptors": {
+        "pvecDescriptors": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "cMaxEntries"),
+    },
+    "ISteamGameServerUGC_GetQueryUGCContentDescriptors": {
+        "pvecDescriptors": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "cMaxEntries"),
+    },
     "ISteamNetworkingMessages_ReceiveMessagesOnChannel": {
         "ppOutMessages": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "nMaxMessages"),
     },
