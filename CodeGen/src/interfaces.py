@@ -494,7 +494,7 @@ g_FixedAttributeValues = {
     "ISteamNetworkingMessages_ReceiveMessagesOnChannel": {
         "ppOutMessages": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "nMaxMessages"),
     },
-    "ISteamNetworkingGameServerMessages_ReceiveMessagesOnChannel": {
+    "ISteamGameServerNetworkingMessages_ReceiveMessagesOnChannel": {
         "ppOutMessages": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "nMaxMessages"),
     },
     "ISteamNetworkingSockets_ReceiveMessagesOnConnection": {
