@@ -579,8 +579,6 @@ def parse(f):
 
     if g_Output:
         with open('../com.rlabrecque.steamworks.net/Runtime/autogen/' + os.path.splitext(f.name)[0] + '.cs', 'wb') as out:
-            if f.name in ["isteamnetworkingutils.h", "isteamnetworkingsockets.h", "isteamgameservernetworkingutils.h", "isteamgameservernetworkingsockets.h"]:
-                out.write(bytes("#define STEAMNETWORKINGSOCKETS_ENABLE_SDR\n", "utf-8"))
             out.write(bytes(HEADER, "utf-8"))
             out.write(bytes("namespace Steamworks {\n", "utf-8"))
             for line in g_Output:
