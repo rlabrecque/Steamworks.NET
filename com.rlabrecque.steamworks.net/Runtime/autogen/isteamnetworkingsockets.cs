@@ -387,6 +387,9 @@ namespace Steamworks {
 		/// </summary>
 		public static int ReceiveMessagesOnConnection(HSteamNetConnection hConn, IntPtr[] ppOutMessages, int nMaxMessages) {
 			InteropHelp.TestIfAvailableClient();
+			if (ppOutMessages != null && ppOutMessages.Length != nMaxMessages) {
+				throw new System.ArgumentException("ppOutMessages must be the same size as nMaxMessages!");
+			}
 			return NativeMethods.ISteamNetworkingSockets_ReceiveMessagesOnConnection(CSteamAPIContext.GetSteamNetworkingSockets(), hConn, ppOutMessages, nMaxMessages);
 		}
 
@@ -672,6 +675,9 @@ namespace Steamworks {
 		/// </summary>
 		public static int ReceiveMessagesOnPollGroup(HSteamNetPollGroup hPollGroup, IntPtr[] ppOutMessages, int nMaxMessages) {
 			InteropHelp.TestIfAvailableClient();
+			if (ppOutMessages != null && ppOutMessages.Length != nMaxMessages) {
+				throw new System.ArgumentException("ppOutMessages must be the same size as nMaxMessages!");
+			}
 			return NativeMethods.ISteamNetworkingSockets_ReceiveMessagesOnPollGroup(CSteamAPIContext.GetSteamNetworkingSockets(), hPollGroup, ppOutMessages, nMaxMessages);
 		}
 
