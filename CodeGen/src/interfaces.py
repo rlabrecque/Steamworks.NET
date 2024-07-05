@@ -77,7 +77,7 @@ g_TypeDict = {
     "const SteamNetworkingIdentity *": "ref SteamNetworkingIdentity",
     "SteamNetworkingErrMsg &": "out SteamNetworkingErrMsg",
     "const SteamNetConnectionInfo_t &": "ref SteamNetConnectionInfo_t",
-    "SteamNetworkingMessage_t **": "IntPtr[]",
+    "SteamNetworkingMessage_t": "IntPtr",
 
     # SteamNetworkingTypes which are stubbed
     "SteamDatagramGameCoordinatorServerLogin *": "IntPtr",
@@ -485,6 +485,24 @@ g_FixedAttributeValues = {
     "ISteamGameServerUGC_GetQueryUGCAdditionalPreview": {
         "pchOriginalFileName": steamworksparser.ArgAttribute("STEAM_OUT_STRING_COUNT", "cchOriginalFileNameSize"),
     },
+    "ISteamNetworkingMessages_ReceiveMessagesOnChannel": {
+        "ppOutMessages": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "nMaxMessages"),
+    },
+    "ISteamNetworkingGameServerMessages_ReceiveMessagesOnChannel": {
+        "ppOutMessages": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "nMaxMessages"),
+    },
+    "ISteamNetworkingSockets_ReceiveMessagesOnConnection": {
+        "ppOutMessages": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "nMaxMessages"),
+    },
+    "ISteamGameServerNetworkingSockets_ReceiveMessagesOnConnection": {
+        "ppOutMessages": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "nMaxMessages"),
+    },
+    "ISteamNetworkingSockets_ReceiveMessagesOnPollGroup": {
+        "ppOutMessages": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "nMaxMessages"),
+    },
+    "ISteamGameServerNetworkingSockets_ReceiveMessagesOnPollGroup": {
+        "ppOutMessages": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "nMaxMessages"),
+    },
 }
 
 g_SpecialOutStringRetCmp = {
@@ -798,16 +816,15 @@ def parse_args(strEntryPoint, args):
     argNamesToAddAsStringSize = []
 
     for arg in args:
+        potentialtype = arg.type.rstrip("*").lstrip("const ").rstrip()
         argtype = g_TypeDict.get(arg.type, arg.type)
         if argtype.endswith("*"):
-            potentialtype = arg.type.rstrip("*").lstrip("const ").rstrip()
             argtype = "out " + g_TypeDict.get(potentialtype, potentialtype)
         argtype = g_SpecialArgsDict.get(strEntryPoint, dict()).get(arg.name, argtype)
 
         argattribute = get_arg_attribute(strEntryPoint, arg)
         if argattribute:
             if argattribute.name == "STEAM_OUT_ARRAY" or argattribute.name == "STEAM_OUT_ARRAY_CALL" or argattribute.name == "STEAM_OUT_ARRAY_COUNT" or argattribute.name == "STEAM_ARRAY_COUNT" or argattribute.name == "STEAM_ARRAY_COUNT_D":
-                potentialtype = arg.type.rstrip("*").rstrip()
                 argtype = g_TypeDict.get(potentialtype, potentialtype) + "[]"
 
             if argattribute.name == "STEAM_OUT_ARRAY_COUNT":

@@ -75,6 +75,9 @@ namespace Steamworks {
 		/// </summary>
 		public static int ReceiveMessagesOnChannel(int nLocalChannel, IntPtr[] ppOutMessages, int nMaxMessages) {
 			InteropHelp.TestIfAvailableClient();
+			if (ppOutMessages != null && ppOutMessages.Length != nMaxMessages) {
+				throw new System.ArgumentException("ppOutMessages must be the same size as nMaxMessages!");
+			}
 			return NativeMethods.ISteamNetworkingMessages_ReceiveMessagesOnChannel(CSteamAPIContext.GetSteamNetworkingMessages(), nLocalChannel, ppOutMessages, nMaxMessages);
 		}
 
