@@ -470,36 +470,20 @@ g_SpecialWrapperArgsDict = {
 
 g_FixedAttributeValues = {
     "ISteamInventory_GetItemsWithPrices": {
-        "pArrayItemDefs": {
-            "STEAM_OUT_ARRAY_COUNT": "unArrayLength"
-        },
-        "pCurrentPrices": {
-            "STEAM_OUT_ARRAY_COUNT": "unArrayLength"
-        },
-        "pBasePrices": {
-            "STEAM_OUT_ARRAY_COUNT": "unArrayLength"
-        },
+        "pArrayItemDefs": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "unArrayLength"),
+        "pCurrentPrices": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "unArrayLength"),
+        "pBasePrices": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "unArrayLength"),
     },
     "ISteamGameServerInventory_GetItemsWithPrices": {
-        "pArrayItemDefs": {
-            "STEAM_OUT_ARRAY_COUNT": "unArrayLength"
-        },
-        "pCurrentPrices": {
-            "STEAM_OUT_ARRAY_COUNT": "unArrayLength"
-        },
-        "pBasePrices": {
-            "STEAM_OUT_ARRAY_COUNT": "unArrayLength"
-        },
+        "pArrayItemDefs": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "unArrayLength"),
+        "pCurrentPrices": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "unArrayLength"),
+        "pBasePrices": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "unArrayLength"),
     },
     "ISteamUGC_GetQueryUGCAdditionalPreview": {
-        "pchOriginalFileName": {
-            "STEAM_OUT_STRING_COUNT": "cchOriginalFileNameSize"
-        },
+        "pchOriginalFileName": steamworksparser.ArgAttribute("STEAM_OUT_STRING_COUNT", "cchOriginalFileNameSize"),
     },
     "ISteamGameServerUGC_GetQueryUGCAdditionalPreview": {
-        "pchOriginalFileName": {
-            "STEAM_OUT_STRING_COUNT": "cchOriginalFileNameSize"
-        },
+        "pchOriginalFileName": steamworksparser.ArgAttribute("STEAM_OUT_STRING_COUNT", "cchOriginalFileNameSize"),
     },
 }
 
@@ -556,6 +540,8 @@ def main(parser):
         out.write(bytes("}\n\n", "utf-8"))
         out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
 
+def get_arg_attribute(strEntryPoint, arg):
+    return g_FixedAttributeValues.get(strEntryPoint, dict()).get(arg.name, arg.attribute)
 
 def parse(f):
     if f.name in g_SkippedFiles:
@@ -818,18 +804,18 @@ def parse_args(strEntryPoint, args):
             argtype = "out " + g_TypeDict.get(potentialtype, potentialtype)
         argtype = g_SpecialArgsDict.get(strEntryPoint, dict()).get(arg.name, argtype)
 
-        if arg.attribute:
-            if arg.attribute.name == "STEAM_OUT_ARRAY" or arg.attribute.name == "STEAM_OUT_ARRAY_CALL" or arg.attribute.name == "STEAM_OUT_ARRAY_COUNT" or arg.attribute.name == "STEAM_ARRAY_COUNT" or arg.attribute.name == "STEAM_ARRAY_COUNT_D":
+        argattribute = get_arg_attribute(strEntryPoint, arg)
+        if argattribute:
+            if argattribute.name == "STEAM_OUT_ARRAY" or argattribute.name == "STEAM_OUT_ARRAY_CALL" or argattribute.name == "STEAM_OUT_ARRAY_COUNT" or argattribute.name == "STEAM_ARRAY_COUNT" or argattribute.name == "STEAM_ARRAY_COUNT_D":
                 potentialtype = arg.type.rstrip("*").rstrip()
                 argtype = g_TypeDict.get(potentialtype, potentialtype) + "[]"
 
-            if arg.attribute.name == "STEAM_OUT_ARRAY_COUNT":
-                fixedattrvalue = g_FixedAttributeValues.get(strEntryPoint, dict()).get(arg.name, dict()).get(arg.attribute.name, arg.attribute.value)
-                commaindex = fixedattrvalue.find(',')
+            if argattribute.name == "STEAM_OUT_ARRAY_COUNT":
+                commaindex = argattribute.value.find(',')
                 if commaindex > 0:
-                    args_with_explicit_count[arg.name] = fixedattrvalue[:commaindex]
+                    args_with_explicit_count[arg.name] = argattribute.value[:commaindex]
                 else:
-                    args_with_explicit_count[arg.name] = fixedattrvalue
+                    args_with_explicit_count[arg.name] = argattribute.value
 
 
         if arg.type == "MatchMakingKeyValuePair_t **":  # TODO: Fixme - Small Hack... We do this because MatchMakingKeyValuePair's have ARRAY_COUNT() and two **'s, things get broken :(
@@ -893,11 +879,10 @@ def parse_args(strEntryPoint, args):
         elif wrapperargtype == "out string":
             outstringargs.append(arg.name)
             argnames += "2"
-            if arg.attribute:
-                if arg.attribute.name == "STEAM_OUT_STRING_COUNT":
-                    fixedattrvalue = g_FixedAttributeValues.get(strEntryPoint, dict()).get(arg.name, dict()).get(arg.attribute.name, arg.attribute.value)
-                    argNamesToAddAsStringSize.append(fixedattrvalue)
-                if arg.attribute.name == "STEAM_OUT_STRING":
+            if argattribute:
+                if argattribute.name == "STEAM_OUT_STRING_COUNT":
+                    argNamesToAddAsStringSize.append(argattribute.value)
+                if argattribute.name == "STEAM_OUT_STRING":
                     pass
             else:
                 getNextArgAsStringSize = True
