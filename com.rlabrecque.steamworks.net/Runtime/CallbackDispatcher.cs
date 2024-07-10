@@ -34,10 +34,16 @@ namespace Steamworks {
 		// We catch exceptions inside callbacks and reroute them here.
 		// For some reason throwing an exception causes RunCallbacks() to break otherwise.
 		// If you have a custom ExceptionHandler in your engine you can register it here manually until we get something more elegant hooked up.
+
+		public delegate void OnSteamException(Exception e); 
+		public static OnSteamException OnSteamExceptionEvent; 
+
 		public static void ExceptionHandler(Exception e) {
-#if UNITY_STANDALONE
-			UnityEngine.Debug.LogException(e);
-#elif STEAMWORKS_WIN || STEAMWORKS_LIN_OSX
+			if(OnSteamExceptionEvent != null) {
+				OnSteamExceptionEvent.Invoke(e); 
+			}
+			
+#if STEAMWORKS_WIN || STEAMWORKS_LIN_OSX
 			Console.WriteLine(e.Message);
 #endif
 		}
