@@ -2197,6 +2197,8 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 5;
 		public AppId_t m_unAppID;
 		public PublishedFileId_t m_nPublishedFileId;
+		public UGCHandle_t m_hLegacyContent;
+		public ulong m_unManifestID;
 	}
 
 	//-----------------------------------------------------------------------------

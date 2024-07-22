@@ -31,8 +31,6 @@
 	#error You must define STEAMWORKS_WIN or STEAMWORKS_LIN_OSX if you're not using Unity.
 #endif
 
-#define STEAMNETWORKINGSOCKETS_ENABLE_SDR
-
 using System.Runtime.InteropServices;
 using IntPtr = System.IntPtr;
 

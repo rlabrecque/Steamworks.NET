@@ -1,4 +1,3 @@
-#define STEAMNETWORKINGSOCKETS_ENABLE_SDR
 // This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
@@ -387,6 +386,9 @@ namespace Steamworks {
 		/// </summary>
 		public static int ReceiveMessagesOnConnection(HSteamNetConnection hConn, IntPtr[] ppOutMessages, int nMaxMessages) {
 			InteropHelp.TestIfAvailableGameServer();
+			if (ppOutMessages != null && ppOutMessages.Length != nMaxMessages) {
+				throw new System.ArgumentException("ppOutMessages must be the same size as nMaxMessages!");
+			}
 			return NativeMethods.ISteamNetworkingSockets_ReceiveMessagesOnConnection(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn, ppOutMessages, nMaxMessages);
 		}
 
@@ -672,6 +674,9 @@ namespace Steamworks {
 		/// </summary>
 		public static int ReceiveMessagesOnPollGroup(HSteamNetPollGroup hPollGroup, IntPtr[] ppOutMessages, int nMaxMessages) {
 			InteropHelp.TestIfAvailableGameServer();
+			if (ppOutMessages != null && ppOutMessages.Length != nMaxMessages) {
+				throw new System.ArgumentException("ppOutMessages must be the same size as nMaxMessages!");
+			}
 			return NativeMethods.ISteamNetworkingSockets_ReceiveMessagesOnPollGroup(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hPollGroup, ppOutMessages, nMaxMessages);
 		}
 

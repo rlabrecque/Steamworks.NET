@@ -165,9 +165,32 @@ namespace Steamworks {
 			}
 		}
 
-		public static uint GetQueryUGCContentDescriptors(UGCQueryHandle_t handle, uint index, out EUGCContentDescriptorID pvecDescriptors, uint cMaxEntries) {
+		/// <summary>
+		/// <para> Some items can specify that they have a version that is valid for a range of game versions (Steam branch)</para>
+		/// </summary>
+		public static uint GetNumSupportedGameVersions(UGCQueryHandle_t handle, uint index) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUGC_GetQueryUGCContentDescriptors(CSteamAPIContext.GetSteamUGC(), handle, index, out pvecDescriptors, cMaxEntries);
+			return NativeMethods.ISteamUGC_GetNumSupportedGameVersions(CSteamAPIContext.GetSteamUGC(), handle, index);
+		}
+
+		public static bool GetSupportedGameVersionData(UGCQueryHandle_t handle, uint index, uint versionIndex, out string pchGameBranchMin, out string pchGameBranchMax, uint cchGameBranchSize) {
+			InteropHelp.TestIfAvailableClient();
+			IntPtr pchGameBranchMin2 = Marshal.AllocHGlobal((int)cchGameBranchSize);
+			IntPtr pchGameBranchMax2 = Marshal.AllocHGlobal((int)cchGameBranchSize);
+			bool ret = NativeMethods.ISteamUGC_GetSupportedGameVersionData(CSteamAPIContext.GetSteamUGC(), handle, index, versionIndex, pchGameBranchMin2, pchGameBranchMax2, cchGameBranchSize);
+			pchGameBranchMin = ret ? InteropHelp.PtrToStringUTF8(pchGameBranchMin2) : null;
+			Marshal.FreeHGlobal(pchGameBranchMin2);
+			pchGameBranchMax = ret ? InteropHelp.PtrToStringUTF8(pchGameBranchMax2) : null;
+			Marshal.FreeHGlobal(pchGameBranchMax2);
+			return ret;
+		}
+
+		public static uint GetQueryUGCContentDescriptors(UGCQueryHandle_t handle, uint index, EUGCContentDescriptorID[] pvecDescriptors, uint cMaxEntries) {
+			InteropHelp.TestIfAvailableClient();
+			if (pvecDescriptors != null && pvecDescriptors.Length != cMaxEntries) {
+				throw new System.ArgumentException("pvecDescriptors must be the same size as cMaxEntries!");
+			}
+			return NativeMethods.ISteamUGC_GetQueryUGCContentDescriptors(CSteamAPIContext.GetSteamUGC(), handle, index, pvecDescriptors, cMaxEntries);
 		}
 
 		/// <summary>
@@ -253,6 +276,14 @@ namespace Steamworks {
 		public static bool SetAllowCachedResponse(UGCQueryHandle_t handle, uint unMaxAgeSeconds) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_SetAllowCachedResponse(CSteamAPIContext.GetSteamUGC(), handle, unMaxAgeSeconds);
+		}
+
+		/// <summary>
+		/// <para> admin queries return hidden items</para>
+		/// </summary>
+		public static bool SetAdminQuery(UGCUpdateHandle_t handle, bool bAdminQuery) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_SetAdminQuery(CSteamAPIContext.GetSteamUGC(), handle, bAdminQuery);
 		}
 
 		/// <summary>
@@ -497,6 +528,17 @@ namespace Steamworks {
 		public static bool RemoveContentDescriptor(UGCUpdateHandle_t handle, EUGCContentDescriptorID descid) {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_RemoveContentDescriptor(CSteamAPIContext.GetSteamUGC(), handle, descid);
+		}
+
+		/// <summary>
+		/// <para> an empty string for either parameter means that it will match any version on that end of the range. This will only be applied if the actual content has been changed.</para>
+		/// </summary>
+		public static bool SetRequiredGameVersions(UGCUpdateHandle_t handle, string pszGameBranchMin, string pszGameBranchMax) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pszGameBranchMin2 = new InteropHelp.UTF8StringHandle(pszGameBranchMin))
+			using (var pszGameBranchMax2 = new InteropHelp.UTF8StringHandle(pszGameBranchMax)) {
+				return NativeMethods.ISteamUGC_SetRequiredGameVersions(CSteamAPIContext.GetSteamUGC(), handle, pszGameBranchMin2, pszGameBranchMax2);
+			}
 		}
 
 		/// <summary>

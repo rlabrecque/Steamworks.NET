@@ -15,7 +15,7 @@ using System.Runtime.InteropServices;
 using IntPtr = System.IntPtr;
 
 namespace Steamworks {
-	public static class SteamNetworkingMessages {
+	public static class SteamGameServerNetworkingMessages {
 		/// <summary>
 		/// <para>/ Sends a message to the specified host.  If we don't already have a session with that user,</para>
 		/// <para>/ a session is implicitly created.  There might be some handshaking that needs to happen</para>
@@ -63,8 +63,8 @@ namespace Steamworks {
 		/// <para>/ - See ISteamNetworkingSockets::SendMessageToConnection for more possible return values</para>
 		/// </summary>
 		public static EResult SendMessageToUser(ref SteamNetworkingIdentity identityRemote, IntPtr pubData, uint cubData, int nSendFlags, int nRemoteChannel) {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamNetworkingMessages_SendMessageToUser(CSteamAPIContext.GetSteamNetworkingMessages(), ref identityRemote, pubData, cubData, nSendFlags, nRemoteChannel);
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamNetworkingMessages_SendMessageToUser(CSteamGameServerAPIContext.GetSteamNetworkingMessages(), ref identityRemote, pubData, cubData, nSendFlags, nRemoteChannel);
 		}
 
 		/// <summary>
@@ -74,11 +74,11 @@ namespace Steamworks {
 		/// <para>/ When you're done with the message object(s), make sure and call SteamNetworkingMessage_t::Release()!</para>
 		/// </summary>
 		public static int ReceiveMessagesOnChannel(int nLocalChannel, IntPtr[] ppOutMessages, int nMaxMessages) {
-			InteropHelp.TestIfAvailableClient();
+			InteropHelp.TestIfAvailableGameServer();
 			if (ppOutMessages != null && ppOutMessages.Length != nMaxMessages) {
 				throw new System.ArgumentException("ppOutMessages must be the same size as nMaxMessages!");
 			}
-			return NativeMethods.ISteamNetworkingMessages_ReceiveMessagesOnChannel(CSteamAPIContext.GetSteamNetworkingMessages(), nLocalChannel, ppOutMessages, nMaxMessages);
+			return NativeMethods.ISteamNetworkingMessages_ReceiveMessagesOnChannel(CSteamGameServerAPIContext.GetSteamNetworkingMessages(), nLocalChannel, ppOutMessages, nMaxMessages);
 		}
 
 		/// <summary>
@@ -94,8 +94,8 @@ namespace Steamworks {
 		/// <para>/ Calling SendMessageToUser() will implicitly accepts any pending session request to that user.</para>
 		/// </summary>
 		public static bool AcceptSessionWithUser(ref SteamNetworkingIdentity identityRemote) {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamNetworkingMessages_AcceptSessionWithUser(CSteamAPIContext.GetSteamNetworkingMessages(), ref identityRemote);
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamNetworkingMessages_AcceptSessionWithUser(CSteamGameServerAPIContext.GetSteamNetworkingMessages(), ref identityRemote);
 		}
 
 		/// <summary>
@@ -106,8 +106,8 @@ namespace Steamworks {
 		/// <para>/ Note that sessions that go unused for a few minutes are automatically timed out.</para>
 		/// </summary>
 		public static bool CloseSessionWithUser(ref SteamNetworkingIdentity identityRemote) {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamNetworkingMessages_CloseSessionWithUser(CSteamAPIContext.GetSteamNetworkingMessages(), ref identityRemote);
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamNetworkingMessages_CloseSessionWithUser(CSteamGameServerAPIContext.GetSteamNetworkingMessages(), ref identityRemote);
 		}
 
 		/// <summary>
@@ -117,8 +117,8 @@ namespace Steamworks {
 		/// <para>/ SteamSteamNetworkingMessagesSessionRequest_t callback</para>
 		/// </summary>
 		public static bool CloseChannelWithUser(ref SteamNetworkingIdentity identityRemote, int nLocalChannel) {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamNetworkingMessages_CloseChannelWithUser(CSteamAPIContext.GetSteamNetworkingMessages(), ref identityRemote, nLocalChannel);
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamNetworkingMessages_CloseChannelWithUser(CSteamGameServerAPIContext.GetSteamNetworkingMessages(), ref identityRemote, nLocalChannel);
 		}
 
 		/// <summary>
@@ -133,8 +133,8 @@ namespace Steamworks {
 		/// <para>/ indefinitely to obtain the reason for failure.</para>
 		/// </summary>
 		public static ESteamNetworkingConnectionState GetSessionConnectionInfo(ref SteamNetworkingIdentity identityRemote, out SteamNetConnectionInfo_t pConnectionInfo, out SteamNetConnectionRealTimeStatus_t pQuickStatus) {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamNetworkingMessages_GetSessionConnectionInfo(CSteamAPIContext.GetSteamNetworkingMessages(), ref identityRemote, out pConnectionInfo, out pQuickStatus);
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamNetworkingMessages_GetSessionConnectionInfo(CSteamGameServerAPIContext.GetSteamNetworkingMessages(), ref identityRemote, out pConnectionInfo, out pQuickStatus);
 		}
 	}
 }
