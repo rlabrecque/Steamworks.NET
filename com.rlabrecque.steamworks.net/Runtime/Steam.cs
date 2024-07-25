@@ -12,6 +12,7 @@
 #if !DISABLESTEAMWORKS
 
 using System.Runtime.InteropServices;
+using System.Text;
 using IntPtr = System.IntPtr;
 
 namespace Steamworks {
@@ -59,7 +60,37 @@ namespace Steamworks {
 			InteropHelp.TestIfPlatformSupported();
 
 			IntPtr SteamErrorMsgPtr = Marshal.AllocHGlobal(Constants.k_cchMaxSteamErrMsg);
-			ESteamAPIInitResult initResult = NativeMethods.SteamInternal_SteamAPI_Init(IntPtr.Zero, SteamErrorMsgPtr);
+
+			StringBuilder sb = new StringBuilder();
+			sb.Append(Constants.STEAMUTILS_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMNETWORKINGUTILS_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMAPPS_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMCONTROLLER_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMFRIENDS_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMGAMESEARCH_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMHTMLSURFACE_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMHTTP_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMINPUT_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMINVENTORY_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMMATCHMAKINGSERVERS_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMMATCHMAKING_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMMUSICREMOTE_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMMUSIC_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMNETWORKINGMESSAGES_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMNETWORKINGSOCKETS_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMNETWORKING_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMPARENTALSETTINGS_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMPARTIES_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMREMOTEPLAY_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMREMOTESTORAGE_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMSCREENSHOTS_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMUGC_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMUSERSTATS_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMUSER_INTERFACE_VERSION).Append("\0");
+			sb.Append(Constants.STEAMVIDEO_INTERFACE_VERSION).Append("\0");
+			InteropHelp.UTF8StringHandle piciv = new InteropHelp.UTF8StringHandle(sb.ToString());
+			
+			ESteamAPIInitResult initResult = NativeMethods.SteamInternal_SteamAPI_Init(piciv, SteamErrorMsgPtr);
 			OutSteamErrMsg = InteropHelp.PtrToStringUTF8(SteamErrorMsgPtr);
 			Marshal.FreeHGlobal(SteamErrorMsgPtr);
 
@@ -201,10 +232,23 @@ namespace Steamworks {
 
 			using (var pchVersionString2 = new InteropHelp.UTF8StringHandle(pchVersionString)) {
 				IntPtr SteamErrorMsgPtr = Marshal.AllocHGlobal(Constants.k_cchMaxSteamErrMsg);
-				ESteamAPIInitResult initResult = NativeMethods.SteamInternal_GameServer_Init_V2(unIP, 0, usGamePort, usQueryPort, eServerMode, pchVersionString2, IntPtr.Zero, SteamErrorMsgPtr);
+				
+				var sb = new StringBuilder();
+				sb.Append(Constants.STEAMUTILS_INTERFACE_VERSION).Append('\0');
+				sb.Append(Constants.STEAMNETWORKINGUTILS_INTERFACE_VERSION).Append('\0');
+				sb.Append(Constants.STEAMGAMESERVER_INTERFACE_VERSION).Append('\0');
+				sb.Append(Constants.STEAMGAMESERVERSTATS_INTERFACE_VERSION).Append('\0');
+				sb.Append(Constants.STEAMHTTP_INTERFACE_VERSION).Append('\0');
+				sb.Append(Constants.STEAMINVENTORY_INTERFACE_VERSION).Append('\0');
+				sb.Append(Constants.STEAMNETWORKING_INTERFACE_VERSION).Append('\0');
+				sb.Append(Constants.STEAMNETWORKINGMESSAGES_INTERFACE_VERSION).Append('\0');
+				sb.Append(Constants.STEAMNETWORKINGSOCKETS_INTERFACE_VERSION).Append('\0');
+				sb.Append(Constants.STEAMUGC_INTERFACE_VERSION).Append('\0');
+				InteropHelp.UTF8StringHandle piciv = new InteropHelp.UTF8StringHandle(sb.ToString());
+				
+				ESteamAPIInitResult initResult = NativeMethods.SteamInternal_GameServer_Init_V2(unIP, usGamePort, usQueryPort, eServerMode, pchVersionString2, piciv, SteamErrorMsgPtr);
 				string SteamErrorMsg = InteropHelp.PtrToStringUTF8(SteamErrorMsgPtr);
 				Marshal.FreeHGlobal(SteamErrorMsgPtr);
-
 				if (initResult != ESteamAPIInitResult.k_ESteamAPIInitResult_OK)
 				{
 					return false;

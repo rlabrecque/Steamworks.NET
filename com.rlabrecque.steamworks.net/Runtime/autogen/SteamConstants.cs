@@ -35,6 +35,7 @@ namespace Steamworks {
 		public const string STEAMMUSICREMOTE_INTERFACE_VERSION = "STEAMMUSICREMOTE_INTERFACE_VERSION001";
 		public const string STEAMNETWORKING_INTERFACE_VERSION = "SteamNetworking006";
 		public const string STEAMNETWORKINGMESSAGES_INTERFACE_VERSION = "SteamNetworkingMessages002";
+		public const string STEAMCONTROLLER_INTERFACE_VERSION = "SteamController008";
 		// Silence some warnings
 		public const string STEAMNETWORKINGSOCKETS_INTERFACE_VERSION = "SteamNetworkingSockets012";
 		// Silence some warnings
