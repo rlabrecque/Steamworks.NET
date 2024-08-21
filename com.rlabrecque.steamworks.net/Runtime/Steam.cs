@@ -58,33 +58,64 @@ namespace Steamworks {
 		{
 			InteropHelp.TestIfPlatformSupported();
 
-			IntPtr SteamErrorMsgPtr = Marshal.AllocHGlobal(Constants.k_cchMaxSteamErrMsg);
-			ESteamAPIInitResult initResult = NativeMethods.SteamInternal_SteamAPI_Init(IntPtr.Zero, SteamErrorMsgPtr);
-			OutSteamErrMsg = InteropHelp.PtrToStringUTF8(SteamErrorMsgPtr);
-			Marshal.FreeHGlobal(SteamErrorMsgPtr);
+			var pszInternalCheckInterfaceVersions = new System.Text.StringBuilder();
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMUTILS_INTERFACE_VERSION).Append("\0");
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMNETWORKINGUTILS_INTERFACE_VERSION).Append("\0");
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMAPPS_INTERFACE_VERSION).Append("\0");
+			//pszInternalCheckInterfaceVersions.Append(Constants.STEAMCONTROLLER_INTERFACE_VERSION).Append("\0"); // ISteamController is deprecated in favor of ISteamInput.
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMFRIENDS_INTERFACE_VERSION).Append("\0");
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMGAMESEARCH_INTERFACE_VERSION).Append("\0");
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMHTMLSURFACE_INTERFACE_VERSION).Append("\0");
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMHTTP_INTERFACE_VERSION).Append("\0");
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMINPUT_INTERFACE_VERSION).Append("\0");
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMINVENTORY_INTERFACE_VERSION).Append("\0");
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMMATCHMAKINGSERVERS_INTERFACE_VERSION).Append("\0");
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMMATCHMAKING_INTERFACE_VERSION).Append("\0");
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMMUSICREMOTE_INTERFACE_VERSION).Append("\0");
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMMUSIC_INTERFACE_VERSION).Append("\0");
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMNETWORKINGMESSAGES_INTERFACE_VERSION).Append("\0");
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMNETWORKINGSOCKETS_INTERFACE_VERSION).Append("\0");
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMNETWORKING_INTERFACE_VERSION).Append("\0");
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMPARENTALSETTINGS_INTERFACE_VERSION).Append("\0");
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMPARTIES_INTERFACE_VERSION).Append("\0");
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMREMOTEPLAY_INTERFACE_VERSION).Append("\0");
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMREMOTESTORAGE_INTERFACE_VERSION).Append("\0");
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMSCREENSHOTS_INTERFACE_VERSION).Append("\0");
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMUGC_INTERFACE_VERSION).Append("\0");
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMUSERSTATS_INTERFACE_VERSION).Append("\0");
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMUSER_INTERFACE_VERSION).Append("\0");
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMVIDEO_INTERFACE_VERSION).Append("\0");
 
-			// Steamworks.NET specific: We initialize the SteamAPI Context like this for now, but we need to do it
-			// every time that Unity reloads binaries, so we also check if the pointers are available and initialized
-			// before each call to any interface functions. That is in InteropHelp.cs
-			if (initResult == ESteamAPIInitResult.k_ESteamAPIInitResult_OK)
-			{
-				bool ret = CSteamAPIContext.Init();
-				if (!ret) {
-					initResult = ESteamAPIInitResult.k_ESteamAPIInitResult_FailedGeneric;
+			using (var pszInternalCheckInterfaceVersions2 = new InteropHelp.UTF8StringHandle(pszInternalCheckInterfaceVersions.ToString())) {
+				IntPtr SteamErrorMsgPtr = Marshal.AllocHGlobal(Constants.k_cchMaxSteamErrMsg);
+				ESteamAPIInitResult initResult = NativeMethods.SteamInternal_SteamAPI_Init(pszInternalCheckInterfaceVersions2, SteamErrorMsgPtr);
+				OutSteamErrMsg = InteropHelp.PtrToStringUTF8(SteamErrorMsgPtr);
+				Marshal.FreeHGlobal(SteamErrorMsgPtr);
+
+				// Steamworks.NET specific: We initialize the SteamAPI Context like this for now, but we need to do it
+				// every time that Unity reloads binaries, so we also check if the pointers are available and initialized
+				// before each call to any interface functions. That is in InteropHelp.cs
+				if (initResult == ESteamAPIInitResult.k_ESteamAPIInitResult_OK)
+				{
+					bool ret = CSteamAPIContext.Init();
+					if (ret) {
+						CallbackDispatcher.Initialize();
+					}
+					else {
+						initResult = ESteamAPIInitResult.k_ESteamAPIInitResult_FailedGeneric;
+						OutSteamErrMsg = "[Steamworks.NET] Failed to initialize CSteamAPIContext";
+					}
 				}
 
-				CallbackDispatcher.Initialize();
+				return initResult;
 			}
-
-			return initResult;
 		}
 
 		public static bool Init() {
 			InteropHelp.TestIfPlatformSupported();
 
 			string SteamErrorMsg;
-			ESteamAPIInitResult initResult = InitEx(out SteamErrorMsg);
-			return initResult == ESteamAPIInitResult.k_ESteamAPIInitResult_OK;
+			return InitEx(out SteamErrorMsg) == ESteamAPIInitResult.k_ESteamAPIInitResult_OK;
 		}
 
 		// SteamAPI_Shutdown should be called during process shutdown if possible.
@@ -196,32 +227,54 @@ namespace Steamworks {
 		//		ISteamGameServer::GetNextOutgoingPacket.)
 		// - The version string should be in the form x.x.x.x, and is used by the master server to detect when the
 		//		server is out of date.  (Only servers with the latest version will be listed.)
+		public static ESteamAPIInitResult InitEx(uint unIP, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, string pchVersionString, out string OutSteamErrMsg) {
+			InteropHelp.TestIfPlatformSupported();
+
+			var pszInternalCheckInterfaceVersions = new System.Text.StringBuilder();
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMUTILS_INTERFACE_VERSION).Append('\0');
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMNETWORKINGUTILS_INTERFACE_VERSION).Append('\0');
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMGAMESERVER_INTERFACE_VERSION).Append('\0');
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMGAMESERVERSTATS_INTERFACE_VERSION).Append('\0');
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMHTTP_INTERFACE_VERSION).Append('\0');
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMINVENTORY_INTERFACE_VERSION).Append('\0');
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMNETWORKING_INTERFACE_VERSION).Append('\0');
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMNETWORKINGMESSAGES_INTERFACE_VERSION).Append('\0');
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMNETWORKINGSOCKETS_INTERFACE_VERSION).Append('\0');
+			pszInternalCheckInterfaceVersions.Append(Constants.STEAMUGC_INTERFACE_VERSION).Append('\0');
+
+			using (var pchVersionString2 = new InteropHelp.UTF8StringHandle(pchVersionString))
+			using (var pszInternalCheckInterfaceVersions2 = new InteropHelp.UTF8StringHandle(pszInternalCheckInterfaceVersions.ToString())) {
+				IntPtr SteamErrorMsgPtr = Marshal.AllocHGlobal(Constants.k_cchMaxSteamErrMsg);
+				ESteamAPIInitResult initResult = NativeMethods.SteamInternal_GameServer_Init_V2(unIP, usGamePort, usQueryPort, eServerMode, pchVersionString2, pszInternalCheckInterfaceVersions2, SteamErrorMsgPtr);
+				OutSteamErrMsg = InteropHelp.PtrToStringUTF8(SteamErrorMsgPtr);
+				Marshal.FreeHGlobal(SteamErrorMsgPtr);
+
+				// Steamworks.NET specific: We initialize the SteamAPI Context like this for now, but we need to do it
+				// every time that Unity reloads binaries, so we also check if the pointers are available and initialized
+				// before each call to any interface functions. That is in InteropHelp.cs
+				if (initResult == ESteamAPIInitResult.k_ESteamAPIInitResult_OK)
+				{
+					bool ret = CSteamGameServerAPIContext.Init();
+					if (ret) {
+						CallbackDispatcher.Initialize();
+					}
+					else {
+						initResult = ESteamAPIInitResult.k_ESteamAPIInitResult_FailedGeneric;
+						OutSteamErrMsg = "[Steamworks.NET] Failed to initialize CSteamAPIContext";
+					}
+				}
+
+				return initResult;
+			}
+		}
+
+		// This function is included for compatibility with older SDK.
+		// You can use it if you don't care about decent error handling
 		public static bool Init(uint unIP, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, string pchVersionString) {
 			InteropHelp.TestIfPlatformSupported();
 
-			using (var pchVersionString2 = new InteropHelp.UTF8StringHandle(pchVersionString)) {
-				IntPtr SteamErrorMsgPtr = Marshal.AllocHGlobal(Constants.k_cchMaxSteamErrMsg);
-				ESteamAPIInitResult initResult = NativeMethods.SteamInternal_GameServer_Init_V2(unIP, 0, usGamePort, usQueryPort, eServerMode, pchVersionString2, IntPtr.Zero, SteamErrorMsgPtr);
-				string SteamErrorMsg = InteropHelp.PtrToStringUTF8(SteamErrorMsgPtr);
-				Marshal.FreeHGlobal(SteamErrorMsgPtr);
-
-				if (initResult != ESteamAPIInitResult.k_ESteamAPIInitResult_OK)
-				{
-					return false;
-				}
-			}
-
-			// Steamworks.NET specific: We initialize the SteamAPI Context like this for now, but we need to do it
-			// every time that Unity reloads binaries, so we also check if the pointers are available and initialized
-			// before each call to any interface functions. That is in InteropHelp.cs
-			bool ret = CSteamGameServerAPIContext.Init();
-			if (!ret) {
-				return false;
-			}
-
-			CallbackDispatcher.Initialize();
-
-			return true;
+			string SteamErrorMsg;
+			return InitEx(unIP, usGamePort, usQueryPort, eServerMode, pchVersionString, out SteamErrorMsg) == ESteamAPIInitResult.k_ESteamAPIInitResult_OK;
 		}
 
 		// Shutdown SteamGameSeverXxx interfaces, log out, and free resources.

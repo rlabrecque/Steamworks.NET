@@ -47,7 +47,7 @@ namespace Steamworks {
 
 #region steam_api.h
 		[DllImport(NativeLibraryName, EntryPoint = "SteamInternal_SteamAPI_Init", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ESteamAPIInitResult SteamInternal_SteamAPI_Init(IntPtr pszInternalCheckInterfaceVersions, IntPtr pOutErrMsg);
+		public static extern ESteamAPIInitResult SteamInternal_SteamAPI_Init(InteropHelp.UTF8StringHandle pszInternalCheckInterfaceVersions, IntPtr pOutErrMsg);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_Shutdown", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_Shutdown();
@@ -155,7 +155,7 @@ namespace Steamworks {
 		public static extern int SteamGameServer_GetHSteamUser();
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamInternal_GameServer_Init_V2", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ESteamAPIInitResult SteamInternal_GameServer_Init_V2(uint unIP, ushort usPort, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, InteropHelp.UTF8StringHandle pchVersionString, IntPtr pszInternalCheckInterfaceVersions, IntPtr pOutErrMsg);
+		public static extern ESteamAPIInitResult SteamInternal_GameServer_Init_V2(uint unIP, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, InteropHelp.UTF8StringHandle pchVersionString, InteropHelp.UTF8StringHandle pszInternalCheckInterfaceVersions, IntPtr pOutErrMsg);
 #endregion
 #region SteamAPI Accessors
 		[DllImport(NativeLibraryName, EntryPoint = "SteamClient", CallingConvention = CallingConvention.Cdecl)]
