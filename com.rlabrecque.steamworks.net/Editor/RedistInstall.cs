@@ -57,6 +57,11 @@ public class RedistInstall {
 	}
 
 	static void AddDefineSymbols() {
+		if (EditorUserBuildSettings.selectedBuildTargetGroup != BuildTargetGroup.Standalone){
+			//Shouldn't add script defines for non-standalone platforms
+			return;
+		}
+  
 		string currentDefines = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
 		HashSet<string> defines = new HashSet<string>(currentDefines.Split(';')) {
 			"STEAMWORKS_NET"
