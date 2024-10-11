@@ -228,6 +228,7 @@ namespace Steamworks {
 		/// <para> 'const char *' is the text of the message</para>
 		/// <para> callbacks will occur directly after the API function is called that generated the warning or message.</para>
 		/// </summary>
+		[AOT.MonoPInvokeCallback(typeof(SteamAPIWarningMessageHook_t))]
 		public static void SetWarningMessageHook(SteamAPIWarningMessageHook_t pFunction) {
 			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamClient_SetWarningMessageHook(CSteamAPIContext.GetSteamClient(), pFunction);
