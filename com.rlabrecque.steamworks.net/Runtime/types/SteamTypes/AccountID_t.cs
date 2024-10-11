@@ -17,6 +17,7 @@ using IntPtr = System.IntPtr;
 namespace Steamworks {
 	[System.Serializable]
 	public struct AccountID_t : System.IEquatable<AccountID_t>, System.IComparable<AccountID_t> {
+		public static readonly AccountID_t Invalid = new AccountID_t(0);
 		public uint m_AccountID;
 
 		public AccountID_t(uint value) {

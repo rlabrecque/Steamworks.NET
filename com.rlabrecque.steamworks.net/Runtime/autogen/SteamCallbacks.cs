@@ -16,29 +16,6 @@ using IntPtr = System.IntPtr;
 
 namespace Steamworks {
 	// callbacks
-	//---------------------------------------------------------------------------------
-	// Purpose: Sent when a new app is installed (not downloaded yet)
-	//---------------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	[CallbackIdentity(Constants.k_iSteamAppListCallbacks + 1)]
-	public struct SteamAppInstalled_t {
-		public const int k_iCallback = Constants.k_iSteamAppListCallbacks + 1;
-		public AppId_t m_nAppID;			// ID of the app that installs
-		public int m_iInstallFolderIndex; // library folder the app is installed
-	}
-
-	//---------------------------------------------------------------------------------
-	// Purpose: Sent when an app is uninstalled
-	//---------------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	[CallbackIdentity(Constants.k_iSteamAppListCallbacks + 2)]
-	public struct SteamAppUninstalled_t {
-		public const int k_iCallback = Constants.k_iSteamAppListCallbacks + 2;
-		public AppId_t m_nAppID;			// ID of the app that installs
-		public int m_iInstallFolderIndex; // library folder the app was installed
-	}
-
-	// callbacks
 	//-----------------------------------------------------------------------------
 	// Purpose: posted after the user gains ownership of DLC & that DLC is installed
 	//-----------------------------------------------------------------------------
@@ -134,6 +111,7 @@ namespace Steamworks {
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bUserInitiated;	// true if the user asked for the overlay to be activated/deactivated
 		public AppId_t m_nAppID;		// the appID of the game (should always be the current game)
+		public uint m_dwOverlayPID;	// used internally
 	}
 
 	//-----------------------------------------------------------------------------
@@ -2219,6 +2197,8 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 5;
 		public AppId_t m_unAppID;
 		public PublishedFileId_t m_nPublishedFileId;
+		public UGCHandle_t m_hLegacyContent;
+		public ulong m_unManifestID;
 	}
 
 	//-----------------------------------------------------------------------------
@@ -2791,7 +2771,7 @@ namespace Steamworks {
 	}
 
 	//-----------------------------------------------------------------------------
-	// Purpose: Fired when running on a laptop and less than 10 minutes of battery is left, fires then every minute
+	// Purpose: Fired when running on a handheld PC or laptop with less than 10 minutes of battery is left, fires then every minute
 	//-----------------------------------------------------------------------------
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 2)]

@@ -67,8 +67,18 @@ namespace Steamworks {
 		}
 
 		/// <summary>
+		/// <para> Start Remote Play Together and optionally show the UI in the overlay</para>
+		/// <para> This returns false if Remote Play Together can't be started or your game is not configured for Remote Play Together</para>
+		/// </summary>
+		public static bool BStartRemotePlayTogether(bool bShowOverlay = true) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamRemotePlay_BStartRemotePlayTogether(CSteamAPIContext.GetSteamRemotePlay(), bShowOverlay);
+		}
+
+		/// <summary>
 		/// <para> Invite a friend to Remote Play Together, or create a guest invite if steamIDFriend is empty</para>
-		/// <para> This returns false if the invite can't be sent</para>
+		/// <para> This will automatically start Remote Play Together if it hasn't already been started</para>
+		/// <para> This returns false if the invite can't be sent or your game is not configured for Remote Play Together</para>
 		/// </summary>
 		public static bool BSendRemotePlayTogetherInvite(CSteamID steamIDFriend) {
 			InteropHelp.TestIfAvailableClient();

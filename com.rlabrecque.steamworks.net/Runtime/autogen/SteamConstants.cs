@@ -16,10 +16,9 @@ using IntPtr = System.IntPtr;
 
 namespace Steamworks {
 	public static class Constants {
-		public const string STEAMAPPLIST_INTERFACE_VERSION = "STEAMAPPLIST_INTERFACE_VERSION001";
 		public const string STEAMAPPS_INTERFACE_VERSION = "STEAMAPPS_INTERFACE_VERSION008";
 		public const string STEAMAPPTICKET_INTERFACE_VERSION = "STEAMAPPTICKET_INTERFACE_VERSION001";
-		public const string STEAMCLIENT_INTERFACE_VERSION = "SteamClient020";
+		public const string STEAMCLIENT_INTERFACE_VERSION = "SteamClient021";
 		public const string STEAMFRIENDS_INTERFACE_VERSION = "SteamFriends017";
 		public const string STEAMGAMECOORDINATOR_INTERFACE_VERSION = "SteamGameCoordinator001";
 		public const string STEAMGAMESERVER_INTERFACE_VERSION = "SteamGameServer015";
@@ -41,20 +40,24 @@ namespace Steamworks {
 		// Silence some warnings
 		public const string STEAMNETWORKINGUTILS_INTERFACE_VERSION = "SteamNetworkingUtils004";
 		public const string STEAMPARENTALSETTINGS_INTERFACE_VERSION = "STEAMPARENTALSETTINGS_INTERFACE_VERSION001";
-		public const string STEAMREMOTEPLAY_INTERFACE_VERSION = "STEAMREMOTEPLAY_INTERFACE_VERSION001";
+		public const string STEAMREMOTEPLAY_INTERFACE_VERSION = "STEAMREMOTEPLAY_INTERFACE_VERSION002";
 		public const string STEAMREMOTESTORAGE_INTERFACE_VERSION = "STEAMREMOTESTORAGE_INTERFACE_VERSION016";
 		public const string STEAMSCREENSHOTS_INTERFACE_VERSION = "STEAMSCREENSHOTS_INTERFACE_VERSION003";
-		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION017";
+		public const string STEAMTIMELINE_INTERFACE_VERSION = "STEAMTIMELINE_INTERFACE_V001";
+		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION020";
 		public const string STEAMUSER_INTERFACE_VERSION = "SteamUser023";
 		public const string STEAMUSERSTATS_INTERFACE_VERSION = "STEAMUSERSTATS_INTERFACE_VERSION012";
 		public const string STEAMUTILS_INTERFACE_VERSION = "SteamUtils010";
-		public const string STEAMVIDEO_INTERFACE_VERSION = "STEAMVIDEO_INTERFACE_V002";
+		public const string STEAMVIDEO_INTERFACE_VERSION = "STEAMVIDEO_INTERFACE_V007";
 		public const int k_cubAppProofOfPurchaseKeyMax = 240; // max supported length of a legacy cd key
 		// maximum length of friend group name (not including terminating nul!)
 		public const int k_cchMaxFriendsGroupName = 64;
 		// maximum number of groups a single user is allowed
 		public const int k_cFriendsGroupLimit = 100;
 		public const int k_cEnumerateFollowersMax = 50;
+		// special values for FriendGameInfo_t::m_usQueryPort
+		public const ushort k_usFriendGameInfoQueryPort_NotInitialized = 0xFFFF; // We haven't asked the GS for this query port's actual value yet.  Was #define QUERY_PORT_NOT_INITIALIZED in older versions of Steamworks SDK.
+		public const ushort k_usFriendGameInfoQueryPort_Error = 0xFFFE; // We were unable to get the query port for this server.  Was #define QUERY_PORT_ERROR in older versions of Steamworks SDK.
 		// maximum number of characters in a user's name. Two flavors; one for UTF-8 and one for UTF-16.
 		// The UTF-8 version has to be very generous to accomodate characters that get large when encoded
 		// in UTF-8.
@@ -89,6 +92,8 @@ namespace Steamworks {
 		// Required with of a thumbnail provided to AddScreenshotToLibrary.  If you do not provide a thumbnail
 		// one will be generated.
 		public const int k_ScreenshotThumbWidth = 200;
+		public const int k_unMaxTimelinePriority = 1000;
+		public const float k_flMaxTimelineEventDuration = 600.0f;
 		public const int kNumUGCResultsPerPage = 50;
 		public const int k_cchDeveloperMetadataMax = 5000;
 		public const int k_nCubTicketMaxLength = 2560;
@@ -108,6 +113,9 @@ namespace Steamworks {
 		public const int k_cbMaxGameServerName = 64;
 		public const int k_cbMaxGameServerTags = 128;
 		public const int k_cbMaxGameServerGameData = 2048;
+		// A fixed size buffer to receive an error message that is returned by some API
+		// calls.
+		public const int k_cchMaxSteamErrMsg = 1024;
 		// Forward declare types
 		//-----------------------------------------------------------------------------
 		// Purpose: Base values for callback identifiers, each callback must
@@ -139,7 +147,6 @@ namespace Steamworks {
 		public const int k_iSteamControllerCallbacks = 2800;
 		public const int k_iSteamUGCCallbacks = 3400;
 		public const int k_iSteamStreamClientCallbacks = 3500;
-		public const int k_iSteamAppListCallbacks = 3900;
 		public const int k_iSteamMusicCallbacks = 4000;
 		public const int k_iSteamMusicRemoteCallbacks = 4100;
 		public const int k_iSteamGameNotificationCallbacks = 4400;
@@ -152,6 +159,7 @@ namespace Steamworks {
 		public const int k_iSteamSTARCallbacks = 5500;
 		public const int k_iSteamRemotePlayCallbacks = 5700;
 		public const int k_iSteamChatCallbacks = 5900;
+		public const int k_iSteamTimelineCallbacks = 6000;
 		/// Pass to SteamGameServer_Init to indicate that the same UDP port will be used for game traffic
 		/// UDP queries for server browser pings and LAN discovery.  In this case, Steam will not open up a
 		/// socket to handle server browser queries, and you must use ISteamGameServer::HandleIncomingPacket
