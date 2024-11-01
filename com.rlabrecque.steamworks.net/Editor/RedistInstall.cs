@@ -22,7 +22,7 @@ public class RedistInstall {
 	}
 	
 	static bool IsAutofixDisabled(){
-		return EditorPrefs.GetBool(STEAMWORKS_AUTOFIX_DISABLED, false);
+		return EditorPrefs.GetBool(STEAMWORKS_AUTOFIX_DISABLED, true);
 	}
 	
 	static void UpdateMenuItems() {
