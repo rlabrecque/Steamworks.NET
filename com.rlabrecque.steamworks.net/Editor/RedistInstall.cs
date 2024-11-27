@@ -77,7 +77,7 @@ public class RedistInstall {
 #if DISABLESTEAMWORKS
         defines.Remove("STEAMWORKS_NET");
 #else
-		defines.Add("STEAMWORKS_NET");
+        defines.Add("STEAMWORKS_NET");
 #endif
 
         string newDefines = string.Join(";", defines);
