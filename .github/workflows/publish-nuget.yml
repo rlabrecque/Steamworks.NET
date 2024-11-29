@@ -1,0 +1,48 @@
+name: Build and Publish Steamworks.NET NuGet Package
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build-and-publish:
+    name: Build and Publish NuGet Package
+    runs-on: windows-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Setup .NET environment
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.x'
+
+      # Setup NuGet client
+      - name: Setup NuGet client
+        run: |
+          choco install nuget -y
+          nuget update -self
+
+      # Extract the version from the tag
+      - name: Extract version from tag
+        id: get_version
+        run: echo "::set-output name=version::${GITHUB_REF#refs/tags/}"
+
+      # Build binaries
+      - name: Build and Package binaries
+        run: | 
+            $version="${{ steps.get_version.outputs.version }}"
+            (Get-Content Steamworks.NET.nuspec) -replace '<version>.*?</version>', "<version>$version</version>" | Set-Content Standalone/Steamworks.NET.nuspec
+
+            dotnet build -t:BatchBuild Standalone/Steamworks.NET.Standard.sln
+            nuget pack Standalone/Steamworks.NET.nuspec -OutputDirectory bin\
+
+      # Publish the NuGet package
+      - name: Publish to NuGet
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          nuget push bin\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey $NUGET_API_KEY
