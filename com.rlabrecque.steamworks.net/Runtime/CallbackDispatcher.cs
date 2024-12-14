@@ -181,12 +181,14 @@ namespace Steamworks {
 						}
 						Marshal.FreeHGlobal(pTmpCallResult);
 					} else {
-						List<Callback> callbacks;
-						if (callbacksRegistry.TryGetValue(callbackMsg.m_iCallback, out callbacks)) {
-							List<Callback> callbacksCopy;
-							lock (m_sync) {
+						List<Callback> callbacksCopy = null;
+						lock (m_sync) {
+							List<Callback> callbacks = null;
+							if (callbacksRegistry.TryGetValue(callbackMsg.m_iCallback, out callbacks)) {
 								callbacksCopy = new List<Callback>(callbacks);
 							}
+						}
+						if (callbacksCopy != null) {
 							foreach (var callback in callbacksCopy) {
 								callback.OnRunCallback(callbackMsg.m_pubParam);
 							}
