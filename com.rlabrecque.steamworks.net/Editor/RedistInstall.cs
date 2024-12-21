@@ -2,6 +2,10 @@
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
+#if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
+#define DISABLESTEAMWORKS
+#endif
+
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Build;
@@ -68,10 +72,13 @@ public class RedistInstall {
 		currentDefines = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
 		
 #endif
-        defines = new HashSet<string>(currentDefines.Split(';'))
-        {
-            "STEAMWORKS_NET"
-        };
+        defines = new HashSet<string>(currentDefines.Split(';'));
+
+#if DISABLESTEAMWORKS
+        defines.Remove("STEAMWORKS_NET");
+#else
+        defines.Add("STEAMWORKS_NET");
+#endif
 
         string newDefines = string.Join(";", defines);
         if (newDefines != currentDefines)
