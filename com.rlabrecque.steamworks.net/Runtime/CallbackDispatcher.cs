@@ -29,6 +29,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 
@@ -312,7 +313,7 @@ namespace Steamworks {
 	}
 
 #nullable enable
-	public sealed class CallResult<T> : CallResult, IDisposable /* fulfills Awaitable, Awaiter */
+	public sealed class CallResult<T> : CallResult, IDisposable, ICriticalNotifyCompletion /* fulfills Awaitable, Awaiter */
 		where T : struct
 	{
 		public delegate void APIDispatchDelegate(T param, bool bIOFailure);
@@ -346,6 +347,7 @@ namespace Steamworks {
 		/// </remarks>
         /// <param name="handle"></param>
         /// <returns>A <see cref="CallResult{T}"/> that must be <see langword="await"/>ed</returns>
+		/// <exception cref="IOException">IO failure during Steam API invocation</exception>
         public static CallResult<T> Async(SteamAPICall_t handle)
 		{
 			return new CallResult<T>(null).ResetAsyncState(handle);
@@ -453,7 +455,7 @@ namespace Steamworks {
 		// concept Awaitable
 		// make this type `await`able like System.Threading.Tasks.Task
 		/// <summary>
-		/// Reserved for compiler.
+		/// Reserved for compiler, not meant to use directly.
 		/// </summary>
 		/// <remarks>
 		/// Before writing code like <c>callResult.GetAwaiter().GetResult()</c>, you MUST CHECK <see cref="IsCompleted"/>.
@@ -467,10 +469,10 @@ namespace Steamworks {
 		public bool IsCompleted { get; private set; }
 
         /// <summary>
-        /// Reserved for compiler. 
+        /// Reserved for compiler, not meant to use directly.
         /// </summary>
         /// <returns>Cached result from last completed API call or default value</returns>
-        /// <exception cref="IOException"></exception>
+        /// <exception cref="IOException">IO failure during Steam API invocation</exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public T GetResult()
 		{
@@ -488,21 +490,13 @@ namespace Steamworks {
 				throw new InvalidOperationException("This CallResult instance is already registered a callback, do not mix async-fashion and Set-fashion API");
 			}
 
-			if (IsCompleted)
-			{
-				callback();
-			}
-
             if (Interlocked.CompareExchange(ref awaitableCallback, callback, null) != null)
             {
                 throw new InvalidOperationException("This CallResult instance is already being awaited");
             }
 
-			// double check
-            if (IsCompleted)
-            {
-                callback();
-            }
+			// Register self to dispatcher here to avoid race condition of completion and resume-delegate register
+            CallbackDispatcher.Register(m_hAPICall, this);
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -529,7 +523,6 @@ namespace Steamworks {
 			asyncResult = default;
 			asyncIOFailed = false;
 
-            CallbackDispatcher.Register(handle, this);
 			return this;
 		}
 
