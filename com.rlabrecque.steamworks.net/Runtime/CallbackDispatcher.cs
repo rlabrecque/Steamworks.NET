@@ -306,7 +306,14 @@ namespace Steamworks {
 		}
 	}
 
-	public abstract class CallResult {
+	[Flags]
+    public enum CallResultOptions
+    {
+		None,
+        ScheduleCompletionInline = 1
+    }
+
+    public abstract class CallResult {
 		internal abstract Type GetCallbackType();
 		internal abstract void OnRunCallResult(IntPtr pvParam, bool bFailed, ulong hSteamAPICall);
 		internal abstract void SetUnregistered();
@@ -328,6 +335,7 @@ namespace Steamworks {
 		public SteamAPICall_t Handle { get { return m_hAPICall; } }
 
 		private bool m_bDisposed = false;
+        private CallResultOptions asyncOptions;
 
         /// <summary>
         /// Creates a new async CallResult. You must be calling SteamAPI.RunCallbacks() to retrieve the callback.
@@ -348,9 +356,9 @@ namespace Steamworks {
         /// <param name="handle"></param>
         /// <returns>A <see cref="CallResult{T}"/> that must be <see langword="await"/>ed</returns>
 		/// <exception cref="IOException">IO failure during Steam API invocation</exception>
-        public static CallResult<T> Async(SteamAPICall_t handle)
+        public static CallResult<T> Async(SteamAPICall_t handle, CallResultOptions options = CallResultOptions.None)
 		{
-			return new CallResult<T>(null).ResetAsyncState(handle);
+			return new CallResult<T>(null).ResetAsyncState(handle, options);
 		}
 
 		public CallResult(APIDispatchDelegate? func = null) {
@@ -429,7 +437,20 @@ namespace Steamworks {
 						asyncResult = result;
 						asyncIOFailed = bFailed;
 
-						awaitableCallback();
+						if ((asyncOptions | CallResultOptions.ScheduleCompletionInline) == CallResultOptions.None)
+						{
+							ThreadPool.QueueUserWorkItem(
+#if NETSTANDARD2_1_OR_GREATER
+							(cb) => Unsafe.As<Action>(cb)(),
+#else
+							(cb) => ((Action)cb)(),
+#endif
+							awaitableCallback); 
+						}
+						else
+						{
+							awaitableCallback();
+						}
 
 						awaitableCallback = null;
 						return;
@@ -508,9 +529,10 @@ namespace Steamworks {
 		/// </summary>
 		/// <param name="handle"></param>
 		/// <returns></returns>
-		public CallResult<T> ResetAsyncState(SteamAPICall_t handle)
+		public CallResult<T> ResetAsyncState(SteamAPICall_t handle, CallResultOptions options = CallResultOptions.None)
 		{
 			IsCompleted = false;
+			asyncOptions = options;
 
 			if (handle == SteamAPICall_t.Invalid)
 				throw new InvalidOperationException("In async CallResult fashion, cannot set invalid steam api call handle");
