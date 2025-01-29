@@ -320,22 +320,218 @@ namespace Steamworks {
 	}
 
 #nullable enable
-	public sealed class CallResult<T> : CallResult, IDisposable, ICriticalNotifyCompletion /* fulfills Awaitable, Awaiter */
-		where T : struct
+
+	public static class SteamAPICallExtensions
+	{
+        /// <summary>
+        /// Construct a new <see langword="await"/>able CallResult from Steam API call handle.
+        /// </summary>
+        /// <remarks>
+        ///	All <see cref="CallResultAwaitable{T}"/> instances obtained from this method must be <see langword="await"/>ed
+		///	</remarks>
+        /// <param name="handle"></param>
+        /// <returns>A <see cref="CallResultAwaitable{T}"/> that must be <see langword="await"/>ed</returns>
+        /// <exception cref="IOException">IO failure during Steam API invocation</exception>
+        public static CallResultAwaitable<T> Async<T>(this SteamAPICall_t handle,
+			CallResultOptions options = CallResultOptions.None,
+			CancellationToken cancellationToken = default)
+			where T : struct
+        {
+            return new CallResultAwaitable<T>().ResetAsyncState(handle, options, cancellationToken);
+        }
+    }
+
+    public sealed class CallResultAwaitable<T> : CallResult, ICriticalNotifyCompletion /* fulfills Awaitable, Awaiter */
+		where T: struct
+    {
+        // async related fields
+        private Action? awaitableCallback;
+        private T result;
+        private bool ioFailed;
+        private CallResultOptions options;
+        private CancellationToken ct;
+        private bool isCompleted;
+        private static readonly WaitCallback s_continuationFromThreadPoolDelegate =
+#if NETSTANDARD2_1_OR_GREATER
+						(cb) => Unsafe.As<Action>(cb)();
+#else
+						(cb) => ((Action)cb)();
+#endif
+
+		public SteamAPICall_t Handle { get; private set; } = SteamAPICall_t.Invalid;
+
+
+        public CallResultAwaitable()
+        {
+            
+        }
+
+        public CallResultAwaitable(SteamAPICall_t handle, CallResultOptions options = CallResultOptions.None,
+			CancellationToken cancellationToken = default)
+        {
+			ResetAsyncState(handle, options, cancellationToken);
+        }
+
+        internal override Type GetCallbackType()
+        {
+            return typeof(T);
+        }
+
+        internal override void OnRunCallResult(IntPtr pvParam, bool bFailed, ulong hSteamAPICall)
+        {
+			isCompleted = true;
+
+			if (ct.IsCancellationRequested)
+				return;
+
+            // user code will get result by this.GetResult(), bFailed is converted to IOException
+            result = (T)Marshal.PtrToStructure(pvParam, typeof(T));
+            ioFailed = bFailed;
+			SpinWait waiter = new SpinWait();
+			for (int i = 0; i < 6; i++)
+			{
+				Action? callbackCopy = awaitableCallback;
+
+                if (callbackCopy != null)
+				{
+					ScheduleContinuation(callbackCopy);
+
+					break;
+				}
+
+				waiter.SpinOnce();
+			}
+        }
+
+        internal override void SetUnregistered()
+        {
+			Handle = SteamAPICall_t.Invalid;
+        }
+
+        #region Async
+
+        // concept Awaitable
+        // make this type `await`able like System.Threading.Tasks.Task
+        /// <summary>
+        /// Reserved for compiler, not meant to use directly.
+        /// </summary>
+        /// <remarks>
+        /// Before writing code like <c>callResult.GetAwaiter().GetResult()</c>, you MUST CHECK <see cref="IsCompleted"/>.
+        /// <see cref="GetResult"/> will not wait until completion, it returns cached result.
+        /// </remarks>
+        /// <returns></returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public CallResultAwaitable<T> GetAwaiter() => this;
+
+		// concept Awaiter
+		public bool IsCompleted => isCompleted;
+
+        /// <summary>
+        /// Reserved for compiler, not meant to use directly.
+        /// </summary>
+        /// <returns>Cached result from last completed API call or default value</returns>
+        /// <exception cref="IOException">IO failure during Steam API invocation</exception>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public T GetResult()
+        {
+            if (ioFailed)
+                throw new IOException("IO failed during Steam API invocation");
+
+            return result;
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void UnsafeOnCompleted(Action callback)
+		{
+			if (ct.IsCancellationRequested)
+				return;
+
+			Interlocked.MemoryBarrier();
+
+            if (Interlocked.CompareExchange(ref awaitableCallback, callback, null) != null)
+            {
+                throw new InvalidOperationException("This CallResult instance is already being awaited");
+            }
+
+			if (isCompleted)
+			{
+				ScheduleContinuation(callback);
+			}   
+			
+			// Register self to dispatcher here to avoid race condition of completion and resume-delegate register
+            CallbackDispatcher.Register(Handle, this);
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void OnCompleted(Action callback) => UnsafeOnCompleted(callback);
+
+        // public api
+        /// <summary>
+        /// Make this <see cref="CallResult{T}"/> instance awaitable again
+        /// </summary>
+        /// <param name="handle"></param>
+        /// <returns></returns>
+        public CallResultAwaitable<T> ResetAsyncState(SteamAPICall_t handle,
+			CallResultOptions options = CallResultOptions.None,
+			CancellationToken cancellationToken = default)
+        {
+			isCompleted = false;
+            this.options = options;
+			ct = cancellationToken;
+
+			if (ct.CanBeCanceled)
+			{
+				ct.Register(OnCancelTriggered);
+			}
+
+            if (handle == SteamAPICall_t.Invalid)
+                throw new InvalidOperationException("Cannot set invalid steam api call handle");
+
+            if (Handle != SteamAPICall_t.Invalid)
+                CallbackDispatcher.Unregister(Handle, this);
+
+            Handle = handle;
+            awaitableCallback = null;
+            result = default;
+            ioFailed = false;
+
+            return this;
+        }
+
+		private void ScheduleContinuation(Action continuation)
+		{
+            if ((options | CallResultOptions.ScheduleCompletionInline) == CallResultOptions.None)
+            {
+                ThreadPool.QueueUserWorkItem(s_continuationFromThreadPoolDelegate, continuation);
+            }
+            else
+            {
+                continuation();
+            }
+        }
+
+		private void OnCancelTriggered()
+		{
+			if (Handle != SteamAPICall_t.Invalid)
+				CallbackDispatcher.Unregister(Handle, this);
+		}
+
+        #endregion
+    }
+
+
+
+
+    public sealed class CallResult<T> : CallResult, IDisposable
 	{
 		public delegate void APIDispatchDelegate(T param, bool bIOFailure);
 		private event APIDispatchDelegate? m_Func;
 
-		// async related fields
-		private Action? awaitableCallback;
-        private T asyncResult;
-        private bool asyncIOFailed;
 
 		private SteamAPICall_t m_hAPICall = SteamAPICall_t.Invalid;
 		public SteamAPICall_t Handle { get { return m_hAPICall; } }
 
 		private bool m_bDisposed = false;
-        private CallResultOptions asyncOptions;
 
         /// <summary>
         /// Creates a new async CallResult. You must be calling SteamAPI.RunCallbacks() to retrieve the callback.
@@ -344,21 +540,6 @@ namespace Steamworks {
         /// </summary>
         public static CallResult<T> Create(APIDispatchDelegate? func = null) {
 			return new CallResult<T>(func);
-		}
-
-        /// <summary>
-        /// Construct a new <see langword="await"/>able CallResult from Steam API call handle.
-        /// </summary>
-		/// <remarks>
-		///	All <see cref="CallResult{T}"/> instances obtained from this method must be <see langword="await"/>ed and 
-		///	are NOT ABLE to use <see cref="Set(SteamAPICall_t, APIDispatchDelegate?)"/> API.
-		/// </remarks>
-        /// <param name="handle"></param>
-        /// <returns>A <see cref="CallResult{T}"/> that must be <see langword="await"/>ed</returns>
-		/// <exception cref="IOException">IO failure during Steam API invocation</exception>
-        public static CallResult<T> Async(SteamAPICall_t handle, CallResultOptions options = CallResultOptions.None)
-		{
-			return new CallResult<T>(null).ResetAsyncState(handle, options);
 		}
 
 		public CallResult(APIDispatchDelegate? func = null) {
@@ -382,13 +563,6 @@ namespace Steamworks {
 		}
 
 		public void Set(SteamAPICall_t hAPICall, APIDispatchDelegate? func = null) {
-			// Disallow using Set in async mode to avoid breaking async related functionality
-			if (awaitableCallback != null) {
-				throw new InvalidOperationException("This CallResult is being awaited, do not mix async-fashion and Set-fashion API");
-			}
-
-			IsCompleted = false;
-
 			// Unlike the official SDK we let the user assign a single function during creation,
 			// and allow them to skip having to do so every time that they call .Set()
 			if (func != null) {
@@ -424,41 +598,11 @@ namespace Steamworks {
 		}
 
 		internal override void OnRunCallResult(IntPtr pvParam, bool bFailed, ulong hSteamAPICall_) {
-			IsCompleted = true;
-
 			SteamAPICall_t hSteamAPICall = (SteamAPICall_t)hSteamAPICall_;
 			if (hSteamAPICall == m_hAPICall) {
 				try {
                     T result = (T)Marshal.PtrToStructure(pvParam, typeof(T));
-
-                    if (awaitableCallback != null)
-					{
-						// user code will get result by this.GetResult(), bFailed is converted to IOException
-						asyncResult = result;
-						asyncIOFailed = bFailed;
-
-						if ((asyncOptions | CallResultOptions.ScheduleCompletionInline) == CallResultOptions.None)
-						{
-							ThreadPool.QueueUserWorkItem(
-#if NETSTANDARD2_1_OR_GREATER
-							(cb) => Unsafe.As<Action>(cb)(),
-#else
-							(cb) => ((Action)cb)(),
-#endif
-							awaitableCallback); 
-						}
-						else
-						{
-							awaitableCallback();
-						}
-
-						awaitableCallback = null;
-						return;
-					}
-					else
-					{
-						m_Func!(result, bFailed);
-					}
+					m_Func!(result, bFailed);
 				}
 				catch (Exception e) {
 					CallbackDispatcher.ExceptionHandler(e);
@@ -468,87 +612,8 @@ namespace Steamworks {
 
 		internal override void SetUnregistered() {
 			m_hAPICall = SteamAPICall_t.Invalid;
-			awaitableCallback = null;
 		}
 
-		#region Async
-
-		// concept Awaitable
-		// make this type `await`able like System.Threading.Tasks.Task
-		/// <summary>
-		/// Reserved for compiler, not meant to use directly.
-		/// </summary>
-		/// <remarks>
-		/// Before writing code like <c>callResult.GetAwaiter().GetResult()</c>, you MUST CHECK <see cref="IsCompleted"/>.
-		/// <see cref="GetResult"/> will not wait until completion, it returns cached result.
-		/// </remarks>
-		/// <returns></returns>
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		public CallResult<T> GetAwaiter() => this;
-
-		// concept Awaiter
-		public bool IsCompleted { get; private set; }
-
-        /// <summary>
-        /// Reserved for compiler, not meant to use directly.
-        /// </summary>
-        /// <returns>Cached result from last completed API call or default value</returns>
-        /// <exception cref="IOException">IO failure during Steam API invocation</exception>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public T GetResult()
-		{
-			if (asyncIOFailed)
-				throw new IOException("IO failed during Steam API invocation");
-
-			return asyncResult;
-		}
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public void UnsafeOnCompleted(Action callback)
-		{
-			if (m_Func != null)
-			{
-				throw new InvalidOperationException("This CallResult instance is already registered a callback, do not mix async-fashion and Set-fashion API");
-			}
-
-            if (Interlocked.CompareExchange(ref awaitableCallback, callback, null) != null)
-            {
-                throw new InvalidOperationException("This CallResult instance is already being awaited");
-            }
-
-			// Register self to dispatcher here to avoid race condition of completion and resume-delegate register
-            CallbackDispatcher.Register(m_hAPICall, this);
-        }
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public void OnCompleted(Action callback) => UnsafeOnCompleted(callback);
-
-		// public api
-		/// <summary>
-		/// Make this <see cref="CallResult{T}"/> instance awaitable again
-		/// </summary>
-		/// <param name="handle"></param>
-		/// <returns></returns>
-		public CallResult<T> ResetAsyncState(SteamAPICall_t handle, CallResultOptions options = CallResultOptions.None)
-		{
-			IsCompleted = false;
-			asyncOptions = options;
-
-			if (handle == SteamAPICall_t.Invalid)
-				throw new InvalidOperationException("In async CallResult fashion, cannot set invalid steam api call handle");
-
-			if (m_hAPICall != SteamAPICall_t.Invalid)
-                CallbackDispatcher.Unregister(m_hAPICall, this);
-
-			m_hAPICall = handle;
-            awaitableCallback = null;
-			asyncResult = default;
-			asyncIOFailed = false;
-
-			return this;
-		}
-
-		#endregion
 	}
 #nullable restore
 
