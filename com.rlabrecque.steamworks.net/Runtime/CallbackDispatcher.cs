@@ -382,6 +382,24 @@ namespace Steamworks {
         {
             return new CallResultAwaitable<T>().ResetAsyncState(handle, options, cancellationToken);
         }
+
+        /// <summary>
+        /// Construct a new <see langword="await"/>able CallResult from Steam API call handle.
+        /// When Steam API call completed, callback will run on .NET thread pool.
+        /// </summary>
+        /// <remarks>
+        ///	All <see cref="CallResultAwaitable{T}"/> instances obtained from this method must be <see langword="await"/>ed
+        ///	</remarks>
+        public static CallResultAwaitable<T> ContinueOnThreadPool<T>(this SteamAPICall_t handle,
+            CallResultOptions options = CallResultOptions.None,
+            CancellationToken cancellationToken = default)
+            where T : struct
+        {
+            return Async<T>(handle, new CallResultAsyncOptions()
+            {
+                Options = options
+            }, cancellationToken);
+        }
     }
 
     public sealed class CallResultAwaitable<T> : CallResult, ICriticalNotifyCompletion /* fulfills Awaitable, Awaiter */
