@@ -27,6 +27,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Steamworks {
@@ -48,6 +49,9 @@ namespace Steamworks {
 		private static object m_sync = new object();
 		private static IntPtr m_pCallbackMsg;
 		private static int m_initCount;
+		// 4096 * 3 is enough for most api calls, 
+		private static int s_currentCallResultBufferSize = 4096 * 3;
+		private static IntPtr s_pCallResultBuffer = Marshal.AllocHGlobal(s_currentCallResultBufferSize);
 
 		public static bool IsInitialized {
 			get { return m_initCount > 0; }
@@ -69,12 +73,54 @@ namespace Steamworks {
 				if (m_initCount == 0) {
 					UnregisterAll();
 					Marshal.FreeHGlobal(m_pCallbackMsg);
+					Marshal.FreeHGlobal(s_pCallResultBuffer);
 					m_pCallbackMsg = IntPtr.Zero;
+					s_pCallResultBuffer = IntPtr.Zero;
 				}
 			}
 		}
 
-		internal static void Register(Callback cb) {
+		private static IntPtr CheckCallResultBufferSize(uint requiredBufferSize)
+        {
+            if (s_currentCallResultBufferSize >= requiredBufferSize)
+                return s_pCallResultBuffer; // buffer is enough, this happens mostly
+
+            // have to resize buffer
+            lock (m_sync)
+            {
+                // double check buffer size to avoid resize the buffer smaller
+                if (s_currentCallResultBufferSize < requiredBufferSize)
+                    return s_pCallResultBuffer;
+
+                // round buffer size to next multiple of 4096
+#if NET6_0_OR_GREATER // decided to use NET6_0 here is for Unity builds, same as 5 below
+               // System.Numerics is not always available for using
+               uint newBufferSize = System.Numerics.BitOperations.RoundUpToPowerOf2(requiredBufferSize);
+#else
+                uint newBufferSize = requiredBufferSize;
+                if ((newBufferSize & 0x1FFF) != 4096)
+                    newBufferSize = (newBufferSize + 4095) & 0xFFFFF000;
+#endif
+                if (newBufferSize > int.MaxValue) {
+                    newBufferSize = requiredBufferSize;
+                    // not to use enlarged size since we don't have enough space
+                    if (newBufferSize > int.MaxValue) {
+                        throw new NotSupportedException("The param size of a call result is larger than 2GiB");
+                    }
+                }
+
+#if NET5_0_OR_GREATER
+                s_pCallResultBuffer = Marshal.ReAllocHGlobal(s_pCallResultBuffer, (nint)newBufferSize);
+#else
+                Marshal.FreeHGlobal(s_pCallResultBuffer);
+                s_pCallResultBuffer = IntPtr.Zero; // is this necessary?
+                s_pCallResultBuffer = Marshal.AllocHGlobal((int)newBufferSize);
+#endif
+				return s_pCallResultBuffer;
+            }
+        }
+
+        internal static void Register(Callback cb) {
 			int iCallback = CallbackIdentities.GetCallbackIdentity(cb.GetCallbackType());
 			var callbacksRegistry = cb.IsGameServer ? m_registeredGameServerCallbacks : m_registeredCallbacks;
 			lock (m_sync) {
@@ -160,18 +206,40 @@ namespace Steamworks {
 			NativeMethods.SteamAPI_ManualDispatch_RunFrame(hSteamPipe);
 			var callbacksRegistry = isGameServer ? m_registeredGameServerCallbacks : m_registeredCallbacks;
 			while (NativeMethods.SteamAPI_ManualDispatch_GetNextCallback(hSteamPipe, m_pCallbackMsg)) {
+#if NET5_0_OR_GREATER
+				// Do not modify the fields inside, or will violate some .NET runtime constraint!
+				ref CallbackMsg_t callbackMsg = ref Unsafe.Unbox<CallbackMsg_t>(Marshal.PtrToStructure(m_pCallbackMsg, typeof(CallbackMsg_t)));
+#else
 				CallbackMsg_t callbackMsg = (CallbackMsg_t)Marshal.PtrToStructure(m_pCallbackMsg, typeof(CallbackMsg_t));
+#endif
 				try {
 					// Check for dispatching API call results
 					if (callbackMsg.m_iCallback == SteamAPICallCompleted_t.k_iCallback) {
+#if NET5_0_OR_GREATER
+						// Same as above!
+						ref SteamAPICallCompleted_t callCompletedCb = ref Unsafe.Unbox<SteamAPICallCompleted_t>(
+							Marshal.PtrToStructure(callbackMsg.m_pubParam, typeof(SteamAPICallCompleted_t))
+						);
+#else
 						SteamAPICallCompleted_t callCompletedCb = (SteamAPICallCompleted_t)Marshal.PtrToStructure(callbackMsg.m_pubParam, typeof(SteamAPICallCompleted_t));
-						IntPtr pTmpCallResult = Marshal.AllocHGlobal((int)callCompletedCb.m_cubParam);
-						bool bFailed;
-						if (NativeMethods.SteamAPI_ManualDispatch_GetAPICallResult(hSteamPipe, callCompletedCb.m_hAsyncCall, pTmpCallResult, (int)callCompletedCb.m_cubParam, callCompletedCb.m_iCallback, out bFailed)) {
+#endif
+						// same threading assumption as CallbackMsg_t: only one thread will call RunFrame at same time
+						// so reuse cached buffer directly
+						IntPtr pTmpCallResult = CheckCallResultBufferSize(callCompletedCb.m_cubParam);
+                        bool bFailed;
+
+						if (NativeMethods.SteamAPI_ManualDispatch_GetAPICallResult(
+								hSteamPipe, callCompletedCb.m_hAsyncCall, pTmpCallResult,
+								(int)callCompletedCb.m_cubParam, callCompletedCb.m_iCallback,
+								out bFailed)) {
 							lock (m_sync) {
 								List<CallResult> callResults;
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_0_OR_GREATER
+								if (m_registeredCallResults.Remove(callCompletedCb.m_hAsyncCall.m_SteamAPICall, out callResults)) {
+#else // compatibility to old Unity and .NET Framework project
 								if (m_registeredCallResults.TryGetValue((ulong)callCompletedCb.m_hAsyncCall, out callResults)) {
-									m_registeredCallResults.Remove((ulong)callCompletedCb.m_hAsyncCall);
+									m_registeredCallResults.Remove((ulong)callCompletedCb.m_hAsyncCall); 
+#endif
 									foreach (var cr in callResults) {
 										cr.OnRunCallResult(pTmpCallResult, bFailed, (ulong)callCompletedCb.m_hAsyncCall);
 										cr.SetUnregistered();
@@ -179,7 +247,6 @@ namespace Steamworks {
 								}
 							}
 						}
-						Marshal.FreeHGlobal(pTmpCallResult);
 					} else {
 						List<Callback> callbacksCopy = null;
 						lock (m_sync) {
@@ -203,10 +270,21 @@ namespace Steamworks {
 		}
 	}
 
-	public abstract class Callback {
+    /// <summary>
+    /// Internals of Steamworks.NET, not meant to use directly
+    /// </summary>
+	// Akarinnnn: I think the reason of this type is not interface, is historical burden
+    public abstract class Callback {
 		public abstract bool IsGameServer { get; }
 		internal abstract Type GetCallbackType();
-		internal abstract void OnRunCallback(IntPtr pvParam);
+        /// <devdoc>
+        /// <remarks>
+        /// Some changes made to dispatcher leads <paramref name="pvParam"/> only valid during <see cref="OnRunCallback(IntPtr)"/> invocation
+        /// </remarks>	
+        /// </devdoc>
+        /// <param name="pvParam">Result struct buffer that valid while invocation,
+        /// must use <see cref="Marshal.PtrToStructure(IntPtr, Type)"/> to retrieve before return</param>
+        internal abstract void OnRunCallback(IntPtr pvParam);
 		internal abstract void SetUnregistered();
 	}
 
@@ -288,7 +366,8 @@ namespace Steamworks {
 			return typeof(T);
 		}
 
-		internal override void OnRunCallback(IntPtr pvParam) {
+        /// <inheritdoc/>
+        internal override void OnRunCallback(IntPtr pvParam) {
 			try {
 				m_Func((T)Marshal.PtrToStructure(pvParam, typeof(T)));
 			}
@@ -302,9 +381,19 @@ namespace Steamworks {
 		}
 	}
 
+	/// <summary>
+	/// Internals of Steamworks.NET, not meant to use directly
+	/// </summary>
 	public abstract class CallResult {
 		internal abstract Type GetCallbackType();
-		internal abstract void OnRunCallResult(IntPtr pvParam, bool bFailed, ulong hSteamAPICall);
+        /// <devdoc>
+        /// <remarks>
+        /// Some changes made to dispatcher leads <paramref name="pvParam"/> only valid during <see cref="OnRunCallResult(IntPtr, bool, ulong)"/> invocation
+        /// </remarks>	
+        /// </devdoc>
+        /// <param name="pvParam">Result struct buffer that valid while invocation,
+		/// must use <see cref="Marshal.PtrToStructure(IntPtr, Type)"/> to retrieve before return</param>
+        internal abstract void OnRunCallResult(IntPtr pvParam, bool bFailed, ulong hSteamAPICall);
 		internal abstract void SetUnregistered();
 	}
 
@@ -381,6 +470,7 @@ namespace Steamworks {
 			return typeof(T);
 		}
 
+		/// <inheritdoc/>
 		internal override void OnRunCallResult(IntPtr pvParam, bool bFailed, ulong hSteamAPICall_) {
 			SteamAPICall_t hSteamAPICall = (SteamAPICall_t)hSteamAPICall_;
 			if (hSteamAPICall == m_hAPICall) {
