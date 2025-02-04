@@ -51,7 +51,7 @@ namespace Steamworks {
 		private static int m_initCount;
 		// 4096 * 3 is enough for most api calls, 
 		private static int s_currentCallResultBufferSize = 4096 * 3;
-		private static IntPtr s_pCallResultBuffer = Marshal.AllocHGlobal(s_currentCallResultBufferSize);
+		private static IntPtr s_pCallResultBuffer;
 
 		public static bool IsInitialized {
 			get { return m_initCount > 0; }
