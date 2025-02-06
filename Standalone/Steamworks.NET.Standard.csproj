@@ -5,9 +5,10 @@
 		<RootNamespace>Steamworks</RootNamespace>
 		<AssemblyName>Steamworks.NET</AssemblyName>
 		<Platforms>x64;x86</Platforms>
-		<Configurations>Windows;OSX-Linux</Configurations>
+		<Configurations>Windows;OSX-Linux;WindowsDebug</Configurations>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<RepositoryType>git</RepositoryType>
+		<NuGetAuditLevel>low</NuGetAuditLevel>
 	</PropertyGroup>
 
 	<PropertyGroup Label="Nuget PM">
@@ -22,7 +23,7 @@
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	</PropertyGroup>
-
+	
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Windows|x86'">
 		<OutputPath>bin\x86\Windows\</OutputPath>
 		<DefineConstants>TRACE;STEAMWORKS_WIN;STEAMWORKS_X86</DefineConstants>
@@ -30,6 +31,13 @@
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<PlatformTarget>x86</PlatformTarget>
 		<ErrorReport>prompt</ErrorReport>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='WindowsDebug|x64'">
+		<OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+		<DefineConstants>TRACE;STEAMWORKS_WIN;STEAMWORKS_X64</DefineConstants>
+		<!-- Indended for debugging purposes -->
+		<Optimize>false</Optimize>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OSX-Linux|x86'">

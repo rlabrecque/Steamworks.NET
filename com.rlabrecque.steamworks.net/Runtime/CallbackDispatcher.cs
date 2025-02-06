@@ -143,11 +143,11 @@ namespace Steamworks {
                 {
                     CheckIsDisposed();
                     // double check buffer size to avoid resize the buffer smaller
-                    if (currentCallResultBufferSize < requiredBufferSize) {
+                    if (currentCallResultBufferSize >= requiredBufferSize) {
                         return pCallResultBuffer;
                     }
 
-                    requiredBufferSize = Math.Min(requiredBufferSize, DefaultBufferSize);
+                    requiredBufferSize = Math.Max(requiredBufferSize, DefaultBufferSize);
 
                     // round buffer size to next multiple of 4096
                     uint newBufferSize = requiredBufferSize;
@@ -172,6 +172,7 @@ namespace Steamworks {
                     pCallResultBuffer = IntPtr.Zero; // is this necessary?
                     pCallResultBuffer = Marshal.AllocHGlobal((int)newBufferSize);
 #endif
+                    currentCallResultBufferSize = (int)newBufferSize;
                     return pCallResultBuffer;
                 }
             }
@@ -330,7 +331,7 @@ namespace Steamworks {
                             continue;
                         } catch (ObjectDisposedException) {
                             var bufferHolderNew = new CallResultBuffer();
-                            pTmpCallResult = bufferHolder.AcquireBuffer(callCompletedCb.m_cubParam);
+                            pTmpCallResult = bufferHolderNew.AcquireBuffer(callCompletedCb.m_cubParam);
 
                             // try set shared buffer to newly created one, accept race failure
                             Interlocked.CompareExchange(ref s_callResultBuffer, bufferHolderNew, bufferHolder);
@@ -339,7 +340,7 @@ namespace Steamworks {
                         } catch (NullReferenceException) {
                             // keep same as above
                             var bufferHolderNew = new CallResultBuffer();
-                            pTmpCallResult = bufferHolder.AcquireBuffer(callCompletedCb.m_cubParam);
+                            pTmpCallResult = bufferHolderNew.AcquireBuffer(callCompletedCb.m_cubParam);
 
                             Interlocked.CompareExchange(ref s_callResultBuffer, bufferHolderNew, bufferHolder);
                             bufferHolder = bufferHolderNew;
