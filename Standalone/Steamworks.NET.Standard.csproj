@@ -23,7 +23,7 @@
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	</PropertyGroup>
-	
+
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Windows|x86'">
 		<OutputPath>bin\x86\Windows\</OutputPath>
 		<DefineConstants>TRACE;STEAMWORKS_WIN;STEAMWORKS_X86</DefineConstants>
