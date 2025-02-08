@@ -85,8 +85,7 @@ namespace Steamworks {
             }
         }
 
-        private sealed class CallResultBuffer : IDisposable
-        {
+        private sealed class CallResultBuffer : IDisposable {
             private const int DefaultBufferSize = 4096 * 3;
             private const int TooLargeSizeThreshold = (int)(DefaultBufferSize * 1.2);
             // shrink if buffer too large counter reached this amount:
@@ -107,24 +106,20 @@ namespace Steamworks {
             /// <exception cref="NotSupportedException">Route to <see cref="ExceptionHandler(Exception)"/></exception>
             /// <exception cref="ObjectDisposedException">Recreate an new instance if thrown</exception>
             /// <exception cref="NullReferenceException">Recreate an new instance if thrown</exception>
-            public IntPtr AcquireBuffer(uint requiredBufferSize)
-            {
+            public IntPtr AcquireBuffer(uint requiredBufferSize) {
                 CheckIsDisposed(); // also checks if this reference is null
 
-                if (currentCallResultBufferSize >= requiredBufferSize)
-                {
+                if (currentCallResultBufferSize >= requiredBufferSize) {
                     // buffer is enough, this case will happen mostly
 
                     // check is there a large struct incoming
-                    if (requiredBufferSize >= TooLargeSizeThreshold)
-                    {
+                    if (requiredBufferSize >= TooLargeSizeThreshold) {
                         // yes and guess we will have some big structs in near future
                         // keep big buffer now and reset counter
 
                         // thread-safe set
                         var currentCounterValue = bufferTooLargeCounter;
-                        while (Interlocked.CompareExchange(ref bufferTooLargeCounter, 0, currentCounterValue) != currentCounterValue)
-                        {
+                        while (Interlocked.CompareExchange(ref bufferTooLargeCounter, 0, currentCounterValue) != currentCounterValue) {
                             // this thread failed the race, try again
                             currentCounterValue = bufferTooLargeCounter;
                         }
@@ -132,15 +127,13 @@ namespace Steamworks {
                         return pCallResultBuffer;
                     }
                     // check counter to see should we shrink, do thread-safe get
-                    else if (Interlocked.Increment(ref bufferTooLargeCounter) < ShrinkBufferThreshold)
-                    {
+                    else if (Interlocked.Increment(ref bufferTooLargeCounter) < ShrinkBufferThreshold) {
                         return pCallResultBuffer;
                     }
                 }
 
                 // have to resize buffer
-                lock (this)
-                {
+                lock (this) {
                     CheckIsDisposed();
                     // double check buffer size to avoid resize the buffer smaller
                     if (currentCallResultBufferSize >= requiredBufferSize) {
@@ -151,15 +144,14 @@ namespace Steamworks {
 
                     // round buffer size to next multiple of 4096
                     uint newBufferSize = requiredBufferSize;
-                    if ((newBufferSize & 0x1FFF) != 4096)
+                    if ((newBufferSize & 0x1FFF) != 4096) {
                         newBufferSize = (newBufferSize + 4095) & 0xFFFFF000;
+                    }
 
-                    if (newBufferSize > int.MaxValue)
-                    {
+                    if (newBufferSize > int.MaxValue) {
                         // not to use enlarged size since we don't have enough space
                         newBufferSize = requiredBufferSize;
-                        if (newBufferSize > int.MaxValue)
-                        {
+                        if (newBufferSize > int.MaxValue) {
                             // this exception should route to ExceptionHandler()
                             throw new NotSupportedException("The param size of a call result is larger than 2GiB");
                         }
@@ -178,35 +170,26 @@ namespace Steamworks {
             }
 
 
-            private void CheckIsDisposed()
-            {
-                if (disposedValue)
-                {
+            private void CheckIsDisposed() {
+                if (disposedValue) {
                    throw new ObjectDisposedException(GetType().FullName, "Attempt to use a released call-result buffer.");
                 }
             }
 
-            private void Dispose(bool disposing)
-            {
-                if (!disposedValue)
-                {
-                    lock (this)
-                    {
-                        {
-                            Marshal.FreeHGlobal(pCallResultBuffer);
-                            disposedValue = true;
-                        }
+            private void Dispose(bool disposing) {
+                if (!disposedValue) {
+                    lock (this) {
+                        Marshal.FreeHGlobal(pCallResultBuffer);
+                        disposedValue = true;
                     }
                 }
             }
 
-            ~CallResultBuffer()
-            {
+            ~CallResultBuffer() {
                 Dispose(disposing: false);
             }
 
-            public void Dispose()
-            {
+            public void Dispose() {
                 Dispose(disposing: true);
                 GC.SuppressFinalize(this);
             }
