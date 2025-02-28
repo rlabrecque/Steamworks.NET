@@ -8,14 +8,14 @@
 #if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
 #define DISABLESTEAMWORKS
 #endif
-
 #if !DISABLESTEAMWORKS
 
 // Unity 32bit Mono on Windows crashes with ThisCall for some reason, StdCall without the 'this' ptr is the only thing that works..?
 #if (UNITY_EDITOR_WIN && !UNITY_EDITOR_64) || (!UNITY_EDITOR && UNITY_STANDALONE_WIN && !UNITY_64)
-	#define NOTHISPTR
+#define NOTHISPTR
 #endif
 
+using Steamworks.CoreCLR;
 using System;
 using System.Runtime.InteropServices;
 
@@ -125,7 +125,11 @@ namespace Steamworks {
 			}
 			catch (Exception e)
 			{
+#if NET8_0_OR_GREATER && STEAMWORKS_FEATURE_VALUETASK
+				ValueTaskDispatcher.Singleton.InternalCaughtUnhandledException(e);
+#else
 				CallbackDispatcher.ExceptionHandler(e);
+#endif
 			}
 		}
 		private void InternalOnServerFailedToRespond(IntPtr thisptr, HServerListRequest hRequest, int iServer) {
@@ -135,7 +139,11 @@ namespace Steamworks {
 			}
 			catch (Exception e)
 			{
+#if NET8_0_OR_GREATER && STEAMWORKS_FEATURE_VALUETASK
+				ValueTaskDispatcher.Singleton.InternalCaughtUnhandledException(e);
+#else
 				CallbackDispatcher.ExceptionHandler(e);
+#endif
 			}
 		}
 		private void InternalOnRefreshComplete(IntPtr thisptr, HServerListRequest hRequest, EMatchMakingServerResponse response) {
@@ -145,12 +153,16 @@ namespace Steamworks {
 			}
 			catch (Exception e)
 			{
+#if NET8_0_OR_GREATER && STEAMWORKS_FEATURE_VALUETASK
+				ValueTaskDispatcher.Singleton.InternalCaughtUnhandledException(e);
+#else
 				CallbackDispatcher.ExceptionHandler(e);
+#endif
 			}
 		}
 #endif
 
-		[StructLayout(LayoutKind.Sequential)]
+				[StructLayout(LayoutKind.Sequential)]
 		private class VTable {
 			[NonSerialized]
 			[MarshalAs(UnmanagedType.FunctionPtr)]

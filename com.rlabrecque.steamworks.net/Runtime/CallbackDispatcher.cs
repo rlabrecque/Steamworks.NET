@@ -9,25 +9,27 @@
 #define DISABLESTEAMWORKS
 #endif
 
-#if !DISABLESTEAMWORKS
+#if !DISABLESTEAMWORKS && !STEAMWORKS_FEATURE_VALUETASK
 
 #if UNITY_3_5 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6
-	#error Unsupported Unity platform. Steamworks.NET requires Unity 4.7 or higher.
+#error Unsupported Unity platform. Steamworks.NET requires Unity 4.7 or higher.
 #elif UNITY_4_7 || UNITY_5 || UNITY_2017 || UNITY_2017_1_OR_NEWER
-	#if UNITY_EDITOR_WIN || (UNITY_STANDALONE_WIN && !UNITY_EDITOR)
-		#define WINDOWS_BUILD
-	#endif
+#if UNITY_EDITOR_WIN || (UNITY_STANDALONE_WIN && !UNITY_EDITOR)
+#define WINDOWS_BUILD
+#endif
 #elif STEAMWORKS_WIN
-	#define WINDOWS_BUILD
+#define WINDOWS_BUILD
 #elif STEAMWORKS_LIN_OSX
-	// So that we don't enter the else block below.
+// So that we don't enter the else block below.
 #else
-	#error You need to define STEAMWORKS_WIN, or STEAMWORKS_LIN_OSX. Refer to the readme for more details.
+#error You need to define STEAMWORKS_WIN, or STEAMWORKS_LIN_OSX. Refer to the readme for more details.
 #endif
 
+using Steamworks.CoreCLR;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace Steamworks {
 	public static class CallbackDispatcher {
@@ -48,6 +50,10 @@ namespace Steamworks {
 		private static object m_sync = new object();
 		private static IntPtr m_pCallbackMsg;
 		private static int m_initCount;
+
+#if NET8_0_OR_GREATER
+		private static bool s_redirectToValueTask;
+#endif
 
 		public static bool IsInitialized {
 			get { return m_initCount > 0; }
