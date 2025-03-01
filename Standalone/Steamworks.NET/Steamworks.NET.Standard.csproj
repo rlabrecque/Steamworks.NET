@@ -79,37 +79,14 @@
 		<Compile Include="../../com.rlabrecque.steamworks.net/Runtime/**/*.cs" LinkBase="com.rlabrecque.steamworks.net" />
 	</ItemGroup>
 
-	<Import Project="BuildPackages.targets" />
-
-	<ItemGroup Label="Native Steamwork libraries">
-		<Content Include="../../com.rlabrecque.steamworks.net/Plugins/steam_api.dll" Link="steam_api.dll">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-			<IncludeBuildOutput>true</IncludeBuildOutput>
-			<OutputPath>/</OutputPath>
-		</Content>
-		<Content Include="../../com.rlabrecque.steamworks.net/Plugins/steam_api64.dll" Link="steam_api64.dll">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-			<IncludeBuildOutput>true</IncludeBuildOutput>
-			<OutputPath>/</OutputPath>
-		</Content>
-		<Content Include="../../com.rlabrecque.steamworks.net/Plugins/libsteam_api.so" Link="libsteam_api.so">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><OutputPath>/</OutputPath>
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-			<IncludeBuildOutput>true</IncludeBuildOutput>
-			<OutputPath>/</OutputPath>
-		</Content>
-		<Content Include="../../com.rlabrecque.steamworks.net/Plugins/steam_api.bundle/Contents/MacOS/libsteam_api.dylib" Link="libsteam_api.dylib">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-			<IncludeBuildOutput>true</IncludeBuildOutput>
-			<OutputPath>/</OutputPath>
-		</Content>
-
-	</ItemGroup>
+	<Import Project="BuildPackages.targets" Condition="'$(SNetDoingNugetBuild)' != ''" />
+	<Import Project="ReferenceSteamworksNativeLibrary.targets" />
 
 	<ItemGroup>
 		<InternalsVisibleTo Include="Steamworks.NET.Tests" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EditorConfigFiles Remove="D:\src_contributing\rlab.Steamworks\Steamworks.NET\Standalone\Steamworks.NET\.editorconfig" />
 	</ItemGroup>
 </Project>

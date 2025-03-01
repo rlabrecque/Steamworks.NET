@@ -1,0 +1,36 @@
+<Project>
+  <!-- See https://aka.ms/dotnet/msbuild/customize for more details on customizing your build -->
+
+	<ItemDefinitionGroup>
+		<NativeLibs>
+			<Link>Natives\%(FileName).%(Extension)</Link>
+		</NativeLibs>
+		
+	</ItemDefinitionGroup>
+	
+	<ItemGroup Label="Native Steamwork libraries">
+		<SteamNativeLibs Include="$(MSBuildThisFileDirectory)..\..\com.rlabrecque.steamworks.net\Plugins\steam_api.dll">
+			<Runtime>win-x86</Runtime>
+		</SteamNativeLibs>
+		<SteamNativeLibs Include="$(MSBuildThisFileDirectory)..\..\com.rlabrecque.steamworks.net\Plugins\steam_api64.dll">
+			<Runtime>win-x64</Runtime>
+		</SteamNativeLibs>
+		<SteamNativeLibs Include="$(MSBuildThisFileDirectory)..\..\com.rlabrecque.steamworks.net\Plugins\libsteam_api.so">
+			<Runtime>linux-x64</Runtime>
+		</SteamNativeLibs>
+		<SteamNativeLibs Include="$(MSBuildThisFileDirectory)..\..\com.rlabrecque.steamworks.net\Plugins\steam_api.bundle\Contents\MacOS\libsteam_api.dylib">
+			<Runtime>osx</Runtime>
+		</SteamNativeLibs>
+
+	</ItemGroup>
+	<Target Name="CopyNatives" BeforeTargets="BeforeBuild">
+		<ItemGroup>
+			<None Include="@(SteamNativeLibs)" LinkBase="\">
+				<PackagePath>runtimes\%(SteamNativeLibs.Runtime)\native\</PackagePath>
+				<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+				<CopyToPublishDirectory>Always</CopyToPublishDirectory>
+				<IncludeBuildOutput>true</IncludeBuildOutput>
+			</None>
+		</ItemGroup>
+	</Target>
+</Project>
