@@ -41,7 +41,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="SpecialDebugMain.cs" />
 		<Using Include="NUnit.Framework" />
 	</ItemGroup>
 

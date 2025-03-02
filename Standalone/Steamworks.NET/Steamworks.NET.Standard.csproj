@@ -25,7 +25,7 @@
 	<PropertyGroup Label="Build stuff">
 		<OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
 		<DefineConstants>TRACE</DefineConstants>
-		<Optimize>true</Optimize>
+		<!--<Optimize>true</Optimize> this made difficulties on debuggings, batch build for packing will override it-->
 		<PlatformTarget>x86</PlatformTarget>
 		<ErrorReport>prompt</ErrorReport>
 	</PropertyGroup>
@@ -33,18 +33,6 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Windows|x86'">
 		<DefineConstants>$(DefineConstants);STEAMWORKS_WIN;STEAMWORKS_X86</DefineConstants>
 		<PlatformTarget>x86</PlatformTarget>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Windows-ValueTask|x86'">
-		<DefineConstants>$(DefineConstants);STEAMWORKS_WIN;STEAMWORKS_X86;STEAMWORKS_FEATURE_VALUETASK</DefineConstants>
-		<PlatformTarget>x86</PlatformTarget>
-		<TargetFrameworks>net8.0</TargetFrameworks>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Windows-ValueTask|x86'">
-		<DefineConstants>TRACE;STEAMWORKS_WIN;STEAMWORKS_X86;STEAMWORKS_FEATURE_VALUETASK</DefineConstants>
-		<PlatformTarget>x86</PlatformTarget>
-		<TargetFrameworks>net8.0</TargetFrameworks>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OSX-Linux|x86'">

@@ -28,20 +28,21 @@
 			Outputs="@(O_BatchBuild)">
 		<ItemGroup>
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
-				<Properties>Platform=x64;Configuration=Windows;PackagingBuild=true;OutDir=$(ProjectDir)bin\nugetbuild\w64</Properties>
+				<Properties>Platform=x64;Configuration=Windows;Optimize=true;PackagingBuild=true;OutDir=$(ProjectDir)bin\nugetbuild\w64</Properties>
 			</ToBuilt>
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
-				<Properties>Platform=x64;Configuration=OSX-Linux;PackagingBuild=true;OutDir=$(ProjectDir)bin\nugetbuild\p64</Properties>
+				<Properties>Platform=x64;Configuration=OSX-Linux;Optimize=true;PackagingBuild=true;OutDir=$(ProjectDir)bin\nugetbuild\p64</Properties>
 			</ToBuilt>
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
-				<Properties>Platform=x86;Configuration=Windows;PackagingBuild=true;OutDir=$(ProjectDir)bin\nugetbuild\w86</Properties>
+				<Properties>Platform=x86;Configuration=Windows;Optimize=true;PackagingBuild=true;OutDir=$(ProjectDir)bin\nugetbuild\w86</Properties>
 			</ToBuilt>
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
-				<Properties>Platform=x86;Configuration=OSX-Linux;PackagingBuild=true;OutDir=$(ProjectDir)bin\nugetbuild\p86</Properties>
+				<Properties>Platform=x86;Configuration=OSX-Linux;Optimize=true;PackagingBuild=true;OutDir=$(ProjectDir)bin\nugetbuild\p86</Properties>
 			</ToBuilt>
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
 				<Properties>
 					Platform=x64;
+					Optimize=true;
 					Configuration=Windows;
 					ProduceOnlyReferenceAssembly=true;
 					OutDir=$(ProjectDir)bin\nugetbuild\ref

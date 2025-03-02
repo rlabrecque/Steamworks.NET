@@ -8,22 +8,21 @@
 		
 	</ItemDefinitionGroup>
 	
-	<ItemGroup Label="Native Steamwork libraries">
-		<SteamNativeLibs Include="$(MSBuildThisFileDirectory)..\..\com.rlabrecque.steamworks.net\Plugins\steam_api.dll">
-			<Runtime>win-x86</Runtime>
-		</SteamNativeLibs>
-		<SteamNativeLibs Include="$(MSBuildThisFileDirectory)..\..\com.rlabrecque.steamworks.net\Plugins\steam_api64.dll">
-			<Runtime>win-x64</Runtime>
-		</SteamNativeLibs>
-		<SteamNativeLibs Include="$(MSBuildThisFileDirectory)..\..\com.rlabrecque.steamworks.net\Plugins\libsteam_api.so">
-			<Runtime>linux-x64</Runtime>
-		</SteamNativeLibs>
-		<SteamNativeLibs Include="$(MSBuildThisFileDirectory)..\..\com.rlabrecque.steamworks.net\Plugins\steam_api.bundle\Contents\MacOS\libsteam_api.dylib">
-			<Runtime>osx</Runtime>
-		</SteamNativeLibs>
-
-	</ItemGroup>
-	<Target Name="CopyNatives" BeforeTargets="BeforeBuild">
+		<ItemGroup Label="Native Steamwork libraries">
+			<SteamNativeLibs Include="$(MSBuildThisFileDirectory)..\..\com.rlabrecque.steamworks.net\Plugins\steam_api.dll">
+				<Runtime>win-x86</Runtime>
+			</SteamNativeLibs>
+			<SteamNativeLibs Include="$(MSBuildThisFileDirectory)..\..\com.rlabrecque.steamworks.net\Plugins\steam_api64.dll">
+				<Runtime>win-x64</Runtime>
+			</SteamNativeLibs>
+			<SteamNativeLibs Include="$(MSBuildThisFileDirectory)..\..\com.rlabrecque.steamworks.net\Plugins\libsteam_api.so">
+				<Runtime>linux-x64</Runtime>
+			</SteamNativeLibs>
+			<SteamNativeLibs Include="$(MSBuildThisFileDirectory)..\..\com.rlabrecque.steamworks.net\Plugins\steam_api.bundle\Contents\MacOS\libsteam_api.dylib">
+				<Runtime>osx</Runtime>
+			</SteamNativeLibs>
+		</ItemGroup>
+		
 		<ItemGroup>
 			<None Include="@(SteamNativeLibs)" LinkBase="\">
 				<PackagePath>runtimes\%(SteamNativeLibs.Runtime)\native\</PackagePath>
@@ -32,5 +31,4 @@
 				<IncludeBuildOutput>true</IncludeBuildOutput>
 			</None>
 		</ItemGroup>
-	</Target>
 </Project>

@@ -1,9 +1,9 @@
 ﻿using NUnit.Framework.Constraints;
-using Steamworks;
 using System.Diagnostics;
+using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 
-namespace Steamworks.NET.Tests;
+namespace Steamworks.NET.Tests.ClientAPITests;
 
 [TestFixture]
 public class DispatcherTests
@@ -11,13 +11,12 @@ public class DispatcherTests
 	private ulong modFAGE_id = 1579583001;
 	private CancellationTokenSource dispatchThreadStop;
 	private Thread dispatchThread = null!;
-	private CallResult<SteamUGCQueryCompleted_t> callresult;
-	private Callback<GameWebCallback_t> callback;
+	private CallResult<SteamUGCQueryCompleted_t>? callresult;
+	private Callback<GameWebCallback_t>? callback;
 
 	[OneTimeSetUp]
 	public void SetupOnce()
 	{
-		SteamAPI.Init();
 		// dispatcher = ValueTaskDispatcher.Singleton;
 		dispatchThreadStop = new();
 		dispatchThread = new(() =>
@@ -25,6 +24,7 @@ public class DispatcherTests
 			while (!dispatchThreadStop.IsCancellationRequested)
 			{
 				SteamAPI.RunCallbacks();
+				Thread.Sleep(100);
 			}
 		})
 		{
@@ -39,7 +39,6 @@ public class DispatcherTests
 	{
 		dispatchThreadStop.Cancel();
 		dispatchThreadStop.Dispose();
-		SteamAPI.Shutdown();
 	}
 
 
@@ -59,21 +58,32 @@ public class DispatcherTests
 	public void TestAwait()
 	{
 		var queryHandle = SteamUGC.CreateQueryUGCDetailsRequest([new(modFAGE_id)], 1);
-		var handle = SteamUGC.SendQueryUGCRequest(queryHandle);
 
-		callresult = new CallResult<SteamUGCQueryCompleted_t>();
+		ExceptionDispatchInfo? testEDI = null;
 		Barrier barrier = new(2);
+		callresult = new CallResult<SteamUGCQueryCompleted_t>();
+
+		var handle = SteamUGC.SendQueryUGCRequest(queryHandle);
 		callresult.Set(handle, (queryResult, fail) =>
 		{
-			if (fail)
+			try
 			{
-				Assert.Pass();
-			}
+				if (fail)
+				{
+					Assert.Pass();
+				}
 
-			Assert.That(queryResult.m_eResult, Is.EqualTo(EResult.k_EResultOK));
+				Assert.That(queryResult.m_eResult, Is.EqualTo(EResult.k_EResultOK));
+
+			}
+			catch (Exception e)
+			{
+				testEDI = ExceptionDispatchInfo.Capture(e);
+			}
 			barrier.SignalAndWait(2);
 		});
-		barrier.SignalAndWait(2);
+		barrier.SignalAndWait();
+		testEDI?.Throw();
 	}
 
 	[Test]
