@@ -1,0 +1,102 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+		<RootNamespace>Steamworks</RootNamespace>
+		<AssemblyName>Steamworks.NET</AssemblyName>
+		<Platforms>x64;x86</Platforms>
+		<Configurations>Windows;OSX-Linux;Windows-ValueTask;Windows-ValueTask</Configurations>
+		<RepositoryType>git</RepositoryType>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Nuget PM">
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<PackageId>Steamworks.NET</PackageId>
+		<Authors>rlabrecque</Authors>
+		<!--<PackageVersion>15.0.1</PackageVersion>-->
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/rlabrecque/Steamworks.NET</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/rlabrecque/Steamworks.NET.git</RepositoryUrl>
+		<PackgeReadmeFile>README.md</PackgeReadmeFile>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Build stuff">
+		<OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+		<DefineConstants>TRACE</DefineConstants>
+		<Optimize>true</Optimize>
+		<PlatformTarget>x86</PlatformTarget>
+		<ErrorReport>prompt</ErrorReport>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Windows|x86'">
+		<DefineConstants>$(DefineConstants);STEAMWORKS_WIN;STEAMWORKS_X86</DefineConstants>
+		<PlatformTarget>x86</PlatformTarget>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Windows-ValueTask|x86'">
+		<DefineConstants>$(DefineConstants);STEAMWORKS_WIN;STEAMWORKS_X86;STEAMWORKS_FEATURE_VALUETASK</DefineConstants>
+		<PlatformTarget>x86</PlatformTarget>
+		<TargetFrameworks>net8.0</TargetFrameworks>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Windows-ValueTask|x86'">
+		<DefineConstants>TRACE;STEAMWORKS_WIN;STEAMWORKS_X86;STEAMWORKS_FEATURE_VALUETASK</DefineConstants>
+		<PlatformTarget>x86</PlatformTarget>
+		<TargetFrameworks>net8.0</TargetFrameworks>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OSX-Linux|x86'">
+		<DefineConstants>TRACE;STEAMWORKS_LIN_OSX;STEAMWORKS_X86</DefineConstants>
+		<PlatformTarget>x86</PlatformTarget>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Windows|x64'">
+		<DefineConstants>TRACE;STEAMWORKS_WIN;STEAMWORKS_X64</DefineConstants>
+		<PlatformTarget>x64</PlatformTarget>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OSX-Linux|x64'">
+		<DefineConstants>TRACE;STEAMWORKS_LIN_OSX;STEAMWORKS_X64</DefineConstants>
+		<PlatformTarget>x64</PlatformTarget>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="../../com.rlabrecque.steamworks.net/Runtime/**/*.cs" LinkBase="com.rlabrecque.steamworks.net" />
+	</ItemGroup>
+
+	<Import Project="BuildPackages.targets" />
+
+	<ItemGroup Label="Native Steamwork libraries">
+		<Content Include="../../com.rlabrecque.steamworks.net/Plugins/steam_api.dll" Link="steam_api.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+			<IncludeBuildOutput>true</IncludeBuildOutput>
+			<OutputPath>/</OutputPath>
+		</Content>
+		<Content Include="../../com.rlabrecque.steamworks.net/Plugins/steam_api64.dll" Link="steam_api64.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+			<IncludeBuildOutput>true</IncludeBuildOutput>
+			<OutputPath>/</OutputPath>
+		</Content>
+		<Content Include="../../com.rlabrecque.steamworks.net/Plugins/libsteam_api.so" Link="libsteam_api.so">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><OutputPath>/</OutputPath>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+			<IncludeBuildOutput>true</IncludeBuildOutput>
+			<OutputPath>/</OutputPath>
+		</Content>
+		<Content Include="../../com.rlabrecque.steamworks.net/Plugins/steam_api.bundle/Contents/MacOS/libsteam_api.dylib" Link="libsteam_api.dylib">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+			<IncludeBuildOutput>true</IncludeBuildOutput>
+			<OutputPath>/</OutputPath>
+		</Content>
+
+	</ItemGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="Steamworks.NET.Tests" />
+	</ItemGroup>
+</Project>
