@@ -212,6 +212,8 @@ namespace Steamworks.CoreCLR {
 				return;
 			}
 
+
+			s_valueTaskDispatchInitialized = DispatchInitState_NotInitialized;
 			s_callbackMsgBuffer?.Dispose();
 			s_callResultBuffer?.Dispose();
 			s_callResultBuffer = null;
@@ -369,7 +371,7 @@ namespace Steamworks.CoreCLR {
 		/// </devdoc>
 		internal void NotifyCompletion(SteamAPICall_t handle, bool isServer, IntPtr param, bool ioFail) {
 			CutHandleParts(handle, out short token, out ulong slot);
-			if (callresultSources.TryGetValue((slot, isServer), out var source)) {
+			if (callresultSources.TryGetValue(slot, out var source)) {
 				source.TriggerCompletion(token, param, ioFail);
 			}
 		}

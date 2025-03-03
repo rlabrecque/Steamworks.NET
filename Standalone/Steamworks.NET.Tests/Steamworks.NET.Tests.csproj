@@ -27,10 +27,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Remove="SpecialDebugMain.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <None Remove="steam_appid.txt" />
 	</ItemGroup>
 
@@ -41,12 +37,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="SpecialDebugMain.cs" />
+		<None Include="D:\src_contributing\rlab.Steamworks\Steamworks.NET-valuetask-dispatcher\Standalone\Steamworks.NET.Tests\.editorconfig" />
 		<Using Include="NUnit.Framework" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Steamworks.NET\Steamworks.NET.Standard.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EditorConfigFiles Remove="D:\src_contributing\rlab.Steamworks\Steamworks.NET-valuetask-dispatcher\Standalone\Steamworks.NET.Tests\.editorconfig" />
 	</ItemGroup>
 
 </Project>

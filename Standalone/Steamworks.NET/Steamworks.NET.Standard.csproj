@@ -79,14 +79,10 @@
 		<Compile Include="../../com.rlabrecque.steamworks.net/Runtime/**/*.cs" LinkBase="com.rlabrecque.steamworks.net" />
 	</ItemGroup>
 
-	<Import Project="BuildPackages.targets" Condition="'$(SNetDoingNugetBuild)' != ''" />
-	<Import Project="ReferenceSteamworksNativeLibrary.targets" />
-
 	<ItemGroup>
 		<InternalsVisibleTo Include="Steamworks.NET.Tests" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <EditorConfigFiles Remove="D:\src_contributing\rlab.Steamworks\Steamworks.NET\Standalone\Steamworks.NET\.editorconfig" />
-	</ItemGroup>
+	<Import Project="BuildPackages.targets" Condition="'$(SNetDoingNugetBuild)' != ''" />
+	<Import Project="ReferenceSteamworksNativeLibrary.targets" />
 </Project>

@@ -1,7 +1,7 @@
 using Steamworks.CoreCLR;
 using System.Runtime.InteropServices;
 
-namespace Steamworks.NET.Tests
+namespace Steamworks.NET.Tests.ClientApiTests
 {
 	[TestFixture]
 	public class ValueTaskCallResultSourceTests
@@ -36,7 +36,7 @@ namespace Steamworks.NET.Tests
 		public void Setup()
 		{
 			dispatcher = new ValueTaskDispatcher();
-			result = dispatcher.Register<SteamAPICallCompleted_t>(handle, false);
+			result = dispatcher.Register<SteamAPICallCompleted_t>(handle);
 		}
 
 		[Test]
@@ -51,12 +51,12 @@ namespace Steamworks.NET.Tests
 				Assert.That(answer.m_iCallback, Is.EqualTo(703));
 			});
 		}
-		
+
 		[Test]
 		public void TestIOFail()
 		{
 			SpawnSenderThread(true);
-			
+
 			Assert.That(async () =>
 			{
 				_ = await result;
