@@ -9,32 +9,42 @@ namespace Steamworks.CoreCLR {
 		public static ValueTask<T> AsTask<T>(this SteamAPICall_t handle,
 			CancellationToken cancellationToken = default) 
 				where T : struct {
-			return ValueTaskDispatcher.Singleton.Register<T>(handle, isGameServer: false, cancellationToken);
+			return ValueTaskDispatcher.Singleton.Register<T>(handle, cancellationToken);
 		}
 
-		public static ValueTask<T> AsServerTask<T>(this SteamAPICall_t handle,
-			CancellationToken cancellationToken = default) 
-				where T : struct {
-			return ValueTaskDispatcher.Singleton.Register<T>(handle, isGameServer: true, cancellationToken);
+		public struct CallbackRegistration<T> : IDisposable
+			where T : struct {
+			private readonly Action<T> callback;
+			private bool disposedValue;
+			internal CallbackRegistration(Action<T> callback, bool isGameServer) {
+				this.callback = callback;
+				IsGameServer = isGameServer;
+			}
+
+			public bool IsGameServer { get; }
+
+			public void Dispose() {
+				if (!disposedValue) {
+					ValueTaskDispatcher.Singleton.UnregisterCallback(callback, IsGameServer);
+					disposedValue = true;
+				}
+			}
 		}
 
-		public static void RegisterCallback<T>(Action<T> callback, ValueTaskSourceOnCompletedFlags completedFlags
+		public static CallbackRegistration<T> RegisterCallback<T>(Action<T> callback, ValueTaskSourceOnCompletedFlags completedFlags
 				= ValueTaskSourceOnCompletedFlags.FlowExecutionContext) where T:struct {
 			ValueTaskDispatcher.Singleton.RegisterCallback(callback, false, completedFlags);
+			
+			return new(callback, false);
 		}
 
-		public static void UnregisterCallback<T>(Action<T> callback) where T:struct {
-			ValueTaskDispatcher.Singleton.UnregisterCallback(callback, false);
-		}
-		
-		public static void RegisterServerCallback<T>(Action<T> callback, ValueTaskSourceOnCompletedFlags completedFlags
+		public static CallbackRegistration<T> RegisterServerCallback<T>(Action<T> callback, ValueTaskSourceOnCompletedFlags completedFlags
 				= ValueTaskSourceOnCompletedFlags.FlowExecutionContext) where T:struct {
 			ValueTaskDispatcher.Singleton.RegisterCallback(callback, true, completedFlags);
+
+			return new(callback, true);
 		}
 
-		public static void UnregisterServerCallback<T>(Action<T> callback) where T:struct {
-			ValueTaskDispatcher.Singleton.UnregisterCallback(callback, true);
-		}
 	}
 } 
 #endif

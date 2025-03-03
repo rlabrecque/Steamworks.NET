@@ -25,7 +25,7 @@ namespace Steamworks.CoreCLR {
 		internal const int DispatchInitState_DisabledByClassic = 2;
 
 		private readonly ConcurrentStack<ValueTaskCallResultSource> idleSources = [];
-		private readonly ConcurrentDictionary<(ulong, bool), ValueTaskCallResultSource> callresultSources = new();
+		private readonly ConcurrentDictionary<ulong, ValueTaskCallResultSource> callresultSources = new();
 		private readonly ConcurrentDictionary<(int Identity, bool IsServer), ICallbackListener> callbackListeners = new();
 
 		public static readonly ValueTaskDispatcher Singleton = new();
@@ -33,9 +33,9 @@ namespace Steamworks.CoreCLR {
 
 		#region API
 
-		public ValueTask<TResult> Register<TResult>(SteamAPICall_t handle, bool isGameServer, CancellationToken cancellationToken = default)
+		public ValueTask<TResult> Register<TResult>(SteamAPICall_t handle, CancellationToken cancellationToken = default)
 			where TResult : struct {
-			var sourceBoxed = PrepareRegister(handle, isGameServer, out short token);
+			var sourceBoxed = PrepareRegister(handle, out short token);
 
 			sourceBoxed.Register(token, typeof(TResult), cancellationToken);
 
@@ -341,19 +341,19 @@ namespace Steamworks.CoreCLR {
 				idleSources.Push(obj);
 		}
 
-		private ValueTaskCallResultSource PrepareRegister(SteamAPICall_t handle, bool isGameServer, out short token) {
+		private ValueTaskCallResultSource PrepareRegister(SteamAPICall_t handle, out short token) {
 			// use low bits as completion token
 			//     0x1234 5678 ABCD          xxxx
 			//  [api call long identity] [ vts token ]
 			CutHandleParts(handle, out token, out ulong slot);
 
-			return callresultSources.GetOrAdd((slot, isGameServer), (packed) => {
+			return callresultSources.GetOrAdd(slot, (slot) => {
 				if (idleSources.TryPop(out var idleSource)) {
-					idleSource.Reset(packed.Item1, packed.Item2);
+					idleSource.Reset(slot);
 					return idleSource;
 				}
 
-				ValueTaskCallResultSource source = new(packed.Item1, packed.Item2);
+				ValueTaskCallResultSource source = new(slot);
 				source.IdleForRecycle += RecycleIdleSource;
 				return source;
 			});
