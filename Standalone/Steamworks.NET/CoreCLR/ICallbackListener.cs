@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks.Sources;
-#if NET8_0_OR_GREATER && STEAMWORKS_FEATURE_VALUETASK
+﻿#if NET8_0_OR_GREATER && STEAMWORKS_FEATURE_VALUETASK
+using System;
 
 namespace Steamworks.CoreCLR {
 	internal interface ICallbackListener {

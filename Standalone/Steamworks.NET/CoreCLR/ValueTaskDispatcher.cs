@@ -22,7 +22,6 @@ namespace Steamworks.CoreCLR {
 		internal static int s_valueTaskDispatchInitialized = DispatchInitState_NotInitialized;
 		internal const int DispatchInitState_NotInitialized = 0;
 		internal const int DispatchInitState_Initialized = 1;
-		internal const int DispatchInitState_DisabledByClassic = 2;
 
 		private readonly ConcurrentStack<ValueTaskCallResultSource> idleSources = [];
 		private readonly ConcurrentDictionary<ulong, ValueTaskCallResultSource> callresultSources = new();
@@ -141,13 +140,8 @@ namespace Steamworks.CoreCLR {
 						}
 					}
 
-#if NET5_0_OR_GREATER
 					pCallResultBuffer = Marshal.ReAllocHGlobal(pCallResultBuffer, (nint)newBufferSize);
-#else
-					Marshal.FreeHGlobal(pCallResultBuffer);
-					pCallResultBuffer = IntPtr.Zero; // is this necessary?
-					pCallResultBuffer = Marshal.AllocHGlobal((int)newBufferSize);
-#endif
+
 					currentCallResultBufferSize = (int)newBufferSize;
 					return pCallResultBuffer;
 				}
@@ -188,9 +182,7 @@ namespace Steamworks.CoreCLR {
 			int oldInitValue = Interlocked.CompareExchange(ref s_valueTaskDispatchInitialized, DispatchInitState_Initialized, DispatchInitState_NotInitialized);
 			switch (oldInitValue) {
 				case DispatchInitState_Initialized:
-					throw new InvalidOperationException("ValueTask call-result dispatcher is already initialized.");
-				case DispatchInitState_DisabledByClassic:
-					throw new InvalidOperationException("ValueTask call-result dispatcher can't initialized, because classic dispatcher is already running.");
+					throw new InvalidOperationException("ValueTask call-result dispatcher is in corrupt state.");
 				case DispatchInitState_NotInitialized: {
 					NativeMethods.SteamAPI_ManualDispatch_Init();
 					break;
@@ -325,7 +317,7 @@ namespace Steamworks.CoreCLR {
 			}
 		}
 
-		public static event Action<Exception> OnUnhandledException = DefaultOnUnhandledException;
+		internal static event Action<Exception> OnUnhandledException = DefaultOnUnhandledException;
 
 		public static void DefaultOnUnhandledException(Exception e) {
 #if UNITY_STANDALONE
@@ -339,8 +331,11 @@ namespace Steamworks.CoreCLR {
 		#region Tools
 
 		private void RecycleIdleSource(ValueTaskCallResultSource obj) {
-			if (idleSources.Count < 32)
+			if (idleSources.Count < 32) {
 				idleSources.Push(obj);
+			} else {
+				obj.IdleForRecycle -= RecycleIdleSource;
+			}
 		}
 
 		private ValueTaskCallResultSource PrepareRegister(SteamAPICall_t handle, out short token) {

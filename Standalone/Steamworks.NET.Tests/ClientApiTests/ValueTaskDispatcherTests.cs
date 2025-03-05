@@ -1,6 +1,6 @@
-﻿using Steamworks.CoreCLR;
+﻿#if NET8_0_OR_GREATER
+using Steamworks.CoreCLR;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace Steamworks.NET.Tests.ClientApiTests;
 
@@ -78,3 +78,4 @@ public class ValueTaskDispatcherTests
 		}
 	}
 }
+#endif

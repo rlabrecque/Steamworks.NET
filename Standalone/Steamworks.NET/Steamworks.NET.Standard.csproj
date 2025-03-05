@@ -38,13 +38,11 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Windows-ValueTask|x86'">
 		<DefineConstants>$(DefineConstants);STEAMWORKS_WIN;STEAMWORKS_X86;STEAMWORKS_FEATURE_VALUETASK</DefineConstants>
 		<PlatformTarget>x86</PlatformTarget>
-		<TargetFrameworks>net8.0</TargetFrameworks>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Windows-ValueTask|x86'">
 		<DefineConstants>TRACE;STEAMWORKS_WIN;STEAMWORKS_X86;STEAMWORKS_FEATURE_VALUETASK</DefineConstants>
 		<PlatformTarget>x86</PlatformTarget>
-		<TargetFrameworks>net8.0</TargetFrameworks>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OSX-Linux|x86'">
@@ -60,13 +58,11 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Windows-ValueTask|x64'">
 		<DefineConstants>TRACE;STEAMWORKS_WIN;STEAMWORKS_X64;STEAMWORKS_FEATURE_VALUETASK</DefineConstants>
 		<PlatformTarget>x64</PlatformTarget>
-		<TargetFrameworks>net8.0</TargetFrameworks>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Windows-ValueTask|x64'">
 		<DefineConstants>TRACE;STEAMWORKS_WIN;STEAMWORKS_X64;STEAMWORKS_FEATURE_VALUETASK</DefineConstants>
 		<PlatformTarget>x64</PlatformTarget>
-		<TargetFrameworks>net8.0</TargetFrameworks>
 		<Optimize>false</Optimize>
 	</PropertyGroup>
 

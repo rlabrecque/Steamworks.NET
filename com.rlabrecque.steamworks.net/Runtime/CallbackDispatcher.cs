@@ -25,7 +25,10 @@
 #error You need to define STEAMWORKS_WIN, or STEAMWORKS_LIN_OSX. Refer to the readme for more details.
 #endif
 
+#if STEAMWORKS_FEATURE_VALUETASK
 using Steamworks.CoreCLR;
+#endif
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -56,10 +59,6 @@ namespace Steamworks {
 		private static object m_sync = new object();
 		private static IntPtr m_pCallbackMsg;
 		private static int m_initCount;
-
-#if NET8_0_OR_GREATER
-		private static bool s_redirectToValueTask;
-#endif
 
 		public static bool IsInitialized
 		{

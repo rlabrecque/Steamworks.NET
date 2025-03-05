@@ -8,6 +8,7 @@
 		<LangVersion>latest</LangVersion>
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
+		<TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
 		<Configurations>Windows;OSX-Linux;Windows-ValueTask</Configurations>
 		<Platforms>x64;x86</Platforms>
 	</PropertyGroup>

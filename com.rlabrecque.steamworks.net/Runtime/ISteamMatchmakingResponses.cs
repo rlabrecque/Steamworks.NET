@@ -15,9 +15,12 @@
 #define NOTHISPTR
 #endif
 
-using Steamworks.CoreCLR;
 using System;
 using System.Runtime.InteropServices;
+
+#if STEAMWORKS_FEATURE_VALUETASK
+using Steamworks.CoreCLR;
+#endif
 
 namespace Steamworks {
 	//-----------------------------------------------------------------------------

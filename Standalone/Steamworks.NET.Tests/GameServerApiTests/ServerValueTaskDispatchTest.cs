@@ -1,4 +1,5 @@
-﻿using Steamworks.CoreCLR;
+﻿#if NET8_0_OR_GREATER
+using Steamworks.CoreCLR;
 using System.Diagnostics;
 
 namespace Steamworks.NET.Tests.GameServerApiTests;
@@ -67,4 +68,5 @@ public class ServerValueTaskDispatchTest
 		}
 	}
 
+#endif
 }

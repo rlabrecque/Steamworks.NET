@@ -26,6 +26,15 @@ namespace Steamworks.CoreCLR {
 			return new(callback, true);
 		}
 
+		public static event Action<Exception> OnUnhandledException { 
+			add {
+				ValueTaskDispatcher.OnUnhandledException += value;
+			}
+			remove {
+				ValueTaskDispatcher.OnUnhandledException -= value;
+			}
+		}
+
 	}
 
 	public struct CallbackRegistration<T> : IDisposable
