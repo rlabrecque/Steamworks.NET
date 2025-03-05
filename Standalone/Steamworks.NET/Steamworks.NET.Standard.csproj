@@ -29,9 +29,9 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="OS info from developement computer">
-		<SNetOperatingSystem Condition="$([MSBuild]::IsOsPlatform('Windows'))">win</SNetOperatingSystem>
-		<SNetOperatingSystem Condition="$([MSBuild]::IsOsPlatform('Linux'))">linux</SNetOperatingSystem>
-		<SNetOperatingSystem Condition="$([MSBuild]::IsOsPlatform('OSX'))">osx</SNetOperatingSystem>
+		<SNetOperatingSystem Condition="$([MSBuild]::IsOsPlatform('Windows')) AND '$(SNetOperatingSystem)'==''">win</SNetOperatingSystem>
+		<SNetOperatingSystem Condition="$([MSBuild]::IsOsPlatform('Linux')) AND '$(SNetOperatingSystem)'==''">linux</SNetOperatingSystem>
+		<SNetOperatingSystem Condition="$([MSBuild]::IsOsPlatform('OSX')) AND '$(SNetOperatingSystem)'==''">osx</SNetOperatingSystem>
 	</PropertyGroup>
 
 
