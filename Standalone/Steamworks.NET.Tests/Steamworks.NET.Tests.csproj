@@ -8,7 +8,6 @@
 		<LangVersion>latest</LangVersion>
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
-		<Configurations>Windows;OSX-Linux</Configurations>
 		<Platforms>x64;x86</Platforms>
 	</PropertyGroup>
 

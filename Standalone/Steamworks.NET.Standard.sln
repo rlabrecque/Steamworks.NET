@@ -3,37 +3,42 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.35821.62
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steamworks.NET.Tests", "Steamworks.NET.Tests\Steamworks.NET.Tests.csproj", "{998ADA53-3C53-4498-B239-6E4F1467D3F7}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Steamworks.NET", "Steamworks.NET", "{E3657F3A-EE4A-CB99-35D7-5AF56F288C80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steamworks.NET.Standard", "Steamworks.NET\Steamworks.NET.Standard.csproj", "{5536211F-6FFD-48B4-B5CC-1988BA82B6F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steamworks.NET.Standard", "Steamworks.NET\Steamworks.NET.Standard.csproj", "{C3DF8020-FFB5-48B4-8700-7ACE13F9CAD1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steamworks.NET.Tests", "Steamworks.NET.Tests\Steamworks.NET.Tests.csproj", "{18ABF483-3CA7-49DD-8E1A-6C9941B5618C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		OSX-Linux|x64 = OSX-Linux|x64
-		OSX-Linux|x86 = OSX-Linux|x86
-		Windows|x64 = Windows|x64
-		Windows|x86 = Windows|x86
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{998ADA53-3C53-4498-B239-6E4F1467D3F7}.OSX-Linux|x64.ActiveCfg = OSX-Linux|x64
-		{998ADA53-3C53-4498-B239-6E4F1467D3F7}.OSX-Linux|x64.Build.0 = OSX-Linux|x64
-		{998ADA53-3C53-4498-B239-6E4F1467D3F7}.OSX-Linux|x86.ActiveCfg = OSX-Linux|x86
-		{998ADA53-3C53-4498-B239-6E4F1467D3F7}.OSX-Linux|x86.Build.0 = OSX-Linux|x86
-		{998ADA53-3C53-4498-B239-6E4F1467D3F7}.Windows|x64.ActiveCfg = Windows|x64
-		{998ADA53-3C53-4498-B239-6E4F1467D3F7}.Windows|x64.Build.0 = Windows|x64
-		{998ADA53-3C53-4498-B239-6E4F1467D3F7}.Windows|x86.ActiveCfg = Windows|x86
-		{998ADA53-3C53-4498-B239-6E4F1467D3F7}.Windows|x86.Build.0 = Windows|x86
-		{5536211F-6FFD-48B4-B5CC-1988BA82B6F3}.OSX-Linux|x64.ActiveCfg = OSX-Linux|x64
-		{5536211F-6FFD-48B4-B5CC-1988BA82B6F3}.OSX-Linux|x64.Build.0 = OSX-Linux|x64
-		{5536211F-6FFD-48B4-B5CC-1988BA82B6F3}.OSX-Linux|x86.ActiveCfg = OSX-Linux|x86
-		{5536211F-6FFD-48B4-B5CC-1988BA82B6F3}.OSX-Linux|x86.Build.0 = OSX-Linux|x86
-		{5536211F-6FFD-48B4-B5CC-1988BA82B6F3}.Windows|x64.ActiveCfg = Windows|x64
-		{5536211F-6FFD-48B4-B5CC-1988BA82B6F3}.Windows|x64.Build.0 = Windows|x64
-		{5536211F-6FFD-48B4-B5CC-1988BA82B6F3}.Windows|x86.ActiveCfg = Windows|x86
-		{5536211F-6FFD-48B4-B5CC-1988BA82B6F3}.Windows|x86.Build.0 = Windows|x86
+		{C3DF8020-FFB5-48B4-8700-7ACE13F9CAD1}.Debug|x64.ActiveCfg = Debug|x64
+		{C3DF8020-FFB5-48B4-8700-7ACE13F9CAD1}.Debug|x64.Build.0 = Debug|x64
+		{C3DF8020-FFB5-48B4-8700-7ACE13F9CAD1}.Debug|x86.ActiveCfg = Debug|x86
+		{C3DF8020-FFB5-48B4-8700-7ACE13F9CAD1}.Debug|x86.Build.0 = Debug|x86
+		{C3DF8020-FFB5-48B4-8700-7ACE13F9CAD1}.Release|x64.ActiveCfg = Release|x64
+		{C3DF8020-FFB5-48B4-8700-7ACE13F9CAD1}.Release|x64.Build.0 = Release|x64
+		{C3DF8020-FFB5-48B4-8700-7ACE13F9CAD1}.Release|x86.ActiveCfg = Release|x86
+		{C3DF8020-FFB5-48B4-8700-7ACE13F9CAD1}.Release|x86.Build.0 = Release|x86
+		{18ABF483-3CA7-49DD-8E1A-6C9941B5618C}.Debug|x64.ActiveCfg = Debug|x64
+		{18ABF483-3CA7-49DD-8E1A-6C9941B5618C}.Debug|x64.Build.0 = Debug|x64
+		{18ABF483-3CA7-49DD-8E1A-6C9941B5618C}.Debug|x86.ActiveCfg = Debug|x86
+		{18ABF483-3CA7-49DD-8E1A-6C9941B5618C}.Debug|x86.Build.0 = Debug|x86
+		{18ABF483-3CA7-49DD-8E1A-6C9941B5618C}.Release|x64.ActiveCfg = Release|x64
+		{18ABF483-3CA7-49DD-8E1A-6C9941B5618C}.Release|x64.Build.0 = Release|x64
+		{18ABF483-3CA7-49DD-8E1A-6C9941B5618C}.Release|x86.ActiveCfg = Release|x86
+		{18ABF483-3CA7-49DD-8E1A-6C9941B5618C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C3DF8020-FFB5-48B4-8700-7ACE13F9CAD1} = {E3657F3A-EE4A-CB99-35D7-5AF56F288C80}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EDFD04E1-5140-4A08-9F0B-3BE1A9B58AE6}
