@@ -17,7 +17,9 @@
 			<LibDir Include="$(AsmBase)osx-$(Platform)\$(FrameworkBase)\" />
 			<SymDir Include="$(PdbBase)osx-$(Platform)\$(FrameworkBase)\" />
 		</ItemGroup>
-		<Copy SourceFiles="$(OutDir)$(AssemblyName).dll" DestinationFolder="%(LibDir.Identity)">
+		<Copy SourceFiles="$(OutDir)\$(AssemblyName).dll"
+      			Condition="Exists('$(OutDir)\$(AssemblyName).dll')"
+      			DestinationFolder="%(LibDir.Identity)">
 			<Output	ItemName="O_PrepareFolderStructure" TaskParameter="CopiedFiles"/>
 		</Copy>
 		<Copy SourceFiles="$(OutDir)$(AssemblyName).pdb" Condition="Exists('$(OutDir)$(AssemblyName).pdb')" DestinationFolder="%(SymDir.Identity)">
@@ -38,6 +40,9 @@
 			</ToBuilt>
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
 				<Properties>Platform=x86;Configuration=OSX-Linux;PackagingBuild=true</Properties>
+			</ToBuilt>
+			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+				<Properties>Platform=arm64;Configuration=OSX-Linux;PackagingBuild=true</Properties>
 			</ToBuilt>
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
 				<Properties>
