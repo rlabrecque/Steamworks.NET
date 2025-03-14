@@ -7,7 +7,7 @@
 		<Configurations>Windows;OSX-Linux</Configurations>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<RepositoryType>git</RepositoryType>
-		<TargetFrameworks>netstandard2.1;net8.0</TargetFrameworks>
+		<TargetFrameworks>netstandard2.1;</TargetFrameworks>
 	</PropertyGroup>
 
 	<PropertyGroup Label="Nuget PM">
