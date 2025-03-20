@@ -46,8 +46,8 @@ namespace Steamworks {
 #endif
 
 		public static bool Test() {
-			int sentinelSize = Marshal.SizeOf(typeof(ValvePackingSentinel_t));
-			int subscribedFilesSize = Marshal.SizeOf(typeof(RemoteStorageEnumerateUserSubscribedFilesResult_t));
+			int sentinelSize = Marshal.SizeOf<ValvePackingSentinel_t>();
+			int subscribedFilesSize = Marshal.SizeOf<RemoteStorageEnumerateUserSubscribedFilesResult_t>();
 #if VALVE_CALLBACK_PACK_LARGE
 			if (sentinelSize != 32 || subscribedFilesSize != (1 + 1 + 1 + 50 + 100) * 4 + 4)
 				return false;
