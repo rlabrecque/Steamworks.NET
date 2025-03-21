@@ -4,7 +4,7 @@
 		<TargetFramework>netstandard2.1</TargetFramework>
 		<RootNamespace>Steamworks</RootNamespace>
 		<AssemblyName>Steamworks.NET</AssemblyName>
-		<Platforms>x64;x86</Platforms>
+		<Platforms>x64;x86;arm64</Platforms>
 		<Configurations>Windows;OSX-Linux</Configurations>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<RepositoryType>git</RepositoryType>
@@ -56,6 +56,15 @@
 		<Optimize>true</Optimize>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<PlatformTarget>x64</PlatformTarget>
+		<ErrorReport>prompt</ErrorReport>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OSX-Linux|x64'">
+		<OutputPath>bin\arm64\OSX-Linux\</OutputPath>
+		<DefineConstants>TRACE;STEAMWORKS_LIN_OSX;STEAMWORKS_X64</DefineConstants>
+		<Optimize>true</Optimize>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<PlatformTarget>arm64</PlatformTarget>
 		<ErrorReport>prompt</ErrorReport>
 	</PropertyGroup>
 
