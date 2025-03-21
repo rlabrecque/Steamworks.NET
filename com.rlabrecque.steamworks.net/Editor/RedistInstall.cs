@@ -12,6 +12,10 @@ using System.Collections.Generic;
 [InitializeOnLoad]
 public class RedistInstall {
 	static RedistInstall() {
+		// We only want to do this on Steam supported platforms.
+		if (EditorUserBuildSettings.selectedBuildTargetGroup != BuildTargetGroup.Standalone) {
+			return;
+		}
 		WriteSteamAppIdTxtFile();
 		AddDefineSymbols();
 		CheckForOldDlls();
