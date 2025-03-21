@@ -59,7 +59,7 @@
 		<ErrorReport>prompt</ErrorReport>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OSX-Linux|x64'">
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OSX-Linux|arm64'">
 		<OutputPath>bin\arm64\OSX-Linux\</OutputPath>
 		<DefineConstants>TRACE;STEAMWORKS_LIN_OSX;STEAMWORKS_X64</DefineConstants>
 		<Optimize>true</Optimize>
