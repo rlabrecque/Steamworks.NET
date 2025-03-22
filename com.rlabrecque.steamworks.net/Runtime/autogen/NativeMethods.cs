@@ -2356,7 +2356,7 @@ namespace Steamworks {
 		public static extern void ISteamRemotePlay_DisableRemotePlayTogetherDirectInput(IntPtr instancePtr);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_GetInput", CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamRemotePlay_GetInput(IntPtr instancePtr, out RemotePlayInput_t pInput, uint unMaxEvents);
+		public static extern uint ISteamRemotePlay_GetInput(IntPtr instancePtr, RemotePlayInput_t[] pInput, uint unMaxEvents);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_SetMouseVisibility", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ISteamRemotePlay_SetMouseVisibility(IntPtr instancePtr, RemotePlaySessionID_t unSessionID, [MarshalAs(UnmanagedType.I1)] bool bVisible);
@@ -2657,7 +2657,7 @@ namespace Steamworks {
 		public static extern void ISteamTimeline_OpenOverlayToGamePhase(IntPtr instancePtr, InteropHelp.UTF8StringHandle pchPhaseID);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamTimeline_OpenOverlayToTimelineEvent", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamTimeline_OpenOverlayToTimelineEvent(IntPtr instancePtr, const TimelineEventHandle_t ulEvent);
+		public static extern void ISteamTimeline_OpenOverlayToTimelineEvent(IntPtr instancePtr, TimelineEventHandle_t ulEvent);
 #endregion
 #region SteamUGC
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_CreateQueryUserUGCRequest", CallingConvention = CallingConvention.Cdecl)]

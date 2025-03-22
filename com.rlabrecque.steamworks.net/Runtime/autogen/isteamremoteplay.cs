@@ -107,9 +107,9 @@ namespace Steamworks {
 		/// <para> pInput is an array of input events that will be filled in by this function, up to unMaxEvents.</para>
 		/// <para> This returns the number of events copied to pInput, or the number of events available if pInput is nullptr.</para>
 		/// </summary>
-		public static uint GetInput(out RemotePlayInput_t pInput, uint unMaxEvents) {
+		public static uint GetInput(RemotePlayInput_t[] pInput, uint unMaxEvents) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamRemotePlay_GetInput(CSteamAPIContext.GetSteamRemotePlay(), out pInput, unMaxEvents);
+			return NativeMethods.ISteamRemotePlay_GetInput(CSteamAPIContext.GetSteamRemotePlay(), pInput, unMaxEvents);
 		}
 
 		/// <summary>
