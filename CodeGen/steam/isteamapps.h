@@ -39,7 +39,7 @@ public:
 
 	// Checks if the user is subscribed to the current app through a free weekend
 	// This function will return false for users who have a retail or other type of license
-	// Before using, please ask your Valve technical contact how to package and secure your free weekened
+	// Before using, please ask your Valve technical contact how to package and secure your free weekend
 	virtual bool BIsSubscribedFromFreeWeekend() = 0;
 
 	// Returns the number of DLC pieces for the running app
@@ -112,7 +112,7 @@ public:
 	// set current DLC AppID being played (or 0 if none). Allows Steam to track usage of major DLC extensions
 	virtual bool SetDlcContext( AppId_t nAppID ) = 0;
 
-	// returns total number of known app beta branches (including default "public" branch )
+	// returns total number of known app branches (including default "public" branch ). nAvailable is number of available betas
 	virtual int  GetNumBetas( int *pnAvailable, int *pnPrivate ) = 0; //
 
 	// return beta branch details, name, description, current BuildID and state flags (EBetaBranchFlags)

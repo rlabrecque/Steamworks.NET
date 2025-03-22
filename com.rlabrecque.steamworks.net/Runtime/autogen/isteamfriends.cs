@@ -29,20 +29,6 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> Sets the player name, stores it on the server and publishes the changes to all friends who are online.</para>
-		/// <para> Changes take place locally immediately, and a PersonaStateChange_t is posted, presuming success.</para>
-		/// <para> The final results are available through the return value SteamAPICall_t, using SetPersonaNameResponse_t.</para>
-		/// <para> If the name change fails to happen on the server, then an additional global PersonaStateChange_t will be posted</para>
-		/// <para> to change the name back, in addition to the SetPersonaNameResponse_t callback.</para>
-		/// </summary>
-		public static SteamAPICall_t SetPersonaName(string pchPersonaName) {
-			InteropHelp.TestIfAvailableClient();
-			using (var pchPersonaName2 = new InteropHelp.UTF8StringHandle(pchPersonaName)) {
-				return (SteamAPICall_t)NativeMethods.ISteamFriends_SetPersonaName(CSteamAPIContext.GetSteamFriends(), pchPersonaName2);
-			}
-		}
-
-		/// <summary>
 		/// <para> gets the status of the current user</para>
 		/// </summary>
 		public static EPersonaState GetPersonaState() {
@@ -393,16 +379,6 @@ namespace Steamworks {
 		public static CSteamID GetClanOfficerByIndex(CSteamID steamIDClan, int iOfficer) {
 			InteropHelp.TestIfAvailableClient();
 			return (CSteamID)NativeMethods.ISteamFriends_GetClanOfficerByIndex(CSteamAPIContext.GetSteamFriends(), steamIDClan, iOfficer);
-		}
-
-		/// <summary>
-		/// <para> if current user is chat restricted, he can't send or receive any text/voice chat messages.</para>
-		/// <para> the user can't see custom avatars. But the user can be online and send/recv game invites.</para>
-		/// <para> a chat restricted user can't add friends or join any groups.</para>
-		/// </summary>
-		public static uint GetUserRestrictions() {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamFriends_GetUserRestrictions(CSteamAPIContext.GetSteamFriends());
 		}
 
 		/// <summary>
