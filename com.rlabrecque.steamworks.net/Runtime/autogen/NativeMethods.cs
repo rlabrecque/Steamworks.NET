@@ -2356,7 +2356,7 @@ namespace Steamworks {
 		public static extern void ISteamRemotePlay_DisableRemotePlayTogetherDirectInput(IntPtr instancePtr);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_GetInput", CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamRemotePlay_GetInput(IntPtr instancePtr, RemotePlayInput_t[] pInput, uint unMaxEvents);
+		public static extern uint ISteamRemotePlay_GetInput(IntPtr instancePtr, [In, Out] RemotePlayInput_t[] pInput, uint unMaxEvents);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_SetMouseVisibility", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ISteamRemotePlay_SetMouseVisibility(IntPtr instancePtr, RemotePlaySessionID_t unSessionID, [MarshalAs(UnmanagedType.I1)] bool bVisible);
