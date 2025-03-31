@@ -583,9 +583,6 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamFriends_GetPersonaName", CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr ISteamFriends_GetPersonaName(IntPtr instancePtr);
 
-		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamFriends_SetPersonaName", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong ISteamFriends_SetPersonaName(IntPtr instancePtr, InteropHelp.UTF8StringHandle pchPersonaName);
-
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamFriends_GetPersonaState", CallingConvention = CallingConvention.Cdecl)]
 		public static extern EPersonaState ISteamFriends_GetPersonaState(IntPtr instancePtr);
 
@@ -710,9 +707,6 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamFriends_GetClanOfficerByIndex", CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong ISteamFriends_GetClanOfficerByIndex(IntPtr instancePtr, CSteamID steamIDClan, int iOfficer);
-
-		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamFriends_GetUserRestrictions", CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamFriends_GetUserRestrictions(IntPtr instancePtr);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamFriends_SetRichPresence", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -1646,10 +1640,6 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamMatchmaking_SetLinkedLobby", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamMatchmaking_SetLinkedLobby(IntPtr instancePtr, CSteamID steamIDLobby, CSteamID steamIDLobbyDependent);
-#if _PS3
-		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamMatchmaking_CheckForPSNGameBootInvite", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamMatchmaking_CheckForPSNGameBootInvite(IntPtr instancePtr, uint iGameBootAttributes);
-#endif
 #endregion
 #region SteamMatchmakingServers
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamMatchmakingServers_RequestInternetServerList", CallingConvention = CallingConvention.Cdecl)]
@@ -2344,13 +2334,35 @@ namespace Steamworks {
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamRemotePlay_BGetSessionClientResolution(IntPtr instancePtr, RemotePlaySessionID_t unSessionID, out int pnResolutionX, out int pnResolutionY);
 
-		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_BStartRemotePlayTogether", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_ShowRemotePlayTogetherUI", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamRemotePlay_BStartRemotePlayTogether(IntPtr instancePtr, [MarshalAs(UnmanagedType.I1)] bool bShowOverlay);
+		public static extern bool ISteamRemotePlay_ShowRemotePlayTogetherUI(IntPtr instancePtr);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_BSendRemotePlayTogetherInvite", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamRemotePlay_BSendRemotePlayTogetherInvite(IntPtr instancePtr, CSteamID steamIDFriend);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_BEnableRemotePlayTogetherDirectInput", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamRemotePlay_BEnableRemotePlayTogetherDirectInput(IntPtr instancePtr);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_DisableRemotePlayTogetherDirectInput", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamRemotePlay_DisableRemotePlayTogetherDirectInput(IntPtr instancePtr);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_GetInput", CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint ISteamRemotePlay_GetInput(IntPtr instancePtr, [In, Out] RemotePlayInput_t[] pInput, uint unMaxEvents);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_SetMouseVisibility", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamRemotePlay_SetMouseVisibility(IntPtr instancePtr, RemotePlaySessionID_t unSessionID, [MarshalAs(UnmanagedType.I1)] bool bVisible);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_SetMousePosition", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamRemotePlay_SetMousePosition(IntPtr instancePtr, RemotePlaySessionID_t unSessionID, float flNormalizedX, float flNormalizedY);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_CreateMouseCursor", CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint ISteamRemotePlay_CreateMouseCursor(IntPtr instancePtr, int nWidth, int nHeight, int nHotX, int nHotY, IntPtr pBGRA, int nPitch);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_SetMouseCursor", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamRemotePlay_SetMouseCursor(IntPtr instancePtr, RemotePlaySessionID_t unSessionID, RemotePlayCursorID_t unCursorID);
 #endregion
 #region SteamRemoteStorage
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemoteStorage_FileWrite", CallingConvention = CallingConvention.Cdecl)]
@@ -2918,10 +2930,10 @@ namespace Steamworks {
 		public static extern ulong ISteamUGC_UnsubscribeItem(IntPtr instancePtr, PublishedFileId_t nPublishedFileID);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_GetNumSubscribedItems", CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamUGC_GetNumSubscribedItems(IntPtr instancePtr);
+		public static extern uint ISteamUGC_GetNumSubscribedItems(IntPtr instancePtr, [MarshalAs(UnmanagedType.I1)] bool bIncludeLocallyDisabled);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_GetSubscribedItems", CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint ISteamUGC_GetSubscribedItems(IntPtr instancePtr, [In, Out] PublishedFileId_t[] pvecPublishedFileID, uint cMaxEntries);
+		public static extern uint ISteamUGC_GetSubscribedItems(IntPtr instancePtr, [In, Out] PublishedFileId_t[] pvecPublishedFileID, uint cMaxEntries, [MarshalAs(UnmanagedType.I1)] bool bIncludeLocallyDisabled);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_GetItemState", CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint ISteamUGC_GetItemState(IntPtr instancePtr, PublishedFileId_t nPublishedFileID);
@@ -2981,6 +2993,14 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_GetUserContentDescriptorPreferences", CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint ISteamUGC_GetUserContentDescriptorPreferences(IntPtr instancePtr, [In, Out] EUGCContentDescriptorID[] pvecDescriptors, uint cMaxEntries);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_SetItemsDisabledLocally", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamUGC_SetItemsDisabledLocally(IntPtr instancePtr, [In, Out] PublishedFileId_t[] pvecPublishedFileIDs, uint unNumPublishedFileIDs, [MarshalAs(UnmanagedType.I1)] bool bDisabledLocally);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_SetSubscriptionsLoadOrder", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamUGC_SetSubscriptionsLoadOrder(IntPtr instancePtr, [In, Out] PublishedFileId_t[] pvecPublishedFileIDs, uint unNumPublishedFileIDs);
 #endregion
 #region SteamUser
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUser_GetHSteamUser", CallingConvention = CallingConvention.Cdecl)]
