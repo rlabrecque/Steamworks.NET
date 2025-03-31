@@ -460,19 +460,6 @@ struct LeaderboardUGCSet_t
 
 
 //-----------------------------------------------------------------------------
-// Purpose: callback indicating that PS3 trophies have been installed
-//-----------------------------------------------------------------------------
-struct PS3TrophiesInstalled_t
-{
-	enum { k_iCallback = k_iSteamUserStatsCallbacks + 12 };
-	uint64	m_nGameID;				// Game these stats are for
-	EResult m_eResult;				// The result of the operation
-	uint64 m_ulRequiredDiskSpace;	// If m_eResult is k_EResultDiskFull, will contain the amount of space needed to install trophies
-
-};
-
-
-//-----------------------------------------------------------------------------
 // Purpose: callback indicating global stats have been received.
 //	Returned as a result of RequestGlobalStats()
 //-----------------------------------------------------------------------------

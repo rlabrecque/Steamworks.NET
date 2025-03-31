@@ -71,20 +71,6 @@ namespace Steamworks {
 		k_EFriendFlagAll			= 0xFFFF,
 	}
 
-	//-----------------------------------------------------------------------------
-	// Purpose: user restriction flags
-	//-----------------------------------------------------------------------------
-	public enum EUserRestriction : int {
-		k_nUserRestrictionNone		= 0,	// no known chat/content restriction
-		k_nUserRestrictionUnknown	= 1,	// we don't know yet (user offline)
-		k_nUserRestrictionAnyChat	= 2,	// user is not allowed to (or can't) send/recv any chat
-		k_nUserRestrictionVoiceChat	= 4,	// user is not allowed to (or can't) send/recv voice chat
-		k_nUserRestrictionGroupChat	= 8,	// user is not allowed to (or can't) send/recv group chat
-		k_nUserRestrictionRating	= 16,	// user is too young according to rating in current region
-		k_nUserRestrictionGameInvites	= 32,	// user cannot send or recv game invites (e.g. mobile)
-		k_nUserRestrictionTrading	= 64,	// user cannot participate in trading (console, mobile)
-	}
-
 	// These values are passed as parameters to the store
 	public enum EOverlayToStoreFlag : int {
 		k_EOverlayToStoreFlag_None = 0,
@@ -166,50 +152,52 @@ namespace Steamworks {
 		eHTMLMouseButton_Middle = 2,
 	}
 
-	public enum EMouseCursor : int {
-		dc_user = 0,
-		dc_none,
-		dc_arrow,
-		dc_ibeam,
-		dc_hourglass,
-		dc_waitarrow,
-		dc_crosshair,
-		dc_up,
-		dc_sizenw,
-		dc_sizese,
-		dc_sizene,
-		dc_sizesw,
-		dc_sizew,
-		dc_sizee,
-		dc_sizen,
-		dc_sizes,
-		dc_sizewe,
-		dc_sizens,
-		dc_sizeall,
-		dc_no,
-		dc_hand,
-		dc_blank, // don't show any custom cursor, just use your default
-		dc_middle_pan,
-		dc_north_pan,
-		dc_north_east_pan,
-		dc_east_pan,
-		dc_south_east_pan,
-		dc_south_pan,
-		dc_south_west_pan,
-		dc_west_pan,
-		dc_north_west_pan,
-		dc_alias,
-		dc_cell,
-		dc_colresize,
-		dc_copycur,
-		dc_verticaltext,
-		dc_rowresize,
-		dc_zoomin,
-		dc_zoomout,
-		dc_help,
-		dc_custom,
+	public enum EHTMLMouseCursor : int {
+		k_EHTMLMouseCursor_User = 0,
+		k_EHTMLMouseCursor_None,
+		k_EHTMLMouseCursor_Arrow,
+		k_EHTMLMouseCursor_IBeam,
+		k_EHTMLMouseCursor_Hourglass,
+		k_EHTMLMouseCursor_WaitArrow,
+		k_EHTMLMouseCursor_Crosshair,
+		k_EHTMLMouseCursor_Up,
+		k_EHTMLMouseCursor_SizeNW,
+		k_EHTMLMouseCursor_SizeSE,
+		k_EHTMLMouseCursor_SizeNE,
+		k_EHTMLMouseCursor_SizeSW,
+		k_EHTMLMouseCursor_SizeW,
+		k_EHTMLMouseCursor_SizeE,
+		k_EHTMLMouseCursor_SizeN,
+		k_EHTMLMouseCursor_SizeS,
+		k_EHTMLMouseCursor_SizeWE,
+		k_EHTMLMouseCursor_SizeNS,
+		k_EHTMLMouseCursor_SizeAll,
+		k_EHTMLMouseCursor_No,
+		k_EHTMLMouseCursor_Hand,
+		k_EHTMLMouseCursor_Blank, // don't show any custom cursor, just use your default
+		k_EHTMLMouseCursor_MiddlePan,
+		k_EHTMLMouseCursor_NorthPan,
+		k_EHTMLMouseCursor_NorthEastPan,
+		k_EHTMLMouseCursor_EastPan,
+		k_EHTMLMouseCursor_SouthEastPan,
+		k_EHTMLMouseCursor_SouthPan,
+		k_EHTMLMouseCursor_SouthWestPan,
+		k_EHTMLMouseCursor_WestPan,
+		k_EHTMLMouseCursor_NorthWestPan,
+		k_EHTMLMouseCursor_Alias,
+		k_EHTMLMouseCursor_Cell,
+		k_EHTMLMouseCursor_ColResize,
+		k_EHTMLMouseCursor_CopyCur,
+		k_EHTMLMouseCursor_VerticalText,
+		k_EHTMLMouseCursor_RowResize,
+		k_EHTMLMouseCursor_ZoomIn,
+		k_EHTMLMouseCursor_ZoomOut,
+		k_EHTMLMouseCursor_Help,
+		k_EHTMLMouseCursor_Custom,
+		k_EHTMLMouseCursor_SizeNWSE,
+		k_EHTMLMouseCursor_SizeNESW,
 
-		dc_last, // custom cursors start from this value and up
+		k_EHTMLMouseCursor_last, // custom cursors start from this value and up
 	}
 
 	[Flags]
@@ -989,6 +977,157 @@ namespace Steamworks {
 		k_ESteamDeviceFormFactorComputer	= 3,
 		k_ESteamDeviceFormFactorTV			= 4,
 		k_ESteamDeviceFormFactorVRHeadset	= 5,
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The type of input in ERemotePlayInput_t
+	//-----------------------------------------------------------------------------
+	public enum ERemotePlayInputType : int {
+		k_ERemotePlayInputUnknown,
+		k_ERemotePlayInputMouseMotion,
+		k_ERemotePlayInputMouseButtonDown,
+		k_ERemotePlayInputMouseButtonUp,
+		k_ERemotePlayInputMouseWheel,
+		k_ERemotePlayInputKeyDown,
+		k_ERemotePlayInputKeyUp
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Mouse buttons in ERemotePlayInput_t
+	//-----------------------------------------------------------------------------
+	public enum ERemotePlayMouseButton : int {
+		k_ERemotePlayMouseButtonLeft = 0x0001,
+		k_ERemotePlayMouseButtonRight = 0x0002,
+		k_ERemotePlayMouseButtonMiddle = 0x0010,
+		k_ERemotePlayMouseButtonX1 = 0x0020,
+		k_ERemotePlayMouseButtonX2 = 0x0040,
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Mouse wheel direction in ERemotePlayInput_t
+	//-----------------------------------------------------------------------------
+	public enum ERemotePlayMouseWheelDirection : int {
+		k_ERemotePlayMouseWheelUp = 1,
+		k_ERemotePlayMouseWheelDown = 2,
+		k_ERemotePlayMouseWheelLeft = 3,
+		k_ERemotePlayMouseWheelRight = 4,
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Key scancode in ERemotePlayInput_t
+	//
+	// This is a USB scancode value as defined for the Keyboard/Keypad Page (0x07)
+	// This enumeration isn't a complete list, just the most commonly used keys.
+	//-----------------------------------------------------------------------------
+	public enum ERemotePlayScancode : int {
+		k_ERemotePlayScancodeUnknown = 0,
+
+		k_ERemotePlayScancodeA = 4,
+		k_ERemotePlayScancodeB = 5,
+		k_ERemotePlayScancodeC = 6,
+		k_ERemotePlayScancodeD = 7,
+		k_ERemotePlayScancodeE = 8,
+		k_ERemotePlayScancodeF = 9,
+		k_ERemotePlayScancodeG = 10,
+		k_ERemotePlayScancodeH = 11,
+		k_ERemotePlayScancodeI = 12,
+		k_ERemotePlayScancodeJ = 13,
+		k_ERemotePlayScancodeK = 14,
+		k_ERemotePlayScancodeL = 15,
+		k_ERemotePlayScancodeM = 16,
+		k_ERemotePlayScancodeN = 17,
+		k_ERemotePlayScancodeO = 18,
+		k_ERemotePlayScancodeP = 19,
+		k_ERemotePlayScancodeQ = 20,
+		k_ERemotePlayScancodeR = 21,
+		k_ERemotePlayScancodeS = 22,
+		k_ERemotePlayScancodeT = 23,
+		k_ERemotePlayScancodeU = 24,
+		k_ERemotePlayScancodeV = 25,
+		k_ERemotePlayScancodeW = 26,
+		k_ERemotePlayScancodeX = 27,
+		k_ERemotePlayScancodeY = 28,
+		k_ERemotePlayScancodeZ = 29,
+
+		k_ERemotePlayScancode1 = 30,
+		k_ERemotePlayScancode2 = 31,
+		k_ERemotePlayScancode3 = 32,
+		k_ERemotePlayScancode4 = 33,
+		k_ERemotePlayScancode5 = 34,
+		k_ERemotePlayScancode6 = 35,
+		k_ERemotePlayScancode7 = 36,
+		k_ERemotePlayScancode8 = 37,
+		k_ERemotePlayScancode9 = 38,
+		k_ERemotePlayScancode0 = 39,
+
+		k_ERemotePlayScancodeReturn = 40,
+		k_ERemotePlayScancodeEscape = 41,
+		k_ERemotePlayScancodeBackspace = 42,
+		k_ERemotePlayScancodeTab = 43,
+		k_ERemotePlayScancodeSpace = 44,
+		k_ERemotePlayScancodeMinus = 45,
+		k_ERemotePlayScancodeEquals = 46,
+		k_ERemotePlayScancodeLeftBracket = 47,
+		k_ERemotePlayScancodeRightBracket = 48,
+		k_ERemotePlayScancodeBackslash = 49,
+		k_ERemotePlayScancodeSemicolon = 51,
+		k_ERemotePlayScancodeApostrophe = 52,
+		k_ERemotePlayScancodeGrave = 53,
+		k_ERemotePlayScancodeComma = 54,
+		k_ERemotePlayScancodePeriod = 55,
+		k_ERemotePlayScancodeSlash = 56,
+		k_ERemotePlayScancodeCapsLock = 57,
+
+		k_ERemotePlayScancodeF1 = 58,
+		k_ERemotePlayScancodeF2 = 59,
+		k_ERemotePlayScancodeF3 = 60,
+		k_ERemotePlayScancodeF4 = 61,
+		k_ERemotePlayScancodeF5 = 62,
+		k_ERemotePlayScancodeF6 = 63,
+		k_ERemotePlayScancodeF7 = 64,
+		k_ERemotePlayScancodeF8 = 65,
+		k_ERemotePlayScancodeF9 = 66,
+		k_ERemotePlayScancodeF10 = 67,
+		k_ERemotePlayScancodeF11 = 68,
+		k_ERemotePlayScancodeF12 = 69,
+
+		k_ERemotePlayScancodeInsert = 73,
+		k_ERemotePlayScancodeHome = 74,
+		k_ERemotePlayScancodePageUp = 75,
+		k_ERemotePlayScancodeDelete = 76,
+		k_ERemotePlayScancodeEnd = 77,
+		k_ERemotePlayScancodePageDown = 78,
+		k_ERemotePlayScancodeRight = 79,
+		k_ERemotePlayScancodeLeft = 80,
+		k_ERemotePlayScancodeDown = 81,
+		k_ERemotePlayScancodeUp = 82,
+
+		k_ERemotePlayScancodeLeftControl = 224,
+		k_ERemotePlayScancodeLeftShift = 225,
+		k_ERemotePlayScancodeLeftAlt = 226,
+		k_ERemotePlayScancodeLeftGUI = 227, // windows, command (apple), meta
+		k_ERemotePlayScancodeRightControl = 228,
+		k_ERemotePlayScancodeRightShift = 229,
+		k_ERemotePlayScancodeRightALT = 230,
+		k_ERemotePlayScancodeRightGUI = 231, // windows, command (apple), meta
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Key modifier in ERemotePlayInput_t
+	//-----------------------------------------------------------------------------
+	public enum ERemotePlayKeyModifier : int {
+		k_ERemotePlayKeyModifierNone			= 0x0000,
+		k_ERemotePlayKeyModifierLeftShift		= 0x0001,
+		k_ERemotePlayKeyModifierRightShift		= 0x0002,
+		k_ERemotePlayKeyModifierLeftControl		= 0x0040,
+		k_ERemotePlayKeyModifierRightControl	= 0x0080,
+		k_ERemotePlayKeyModifierLeftAlt			= 0x0100,
+		k_ERemotePlayKeyModifierRightAlt		= 0x0200,
+		k_ERemotePlayKeyModifierLeftGUI			= 0x0400,
+		k_ERemotePlayKeyModifierRightGUI		= 0x0800,
+		k_ERemotePlayKeyModifierNumLock			= 0x1000,
+		k_ERemotePlayKeyModifierCapsLock		= 0x2000,
+		k_ERemotePlayKeyModifierMask			= 0xFFFF,
 	}
 
 	[Flags]

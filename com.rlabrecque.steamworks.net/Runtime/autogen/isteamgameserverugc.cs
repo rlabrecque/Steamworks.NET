@@ -598,17 +598,17 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> number of subscribed items</para>
 		/// </summary>
-		public static uint GetNumSubscribedItems() {
+		public static uint GetNumSubscribedItems(bool bIncludeLocallyDisabled = false) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamUGC_GetNumSubscribedItems(CSteamGameServerAPIContext.GetSteamUGC());
+			return NativeMethods.ISteamUGC_GetNumSubscribedItems(CSteamGameServerAPIContext.GetSteamUGC(), bIncludeLocallyDisabled);
 		}
 
 		/// <summary>
 		/// <para> all subscribed item PublishFileIDs</para>
 		/// </summary>
-		public static uint GetSubscribedItems(PublishedFileId_t[] pvecPublishedFileID, uint cMaxEntries) {
+		public static uint GetSubscribedItems(PublishedFileId_t[] pvecPublishedFileID, uint cMaxEntries, bool bIncludeLocallyDisabled = false) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamUGC_GetSubscribedItems(CSteamGameServerAPIContext.GetSteamUGC(), pvecPublishedFileID, cMaxEntries);
+			return NativeMethods.ISteamUGC_GetSubscribedItems(CSteamGameServerAPIContext.GetSteamUGC(), pvecPublishedFileID, cMaxEntries, bIncludeLocallyDisabled);
 		}
 
 		/// <summary>
@@ -752,6 +752,22 @@ namespace Steamworks {
 		public static uint GetUserContentDescriptorPreferences(EUGCContentDescriptorID[] pvecDescriptors, uint cMaxEntries) {
 			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamUGC_GetUserContentDescriptorPreferences(CSteamGameServerAPIContext.GetSteamUGC(), pvecDescriptors, cMaxEntries);
+		}
+
+		/// <summary>
+		/// <para> Sets whether the item should be disabled locally or not. This means that it will not be returned in GetSubscribedItems() by default.</para>
+		/// </summary>
+		public static bool SetItemsDisabledLocally(PublishedFileId_t[] pvecPublishedFileIDs, uint unNumPublishedFileIDs, bool bDisabledLocally) {
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamUGC_SetItemsDisabledLocally(CSteamGameServerAPIContext.GetSteamUGC(), pvecPublishedFileIDs, unNumPublishedFileIDs, bDisabledLocally);
+		}
+
+		/// <summary>
+		/// <para> Set the local load order for these items. If there are any items not in the given list, they will sort by the time subscribed.</para>
+		/// </summary>
+		public static bool SetSubscriptionsLoadOrder(PublishedFileId_t[] pvecPublishedFileIDs, uint unNumPublishedFileIDs) {
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamUGC_SetSubscriptionsLoadOrder(CSteamGameServerAPIContext.GetSteamUGC(), pvecPublishedFileIDs, unNumPublishedFileIDs);
 		}
 	}
 }
