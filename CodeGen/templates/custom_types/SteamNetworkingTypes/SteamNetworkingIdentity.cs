@@ -117,17 +117,6 @@ namespace Steamworks
 			return NativeMethods.SteamAPI_SteamNetworkingIdentity_GetPSNID(ref this);
 		}
 
-		public void SetStadiaID(ulong id)
-		{
-			NativeMethods.SteamAPI_SteamNetworkingIdentity_SetStadiaID(ref this, id);
-		}
-
-		// Returns 0 if not Stadia
-		public ulong GetStadiaID()
-		{
-			return NativeMethods.SteamAPI_SteamNetworkingIdentity_GetStadiaID(ref this);
-		}
-
 		// Set to specified IP:port
 		public void SetIPAddr(SteamNetworkingIPAddr addr) {
 			NativeMethods.SteamAPI_SteamNetworkingIdentity_SetIPAddr(ref this, ref addr);
