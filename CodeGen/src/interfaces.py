@@ -141,11 +141,22 @@ g_SpecialReturnTypeDict = {
     "ISteamGameServerUtils_GetAppID": "AppId_t",
 }
 
+# These args are missing a clang attribute like ARRAY_COUNT
 g_SpecialArgsDict = {
-    # These args are missing a clang attribute like ARRAY_COUNT
+    # ISteamApps
     "ISteamApps_GetInstalledDepots": {
         "pvecDepots": "DepotId_t[]",
     },
+
+    # ISteamClient
+    "ISteamClient_SetLocalIPBinding": {
+        "unIP": "ref SteamIPAddress_t",
+    },
+    "ISteamGameServerClient_SetLocalIPBinding": {
+        "unIP": "ref SteamIPAddress_t",
+    },
+
+    # ISteamGameServer
     "ISteamGameServer_SendUserConnectAndAuthenticate_DEPRECATED": {
         "pvAuthBlob": "byte[]",
     },
@@ -161,24 +172,87 @@ g_SpecialArgsDict = {
     "ISteamGameServer_GetNextOutgoingPacket": {
         "pOut": "byte[]",
     },
+
+    # ISteamHTTP
     "ISteamHTTP_GetHTTPResponseHeaderValue": {
         "pHeaderValueBuffer": "byte[]",
     },
+    "ISteamGameServerHTTP_GetHTTPResponseHeaderValue": {
+        "pHeaderValueBuffer": "byte[]",
+    },
+
     "ISteamHTTP_GetHTTPResponseBodyData": {
         "pBodyDataBuffer": "byte[]",
     },
+    "ISteamGameServerHTTP_GetHTTPResponseBodyData": {
+        "pBodyDataBuffer": "byte[]",
+    },
+
     "ISteamHTTP_GetHTTPStreamingResponseBodyData": {
         "pBodyDataBuffer": "byte[]",
     },
+    "ISteamGameServerHTTP_GetHTTPStreamingResponseBodyData": {
+        "pBodyDataBuffer": "byte[]",
+    },
+
     "ISteamHTTP_SetHTTPRequestRawPostBody": {
         "pubBody": "byte[]",
     },
+    "ISteamGameServerHTTP_SetHTTPRequestRawPostBody": {
+        "pubBody": "byte[]",
+    },
+
+    # ISteamInventory
     "ISteamInventory_SerializeResult": {
         "pOutBuffer": "byte[]",
     },
+    "ISteamGameServerInventory_SerializeResult": {
+        "pOutBuffer": "byte[]",
+    },
+
     "ISteamInventory_DeserializeResult": {
         "pBuffer": "byte[]",
     },
+    "ISteamGameServerInventory_DeserializeResult": {
+        "pBuffer": "byte[]",
+    },
+
+    "ISteamInventory_GetResultItems": {
+        "punOutItemsArraySize": "ref uint",
+    },
+    "ISteamGameServerInventory_GetResultItems": {
+        "punOutItemsArraySize": "ref uint",
+    },
+
+    "ISteamInventory_GetItemDefinitionProperty": {
+        "punValueBufferSizeOut": "ref uint",
+    },
+    "ISteamGameServerInventory_GetItemDefinitionProperty": {
+        "punValueBufferSizeOut": "ref uint",
+    },
+
+    "ISteamInventory_GetResultItemProperty": {
+        "punValueBufferSizeOut": "ref uint",
+    },
+    "ISteamGameServerInventory_GetResultItemProperty": {
+        "punValueBufferSizeOut": "ref uint",
+    },
+
+    "ISteamInventory_GetItemDefinitionIDs": {
+        "punItemDefIDsArraySize": "ref uint",
+    },
+    "ISteamGameServerInventory_GetItemDefinitionIDs": {
+        "punItemDefIDsArraySize": "ref uint",
+    },
+
+    "ISteamInventory_GetEligiblePromoItemDefinitionIDs": {
+        "punItemDefIDsArraySize": "ref uint",
+    },
+    "ISteamGameServerInventory_GetEligiblePromoItemDefinitionIDs": {
+        "punItemDefIDsArraySize": "ref uint",
+    },
+
+    # ISteamMatchmaking
     "ISteamMatchmaking_SendLobbyChatMsg": {
         "pvMsgBody": "byte[]",
     },
@@ -188,216 +262,49 @@ g_SpecialArgsDict = {
     "ISteamMusicRemote_SetPNGIcon_64x64": {
         "pvBuffer": "byte[]",
     },
+
+    # ISteamMusicRemote
     "ISteamMusicRemote_UpdateCurrentEntryCoverArt": {
         "pvBuffer": "byte[]",
     },
+
+    # ISteamNetworking
     "ISteamNetworking_SendP2PPacket": {
         "pubData": "byte[]",
-    },
-    "ISteamNetworking_ReadP2PPacket": {
-        "pubDest": "byte[]",
-    },
-    "ISteamNetworking_SendDataOnSocket": {
-        "pubData": "byte[]",
-    },
-    "ISteamNetworking_RetrieveDataFromSocket": {
-        "pubDest": "byte[]",
-    },
-    "ISteamNetworking_RetrieveData": {
-        "pubDest": "byte[]",
-    },
-    "ISteamRemoteStorage_FileWrite": {
-        "pvData": "byte[]",
-    },
-    "ISteamRemoteStorage_FileRead": {
-        "pvData": "byte[]",
-    },
-    "ISteamRemoteStorage_FileWriteAsync": {
-        "pvData": "byte[]",
-    },
-    "ISteamRemoteStorage_FileReadAsyncComplete": {
-        "pvBuffer": "byte[]",
-    },
-    "ISteamRemoteStorage_FileWriteStreamWriteChunk": {
-        "pvData": "byte[]",
-    },
-    "ISteamRemoteStorage_UGCRead": {
-        "pvData": "byte[]",
-    },
-    "ISteamScreenshots_WriteScreenshot": {
-        "pubRGB": "byte[]",
-    },
-    "ISteamUGC_CreateQueryUGCDetailsRequest": {
-        "pvecPublishedFileID": "PublishedFileId_t[]",
-    },
-    "ISteamUGC_GetQueryUGCChildren": {
-        "pvecPublishedFileID": "PublishedFileId_t[]",
-    },
-    "ISteamUGC_GetSubscribedItems": {
-        "pvecPublishedFileID": "PublishedFileId_t[]",
-    },
-    "ISteamUGC_StartPlaytimeTracking": {
-        "pvecPublishedFileID": "PublishedFileId_t[]",
-    },
-    "ISteamUGC_StopPlaytimeTracking": {
-        "pvecPublishedFileID": "PublishedFileId_t[]",
-    },
-    "ISteamUGC_GetUserContentDescriptorPreferences": {
-        "pvecDescriptors": "EUGCContentDescriptorID[]",
-    },
-    "ISteamUser_InitiateGameConnection_DEPRECATED": {
-        "pAuthBlob": "byte[]",
-    },
-    "ISteamUser_GetAvailableVoice": {
-        "pcbUncompressed_Deprecated": "IntPtr",
-    },
-    "ISteamUser_GetVoice": {
-        "pDestBuffer": "byte[]",
-        "pUncompressedDestBuffer_Deprecated": "IntPtr",
-        "nUncompressBytesWritten_Deprecated": "IntPtr",
-    },
-    "ISteamUser_DecompressVoice": {
-        "pCompressed": "byte[]",
-        "pDestBuffer": "byte[]",
-    },
-    "ISteamUser_GetAuthSessionTicket": {
-        "pTicket": "byte[]",
-    },
-    "ISteamUser_BeginAuthSession": {
-        "pAuthTicket": "byte[]",
-    },
-    "ISteamUser_RequestEncryptedAppTicket": {
-        "pDataToInclude": "byte[]",
-    },
-    "ISteamUser_GetEncryptedAppTicket": {
-        "pTicket": "byte[]",
-    },
-    "ISteamUserStats_GetDownloadedLeaderboardEntry": {
-        "pDetails": "int[]",
-    },
-    "ISteamUserStats_UploadLeaderboardScore": {
-        "pScoreDetails": "int[]",
-    },
-    "ISteamUtils_GetImageRGBA": {
-        "pubDest": "byte[]",
-    },
-
-    # GameServer Copies
-    "ISteamGameServerHTTP_GetHTTPResponseHeaderValue": {
-        "pHeaderValueBuffer": "byte[]",
-    },
-    "ISteamGameServerHTTP_GetHTTPResponseBodyData": {
-        "pBodyDataBuffer": "byte[]",
-    },
-    "ISteamGameServerHTTP_GetHTTPStreamingResponseBodyData": {
-        "pBodyDataBuffer": "byte[]",
-    },
-    "ISteamGameServerHTTP_SetHTTPRequestRawPostBody": {
-        "pubBody": "byte[]",
-    },
-    "ISteamGameServerInventory_SerializeResult": {
-        "pOutBuffer": "byte[]",
-    },
-    "ISteamGameServerInventory_DeserializeResult": {
-        "pBuffer": "byte[]",
     },
     "ISteamGameServerNetworking_SendP2PPacket": {
         "pubData": "byte[]",
     },
+
+    "ISteamNetworking_ReadP2PPacket": {
+        "pubDest": "byte[]",
+    },
     "ISteamGameServerNetworking_ReadP2PPacket": {
         "pubDest": "byte[]",
+    },
+
+    "ISteamNetworking_SendDataOnSocket": {
+        "pubData": "byte[]",
     },
     "ISteamGameServerNetworking_SendDataOnSocket": {
         "pubData": "byte[]",
     },
+
+    "ISteamNetworking_RetrieveDataFromSocket": {
+        "pubDest": "byte[]",
+    },
     "ISteamGameServerNetworking_RetrieveDataFromSocket": {
+        "pubDest": "byte[]",
+    },
+
+    "ISteamNetworking_RetrieveData": {
         "pubDest": "byte[]",
     },
     "ISteamGameServerNetworking_RetrieveData": {
         "pubDest": "byte[]",
     },
-    "ISteamGameServerUtils_GetImageRGBA": {
-        "pubDest": "byte[]",
-    },
-    "ISteamGameServerUGC_CreateQueryUGCDetailsRequest": {
-        "pvecPublishedFileID": "PublishedFileId_t[]",
-    },
-    "ISteamGameServerUGC_GetQueryUGCChildren": {
-        "pvecPublishedFileID": "PublishedFileId_t[]",
-    },
-    "ISteamGameServerUGC_GetSubscribedItems": {
-        "pvecPublishedFileID": "PublishedFileId_t[]",
-    },
-    "ISteamGameServerUGC_StartPlaytimeTracking": {
-        "pvecPublishedFileID": "PublishedFileId_t[]",
-    },
-    "ISteamGameServerUGC_StopPlaytimeTracking": {
-        "pvecPublishedFileID": "PublishedFileId_t[]",
-    },
-    "ISteamGameServerUGC_GetUserContentDescriptorPreferences": {
-        "pvecDescriptors": "EUGCContentDescriptorID[]",
-    },
 
-    # This is a little nicety that we provide, I don't know why Valve doesn't just change it.
-    "ISteamFriends_GetFriendCount": {
-        "iFriendFlags": "EFriendFlags",
-    },
-    "ISteamFriends_GetFriendByIndex": {
-        "iFriendFlags": "EFriendFlags",
-    },
-    "ISteamFriends_HasFriend": {
-        "iFriendFlags": "EFriendFlags",
-    },
-
-    # These end up being "out type", when we need them to be "ref type"
-    "ISteamInventory_GetResultItems": {
-        "punOutItemsArraySize": "ref uint",
-    },
-    "ISteamInventory_GetItemDefinitionProperty": {
-        "punValueBufferSizeOut": "ref uint",
-    },
-    "ISteamInventory_GetResultItemProperty": {
-        "punValueBufferSizeOut": "ref uint",
-    },
-    "ISteamInventory_GetItemDefinitionIDs": {
-        "punItemDefIDsArraySize": "ref uint",
-    },
-    "ISteamInventory_GetEligiblePromoItemDefinitionIDs": {
-        "punItemDefIDsArraySize": "ref uint",
-    },
-
-    # And the GameServer versions:
-    "ISteamGameServerInventory_GetResultItems": {
-        "punOutItemsArraySize": "ref uint",
-    },
-    "ISteamGameServerInventory_GetItemDefinitionProperty": {
-        "punValueBufferSizeOut": "ref uint",
-    },
-    "ISteamGameServerInventory_GetResultItemProperty": {
-        "punValueBufferSizeOut": "ref uint",
-    },
-    "ISteamGameServerInventory_GetItemDefinitionIDs": {
-        "punItemDefIDsArraySize": "ref uint",
-    },
-    "ISteamGameServerInventory_GetEligiblePromoItemDefinitionIDs": {
-        "punItemDefIDsArraySize": "ref uint",
-    },
-
-    "ISteamVideo_GetOPFStringForApp": {
-        "pnBufferSize": "ref int"
-    },
-
-    "ISteamParties_CreateBeacon": {
-        "pBeaconLocation": "ref SteamPartyBeaconLocation_t",
-    },
-    "ISteamParties_GetAvailableBeaconLocations": {
-        "pLocationList": "SteamPartyBeaconLocation_t[]",
-    },
-
-    "ISteamClient_SetLocalIPBinding": {
-        "unIP": "ref SteamIPAddress_t",
-    },
-
+    # ISteamNetworkingUtils
     "ISteamNetworkingUtils_SteamNetworkingIPAddr_ToString": {
         "addr": "ref SteamNetworkingIPAddr",
         "cbBuf": "uint",
@@ -432,6 +339,7 @@ g_SpecialArgsDict = {
         "pOutMessageNumberOrResult": "long[]",
     },
 
+    # ISteamNetworkingSockets
     "ISteamNetworkingSockets_GetConnectionRealTimeStatus": {
         "pStatus": "ref SteamNetConnectionRealTimeStatus_t",
         "pLanes": "ref SteamNetConnectionRealTimeLaneStatus_t",
@@ -450,11 +358,166 @@ g_SpecialArgsDict = {
         "pLaneWeights": "ushort[]",
     },
 
+    # ISteamParties
+    "ISteamParties_CreateBeacon": {
+        "pBeaconLocation": "ref SteamPartyBeaconLocation_t",
+    },
+    "ISteamParties_GetAvailableBeaconLocations": {
+        "pLocationList": "SteamPartyBeaconLocation_t[]",
+    },
+
+    # ISteamRemotePlay
+    "ISteamRemotePlay_GetInput": {
+        "pInput": "RemotePlayInput_t[]",
+    },
+
+    # ISteamRemoteStorage
+    "ISteamRemoteStorage_FileWrite": {
+        "pvData": "byte[]",
+    },
+    "ISteamRemoteStorage_FileRead": {
+        "pvData": "byte[]",
+    },
+    "ISteamRemoteStorage_FileWriteAsync": {
+        "pvData": "byte[]",
+    },
+    "ISteamRemoteStorage_FileReadAsyncComplete": {
+        "pvBuffer": "byte[]",
+    },
+    "ISteamRemoteStorage_FileWriteStreamWriteChunk": {
+        "pvData": "byte[]",
+    },
+    "ISteamRemoteStorage_UGCRead": {
+        "pvData": "byte[]",
+    },
+
+    # ISteamScreenshots
+    "ISteamScreenshots_WriteScreenshot": {
+        "pubRGB": "byte[]",
+    },
+
     # ISteamTimeline
     "ISteamTimeline_OpenOverlayToTimelineEvent": {
         "ulEvent": "TimelineEventHandle_t",
-    }
+    },
 
+    # ISteamUGC
+    "ISteamUGC_CreateQueryUGCDetailsRequest": {
+        "pvecPublishedFileID": "PublishedFileId_t[]",
+    },
+    "ISteamGameServerUGC_CreateQueryUGCDetailsRequest": {
+        "pvecPublishedFileID": "PublishedFileId_t[]",
+    },
+
+    "ISteamUGC_GetQueryUGCChildren": {
+        "pvecPublishedFileID": "PublishedFileId_t[]",
+    },
+    "ISteamGameServerUGC_GetQueryUGCChildren": {
+        "pvecPublishedFileID": "PublishedFileId_t[]",
+    },
+
+    "ISteamUGC_GetSubscribedItems": {
+        "pvecPublishedFileID": "PublishedFileId_t[]",
+    },
+    "ISteamGameServerUGC_GetSubscribedItems": {
+        "pvecPublishedFileID": "PublishedFileId_t[]",
+    },
+
+    "ISteamUGC_StartPlaytimeTracking": {
+        "pvecPublishedFileID": "PublishedFileId_t[]",
+    },
+    "ISteamGameServerUGC_StartPlaytimeTracking": {
+        "pvecPublishedFileID": "PublishedFileId_t[]",
+    },
+
+    "ISteamUGC_StopPlaytimeTracking": {
+        "pvecPublishedFileID": "PublishedFileId_t[]",
+    },
+    "ISteamGameServerUGC_StopPlaytimeTracking": {
+        "pvecPublishedFileID": "PublishedFileId_t[]",
+    },
+
+    "ISteamUGC_GetUserContentDescriptorPreferences": {
+        "pvecDescriptors": "EUGCContentDescriptorID[]",
+    },
+    "ISteamGameServerUGC_GetUserContentDescriptorPreferences": {
+        "pvecDescriptors": "EUGCContentDescriptorID[]",
+    },
+
+    "ISteamUGC_SetItemsDisabledLocally": {
+        "pvecPublishedFileIDs": "PublishedFileId_t[]",
+    },
+    "ISteamGameServerUGC_SetItemsDisabledLocally": {
+        "pvecPublishedFileIDs": "PublishedFileId_t[]",
+    },
+
+    "ISteamUGC_SetSubscriptionsLoadOrder": {
+        "pvecPublishedFileIDs": "PublishedFileId_t[]",
+    },
+    "ISteamGameServerUGC_SetSubscriptionsLoadOrder": {
+        "pvecPublishedFileIDs": "PublishedFileId_t[]",
+    },
+
+    # ISteamUser
+    "ISteamUser_InitiateGameConnection_DEPRECATED": {
+        "pAuthBlob": "byte[]",
+    },
+    "ISteamUser_GetAvailableVoice": {
+        "pcbUncompressed_Deprecated": "IntPtr",
+    },
+    "ISteamUser_GetVoice": {
+        "pDestBuffer": "byte[]",
+        "pUncompressedDestBuffer_Deprecated": "IntPtr",
+        "nUncompressBytesWritten_Deprecated": "IntPtr",
+    },
+    "ISteamUser_DecompressVoice": {
+        "pCompressed": "byte[]",
+        "pDestBuffer": "byte[]",
+    },
+    "ISteamUser_GetAuthSessionTicket": {
+        "pTicket": "byte[]",
+    },
+    "ISteamUser_BeginAuthSession": {
+        "pAuthTicket": "byte[]",
+    },
+    "ISteamUser_RequestEncryptedAppTicket": {
+        "pDataToInclude": "byte[]",
+    },
+    "ISteamUser_GetEncryptedAppTicket": {
+        "pTicket": "byte[]",
+    },
+
+    # ISteamUserStats
+    "ISteamUserStats_GetDownloadedLeaderboardEntry": {
+        "pDetails": "int[]",
+    },
+    "ISteamUserStats_UploadLeaderboardScore": {
+        "pScoreDetails": "int[]",
+    },
+
+    # ISteamUtils
+    "ISteamUtils_GetImageRGBA": {
+        "pubDest": "byte[]",
+    },
+    "ISteamGameServerUtils_GetImageRGBA": {
+        "pubDest": "byte[]",
+    },
+
+    # ISteamVideo
+    "ISteamVideo_GetOPFStringForApp": {
+        "pnBufferSize": "ref int"
+    },
+
+    # This is a little nicety that we provide
+    "ISteamFriends_GetFriendCount": {
+        "iFriendFlags": "EFriendFlags",
+    },
+    "ISteamFriends_GetFriendByIndex": {
+        "iFriendFlags": "EFriendFlags",
+    },
+    "ISteamFriends_HasFriend": {
+        "iFriendFlags": "EFriendFlags",
+    },
 }
 
 g_SpecialWrapperArgsDict = {
@@ -464,13 +527,6 @@ g_SpecialWrapperArgsDict = {
     },
     "ISteamFriends_GetFriendMessage": {
         "pvData": "out string",
-    },
-
-    "ISteamClient_SetLocalIPBinding": {
-        "unIP": "ref SteamIPAddress_t",
-    },
-    "ISteamGameServerClient_SetLocalIPBinding": {
-        "unIP": "ref SteamIPAddress_t",
     },
 }
 
@@ -484,12 +540,6 @@ g_FixedAttributeValues = {
         "pArrayItemDefs": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "unArrayLength"),
         "pCurrentPrices": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "unArrayLength"),
         "pBasePrices": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "unArrayLength"),
-    },
-    "ISteamUGC_GetQueryUGCAdditionalPreview": {
-        "pchOriginalFileName": steamworksparser.ArgAttribute("STEAM_OUT_STRING_COUNT", "cchOriginalFileNameSize"),
-    },
-    "ISteamGameServerUGC_GetQueryUGCAdditionalPreview": {
-        "pchOriginalFileName": steamworksparser.ArgAttribute("STEAM_OUT_STRING_COUNT", "cchOriginalFileNameSize"),
     },
     "ISteamUGC_GetQueryUGCContentDescriptors": {
         "pvecDescriptors": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "cMaxEntries"),

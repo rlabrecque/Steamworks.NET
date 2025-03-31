@@ -46,10 +46,6 @@ g_CustomPackSize = {
 }
 
 g_SkippedStructs = (
-    # Lingering PS3 stuff.
-    "PSNGameBootInviteResult_t",
-    "PS3TrophiesInstalled_t",
-
     # We remap these ISteamController structs to ISteamInput
     "ControllerAnalogActionData_t",
     "ControllerDigitalActionData_t",
@@ -60,9 +56,10 @@ g_SkippedStructs = (
     "SteamNetworkingIPAddrRender",
     "SteamNetworkingPOPIDRender",
 
-    # CustomType
+    # Custom Types
     "SteamIPAddress_t",
     "SteamInputActionEvent_t",
+    "RemotePlayInput_t",
 )
 
 g_SequentialStructs = (

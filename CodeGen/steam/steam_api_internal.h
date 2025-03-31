@@ -225,7 +225,6 @@ class ISteamScreenshots;
 class ISteamMusic;
 class ISteamMusicRemote;
 class ISteamGameServerStats;
-class ISteamPS3OverlayRender;
 class ISteamHTTP;
 class ISteamController;
 class ISteamUGC;
