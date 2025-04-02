@@ -57,7 +57,7 @@ namespace Steamworks {
 			lock (m_sync) {
 				if (m_initCount == 0) {
 					NativeMethods.SteamAPI_ManualDispatch_Init();
-					m_pCallbackMsg = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(CallbackMsg_t)));
+					m_pCallbackMsg = Marshal.AllocHGlobal(Marshal.SizeOf<CallbackMsg_t>());
 				}
 				++m_initCount;
 			}
@@ -160,11 +160,11 @@ namespace Steamworks {
 			NativeMethods.SteamAPI_ManualDispatch_RunFrame(hSteamPipe);
 			var callbacksRegistry = isGameServer ? m_registeredGameServerCallbacks : m_registeredCallbacks;
 			while (NativeMethods.SteamAPI_ManualDispatch_GetNextCallback(hSteamPipe, m_pCallbackMsg)) {
-				CallbackMsg_t callbackMsg = (CallbackMsg_t)Marshal.PtrToStructure(m_pCallbackMsg, typeof(CallbackMsg_t));
+				CallbackMsg_t callbackMsg = Marshal.PtrToStructure<CallbackMsg_t>(m_pCallbackMsg);
 				try {
 					// Check for dispatching API call results
 					if (callbackMsg.m_iCallback == SteamAPICallCompleted_t.k_iCallback) {
-						SteamAPICallCompleted_t callCompletedCb = (SteamAPICallCompleted_t)Marshal.PtrToStructure(callbackMsg.m_pubParam, typeof(SteamAPICallCompleted_t));
+						SteamAPICallCompleted_t callCompletedCb = Marshal.PtrToStructure<SteamAPICallCompleted_t>(callbackMsg.m_pubParam);
 						IntPtr pTmpCallResult = Marshal.AllocHGlobal((int)callCompletedCb.m_cubParam);
 						bool bFailed;
 						if (NativeMethods.SteamAPI_ManualDispatch_GetAPICallResult(hSteamPipe, callCompletedCb.m_hAsyncCall, pTmpCallResult, (int)callCompletedCb.m_cubParam, callCompletedCb.m_iCallback, out bFailed)) {
@@ -181,14 +181,12 @@ namespace Steamworks {
 						}
 						Marshal.FreeHGlobal(pTmpCallResult);
 					} else {
-						List<Callback> callbacksCopy = null;
-						lock (m_sync) {
-							List<Callback> callbacks = null;
-							if (callbacksRegistry.TryGetValue(callbackMsg.m_iCallback, out callbacks)) {
+						List<Callback> callbacks;
+						if (callbacksRegistry.TryGetValue(callbackMsg.m_iCallback, out callbacks)) {
+							List<Callback> callbacksCopy;
+							lock (m_sync) {
 								callbacksCopy = new List<Callback>(callbacks);
 							}
-						}
-						if (callbacksCopy != null) {
 							foreach (var callback in callbacksCopy) {
 								callback.OnRunCallback(callbackMsg.m_pubParam);
 							}
@@ -210,7 +208,10 @@ namespace Steamworks {
 		internal abstract void SetUnregistered();
 	}
 
-	public sealed class Callback<T> : Callback, IDisposable {
+	public sealed class Callback<
+        [System.Diagnostics.CodeAnalysis.DynamicallyAccessedMembers(System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.NonPublicConstructors | System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.PublicConstructors)]
+		T
+		> : Callback, IDisposable {
 		public delegate void DispatchDelegate(T param);
 		private event DispatchDelegate m_Func;
 
@@ -290,7 +291,7 @@ namespace Steamworks {
 
 		internal override void OnRunCallback(IntPtr pvParam) {
 			try {
-				m_Func((T)Marshal.PtrToStructure(pvParam, typeof(T)));
+				m_Func(Marshal.PtrToStructure<T>(pvParam));
 			}
 			catch (Exception e) {
 				CallbackDispatcher.ExceptionHandler(e);
@@ -308,7 +309,10 @@ namespace Steamworks {
 		internal abstract void SetUnregistered();
 	}
 
-	public sealed class CallResult<T> : CallResult, IDisposable {
+	public sealed class CallResult<
+		[System.Diagnostics.CodeAnalysis.DynamicallyAccessedMembers(System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.NonPublicConstructors | System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.PublicConstructors)]
+		T
+		> : CallResult, IDisposable {
 		public delegate void APIDispatchDelegate(T param, bool bIOFailure);
 		private event APIDispatchDelegate m_Func;
 
@@ -385,7 +389,7 @@ namespace Steamworks {
 			SteamAPICall_t hSteamAPICall = (SteamAPICall_t)hSteamAPICall_;
 			if (hSteamAPICall == m_hAPICall) {
 				try {
-					m_Func((T)Marshal.PtrToStructure(pvParam, typeof(T)), bFailed);
+					m_Func(Marshal.PtrToStructure<T>(pvParam), bFailed);
 				}
 				catch (Exception e) {
 					CallbackDispatcher.ExceptionHandler(e);
