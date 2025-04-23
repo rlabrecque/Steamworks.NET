@@ -1,55 +1,71 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Project>
 	<Target Name="PrepareFolderStructure" DependsOnTargets="Build"
-			Outputs="@(O_PrepareFolderStructure)">
+			Outputs="@(O_PrepareFolderStructure)" Returns="@(O_PrepareFolderStructure)">
 		<PropertyGroup>
 			<AsmBase>$(ProjectDir)bin\nuget\runtime\</AsmBase>
+			<RefBase>$(ProjectDir)bin\nuget\ref\</RefBase>
 			<PdbBase>$(ProjectDir)bin\nugetsyms\runtime\</PdbBase>
 			<FrameworkBase>lib\$(TargetFramework)\</FrameworkBase>
 		</PropertyGroup>
-		<ItemGroup Condition="'$(Configuration)'=='Windows'">
-			<LibDir Include="$(AsmBase)win-$(Platform)\$(FrameworkBase)" />
-			<SymDir Include="$(PdbBase)win-$(Platform)\$(FrameworkBase)\" />
+		<ItemGroup Condition="'$(ProduceOnlyReferenceAssembly)' != 'true'">
+			<LibDir Include="$(AsmBase)$(SNetOperatingSystem)-$(Platform)\$(FrameworkBase)\" />
+			<SymDir Include="$(PdbBase)$(SNetOperatingSystem)-$(Platform)\$(FrameworkBase)\" />
 		</ItemGroup>
-		<ItemGroup Condition="'$(Configuration)'=='OSX-Linux'">
-			<LibDir Include="$(AsmBase)linux-$(Platform)\$(FrameworkBase)\" />
-			<SymDir Include="$(PdbBase)linux-$(Platform)\$(FrameworkBase)\" />
-			<LibDir Include="$(AsmBase)osx-$(Platform)\$(FrameworkBase)\" />
-			<SymDir Include="$(PdbBase)osx-$(Platform)\$(FrameworkBase)\" />
+		<ItemGroup Condition="'$(ProduceOnlyReferenceAssembly)' == 'true'">
+			<LibDir Include="$(RefBase)$(TargetFramework)\" />
+			<PdbDir Include="$(RefBase)$(TargetFramework)\" />
 		</ItemGroup>
+		<!-- This is main build output that a successful build will produce this file. No need to check.-->
 		<Copy SourceFiles="$(OutDir)$(AssemblyName).dll" DestinationFolder="%(LibDir.Identity)">
 			<Output	ItemName="O_PrepareFolderStructure" TaskParameter="CopiedFiles"/>
 		</Copy>
+		<!-- Debug info won't generate in reference assembly build, check existence. -->
 		<Copy SourceFiles="$(OutDir)$(AssemblyName).pdb" Condition="Exists('$(OutDir)$(AssemblyName).pdb')" DestinationFolder="%(SymDir.Identity)">
 			<Output	ItemName="O_PrepareFolderStructure" TaskParameter="CopiedFiles"/>
 		</Copy>
 	</Target>
 	<Target Name="BatchBuild" BeforeTargets="Pack"
 			Outputs="@(O_BatchBuild)">
+		<PropertyGroup>
+			<RefBuildCommonProperties>
+				Platform=x64;
+				Optimize=true;
+				SNetOperatingSystem=win;
+				OutDir=$(ProjectDir)bin\nugetbuild\ref\;
+				ProduceOnlyReferenceAssembly=true
+			</RefBuildCommonProperties>
+		</PropertyGroup>
 		<ItemGroup>
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
-				<Properties>Platform=x64;SNetOperatingSystem=win;Optimize=true;PackagingBuild=true;OutDir=$(ProjectDir)bin\nugetbuild\w64</Properties>
+				<Properties>Platform=x64;SNetOperatingSystem=win;Optimize=true;PackagingBuild=true;OutDir=$(ProjectDir)bin\nugetbuild\w64\</Properties>
 			</ToBuilt>
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
-				<Properties>Platform=x64;SNetOperatingSystem=lin;Optimize=true;PackagingBuild=true;OutDir=$(ProjectDir)bin\nugetbuild\p64</Properties>
+				<Properties>Platform=x64;SNetOperatingSystem=lin;Optimize=true;PackagingBuild=true;OutDir=$(ProjectDir)bin\nugetbuild\p64\</Properties>
 			</ToBuilt>
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
-				<Properties>Platform=x86;SNetOperatingSystem=win;Optimize=true;PackagingBuild=true;OutDir=$(ProjectDir)bin\nugetbuild\w86</Properties>
+				<Properties>Platform=x64;SNetOperatingSystem=osx;Optimize=true;PackagingBuild=true;OutDir=$(ProjectDir)bin\nugetbuild\o64\</Properties>
 			</ToBuilt>
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
-				<Properties>Platform=x86;SNetOperatingSystem=lin;Optimize=true;PackagingBuild=true;OutDir=$(ProjectDir)bin\nugetbuild\p86</Properties>
+				<Properties>Platform=arm64;SNetOperatingSystem=osx;Optimize=true;PackagingBuild=true;OutDir=$(ProjectDir)bin\nugetbuild\o64\</Properties>
+			</ToBuilt>
+			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+				<Properties>Platform=x86;SNetOperatingSystem=win;Optimize=true;PackagingBuild=true;OutDir=$(ProjectDir)bin\nugetbuild\w86\</Properties>
 			</ToBuilt>
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
 				<Properties>
-					Platform=x64;
-					Optimize=true;
-					SNetOperatingSystem=win;
-					ProduceOnlyReferenceAssembly=true;
-					OutDir=$(ProjectDir)bin\nugetbuild\ref
+					$(RefBuildCommonProperties);
+					TargetFramework=net8.0
+				</Properties>
+			</ToBuilt>
+			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+				<Properties>
+					$(RefBuildCommonProperties);
+					TargetFramework=netstandard2.0
 				</Properties>
 			</ToBuilt>
 		</ItemGroup>
-		<MSBuild BuildInParallel="true" StopOnFirstFailure="true" Projects="@(ToBuilt)"
+		<MSBuild BuildInParallel="false" StopOnFirstFailure="true" Projects="@(ToBuilt)"
 				 Targets="Build;PrepareFolderStructure">
 			<Output TaskParameter="TargetOutputs" ItemName="O_BatchBuild" />
 		</MSBuild>
