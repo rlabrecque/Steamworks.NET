@@ -381,6 +381,8 @@ namespace Steamworks {
 		public bool m_bHasProfileBackground;
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bHasMiniProfileBackground;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bFromCache;
 	}
 
 	// callbacks
@@ -2132,6 +2134,38 @@ namespace Steamworks {
 	// Purpose: Callback for querying UGC
 	//-----------------------------------------------------------------------------
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamTimelineCallbacks + 1)]
+	public struct SteamTimelineGamePhaseRecordingExists_t {
+		public const int k_iCallback = Constants.k_iSteamTimelineCallbacks + 1;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchMaxPhaseIDLength)]
+		private byte[] m_rgchPhaseID_;
+		public string m_rgchPhaseID
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchPhaseID_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchPhaseID_, Constants.k_cchMaxPhaseIDLength); }
+		}
+		public ulong m_ulRecordingMS;
+		public ulong m_ulLongestClipMS;
+		public uint m_unClipCount;
+		public uint m_unScreenshotCount;
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Callback for querying UGC
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamTimelineCallbacks + 2)]
+	public struct SteamTimelineEventRecordingExists_t {
+		public const int k_iCallback = Constants.k_iSteamTimelineCallbacks + 2;
+		public ulong m_ulEventID;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bRecordingExists;
+	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Callback for querying UGC
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 1)]
 	public struct SteamUGCQueryCompleted_t {
 		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 1;
@@ -2873,6 +2907,21 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamVideoCallbacks + 24;
 		public EResult m_eResult;
 		public AppId_t m_unVideoAppID;
+	}
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamVideoCallbacks + 4)]
+	public struct BroadcastUploadStart_t {
+		public const int k_iCallback = Constants.k_iSteamVideoCallbacks + 4;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bIsRTMP;
+	}
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamVideoCallbacks + 5)]
+	public struct BroadcastUploadStop_t {
+		public const int k_iCallback = Constants.k_iSteamVideoCallbacks + 5;
+		public EBroadcastUploadResult m_eResult;
 	}
 
 	/// Callback struct used to notify when a connection has changed state
