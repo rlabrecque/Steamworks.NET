@@ -37,21 +37,82 @@
 			</RefBuildCommonProperties>
 		</PropertyGroup>
 		<ItemGroup>
+			<!-- A lot of build specifications -->
+			<!-- netstandard2.0 -->
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
-				<Properties>Platform=x64;SNetOperatingSystem=win;Optimize=true;PackagingBuild=true;OutDir=$(ProjectDir)bin\nugetbuild\w64\</Properties>
+				<Properties>
+					Platform=x64;SNetOperatingSystem=win;TargetFramework=netstandard2.0;
+					Optimize=true;PackagingBuild=true;
+					OutDir=$(ProjectDir)bin\nugetbuild\w64\
+				</Properties>
 			</ToBuilt>
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
-				<Properties>Platform=x64;SNetOperatingSystem=lin;Optimize=true;PackagingBuild=true;OutDir=$(ProjectDir)bin\nugetbuild\p64\</Properties>
+				<Properties>
+					Platform=x64;SNetOperatingSystem=lin;TargetFramework=netstandard2.0;
+					Optimize=true;PackagingBuild=true;
+					OutDir=$(ProjectDir)bin\nugetbuild\p64\
+				</Properties>
 			</ToBuilt>
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
-				<Properties>Platform=x64;SNetOperatingSystem=osx;Optimize=true;PackagingBuild=true;OutDir=$(ProjectDir)bin\nugetbuild\o64\</Properties>
+				<Properties>
+					Platform=x64;SNetOperatingSystem=osx;TargetFramework=netstandard2.0;
+					Optimize=true;PackagingBuild=true;
+					OutDir=$(ProjectDir)bin\nugetbuild\o64
+				</Properties>
 			</ToBuilt>
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
-				<Properties>Platform=arm64;SNetOperatingSystem=osx;Optimize=true;PackagingBuild=true;OutDir=$(ProjectDir)bin\nugetbuild\o64\</Properties>
+				<Properties>
+					Platform=arm64;SNetOperatingSystem=osx;TargetFramework=netstandard2.0;
+					Optimize=true;PackagingBuild=true;
+					OutDir=$(ProjectDir)bin\nugetbuild\o64\
+				</Properties>
 			</ToBuilt>
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
-				<Properties>Platform=x86;SNetOperatingSystem=win;Optimize=true;PackagingBuild=true;OutDir=$(ProjectDir)bin\nugetbuild\w86\</Properties>
+				<Properties>
+					Platform=x86;SNetOperatingSystem=win;TargetFramework=netstandard2.0;
+					Optimize=true;PackagingBuild=true;
+					OutDir=$(ProjectDir)bin\nugetbuild\w86\
+				</Properties>
 			</ToBuilt>
+
+			<!-- net8.0 -->
+			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+				<Properties>
+					Platform=x64;SNetOperatingSystem=win;TargetFramework=net8.0;
+					Optimize=true;PackagingBuild=true;
+					OutDir=$(ProjectDir)bin\nugetbuild\w64\
+				</Properties>
+			</ToBuilt>
+			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+				<Properties>
+					Platform=x64;SNetOperatingSystem=lin;TargetFramework=net8.0;
+					Optimize=true;PackagingBuild=true;
+					OutDir=$(ProjectDir)bin\nugetbuild\p64\
+				</Properties>
+			</ToBuilt>
+			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+				<Properties>
+					Platform=x64;SNetOperatingSystem=osx;TargetFramework=net8.0;
+					Optimize=true;PackagingBuild=true;
+					OutDir=$(ProjectDir)bin\nugetbuild\o64
+				</Properties>
+			</ToBuilt>
+			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+				<Properties>
+					Platform=arm64;SNetOperatingSystem=osx;TargetFramework=net8.0;
+					Optimize=true;PackagingBuild=true;
+					OutDir=$(ProjectDir)bin\nugetbuild\o64\
+				</Properties>
+			</ToBuilt>
+			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+				<Properties>
+					Platform=x86;SNetOperatingSystem=win;TargetFramework=net8.0;
+					Optimize=true;PackagingBuild=true;
+					OutDir=$(ProjectDir)bin\nugetbuild\w86\
+				</Properties>
+			</ToBuilt>
+			
+			<!-- Reference assemblies will pass to compiler -->
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
 				<Properties>
 					$(RefBuildCommonProperties);
@@ -65,6 +126,11 @@
 				</Properties>
 			</ToBuilt>
 		</ItemGroup>
+		<ItemGroup>
+			<SNetNugetPackageFiles Include="$(ProjectDir)bin\nuget\**" />
+		</ItemGroup>
+		<Delete Files="@(SNetNugetPackageFiles)" />
+		<!-- No parallel build for avoiding files being locked -->
 		<MSBuild BuildInParallel="false" StopOnFirstFailure="true" Projects="@(ToBuilt)"
 				 Targets="Build;PrepareFolderStructure">
 			<Output TaskParameter="TargetOutputs" ItemName="O_BatchBuild" />

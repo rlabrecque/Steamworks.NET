@@ -1,6 +1,6 @@
 ﻿First build binaries of all supported platform. Enter
 ```bat
-dotnet build -t:BatchBuild -p:SNetDoingNugetBuild=true Steamworks.NET.Standard.sln
+dotnet build -t:BatchBuild -p:SNetDoingNugetBuild=true -p:Version={CurrentVersion} Steamworks.NET.Standard.sln
 ```
 to your terminal.
 
