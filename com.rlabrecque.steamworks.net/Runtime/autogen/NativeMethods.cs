@@ -243,6 +243,12 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_SteamNetworkingIdentity_GetPSNID", CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong SteamAPI_SteamNetworkingIdentity_GetPSNID(ref SteamNetworkingIdentity self);
 
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_SteamNetworkingIdentity_SetStadiaID", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SteamAPI_SteamNetworkingIdentity_SetStadiaID(ref SteamNetworkingIdentity self, ulong id);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_SteamNetworkingIdentity_GetStadiaID", CallingConvention = CallingConvention.Cdecl)]
+		public static extern ulong SteamAPI_SteamNetworkingIdentity_GetStadiaID(ref SteamNetworkingIdentity self);
+
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_SteamNetworkingIdentity_SetIPAddr", CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SteamAPI_SteamNetworkingIdentity_SetIPAddr(ref SteamNetworkingIdentity self, ref SteamNetworkingIPAddr addr);
 
@@ -2996,11 +3002,11 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_SetItemsDisabledLocally", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamUGC_SetItemsDisabledLocally(IntPtr instancePtr, [In, Out] PublishedFileId_t[] pvecPublishedFileIDs, uint unNumPublishedFileIDs, [MarshalAs(UnmanagedType.I1)] bool bDisabledLocally);
+		public static extern bool ISteamUGC_SetItemsDisabledLocally(IntPtr instancePtr, out PublishedFileId_t pvecPublishedFileIDs, uint unNumPublishedFileIDs, [MarshalAs(UnmanagedType.I1)] bool bDisabledLocally);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_SetSubscriptionsLoadOrder", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamUGC_SetSubscriptionsLoadOrder(IntPtr instancePtr, [In, Out] PublishedFileId_t[] pvecPublishedFileIDs, uint unNumPublishedFileIDs);
+		public static extern bool ISteamUGC_SetSubscriptionsLoadOrder(IntPtr instancePtr, out PublishedFileId_t pvecPublishedFileIDs, uint unNumPublishedFileIDs);
 #endregion
 #region SteamUser
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUser_GetHSteamUser", CallingConvention = CallingConvention.Cdecl)]

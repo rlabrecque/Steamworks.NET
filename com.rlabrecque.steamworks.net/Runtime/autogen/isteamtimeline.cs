@@ -101,7 +101,7 @@ namespace Steamworks {
 		/// <para>   after the game exits.</para>
 		/// <para> quick helpers that add to the timeline in one call</para>
 		/// </summary>
-		public static TimelineEventHandle_t AddInstantaneousTimelineEvent(string pchTitle, string pchDescription, string pchIcon, uint unIconPriority, float flStartOffsetSeconds = 0.0f, ETimelineEventClipPriority ePossibleClip = ETimelineEventClipPriority.k_ETimelineEventClipPriority_None) {
+		public static TimelineEventHandle_t AddInstantaneousTimelineEvent(string pchTitle, string pchDescription, string pchIcon, uint unIconPriority, float flStartOffsetSeconds = 0f, ETimelineEventClipPriority ePossibleClip = ETimelineEventClipPriority.k_ETimelineEventClipPriority_None) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchTitle2 = new InteropHelp.UTF8StringHandle(pchTitle))
 			using (var pchDescription2 = new InteropHelp.UTF8StringHandle(pchDescription))
@@ -110,7 +110,7 @@ namespace Steamworks {
 			}
 		}
 
-		public static TimelineEventHandle_t AddRangeTimelineEvent(string pchTitle, string pchDescription, string pchIcon, uint unIconPriority, float flStartOffsetSeconds = 0.0f, float flDuration = 0.0f, ETimelineEventClipPriority ePossibleClip = ETimelineEventClipPriority.k_ETimelineEventClipPriority_None) {
+		public static TimelineEventHandle_t AddRangeTimelineEvent(string pchTitle, string pchDescription, string pchIcon, uint unIconPriority, float flStartOffsetSeconds = 0f, float flDuration = 0f, ETimelineEventClipPriority ePossibleClip = ETimelineEventClipPriority.k_ETimelineEventClipPriority_None) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchTitle2 = new InteropHelp.UTF8StringHandle(pchTitle))
 			using (var pchDescription2 = new InteropHelp.UTF8StringHandle(pchDescription))
