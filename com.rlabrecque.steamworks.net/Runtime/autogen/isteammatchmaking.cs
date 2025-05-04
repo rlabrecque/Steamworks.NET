@@ -424,17 +424,6 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamMatchmaking_SetLinkedLobby(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby, steamIDLobbyDependent);
 		}
-#if _PS3
-		/// <summary>
-		/// <para> changes who the lobby owner is</para>
-		/// <para> you must be the lobby owner for this to succeed, and steamIDNewOwner must be in the lobby</para>
-		/// <para> after completion, the local user will no longer be the owner</para>
-		/// </summary>
-		public static void CheckForPSNGameBootInvite(uint iGameBootAttributes) {
-			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamMatchmaking_CheckForPSNGameBootInvite(CSteamAPIContext.GetSteamMatchmaking(), iGameBootAttributes);
-		}
-#endif
 	}
 	public static class SteamMatchmakingServers {
 		/// <summary>

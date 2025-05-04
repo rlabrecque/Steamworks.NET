@@ -73,7 +73,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Checks if the user is subscribed to the current app through a free weekend</para>
 		/// <para> This function will return false for users who have a retail or other type of license</para>
-		/// <para> Before using, please ask your Valve technical contact how to package and secure your free weekened</para>
+		/// <para> Before using, please ask your Valve technical contact how to package and secure your free weekend</para>
 		/// </summary>
 		public static bool BIsSubscribedFromFreeWeekend() {
 			InteropHelp.TestIfAvailableClient();
