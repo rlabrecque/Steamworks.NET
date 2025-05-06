@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project>
+	<Target Name="PrepareFolderStructure" DependsOnTargets="Build"
+			Outputs="@(O_PrepareFolderStructure)" Returns="@(O_PrepareFolderStructure)">
+		<PropertyGroup>
+			<AsmBase>$(ProjectDir)bin\nuget\runtime\</AsmBase>
+			<RefBase>$(ProjectDir)bin\nuget\ref\</RefBase>
+			<PdbBase>$(ProjectDir)bin\nugetsyms\runtime\</PdbBase>
+			<FrameworkBase>lib\$(TargetFramework)\</FrameworkBase>
+		</PropertyGroup>
+		<ItemGroup Condition="'$(ProduceOnlyReferenceAssembly)' != 'true'">
+			<LibDir Include="$(AsmBase)$(SNetOperatingSystem)-$(Platform)\$(FrameworkBase)\" />
+			<SymDir Include="$(PdbBase)$(SNetOperatingSystem)-$(Platform)\$(FrameworkBase)\" />
+		</ItemGroup>
+		<ItemGroup Condition="'$(ProduceOnlyReferenceAssembly)' == 'true'">
+			<LibDir Include="$(RefBase)$(TargetFramework)\" />
+			<PdbDir Include="$(RefBase)$(TargetFramework)\" />
+		</ItemGroup>
+		<!-- This is main build output that a successful build will produce it. No need to check.-->
+		<Copy SourceFiles="$(OutDir)$(AssemblyName).dll" DestinationFolder="%(LibDir.Identity)">
+			<Output	ItemName="O_PrepareFolderStructure" TaskParameter="CopiedFiles"/>
+		</Copy>
+		<!-- Debug info won't generate in reference assembly build, check existence. -->
+		<Copy SourceFiles="$(OutDir)$(AssemblyName).pdb" Condition="Exists('$(OutDir)$(AssemblyName).pdb')" DestinationFolder="%(SymDir.Identity)">
+			<Output	ItemName="O_PrepareFolderStructure" TaskParameter="CopiedFiles"/>
+		</Copy>
+	</Target>
+	<Target Name="CleanupNugetWorkspace">
+		<ItemGroup>
+			<SNetNugetPackageFiles Include="$(ProjectDir)bin\nuget\**" />
+		</ItemGroup>
+		<Delete Files="@(SNetNugetPackageFiles)" />
+	</Target>
+	<Target Name="CopySteamNatives" AfterTargets="CleanupNugetWorkspace">
+		<PropertyGroup>
+			<SteamNativeBase>$(MSBuildThisFileDirectory)..\..\com.rlabrecque.steamworks.net\Plugins\</SteamNativeBase>
+			<PackagedNativeBase>$(ProjectDir)bin\nuget\runtime\</PackagedNativeBase>
+		</PropertyGroup>
+
+		<Copy SourceFiles="$(SteamNativeBase)steam_api64.dll" DestinationFolder="$(PackagedNativeBase)win-x64\native" ContinueOnError="false"  />
+		<Copy SourceFiles="$(SteamNativeBase)steam_api.dll" DestinationFolder="$(PackagedNativeBase)win-x86\native" ContinueOnError="false" />
+		<Copy SourceFiles="$(SteamNativeBase)libsteam_api.so" DestinationFolder="$(PackagedNativeBase)linux-x64\native" ContinueOnError="false" />
+		<Copy SourceFiles="$(SteamNativeBase)steam_api.bundle\Contents\MacOS\libsteam_api.dylib" DestinationFolder="$(PackagedNativeBase)osx-x64\native"
+			  ContinueOnError="false" />
+		<Copy SourceFiles="$(SteamNativeBase)steam_api.bundle\Contents\MacOS\libsteam_api.dylib" DestinationFolder="$(PackagedNativeBase)osx-arm64\native"
+			  ContinueOnError="false" />
+	</Target>
+	<Target Name="BatchBuild" DependsOnTargets="CleanupNugetWorkspace;CopySteamNatives"
+			Outputs="@(O_BatchBuild)">
+		<PropertyGroup>
+			<!-- Prepared for net8.0 -->
+			<RefBuildCommonProperties>
+				Platform=x64;
+				PlatformTarget=x64;
+				Optimize=true;
+				SNetOperatingSystem=win;
+				OutDir=$(ProjectDir)bin\nugetbuild\ref\;
+				ProduceOnlyReferenceAssembly=true
+			</RefBuildCommonProperties>
+		</PropertyGroup>
+		<ItemGroup>
+			<!--
+				A lot of build specifications
+				Must specify TargetFramework that we can copy dlls to correct place
+			-->
+			
+			<!-- netstandard2.1 -->
+			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+				<Properties>
+					Platform=x64;PlatformTarget=x64;SNetOperatingSystem=win;TargetFramework=netstandard2.1;
+					Optimize=true;PackagingBuild=true;
+					OutDir=$(ProjectDir)bin\nugetbuild\w64\
+				</Properties>
+			</ToBuilt>
+			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+				<Properties>
+					Platform=x64;PlatformTarget=x64;SNetOperatingSystem=linux;TargetFramework=netstandard2.1;
+					Optimize=true;PackagingBuild=true;
+					OutDir=$(ProjectDir)bin\nugetbuild\p64\
+				</Properties>
+			</ToBuilt>
+			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+				<Properties>
+					Platform=x64;PlatformTarget=x64;SNetOperatingSystem=osx;TargetFramework=netstandard2.1;
+					Optimize=true;PackagingBuild=true;
+					OutDir=$(ProjectDir)bin\nugetbuild\o64\
+				</Properties>
+			</ToBuilt>
+			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+				<Properties>
+					Platform=arm64;PlatformTarget=arm64;SNetOperatingSystem=osx;TargetFramework=netstandard2.1;
+					Optimize=true;PackagingBuild=true;
+					OutDir=$(ProjectDir)bin\nugetbuild\oarm\
+				</Properties>
+			</ToBuilt>
+			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+				<Properties>
+					Platform=x86;PlatformTarget=x86;SNetOperatingSystem=win;TargetFramework=netstandard2.1;
+					Optimize=true;PackagingBuild=true;
+					OutDir=$(ProjectDir)bin\nugetbuild\w86\
+				</Properties>
+			</ToBuilt>
+			
+			<!-- Reference assemblies will pass to compiler -->
+			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+				<Properties>
+					$(RefBuildCommonProperties);
+					TargetFramework=netstandard2.1
+				</Properties>
+			</ToBuilt>
+		</ItemGroup>
+		<!-- Not to parallel build for avoid files being locked -->
+		<MSBuild BuildInParallel="false" StopOnFirstFailure="true" Projects="@(ToBuilt)"
+				 Targets="Build;PrepareFolderStructure">
+			<Output TaskParameter="TargetOutputs" ItemName="O_BatchBuild" />
+		</MSBuild>
+	</Target>
+	<!-- Targets below not useful currently, need .NET SDK supports multi-runtime pack command -->
+	<Target Name="CollectNugetContent" DependsOnTargets="BatchBuild" BeforeTargets="_GetPackageFiles;GenerateNuspec">
+		<ItemGroup>
+			<None Remove="%(Complie.Identity)" />
+			<None Remove="*" />
+			<None Remove="MainPackage\*" />
+			<Asm Include="$(ProjectDir)bin\ref\*">
+				<Pack>true</Pack>
+				<PackagePath>ref\$(TargetFramework)\</PackagePath>
+			</Asm>
+			<Content Include="../README.md" Pack="true" PackagePath="" />
+		</ItemGroup>
+		<ItemGroup>
+			<Paths Include="linuxux-x64;osx-x64;win-x64;linuxux-x86;osx-x86;win-x86" />
+		</ItemGroup>
+		<PropertyGroup>
+			<AsmBase>$(ProjectDir)bin\nuget\runtime\lib\</AsmBase>
+			<PdbBase>$(ProjectDir)bin\nugetsyms\runtime\lib\</PdbBase>
+			<FrameworkBase>lib\$(TargetFramework)\</FrameworkBase>
+		</PropertyGroup>
+		<ItemGroup>
+			<Asm Include="@(Paths->'$(AsmBase)%(Identity)\$(FrameworkBase)\$(AssemblyName).dll')"
+				 Pack="true" PackagePath="@(Paths->'runtime\lib\%(Identity)\$(FrameworkBase)\')" />
+			<Pdb Include="@(Paths->'$(PdbBase)%(Identity)\$(FrameworkBase)\$(AssemblyName).pdb')"
+				 Pack="true" PackagePath="@(Paths->'runtime\lib\$(FrameworkBase)\%(Identity)\')" />
+
+			<_PackageFiles Include="@(Asm)" />
+		</ItemGroup>
+
+		<Message Text="Asm target: @(Asm->'%(identity) -> %(PackagePath)')" Importance="high" />
+		<Message Text="Pdb target: @(Pdb->'%(identity) -> %(PackagePath)')" Importance="high" />
+	</Target>
+	<Target Name="OverrideSymbolFiles" DependsOnTargets="_GetDebugSymbolsWithTfm"
+			BeforeTargets="GenerateNuspec"
+			Returns="@(_TargetPathsToSymbolsWithTfm)">
+
+		<ItemGroup>
+			<None Remove="%(_TargetPathsToSymbols.Identity)" />
+			<_TargetPathsToSymbols Include="@(Pdb)" />
+		</ItemGroup>
+	</Target>		
+	<Target Name="ShowPackagedFiles" AfterTargets="CollectNugetContent">
+		<Message Text="Package Files: @(_PackageFiles)" Importance="high" />
+	</Target>
+</Project>
