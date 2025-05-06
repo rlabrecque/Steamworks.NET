@@ -4,7 +4,7 @@
 		<TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
 		<RootNamespace>Steamworks</RootNamespace>
 		<AssemblyName>Steamworks.NET</AssemblyName>
-		<Platforms>x64;x86</Platforms>
+		<Platforms>x64;x86;arm64</Platforms>
 		<RepositoryType>git</RepositoryType>
 	</PropertyGroup>
 
@@ -24,7 +24,6 @@
 	<PropertyGroup Label="Build stuff">
 		<OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
 		<DefineConstants>TRACE</DefineConstants>
-		<PlatformTarget>x86</PlatformTarget>
 		<ErrorReport>prompt</ErrorReport>
 	</PropertyGroup>
 

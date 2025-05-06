@@ -30,6 +30,7 @@
 		<PropertyGroup>
 			<RefBuildCommonProperties>
 				Platform=x64;
+				PlatformTarget=x64;
 				Optimize=true;
 				SNetOperatingSystem=win;
 				OutDir=$(ProjectDir)bin\nugetbuild\ref\;
@@ -37,39 +38,42 @@
 			</RefBuildCommonProperties>
 		</PropertyGroup>
 		<ItemGroup>
-			<!-- A lot of build specifications -->
+			<!--
+				A lot of build specifications
+				Must specify TargetFramework that we can copy dlls to correct place
+			-->
 			<!-- netstandard2.0 -->
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
 				<Properties>
-					Platform=x64;SNetOperatingSystem=win;TargetFramework=netstandard2.0;
+					Platform=x64;PlatformTarget=x64;SNetOperatingSystem=win;TargetFramework=netstandard2.0;
 					Optimize=true;PackagingBuild=true;
 					OutDir=$(ProjectDir)bin\nugetbuild\w64\
 				</Properties>
 			</ToBuilt>
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
 				<Properties>
-					Platform=x64;SNetOperatingSystem=lin;TargetFramework=netstandard2.0;
+					Platform=x64;PlatformTarget=x64;SNetOperatingSystem=linux;TargetFramework=netstandard2.0;
 					Optimize=true;PackagingBuild=true;
 					OutDir=$(ProjectDir)bin\nugetbuild\p64\
 				</Properties>
 			</ToBuilt>
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
 				<Properties>
-					Platform=x64;SNetOperatingSystem=osx;TargetFramework=netstandard2.0;
+					Platform=x64;PlatformTarget=x64;SNetOperatingSystem=osx;TargetFramework=netstandard2.0;
 					Optimize=true;PackagingBuild=true;
 					OutDir=$(ProjectDir)bin\nugetbuild\o64
 				</Properties>
 			</ToBuilt>
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
 				<Properties>
-					Platform=arm64;SNetOperatingSystem=osx;TargetFramework=netstandard2.0;
+					Platform=arm64;PlatformTarget=arm64;SNetOperatingSystem=osx;TargetFramework=netstandard2.0;
 					Optimize=true;PackagingBuild=true;
 					OutDir=$(ProjectDir)bin\nugetbuild\o64\
 				</Properties>
 			</ToBuilt>
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
 				<Properties>
-					Platform=x86;SNetOperatingSystem=win;TargetFramework=netstandard2.0;
+					Platform=x86;PlatformTarget=x86;SNetOperatingSystem=win;TargetFramework=netstandard2.0;
 					Optimize=true;PackagingBuild=true;
 					OutDir=$(ProjectDir)bin\nugetbuild\w86\
 				</Properties>
@@ -78,35 +82,35 @@
 			<!-- net8.0 -->
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
 				<Properties>
-					Platform=x64;SNetOperatingSystem=win;TargetFramework=net8.0;
+					Platform=x64;PlatformTarget=x64;SNetOperatingSystem=win;TargetFramework=net8.0;
 					Optimize=true;PackagingBuild=true;
 					OutDir=$(ProjectDir)bin\nugetbuild\w64\
 				</Properties>
 			</ToBuilt>
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
 				<Properties>
-					Platform=x64;SNetOperatingSystem=lin;TargetFramework=net8.0;
+					Platform=x64;PlatformTarget=x64;SNetOperatingSystem=linux;TargetFramework=net8.0;
 					Optimize=true;PackagingBuild=true;
 					OutDir=$(ProjectDir)bin\nugetbuild\p64\
 				</Properties>
 			</ToBuilt>
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
 				<Properties>
-					Platform=x64;SNetOperatingSystem=osx;TargetFramework=net8.0;
+					Platform=x64;PlatformTarget=x64;SNetOperatingSystem=osx;TargetFramework=net8.0;
 					Optimize=true;PackagingBuild=true;
 					OutDir=$(ProjectDir)bin\nugetbuild\o64
 				</Properties>
 			</ToBuilt>
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
 				<Properties>
-					Platform=arm64;SNetOperatingSystem=osx;TargetFramework=net8.0;
+					Platform=arm64;PlatformTarget=arm64;SNetOperatingSystem=osx;TargetFramework=net8.0;
 					Optimize=true;PackagingBuild=true;
 					OutDir=$(ProjectDir)bin\nugetbuild\o64\
 				</Properties>
 			</ToBuilt>
 			<ToBuilt Include="Steamworks.NET.Standard.csproj">
 				<Properties>
-					Platform=x86;SNetOperatingSystem=win;TargetFramework=net8.0;
+					Platform=x86;PlatformTarget=x86;SNetOperatingSystem=win;TargetFramework=net8.0;
 					Optimize=true;PackagingBuild=true;
 					OutDir=$(ProjectDir)bin\nugetbuild\w86\
 				</Properties>
@@ -148,7 +152,7 @@
 			<Content Include="../README.md" Pack="true" PackagePath="" />
 		</ItemGroup>
 		<ItemGroup>
-			<Paths Include="linux-x64;osx-x64;win-x64;linux-x86;osx-x86;win-x86" />
+			<Paths Include="linuxux-x64;osx-x64;win-x64;linuxux-x86;osx-x86;win-x86" />
 		</ItemGroup>
 		<PropertyGroup>
 			<AsmBase>$(ProjectDir)bin\nuget\runtime\lib\</AsmBase>
