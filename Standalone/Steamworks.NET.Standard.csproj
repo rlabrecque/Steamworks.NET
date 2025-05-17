@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.1;net8.0</TargetFrameworks>
+		<TargetFramework>netstandard2.1</TargetFramework>
 		<RootNamespace>Steamworks</RootNamespace>
 		<AssemblyName>Steamworks.NET</AssemblyName>
 		<Platforms>x64;x86;arm64</Platforms>
@@ -31,13 +31,6 @@
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<PlatformTarget>x86</PlatformTarget>
 		<ErrorReport>prompt</ErrorReport>
-	</PropertyGroup>
-	
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='WindowsDebug|x64'">
-		<OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-		<DefineConstants>TRACE;STEAMWORKS_WIN;STEAMWORKS_X64</DefineConstants>
-		<!-- Indended for debugging purposes -->
-		<Optimize>false</Optimize>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OSX-Linux|x86'">
