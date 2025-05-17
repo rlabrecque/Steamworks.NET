@@ -449,6 +449,12 @@ g_SpecialArgsDict = {
         "pLanePriorities": "int[]",
         "pLaneWeights": "ushort[]",
     },
+
+    # ISteamTimeline
+    "ISteamTimeline_OpenOverlayToTimelineEvent": {
+        "ulEvent": "TimelineEventHandle_t",
+    }
+
 }
 
 g_SpecialWrapperArgsDict = {
@@ -529,8 +535,10 @@ g_SkippedTypedefs = (
 
 g_ArgDefaultLookup = {
     "k_EActivateGameOverlayToWebPageMode_Default": "EActivateGameOverlayToWebPageMode.k_EActivateGameOverlayToWebPageMode_Default",
+    "k_ETimelineEventClipPriority_None": "ETimelineEventClipPriority.k_ETimelineEventClipPriority_None",
     "NULL": "null",
     "nullptr": "null",
+    "0.f": "0.0f",
 }
 
 HEADER = None

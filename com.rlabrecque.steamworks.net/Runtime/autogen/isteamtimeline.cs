@@ -29,33 +29,60 @@ namespace Steamworks {
 		/// <para> - flTimeDelta: The time offset in seconds to apply to this event. Negative times indicate an</para>
 		/// <para>			event that happened in the past.</para>
 		/// </summary>
-		public static void SetTimelineStateDescription(string pchDescription, float flTimeDelta) {
+		public static void SetTimelineTooltip(string pchDescription, float flTimeDelta) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchDescription2 = new InteropHelp.UTF8StringHandle(pchDescription)) {
-				NativeMethods.ISteamTimeline_SetTimelineStateDescription(CSteamAPIContext.GetSteamTimeline(), pchDescription2, flTimeDelta);
+				NativeMethods.ISteamTimeline_SetTimelineTooltip(CSteamAPIContext.GetSteamTimeline(), pchDescription2, flTimeDelta);
 			}
 		}
 
-		public static void ClearTimelineStateDescription(float flTimeDelta) {
+		public static void ClearTimelineTooltip(float flTimeDelta) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamTimeline_ClearTimelineStateDescription(CSteamAPIContext.GetSteamTimeline(), flTimeDelta);
+			NativeMethods.ISteamTimeline_ClearTimelineTooltip(CSteamAPIContext.GetSteamTimeline(), flTimeDelta);
 		}
 
 		/// <summary>
-		/// <para> Use this to mark an event on the Timeline. The event can be instantaneous or take some amount of time</para>
-		/// <para> to complete, depending on the value passed in flDurationSeconds</para>
-		/// <para> Examples could include:</para>
+		/// <para> Changes the color of the timeline bar. See ETimelineGameMode comments for how to use each value</para>
+		/// </summary>
+		public static void SetTimelineGameMode(ETimelineGameMode eMode) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamTimeline_SetTimelineGameMode(CSteamAPIContext.GetSteamTimeline(), eMode);
+		}
+
+		/// <summary>
+		/// <para>******************    Timeline Events    ******************</para>
+		/// <para> The following functions add events and/or tags to the timeline.  There are helpers to add simple events or tags in a single call.</para>
+		/// <para> or you can use StartEvent and CloseEvent to customize what gets added.</para>
+		/// <para> Examples of events to add could include:</para>
 		/// <para>   * a boss battle</para>
 		/// <para>   * a cut scene</para>
 		/// <para>   * a large team fight</para>
 		/// <para>   * picking up a new weapon or ammunition</para>
 		/// <para>   * scoring a goal</para>
-		/// <para> Parameters:</para>
+		/// <para> Adding an event and a time range with the simple API:</para>
+		/// <para> don't show filter</para>
+		/// <para> start now</para>
+		/// <para>   SteamTimeline()-&gt;AddSimpleTimelineEvent( "steam_heart", Localize( "#user healed" ), Localize( "#health_amount", 27 ), 15, 0, 0, k_ETimelineEventClipPriority_None );</para>
+		/// <para> start 10 sec ago</para>
+		/// <para>   SteamTimeline()-&gt;AddTaggedTimeRange( Localize( "#player_resting" ), "steam_flag", nullptr, 15, 0, 10 );</para>
+		/// <para>   SteamTimeline()-&gt;AddTaggedTimeRange( Localize( "#player_cast_light" ), "steam_starburst", Localize( "#player_spells" ), 10,  -10, 5 );</para>
+		/// <para> start now</para>
+		/// <para> Adding a marker and time range in one event:</para>
+		/// <para>   TimelineEventHandle_t event = SteamTimeline()-&gt;StartEvent(  0 );</para>
+		/// <para> start now</para>
+		/// <para>   SteamTimeline()-&gt;ShowEventOnTimeline( event, "steam_heart", Localize( "#player_healed" ), Localize( "#player_healed_amount", 27 ), 15 );</para>
+		/// <para>   SteamTimeline()-&gt;AddEventTag( event, Localize( "#player_cast_heal" ), "steam_heart", Localize( "#player_, 15, 0, 10 );</para>
+		/// <para>   ... // time passes</para>
+		/// <para>   SteamTimeline()-&gt;CloseEvent( event );</para>
+		/// <para> Parameters used by the event functions:</para>
+		/// <para> - ulOpenEvent: An event returned by StartEvent that has not yet had CancelEvent or CloseEvent called on it</para>
+		/// <para> - ulEvent: An event that has had CloseEvent called on it, or an event returned from AddSimpleTimelineEvent or AddTaggedTimeRange (which</para>
+		/// <para>   are closed automatically.)</para>
 		/// <para> - pchIcon: specify the name of the icon uploaded through the Steamworks Partner Site for your title</para>
 		/// <para>   or one of the provided icons that start with steam_</para>
 		/// <para> - pchTitle &amp; pchDescription: provide a localized string in the language returned by</para>
 		/// <para>	 SteamUtils()-&gt;GetSteamUILanguage()</para>
-		/// <para> - unPriority: specify how important this range is compared to other markers provided by the game.</para>
+		/// <para> - unIconPriority: specify how important this range is compared to other markers provided by the game.</para>
 		/// <para>   Ranges with larger priority values will be displayed more prominently in the UI. This value</para>
 		/// <para>   may be between 0 and k_unMaxTimelinePriority.</para>
 		/// <para> - flStartOffsetSeconds: The time that this range started relative to now. Negative times</para>
@@ -65,22 +92,187 @@ namespace Steamworks {
 		/// <para> - ePossibleClip: By setting this parameter to Featured or Standard, the game indicates to Steam that it</para>
 		/// <para>   would be appropriate to offer this range as a clip to the user. For instantaneous events, the</para>
 		/// <para>   suggested clip will be for a short time before and after the event itself.</para>
+		/// <para> - pchTagIcon: specify an icon name that will be used next to the tag name in the UI</para>
+		/// <para> - pchTagName: The localized name of the tag to show in the UI.</para>
+		/// <para> - pchTagGroup: The localized name of the tag group to show in the UI. If this is not specified, users will not be able to filter by this tag</para>
+		/// <para> - unTagPriority: specify how important this tag is compared to other tags provided by the game.</para>
+		/// <para> Returns:</para>
+		/// <para>   A TimelineEventHandle_t that can be used to make subsequent calls to refer to the timeline event. This event handle is invalid</para>
+		/// <para>   after the game exits.</para>
+		/// <para> quick helpers that add to the timeline in one call</para>
 		/// </summary>
-		public static void AddTimelineEvent(string pchIcon, string pchTitle, string pchDescription, uint unPriority, float flStartOffsetSeconds, float flDurationSeconds, ETimelineEventClipPriority ePossibleClip) {
+		public static TimelineEventHandle_t AddInstantaneousTimelineEvent(string pchTitle, string pchDescription, string pchIcon, uint unIconPriority, float flStartOffsetSeconds = 0.0f, ETimelineEventClipPriority ePossibleClip = ETimelineEventClipPriority.k_ETimelineEventClipPriority_None) {
 			InteropHelp.TestIfAvailableClient();
-			using (var pchIcon2 = new InteropHelp.UTF8StringHandle(pchIcon))
 			using (var pchTitle2 = new InteropHelp.UTF8StringHandle(pchTitle))
-			using (var pchDescription2 = new InteropHelp.UTF8StringHandle(pchDescription)) {
-				NativeMethods.ISteamTimeline_AddTimelineEvent(CSteamAPIContext.GetSteamTimeline(), pchIcon2, pchTitle2, pchDescription2, unPriority, flStartOffsetSeconds, flDurationSeconds, ePossibleClip);
+			using (var pchDescription2 = new InteropHelp.UTF8StringHandle(pchDescription))
+			using (var pchIcon2 = new InteropHelp.UTF8StringHandle(pchIcon)) {
+				return (TimelineEventHandle_t)NativeMethods.ISteamTimeline_AddInstantaneousTimelineEvent(CSteamAPIContext.GetSteamTimeline(), pchTitle2, pchDescription2, pchIcon2, unIconPriority, flStartOffsetSeconds, ePossibleClip);
+			}
+		}
+
+		public static TimelineEventHandle_t AddRangeTimelineEvent(string pchTitle, string pchDescription, string pchIcon, uint unIconPriority, float flStartOffsetSeconds = 0.0f, float flDuration = 0.0f, ETimelineEventClipPriority ePossibleClip = ETimelineEventClipPriority.k_ETimelineEventClipPriority_None) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchTitle2 = new InteropHelp.UTF8StringHandle(pchTitle))
+			using (var pchDescription2 = new InteropHelp.UTF8StringHandle(pchDescription))
+			using (var pchIcon2 = new InteropHelp.UTF8StringHandle(pchIcon)) {
+				return (TimelineEventHandle_t)NativeMethods.ISteamTimeline_AddRangeTimelineEvent(CSteamAPIContext.GetSteamTimeline(), pchTitle2, pchDescription2, pchIcon2, unIconPriority, flStartOffsetSeconds, flDuration, ePossibleClip);
 			}
 		}
 
 		/// <summary>
-		/// <para> Changes the color of the timeline bar. See ETimelineGameMode comments for how to use each value</para>
+		/// <para> Starts a timeline event at a the current time, plus an offset in seconds. This event must be ended with EndRangeTimelineEvent.</para>
+		/// <para> Any timeline events that have not been ended when the game exits will be discarded.</para>
 		/// </summary>
-		public static void SetTimelineGameMode(ETimelineGameMode eMode) {
+		public static TimelineEventHandle_t StartRangeTimelineEvent(string pchTitle, string pchDescription, string pchIcon, uint unPriority, float flStartOffsetSeconds, ETimelineEventClipPriority ePossibleClip) {
 			InteropHelp.TestIfAvailableClient();
-			NativeMethods.ISteamTimeline_SetTimelineGameMode(CSteamAPIContext.GetSteamTimeline(), eMode);
+			using (var pchTitle2 = new InteropHelp.UTF8StringHandle(pchTitle))
+			using (var pchDescription2 = new InteropHelp.UTF8StringHandle(pchDescription))
+			using (var pchIcon2 = new InteropHelp.UTF8StringHandle(pchIcon)) {
+				return (TimelineEventHandle_t)NativeMethods.ISteamTimeline_StartRangeTimelineEvent(CSteamAPIContext.GetSteamTimeline(), pchTitle2, pchDescription2, pchIcon2, unPriority, flStartOffsetSeconds, ePossibleClip);
+			}
+		}
+
+		/// <summary>
+		/// <para> Updates fields on a range timeline event that was started with StartRangeTimelineEvent, and which has not been ended.</para>
+		/// </summary>
+		public static void UpdateRangeTimelineEvent(TimelineEventHandle_t ulEvent, string pchTitle, string pchDescription, string pchIcon, uint unPriority, ETimelineEventClipPriority ePossibleClip) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchTitle2 = new InteropHelp.UTF8StringHandle(pchTitle))
+			using (var pchDescription2 = new InteropHelp.UTF8StringHandle(pchDescription))
+			using (var pchIcon2 = new InteropHelp.UTF8StringHandle(pchIcon)) {
+				NativeMethods.ISteamTimeline_UpdateRangeTimelineEvent(CSteamAPIContext.GetSteamTimeline(), ulEvent, pchTitle2, pchDescription2, pchIcon2, unPriority, ePossibleClip);
+			}
+		}
+
+		/// <summary>
+		/// <para> Ends a range timeline event and shows it in the UI.</para>
+		/// </summary>
+		public static void EndRangeTimelineEvent(TimelineEventHandle_t ulEvent, float flEndOffsetSeconds) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamTimeline_EndRangeTimelineEvent(CSteamAPIContext.GetSteamTimeline(), ulEvent, flEndOffsetSeconds);
+		}
+
+		/// <summary>
+		/// <para> delete the event from the timeline. This can be called on a timeline event from AddInstantaneousTimelineEvent,</para>
+		/// <para> AddRangeTimelineEvent, or StartRangeTimelineEvent/EndRangeTimelineEvent. The timeline event handle must be from the</para>
+		/// <para> current game process.</para>
+		/// </summary>
+		public static void RemoveTimelineEvent(TimelineEventHandle_t ulEvent) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamTimeline_RemoveTimelineEvent(CSteamAPIContext.GetSteamTimeline(), ulEvent);
+		}
+
+		/// <summary>
+		/// <para> add a tag to whatever time range is represented by the event</para>
+		/// </summary>
+		public static SteamAPICall_t DoesEventRecordingExist(TimelineEventHandle_t ulEvent) {
+			InteropHelp.TestIfAvailableClient();
+			return (SteamAPICall_t)NativeMethods.ISteamTimeline_DoesEventRecordingExist(CSteamAPIContext.GetSteamTimeline(), ulEvent);
+		}
+
+		/// <summary>
+		/// <para>******************    Game Phases    ******************</para>
+		/// <para> Game phases allow the user to navigate their background recordings and clips. Exactly what a game phase means will vary game to game, but</para>
+		/// <para> the game phase should be a section of gameplay that is usually between 10 minutes and a few hours in length, and should be the</para>
+		/// <para> main way a user would think to divide up the game. These are presented to the user in a UI that shows the date the game was played,</para>
+		/// <para> with one row per game slice. Game phases should be used to mark sections of gameplay that the user might be interested in watching.</para>
+		/// <para>	Examples could include:</para>
+		/// <para>		* A single match in a multiplayer PvP game</para>
+		/// <para>		* A chapter of a story-based singleplayer game</para>
+		/// <para>		* A single run in a roguelike</para>
+		/// <para> Game phases are started with StartGamePhase, and while a phase is still happening, they can have tags and attributes added to them.</para>
+		/// <para> Phase attributes represent generic text fields that can be updated throughout the duration of the phase. They are meant</para>
+		/// <para> to be used for phase metadata that is not part of a well defined set of options. For example, a KDA attribute that starts</para>
+		/// <para> with the value "0/0/0" and updates as the phase progresses, or something like a played-entered character name. Attributes</para>
+		/// <para> can be set as many times as the game likes with SetGamePhaseAttribute, and only the last value will be shown to the user.</para>
+		/// <para> Phase tags represent data with a well defined set of options, which could be data such as match resolution, hero played,</para>
+		/// <para> game mode, etc. Tags can have an icon in addition to a text name. Multiple tags within the same group may be added per phase</para>
+		/// <para> and all will be remembered. For example, AddGamePhaseTag may be called multiple times for a "Bosses Defeated" group, with</para>
+		/// <para> different names and icons for each boss defeated during the phase, all of which will be shown to the user.</para>
+		/// <para> The phase will continue until the game exits, until the game calls EndGamePhase, or until the game calls</para>
+		/// <para> StartGamePhase to start a new phase.</para>
+		/// <para> The game phase functions take these parameters:</para>
+		/// <para> - pchTagIcon: The name of a game provided timeline icon or builtin "steam_" icon.</para>
+		/// <para> - pchPhaseID: A game-provided persistent ID for a game phase. This could be a the match ID in a multiplayer game, a chapter name in a</para>
+		/// <para>   single player game, the ID of a character, etc.</para>
+		/// <para> - pchTagName: The localized name of the tag in the language returned by SteamUtils()-&gt;GetSteamUILanguage().</para>
+		/// <para> - pchTagGroup: The localized name of the tag group.</para>
+		/// <para> - pchAttributeValue: The localized name of the attribute.</para>
+		/// <para> - pchAttributeGroup: The localized name of the attribute group.</para>
+		/// <para> - unPriority: Used to order tags and attributes in the UI displayed to the user, with higher priority values leading</para>
+		/// <para>   to more prominent positioning. In contexts where there is limited space, lower priority items may be hidden.</para>
+		/// </summary>
+		public static void StartGamePhase() {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamTimeline_StartGamePhase(CSteamAPIContext.GetSteamTimeline());
+		}
+
+		public static void EndGamePhase() {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamTimeline_EndGamePhase(CSteamAPIContext.GetSteamTimeline());
+		}
+
+		/// <summary>
+		/// <para> Games can set a phase ID so they can refer back to a phase in OpenOverlayToPhase</para>
+		/// </summary>
+		public static void SetGamePhaseID(string pchPhaseID) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchPhaseID2 = new InteropHelp.UTF8StringHandle(pchPhaseID)) {
+				NativeMethods.ISteamTimeline_SetGamePhaseID(CSteamAPIContext.GetSteamTimeline(), pchPhaseID2);
+			}
+		}
+
+		public static SteamAPICall_t DoesGamePhaseRecordingExist(string pchPhaseID) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchPhaseID2 = new InteropHelp.UTF8StringHandle(pchPhaseID)) {
+				return (SteamAPICall_t)NativeMethods.ISteamTimeline_DoesGamePhaseRecordingExist(CSteamAPIContext.GetSteamTimeline(), pchPhaseID2);
+			}
+		}
+
+		/// <summary>
+		/// <para> Add a tag that applies to the entire phase</para>
+		/// </summary>
+		public static void AddGamePhaseTag(string pchTagName, string pchTagIcon, string pchTagGroup, uint unPriority) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchTagName2 = new InteropHelp.UTF8StringHandle(pchTagName))
+			using (var pchTagIcon2 = new InteropHelp.UTF8StringHandle(pchTagIcon))
+			using (var pchTagGroup2 = new InteropHelp.UTF8StringHandle(pchTagGroup)) {
+				NativeMethods.ISteamTimeline_AddGamePhaseTag(CSteamAPIContext.GetSteamTimeline(), pchTagName2, pchTagIcon2, pchTagGroup2, unPriority);
+			}
+		}
+
+		/// <summary>
+		/// <para> Add a text attribute that applies to the entire phase</para>
+		/// </summary>
+		public static void SetGamePhaseAttribute(string pchAttributeGroup, string pchAttributeValue, uint unPriority) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchAttributeGroup2 = new InteropHelp.UTF8StringHandle(pchAttributeGroup))
+			using (var pchAttributeValue2 = new InteropHelp.UTF8StringHandle(pchAttributeValue)) {
+				NativeMethods.ISteamTimeline_SetGamePhaseAttribute(CSteamAPIContext.GetSteamTimeline(), pchAttributeGroup2, pchAttributeValue2, unPriority);
+			}
+		}
+
+		/// <summary>
+		/// <para>******************    Opening the overlay    ******************</para>
+		/// <para> Opens the Steam overlay to a game phase.</para>
+		/// <para> Parameters:</para>
+		/// <para> - pchPhaseID: The ID of a phase that was previously provided by the game in SetGamePhaseID.</para>
+		/// </summary>
+		public static void OpenOverlayToGamePhase(string pchPhaseID) {
+			InteropHelp.TestIfAvailableClient();
+			using (var pchPhaseID2 = new InteropHelp.UTF8StringHandle(pchPhaseID)) {
+				NativeMethods.ISteamTimeline_OpenOverlayToGamePhase(CSteamAPIContext.GetSteamTimeline(), pchPhaseID2);
+			}
+		}
+
+		/// <summary>
+		/// <para> Opens the Steam overlay to a timeline event.</para>
+		/// <para> Parameters:</para>
+		/// <para> - ulEventID: The ID of a timeline event returned by StartEvent or AddSimpleTimelineEvent</para>
+		/// </summary>
+		public static void OpenOverlayToTimelineEvent(TimelineEventHandle_t ulEvent) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamTimeline_OpenOverlayToTimelineEvent(CSteamAPIContext.GetSteamTimeline(), ulEvent);
 		}
 	}
 }

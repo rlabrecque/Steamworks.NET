@@ -43,10 +43,10 @@ namespace Steamworks {
 		public const string STEAMREMOTEPLAY_INTERFACE_VERSION = "STEAMREMOTEPLAY_INTERFACE_VERSION002";
 		public const string STEAMREMOTESTORAGE_INTERFACE_VERSION = "STEAMREMOTESTORAGE_INTERFACE_VERSION016";
 		public const string STEAMSCREENSHOTS_INTERFACE_VERSION = "STEAMSCREENSHOTS_INTERFACE_VERSION003";
-		public const string STEAMTIMELINE_INTERFACE_VERSION = "STEAMTIMELINE_INTERFACE_V001";
+		public const string STEAMTIMELINE_INTERFACE_VERSION = "STEAMTIMELINE_INTERFACE_V004";
 		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION020";
 		public const string STEAMUSER_INTERFACE_VERSION = "SteamUser023";
-		public const string STEAMUSERSTATS_INTERFACE_VERSION = "STEAMUSERSTATS_INTERFACE_VERSION012";
+		public const string STEAMUSERSTATS_INTERFACE_VERSION = "STEAMUSERSTATS_INTERFACE_VERSION013";
 		public const string STEAMUTILS_INTERFACE_VERSION = "SteamUtils010";
 		public const string STEAMVIDEO_INTERFACE_VERSION = "STEAMVIDEO_INTERFACE_V007";
 		public const int k_cubAppProofOfPurchaseKeyMax = 240; // max supported length of a legacy cd key
@@ -93,7 +93,9 @@ namespace Steamworks {
 		// one will be generated.
 		public const int k_ScreenshotThumbWidth = 200;
 		public const int k_unMaxTimelinePriority = 1000;
+		public const int k_unTimelinePriority_KeepCurrentValue = 1000000; // Use with UpdateRangeTimelineEvent to not change the priority
 		public const float k_flMaxTimelineEventDuration = 600.0f;
+		public const int k_cchMaxPhaseIDLength = 64;
 		public const int kNumUGCResultsPerPage = 50;
 		public const int k_cchDeveloperMetadataMax = 5000;
 		public const int k_nCubTicketMaxLength = 2560;

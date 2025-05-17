@@ -243,12 +243,6 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_SteamNetworkingIdentity_GetPSNID", CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong SteamAPI_SteamNetworkingIdentity_GetPSNID(ref SteamNetworkingIdentity self);
 
-		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_SteamNetworkingIdentity_SetStadiaID", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void SteamAPI_SteamNetworkingIdentity_SetStadiaID(ref SteamNetworkingIdentity self, ulong id);
-
-		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_SteamNetworkingIdentity_GetStadiaID", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ulong SteamAPI_SteamNetworkingIdentity_GetStadiaID(ref SteamNetworkingIdentity self);
-
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_SteamNetworkingIdentity_SetIPAddr", CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SteamAPI_SteamNetworkingIdentity_SetIPAddr(ref SteamNetworkingIdentity self, ref SteamNetworkingIPAddr addr);
 
@@ -2593,17 +2587,59 @@ namespace Steamworks {
 		public static extern uint ISteamScreenshots_AddVRScreenshotToLibrary(IntPtr instancePtr, EVRScreenshotType eType, InteropHelp.UTF8StringHandle pchFilename, InteropHelp.UTF8StringHandle pchVRFilename);
 #endregion
 #region SteamTimeline
-		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamTimeline_SetTimelineStateDescription", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamTimeline_SetTimelineStateDescription(IntPtr instancePtr, InteropHelp.UTF8StringHandle pchDescription, float flTimeDelta);
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamTimeline_SetTimelineTooltip", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamTimeline_SetTimelineTooltip(IntPtr instancePtr, InteropHelp.UTF8StringHandle pchDescription, float flTimeDelta);
 
-		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamTimeline_ClearTimelineStateDescription", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamTimeline_ClearTimelineStateDescription(IntPtr instancePtr, float flTimeDelta);
-
-		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamTimeline_AddTimelineEvent", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void ISteamTimeline_AddTimelineEvent(IntPtr instancePtr, InteropHelp.UTF8StringHandle pchIcon, InteropHelp.UTF8StringHandle pchTitle, InteropHelp.UTF8StringHandle pchDescription, uint unPriority, float flStartOffsetSeconds, float flDurationSeconds, ETimelineEventClipPriority ePossibleClip);
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamTimeline_ClearTimelineTooltip", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamTimeline_ClearTimelineTooltip(IntPtr instancePtr, float flTimeDelta);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamTimeline_SetTimelineGameMode", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ISteamTimeline_SetTimelineGameMode(IntPtr instancePtr, ETimelineGameMode eMode);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamTimeline_AddInstantaneousTimelineEvent", CallingConvention = CallingConvention.Cdecl)]
+		public static extern ulong ISteamTimeline_AddInstantaneousTimelineEvent(IntPtr instancePtr, InteropHelp.UTF8StringHandle pchTitle, InteropHelp.UTF8StringHandle pchDescription, InteropHelp.UTF8StringHandle pchIcon, uint unIconPriority, float flStartOffsetSeconds, ETimelineEventClipPriority ePossibleClip);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamTimeline_AddRangeTimelineEvent", CallingConvention = CallingConvention.Cdecl)]
+		public static extern ulong ISteamTimeline_AddRangeTimelineEvent(IntPtr instancePtr, InteropHelp.UTF8StringHandle pchTitle, InteropHelp.UTF8StringHandle pchDescription, InteropHelp.UTF8StringHandle pchIcon, uint unIconPriority, float flStartOffsetSeconds, float flDuration, ETimelineEventClipPriority ePossibleClip);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamTimeline_StartRangeTimelineEvent", CallingConvention = CallingConvention.Cdecl)]
+		public static extern ulong ISteamTimeline_StartRangeTimelineEvent(IntPtr instancePtr, InteropHelp.UTF8StringHandle pchTitle, InteropHelp.UTF8StringHandle pchDescription, InteropHelp.UTF8StringHandle pchIcon, uint unPriority, float flStartOffsetSeconds, ETimelineEventClipPriority ePossibleClip);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamTimeline_UpdateRangeTimelineEvent", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamTimeline_UpdateRangeTimelineEvent(IntPtr instancePtr, TimelineEventHandle_t ulEvent, InteropHelp.UTF8StringHandle pchTitle, InteropHelp.UTF8StringHandle pchDescription, InteropHelp.UTF8StringHandle pchIcon, uint unPriority, ETimelineEventClipPriority ePossibleClip);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamTimeline_EndRangeTimelineEvent", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamTimeline_EndRangeTimelineEvent(IntPtr instancePtr, TimelineEventHandle_t ulEvent, float flEndOffsetSeconds);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamTimeline_RemoveTimelineEvent", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamTimeline_RemoveTimelineEvent(IntPtr instancePtr, TimelineEventHandle_t ulEvent);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamTimeline_DoesEventRecordingExist", CallingConvention = CallingConvention.Cdecl)]
+		public static extern ulong ISteamTimeline_DoesEventRecordingExist(IntPtr instancePtr, TimelineEventHandle_t ulEvent);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamTimeline_StartGamePhase", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamTimeline_StartGamePhase(IntPtr instancePtr);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamTimeline_EndGamePhase", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamTimeline_EndGamePhase(IntPtr instancePtr);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamTimeline_SetGamePhaseID", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamTimeline_SetGamePhaseID(IntPtr instancePtr, InteropHelp.UTF8StringHandle pchPhaseID);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamTimeline_DoesGamePhaseRecordingExist", CallingConvention = CallingConvention.Cdecl)]
+		public static extern ulong ISteamTimeline_DoesGamePhaseRecordingExist(IntPtr instancePtr, InteropHelp.UTF8StringHandle pchPhaseID);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamTimeline_AddGamePhaseTag", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamTimeline_AddGamePhaseTag(IntPtr instancePtr, InteropHelp.UTF8StringHandle pchTagName, InteropHelp.UTF8StringHandle pchTagIcon, InteropHelp.UTF8StringHandle pchTagGroup, uint unPriority);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamTimeline_SetGamePhaseAttribute", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamTimeline_SetGamePhaseAttribute(IntPtr instancePtr, InteropHelp.UTF8StringHandle pchAttributeGroup, InteropHelp.UTF8StringHandle pchAttributeValue, uint unPriority);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamTimeline_OpenOverlayToGamePhase", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamTimeline_OpenOverlayToGamePhase(IntPtr instancePtr, InteropHelp.UTF8StringHandle pchPhaseID);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamTimeline_OpenOverlayToTimelineEvent", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void ISteamTimeline_OpenOverlayToTimelineEvent(IntPtr instancePtr, TimelineEventHandle_t ulEvent);
 #endregion
 #region SteamUGC
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_CreateQueryUserUGCRequest", CallingConvention = CallingConvention.Cdecl)]
@@ -3056,10 +3092,6 @@ namespace Steamworks {
 		public static extern bool ISteamUser_BSetDurationControlOnlineState(IntPtr instancePtr, EDurationControlOnlineState eNewState);
 #endregion
 #region SteamUserStats
-		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUserStats_RequestCurrentStats", CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamUserStats_RequestCurrentStats(IntPtr instancePtr);
-
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUserStats_GetStatInt32", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamUserStats_GetStatInt32(IntPtr instancePtr, InteropHelp.UTF8StringHandle pchName, out int pData);

@@ -17,14 +17,10 @@ using IntPtr = System.IntPtr;
 namespace Steamworks {
 	public static class SteamUserStats {
 		/// <summary>
-		/// <para> Ask the server to send down this user's data and achievements for this game</para>
-		/// </summary>
-		public static bool RequestCurrentStats() {
-			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamUserStats_RequestCurrentStats(CSteamAPIContext.GetSteamUserStats());
-		}
-
-		/// <summary>
+		/// <para> Note: this call is no longer required as it is managed by the Steam client</para>
+		/// <para> The game stats and achievements will be synchronized with Steam before</para>
+		/// <para> the game process begins.</para>
+		/// <para> virtual bool RequestCurrentStats() = 0;</para>
 		/// <para> Data accessors</para>
 		/// </summary>
 		public static bool GetStat(string pchName, out int pData) {
