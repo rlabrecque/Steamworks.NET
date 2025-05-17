@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -51,13 +51,8 @@ namespace Steamworks {
 		private static IntPtr m_pCallbackMsg;
 		private static int m_initCount;
 		[ThreadStatic]
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER // C# 8 Nullable annotation
-#nullable enable
-		private static CallResultBuffer? s_callResultBuffer;
-#nullable restore
-#else
 		private static /* nullable */ CallResultBuffer s_callResultBuffer;
-#endif
+
 		public static bool IsInitialized {
 			get { return m_initCount > 0; }
 		}
@@ -86,7 +81,7 @@ namespace Steamworks {
 		}
 
 		private sealed class CallResultBuffer : IDisposable {
-			private const int DefaultBufferSize = 4096 * 3;
+			private const int DefaultBufferSize = 2048;
 			private const int TooLargeSizeThreshold = (int)(DefaultBufferSize * 1.2);
 			// shrink if buffer too large counter reached this amount:
 			private const int ShrinkBufferThreshold = 330;
@@ -142,10 +137,11 @@ namespace Steamworks {
 
 					requiredBufferSize = Math.Max(requiredBufferSize, DefaultBufferSize);
 
-					// round buffer size to next multiple of 4096
+					// round buffer size to next multiple of 2048
 					uint newBufferSize = requiredBufferSize;
-					if ((newBufferSize & 0x1FFF) != 4096) {
-						newBufferSize = (newBufferSize + 4095) & 0xFFFFF000;
+					if (newBufferSize % 2048 != 0u) {
+						uint newBufferPageCount = (newBufferSize / 2048u) + 1u;
+						newBufferSize = newBufferPageCount * 2048u;
 					}
 
 					if (newBufferSize > int.MaxValue) {
