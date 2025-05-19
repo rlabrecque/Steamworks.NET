@@ -273,7 +273,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> returns total number of known app beta branches (including default "public" branch )</para>
+		/// <para> returns total number of known app branches (including default "public" branch ). nAvailable is number of available betas</para>
 		/// </summary>
 		public static int GetNumBetas(out int pnAvailable, out int pnPrivate) {
 			InteropHelp.TestIfAvailableClient();

@@ -48,21 +48,38 @@ namespace Steamworks {
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	public struct InputMotionData_t {
-		// Sensor-fused absolute rotation; will drift in heading toward average
+		// Gyro Quaternion:
+		// Absolute rotation of the controller since wakeup, using the Accelerometer reading at startup to determine the first value.
+		// This means real world "up" is know, but heading is not known.
+		// Every rotation packet is integrated using sensor time delta, and that change is used to update this quaternion.
+		// A Quaternion Identity ( x:0, y:0, z:0, w:1 ) will be sent in the first few packets while the controller's IMU is still waking up;
+		// some controllers have a short "warmup" period before these values should be used.
+		
+		// After the first time GetMotionData is called per controller handle, the IMU will be active until your app is closed.
+		// The exception is the Sony Dualshock, which will stay on until the controller has been turned off.
+		
+		// Filtering: When rotating the controller at low speeds, low level noise is filtered out without noticeable latency. High speed movement is always unfiltered.
+		// Drift: Gyroscopic "Drift" can be fixed using the Steam Input "Gyro Calibration" button. Users will have to be informed of this feature.
 		public float rotQuatX;
 		public float rotQuatY;
 		public float rotQuatZ;
 		public float rotQuatW;
 		
 		// Positional acceleration
-		public float posAccelX;
-		public float posAccelY;
-		public float posAccelZ;
+		// This represents only the latest hardware packet's state.
+		// Values range from -SHRT_MAX..SHRT_MAX
+		// This represents -2G..+2G along each axis
+		public float posAccelX; // +tive when controller's Right hand side is pointed toward the sky.
+		public float posAccelY; // +tive when controller's charging port (forward side of controller) is pointed toward the sky.
+		public float posAccelZ; // +tive when controller's sticks point toward the sky.
 		
 		// Angular velocity
-		public float rotVelX;
-		public float rotVelY;
-		public float rotVelZ;
+		// Values range from -SHRT_MAX..SHRT_MAX
+		// These values map to a real world range of -2000..+2000 degrees per second on each axis (SDL standard)
+		// This represents only the latest hardware packet's state.
+		public float rotVelX; // Local Pitch
+		public float rotVelY; // Local Roll
+		public float rotVelZ; // Local Yaw
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
