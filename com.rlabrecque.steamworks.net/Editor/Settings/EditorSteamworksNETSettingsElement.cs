@@ -55,7 +55,7 @@ public sealed class EditorSteamworksNETSettingsElement : VisualElement
 
         const string Description =
             "The Steamworks.NET package makes use of define symbols to enable or disable certain features. " +
-            "With this setting you can choose to let the package add these define symbols automatically or not." +
+            "With this setting you can choose to let the package add these define symbols automatically or not.\n" +
             "The default value is true.";
 
         return CreateSection(title: Title, description: Description, content: toggleField);
