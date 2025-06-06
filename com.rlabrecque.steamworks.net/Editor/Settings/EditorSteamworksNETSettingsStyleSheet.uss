@@ -1,0 +1,22 @@
+.steamworks-section {
+    background-color: #424242;
+    border-color: #191919;
+    border-width: 1px;
+    padding: 5px;
+    margin: 5px;
+}
+
+.steamworks-section__header {
+    font-size: 16px;
+    -unity-font-style: bold;
+    margin-bottom: 5px;
+}
+
+.steamworks-section__description {
+    margin-bottom: 5px;
+}
+
+.steamworks-section__content {
+    margin-left: 10px;
+    margin-bottom: 5px;
+}

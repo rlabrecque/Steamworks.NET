@@ -66,6 +66,11 @@ public class RedistInstall {
 
     static void AddDefineSymbols()
     {
+	    if (!EditorSteamworksNETSettings.Instance.CanManageDefineSymbols)
+	    {
+		    return;
+	    }
+
         string currentDefines;
         HashSet<string> defines;
 
