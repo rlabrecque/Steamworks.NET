@@ -544,12 +544,20 @@ g_ArgDefaultLookup = {
 HEADER = None
 
 g_NativeMethods = []
+
+# AnyCPU wrappers of steam native function
+g_NativeAnyCpu = []
+# Underlying dll import class of AnyCPU, used to hold platform specific DllImports
+# parsed result are shared between 64bit and 32bit
+g_NativeMethodsPlatform = []
+
 g_Output = []
 g_Typedefs = None
 
 def main(parser):
     try:
         os.makedirs("../com.rlabrecque.steamworks.net/Runtime/autogen/")
+        os.makedirs("../Standalone/AnyCPU/autogen/")
     except OSError:
         pass
 
@@ -564,13 +572,45 @@ def main(parser):
 
     with open("../com.rlabrecque.steamworks.net/Runtime/autogen/NativeMethods.cs", "wb") as out:
         #out.write(bytes(HEADER, "utf-8"))
-        with open("templates/nativemethods.txt", "r") as f:
+        with open("templates/nativemethods.txt", "r", encoding="utf-8") as f:
             out.write(bytes(f.read(), "utf-8"))
         for line in g_NativeMethods:
             out.write(bytes(line + "\n", "utf-8"))
         out.write(bytes("\t}\n", "utf-8"))
         out.write(bytes("}\n\n", "utf-8"))
         out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
+        
+    with open("../Standalone/AnyCPU/autogen/NativeMethods.cs", "wb") as anycpu:
+        with open("templates/nativemethods_anycpu.txt", "r", encoding="utf-8") as f:
+            anycpu.write(bytes(f.read(), "utf-8"))
+        
+        for line in g_NativeAnyCpu:
+            anycpu.write(bytes(line + "\n", "utf-8"))
+        anycpu.write(bytes("\t}\n", "utf-8"))
+        anycpu.write(bytes("}\n\n", "utf-8"))
+        anycpu.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
+
+    with open("../Standalone/AnyCPU/autogen/NativeMethodsUnderlyingWin64.cs", "wb") as anycpu_win64:
+        with open("templates/nativemethods_win64.txt", "r", encoding="utf-8") as f:
+            anycpu_win64.write(bytes(f.read(), "utf-8"))
+        
+        for line in g_NativeMethodsPlatform:
+            anycpu_win64.write(bytes(line + "\n", "utf-8"))
+        anycpu_win64.write(bytes("\t}\n", "utf-8"))
+        anycpu_win64.write(bytes("}\n\n", "utf-8"))
+        anycpu_win64.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
+
+    with open("../Standalone/AnyCPU/autogen/NativeMethodsUnderlying.cs", "wb") as anycpu_general:
+        with open("templates/nativemethods_general.txt", "r", encoding="utf-8") as f:
+            anycpu_general.write(bytes(f.read(), "utf-8"))
+        
+        for line in g_NativeMethodsPlatform:
+            anycpu_general.write(bytes(line + "\n", "utf-8"))
+        anycpu_general.write(bytes("\t}\n", "utf-8"))
+        anycpu_general.write(bytes("}\n\n", "utf-8"))
+        anycpu_general.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
+
+
 
 def get_arg_attribute(strEntryPoint, arg):
     return g_FixedAttributeValues.get(strEntryPoint, dict()).get(arg.name, arg.attribute)
@@ -610,6 +650,7 @@ def parse_interface(f, interface):
 
     if not bGameServerVersion:
         g_NativeMethods.append("#region " + interface.name[1:])
+        g_NativeMethodsPlatform.append("#region " + interface.name[1:])
 
     lastIfStatement = None
     for func in interface.functions:
@@ -652,6 +693,7 @@ def parse_interface(f, interface):
 
     if not bGameServerVersion:
         g_NativeMethods.append("#endregion")
+        g_NativeMethodsPlatform.append("#endregion")
 
     g_Output.append("\t}")
 
@@ -686,23 +728,69 @@ def parse_func(f, interface, func):
         wrapperreturntype = returntype
 
     args = parse_args(strEntryPoint, func.args)
-    pinvokeargs = args[0]  # TODO: NamedTuple
+    pinvokeargs: str = args[0]  # TODO: NamedTuple
     wrapperargs = args[1]
-    argnames = args[2]
+    argnames: str = args[2]
     stringargs = args[3]
     outstringargs = args[4][0]
     outstringsize = args[4][1]
     args_with_explicit_count = args[5]
 
     if not bGameServerVersion:
+        # generate steam api import
         g_NativeMethods.append("\t\t[DllImport(NativeLibraryName, EntryPoint = \"SteamAPI_{0}\", CallingConvention = CallingConvention.Cdecl)]".format(strEntryPoint))
-
+        g_NativeMethodsPlatform.append("\t\t[DllImport(NativeLibraryName, EntryPoint = \"SteamAPI_{0}\", CallingConvention = CallingConvention.Cdecl)]".format(strEntryPoint))
+        
         if returntype == "bool":
             g_NativeMethods.append("\t\t[return: MarshalAs(UnmanagedType.I1)]")
+            g_NativeMethodsPlatform.append("\t\t[return: MarshalAs(UnmanagedType.I1)]")
 
         g_NativeMethods.append("\t\tpublic static extern {0} {1}({2});".format(returntype, strEntryPoint, pinvokeargs))
         g_NativeMethods.append("")
+        
+        g_NativeMethodsPlatform.append("")
+        g_NativeMethodsPlatform.append("\t\tpublic static extern {0} {1}({2});".format(returntype, strEntryPoint, pinvokeargs))
+        g_NativeMethodsPlatform.append("")
+        
+		# generate AnyCPU specific code
+		# build parameter list of wrapped steam function
+        # sanitize PInvoke attributes first
+        strAnyCpuCallParameterList = ""
+        for arg in pinvokeargs.replace("[In, Out]", "").replace("[In]", "").replace("[Out]", "").split(", "):
+            arg = arg
+			# cut argument name out
+            argnameBegin = arg.rfind(" ") + 1
+            
+            wrapperArgName = arg[argnameBegin:]
+            # handle `ref` or `out` arguments
+            keywordRefOrOut = ""
+            if arg.startswith("ref"):
+                keywordRefOrOut = "ref "
+            elif arg.startswith("out"):
+                keywordRefOrOut = "out "
+            strAnyCpuCallParameterList += keywordRefOrOut + wrapperArgName + ", "
+        strAnyCpuCallParameterList = strAnyCpuCallParameterList.rstrip(", ")
+            
+        callSteamApiExpression = "{0}({1})".format(strEntryPoint, strAnyCpuCallParameterList)
+        
+		# for functions that have return value, generate return statement in wrapper
+        optionalReturn = ""
+        if returntype != "void":
+            optionalReturn = "return "
 
+		# build AnyCPU wrapper method body(without braces)
+        anyCpuWarpperBody = []
+        anyCpuWarpperBody.append("\t\t\tif (Environment.Is64BitProcess && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {")
+        anyCpuWarpperBody.append("\t\t\t\t" + optionalReturn + "NativeMethodsUnderlyingWin64." + callSteamApiExpression + ";")
+        anyCpuWarpperBody.append("\t\t\t} else {")
+        anyCpuWarpperBody.append("\t\t\t\t" + optionalReturn + "NativeMethodsUnderlying." + callSteamApiExpression + ";")
+        anyCpuWarpperBody.append("\t\t\t}")
+        
+        strAnyCpuWrapperBody = ""
+        for line in anyCpuWarpperBody:
+            strAnyCpuWrapperBody += line + "\n"
+        
+        g_NativeAnyCpu.append("\t\tpublic static {0} {1}({2}) {{\n{3}\t\t}}\n".format(returntype, strEntryPoint, pinvokeargs, strAnyCpuWrapperBody))
     functionBody = []
 
     if 'GameServer' in interface.name:
@@ -926,7 +1014,8 @@ def parse_args(strEntryPoint, args):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("TODO: Usage Instructions")
+        print("Usage: indirectly invoked by Steamworks.NET_CodeGen.py" +
+              "or python3 src/interfaces.py <path/to/steam_headers/>\n")
         exit()
 
     steamworksparser.Settings.fake_gameserver_interfaces = True

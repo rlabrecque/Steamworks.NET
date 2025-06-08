@@ -72,5 +72,18 @@
 		<Compile Include="../com.rlabrecque.steamworks.net/Runtime/**/*.cs" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <!--<Compile Remove="..\com.rlabrecque.steamworks.net\Runtime\autogen\NativeMethods.cs" />-->
+	  <Compile Remove="..\com.rlabrecque.steamworks.net\Runtime\autogen\NativeMethods.cs" />
+	</ItemGroup>
+
 	<Import Project="BuildPackages.targets" />
+
+	<ItemGroup>
+	  <EditorConfigFiles Remove="D:\src_contributing\rlab.Steamworks\Steamworks.NET-AnyCPU\Standalone\.editorconfig" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="D:\src_contributing\rlab.Steamworks\Steamworks.NET-AnyCPU\Standalone\.editorconfig" />
+	</ItemGroup>
 </Project>

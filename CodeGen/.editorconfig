@@ -1,0 +1,5 @@
+root = true
+charset = utf-8
+indent_size = 4
+indent_style = space
+tab_width = 4
