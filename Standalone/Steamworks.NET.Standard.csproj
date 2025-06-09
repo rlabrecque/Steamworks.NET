@@ -4,10 +4,9 @@
 		<TargetFramework>netstandard2.1</TargetFramework>
 		<RootNamespace>Steamworks</RootNamespace>
 		<AssemblyName>Steamworks.NET</AssemblyName>
-		<Platforms>x64;x86;arm64</Platforms>
-		<Configurations>Windows;OSX-Linux</Configurations>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<RepositoryType>git</RepositoryType>
+		<DefineConstants>$(DefineConstants);STEAMWORKS_STANDALONE_ANYCPU</DefineConstants>
 	</PropertyGroup>
 
 	<PropertyGroup Label="Nuget PM">
@@ -23,61 +22,14 @@
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Windows|x86'">
-		<OutputPath>bin\x86\Windows\</OutputPath>
-		<DefineConstants>TRACE;STEAMWORKS_WIN;STEAMWORKS_X86</DefineConstants>
-		<Optimize>true</Optimize>
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-		<PlatformTarget>x86</PlatformTarget>
-		<ErrorReport>prompt</ErrorReport>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OSX-Linux|x86'">
-		<OutputPath>bin\x86\OSX-Linux\</OutputPath>
-		<DefineConstants>TRACE;STEAMWORKS_LIN_OSX;STEAMWORKS_X86</DefineConstants>
-		<Optimize>true</Optimize>
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-		<PlatformTarget>x86</PlatformTarget>
-		<ErrorReport>prompt</ErrorReport>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Windows|x64'">
-		<OutputPath>bin\x64\Windows\</OutputPath>
-		<DefineConstants>TRACE;STEAMWORKS_WIN;STEAMWORKS_X64</DefineConstants>
-		<Optimize>true</Optimize>
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-		<PlatformTarget>x64</PlatformTarget>
-		<ErrorReport>prompt</ErrorReport>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OSX-Linux|x64'">
-		<OutputPath>bin\x64\OSX-Linux\</OutputPath>
-		<DefineConstants>TRACE;STEAMWORKS_LIN_OSX;STEAMWORKS_X64</DefineConstants>
-		<Optimize>true</Optimize>
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-		<PlatformTarget>x64</PlatformTarget>
-		<ErrorReport>prompt</ErrorReport>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OSX-Linux|arm64'">
-		<OutputPath>bin\arm64\OSX-Linux\</OutputPath>
-		<DefineConstants>TRACE;STEAMWORKS_LIN_OSX;STEAMWORKS_X64</DefineConstants>
-		<Optimize>true</Optimize>
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-		<PlatformTarget>arm64</PlatformTarget>
-		<ErrorReport>prompt</ErrorReport>
-	</PropertyGroup>
-
 	<ItemGroup>
 		<Compile Include="../com.rlabrecque.steamworks.net/Runtime/**/*.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <!--<Compile Remove="..\com.rlabrecque.steamworks.net\Runtime\autogen\NativeMethods.cs" />-->
-	  <Compile Remove="..\com.rlabrecque.steamworks.net\Runtime\autogen\NativeMethods.cs" />
+		<!-- Remove the native imports for Unity-->
+		<Compile Remove="..\com.rlabrecque.steamworks.net\Runtime\autogen\NativeMethods.cs" />
 	</ItemGroup>
-
-	<Import Project="BuildPackages.targets" />
 
 	<ItemGroup>
 	  <EditorConfigFiles Remove="D:\src_contributing\rlab.Steamworks\Steamworks.NET-AnyCPU\Standalone\.editorconfig" />

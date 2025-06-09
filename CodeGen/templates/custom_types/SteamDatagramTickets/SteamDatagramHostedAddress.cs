@@ -6,7 +6,11 @@ namespace Steamworks
 	/// need to know what's inside.  (Indeed, we don't really want them to
 	/// know, as it could reveal information useful to an attacker.)
 	[System.Serializable]
+#if !STEAMWORKS_STANDALONE_ANYCPU
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+#else
+	[StructLayout(LayoutKind.Sequential)]
+#endif
 	public struct SteamDatagramHostedAddress
 	{
 		// Size of data blob.

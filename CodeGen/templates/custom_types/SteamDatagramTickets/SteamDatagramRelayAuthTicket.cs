@@ -6,7 +6,11 @@ namespace Steamworks
 	/// need to know what's inside.  (Indeed, we don't really want them to
 	/// know, as it could reveal information useful to an attacker.)
 	[System.Serializable]
+#if !STEAMWORKS_STANDALONE_ANYCPU
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+#else
+	[StructLayout(LayoutKind.Sequential)]
+#endif
 	public struct SteamDatagramRelayAuthTicket
 	{
 		/// Identity of the gameserver we want to talk to.  This is required.
@@ -81,7 +85,11 @@ namespace Steamworks
 		// we collect to partners, but we hope to in the future so that you can
 		// get visibility into network conditions.)
 		//
+#if !STEAMWORKS_STANDALONE_ANYCPU
 		[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+#else
+		[StructLayout(LayoutKind.Sequential)]
+#endif
 		struct ExtraField
 		{
 			enum EType
