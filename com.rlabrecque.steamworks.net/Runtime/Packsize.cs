@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -49,9 +49,9 @@ namespace Steamworks {
 #endif
 
 		private const int SENTINEL_SIZE_SMALL = 24;
-		private const int SUBSCRIBED_FILES_SIZE_SMALL = (1 + 1 + 1 + 50 + 100) * 4 + 4;
+		private const int SUBSCRIBED_FILES_SIZE_SMALL = (1 + 1 + 1 + 50 + 100) * 4;
 		private const int SENTINEL_SIZE_LARGE = 32;
-		private const int SUBSCRIBED_FILES_SIZE_LARGE = (1 + 1 + 1 + 50 + 100) * 4;
+		private const int SUBSCRIBED_FILES_SIZE_LARGE = (1 + 1 + 1 + 50 + 100) * 4 + 4;
 
 		public static bool Test() {
 			int sentinelSize = Marshal.SizeOf(typeof(ValvePackingSentinel_t));

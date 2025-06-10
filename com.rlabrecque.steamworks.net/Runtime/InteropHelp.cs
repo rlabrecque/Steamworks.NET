@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -18,9 +18,24 @@ using System.Text;
 
 namespace Steamworks {
 	public class InteropHelp {
+#if STEAMWORKS_STANDALONE_ANYCPU
+		private static readonly bool s_PlatformSupportedAnyCPU = 
+			RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ||
+			RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
+			RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+#endif
+
 		public static void TestIfPlatformSupported() {
+#if STEAMWORKS_STANDALONE_ANYCPU
+			if (!s_PlatformSupportedAnyCPU) {
+#endif
+
 #if !UNITY_EDITOR && !UNITY_STANDALONE && !STEAMWORKS_WIN && !STEAMWORKS_LIN_OSX
-			throw new System.InvalidOperationException("Steamworks functions can only be called on platforms that Steam is available on.");
+				throw new System.InvalidOperationException("Steamworks functions can only be called on platforms that Steam is available on.");
+#endif
+
+#if STEAMWORKS_STANDALONE_ANYCPU
+			}
 #endif
 		}
 
