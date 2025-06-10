@@ -143,13 +143,25 @@ def parse(struct):
 
     packsize = g_CustomPackSize.get(structname, "Packsize.value")
     if g_ExplicitStructs.get(structname, False):
+        lines.append("#if !STEAMWORKS_STANDALONE_ANYCPU")
         lines.append("\t[StructLayout(LayoutKind.Explicit, Pack = " + packsize + ")]")
+        lines.append("#else")
+        lines.append("\t[StructLayout(LayoutKind.Explicit)]")
+        lines.append("#endif")
     elif struct.packsize:
         customsize = ""
         if len(struct.fields) == 0:
             customsize = ", Size = 1"
-        lines.append("\t[StructLayout(LayoutKind.Sequential, Pack = " + packsize + customsize + ")]")
-
+        
+        if packsize == "Packsize.value":
+            lines.append("#if STEAMWORKS_STANDALONE_ANYCPU")
+            lines.append("\t[StructLayout(LayoutKind.Sequential" + customsize + ")]")
+            lines.append("#else")
+            lines.append("\t[StructLayout(LayoutKind.Sequential, Pack = " + packsize + customsize + ")]")
+            lines.append("#endif")
+        else:
+            lines.append("\t[StructLayout(LayoutKind.Sequential, Pack = " + packsize + customsize + ")]")
+            
     if struct.callbackid:
         lines.append("\t[CallbackIdentity(Constants." + struct.callbackid + ")]")
 
