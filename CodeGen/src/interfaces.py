@@ -574,6 +574,8 @@ def main(parser):
         #out.write(bytes(HEADER, "utf-8"))
         with open("templates/nativemethods.txt", "r", encoding="utf-8") as f:
             out.write(bytes(f.read(), "utf-8"))
+        with open("templates/nativemethods_dllimport.txt", "r", encoding="utf-8") as f:
+            out.write(bytes(f.read(), "utf-8"))
         for line in g_NativeMethods:
             out.write(bytes(line + "\n", "utf-8"))
         out.write(bytes("\t}\n", "utf-8"))
@@ -593,7 +595,9 @@ def main(parser):
     with open("../Standalone/AnyCPU/autogen/NativeMethodsUnderlyingWin64.cs", "wb") as anycpu_win64:
         with open("templates/nativemethods_win64.txt", "r", encoding="utf-8") as f:
             anycpu_win64.write(bytes(f.read(), "utf-8"))
-        
+        with open("templates/nativemethods_dllimport.txt", "r", encoding="utf-8") as f:
+            anycpu_win64.write(bytes(f.read(), "utf-8"))
+
         for line in g_NativeMethodsPlatform:
             anycpu_win64.write(bytes(line + "\n", "utf-8"))
         anycpu_win64.write(bytes("\t}\n", "utf-8"))
@@ -602,6 +606,8 @@ def main(parser):
 
     with open("../Standalone/AnyCPU/autogen/NativeMethodsUnderlying.cs", "wb") as anycpu_general:
         with open("templates/nativemethods_general.txt", "r", encoding="utf-8") as f:
+            anycpu_general.write(bytes(f.read(), "utf-8"))
+        with open("templates/nativemethods_dllimport.txt", "r", encoding="utf-8") as f:
             anycpu_general.write(bytes(f.read(), "utf-8"))
         
         for line in g_NativeMethodsPlatform:
