@@ -17,5 +17,12 @@
     "steam",
     "steamworks"
   ],
-  "description": "Steamworks.NET is a C# Wrapper for Valve's Steamworks API."
+  "description": "Steamworks.NET is a C# Wrapper for Valve's Steamworks API.",
+  "samples": [
+    {
+        "displayName": "Awaitable CallResult",
+        "description": "",
+        "path": "Samples/CallResultAwaitable.cs"
+    }
+  ]
 }

@@ -8,6 +8,8 @@
 		<Configurations>Windows;OSX-Linux</Configurations>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<RepositoryType>git</RepositoryType>
+		<DefineConstants>TRACE;STEAMWORKS_SDK_FEATURE_NULLABLE</DefineConstants>
+
 	</PropertyGroup>
 
 	<PropertyGroup Label="Nuget PM">
@@ -25,7 +27,7 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Windows|x86'">
 		<OutputPath>bin\x86\Windows\</OutputPath>
-		<DefineConstants>TRACE;STEAMWORKS_WIN;STEAMWORKS_X86</DefineConstants>
+		<DefineConstants>TRACE;STEAMWORKS_WIN;STEAMWORKS_X86;$(DefineConstants)</DefineConstants>
 		<Optimize>true</Optimize>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<PlatformTarget>x86</PlatformTarget>
@@ -34,7 +36,7 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OSX-Linux|x86'">
 		<OutputPath>bin\x86\OSX-Linux\</OutputPath>
-		<DefineConstants>TRACE;STEAMWORKS_LIN_OSX;STEAMWORKS_X86</DefineConstants>
+		<DefineConstants>TRACE;STEAMWORKS_LIN_OSX;STEAMWORKS_X86;$(DefineConstants)</DefineConstants>
 		<Optimize>true</Optimize>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<PlatformTarget>x86</PlatformTarget>
@@ -43,7 +45,7 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Windows|x64'">
 		<OutputPath>bin\x64\Windows\</OutputPath>
-		<DefineConstants>TRACE;STEAMWORKS_WIN;STEAMWORKS_X64</DefineConstants>
+		<DefineConstants>TRACE;STEAMWORKS_WIN;STEAMWORKS_X64;$(DefineConstants)</DefineConstants>
 		<Optimize>true</Optimize>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<PlatformTarget>x64</PlatformTarget>
@@ -52,7 +54,7 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OSX-Linux|x64'">
 		<OutputPath>bin\x64\OSX-Linux\</OutputPath>
-		<DefineConstants>TRACE;STEAMWORKS_LIN_OSX;STEAMWORKS_X64</DefineConstants>
+		<DefineConstants>TRACE;STEAMWORKS_LIN_OSX;STEAMWORKS_X64;$(DefineConstants)</DefineConstants>
 		<Optimize>true</Optimize>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<PlatformTarget>x64</PlatformTarget>
@@ -61,10 +63,11 @@
 
 	<ItemGroup>
 		<Compile Include="../com.rlabrecque.steamworks.net/Runtime/**/*.cs" />
+		<Compile Include="../com.rlabrecque.steamworks.net/Samples/CallResultAwaitable.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.0" />
+	  <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
 	</ItemGroup>
 
 	<Import Project="BuildPackages.targets" />
