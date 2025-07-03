@@ -334,6 +334,7 @@ namespace Steamworks {
 			NativeMethods.ISteamGameServer_GetGameplayStats(CSteamGameServerAPIContext.GetSteamGameServer());
 		}
 
+		[SteamHasAsyncCallResult(typeof(GSReputation_t))]
 		public static SteamAPICall_t GetServerReputation() {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamGameServer_GetServerReputation(CSteamGameServerAPIContext.GetSteamGameServer());
@@ -380,6 +381,7 @@ namespace Steamworks {
 		/// <para> Server clan association</para>
 		/// <para> associate this game server with this clan for the purposes of computing player compat</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(AssociateWithClanResult_t))]
 		public static SteamAPICall_t AssociateWithClan(CSteamID steamIDClan) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamGameServer_AssociateWithClan(CSteamGameServerAPIContext.GetSteamGameServer(), steamIDClan);
@@ -388,6 +390,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> ask if any of the current players dont want to play with this new player - or vice versa</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(ComputeNewPlayerCompatibilityResult_t))]
 		public static SteamAPICall_t ComputeNewPlayerCompatibility(CSteamID steamIDNewPlayer) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamGameServer_ComputeNewPlayerCompatibility(CSteamGameServerAPIContext.GetSteamGameServer(), steamIDNewPlayer);

@@ -165,6 +165,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> add a tag to whatever time range is represented by the event</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(SteamTimelineEventRecordingExists_t))]
 		public static SteamAPICall_t DoesEventRecordingExist(TimelineEventHandle_t ulEvent) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamTimeline_DoesEventRecordingExist(CSteamAPIContext.GetSteamTimeline(), ulEvent);
@@ -222,6 +223,7 @@ namespace Steamworks {
 			}
 		}
 
+		[SteamHasAsyncCallResult(typeof(SteamTimelineGamePhaseRecordingExists_t))]
 		public static SteamAPICall_t DoesGamePhaseRecordingExist(string pchPhaseID) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchPhaseID2 = new InteropHelp.UTF8StringHandle(pchPhaseID)) {

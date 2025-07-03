@@ -35,6 +35,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Get the OPF Details for 360 Video Playback</para>
 		/// </summary>
+		[SteamHasAsyncCallback(typeof(GetOPFSettingsResult_t))]
 		public static void GetOPFSettings(AppId_t unVideoAppID) {
 			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamVideo_GetOPFSettings(CSteamAPIContext.GetSteamVideo(), unVideoAppID);

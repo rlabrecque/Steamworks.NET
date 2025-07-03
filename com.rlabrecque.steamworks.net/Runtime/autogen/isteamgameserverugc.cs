@@ -53,6 +53,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Send the query to Steam</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(SteamUGCQueryCompleted_t))]
 		public static SteamAPICall_t SendQueryUGCRequest(UGCQueryHandle_t handle) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_SendQueryUGCRequest(CSteamGameServerAPIContext.GetSteamUGC(), handle);
@@ -337,6 +338,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> DEPRECATED - Use CreateQueryUGCDetailsRequest call above instead!</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(SteamUGCRequestUGCDetailsResult_t))]
 		public static SteamAPICall_t RequestUGCDetails(PublishedFileId_t nPublishedFileID, uint unMaxAgeSeconds) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_RequestUGCDetails(CSteamGameServerAPIContext.GetSteamUGC(), nPublishedFileID, unMaxAgeSeconds);
@@ -346,6 +348,7 @@ namespace Steamworks {
 		/// <para> Steam Workshop Creator API</para>
 		/// <para> create new item for this app with no content attached yet</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(CreateItemResult_t))]
 		public static SteamAPICall_t CreateItem(AppId_t nConsumerAppId, EWorkshopFileType eFileType) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_CreateItem(CSteamGameServerAPIContext.GetSteamUGC(), nConsumerAppId, eFileType);
@@ -544,6 +547,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> commit update process started with StartItemUpdate()</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(SubmitItemUpdateResult_t))]
 		public static SteamAPICall_t SubmitItemUpdate(UGCUpdateHandle_t handle, string pchChangeNote) {
 			InteropHelp.TestIfAvailableGameServer();
 			using (var pchChangeNote2 = new InteropHelp.UTF8StringHandle(pchChangeNote)) {
@@ -559,21 +563,25 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Steam Workshop Consumer API</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(SetUserItemVoteResult_t))]
 		public static SteamAPICall_t SetUserItemVote(PublishedFileId_t nPublishedFileID, bool bVoteUp) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_SetUserItemVote(CSteamGameServerAPIContext.GetSteamUGC(), nPublishedFileID, bVoteUp);
 		}
 
+		[SteamHasAsyncCallResult(typeof(GetUserItemVoteResult_t))]
 		public static SteamAPICall_t GetUserItemVote(PublishedFileId_t nPublishedFileID) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_GetUserItemVote(CSteamGameServerAPIContext.GetSteamUGC(), nPublishedFileID);
 		}
 
+		[SteamHasAsyncCallResult(typeof(UserFavoriteItemsListChanged_t))]
 		public static SteamAPICall_t AddItemToFavorites(AppId_t nAppId, PublishedFileId_t nPublishedFileID) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_AddItemToFavorites(CSteamGameServerAPIContext.GetSteamUGC(), nAppId, nPublishedFileID);
 		}
 
+		[SteamHasAsyncCallResult(typeof(UserFavoriteItemsListChanged_t))]
 		public static SteamAPICall_t RemoveItemFromFavorites(AppId_t nAppId, PublishedFileId_t nPublishedFileID) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_RemoveItemFromFavorites(CSteamGameServerAPIContext.GetSteamUGC(), nAppId, nPublishedFileID);
@@ -582,6 +590,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> subscribe to this item, will be installed ASAP</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(RemoteStorageSubscribePublishedFileResult_t))]
 		public static SteamAPICall_t SubscribeItem(PublishedFileId_t nPublishedFileID) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_SubscribeItem(CSteamGameServerAPIContext.GetSteamUGC(), nPublishedFileID);
@@ -590,6 +599,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> unsubscribe from this item, will be uninstalled after game quits</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(RemoteStorageUnsubscribePublishedFileResult_t))]
 		public static SteamAPICall_t UnsubscribeItem(PublishedFileId_t nPublishedFileID) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_UnsubscribeItem(CSteamGameServerAPIContext.GetSteamUGC(), nPublishedFileID);
@@ -672,16 +682,19 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> usage tracking</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(StartPlaytimeTrackingResult_t))]
 		public static SteamAPICall_t StartPlaytimeTracking(PublishedFileId_t[] pvecPublishedFileID, uint unNumPublishedFileIDs) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_StartPlaytimeTracking(CSteamGameServerAPIContext.GetSteamUGC(), pvecPublishedFileID, unNumPublishedFileIDs);
 		}
 
+		[SteamHasAsyncCallResult(typeof(StopPlaytimeTrackingResult_t))]
 		public static SteamAPICall_t StopPlaytimeTracking(PublishedFileId_t[] pvecPublishedFileID, uint unNumPublishedFileIDs) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_StopPlaytimeTracking(CSteamGameServerAPIContext.GetSteamUGC(), pvecPublishedFileID, unNumPublishedFileIDs);
 		}
 
+		[SteamHasAsyncCallResult(typeof(StopPlaytimeTrackingResult_t))]
 		public static SteamAPICall_t StopPlaytimeTrackingForAllItems() {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_StopPlaytimeTrackingForAllItems(CSteamGameServerAPIContext.GetSteamUGC());
@@ -690,11 +703,13 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> parent-child relationship or dependency management</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(AddUGCDependencyResult_t))]
 		public static SteamAPICall_t AddDependency(PublishedFileId_t nParentPublishedFileID, PublishedFileId_t nChildPublishedFileID) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_AddDependency(CSteamGameServerAPIContext.GetSteamUGC(), nParentPublishedFileID, nChildPublishedFileID);
 		}
 
+		[SteamHasAsyncCallResult(typeof(RemoveUGCDependencyResult_t))]
 		public static SteamAPICall_t RemoveDependency(PublishedFileId_t nParentPublishedFileID, PublishedFileId_t nChildPublishedFileID) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_RemoveDependency(CSteamGameServerAPIContext.GetSteamUGC(), nParentPublishedFileID, nChildPublishedFileID);
@@ -703,11 +718,13 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> add/remove app dependence/requirements (usually DLC)</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(AddAppDependencyResult_t))]
 		public static SteamAPICall_t AddAppDependency(PublishedFileId_t nPublishedFileID, AppId_t nAppID) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_AddAppDependency(CSteamGameServerAPIContext.GetSteamUGC(), nPublishedFileID, nAppID);
 		}
 
+		[SteamHasAsyncCallResult(typeof(RemoveAppDependencyResult_t))]
 		public static SteamAPICall_t RemoveAppDependency(PublishedFileId_t nPublishedFileID, AppId_t nAppID) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_RemoveAppDependency(CSteamGameServerAPIContext.GetSteamUGC(), nPublishedFileID, nAppID);
@@ -717,6 +734,7 @@ namespace Steamworks {
 		/// <para> request app dependencies. note that whatever callback you register for GetAppDependenciesResult_t may be called multiple times</para>
 		/// <para> until all app dependencies have been returned</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(GetAppDependenciesResult_t))]
 		public static SteamAPICall_t GetAppDependencies(PublishedFileId_t nPublishedFileID) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_GetAppDependencies(CSteamGameServerAPIContext.GetSteamUGC(), nPublishedFileID);
@@ -725,6 +743,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> delete the item without prompting the user</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(DeleteItemResult_t))]
 		public static SteamAPICall_t DeleteItem(PublishedFileId_t nPublishedFileID) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_DeleteItem(CSteamGameServerAPIContext.GetSteamUGC(), nPublishedFileID);
@@ -741,6 +760,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Retrieve information related to the user's acceptance or not of the app's specific Workshop EULA</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(WorkshopEULAStatus_t))]
 		public static SteamAPICall_t GetWorkshopEULAStatus() {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamUGC_GetWorkshopEULAStatus(CSteamGameServerAPIContext.GetSteamUGC());

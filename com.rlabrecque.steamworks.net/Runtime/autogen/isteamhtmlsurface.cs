@@ -42,6 +42,7 @@ namespace Steamworks {
 		/// <para> not implement these callback handlers, the browser may appear to hang instead of</para>
 		/// <para> navigating to new pages or triggering javascript popups.</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(HTML_BrowserReady_t))]
 		public static SteamAPICall_t CreateBrowser(string pchUserAgent, string pchUserCSS) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchUserAgent2 = new InteropHelp.UTF8StringHandle(pchUserAgent))

@@ -78,6 +78,7 @@ namespace Steamworks {
 		/// <para>			}</para>
 		/// <para>		}</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(LobbyMatchList_t))]
 		public static SteamAPICall_t RequestLobbyList() {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamMatchmaking_RequestLobbyList(CSteamAPIContext.GetSteamMatchmaking());
@@ -164,6 +165,7 @@ namespace Steamworks {
 		/// <para> results will be returned by LobbyCreated_t callback and call result; lobby is joined &amp; ready to use at this point</para>
 		/// <para> a LobbyEnter_t callback will also be received (since the local user is joining their own lobby)</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(LobbyCreated_t))]
 		public static SteamAPICall_t CreateLobby(ELobbyType eLobbyType, int cMaxMembers) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamMatchmaking_CreateLobby(CSteamAPIContext.GetSteamMatchmaking(), eLobbyType, cMaxMembers);
@@ -175,6 +177,7 @@ namespace Steamworks {
 		/// <para> results will be returned by LobbyEnter_t callback &amp; call result, check m_EChatRoomEnterResponse to see if was successful</para>
 		/// <para> lobby metadata is available to use immediately on this call completing</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(LobbyEnter_t))]
 		public static SteamAPICall_t JoinLobby(CSteamID steamIDLobby) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamMatchmaking_JoinLobby(CSteamAPIContext.GetSteamMatchmaking(), steamIDLobby);
@@ -804,6 +807,7 @@ namespace Steamworks {
 		/// <para> Join an open party. Steam will reserve one beacon slot for your SteamID,</para>
 		/// <para> and return the necessary JoinGame string for you to use to connect</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(JoinPartyCallback_t))]
 		public static SteamAPICall_t JoinParty(PartyBeaconID_t ulBeaconID) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamParties_JoinParty(CSteamAPIContext.GetSteamParties(), ulBeaconID);
@@ -830,6 +834,7 @@ namespace Steamworks {
 		/// <para> When people begin responding to your beacon, Steam will send you</para>
 		/// <para> PartyReservationCallback_t callbacks to let you know who is on the way.</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(CreateBeaconCallback_t))]
 		public static SteamAPICall_t CreateBeacon(uint unOpenSlots, ref SteamPartyBeaconLocation_t pBeaconLocation, string pchConnectString, string pchMetadata) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchConnectString2 = new InteropHelp.UTF8StringHandle(pchConnectString))
@@ -862,6 +867,7 @@ namespace Steamworks {
 		/// <para> Change the number of open beacon reservation slots.</para>
 		/// <para> Call this if, for example, someone without a reservation joins your party (eg a friend, or via your own matchmaking system).</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(ChangeNumOpenSlotsCallback_t))]
 		public static SteamAPICall_t ChangeNumOpenSlots(PartyBeaconID_t ulBeacon, uint unOpenSlots) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamParties_ChangeNumOpenSlots(CSteamAPIContext.GetSteamParties(), ulBeacon, unOpenSlots);

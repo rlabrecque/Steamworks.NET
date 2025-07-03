@@ -336,6 +336,7 @@ namespace Steamworks {
 		/// <para> user.  These are promo items of type "manual" that won't be granted automatically.</para>
 		/// <para> An example usage of this is an item that becomes available every week.</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(SteamInventoryEligiblePromoItemDefIDs_t))]
 		public static SteamAPICall_t RequestEligiblePromoItemDefinitionsIDs(CSteamID steamID) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamInventory_RequestEligiblePromoItemDefinitionsIDs(CSteamAPIContext.GetSteamInventory(), steamID);
@@ -360,6 +361,7 @@ namespace Steamworks {
 		/// <para> Once the purchase has been authorized and completed by the user, the callback SteamInventoryResultReady_t</para>
 		/// <para> will be posted.</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(SteamInventoryStartPurchaseResult_t))]
 		public static SteamAPICall_t StartPurchase(SteamItemDef_t[] pArrayItemDefs, uint[] punArrayQuantity, uint unArrayLength) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamInventory_StartPurchase(CSteamAPIContext.GetSteamInventory(), pArrayItemDefs, punArrayQuantity, unArrayLength);
@@ -368,6 +370,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Request current prices for all applicable item definitions</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(SteamInventoryRequestPricesResult_t))]
 		public static SteamAPICall_t RequestPrices() {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamInventory_RequestPrices(CSteamAPIContext.GetSteamInventory());

@@ -172,6 +172,7 @@ namespace Steamworks {
 		/// <para>   k_ECheckFileSignatureInvalidSignature - The file exists, and the signing tab has been set for this file, but the file is either not signed or the signature does not match.</para>
 		/// <para>   k_ECheckFileSignatureValidSignature - The file is signed and the signature is valid.</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(CheckFileSignature_t))]
 		public static SteamAPICall_t CheckFileSignature(string szFileName) {
 			InteropHelp.TestIfAvailableClient();
 			using (var szFileName2 = new InteropHelp.UTF8StringHandle(szFileName)) {

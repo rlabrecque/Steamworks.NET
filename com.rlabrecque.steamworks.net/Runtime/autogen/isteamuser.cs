@@ -266,6 +266,7 @@ namespace Steamworks {
 		/// <para> pDataToInclude, cbDataToInclude will be encrypted into the ticket</para>
 		/// <para> ( This is asynchronous, you must wait for the ticket to be completed by the server )</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(EncryptedAppTicketResponse_t))]
 		public static SteamAPICall_t RequestEncryptedAppTicket(byte[] pDataToInclude, int cbDataToInclude) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUser_RequestEncryptedAppTicket(CSteamAPIContext.GetSteamUser(), pDataToInclude, cbDataToInclude);
@@ -314,6 +315,7 @@ namespace Steamworks {
 		/// <para> NOTE 2: The resulting authorization cookie has an expiration time of one day,</para>
 		/// <para> so it would be a good idea to request and visit a new auth URL every 12 hours.</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(StoreAuthURLResponse_t))]
 		public static SteamAPICall_t RequestStoreAuthURL(string pchRedirectURL) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchRedirectURL2 = new InteropHelp.UTF8StringHandle(pchRedirectURL)) {
@@ -353,6 +355,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamUser_BIsPhoneRequiringVerification(CSteamAPIContext.GetSteamUser());
 		}
 
+		[SteamHasAsyncCallResult(typeof(MarketEligibilityResponse_t))]
 		public static SteamAPICall_t GetMarketEligibility() {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUser_GetMarketEligibility(CSteamAPIContext.GetSteamUser());
@@ -361,6 +364,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Retrieves anti indulgence / duration control for current user</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(DurationControl_t))]
 		public static SteamAPICall_t GetDurationControl() {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUser_GetDurationControl(CSteamAPIContext.GetSteamUser());

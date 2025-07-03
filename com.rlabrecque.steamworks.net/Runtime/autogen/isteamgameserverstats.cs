@@ -23,6 +23,7 @@ namespace Steamworks {
 		/// <para> these stats will only be auto-updated for clients playing on the server. For other</para>
 		/// <para> users you'll need to call RequestUserStats() again to refresh any data</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(GSStatsReceived_t))]
 		public static SteamAPICall_t RequestUserStats(CSteamID steamIDUser) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamGameServerStats_RequestUserStats(CSteamGameServerAPIContext.GetSteamGameServerStats(), steamIDUser);
@@ -100,6 +101,7 @@ namespace Steamworks {
 		/// <para> or were out of date. In this case the server sends back updated values.</para>
 		/// <para> The stats should be re-iterated to keep in sync.</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(GSStatsStored_t))]
 		public static SteamAPICall_t StoreUserStats(CSteamID steamIDUser) {
 			InteropHelp.TestIfAvailableGameServer();
 			return (SteamAPICall_t)NativeMethods.ISteamGameServerStats_StoreUserStats(CSteamGameServerAPIContext.GetSteamGameServerStats(), steamIDUser);

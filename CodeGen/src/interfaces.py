@@ -800,6 +800,23 @@ def parse_func(f, interface, func):
             if c:
                 g_Output.append("\t\t/// <para>" + c + "</para>")
         g_Output.append("\t\t/// </summary>")
+    
+    strAsyncType: str = None
+    strAsyncStruct: str = None
+    
+    for attr in func.attributes:
+        if attr.name in ("STEAM_CALL_RESULT", "STEAM_CALL_BACK"):
+            if attr.name == "STEAM_CALL_RESULT":
+                strAsyncType = "CallResult"
+            elif attr.name == "STEAM_CALL_BACK":
+                strAsyncType = "Callback"
+            strAsyncStruct = attr.value
+			
+
+    if strAsyncType is not None:
+        g_Output.append(f"\t\t[SteamHasAsync{strAsyncType}(typeof({strAsyncStruct}))]")
+        
+
     g_Output.append("\t\tpublic static " + wrapperreturntype + " " + func.name.rstrip("0") + "(" + wrapperargs + ") {")
 
     g_Output.extend(functionBody)

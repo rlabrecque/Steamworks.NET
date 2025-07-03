@@ -37,6 +37,7 @@ namespace Steamworks {
 			}
 		}
 
+		[SteamHasAsyncCallResult(typeof(RemoteStorageFileWriteAsyncComplete_t))]
 		public static SteamAPICall_t FileWriteAsync(string pchFile, byte[] pvData, uint cubData) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchFile2 = new InteropHelp.UTF8StringHandle(pchFile)) {
@@ -44,6 +45,7 @@ namespace Steamworks {
 			}
 		}
 
+		[SteamHasAsyncCallResult(typeof(RemoteStorageFileReadAsyncComplete_t))]
 		public static SteamAPICall_t FileReadAsync(string pchFile, uint nOffset, uint cubToRead) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchFile2 = new InteropHelp.UTF8StringHandle(pchFile)) {
@@ -70,6 +72,7 @@ namespace Steamworks {
 			}
 		}
 
+		[SteamHasAsyncCallResult(typeof(RemoteStorageFileShareResult_t))]
 		public static SteamAPICall_t FileShare(string pchFile) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchFile2 = new InteropHelp.UTF8StringHandle(pchFile)) {
@@ -189,6 +192,7 @@ namespace Steamworks {
 		/// <para> otherwise it will wait to download the file until all downloads with a lower priority</para>
 		/// <para> value are completed.  Downloads with equal priority will occur simultaneously.</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(RemoteStorageDownloadUGCResult_t))]
 		public static SteamAPICall_t UGCDownload(UGCHandle_t hContent, uint unPriority) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_UGCDownload(CSteamAPIContext.GetSteamRemoteStorage(), hContent, unPriority);
@@ -243,6 +247,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> publishing UGC</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(RemoteStoragePublishFileProgress_t))]
 		public static SteamAPICall_t PublishWorkshopFile(string pchFile, string pchPreviewFile, AppId_t nConsumerAppId, string pchTitle, string pchDescription, ERemoteStoragePublishedFileVisibility eVisibility, System.Collections.Generic.IList<string> pTags, EWorkshopFileType eWorkshopFileType) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchFile2 = new InteropHelp.UTF8StringHandle(pchFile))
@@ -296,6 +301,7 @@ namespace Steamworks {
 			return NativeMethods.ISteamRemoteStorage_UpdatePublishedFileTags(CSteamAPIContext.GetSteamRemoteStorage(), updateHandle, new InteropHelp.SteamParamStringArray(pTags));
 		}
 
+		[SteamHasAsyncCallResult(typeof(RemoteStorageUpdatePublishedFileResult_t))]
 		public static SteamAPICall_t CommitPublishedFileUpdate(PublishedFileUpdateHandle_t updateHandle) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_CommitPublishedFileUpdate(CSteamAPIContext.GetSteamRemoteStorage(), updateHandle);
@@ -306,11 +312,13 @@ namespace Steamworks {
 		/// <para> cached data may be returned, depending on how long ago it was cached.  A value of 0 will force a refresh.</para>
 		/// <para> A value of k_WorkshopForceLoadPublishedFileDetailsFromCache will use cached data if it exists, no matter how old it is.</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(RemoteStorageGetPublishedFileDetailsResult_t))]
 		public static SteamAPICall_t GetPublishedFileDetails(PublishedFileId_t unPublishedFileId, uint unMaxSecondsOld) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_GetPublishedFileDetails(CSteamAPIContext.GetSteamRemoteStorage(), unPublishedFileId, unMaxSecondsOld);
 		}
 
+		[SteamHasAsyncCallResult(typeof(RemoteStorageDeletePublishedFileResult_t))]
 		public static SteamAPICall_t DeletePublishedFile(PublishedFileId_t unPublishedFileId) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_DeletePublishedFile(CSteamAPIContext.GetSteamRemoteStorage(), unPublishedFileId);
@@ -319,21 +327,25 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> enumerate the files that the current user published with this app</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(RemoteStorageEnumerateUserPublishedFilesResult_t))]
 		public static SteamAPICall_t EnumerateUserPublishedFiles(uint unStartIndex) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_EnumerateUserPublishedFiles(CSteamAPIContext.GetSteamRemoteStorage(), unStartIndex);
 		}
 
+		[SteamHasAsyncCallResult(typeof(RemoteStorageSubscribePublishedFileResult_t))]
 		public static SteamAPICall_t SubscribePublishedFile(PublishedFileId_t unPublishedFileId) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_SubscribePublishedFile(CSteamAPIContext.GetSteamRemoteStorage(), unPublishedFileId);
 		}
 
+		[SteamHasAsyncCallResult(typeof(RemoteStorageEnumerateUserSubscribedFilesResult_t))]
 		public static SteamAPICall_t EnumerateUserSubscribedFiles(uint unStartIndex) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_EnumerateUserSubscribedFiles(CSteamAPIContext.GetSteamRemoteStorage(), unStartIndex);
 		}
 
+		[SteamHasAsyncCallResult(typeof(RemoteStorageUnsubscribePublishedFileResult_t))]
 		public static SteamAPICall_t UnsubscribePublishedFile(PublishedFileId_t unPublishedFileId) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_UnsubscribePublishedFile(CSteamAPIContext.GetSteamRemoteStorage(), unPublishedFileId);
@@ -346,26 +358,31 @@ namespace Steamworks {
 			}
 		}
 
+		[SteamHasAsyncCallResult(typeof(RemoteStorageGetPublishedItemVoteDetailsResult_t))]
 		public static SteamAPICall_t GetPublishedItemVoteDetails(PublishedFileId_t unPublishedFileId) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_GetPublishedItemVoteDetails(CSteamAPIContext.GetSteamRemoteStorage(), unPublishedFileId);
 		}
 
+		[SteamHasAsyncCallResult(typeof(RemoteStorageUpdateUserPublishedItemVoteResult_t))]
 		public static SteamAPICall_t UpdateUserPublishedItemVote(PublishedFileId_t unPublishedFileId, bool bVoteUp) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_UpdateUserPublishedItemVote(CSteamAPIContext.GetSteamRemoteStorage(), unPublishedFileId, bVoteUp);
 		}
 
+		[SteamHasAsyncCallResult(typeof(RemoteStorageGetPublishedItemVoteDetailsResult_t))]
 		public static SteamAPICall_t GetUserPublishedItemVoteDetails(PublishedFileId_t unPublishedFileId) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_GetUserPublishedItemVoteDetails(CSteamAPIContext.GetSteamRemoteStorage(), unPublishedFileId);
 		}
 
+		[SteamHasAsyncCallResult(typeof(RemoteStorageEnumerateUserPublishedFilesResult_t))]
 		public static SteamAPICall_t EnumerateUserSharedWorkshopFiles(CSteamID steamId, uint unStartIndex, System.Collections.Generic.IList<string> pRequiredTags, System.Collections.Generic.IList<string> pExcludedTags) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_EnumerateUserSharedWorkshopFiles(CSteamAPIContext.GetSteamRemoteStorage(), steamId, unStartIndex, new InteropHelp.SteamParamStringArray(pRequiredTags), new InteropHelp.SteamParamStringArray(pExcludedTags));
 		}
 
+		[SteamHasAsyncCallResult(typeof(RemoteStoragePublishFileProgress_t))]
 		public static SteamAPICall_t PublishVideo(EWorkshopVideoProvider eVideoProvider, string pchVideoAccount, string pchVideoIdentifier, string pchPreviewFile, AppId_t nConsumerAppId, string pchTitle, string pchDescription, ERemoteStoragePublishedFileVisibility eVisibility, System.Collections.Generic.IList<string> pTags) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchVideoAccount2 = new InteropHelp.UTF8StringHandle(pchVideoAccount))
@@ -377,11 +394,13 @@ namespace Steamworks {
 			}
 		}
 
+		[SteamHasAsyncCallResult(typeof(RemoteStorageSetUserPublishedFileActionResult_t))]
 		public static SteamAPICall_t SetUserPublishedFileAction(PublishedFileId_t unPublishedFileId, EWorkshopFileAction eAction) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_SetUserPublishedFileAction(CSteamAPIContext.GetSteamRemoteStorage(), unPublishedFileId, eAction);
 		}
 
+		[SteamHasAsyncCallResult(typeof(RemoteStorageEnumeratePublishedFilesByUserActionResult_t))]
 		public static SteamAPICall_t EnumeratePublishedFilesByUserAction(EWorkshopFileAction eAction, uint unStartIndex) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_EnumeratePublishedFilesByUserAction(CSteamAPIContext.GetSteamRemoteStorage(), eAction, unStartIndex);
@@ -390,11 +409,13 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> this method enumerates the public view of workshop files</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(RemoteStorageEnumerateWorkshopFilesResult_t))]
 		public static SteamAPICall_t EnumeratePublishedWorkshopFiles(EWorkshopEnumerationType eEnumerationType, uint unStartIndex, uint unCount, uint unDays, System.Collections.Generic.IList<string> pTags, System.Collections.Generic.IList<string> pUserTags) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamRemoteStorage_EnumeratePublishedWorkshopFiles(CSteamAPIContext.GetSteamRemoteStorage(), eEnumerationType, unStartIndex, unCount, unDays, new InteropHelp.SteamParamStringArray(pTags), new InteropHelp.SteamParamStringArray(pUserTags));
 		}
 
+		[SteamHasAsyncCallResult(typeof(RemoteStorageDownloadUGCResult_t))]
 		public static SteamAPICall_t UGCDownloadToLocation(UGCHandle_t hContent, string pchLocation, uint unPriority) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchLocation2 = new InteropHelp.UTF8StringHandle(pchLocation)) {

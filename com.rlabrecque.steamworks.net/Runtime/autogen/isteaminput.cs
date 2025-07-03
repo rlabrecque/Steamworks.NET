@@ -99,6 +99,7 @@ namespace Steamworks {
 		/// <para> Each controller that is already connected will generate a device connected</para>
 		/// <para> callback when you enable them</para>
 		/// </summary>
+		[SteamHasAsyncCallback(typeof(SteamInputConfigurationLoaded_t))]
 		public static void EnableDeviceCallbacks() {
 			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamInput_EnableDeviceCallbacks(CSteamAPIContext.GetSteamInput());
@@ -117,6 +118,7 @@ namespace Steamworks {
 		/// <para> for lower latency than standard Steam callbacks. Supports one callback at a time.</para>
 		/// <para> Note: this is called within either SteamInput()-&gt;RunFrame or by SteamAPI_RunCallbacks</para>
 		/// </summary>
+		[SteamHasAsyncCallback(typeof(SteamInputGamepadSlotChange_t))]
 		public static void EnableActionEventCallbacks(SteamInputActionEventCallbackPointer pCallback) {
 			InteropHelp.TestIfAvailableClient();
 			NativeMethods.ISteamInput_EnableActionEventCallbacks(CSteamAPIContext.GetSteamInput(), pCallback);

@@ -223,6 +223,7 @@ namespace Steamworks {
 			NativeMethods.ISteamApps_RequestAllProofOfPurchaseKeys(CSteamAPIContext.GetSteamApps());
 		}
 
+		[SteamHasAsyncCallResult(typeof(FileDetailsResult_t))]
 		public static SteamAPICall_t GetFileDetails(string pszFileName) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pszFileName2 = new InteropHelp.UTF8StringHandle(pszFileName)) {

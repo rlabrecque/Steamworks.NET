@@ -35,6 +35,7 @@ namespace Steamworks {
 		/// <para> If the name change fails to happen on the server, then an additional global PersonaStateChange_t will be posted</para>
 		/// <para> to change the name back, in addition to the SetPersonaNameResponse_t callback.</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(SetPersonaNameResponse_t))]
 		public static SteamAPICall_t SetPersonaName(string pchPersonaName) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchPersonaName2 = new InteropHelp.UTF8StringHandle(pchPersonaName)) {
@@ -215,6 +216,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> for clans a user is a member of, they will have reasonably up-to-date information, but for others you'll have to download the info to have the latest</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(DownloadClanActivityCountsResult_t))]
 		public static SteamAPICall_t DownloadClanActivityCounts(CSteamID[] psteamIDClans, int cClansToRequest) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamFriends_DownloadClanActivityCounts(CSteamAPIContext.GetSteamFriends(), psteamIDClans, cClansToRequest);
@@ -365,6 +367,7 @@ namespace Steamworks {
 		/// <para> note that this won't download avatars automatically; if you get an officer,</para>
 		/// <para> and no avatar image is available, call RequestUserInformation( steamID, false ) to download the avatar</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(ClanOfficerListResponse_t))]
 		public static SteamAPICall_t RequestClanOfficerList(CSteamID steamIDClan) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamFriends_RequestClanOfficerList(CSteamAPIContext.GetSteamFriends(), steamIDClan);
@@ -504,6 +507,7 @@ namespace Steamworks {
 		/// <para> the behavior is somewhat sophisticated, because the user may or may not be already in the group chat from outside the game or in the overlay</para>
 		/// <para> use ActivateGameOverlayToUser( "chat", steamIDClan ) to open the in-game overlay version of the chat</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(JoinClanChatRoomCompletionResult_t))]
 		public static SteamAPICall_t JoinClanChatRoom(CSteamID steamIDClan) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamFriends_JoinClanChatRoom(CSteamAPIContext.GetSteamFriends(), steamIDClan);
@@ -591,16 +595,19 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> following apis</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(FriendsGetFollowerCount_t))]
 		public static SteamAPICall_t GetFollowerCount(CSteamID steamID) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamFriends_GetFollowerCount(CSteamAPIContext.GetSteamFriends(), steamID);
 		}
 
+		[SteamHasAsyncCallResult(typeof(FriendsIsFollowing_t))]
 		public static SteamAPICall_t IsFollowing(CSteamID steamID) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamFriends_IsFollowing(CSteamAPIContext.GetSteamFriends(), steamID);
 		}
 
+		[SteamHasAsyncCallResult(typeof(FriendsEnumerateFollowingList_t))]
 		public static SteamAPICall_t EnumerateFollowingList(uint unStartIndex) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamFriends_EnumerateFollowingList(CSteamAPIContext.GetSteamFriends(), unStartIndex);
@@ -663,6 +670,7 @@ namespace Steamworks {
 		/// <para> Steam Community items equipped by a user on their profile</para>
 		/// <para> You can register for EquippedProfileItemsChanged_t to know when a friend has changed their equipped profile items</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(EquippedProfileItems_t))]
 		public static SteamAPICall_t RequestEquippedProfileItems(CSteamID steamID) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamFriends_RequestEquippedProfileItems(CSteamAPIContext.GetSteamFriends(), steamID);

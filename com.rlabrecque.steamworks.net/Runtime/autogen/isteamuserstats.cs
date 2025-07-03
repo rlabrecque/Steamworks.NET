@@ -172,6 +172,7 @@ namespace Steamworks {
 		/// <para> if the other user has no stats, UserStatsReceived_t.m_eResult will be set to k_EResultFail</para>
 		/// <para> these stats won't be auto-updated; you'll need to call RequestUserStats() again to refresh any data</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(UserStatsReceived_t))]
 		public static SteamAPICall_t RequestUserStats(CSteamID steamIDUser) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUserStats_RequestUserStats(CSteamAPIContext.GetSteamUserStats(), steamIDUser);
@@ -224,6 +225,7 @@ namespace Steamworks {
 		/// <para> asks the Steam back-end for a leaderboard by name, and will create it if it's not yet</para>
 		/// <para> This call is asynchronous, with the result returned in LeaderboardFindResult_t</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(LeaderboardFindResult_t))]
 		public static SteamAPICall_t FindOrCreateLeaderboard(string pchLeaderboardName, ELeaderboardSortMethod eLeaderboardSortMethod, ELeaderboardDisplayType eLeaderboardDisplayType) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchLeaderboardName2 = new InteropHelp.UTF8StringHandle(pchLeaderboardName)) {
@@ -235,6 +237,7 @@ namespace Steamworks {
 		/// <para> as above, but won't create the leaderboard if it's not found</para>
 		/// <para> This call is asynchronous, with the result returned in LeaderboardFindResult_t</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(LeaderboardFindResult_t))]
 		public static SteamAPICall_t FindLeaderboard(string pchLeaderboardName) {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchLeaderboardName2 = new InteropHelp.UTF8StringHandle(pchLeaderboardName)) {
@@ -284,6 +287,7 @@ namespace Steamworks {
 		/// <para>   e.g. DownloadLeaderboardEntries( hLeaderboard, k_ELeaderboardDataRequestGlobalAroundUser, -3, 3 ) will return 7 rows, 3 before the user, 3 after</para>
 		/// <para> k_ELeaderboardDataRequestFriends requests all the rows for friends of the current user</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(LeaderboardScoresDownloaded_t))]
 		public static SteamAPICall_t DownloadLeaderboardEntries(SteamLeaderboard_t hSteamLeaderboard, ELeaderboardDataRequest eLeaderboardDataRequest, int nRangeStart, int nRangeEnd) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUserStats_DownloadLeaderboardEntries(CSteamAPIContext.GetSteamUserStats(), hSteamLeaderboard, eLeaderboardDataRequest, nRangeStart, nRangeEnd);
@@ -294,6 +298,7 @@ namespace Steamworks {
 		/// <para> if a user doesn't have a leaderboard entry, they won't be included in the result</para>
 		/// <para> a max of 100 users can be downloaded at a time, with only one outstanding call at a time</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(LeaderboardScoresDownloaded_t))]
 		public static SteamAPICall_t DownloadLeaderboardEntriesForUsers(SteamLeaderboard_t hSteamLeaderboard, CSteamID[] prgUsers, int cUsers) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUserStats_DownloadLeaderboardEntriesForUsers(CSteamAPIContext.GetSteamUserStats(), hSteamLeaderboard, prgUsers, cUsers);
@@ -326,6 +331,7 @@ namespace Steamworks {
 		/// <para> Details are extra game-defined information regarding how the user got that score</para>
 		/// <para> pScoreDetails points to an array of int32's, cScoreDetailsCount is the number of int32's in the list</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(LeaderboardScoreUploaded_t))]
 		public static SteamAPICall_t UploadLeaderboardScore(SteamLeaderboard_t hSteamLeaderboard, ELeaderboardUploadScoreMethod eLeaderboardUploadScoreMethod, int nScore, int[] pScoreDetails, int cScoreDetailsCount) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUserStats_UploadLeaderboardScore(CSteamAPIContext.GetSteamUserStats(), hSteamLeaderboard, eLeaderboardUploadScoreMethod, nScore, pScoreDetails, cScoreDetailsCount);
@@ -336,6 +342,7 @@ namespace Steamworks {
 		/// <para> hContent is a handle to a piece of user generated content that was shared using ISteamUserRemoteStorage::FileShare().</para>
 		/// <para> This call is asynchronous, with the result returned in LeaderboardUGCSet_t.</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(LeaderboardUGCSet_t))]
 		public static SteamAPICall_t AttachLeaderboardUGC(SteamLeaderboard_t hSteamLeaderboard, UGCHandle_t hUGC) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUserStats_AttachLeaderboardUGC(CSteamAPIContext.GetSteamUserStats(), hSteamLeaderboard, hUGC);
@@ -345,6 +352,7 @@ namespace Steamworks {
 		/// <para> Retrieves the number of players currently playing your game (online + offline)</para>
 		/// <para> This call is asynchronous, with the result returned in NumberOfCurrentPlayers_t</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(NumberOfCurrentPlayers_t))]
 		public static SteamAPICall_t GetNumberOfCurrentPlayers() {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUserStats_GetNumberOfCurrentPlayers(CSteamAPIContext.GetSteamUserStats());
@@ -355,6 +363,7 @@ namespace Steamworks {
 		/// <para> for the game globally.</para>
 		/// <para> This call is asynchronous, with the result returned in GlobalAchievementPercentagesReady_t.</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(GlobalAchievementPercentagesReady_t))]
 		public static SteamAPICall_t RequestGlobalAchievementPercentages() {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUserStats_RequestGlobalAchievementPercentages(CSteamAPIContext.GetSteamUserStats());
@@ -404,6 +413,7 @@ namespace Steamworks {
 		/// <para> nHistoryDays specifies how many days of day-by-day history to retrieve in addition</para>
 		/// <para> to the overall totals. The limit is 60.</para>
 		/// </summary>
+		[SteamHasAsyncCallResult(typeof(GlobalStatsReceived_t))]
 		public static SteamAPICall_t RequestGlobalStats(int nHistoryDays) {
 			InteropHelp.TestIfAvailableClient();
 			return (SteamAPICall_t)NativeMethods.ISteamUserStats_RequestGlobalStats(CSteamAPIContext.GetSteamUserStats(), nHistoryDays);
