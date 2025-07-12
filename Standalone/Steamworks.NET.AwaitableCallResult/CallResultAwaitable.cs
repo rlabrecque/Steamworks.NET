@@ -4,25 +4,16 @@
 
 // This file is provided as a sample, copy into your project if you need.
 
-#if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
+#if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_STANDALONE_ANYCPU)
 #define DISABLESTEAMWORKS
 #endif
 
-#if !DISABLESTEAMWORKS
-
-#if UNITY_3_5 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6
-	#error Unsupported Unity platform. Steamworks.NET requires Unity 4.7 or higher.
-#elif UNITY_4_7 || UNITY_5 || UNITY_2017 || UNITY_2017_1_OR_NEWER
-	#if UNITY_EDITOR_WIN || (UNITY_STANDALONE_WIN && !UNITY_EDITOR)
-		#define WINDOWS_BUILD
-	#endif
-#elif STEAMWORKS_WIN
-	#define WINDOWS_BUILD
-#elif STEAMWORKS_LIN_OSX
-	// So that we don't enter the else block below.
-#else
-	#error You need to define STEAMWORKS_WIN, or STEAMWORKS_LIN_OSX. Refer to the readme for more details.
+#if UNITY_2022_3_OR_NEWER || NETSTANDARD2_1_OR_GREATER
+// I(Akarinnnn) tested that Unity 2022.3 using C# 9, which have NRT
+#define STEAMWORKS_SDK_FEATURE_NULLABLE
 #endif
+
+#if !DISABLESTEAMWORKS
 
 using System;
 using System.ComponentModel;
@@ -34,27 +25,54 @@ using System.Runtime.Serialization;
 using System.Threading;
 
 #if STEAMWORKS_SDK_FEATURE_NULLABLE
-#nullable enable  
+#nullable enable
 #endif
 
-namespace Steamworks {
+namespace Steamworks
+{
 	/// <summary>
 	/// Abstraction for running <see cref="CallResultAwaitable{T}"/> callbacks and continuations.
 	/// </summary>
+	/// <remarks>
+	/// To contribute a unity scheduler, please put the source code of scheduler next to this file.
+	/// When providing a new kind of scheduler, provide an extension method to <see cref="SteamAPICall_t"/> is useful.
+	/// Typically, you can encapsule an extension method that passing scheduler your scheduler to
+	/// <see cref="SteamAPICallExtensions.Async{T}(SteamAPICall_t, CallResultAsyncOptions, CancellationToken)"/> in your extension method.
+	/// </remarks>
 	// A copy of PipeScheduler
-	public abstract class CallResultScheduler {
+	public abstract class CallResultScheduler
+	{
+#if STEAMWORKS_SDK_FEATURE_NULLABLE
 		public abstract void Schedule(Action<object?> callback, object? state);
+#else
+		public abstract void Schedule(Action<object> callback, object state); 
+#endif
 		// UnsafeSchedule is meaningless since we are outside of mscorlib/System.Private.CoreLib
 
-		private class InlineScheduler : CallResultScheduler {
-			public override void Schedule(Action<object?> callback, object? state) {
+		private class InlineScheduler : CallResultScheduler
+		{
+
+#if STEAMWORKS_SDK_FEATURE_NULLABLE
+			public override void Schedule(Action<object?> callback, object? state)
+			{
+#else
+			public override void Schedule(Action<object> callback, object state) {
+#endif
+
 				callback(state);
 			}
 		}
 
-		private class ThreadPoolScheduler : CallResultScheduler {
-			public override void Schedule(Action<object?> action, object? state) {
-				System.Threading.ThreadPool.QueueUserWorkItem(action, state, preferLocal: false);
+		private class ThreadPoolScheduler : CallResultScheduler
+		{
+#if STEAMWORKS_SDK_FEATURE_NULLABLE
+			public override void Schedule(Action<object?> callback, object? state)
+			{
+#else
+			public override void Schedule(Action<object> callback, object state) {
+#endif
+
+				System.Threading.ThreadPool.QueueUserWorkItem(callback, state, preferLocal: false);
 			}
 		}
 
@@ -67,7 +85,11 @@ namespace Steamworks {
 				syncContext = SynchronizationContext.Current;
 			}
 
+#if STEAMWORKS_SDK_FEATURE_NULLABLE
 			public override void Schedule(Action<object?> callback, object? state)
+#else
+			public override void Schedule(Action<object> callback, object state)
+#endif
 			{
 #if STEAMWORKS_SDK_FEATURE_NULLABLE
 				syncContext.Post((state) => { callback(state); }, state!);
@@ -87,16 +109,27 @@ namespace Steamworks {
 		public static CallResultScheduler FromSynchronizationContext() { return new SyncContextScheduler(); }
 	}
 
-	public class CallResultAsyncOptions {
-		public CallResultScheduler? Scheduler { get; set; }
+	public class CallResultAsyncOptions
+	{
+		public
+#if STEAMWORKS_SDK_FEATURE_NULLABLE
+			CallResultScheduler?
+#else
+			CallResultScheduler
+#endif
+			Scheduler
+		{ get; set; }
 	}
 
-	public static class SteamAPICallExtensions {
-		private static readonly CallResultAsyncOptions s_scheduleOnThreadPoolOptions = new CallResultAsyncOptions() {
+	public static class SteamAPICallExtensions
+	{
+		private static readonly CallResultAsyncOptions s_scheduleOnThreadPoolOptions = new CallResultAsyncOptions()
+		{
 			Scheduler = CallResultScheduler.ThreadPool
 		};
 
-		private static readonly CallResultAsyncOptions s_scheduleInlineOptions = new CallResultAsyncOptions() {
+		private static readonly CallResultAsyncOptions s_scheduleInlineOptions = new CallResultAsyncOptions()
+		{
 			Scheduler = CallResultScheduler.Inline
 		};
 
@@ -104,7 +137,7 @@ namespace Steamworks {
 		/// Construct a new <see langword="await"/>able CallResult from Steam API call handle.
 		/// </summary>
 		/// <remarks>
-		///	All <see cref="CallResultAwaitable{T}"/> instances obtained from this method must be <see langword="await"/>ed
+		///	All <see cref="CallResultAwaitable{T}"/> instances obtained from this method must be <see langword="await"/>ed. <para/>
 		///	</remarks>
 		/// <param name="handle"></param>
 		/// <returns>A <see cref="CallResultAwaitable{T}"/> that must be <see langword="await"/>ed</returns>
@@ -112,7 +145,8 @@ namespace Steamworks {
 		public static CallResultAwaitable<T> Async<T>(this SteamAPICall_t handle,
 			CallResultAsyncOptions options,
 			CancellationToken cancellationToken = default)
-			where T : struct {
+			where T : struct
+		{
 			return new CallResultAwaitable<T>().ResetAsyncState(handle, options, cancellationToken);
 		}
 
@@ -121,27 +155,30 @@ namespace Steamworks {
 		/// When Steam API call completed, callback will run on .NET thread pool.
 		/// </summary>
 		/// <remarks>
-		///	All <see cref="CallResultAwaitable{T}"/> instances obtained from this method must be <see langword="await"/>ed
+		///	All <see cref="CallResultAwaitable{T}"/> instances obtained from this method must be <see langword="await"/>ed.
 		///	</remarks>
 		public static CallResultAwaitable<T> ContinueOnThreadPool<T>(this SteamAPICall_t handle,
 			CancellationToken cancellationToken = default)
-			where T : struct {
+			where T : struct
+		{
 			return Async<T>(handle, s_scheduleOnThreadPoolOptions, cancellationToken);
 		}
-		
+
 		/// <summary>
 		/// Construct a new <see langword="await"/>able CallResult from Steam API call handle.
 		/// When Steam API call completed, callback will run on captured <see cref="SynchronizationContext"/>. 
 		/// This is the most similar behavior to <see cref="System.Threading.Tasks.Task"/>.
 		/// </summary>
 		/// <remarks>
-		///	All <see cref="CallResultAwaitable{T}"/> instances obtained from this method must be <see langword="await"/>ed
-		///	</remarks>
+		/// All <see cref="CallResultAwaitable{T}"/> instances obtained from this method must be <see langword="await"/>ed.
+		/// </remarks>
 		public static CallResultAwaitable<T> ContinueOnSynchronizationContext<T>(this SteamAPICall_t handle,
 			CancellationToken cancellationToken = default)
-			where T : struct {
+			where T : struct
+		{
 			return Async<T>(handle,
-				new CallResultAsyncOptions() {
+				new CallResultAsyncOptions()
+				{
 					Scheduler = CallResultScheduler.FromSynchronizationContext()
 				},
 				cancellationToken);
@@ -152,33 +189,53 @@ namespace Steamworks {
 		/// When Steam API call completed, callback will run on at same thread of <see cref="SteamAPI.RunCallbacks"/>.
 		/// </summary>
 		/// <remarks>
-		///	All <see cref="CallResultAwaitable{T}"/> instances obtained from this method must be <see langword="await"/>ed
+		///	All <see cref="CallResultAwaitable{T}"/> instances obtained from this method must be <see langword="await"/>ed.
 		///	</remarks>
 		public static CallResultAwaitable<T> ContinueNearRunCallbacks<T>(this SteamAPICall_t handle,
 			CancellationToken cancellationToken = default)
-			where T : struct {
+			where T : struct
+		{
 			return Async<T>(handle, s_scheduleInlineOptions, cancellationToken);
 		}
 	}
 
 	public sealed class CallResultAwaitable<T> : CallResult, ICriticalNotifyCompletion /* fulfills Awaitable, Awaiter */
-		where T: struct
+		where T : struct
 	{
 		// async related fields
-		private Action? awaitableCallback;
+		private
+#if STEAMWORKS_SDK_FEATURE_NULLABLE
+			Action?
+#else
+			Action
+#endif
+			awaitableCallback;
 		private T result;
 		private bool ioFailed;
-		private CallResultScheduler? scheduler;
+		private
+#if STEAMWORKS_SDK_FEATURE_NULLABLE
+			CallResultScheduler?
+#else
+			CallResultScheduler
+#endif
+				scheduler;
 		private CancellationToken ct;
 		private bool isCompleted;
 		private CancellationTokenRegistration cancellationRegistration;
-		private static readonly Action<object?> s_continuationFromThreadPoolDelegate =
-#if NETSTANDARD2_1_OR_GREATER && STEAMWORKS_SDK_FEATURE_NULLABLE
-						(cb) => 
-						{
+		private static readonly
+#if STEAMWORKS_SDK_FEATURE_NULLABLE
+			Action<object?>
+#else
+			Action<object>
+#endif
+				s_continuationFromThreadPoolDelegate =
+#if NETSTANDARD2_1_OR_GREATER
+						(cb) => {
 							Debug.Assert(cb is Action, "Passed wrong value to scheduler delegate, System.Action excepted. Code below don't do casting type check!");
 							Unsafe.As<Action>(cb!)();
 						};
+#elif STEAMWORKS_SDK_FEATURE_NULLABLE
+						(cb) => ((Action)cb!)();
 #else
 						(cb) => ((Action)cb)();
 #endif
@@ -188,7 +245,7 @@ namespace Steamworks {
 
 		public CallResultAwaitable()
 		{
-			
+
 		}
 
 		public CallResultAwaitable(SteamAPICall_t handle, CallResultAsyncOptions options,
@@ -197,13 +254,16 @@ namespace Steamworks {
 			ResetAsyncState(handle, options, cancellationToken);
 		}
 
-		internal override Type GetCallbackType()
+		protected override Type GetCallbackType()
 		{
 			return typeof(T);
 		}
 
-		internal override void OnRunCallResult(IntPtr pvParam, bool bFailed, ulong hSteamAPICall) {
+		protected override void OnRunCallResult(IntPtr pvParam, bool bFailed, ulong hSteamAPICall)
+		{
 			isCompleted = true;
+
+			Debug.Assert(Handle.m_SteamAPICall == hSteamAPICall, "CallResultAwaitable called with different handle than expected. This is a bug in Steamworks.NET or your code.");
 
 			if (ct.IsCancellationRequested)
 				return;
@@ -214,10 +274,17 @@ namespace Steamworks {
 
 			// try to notify user code
 			SpinWait waiter = new SpinWait();
-			for (int i = 0; i < 6; i++) {
-				Action? callbackCopy = awaitableCallback;
+			for (int i = 0; i < 6; i++)
+			{
+#if STEAMWORKS_SDK_FEATURE_NULLABLE
+				Action?
+#else
+				Action
+#endif
+					callbackCopy = awaitableCallback;
 
-				if (callbackCopy != null) {
+				if (callbackCopy != null)
+				{
 					ScheduleContinuation(callbackCopy);
 					break;
 				}
@@ -227,8 +294,10 @@ namespace Steamworks {
 			// We didn't wait to callback registered, let UnsafeOnCompleted notify user
 		}
 
-		internal override void SetUnregistered() {
+		protected override void SetUnregistered()
+		{
 			Handle = SteamAPICall_t.Invalid;
+
 		}
 
 		#region Async
@@ -258,7 +327,8 @@ namespace Steamworks {
 		/// <see cref="GetResult"/> will not wait until completion, it returns cached result.
 		/// <exception cref="IOException">IO failure during Steam API invocation</exception>
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public T GetResult() {
+		public T GetResult()
+		{
 			if (ioFailed)
 				throw new SteamCallResultException("Some error happened during Steam API call.", SteamUtils.GetAPICallFailureReason(Handle));
 
@@ -266,8 +336,10 @@ namespace Steamworks {
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public void UnsafeOnCompleted(Action callback) {
-			if (ct.IsCancellationRequested) {
+		public void UnsafeOnCompleted(Action callback)
+		{
+			if (ct.IsCancellationRequested)
+			{
 				CancellationTokenRegistration ctr = cancellationRegistration;
 				cancellationRegistration = default;
 				ctr.Dispose();
@@ -276,15 +348,17 @@ namespace Steamworks {
 
 			Interlocked.MemoryBarrier();
 
-			if (Interlocked.CompareExchange(ref awaitableCallback, callback, null) != null) {
+			if (Interlocked.CompareExchange(ref awaitableCallback, callback, null) != null)
+			{
 				throw new InvalidOperationException("This CallResult instance is already being awaited");
 			}
 
-			if (isCompleted) {
+			if (isCompleted)
+			{
 				// we didn't register callback before CallResult completed, but we have cached result. Notify user here
 				ScheduleContinuation(callback);
 			}
-			
+
 			// Register self to dispatcher here to avoid race condition of completion and resume-delegate register
 			CallbackDispatcher.Register(Handle, this);
 		}
@@ -300,8 +374,9 @@ namespace Steamworks {
 		/// <returns></returns>
 		public CallResultAwaitable<T> ResetAsyncState(SteamAPICall_t handle,
 			CallResultAsyncOptions options,
-			CancellationToken cancellationToken = default) {
-			
+			CancellationToken cancellationToken = default)
+		{
+
 			CancellationTokenRegistration ctr = cancellationRegistration;
 			cancellationRegistration = default;
 			ctr.Dispose();
@@ -310,7 +385,8 @@ namespace Steamworks {
 			scheduler = options.Scheduler;
 			ct = cancellationToken;
 
-			if (ct.CanBeCanceled) {
+			if (ct.CanBeCanceled)
+			{
 				cancellationRegistration = ct.Register(OnCancelTriggered);
 			}
 
@@ -329,19 +405,24 @@ namespace Steamworks {
 			return this;
 		}
 
-		private void ScheduleContinuation(Action continuation) {
-			if (ReferenceEquals(CallResultScheduler.ThreadPool, scheduler) || scheduler == null) {
+		private void ScheduleContinuation(Action continuation)
+		{
+			if (ReferenceEquals(CallResultScheduler.ThreadPool, scheduler) || scheduler == null)
+			{
 				ThreadPool.QueueUserWorkItem(s_continuationFromThreadPoolDelegate, continuation, preferLocal: false);
 			}
-			else if (ReferenceEquals(CallResultScheduler.Inline, scheduler)) {
+			else if (ReferenceEquals(CallResultScheduler.Inline, scheduler))
+			{
 				continuation();
 			}
-			else {
+			else
+			{
 				scheduler.Schedule(s_continuationFromThreadPoolDelegate, continuation);
 			}
 		}
 
-		private void OnCancelTriggered() {
+		private void OnCancelTriggered()
+		{
 			if (Handle != SteamAPICall_t.Invalid)
 				CallbackDispatcher.Unregister(Handle, this);
 		}

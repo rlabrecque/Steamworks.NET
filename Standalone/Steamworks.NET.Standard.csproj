@@ -63,11 +63,12 @@
 
 	<ItemGroup>
 		<Compile Include="../com.rlabrecque.steamworks.net/Runtime/**/*.cs" />
-		<Compile Include="../com.rlabrecque.steamworks.net/Samples/CallResultAwaitable.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
+	  <Compile Remove="Steamworks.NET.AwaitableCallResult\**" />
+	  <EmbeddedResource Remove="Steamworks.NET.AwaitableCallResult\**" />
+	  <None Remove="Steamworks.NET.AwaitableCallResult\**" />
 	</ItemGroup>
 
 	<Import Project="BuildPackages.targets" />

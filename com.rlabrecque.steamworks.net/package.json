@@ -21,8 +21,8 @@
   "samples": [
     {
         "displayName": "Awaitable CallResult",
-        "description": "",
-        "path": "Samples/CallResultAwaitable.cs"
+        "description": "An await-able (Task style) call-result receiver, useful to interface methods returns `SteamAPICall_t`.",
+        "path": "Samples/AsyncCallResult"
     }
   ]
 }
