@@ -4,30 +4,16 @@
 
 // This file is provided as a sample, copy into your project if you need.
 
-#if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
+#if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_STANDALONE_ANYCPU)
 #define DISABLESTEAMWORKS
 #endif
 
-#if !DISABLESTEAMWORKS
-
-#if UNITY_3_5 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6
-#error Unsupported Unity platform. Steamworks.NET requires Unity 4.7 or higher.
-#elif UNITY_4_7 || UNITY_5 || UNITY_2017 || UNITY_2017_1_OR_NEWER
-#if UNITY_EDITOR_WIN || (UNITY_STANDALONE_WIN && !UNITY_EDITOR)
-#define WINDOWS_BUILD
-#endif
-#elif STEAMWORKS_WIN
-#define WINDOWS_BUILD
-#elif STEAMWORKS_LIN_OSX
-	// So that we don't enter the else block below.
-#else
-#error You need to define STEAMWORKS_WIN, or STEAMWORKS_LIN_OSX. Refer to the readme for more details.
-#endif
-
 #if UNITY_2022_3_OR_NEWER || NETSTANDARD2_1_OR_GREATER
-// Unity 2022.3 is sure that using C# 9, which have NRT features
+// I(Akarinnnn) tested that Unity 2022.3 using C# 9, which have NRT
 #define STEAMWORKS_SDK_FEATURE_NULLABLE
 #endif
+
+#if !DISABLESTEAMWORKS
 
 using System;
 using System.ComponentModel;
@@ -38,8 +24,6 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Threading;
 
-
-
 #if STEAMWORKS_SDK_FEATURE_NULLABLE
 #nullable enable
 #endif
@@ -49,6 +33,12 @@ namespace Steamworks
 	/// <summary>
 	/// Abstraction for running <see cref="CallResultAwaitable{T}"/> callbacks and continuations.
 	/// </summary>
+	/// <remarks>
+	/// To contribute a unity scheduler, please put the source code of scheduler next to this file.
+	/// When providing a new kind of scheduler, provide an extension method to <see cref="SteamAPICall_t"/> is useful.
+	/// Typically, you can encapsule an extension method that passing scheduler your scheduler to
+	/// <see cref="SteamAPICallExtensions.Async{T}(SteamAPICall_t, CallResultAsyncOptions, CancellationToken)"/> in your extension method.
+	/// </remarks>
 	// A copy of PipeScheduler
 	public abstract class CallResultScheduler
 	{
@@ -147,7 +137,7 @@ namespace Steamworks
 		/// Construct a new <see langword="await"/>able CallResult from Steam API call handle.
 		/// </summary>
 		/// <remarks>
-		///	All <see cref="CallResultAwaitable{T}"/> instances obtained from this method must be <see langword="await"/>ed
+		///	All <see cref="CallResultAwaitable{T}"/> instances obtained from this method must be <see langword="await"/>ed. <para/>
 		///	</remarks>
 		/// <param name="handle"></param>
 		/// <returns>A <see cref="CallResultAwaitable{T}"/> that must be <see langword="await"/>ed</returns>
@@ -165,7 +155,7 @@ namespace Steamworks
 		/// When Steam API call completed, callback will run on .NET thread pool.
 		/// </summary>
 		/// <remarks>
-		///	All <see cref="CallResultAwaitable{T}"/> instances obtained from this method must be <see langword="await"/>ed
+		///	All <see cref="CallResultAwaitable{T}"/> instances obtained from this method must be <see langword="await"/>ed.
 		///	</remarks>
 		public static CallResultAwaitable<T> ContinueOnThreadPool<T>(this SteamAPICall_t handle,
 			CancellationToken cancellationToken = default)
@@ -180,7 +170,7 @@ namespace Steamworks
 		/// This is the most similar behavior to <see cref="System.Threading.Tasks.Task"/>.
 		/// </summary>
 		/// <remarks>
-		/// All <see cref="CallResultAwaitable{T}"/> instances obtained from this method must be <see langword="await"/>ed
+		/// All <see cref="CallResultAwaitable{T}"/> instances obtained from this method must be <see langword="await"/>ed.
 		/// </remarks>
 		public static CallResultAwaitable<T> ContinueOnSynchronizationContext<T>(this SteamAPICall_t handle,
 			CancellationToken cancellationToken = default)
@@ -199,7 +189,7 @@ namespace Steamworks
 		/// When Steam API call completed, callback will run on at same thread of <see cref="SteamAPI.RunCallbacks"/>.
 		/// </summary>
 		/// <remarks>
-		///	All <see cref="CallResultAwaitable{T}"/> instances obtained from this method must be <see langword="await"/>ed
+		///	All <see cref="CallResultAwaitable{T}"/> instances obtained from this method must be <see langword="await"/>ed.
 		///	</remarks>
 		public static CallResultAwaitable<T> ContinueNearRunCallbacks<T>(this SteamAPICall_t handle,
 			CancellationToken cancellationToken = default)
@@ -214,7 +204,7 @@ namespace Steamworks
 	{
 		// async related fields
 		private
-#if STEAMWORKS_SDK_FEATURES_NULLABLE
+#if STEAMWORKS_SDK_FEATURE_NULLABLE
 			Action?
 #else
 			Action
@@ -239,12 +229,13 @@ namespace Steamworks
 			Action<object>
 #endif
 				s_continuationFromThreadPoolDelegate =
-#if NETSTANDARD2_1_OR_GREATER && STEAMWORKS_SDK_FEATURE_NULLABLE
-						(cb) =>
-						{
+#if NETSTANDARD2_1_OR_GREATER
+						(cb) => {
 							Debug.Assert(cb is Action, "Passed wrong value to scheduler delegate, System.Action excepted. Code below don't do casting type check!");
 							Unsafe.As<Action>(cb!)();
 						};
+#elif STEAMWORKS_SDK_FEATURE_NULLABLE
+						(cb) => ((Action)cb!)();
 #else
 						(cb) => ((Action)cb)();
 #endif

@@ -8,6 +8,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Include="..\..\com.rlabrecque.steamworks.net\Samples\AsyncCallResult\CallResultAwaitable.cs" Link="CallResultAwaitable.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <ProjectReference Include="..\Steamworks.NET.Standard.csproj" />
 	</ItemGroup>
 
