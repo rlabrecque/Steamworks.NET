@@ -3,7 +3,7 @@ Steamworks.NET Standalone
 
 This is the project file for the standalone version of _Steamworks.NET_. This is designed to be used with non Unity applications.
 
-* A: The recommended route is to build the standalone assemblies with the project file located in `Standalone/` or download the prebuilt binaries which are available on the [Releases](https://github.com/rlabrecque/Steamworks.NET/releases) page.
+* A: The recommended route is to build the standalone assemblies with the project file located in `StandaloneFramework/` or download the prebuilt binaries which are available on the [Releases](https://github.com/rlabrecque/Steamworks.NET/releases) page.
   * Open the Visual Studio solution (.sln) file, build both targets one for Windows and one for OSX & Linux. (Optional if you downloaded a prebuilt version)
   * Reference the built assembly (Steamworks.NET.dll) in your project.
   * Start coding! Call SteamAPI.Init() before initializing your renderer.

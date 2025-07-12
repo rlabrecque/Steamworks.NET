@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.1</TargetFrameworks>
+		<!-- Also add new TargetFramework to BuildPackages.targets -->
+		<RootNamespace>Steamworks</RootNamespace>
+		<AssemblyName>Steamworks.NET</AssemblyName>
+		<Platforms>x64;x86;arm64</Platforms>
+		<RepositoryType>git</RepositoryType>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Nuget PM">
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<PackageId>Steamworks.NET</PackageId>
+		<Authors>rlabrecque</Authors>
+		<!--<PackageVersion>15.0.1</PackageVersion>-->
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/rlabrecque/Steamworks.NET</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/rlabrecque/Steamworks.NET.git</RepositoryUrl>
+		<PackgeReadmeFile>README.md</PackgeReadmeFile>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Build stuff">
+		<OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+		<DefineConstants>TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+	</PropertyGroup>
+
+	<PropertyGroup Label="OS info from developement computer">
+		<SNetOperatingSystem Condition="$([MSBuild]::IsOsPlatform('Windows')) AND '$(SNetOperatingSystem)'==''">win</SNetOperatingSystem>
+		<SNetOperatingSystem Condition="$([MSBuild]::IsOsPlatform('Linux')) AND '$(SNetOperatingSystem)'==''">linux</SNetOperatingSystem>
+		<SNetOperatingSystem Condition="$([MSBuild]::IsOsPlatform('OSX')) AND '$(SNetOperatingSystem)'==''">osx</SNetOperatingSystem>
+	</PropertyGroup>
+
+
+	<PropertyGroup Label="Assign CPU Platform Symbol">
+		<DefineConstants>$(DefineConstants);STEAMWORKS_$(Platform.ToUpper())</DefineConstants>
+	</PropertyGroup>
+	
+	<PropertyGroup Label="Assign Operating System Symbol">
+		<DefineConstants Condition="'$(SNetOperatingSystem)'=='win'">$(DefineConstants);STEAMWORKS_WIN</DefineConstants>
+		<DefineConstants Condition="'$(SNetOperatingSystem)'=='linux' OR '$(SNetOperatingSystem)'=='osx'">$(DefineConstants);STEAMWORKS_LIN_OSX</DefineConstants>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="../../com.rlabrecque.steamworks.net/Runtime/**/*.cs" LinkBase="com.rlabrecque.steamworks.net" />
+	</ItemGroup>
+
+	<Import Project="BuildPackages.targets" Condition="'$(SNetDoingNugetBuild)' != ''" />
+</Project>
