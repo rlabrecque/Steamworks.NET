@@ -149,10 +149,6 @@ namespace Steamworks {
 		public CSteamID m_steamIDLobby;
 		
 		// The friend they did the join via (will be invalid if not directly via a friend)
-		//
-		// On PS3, the friend will be invalid if this was triggered by a PSN invite via the XMB, but
-		// the account type will be console user so you can tell at least that this was from a PSN friend
-		// rather than a Steam friend.
 		public CSteamID m_steamIDFriend;
 	}
 
@@ -310,21 +306,6 @@ namespace Steamworks {
 		public CSteamID[] m_rgSteamID;
 		public int m_nResultsReturned;
 		public int m_nTotalResultCount;
-	}
-
-	//-----------------------------------------------------------------------------
-	// Purpose: reports the result of an attempt to change the user's persona name
-	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 47)]
-	public struct SetPersonaNameResponse_t {
-		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 47;
-		
-		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bSuccess; // true if name change succeeded completely.
-		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bLocalSuccess; // true if name change was retained locally.  (We might not have been able to communicate with Steam)
-		public EResult m_result; // detailed result code
 	}
 
 	//-----------------------------------------------------------------------------
@@ -816,7 +797,7 @@ namespace Steamworks {
 	public struct HTML_SetCursor_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 22;
 		public HHTMLBrowser unBrowserHandle; // the handle of the surface
-		public uint eMouseCursor; // the EMouseCursor to display
+		public uint eMouseCursor; // the EHTMLMouseCursor to display
 	}
 
 	//-----------------------------------------------------------------------------
@@ -827,7 +808,7 @@ namespace Steamworks {
 	public struct HTML_StatusText_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 23;
 		public HHTMLBrowser unBrowserHandle; // the handle of the surface
-		public string pchMsg; // the EMouseCursor to display
+		public string pchMsg; // the message text
 	}
 
 	//-----------------------------------------------------------------------------
@@ -838,7 +819,7 @@ namespace Steamworks {
 	public struct HTML_ShowToolTip_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 24;
 		public HHTMLBrowser unBrowserHandle; // the handle of the surface
-		public string pchMsg; // the EMouseCursor to display
+		public string pchMsg; // the tooltip text
 	}
 
 	//-----------------------------------------------------------------------------
@@ -849,7 +830,7 @@ namespace Steamworks {
 	public struct HTML_UpdateToolTip_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 25;
 		public HHTMLBrowser unBrowserHandle; // the handle of the surface
-		public string pchMsg; // the EMouseCursor to display
+		public string pchMsg; // the new tooltip text
 	}
 
 	//-----------------------------------------------------------------------------
@@ -1224,6 +1205,10 @@ namespace Steamworks {
 		public ulong m_ulSteamIDLobby;		// chat room, zero if failed
 	}
 
+	// used by now obsolete RequestFriendsLobbiesResponse_t
+	// enum { k_iCallback = k_iSteamMatchmakingCallbacks + 14 };
+	// used by now obsolete PSNGameBootInviteResult_t
+	// enum { k_iCallback = k_iSteamMatchmakingCallbacks + 15 };
 	//-----------------------------------------------------------------------------
 	// Purpose: Result of our request to create a Lobby
 	//			m_eResult == k_EResultOK on success

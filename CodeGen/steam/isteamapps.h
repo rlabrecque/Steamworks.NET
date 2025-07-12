@@ -39,7 +39,7 @@ public:
 
 	// Checks if the user is subscribed to the current app through a free weekend
 	// This function will return false for users who have a retail or other type of license
-	// Before using, please ask your Valve technical contact how to package and secure your free weekened
+	// Before using, please ask your Valve technical contact how to package and secure your free weekend
 	virtual bool BIsSubscribedFromFreeWeekend() = 0;
 
 	// Returns the number of DLC pieces for the running app
