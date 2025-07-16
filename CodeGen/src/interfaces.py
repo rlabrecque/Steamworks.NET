@@ -861,7 +861,12 @@ def parse_func(f, interface, func):
             elif attr.name == "STEAM_CALL_BACK":
                 strAsyncType = "Callback"
             strAsyncStruct = attr.value
-			
+
+			# attach async marker to struct definiation
+			# this requires interface gen runs before struct gen to behave correctly
+            for callback in f.callbacks:
+                if callback.name == strAsyncStruct:
+                    callback.asyncMarkerInterfaceName = f"I{strAsyncType}Struct"
 
     if strAsyncType is not None:
         g_Output.append(f"\t\t[SteamHasAsync{strAsyncType}(typeof({strAsyncStruct}))]")
