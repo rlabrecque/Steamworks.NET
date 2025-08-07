@@ -51,7 +51,7 @@ namespace Steamworks {
 
 		#if UNITY_2019_3_OR_NEWER
 		// In case of disabled Domain Reload, reset static members before entering Play Mode.
-		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+		[UnityEngine.RuntimeInitializeOnLoadMethod(UnityEngine.RuntimeInitializeLoadType.SubsystemRegistration)]
 		private static void InitOnPlayMode()
 		{
 			m_initCount = 0;
