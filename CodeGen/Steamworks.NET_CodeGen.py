@@ -11,6 +11,7 @@ def main():
     steamworksparser.Settings.fake_gameserver_interfaces = True
     ___parser = steamworksparser.parse(steam_path)
 
+	# interface gen must run before struct, see parse_func() in interface.py
     interfaces.main(___parser)
     constants.main(___parser)
     enums.main(___parser)
