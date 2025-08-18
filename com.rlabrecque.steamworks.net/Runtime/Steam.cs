@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -56,6 +56,9 @@ namespace Steamworks {
 		// Returns true on success
 		public static ESteamAPIInitResult InitEx(out string OutSteamErrMsg)
 		{
+#if STEAMWORKS_ANYCPU
+			BeAnyCPUCompatible();
+#endif
 			InteropHelp.TestIfPlatformSupported();
 
 			var pszInternalCheckInterfaceVersions = new System.Text.StringBuilder();
@@ -111,7 +114,42 @@ namespace Steamworks {
 			}
 		}
 
+#if STEAMWORKS_ANYCPU // implies .net core and STEAMWORKS_X86
+		private static void BeAnyCPUCompatible() {
+			if (s_isAnyCPUHookApplied)
+				return;
+			
+			s_isAnyCPUHookApplied = true;
+			System.Runtime.Loader.AssemblyLoadContext.Default.ResolvingUnmanagedDll += SteamNativeResolveHook;
+		}
+
+		private static bool s_isAnyCPUHookApplied = false;
+
+		private static nint SteamNativeResolveHook(System.Reflection.Assembly requestAsm, string name) {
+			// check who is requesting steam native. only do loading tricks when we requesting steam native
+			if (requestAsm.GetName().Name != "Steamworks.NET") {
+				return 0;
+			}
+
+			// check is requesting library name matches steam native
+			if ((name == NativeMethods.NativeLibraryName || name == NativeMethods.NativeLibrary_SDKEncryptedAppTicket)
+				// check are we on win64, the special case we are going to handle
+				&& RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && System.Environment.Is64BitProcess) {
+
+				string x64LibName = name + "64.dll";
+				// we don't care failed load, let next handler manage it
+				NativeLibrary.TryLoad(x64LibName, out nint lib);
+				return lib;
+			}
+
+			return 0;
+		}
+#endif
+
 		public static bool Init() {
+#if STEAMWORKS_ANYCPU
+			BeAnyCPUCompatible();
+#endif
 			InteropHelp.TestIfPlatformSupported();
 
 			string SteamErrorMsg;

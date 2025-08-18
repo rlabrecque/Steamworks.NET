@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<RootNamespace>Steamworks</RootNamespace>
+		<RepositoryType>git</RepositoryType>
+		<DefineConstants>STEAMWORKS_LIN_OSX;STEAMWORKS_X64;STEAMWORKS_ANYCPU</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Nuget PM">
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<!-- Once Any CPU get merged, remove next line to restore package ID to Steamworks.NET. -->
+		<PackageId>Steamworks.NET.AnyCPU</PackageId>
+		<Authors>rlabrecque</Authors>
+		<!--
+		Version is specified by build commandline, -p:Version=2025.8.18 
+		<PackageVersion>15.0.1</PackageVersion>
+		-->
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/rlabrecque/Steamworks.NET</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/rlabrecque/Steamworks.NET.git</RepositoryUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<Compile Include="../com.rlabrecque.steamworks.net/Runtime/**/*.cs" LinkBase="src" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Include="..\Standalone\README.md" Link="README-standalone.md" Pack="true" PackagePath="docs/README-standalone.md" />
+	  <None Include="..\README.md" Link="README.md" Pack="true" PackagePath="README.md" />
+	</ItemGroup>
+
+</Project>
