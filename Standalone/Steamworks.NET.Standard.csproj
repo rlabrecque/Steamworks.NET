@@ -8,6 +8,7 @@
 		<Configurations>Windows;OSX-Linux</Configurations>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<RepositoryType>git</RepositoryType>
+		<NuGetAuditLevel>low</NuGetAuditLevel>
 	</PropertyGroup>
 
 	<PropertyGroup Label="Nuget PM">
