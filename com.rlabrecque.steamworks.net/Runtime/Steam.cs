@@ -136,9 +136,10 @@ namespace Steamworks {
 				// check are we on win64, the special case we are going to handle
 				&& RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && System.Environment.Is64BitProcess) {
 
-				string x64LibName = name + "64.dll";
+				// platform specific suffix is not needed
+				string x64LibName = $"{name}64";
 				// we don't care failed load, let next handler manage it
-				NativeLibrary.TryLoad(x64LibName, out nint lib);
+				NativeLibrary.TryLoad(x64LibName, requestAsm, null, out nint lib);
 				return lib;
 			}
 
