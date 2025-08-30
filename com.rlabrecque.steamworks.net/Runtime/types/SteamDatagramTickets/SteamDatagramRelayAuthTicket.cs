@@ -110,13 +110,13 @@ namespace Steamworks
 
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 28)]
 			byte[] m_szName;
-
+			[StructLayout(LayoutKind.Sequential, Size = 128)]
+			public struct FixedBytes128 { }
 			[StructLayout(LayoutKind.Explicit)]
 			struct OptionValue
 			{
 				[FieldOffset(0)]
-				[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
-				byte[] m_szStringValue;
+				public FixedBytes128 m_szStringValue;
 
 				[FieldOffset(0)]
 				long m_nIntValue;
