@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -27,7 +27,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace Steamworks {
 	public static class CallbackDispatcher {
@@ -59,6 +61,8 @@ namespace Steamworks {
 		private static object m_sync = new object();
 		private static IntPtr m_pCallbackMsg;
 		private static int m_initCount;
+		[ThreadStatic]
+		private static /* nullable */ CallResultBuffer s_callResultBuffer;
 
 		#if UNITY_2019_3_OR_NEWER
 		// In case of disabled Domain Reload, reset static members before entering Play Mode.
@@ -89,10 +93,124 @@ namespace Steamworks {
 				if (m_initCount == 0) {
 					UnregisterAll();
 					Marshal.FreeHGlobal(m_pCallbackMsg);
+					s_callResultBuffer?.Dispose();
+					s_callResultBuffer = null;
 					m_pCallbackMsg = IntPtr.Zero;
 				}
 			}
 		}
+
+		private sealed class CallResultBuffer : IDisposable {
+			private const int DefaultBufferSize = 2048;
+			private const int TooLargeSizeThreshold = (int)(DefaultBufferSize * 1.2);
+			// shrink if buffer too large counter reached this amount:
+			private const int ShrinkBufferThreshold = 330;
+
+			private volatile int bufferTooLargeCounter = 0;
+
+			private int currentCallResultBufferSize;
+			private IntPtr pCallResultBuffer;
+
+			private bool disposedValue;
+
+			/// <summary>
+			/// Acquire buffer. See exception details before use.
+			/// </summary>
+			/// <param name="requiredBufferSize">Exact desired buffer size for receiving result.</param>
+			/// <returns>Unmanaged buffer for receiving result</returns>
+			/// <exception cref="NotSupportedException">Route to <see cref="ExceptionHandler(Exception)"/></exception>
+			/// <exception cref="ObjectDisposedException">Recreate an new instance if thrown</exception>
+			/// <exception cref="NullReferenceException">Recreate an new instance if thrown</exception>
+			public IntPtr AcquireBuffer(uint requiredBufferSize) {
+				CheckIsDisposed(); // also checks if this reference is null
+
+				if (currentCallResultBufferSize >= requiredBufferSize) {
+					// buffer is enough, this case will happen mostly
+
+					// check is there a large struct incoming
+					if (requiredBufferSize >= TooLargeSizeThreshold) {
+						// yes and guess we will have some big structs in near future
+						// keep big buffer now and reset counter
+
+						// thread-safe set
+						var currentCounterValue = bufferTooLargeCounter;
+						while (Interlocked.CompareExchange(ref bufferTooLargeCounter, 0, currentCounterValue) != currentCounterValue) {
+							// this thread failed the race, try again
+							currentCounterValue = bufferTooLargeCounter;
+						}
+
+						return pCallResultBuffer;
+					}
+					// check counter to see should we shrink, do thread-safe get
+					else if (Interlocked.Increment(ref bufferTooLargeCounter) < ShrinkBufferThreshold) {
+						return pCallResultBuffer;
+					}
+				}
+
+				// have to resize buffer
+				lock (this) {
+					CheckIsDisposed();
+					// double check buffer size to avoid resize the buffer smaller
+					if (currentCallResultBufferSize >= requiredBufferSize) {
+						return pCallResultBuffer;
+					}
+
+					requiredBufferSize = Math.Max(requiredBufferSize, DefaultBufferSize);
+
+					// round buffer size to next multiple of 2048
+					uint newBufferSize = requiredBufferSize;
+					if (newBufferSize % 2048 != 0u) {
+						uint newBufferPageCount = (newBufferSize / 2048u) + 1u;
+						newBufferSize = newBufferPageCount * 2048u;
+					}
+
+					if (newBufferSize > int.MaxValue) {
+						// not to use enlarged size since we don't have enough space
+						newBufferSize = requiredBufferSize;
+						if (newBufferSize > int.MaxValue) {
+							// this exception should route to ExceptionHandler()
+							throw new NotSupportedException("The param size of a call result is larger than 2GiB");
+						}
+					}
+
+#if NET5_0_OR_GREATER
+					pCallResultBuffer = Marshal.ReAllocHGlobal(pCallResultBuffer, (nint)newBufferSize);
+#else
+					Marshal.FreeHGlobal(pCallResultBuffer);
+					pCallResultBuffer = IntPtr.Zero; // is this necessary?
+					pCallResultBuffer = Marshal.AllocHGlobal((int)newBufferSize);
+#endif
+					currentCallResultBufferSize = (int)newBufferSize;
+					return pCallResultBuffer;
+				}
+			}
+
+
+			private void CheckIsDisposed() {
+				if (disposedValue) {
+				   throw new ObjectDisposedException(GetType().FullName, "Attempt to use a released call-result buffer.");
+				}
+			}
+
+			private void Dispose(bool disposing) {
+				if (!disposedValue) {
+					lock (this) {
+						Marshal.FreeHGlobal(pCallResultBuffer);
+						disposedValue = true;
+					}
+				}
+			}
+
+			~CallResultBuffer() {
+				Dispose(disposing: false);
+			}
+
+			public void Dispose() {
+				Dispose(disposing: true);
+				GC.SuppressFinalize(this);
+			}
+		}
+
 
 		internal static void Register(Callback cb) {
 			int iCallback = CallbackIdentities.GetCallbackIdentity(cb.GetCallbackType());
@@ -180,18 +298,67 @@ namespace Steamworks {
 			NativeMethods.SteamAPI_ManualDispatch_RunFrame(hSteamPipe);
 			var callbacksRegistry = isGameServer ? m_registeredGameServerCallbacks : m_registeredCallbacks;
 			while (NativeMethods.SteamAPI_ManualDispatch_GetNextCallback(hSteamPipe, m_pCallbackMsg)) {
+#if NET5_0_OR_GREATER
+				// Do not modify the fields inside, or will violate some .NET runtime constraint!
+				ref CallbackMsg_t callbackMsg = ref Unsafe.Unbox<CallbackMsg_t>(Marshal.PtrToStructure(m_pCallbackMsg, typeof(CallbackMsg_t)));
+#else
 				CallbackMsg_t callbackMsg = (CallbackMsg_t)Marshal.PtrToStructure(m_pCallbackMsg, typeof(CallbackMsg_t));
+#endif
 				try {
 					// Check for dispatching API call results
 					if (callbackMsg.m_iCallback == SteamAPICallCompleted_t.k_iCallback) {
+#if NET5_0_OR_GREATER
+						// Same as above!
+						ref SteamAPICallCompleted_t callCompletedCb = ref Unsafe.Unbox<SteamAPICallCompleted_t>(
+							Marshal.PtrToStructure(callbackMsg.m_pubParam, typeof(SteamAPICallCompleted_t))
+						);
+#else
 						SteamAPICallCompleted_t callCompletedCb = (SteamAPICallCompleted_t)Marshal.PtrToStructure(callbackMsg.m_pubParam, typeof(SteamAPICallCompleted_t));
-						IntPtr pTmpCallResult = Marshal.AllocHGlobal((int)callCompletedCb.m_cubParam);
+#endif
+						// threading safe issues in allocating call-result buffer is handled by AcquireBuffer()
+						IntPtr pTmpCallResult;
+						CallResultBuffer bufferHolder = s_callResultBuffer;
+						try {
+							// In most cases s_callResultBuffer will have valid value,
+							// by moving rare cases(recreate buffer holder) to exception path,
+							// should avoid generating creation code into usage branch
+							// and keep usage branch clear.
+							pTmpCallResult = bufferHolder.AcquireBuffer(callCompletedCb.m_cubParam);
+						}
+						catch (NotSupportedException ex) {
+							ExceptionHandler(ex);
+							continue;
+						} catch (ObjectDisposedException) {
+							var bufferHolderNew = new CallResultBuffer();
+							pTmpCallResult = bufferHolderNew.AcquireBuffer(callCompletedCb.m_cubParam);
+
+							// try set shared buffer to newly created one, accept race failure
+							Interlocked.CompareExchange(ref s_callResultBuffer, bufferHolderNew, bufferHolder);
+							// avoid new instance from being gc collected
+							bufferHolder = bufferHolderNew;
+						} catch (NullReferenceException) {
+							// keep same as above
+							var bufferHolderNew = new CallResultBuffer();
+							pTmpCallResult = bufferHolderNew.AcquireBuffer(callCompletedCb.m_cubParam);
+
+							Interlocked.CompareExchange(ref s_callResultBuffer, bufferHolderNew, bufferHolder);
+							bufferHolder = bufferHolderNew;
+						}
+
 						bool bFailed;
-						if (NativeMethods.SteamAPI_ManualDispatch_GetAPICallResult(hSteamPipe, callCompletedCb.m_hAsyncCall, pTmpCallResult, (int)callCompletedCb.m_cubParam, callCompletedCb.m_iCallback, out bFailed)) {
+
+						if (NativeMethods.SteamAPI_ManualDispatch_GetAPICallResult(
+								hSteamPipe, callCompletedCb.m_hAsyncCall, pTmpCallResult,
+								(int)callCompletedCb.m_cubParam, callCompletedCb.m_iCallback,
+								out bFailed)) {
 							lock (m_sync) {
 								List<CallResult> callResults;
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_0_OR_GREATER
+								if (m_registeredCallResults.Remove(callCompletedCb.m_hAsyncCall.m_SteamAPICall, out callResults)) {
+#else // compatibility to old Unity and .NET Framework project
 								if (m_registeredCallResults.TryGetValue((ulong)callCompletedCb.m_hAsyncCall, out callResults)) {
-									m_registeredCallResults.Remove((ulong)callCompletedCb.m_hAsyncCall);
+									m_registeredCallResults.Remove((ulong)callCompletedCb.m_hAsyncCall); 
+#endif
 									foreach (var cr in callResults) {
 										cr.OnRunCallResult(pTmpCallResult, bFailed, (ulong)callCompletedCb.m_hAsyncCall);
 										cr.SetUnregistered();
@@ -199,7 +366,6 @@ namespace Steamworks {
 								}
 							}
 						}
-						Marshal.FreeHGlobal(pTmpCallResult);
 					} else {
 						List<Callback> callbacksCopy = null;
 						lock (m_sync) {
@@ -223,9 +389,20 @@ namespace Steamworks {
 		}
 	}
 
+	/// <summary>
+	/// Internals of Steamworks.NET, not meant to use directly
+	/// </summary>
+	// Akarinnnn: I think the reason of this type is not interface, is historical burden
 	public abstract class Callback {
 		public abstract bool IsGameServer { get; }
 		internal abstract Type GetCallbackType();
+		/// <devdoc>
+		/// <remarks>
+		/// Some changes made to dispatcher leads <paramref name="pvParam"/> only valid during <see cref="OnRunCallback(IntPtr)"/> invocation
+		/// </remarks>	
+		/// </devdoc>
+		/// <param name="pvParam">Result struct buffer that valid while invocation,
+		/// must use <see cref="Marshal.PtrToStructure(IntPtr, Type)"/> to retrieve before return</param>
 		internal abstract void OnRunCallback(IntPtr pvParam);
 		internal abstract void SetUnregistered();
 	}
@@ -308,6 +485,7 @@ namespace Steamworks {
 			return typeof(T);
 		}
 
+		/// <inheritdoc/>
 		internal override void OnRunCallback(IntPtr pvParam) {
 			try {
 				m_Func((T)Marshal.PtrToStructure(pvParam, typeof(T)));
@@ -322,8 +500,18 @@ namespace Steamworks {
 		}
 	}
 
+	/// <summary>
+	/// Internals of Steamworks.NET, not meant to use directly
+	/// </summary>
 	public abstract class CallResult {
 		internal abstract Type GetCallbackType();
+		/// <devdoc>
+		/// <remarks>
+		/// Some changes made to dispatcher leads <paramref name="pvParam"/> only valid during <see cref="OnRunCallResult(IntPtr, bool, ulong)"/> invocation
+		/// </remarks>	
+		/// </devdoc>
+		/// <param name="pvParam">Result struct buffer that valid while invocation,
+		/// must use <see cref="Marshal.PtrToStructure(IntPtr, Type)"/> to retrieve before return</param>
 		internal abstract void OnRunCallResult(IntPtr pvParam, bool bFailed, ulong hSteamAPICall);
 		internal abstract void SetUnregistered();
 	}
@@ -401,6 +589,7 @@ namespace Steamworks {
 			return typeof(T);
 		}
 
+		/// <inheritdoc/>
 		internal override void OnRunCallResult(IntPtr pvParam, bool bFailed, ulong hSteamAPICall_) {
 			SteamAPICall_t hSteamAPICall = (SteamAPICall_t)hSteamAPICall_;
 			if (hSteamAPICall == m_hAPICall) {
