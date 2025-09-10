@@ -536,7 +536,7 @@ namespace Steamworks {
 		/// </summary>
 		public static gameserveritem_t GetServerDetails(HServerListRequest hRequest, int iServer) {
 			InteropHelp.TestIfAvailableClient();
-			return (gameserveritem_t)Marshal.PtrToStructure(NativeMethods.ISteamMatchmakingServers_GetServerDetails(CSteamAPIContext.GetSteamMatchmakingServers(), hRequest, iServer), typeof(gameserveritem_t));
+			return Marshal.PtrToStructure<gameserveritem_t>(NativeMethods.ISteamMatchmakingServers_GetServerDetails(CSteamAPIContext.GetSteamMatchmakingServers(), hRequest, iServer));
 		}
 
 		/// <summary>
