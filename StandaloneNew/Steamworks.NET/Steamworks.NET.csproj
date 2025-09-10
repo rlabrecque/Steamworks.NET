@@ -69,7 +69,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Compile Include="../com.rlabrecque.steamworks.net/Runtime/**/*.cs" />
+		<Compile Include="../../com.rlabrecque.steamworks.net/Runtime/**/*.cs" />
 	</ItemGroup>
 
 	<Import Project="BuildPackages.targets" />

@@ -29,22 +29,22 @@
 	<Target Name="BatchBuild" BeforeTargets="Pack"
 			Outputs="@(O_BatchBuild)">
 		<ItemGroup>
-			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+			<ToBuilt Include="Steamworks.NET.csproj">
 				<Properties>Platform=x64;Configuration=Windows;PackagingBuild=true</Properties>
 			</ToBuilt>
-			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+			<ToBuilt Include="Steamworks.NET.csproj">
 				<Properties>Platform=x64;Configuration=OSX-Linux;PackagingBuild=true</Properties>
 			</ToBuilt>
-			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+			<ToBuilt Include="Steamworks.NET.csproj">
 				<Properties>Platform=x86;Configuration=Windows;PackagingBuild=true</Properties>
 			</ToBuilt>
-			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+			<ToBuilt Include="Steamworks.NET.csproj">
 				<Properties>Platform=x86;Configuration=OSX-Linux;PackagingBuild=true</Properties>
 			</ToBuilt>
-			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+			<ToBuilt Include="Steamworks.NET.csproj">
 				<Properties>Platform=arm64;Configuration=OSX-Linux;PackagingBuild=true</Properties>
 			</ToBuilt>
-			<ToBuilt Include="Steamworks.NET.Standard.csproj">
+			<ToBuilt Include="Steamworks.NET.csproj">
 				<Properties>
 					Platform=x64;
 					Configuration=Windows;
