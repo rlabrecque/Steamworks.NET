@@ -17,7 +17,9 @@
 #endif
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using AOT;
 
 namespace Steamworks {
 	//-----------------------------------------------------------------------------
@@ -44,6 +46,7 @@ namespace Steamworks {
 		private ServerResponded m_ServerResponded;
 		private ServerFailedToRespond m_ServerFailedToRespond;
 		private RefreshComplete m_RefreshComplete;
+		private static readonly Dictionary<IntPtr, ISteamMatchmakingServerListResponse> m_Instances = new();
 
 		public ISteamMatchmakingServerListResponse(ServerResponded onServerResponded, ServerFailedToRespond onServerFailedToRespond, RefreshComplete onRefreshComplete) {
 			if (onServerResponded == null || onServerFailedToRespond == null || onRefreshComplete == null) {
@@ -62,9 +65,16 @@ namespace Steamworks {
 			Marshal.StructureToPtr(m_VTable, m_pVTable, false);
 
 			m_pGCHandle = GCHandle.Alloc(m_pVTable, GCHandleType.Pinned);
+			lock (m_Instances) {
+				m_Instances[m_pVTable] = this;
+			}
 		}
 
 		~ISteamMatchmakingServerListResponse() {
+			lock (m_Instances) {
+				m_Instances.Remove(m_pVTable);
+			}
+
 			if (m_pVTable != IntPtr.Zero) {
 				Marshal.FreeHGlobal(m_pVTable);
 			}
@@ -118,30 +128,39 @@ namespace Steamworks {
 		private delegate void InternalServerFailedToRespond(IntPtr thisptr, HServerListRequest hRequest, int iServer);
 		[UnmanagedFunctionPointer(CallingConvention.ThisCall)]
 		private delegate void InternalRefreshComplete(IntPtr thisptr, HServerListRequest hRequest, EMatchMakingServerResponse response);
-		private void InternalOnServerResponded(IntPtr thisptr, HServerListRequest hRequest, int iServer) {
+		[MonoPInvokeCallback(typeof(InternalServerResponded))]
+		private static void InternalOnServerResponded(IntPtr thisptr, HServerListRequest hRequest, int iServer) {
 			try
 			{
-				m_ServerResponded(hRequest, iServer);
+				if (m_Instances.TryGetValue(thisptr, out ISteamMatchmakingServerListResponse instance)) {
+					instance.m_ServerResponded(hRequest, iServer);
+				}
 			}
 			catch (Exception e)
 			{
 				CallbackDispatcher.ExceptionHandler(e);
 			}
 		}
-		private void InternalOnServerFailedToRespond(IntPtr thisptr, HServerListRequest hRequest, int iServer) {
+		[MonoPInvokeCallback(typeof(InternalServerFailedToRespond))]
+		private static void InternalOnServerFailedToRespond(IntPtr thisptr, HServerListRequest hRequest, int iServer) {
 			try
 			{
-				m_ServerFailedToRespond(hRequest, iServer);
+				if (m_Instances.TryGetValue(thisptr, out ISteamMatchmakingServerListResponse instance)) {
+					instance.m_ServerFailedToRespond(hRequest, iServer);
+				}
 			}
 			catch (Exception e)
 			{
 				CallbackDispatcher.ExceptionHandler(e);
 			}
 		}
-		private void InternalOnRefreshComplete(IntPtr thisptr, HServerListRequest hRequest, EMatchMakingServerResponse response) {
+		[MonoPInvokeCallback(typeof(InternalRefreshComplete))]
+		private static void InternalOnRefreshComplete(IntPtr thisptr, HServerListRequest hRequest, EMatchMakingServerResponse response) {
 			try
 			{
-				m_RefreshComplete(hRequest, response);
+				if (m_Instances.TryGetValue(thisptr, out ISteamMatchmakingServerListResponse instance)) {
+					instance.m_RefreshComplete(hRequest, response);
+				}
 			}
 			catch (Exception e)
 			{
@@ -192,6 +211,7 @@ namespace Steamworks {
 		private GCHandle m_pGCHandle;
 		private ServerResponded m_ServerResponded;
 		private ServerFailedToRespond m_ServerFailedToRespond;
+		private static readonly Dictionary<IntPtr, ISteamMatchmakingPingResponse> m_Instances = new();
 
 		public ISteamMatchmakingPingResponse(ServerResponded onServerResponded, ServerFailedToRespond onServerFailedToRespond) {
 			if (onServerResponded == null || onServerFailedToRespond == null) {
@@ -208,9 +228,15 @@ namespace Steamworks {
 			Marshal.StructureToPtr(m_VTable, m_pVTable, false);
 
 			m_pGCHandle = GCHandle.Alloc(m_pVTable, GCHandleType.Pinned);
+			lock (m_Instances) {
+				m_Instances[m_pVTable] = this;
+			}
 		}
 
 		~ISteamMatchmakingPingResponse() {
+			lock (m_Instances) {
+				m_Instances.Remove(m_pVTable);
+			}
 			if (m_pVTable != IntPtr.Zero) {
 				Marshal.FreeHGlobal(m_pVTable);
 			}
@@ -236,11 +262,17 @@ namespace Steamworks {
 		private delegate void InternalServerResponded(IntPtr thisptr, gameserveritem_t server);
 		[UnmanagedFunctionPointer(CallingConvention.ThisCall)]
 		private delegate void InternalServerFailedToRespond(IntPtr thisptr);
-		private void InternalOnServerResponded(IntPtr thisptr, gameserveritem_t server) {
-			m_ServerResponded(server);
+		[MonoPInvokeCallback(typeof(InternalServerResponded))]
+		private static void InternalOnServerResponded(IntPtr thisptr, gameserveritem_t server) {
+			if (m_Instances.TryGetValue(thisptr, out ISteamMatchmakingPingResponse instance)) {
+				instance.m_ServerResponded(server);
+			}
 		}
-		private void InternalOnServerFailedToRespond(IntPtr thisptr) {
-			m_ServerFailedToRespond();
+		[MonoPInvokeCallback(typeof(InternalServerFailedToRespond))]
+		private static void InternalOnServerFailedToRespond(IntPtr thisptr) {
+			if (m_Instances.TryGetValue(thisptr, out ISteamMatchmakingPingResponse instance)) {
+				instance.m_ServerFailedToRespond();
+			}
 		}
 #endif
 
@@ -289,6 +321,7 @@ namespace Steamworks {
 		private AddPlayerToList m_AddPlayerToList;
 		private PlayersFailedToRespond m_PlayersFailedToRespond;
 		private PlayersRefreshComplete m_PlayersRefreshComplete;
+		private static readonly Dictionary<IntPtr, ISteamMatchmakingPlayersResponse> m_Instances = new();
 
 		public ISteamMatchmakingPlayersResponse(AddPlayerToList onAddPlayerToList, PlayersFailedToRespond onPlayersFailedToRespond, PlayersRefreshComplete onPlayersRefreshComplete) {
 			if (onAddPlayerToList == null || onPlayersFailedToRespond == null || onPlayersRefreshComplete == null) {
@@ -307,9 +340,15 @@ namespace Steamworks {
 			Marshal.StructureToPtr(m_VTable, m_pVTable, false);
 
 			m_pGCHandle = GCHandle.Alloc(m_pVTable, GCHandleType.Pinned);
+			lock (m_Instances) {
+				m_Instances[m_pVTable] = this;
+			}
 		}
 
 		~ISteamMatchmakingPlayersResponse() {
+			lock (m_Instances) {
+				m_Instances.Remove(m_pVTable);
+			}
 			if (m_pVTable != IntPtr.Zero) {
 				Marshal.FreeHGlobal(m_pVTable);
 			}
@@ -342,14 +381,23 @@ namespace Steamworks {
 		public delegate void InternalPlayersFailedToRespond(IntPtr thisptr);
 		[UnmanagedFunctionPointer(CallingConvention.ThisCall)]
 		public delegate void InternalPlayersRefreshComplete(IntPtr thisptr);
-		private void InternalOnAddPlayerToList(IntPtr thisptr, IntPtr pchName, int nScore, float flTimePlayed) {
-			m_AddPlayerToList(InteropHelp.PtrToStringUTF8(pchName), nScore, flTimePlayed);
+		[MonoPInvokeCallback(typeof(InternalAddPlayerToList))]
+		private static void InternalOnAddPlayerToList(IntPtr thisptr, IntPtr pchName, int nScore, float flTimePlayed) {
+			if (m_Instances.TryGetValue(thisptr, out ISteamMatchmakingPlayersResponse instance)) {
+				instance.m_AddPlayerToList(InteropHelp.PtrToStringUTF8(pchName), nScore, flTimePlayed);
+			}
 		}
-		private void InternalOnPlayersFailedToRespond(IntPtr thisptr) {
-			m_PlayersFailedToRespond();
+		[MonoPInvokeCallback(typeof(InternalPlayersFailedToRespond))]
+		private static void InternalOnPlayersFailedToRespond(IntPtr thisptr) {
+			if (m_Instances.TryGetValue(thisptr, out ISteamMatchmakingPlayersResponse instance)) {
+				instance.m_PlayersFailedToRespond();
+			}
 		}
-		private void InternalOnPlayersRefreshComplete(IntPtr thisptr) {
-			m_PlayersRefreshComplete();
+		[MonoPInvokeCallback(typeof(InternalPlayersRefreshComplete))]
+		private static void InternalOnPlayersRefreshComplete(IntPtr thisptr) {
+			if (m_Instances.TryGetValue(thisptr, out ISteamMatchmakingPlayersResponse instance)) {
+				instance.m_PlayersRefreshComplete();
+			}
 		}
 #endif
 
@@ -402,6 +450,7 @@ namespace Steamworks {
 		private RulesResponded m_RulesResponded;
 		private RulesFailedToRespond m_RulesFailedToRespond;
 		private RulesRefreshComplete m_RulesRefreshComplete;
+		private static readonly Dictionary<IntPtr, ISteamMatchmakingRulesResponse> m_Instances = new();
 
 		public ISteamMatchmakingRulesResponse(RulesResponded onRulesResponded, RulesFailedToRespond onRulesFailedToRespond, RulesRefreshComplete onRulesRefreshComplete) {
 			if (onRulesResponded == null || onRulesFailedToRespond == null || onRulesRefreshComplete == null) {
@@ -420,9 +469,15 @@ namespace Steamworks {
 			Marshal.StructureToPtr(m_VTable, m_pVTable, false);
 
 			m_pGCHandle = GCHandle.Alloc(m_pVTable, GCHandleType.Pinned);
+			lock (m_Instances) {
+				m_Instances[m_pVTable] = this;
+			}
 		}
 
 		~ISteamMatchmakingRulesResponse() {
+			lock (m_Instances) {
+				m_Instances.Remove(m_pVTable);
+			}
 			if (m_pVTable != IntPtr.Zero) {
 				Marshal.FreeHGlobal(m_pVTable);
 			}
@@ -455,14 +510,23 @@ namespace Steamworks {
 		public delegate void InternalRulesFailedToRespond(IntPtr thisptr);
 		[UnmanagedFunctionPointer(CallingConvention.ThisCall)]
 		public delegate void InternalRulesRefreshComplete(IntPtr thisptr);
-		private void InternalOnRulesResponded(IntPtr thisptr, IntPtr pchRule, IntPtr pchValue) {
-			m_RulesResponded(InteropHelp.PtrToStringUTF8(pchRule), InteropHelp.PtrToStringUTF8(pchValue));
+		[MonoPInvokeCallback(typeof(InternalRulesResponded))]
+		private static void InternalOnRulesResponded(IntPtr thisptr, IntPtr pchRule, IntPtr pchValue) {
+			if (m_Instances.TryGetValue(thisptr, out ISteamMatchmakingRulesResponse instance)) {
+				instance.m_RulesResponded(InteropHelp.PtrToStringUTF8(pchRule), InteropHelp.PtrToStringUTF8(pchValue));
+			}
 		}
-		private void InternalOnRulesFailedToRespond(IntPtr thisptr) {
-			m_RulesFailedToRespond();
+		[MonoPInvokeCallback(typeof(InternalRulesFailedToRespond))]
+		private static void InternalOnRulesFailedToRespond(IntPtr thisptr) {
+			if (m_Instances.TryGetValue(thisptr, out ISteamMatchmakingRulesResponse instance)) {
+				instance.m_RulesFailedToRespond();
+			}
 		}
-		private void InternalOnRulesRefreshComplete(IntPtr thisptr) {
-			m_RulesRefreshComplete();
+		[MonoPInvokeCallback(typeof(InternalRulesRefreshComplete))]
+		private static void InternalOnRulesRefreshComplete(IntPtr thisptr) {
+			if (m_Instances.TryGetValue(thisptr, out ISteamMatchmakingRulesResponse instance)) {
+				instance.m_RulesRefreshComplete();
+			}
 		}
 #endif
 
