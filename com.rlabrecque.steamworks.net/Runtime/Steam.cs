@@ -15,7 +15,49 @@ using System.Runtime.InteropServices;
 using IntPtr = System.IntPtr;
 
 namespace Steamworks {
-	public static class SteamAPI {
+#if STEAMWORKS_ANYCPU // implies .net core and STEAMWORKS_X86
+	internal static class AnyCPU
+	{
+        internal static void BeCompatible()
+        {
+            if (s_isAnyCPUHookApplied)
+                return;
+
+            s_isAnyCPUHookApplied = true;
+            System.Runtime.Loader.AssemblyLoadContext.Default.ResolvingUnmanagedDll += SteamNativeResolveHook;
+        }
+
+        private static bool s_isAnyCPUHookApplied = false;
+
+        private static nint SteamNativeResolveHook(System.Reflection.Assembly requestAsm, string name)
+        {
+            // check who is requesting steam native. only do loading tricks when we requesting steam native
+            if (requestAsm.GetName().Name != "Steamworks.NET")
+            {
+                return 0;
+            }
+
+            // check is requesting library name matches steam native
+            if ((name == NativeMethods.NativeLibraryName || name == NativeMethods.NativeLibrary_SDKEncryptedAppTicket)
+                // check are we on win64, the special case we are going to handle
+                && RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && System.Environment.Is64BitProcess)
+            {
+
+                // platform specific suffix is not needed
+                string x64LibName = $"{name}64";
+                // we don't care failed load, let next handler manage it
+                NativeLibrary.TryLoad(x64LibName, requestAsm, null, out nint lib);
+                return lib;
+            }
+
+            return 0;
+        }
+    }
+#endif
+
+
+
+    public static class SteamAPI {
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
 		//	Steam API setup & shutdown
 		//
@@ -57,7 +99,7 @@ namespace Steamworks {
 		public static ESteamAPIInitResult InitEx(out string OutSteamErrMsg)
 		{
 #if STEAMWORKS_ANYCPU
-			BeAnyCPUCompatible();
+			AnyCPU.BeCompatible();
 #endif
 			InteropHelp.TestIfPlatformSupported();
 
@@ -114,42 +156,9 @@ namespace Steamworks {
 			}
 		}
 
-#if STEAMWORKS_ANYCPU // implies .net core and STEAMWORKS_X86
-		private static void BeAnyCPUCompatible() {
-			if (s_isAnyCPUHookApplied)
-				return;
-			
-			s_isAnyCPUHookApplied = true;
-			System.Runtime.Loader.AssemblyLoadContext.Default.ResolvingUnmanagedDll += SteamNativeResolveHook;
-		}
-
-		private static bool s_isAnyCPUHookApplied = false;
-
-		private static nint SteamNativeResolveHook(System.Reflection.Assembly requestAsm, string name) {
-			// check who is requesting steam native. only do loading tricks when we requesting steam native
-			if (requestAsm.GetName().Name != "Steamworks.NET") {
-				return 0;
-			}
-
-			// check is requesting library name matches steam native
-			if ((name == NativeMethods.NativeLibraryName || name == NativeMethods.NativeLibrary_SDKEncryptedAppTicket)
-				// check are we on win64, the special case we are going to handle
-				&& RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && System.Environment.Is64BitProcess) {
-
-				// platform specific suffix is not needed
-				string x64LibName = $"{name}64";
-				// we don't care failed load, let next handler manage it
-				NativeLibrary.TryLoad(x64LibName, requestAsm, null, out nint lib);
-				return lib;
-			}
-
-			return 0;
-		}
-#endif
-
 		public static bool Init() {
 #if STEAMWORKS_ANYCPU
-			BeAnyCPUCompatible();
+			AnyCPU.BeCompatible();
 #endif
 			InteropHelp.TestIfPlatformSupported();
 
@@ -176,7 +185,10 @@ namespace Steamworks {
 		// NOTE: If you use the Steam DRM wrapper on your primary executable file, this check is unnecessary
 		// since the DRM wrapper will ensure that your application was launched properly through Steam.
 		public static bool RestartAppIfNecessary(AppId_t unOwnAppID) {
-			InteropHelp.TestIfPlatformSupported();
+#if STEAMWORKS_ANYCPU
+			AnyCPU.BeCompatible();
+#endif
+            InteropHelp.TestIfPlatformSupported();
 			return NativeMethods.SteamAPI_RestartAppIfNecessary(unOwnAppID);
 		}
 
@@ -267,7 +279,10 @@ namespace Steamworks {
 		// - The version string should be in the form x.x.x.x, and is used by the master server to detect when the
 		//		server is out of date.  (Only servers with the latest version will be listed.)
 		public static ESteamAPIInitResult InitEx(uint unIP, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, string pchVersionString, out string OutSteamErrMsg) {
-			InteropHelp.TestIfPlatformSupported();
+#if STEAMWORKS_ANYCPU
+			AnyCPU.BeCompatible();
+#endif
+            InteropHelp.TestIfPlatformSupported();
 
 			var pszInternalCheckInterfaceVersions = new System.Text.StringBuilder();
 			pszInternalCheckInterfaceVersions.Append(Constants.STEAMUTILS_INTERFACE_VERSION).Append('\0');
@@ -310,7 +325,10 @@ namespace Steamworks {
 		// This function is included for compatibility with older SDK.
 		// You can use it if you don't care about decent error handling
 		public static bool Init(uint unIP, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, string pchVersionString) {
-			InteropHelp.TestIfPlatformSupported();
+#if STEAMWORKS_ANYCPU
+            AnyCPU.BeCompatible();
+#endif
+            InteropHelp.TestIfPlatformSupported();
 
 			string SteamErrorMsg;
 			return InitEx(unIP, usGamePort, usQueryPort, eServerMode, pchVersionString, out SteamErrorMsg) == ESteamAPIInitResult.k_ESteamAPIInitResult_OK;

@@ -41,7 +41,7 @@
 		<Content Include="../com.rlabrecque.steamworks.net/Plugins/libsteam_api.so" Pack="true" LinkBase="native">
 			<PackagePath>runtimes/linux-x64/native</PackagePath>
 		</Content>
-		<!-- In fact there is linux-x86 version, but it's filename is conflict with linux-x64 version. Therefore this repo didn't include it. -->
+		<!-- In fact there is a linux-x86 version, but it's filename is conflict with linux-x64 version. Therefore this repo didn't include it. -->
 		<Content Include="../com.rlabrecque.steamworks.net/Plugins/steam_api.bundle/Contents/MacOS/libsteam_api.dylib" Pack="true" LinkBase="native">
 			<PackagePath>runtimes/osx-x64/native</PackagePath>
 		</Content>
