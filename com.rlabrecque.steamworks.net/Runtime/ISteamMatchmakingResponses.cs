@@ -19,7 +19,18 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+#if ENABLE_IL2CPP
 using AOT;
+#else
+namespace Steamworks {
+	[AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
+	internal sealed class MonoPInvokeCallbackAttribute : Attribute {
+		// This is a positional argument
+		public MonoPInvokeCallbackAttribute(Type placeholder) {
+		}
+	}
+}
+#endif
 
 namespace Steamworks {
 	//-----------------------------------------------------------------------------
@@ -46,7 +57,7 @@ namespace Steamworks {
 		private ServerResponded m_ServerResponded;
 		private ServerFailedToRespond m_ServerFailedToRespond;
 		private RefreshComplete m_RefreshComplete;
-		private static readonly Dictionary<IntPtr, ISteamMatchmakingServerListResponse> m_Instances = new();
+		private static readonly Dictionary<IntPtr, ISteamMatchmakingServerListResponse> m_Instances = new Dictionary<IntPtr, ISteamMatchmakingServerListResponse>();
 
 		public ISteamMatchmakingServerListResponse(ServerResponded onServerResponded, ServerFailedToRespond onServerFailedToRespond, RefreshComplete onRefreshComplete) {
 			if (onServerResponded == null || onServerFailedToRespond == null || onRefreshComplete == null) {
@@ -211,7 +222,7 @@ namespace Steamworks {
 		private GCHandle m_pGCHandle;
 		private ServerResponded m_ServerResponded;
 		private ServerFailedToRespond m_ServerFailedToRespond;
-		private static readonly Dictionary<IntPtr, ISteamMatchmakingPingResponse> m_Instances = new();
+		private static readonly Dictionary<IntPtr, ISteamMatchmakingPingResponse> m_Instances = new Dictionary<IntPtr, ISteamMatchmakingPingResponse>();
 
 		public ISteamMatchmakingPingResponse(ServerResponded onServerResponded, ServerFailedToRespond onServerFailedToRespond) {
 			if (onServerResponded == null || onServerFailedToRespond == null) {
@@ -321,7 +332,7 @@ namespace Steamworks {
 		private AddPlayerToList m_AddPlayerToList;
 		private PlayersFailedToRespond m_PlayersFailedToRespond;
 		private PlayersRefreshComplete m_PlayersRefreshComplete;
-		private static readonly Dictionary<IntPtr, ISteamMatchmakingPlayersResponse> m_Instances = new();
+		private static readonly Dictionary<IntPtr, ISteamMatchmakingPlayersResponse> m_Instances = new Dictionary<IntPtr, ISteamMatchmakingPlayersResponse>();
 
 		public ISteamMatchmakingPlayersResponse(AddPlayerToList onAddPlayerToList, PlayersFailedToRespond onPlayersFailedToRespond, PlayersRefreshComplete onPlayersRefreshComplete) {
 			if (onAddPlayerToList == null || onPlayersFailedToRespond == null || onPlayersRefreshComplete == null) {
@@ -450,7 +461,7 @@ namespace Steamworks {
 		private RulesResponded m_RulesResponded;
 		private RulesFailedToRespond m_RulesFailedToRespond;
 		private RulesRefreshComplete m_RulesRefreshComplete;
-		private static readonly Dictionary<IntPtr, ISteamMatchmakingRulesResponse> m_Instances = new();
+		private static readonly Dictionary<IntPtr, ISteamMatchmakingRulesResponse> m_Instances = new Dictionary<IntPtr, ISteamMatchmakingRulesResponse>();
 
 		public ISteamMatchmakingRulesResponse(RulesResponded onRulesResponded, RulesFailedToRespond onRulesFailedToRespond, RulesRefreshComplete onRulesRefreshComplete) {
 			if (onRulesResponded == null || onRulesFailedToRespond == null || onRulesRefreshComplete == null) {
