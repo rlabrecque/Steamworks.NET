@@ -19,7 +19,9 @@ namespace Steamworks {
 	{
 		internal static void BeCompatible()
 		{
-			if (s_isAnyCPUHookApplied)
+            // not checking os or arch etc, this library can act as a placeholder
+
+            if (s_isAnyCPUHookApplied)
 				return;
 
 			s_isAnyCPUHookApplied = true;
