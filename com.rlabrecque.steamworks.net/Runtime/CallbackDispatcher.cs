@@ -394,7 +394,13 @@ namespace Steamworks {
 			SteamAPICall_t hSteamAPICall = (SteamAPICall_t)hSteamAPICall_;
 			if (hSteamAPICall == m_hAPICall) {
 				try {
-					m_Func((T)Marshal.PtrToStructure(pvParam, typeof(T)), bFailed);
+					T result;
+#if STEAMWORKS_ANYCPU
+					result = ConditionalMarshallerTable.Marshal<T>(pvParam);
+#else
+					result = (T)Marshal.PtrToStructure(pvParam, typeof(T));
+#endif
+                    m_Func(result, bFailed);
 				}
 				catch (Exception e) {
 					CallbackDispatcher.ExceptionHandler(e);

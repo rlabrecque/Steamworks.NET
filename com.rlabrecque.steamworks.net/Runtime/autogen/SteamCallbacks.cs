@@ -26,6 +26,31 @@ namespace Steamworks {
 		public AppId_t m_nAppID;		// AppID of the DLC
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// callbacks
+	//-----------------------------------------------------------------------------
+	// Purpose: posted after the user gains ownership of DLC & that DLC is installed
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 5)]
+	internal struct DlcInstalled_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 5;
+		public AppId_t m_nAppID;		// AppID of the DLC
+	}
+
+
+	// callbacks
+	//-----------------------------------------------------------------------------
+	// Purpose: posted after the user gains ownership of DLC & that DLC is installed
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 5)]
+	internal struct DlcInstalled_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 5;
+		public AppId_t m_nAppID;		// AppID of the DLC
+	}
+
+	#endif
 	//---------------------------------------------------------------------------------
 	// Purpose: posted after the user gains executes a Steam URL with command line or query parameters
 	// such as steam://run/<appid>//-commandline/?param1=value1&param2=value2&param3=value3 etc
@@ -38,6 +63,33 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 14;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//---------------------------------------------------------------------------------
+	// Purpose: posted after the user gains executes a Steam URL with command line or query parameters
+	// such as steam://run/<appid>//-commandline/?param1=value1&param2=value2&param3=value3 etc
+	// while the game is already running.  The new params can be queried
+	// with GetLaunchQueryParam and GetLaunchCommandLine
+	//---------------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 14)]
+	internal struct NewUrlLaunchParameters_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 14;
+	}
+
+
+	//---------------------------------------------------------------------------------
+	// Purpose: posted after the user gains executes a Steam URL with command line or query parameters
+	// such as steam://run/<appid>//-commandline/?param1=value1&param2=value2&param3=value3 etc
+	// while the game is already running.  The new params can be queried
+	// with GetLaunchQueryParam and GetLaunchCommandLine
+	//---------------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 14)]
+	internal struct NewUrlLaunchParameters_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 14;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: response to RequestAppProofOfPurchaseKey/RequestAllProofOfPurchaseKeys
 	// for supporting third-party CD keys, or other proof-of-purchase systems.
@@ -50,7 +102,7 @@ namespace Steamworks {
 		public uint m_nAppID;
 		public uint m_cchKeyLength;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cubAppProofOfPurchaseKeyMax)]
-		private byte[] m_rgchKey_;
+		internal byte[] m_rgchKey_;
 		public string m_rgchKey
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchKey_); }
@@ -58,6 +110,49 @@ namespace Steamworks {
 		}
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: response to RequestAppProofOfPurchaseKey/RequestAllProofOfPurchaseKeys
+	// for supporting third-party CD keys, or other proof-of-purchase systems.
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 21)]
+	internal struct AppProofOfPurchaseKeyResponse_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 21;
+		public EResult m_eResult;
+		public uint m_nAppID;
+		public uint m_cchKeyLength;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cubAppProofOfPurchaseKeyMax)]
+		internal byte[] m_rgchKey_;
+		public string m_rgchKey
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchKey_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchKey_, Constants.k_cubAppProofOfPurchaseKeyMax); }
+		}
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: response to RequestAppProofOfPurchaseKey/RequestAllProofOfPurchaseKeys
+	// for supporting third-party CD keys, or other proof-of-purchase systems.
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 21)]
+	internal struct AppProofOfPurchaseKeyResponse_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 21;
+		public EResult m_eResult;
+		public uint m_nAppID;
+		public uint m_cchKeyLength;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cubAppProofOfPurchaseKeyMax)]
+		internal byte[] m_rgchKey_;
+		public string m_rgchKey
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchKey_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchKey_, Constants.k_cubAppProofOfPurchaseKeyMax); }
+		}
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: response to GetFileDetails
 	//-----------------------------------------------------------------------------
@@ -72,6 +167,37 @@ namespace Steamworks {
 		public uint m_unFlags;		//
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: response to GetFileDetails
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 23)]
+	internal struct FileDetailsResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 23;
+		public EResult m_eResult;
+		public ulong m_ulFileSize;	// original file size in bytes
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
+		public byte[] m_FileSHA;	// original file SHA1 hash
+		public uint m_unFlags;		//
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: response to GetFileDetails
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 23)]
+	internal struct FileDetailsResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 23;
+		public EResult m_eResult;
+		public ulong m_ulFileSize;	// original file size in bytes
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
+		public byte[] m_FileSHA;	// original file SHA1 hash
+		public uint m_unFlags;		//
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: called for games in Timed Trial mode
 	//-----------------------------------------------------------------------------
@@ -86,6 +212,37 @@ namespace Steamworks {
 		public uint m_unSecondsPlayed;	// how many seconds the app was already played
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: called for games in Timed Trial mode
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 30)]
+	internal struct TimedTrialStatus_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 30;
+		public AppId_t m_unAppID;			// appID
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bIsOffline;		// if true, time allowed / played refers to offline time, not total time
+		public uint m_unSecondsAllowed;	// how many seconds the app can be played in total
+		public uint m_unSecondsPlayed;	// how many seconds the app was already played
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: called for games in Timed Trial mode
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 30)]
+	internal struct TimedTrialStatus_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 30;
+		public AppId_t m_unAppID;			// appID
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bIsOffline;		// if true, time allowed / played refers to offline time, not total time
+		public uint m_unSecondsAllowed;	// how many seconds the app can be played in total
+		public uint m_unSecondsPlayed;	// how many seconds the app was already played
+	}
+
+	#endif
 	// callbacks
 	//-----------------------------------------------------------------------------
 	// Purpose: called when a friends' status changes
@@ -99,6 +256,35 @@ namespace Steamworks {
 		public EPersonaChange m_nChangeFlags;		// what's changed
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// callbacks
+	//-----------------------------------------------------------------------------
+	// Purpose: called when a friends' status changes
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 4)]
+	internal struct PersonaStateChange_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 4;
+		
+		public ulong m_ulSteamID;		// steamID of the friend who changed
+		public EPersonaChange m_nChangeFlags;		// what's changed
+	}
+
+
+	// callbacks
+	//-----------------------------------------------------------------------------
+	// Purpose: called when a friends' status changes
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 4)]
+	internal struct PersonaStateChange_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 4;
+		
+		public ulong m_ulSteamID;		// steamID of the friend who changed
+		public EPersonaChange m_nChangeFlags;		// what's changed
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: posted when game overlay activates or deactivates
 	//			the game can use this to be pause or resume single player games
@@ -114,6 +300,39 @@ namespace Steamworks {
 		public uint m_dwOverlayPID;	// used internally
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: posted when game overlay activates or deactivates
+	//			the game can use this to be pause or resume single player games
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 31)]
+	internal struct GameOverlayActivated_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 31;
+		public byte m_bActive;		// true if it's just been activated, false otherwise
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bUserInitiated;	// true if the user asked for the overlay to be activated/deactivated
+		public AppId_t m_nAppID;		// the appID of the game (should always be the current game)
+		public uint m_dwOverlayPID;	// used internally
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: posted when game overlay activates or deactivates
+	//			the game can use this to be pause or resume single player games
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 31)]
+	internal struct GameOverlayActivated_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 31;
+		public byte m_bActive;		// true if it's just been activated, false otherwise
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bUserInitiated;	// true if the user asked for the overlay to be activated/deactivated
+		public AppId_t m_nAppID;		// the appID of the game (should always be the current game)
+		public uint m_dwOverlayPID;	// used internally
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: called when the user tries to join a different game server from their friends list
 	//			game client should attempt to connect to specified server when this is received
@@ -123,14 +342,14 @@ namespace Steamworks {
 	public struct GameServerChangeRequested_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 32;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
-		private byte[] m_rgchServer_;
+		internal byte[] m_rgchServer_;
 		public string m_rgchServer		// server address ("127.0.0.1:27015", "tf2.valvesoftware.com")
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchServer_); }
 			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchServer_, 64); }
 		}
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
-		private byte[] m_rgchPassword_;
+		internal byte[] m_rgchPassword_;
 		public string m_rgchPassword	// server password, if any
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchPassword_); }
@@ -138,6 +357,57 @@ namespace Steamworks {
 		}
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: called when the user tries to join a different game server from their friends list
+	//			game client should attempt to connect to specified server when this is received
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 32)]
+	internal struct GameServerChangeRequested_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 32;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
+		internal byte[] m_rgchServer_;
+		public string m_rgchServer		// server address ("127.0.0.1:27015", "tf2.valvesoftware.com")
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchServer_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchServer_, 64); }
+		}
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
+		internal byte[] m_rgchPassword_;
+		public string m_rgchPassword	// server password, if any
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchPassword_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchPassword_, 64); }
+		}
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: called when the user tries to join a different game server from their friends list
+	//			game client should attempt to connect to specified server when this is received
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 32)]
+	internal struct GameServerChangeRequested_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 32;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
+		internal byte[] m_rgchServer_;
+		public string m_rgchServer		// server address ("127.0.0.1:27015", "tf2.valvesoftware.com")
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchServer_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchServer_, 64); }
+		}
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
+		internal byte[] m_rgchPassword_;
+		public string m_rgchPassword	// server password, if any
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchPassword_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchPassword_, 64); }
+		}
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: called when the user tries to join a lobby from their friends list
 	//			game client should attempt to connect to specified lobby when this is received
@@ -152,6 +422,37 @@ namespace Steamworks {
 		public CSteamID m_steamIDFriend;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: called when the user tries to join a lobby from their friends list
+	//			game client should attempt to connect to specified lobby when this is received
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 33)]
+	internal struct GameLobbyJoinRequested_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 33;
+		public CSteamID m_steamIDLobby;
+		
+		// The friend they did the join via (will be invalid if not directly via a friend)
+		public CSteamID m_steamIDFriend;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: called when the user tries to join a lobby from their friends list
+	//			game client should attempt to connect to specified lobby when this is received
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 33)]
+	internal struct GameLobbyJoinRequested_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 33;
+		public CSteamID m_steamIDLobby;
+		
+		// The friend they did the join via (will be invalid if not directly via a friend)
+		public CSteamID m_steamIDFriend;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: called when an avatar is loaded in from a previous GetLargeFriendAvatar() call
 	//			if the image wasn't already available
@@ -178,6 +479,33 @@ namespace Steamworks {
 		public byte m_bSuccess;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: marks the return of a request officer list call
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 35)]
+	internal struct ClanOfficerListResponse_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 35;
+		public CSteamID m_steamIDClan;
+		public int m_cOfficers;
+		public byte m_bSuccess;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: marks the return of a request officer list call
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 35)]
+	internal struct ClanOfficerListResponse_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 35;
+		public CSteamID m_steamIDClan;
+		public int m_cOfficers;
+		public byte m_bSuccess;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: callback indicating updated data about friends rich presence information
 	//-----------------------------------------------------------------------------
@@ -199,7 +527,7 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 37;
 		public CSteamID m_steamIDFriend;		// the friend they did the join via (will be invalid if not directly via a friend)
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchMaxRichPresenceValueLength)]
-		private byte[] m_rgchConnect_;
+		internal byte[] m_rgchConnect_;
 		public string m_rgchConnect
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchConnect_); }
@@ -207,6 +535,45 @@ namespace Steamworks {
 		}
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: called when the user tries to join a game from their friends list
+	//			rich presence will have been set with the "connect" key which is set here
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 37)]
+	internal struct GameRichPresenceJoinRequested_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 37;
+		public CSteamID m_steamIDFriend;		// the friend they did the join via (will be invalid if not directly via a friend)
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchMaxRichPresenceValueLength)]
+		internal byte[] m_rgchConnect_;
+		public string m_rgchConnect
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchConnect_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchConnect_, Constants.k_cchMaxRichPresenceValueLength); }
+		}
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: called when the user tries to join a game from their friends list
+	//			rich presence will have been set with the "connect" key which is set here
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 37)]
+	internal struct GameRichPresenceJoinRequested_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 37;
+		public CSteamID m_steamIDFriend;		// the friend they did the join via (will be invalid if not directly via a friend)
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchMaxRichPresenceValueLength)]
+		internal byte[] m_rgchConnect_;
+		public string m_rgchConnect
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchConnect_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchConnect_, Constants.k_cchMaxRichPresenceValueLength); }
+		}
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: a chat message has been received for a clan chat the game has joined
 	//-----------------------------------------------------------------------------
@@ -230,6 +597,31 @@ namespace Steamworks {
 		public CSteamID m_steamIDUser;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: a user has joined a clan chat
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 39)]
+	internal struct GameConnectedChatJoin_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 39;
+		public CSteamID m_steamIDClanChat;
+		public CSteamID m_steamIDUser;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: a user has joined a clan chat
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 39)]
+	internal struct GameConnectedChatJoin_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 39;
+		public CSteamID m_steamIDClanChat;
+		public CSteamID m_steamIDUser;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: a user has left the chat we're in
 	//-----------------------------------------------------------------------------
@@ -256,6 +648,31 @@ namespace Steamworks {
 		public bool m_bSuccess;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: a DownloadClanActivityCounts() call has finished
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 41)]
+	internal struct DownloadClanActivityCountsResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 41;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bSuccess;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: a DownloadClanActivityCounts() call has finished
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 41)]
+	internal struct DownloadClanActivityCountsResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 41;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bSuccess;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: a JoinClanChatRoom() call has finished
 	//-----------------------------------------------------------------------------
@@ -317,6 +734,27 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 48;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Invoked when the status of unread messages changes
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 48)]
+	internal struct UnreadChatMessagesChanged_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 48;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Invoked when the status of unread messages changes
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 48)]
+	internal struct UnreadChatMessagesChanged_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 48;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Dispatched when an overlay browser instance is navigated to a protocol/scheme registered by RegisterProtocolInOverlayBrowser()
 	//-----------------------------------------------------------------------------
@@ -325,7 +763,7 @@ namespace Steamworks {
 	public struct OverlayBrowserProtocolNavigation_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 49;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 1024)]
-		private byte[] rgchURI_;
+		internal byte[] rgchURI_;
 		public string rgchURI
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(rgchURI_); }
@@ -333,6 +771,41 @@ namespace Steamworks {
 		}
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Dispatched when an overlay browser instance is navigated to a protocol/scheme registered by RegisterProtocolInOverlayBrowser()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 49)]
+	internal struct OverlayBrowserProtocolNavigation_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 49;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 1024)]
+		internal byte[] rgchURI_;
+		public string rgchURI
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(rgchURI_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, rgchURI_, 1024); }
+		}
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Dispatched when an overlay browser instance is navigated to a protocol/scheme registered by RegisterProtocolInOverlayBrowser()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 49)]
+	internal struct OverlayBrowserProtocolNavigation_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 49;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 1024)]
+		internal byte[] rgchURI_;
+		public string rgchURI
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(rgchURI_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, rgchURI_, 1024); }
+		}
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: A user's equipped profile items have changed
 	//-----------------------------------------------------------------------------
@@ -343,6 +816,29 @@ namespace Steamworks {
 		public CSteamID m_steamID;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: A user's equipped profile items have changed
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 50)]
+	internal struct EquippedProfileItemsChanged_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 50;
+		public CSteamID m_steamID;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: A user's equipped profile items have changed
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 50)]
+	internal struct EquippedProfileItemsChanged_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 50;
+		public CSteamID m_steamID;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose:
 	//-----------------------------------------------------------------------------
@@ -366,6 +862,55 @@ namespace Steamworks {
 		public bool m_bFromCache;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose:
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 51)]
+	internal struct EquippedProfileItems_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 51;
+		public EResult m_eResult;
+		public CSteamID m_steamID;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bHasAnimatedAvatar;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bHasAvatarFrame;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bHasProfileModifier;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bHasProfileBackground;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bHasMiniProfileBackground;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bFromCache;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose:
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 51)]
+	internal struct EquippedProfileItems_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 51;
+		public EResult m_eResult;
+		public CSteamID m_steamID;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bHasAnimatedAvatar;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bHasAvatarFrame;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bHasProfileModifier;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bHasProfileBackground;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bHasMiniProfileBackground;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bFromCache;
+	}
+
+	#endif
 	// callbacks
 	// callback notification - A new message is available for reading from the message queue
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -375,6 +920,27 @@ namespace Steamworks {
 		public uint m_nMessageSize;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// callbacks
+	// callback notification - A new message is available for reading from the message queue
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameCoordinatorCallbacks + 1)]
+	internal struct GCMessageAvailable_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamGameCoordinatorCallbacks + 1;
+		public uint m_nMessageSize;
+	}
+
+
+	// callbacks
+	// callback notification - A new message is available for reading from the message queue
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameCoordinatorCallbacks + 1)]
+	internal struct GCMessageAvailable_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamGameCoordinatorCallbacks + 1;
+		public uint m_nMessageSize;
+	}
+
+	#endif
 	// callback notification - A message failed to make it to the GC. It may be down temporarily
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamGameCoordinatorCallbacks + 2)]
@@ -382,6 +948,23 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamGameCoordinatorCallbacks + 2;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// callback notification - A message failed to make it to the GC. It may be down temporarily
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamGameCoordinatorCallbacks + 2)]
+	internal struct GCMessageFailed_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamGameCoordinatorCallbacks + 2;
+	}
+
+
+	// callback notification - A message failed to make it to the GC. It may be down temporarily
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamGameCoordinatorCallbacks + 2)]
+	internal struct GCMessageFailed_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamGameCoordinatorCallbacks + 2;
+	}
+
+	#endif
 	// callbacks
 	// client has been approved to connect to this game server
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -392,6 +975,29 @@ namespace Steamworks {
 		public CSteamID m_OwnerSteamID;	// SteamID of original owner for game license
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// callbacks
+	// client has been approved to connect to this game server
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 1)]
+	internal struct GSClientApprove_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 1;
+		public CSteamID m_SteamID;			// SteamID of approved player
+		public CSteamID m_OwnerSteamID;	// SteamID of original owner for game license
+	}
+
+
+	// callbacks
+	// client has been approved to connect to this game server
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 1)]
+	internal struct GSClientApprove_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 1;
+		public CSteamID m_SteamID;			// SteamID of approved player
+		public CSteamID m_OwnerSteamID;	// SteamID of original owner for game license
+	}
+
+	#endif
 	// client has been denied to connection to this game server
 	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 2)]
@@ -400,7 +1006,7 @@ namespace Steamworks {
 		public CSteamID m_SteamID;
 		public EDenyReason m_eDenyReason;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
-		private byte[] m_rgchOptionalText_;
+		internal byte[] m_rgchOptionalText_;
 		public string m_rgchOptionalText
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchOptionalText_); }
@@ -426,7 +1032,7 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 6;
 		public ulong m_SteamID;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
-		private byte[] m_pchAchievement_;
+		internal byte[] m_pchAchievement_;
 		public string m_pchAchievement
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_pchAchievement_); }
@@ -436,6 +1042,47 @@ namespace Steamworks {
 		public bool m_bUnlocked;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// NOTE: callback values 4 and 5 are skipped because they are used for old deprecated callbacks,
+	// do not reuse them here.
+	// client achievement info
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 6)]
+	internal struct GSClientAchievementStatus_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 6;
+		public ulong m_SteamID;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
+		internal byte[] m_pchAchievement_;
+		public string m_pchAchievement
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_pchAchievement_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_pchAchievement_, 128); }
+		}
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bUnlocked;
+	}
+
+
+	// NOTE: callback values 4 and 5 are skipped because they are used for old deprecated callbacks,
+	// do not reuse them here.
+	// client achievement info
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 6)]
+	internal struct GSClientAchievementStatus_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 6;
+		public ulong m_SteamID;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
+		internal byte[] m_pchAchievement_;
+		public string m_pchAchievement
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_pchAchievement_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_pchAchievement_, 128); }
+		}
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bUnlocked;
+	}
+
+	#endif
 	// received when the game server requests to be displayed as secure (VAC protected)
 	// m_bSecure is true if the game server should display itself as secure to users, false otherwise
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -445,6 +1092,27 @@ namespace Steamworks {
 		public byte m_bSecure;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// received when the game server requests to be displayed as secure (VAC protected)
+	// m_bSecure is true if the game server should display itself as secure to users, false otherwise
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 15)]
+	internal struct GSPolicyResponse_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 15;
+		public byte m_bSecure;
+	}
+
+
+	// received when the game server requests to be displayed as secure (VAC protected)
+	// m_bSecure is true if the game server should display itself as secure to users, false otherwise
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 15)]
+	internal struct GSPolicyResponse_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 15;
+		public byte m_bSecure;
+	}
+
+	#endif
 	// GS gameplay stats info
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 7)]
@@ -456,6 +1124,31 @@ namespace Steamworks {
 		public uint m_unTotalMinutesPlayed;		// Total number of minutes ever played on the server
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// GS gameplay stats info
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 7)]
+	internal struct GSGameplayStats_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 7;
+		public EResult m_eResult;					// Result of the call
+		public int m_nRank;					// Overall rank of the server (0-based)
+		public uint m_unTotalConnects;			// Total number of clients who have ever connected to the server
+		public uint m_unTotalMinutesPlayed;		// Total number of minutes ever played on the server
+	}
+
+
+	// GS gameplay stats info
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 7)]
+	internal struct GSGameplayStats_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 7;
+		public EResult m_eResult;					// Result of the call
+		public int m_nRank;					// Overall rank of the server (0-based)
+		public uint m_unTotalConnects;			// Total number of clients who have ever connected to the server
+		public uint m_unTotalMinutesPlayed;		// Total number of minutes ever played on the server
+	}
+
+	#endif
 	// send as a reply to RequestUserGroupStatus()
 	[StructLayout(LayoutKind.Sequential, Pack = 1)]
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 8)]
@@ -491,6 +1184,53 @@ namespace Steamworks {
 		public uint m_unBanExpires;		// Time the ban expires, expressed in the Unix epoch (seconds since 1/1/1970)
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// Sent as a reply to GetServerReputation()
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 9)]
+	internal struct GSReputation_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 9;
+		public EResult m_eResult;				// Result of the call;
+		public uint m_unReputationScore;	// The reputation score for the game server
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bBanned;				// True if the server is banned from the Steam
+										// master servers
+		
+		// The following members are only filled out if m_bBanned is true. They will all
+		// be set to zero otherwise. Master server bans are by IP so it is possible to be
+		// banned even when the score is good high if there is a bad server on another port.
+		// This information can be used to determine which server is bad.
+		
+		public uint m_unBannedIP;		// The IP of the banned server
+		public ushort m_usBannedPort;		// The port of the banned server
+		public ulong m_ulBannedGameID;	// The game ID the banned server is serving
+		public uint m_unBanExpires;		// Time the ban expires, expressed in the Unix epoch (seconds since 1/1/1970)
+	}
+
+
+	// Sent as a reply to GetServerReputation()
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 9)]
+	internal struct GSReputation_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 9;
+		public EResult m_eResult;				// Result of the call;
+		public uint m_unReputationScore;	// The reputation score for the game server
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bBanned;				// True if the server is banned from the Steam
+										// master servers
+		
+		// The following members are only filled out if m_bBanned is true. They will all
+		// be set to zero otherwise. Master server bans are by IP so it is possible to be
+		// banned even when the score is good high if there is a bad server on another port.
+		// This information can be used to determine which server is bad.
+		
+		public uint m_unBannedIP;		// The IP of the banned server
+		public ushort m_usBannedPort;		// The port of the banned server
+		public ulong m_ulBannedGameID;	// The game ID the banned server is serving
+		public uint m_unBanExpires;		// Time the ban expires, expressed in the Unix epoch (seconds since 1/1/1970)
+	}
+
+	#endif
 	// Sent as a reply to AssociateWithClan()
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 10)]
@@ -499,6 +1239,25 @@ namespace Steamworks {
 		public EResult m_eResult;				// Result of the call;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// Sent as a reply to AssociateWithClan()
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 10)]
+	internal struct AssociateWithClanResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 10;
+		public EResult m_eResult;				// Result of the call;
+	}
+
+
+	// Sent as a reply to AssociateWithClan()
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 10)]
+	internal struct AssociateWithClanResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 10;
+		public EResult m_eResult;				// Result of the call;
+	}
+
+	#endif
 	// Sent as a reply to ComputeNewPlayerCompatibility()
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 11)]
@@ -511,6 +1270,33 @@ namespace Steamworks {
 		public CSteamID m_SteamIDCandidate;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// Sent as a reply to ComputeNewPlayerCompatibility()
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 11)]
+	internal struct ComputeNewPlayerCompatibilityResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 11;
+		public EResult m_eResult;				// Result of the call;
+		public int m_cPlayersThatDontLikeCandidate;
+		public int m_cPlayersThatCandidateDoesntLike;
+		public int m_cClanPlayersThatDontLikeCandidate;
+		public CSteamID m_SteamIDCandidate;
+	}
+
+
+	// Sent as a reply to ComputeNewPlayerCompatibility()
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 11)]
+	internal struct ComputeNewPlayerCompatibilityResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 11;
+		public EResult m_eResult;				// Result of the call;
+		public int m_cPlayersThatDontLikeCandidate;
+		public int m_cPlayersThatCandidateDoesntLike;
+		public int m_cClanPlayersThatDontLikeCandidate;
+		public CSteamID m_SteamIDCandidate;
+	}
+
+	#endif
 	// callbacks
 	//-----------------------------------------------------------------------------
 	// Purpose: called when the latests stats and achievements have been received
@@ -546,6 +1332,31 @@ namespace Steamworks {
 		public CSteamID m_steamIDUser;	// User whose stats have been unloaded
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Callback indicating that a user's stats have been unloaded.
+	//  Call RequestUserStats again to access stats for this user
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 8)]
+	internal struct GSStatsUnloaded_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 8;
+		public CSteamID m_steamIDUser;	// User whose stats have been unloaded
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Callback indicating that a user's stats have been unloaded.
+	//  Call RequestUserStats again to access stats for this user
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 8)]
+	internal struct GSStatsUnloaded_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 8;
+		public CSteamID m_steamIDUser;	// User whose stats have been unloaded
+	}
+
+	#endif
 	// callbacks
 	//-----------------------------------------------------------------------------
 	// Purpose: The browser is ready for use
@@ -557,6 +1368,31 @@ namespace Steamworks {
 		public HHTMLBrowser unBrowserHandle; // this browser is now fully created and ready to navigate to pages
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// callbacks
+	//-----------------------------------------------------------------------------
+	// Purpose: The browser is ready for use
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 1)]
+	internal struct HTML_BrowserReady_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 1;
+		public HHTMLBrowser unBrowserHandle; // this browser is now fully created and ready to navigate to pages
+	}
+
+
+	// callbacks
+	//-----------------------------------------------------------------------------
+	// Purpose: The browser is ready for use
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 1)]
+	internal struct HTML_BrowserReady_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 1;
+		public HHTMLBrowser unBrowserHandle; // this browser is now fully created and ready to navigate to pages
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: the browser has a pending paint
 	//-----------------------------------------------------------------------------
@@ -578,6 +1414,51 @@ namespace Steamworks {
 		public uint unPageSerial; // incremented on each new page load, you can use this to reject draws while navigating to new pages
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: the browser has a pending paint
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 2)]
+	internal struct HTML_NeedsPaint_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 2;
+		public HHTMLBrowser unBrowserHandle; // the browser that needs the paint
+		public IntPtr pBGRA; // a pointer to the B8G8R8A8 data for this surface, valid until SteamAPI_RunCallbacks is next called
+		public uint unWide; // the total width of the pBGRA texture
+		public uint unTall; // the total height of the pBGRA texture
+		public uint unUpdateX; // the offset in X for the damage rect for this update
+		public uint unUpdateY; // the offset in Y for the damage rect for this update
+		public uint unUpdateWide; // the width of the damage rect for this update
+		public uint unUpdateTall; // the height of the damage rect for this update
+		public uint unScrollX; // the page scroll the browser was at when this texture was rendered
+		public uint unScrollY; // the page scroll the browser was at when this texture was rendered
+		public float flPageScale; // the page scale factor on this page when rendered
+		public uint unPageSerial; // incremented on each new page load, you can use this to reject draws while navigating to new pages
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: the browser has a pending paint
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 2)]
+	internal struct HTML_NeedsPaint_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 2;
+		public HHTMLBrowser unBrowserHandle; // the browser that needs the paint
+		public IntPtr pBGRA; // a pointer to the B8G8R8A8 data for this surface, valid until SteamAPI_RunCallbacks is next called
+		public uint unWide; // the total width of the pBGRA texture
+		public uint unTall; // the total height of the pBGRA texture
+		public uint unUpdateX; // the offset in X for the damage rect for this update
+		public uint unUpdateY; // the offset in Y for the damage rect for this update
+		public uint unUpdateWide; // the width of the damage rect for this update
+		public uint unUpdateTall; // the height of the damage rect for this update
+		public uint unScrollX; // the page scroll the browser was at when this texture was rendered
+		public uint unScrollY; // the page scroll the browser was at when this texture was rendered
+		public float flPageScale; // the page scale factor on this page when rendered
+		public uint unPageSerial; // incremented on each new page load, you can use this to reject draws while navigating to new pages
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The browser wanted to navigate to a new page
 	//   NOTE - you MUST call AllowStartRequest in response to this callback
@@ -594,6 +1475,41 @@ namespace Steamworks {
 		public bool bIsRedirect; // true if this was a http/html redirect from the last load request
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The browser wanted to navigate to a new page
+	//   NOTE - you MUST call AllowStartRequest in response to this callback
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 3)]
+	internal struct HTML_StartRequest_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 3;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface navigating
+		public string pchURL; // the url they wish to navigate to
+		public string pchTarget; // the html link target type  (i.e _blank, _self, _parent, _top )
+		public string pchPostData; // any posted data for the request
+		[MarshalAs(UnmanagedType.I1)]
+		public bool bIsRedirect; // true if this was a http/html redirect from the last load request
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The browser wanted to navigate to a new page
+	//   NOTE - you MUST call AllowStartRequest in response to this callback
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 3)]
+	internal struct HTML_StartRequest_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 3;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface navigating
+		public string pchURL; // the url they wish to navigate to
+		public string pchTarget; // the html link target type  (i.e _blank, _self, _parent, _top )
+		public string pchPostData; // any posted data for the request
+		[MarshalAs(UnmanagedType.I1)]
+		public bool bIsRedirect; // true if this was a http/html redirect from the last load request
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The browser has been requested to close due to user interaction (usually from a javascript window.close() call)
 	//-----------------------------------------------------------------------------
@@ -604,6 +1520,29 @@ namespace Steamworks {
 		public HHTMLBrowser unBrowserHandle; // the handle of the surface
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The browser has been requested to close due to user interaction (usually from a javascript window.close() call)
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 4)]
+	internal struct HTML_CloseBrowser_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 4;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The browser has been requested to close due to user interaction (usually from a javascript window.close() call)
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 4)]
+	internal struct HTML_CloseBrowser_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 4;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: the browser is navigating to a new url
 	//-----------------------------------------------------------------------------
@@ -621,6 +1560,43 @@ namespace Steamworks {
 		public bool bNewNavigation; // true if this was from a fresh tab and not a click on an existing page
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: the browser is navigating to a new url
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 5)]
+	internal struct HTML_URLChanged_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 5;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface navigating
+		public string pchURL; // the url they wish to navigate to
+		public string pchPostData; // any posted data for the request
+		[MarshalAs(UnmanagedType.I1)]
+		public bool bIsRedirect; // true if this was a http/html redirect from the last load request
+		public string pchPageTitle; // the title of the page
+		[MarshalAs(UnmanagedType.I1)]
+		public bool bNewNavigation; // true if this was from a fresh tab and not a click on an existing page
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: the browser is navigating to a new url
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 5)]
+	internal struct HTML_URLChanged_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 5;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface navigating
+		public string pchURL; // the url they wish to navigate to
+		public string pchPostData; // any posted data for the request
+		[MarshalAs(UnmanagedType.I1)]
+		public bool bIsRedirect; // true if this was a http/html redirect from the last load request
+		public string pchPageTitle; // the title of the page
+		[MarshalAs(UnmanagedType.I1)]
+		public bool bNewNavigation; // true if this was from a fresh tab and not a click on an existing page
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: A page is finished loading
 	//-----------------------------------------------------------------------------
@@ -633,6 +1609,33 @@ namespace Steamworks {
 		public string pchPageTitle; //
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: A page is finished loading
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 6)]
+	internal struct HTML_FinishedRequest_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 6;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public string pchURL; //
+		public string pchPageTitle; //
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: A page is finished loading
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 6)]
+	internal struct HTML_FinishedRequest_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 6;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public string pchURL; //
+		public string pchPageTitle; //
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: a request to load this url in a new tab
 	//-----------------------------------------------------------------------------
@@ -644,6 +1647,31 @@ namespace Steamworks {
 		public string pchURL; //
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: a request to load this url in a new tab
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 7)]
+	internal struct HTML_OpenLinkInNewTab_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 7;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public string pchURL; //
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: a request to load this url in a new tab
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 7)]
+	internal struct HTML_OpenLinkInNewTab_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 7;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public string pchURL; //
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: the page has a new title now
 	//-----------------------------------------------------------------------------
@@ -655,6 +1683,31 @@ namespace Steamworks {
 		public string pchTitle; //
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: the page has a new title now
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 8)]
+	internal struct HTML_ChangedTitle_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 8;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public string pchTitle; //
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: the page has a new title now
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 8)]
+	internal struct HTML_ChangedTitle_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 8;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public string pchTitle; //
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: results from a search
 	//-----------------------------------------------------------------------------
@@ -667,6 +1720,33 @@ namespace Steamworks {
 		public uint unCurrentMatch; //
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: results from a search
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 9)]
+	internal struct HTML_SearchResults_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 9;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public uint unResults; //
+		public uint unCurrentMatch; //
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: results from a search
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 9)]
+	internal struct HTML_SearchResults_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 9;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public uint unResults; //
+		public uint unCurrentMatch; //
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: page history status changed on the ability to go backwards and forward
 	//-----------------------------------------------------------------------------
@@ -681,6 +1761,37 @@ namespace Steamworks {
 		public bool bCanGoForward; //
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: page history status changed on the ability to go backwards and forward
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 10)]
+	internal struct HTML_CanGoBackAndForward_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 10;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		[MarshalAs(UnmanagedType.I1)]
+		public bool bCanGoBack; //
+		[MarshalAs(UnmanagedType.I1)]
+		public bool bCanGoForward; //
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: page history status changed on the ability to go backwards and forward
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 10)]
+	internal struct HTML_CanGoBackAndForward_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 10;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		[MarshalAs(UnmanagedType.I1)]
+		public bool bCanGoBack; //
+		[MarshalAs(UnmanagedType.I1)]
+		public bool bCanGoForward; //
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: details on the visibility and size of the horizontal scrollbar
 	//-----------------------------------------------------------------------------
@@ -697,6 +1808,41 @@ namespace Steamworks {
 		public uint unPageSize; //
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: details on the visibility and size of the horizontal scrollbar
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 11)]
+	internal struct HTML_HorizontalScroll_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 11;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public uint unScrollMax; //
+		public uint unScrollCurrent; //
+		public float flPageScale; //
+		[MarshalAs(UnmanagedType.I1)]
+		public bool bVisible; //
+		public uint unPageSize; //
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: details on the visibility and size of the horizontal scrollbar
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 11)]
+	internal struct HTML_HorizontalScroll_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 11;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public uint unScrollMax; //
+		public uint unScrollCurrent; //
+		public float flPageScale; //
+		[MarshalAs(UnmanagedType.I1)]
+		public bool bVisible; //
+		public uint unPageSize; //
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: details on the visibility and size of the vertical scrollbar
 	//-----------------------------------------------------------------------------
@@ -713,6 +1859,41 @@ namespace Steamworks {
 		public uint unPageSize; //
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: details on the visibility and size of the vertical scrollbar
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 12)]
+	internal struct HTML_VerticalScroll_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 12;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public uint unScrollMax; //
+		public uint unScrollCurrent; //
+		public float flPageScale; //
+		[MarshalAs(UnmanagedType.I1)]
+		public bool bVisible; //
+		public uint unPageSize; //
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: details on the visibility and size of the vertical scrollbar
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 12)]
+	internal struct HTML_VerticalScroll_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 12;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public uint unScrollMax; //
+		public uint unScrollCurrent; //
+		public float flPageScale; //
+		[MarshalAs(UnmanagedType.I1)]
+		public bool bVisible; //
+		public uint unPageSize; //
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: response to GetLinkAtPosition call
 	//-----------------------------------------------------------------------------
@@ -730,6 +1911,43 @@ namespace Steamworks {
 		public bool bLiveLink; //
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: response to GetLinkAtPosition call
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 13)]
+	internal struct HTML_LinkAtPosition_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 13;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public uint x; // NOTE - Not currently set
+		public uint y; // NOTE - Not currently set
+		public string pchURL; //
+		[MarshalAs(UnmanagedType.I1)]
+		public bool bInput; //
+		[MarshalAs(UnmanagedType.I1)]
+		public bool bLiveLink; //
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: response to GetLinkAtPosition call
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 13)]
+	internal struct HTML_LinkAtPosition_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 13;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public uint x; // NOTE - Not currently set
+		public uint y; // NOTE - Not currently set
+		public string pchURL; //
+		[MarshalAs(UnmanagedType.I1)]
+		public bool bInput; //
+		[MarshalAs(UnmanagedType.I1)]
+		public bool bLiveLink; //
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: show a Javascript alert dialog, call JSDialogResponse
 	//   when the user dismisses this dialog (or right away to ignore it)
@@ -742,6 +1960,33 @@ namespace Steamworks {
 		public string pchMessage; //
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: show a Javascript alert dialog, call JSDialogResponse
+	//   when the user dismisses this dialog (or right away to ignore it)
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 14)]
+	internal struct HTML_JSAlert_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 14;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public string pchMessage; //
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: show a Javascript alert dialog, call JSDialogResponse
+	//   when the user dismisses this dialog (or right away to ignore it)
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 14)]
+	internal struct HTML_JSAlert_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 14;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public string pchMessage; //
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: show a Javascript confirmation dialog, call JSDialogResponse
 	//   when the user dismisses this dialog (or right away to ignore it)
@@ -754,6 +1999,33 @@ namespace Steamworks {
 		public string pchMessage; //
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: show a Javascript confirmation dialog, call JSDialogResponse
+	//   when the user dismisses this dialog (or right away to ignore it)
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 15)]
+	internal struct HTML_JSConfirm_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 15;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public string pchMessage; //
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: show a Javascript confirmation dialog, call JSDialogResponse
+	//   when the user dismisses this dialog (or right away to ignore it)
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 15)]
+	internal struct HTML_JSConfirm_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 15;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public string pchMessage; //
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: when received show a file open dialog
 	//   then call FileLoadDialogResponse with the file(s) the user selected.
@@ -767,6 +2039,35 @@ namespace Steamworks {
 		public string pchInitialFile; //
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: when received show a file open dialog
+	//   then call FileLoadDialogResponse with the file(s) the user selected.
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 16)]
+	internal struct HTML_FileOpenDialog_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 16;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public string pchTitle; //
+		public string pchInitialFile; //
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: when received show a file open dialog
+	//   then call FileLoadDialogResponse with the file(s) the user selected.
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 16)]
+	internal struct HTML_FileOpenDialog_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 16;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public string pchTitle; //
+		public string pchInitialFile; //
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: a new html window is being created.
 	//
@@ -789,6 +2090,53 @@ namespace Steamworks {
 		public HHTMLBrowser unNewWindow_BrowserHandle_IGNORE;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: a new html window is being created.
+	//
+	// IMPORTANT NOTE: at this time, the API does not allow you to acknowledge or
+	// render the contents of this new window, so the new window is always destroyed
+	// immediately. The URL and other parameters of the new window are passed here
+	// to give your application the opportunity to call CreateBrowser and set up
+	// a new browser in response to the attempted popup, if you wish to do so.
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 21)]
+	internal struct HTML_NewWindow_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 21;
+		public HHTMLBrowser unBrowserHandle; // the handle of the current surface
+		public string pchURL; // the page to load
+		public uint unX; // the x pos into the page to display the popup
+		public uint unY; // the y pos into the page to display the popup
+		public uint unWide; // the total width of the pBGRA texture
+		public uint unTall; // the total height of the pBGRA texture
+		public HHTMLBrowser unNewWindow_BrowserHandle_IGNORE;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: a new html window is being created.
+	//
+	// IMPORTANT NOTE: at this time, the API does not allow you to acknowledge or
+	// render the contents of this new window, so the new window is always destroyed
+	// immediately. The URL and other parameters of the new window are passed here
+	// to give your application the opportunity to call CreateBrowser and set up
+	// a new browser in response to the attempted popup, if you wish to do so.
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 21)]
+	internal struct HTML_NewWindow_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 21;
+		public HHTMLBrowser unBrowserHandle; // the handle of the current surface
+		public string pchURL; // the page to load
+		public uint unX; // the x pos into the page to display the popup
+		public uint unY; // the y pos into the page to display the popup
+		public uint unWide; // the total width of the pBGRA texture
+		public uint unTall; // the total height of the pBGRA texture
+		public HHTMLBrowser unNewWindow_BrowserHandle_IGNORE;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: change the cursor to display
 	//-----------------------------------------------------------------------------
@@ -800,6 +2148,31 @@ namespace Steamworks {
 		public uint eMouseCursor; // the EHTMLMouseCursor to display
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: change the cursor to display
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 22)]
+	internal struct HTML_SetCursor_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 22;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public uint eMouseCursor; // the EHTMLMouseCursor to display
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: change the cursor to display
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 22)]
+	internal struct HTML_SetCursor_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 22;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public uint eMouseCursor; // the EHTMLMouseCursor to display
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: informational message from the browser
 	//-----------------------------------------------------------------------------
@@ -811,6 +2184,31 @@ namespace Steamworks {
 		public string pchMsg; // the message text
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: informational message from the browser
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 23)]
+	internal struct HTML_StatusText_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 23;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public string pchMsg; // the message text
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: informational message from the browser
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 23)]
+	internal struct HTML_StatusText_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 23;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public string pchMsg; // the message text
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: show a tooltip
 	//-----------------------------------------------------------------------------
@@ -822,6 +2220,31 @@ namespace Steamworks {
 		public string pchMsg; // the tooltip text
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: show a tooltip
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 24)]
+	internal struct HTML_ShowToolTip_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 24;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public string pchMsg; // the tooltip text
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: show a tooltip
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 24)]
+	internal struct HTML_ShowToolTip_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 24;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public string pchMsg; // the tooltip text
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: update the text of an existing tooltip
 	//-----------------------------------------------------------------------------
@@ -833,6 +2256,31 @@ namespace Steamworks {
 		public string pchMsg; // the new tooltip text
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: update the text of an existing tooltip
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 25)]
+	internal struct HTML_UpdateToolTip_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 25;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public string pchMsg; // the new tooltip text
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: update the text of an existing tooltip
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 25)]
+	internal struct HTML_UpdateToolTip_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 25;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public string pchMsg; // the new tooltip text
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: hide the tooltip you are showing
 	//-----------------------------------------------------------------------------
@@ -843,6 +2291,29 @@ namespace Steamworks {
 		public HHTMLBrowser unBrowserHandle; // the handle of the surface
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: hide the tooltip you are showing
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 26)]
+	internal struct HTML_HideToolTip_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 26;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: hide the tooltip you are showing
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 26)]
+	internal struct HTML_HideToolTip_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 26;
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The browser has restarted due to an internal failure, use this new handle value
 	//-----------------------------------------------------------------------------
@@ -854,6 +2325,31 @@ namespace Steamworks {
 		public HHTMLBrowser unOldBrowserHandle; // the handle for the browser before the restart, if your handle was this then switch to using unBrowserHandle for API calls
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The browser has restarted due to an internal failure, use this new handle value
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 27)]
+	internal struct HTML_BrowserRestarted_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 27;
+		public HHTMLBrowser unBrowserHandle; // this is the new browser handle after the restart
+		public HHTMLBrowser unOldBrowserHandle; // the handle for the browser before the restart, if your handle was this then switch to using unBrowserHandle for API calls
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The browser has restarted due to an internal failure, use this new handle value
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 27)]
+	internal struct HTML_BrowserRestarted_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 27;
+		public HHTMLBrowser unBrowserHandle; // this is the new browser handle after the restart
+		public HHTMLBrowser unOldBrowserHandle; // the handle for the browser before the restart, if your handle was this then switch to using unBrowserHandle for API calls
+	}
+
+	#endif
 	// callbacks
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTTPCallbacks + 1)]
@@ -879,6 +2375,59 @@ namespace Steamworks {
 		public uint m_unBodySize; // Same as GetHTTPResponseBodySize()
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// callbacks
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTTPCallbacks + 1)]
+	internal struct HTTPRequestCompleted_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTTPCallbacks + 1;
+		
+		// Handle value for the request that has completed.
+		public HTTPRequestHandle m_hRequest;
+		
+		// Context value that the user defined on the request that this callback is associated with, 0 if
+		// no context value was set.
+		public ulong m_ulContextValue;
+		
+		// This will be true if we actually got any sort of response from the server (even an error).
+		// It will be false if we failed due to an internal error or client side network failure.
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bRequestSuccessful;
+		
+		// Will be the HTTP status code value returned by the server, k_EHTTPStatusCode200OK is the normal
+		// OK response, if you get something else you probably need to treat it as a failure.
+		public EHTTPStatusCode m_eStatusCode;
+		
+		public uint m_unBodySize; // Same as GetHTTPResponseBodySize()
+	}
+
+
+	// callbacks
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTTPCallbacks + 1)]
+	internal struct HTTPRequestCompleted_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTTPCallbacks + 1;
+		
+		// Handle value for the request that has completed.
+		public HTTPRequestHandle m_hRequest;
+		
+		// Context value that the user defined on the request that this callback is associated with, 0 if
+		// no context value was set.
+		public ulong m_ulContextValue;
+		
+		// This will be true if we actually got any sort of response from the server (even an error).
+		// It will be false if we failed due to an internal error or client side network failure.
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bRequestSuccessful;
+		
+		// Will be the HTTP status code value returned by the server, k_EHTTPStatusCode200OK is the normal
+		// OK response, if you get something else you probably need to treat it as a failure.
+		public EHTTPStatusCode m_eStatusCode;
+		
+		public uint m_unBodySize; // Same as GetHTTPResponseBodySize()
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTTPCallbacks + 2)]
 	public struct HTTPRequestHeadersReceived_t {
@@ -892,6 +2441,35 @@ namespace Steamworks {
 		public ulong m_ulContextValue;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTTPCallbacks + 2)]
+	internal struct HTTPRequestHeadersReceived_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTTPCallbacks + 2;
+		
+		// Handle value for the request that has received headers.
+		public HTTPRequestHandle m_hRequest;
+		
+		// Context value that the user defined on the request that this callback is associated with, 0 if
+		// no context value was set.
+		public ulong m_ulContextValue;
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTTPCallbacks + 2)]
+	internal struct HTTPRequestHeadersReceived_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTTPCallbacks + 2;
+		
+		// Handle value for the request that has received headers.
+		public HTTPRequestHandle m_hRequest;
+		
+		// Context value that the user defined on the request that this callback is associated with, 0 if
+		// no context value was set.
+		public ulong m_ulContextValue;
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTTPCallbacks + 3)]
 	public struct HTTPRequestDataReceived_t {
@@ -912,6 +2490,49 @@ namespace Steamworks {
 		public uint m_cBytesReceived;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTTPCallbacks + 3)]
+	internal struct HTTPRequestDataReceived_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamHTTPCallbacks + 3;
+		
+		// Handle value for the request that has received data.
+		public HTTPRequestHandle m_hRequest;
+		
+		// Context value that the user defined on the request that this callback is associated with, 0 if
+		// no context value was set.
+		public ulong m_ulContextValue;
+		
+		
+		// Offset to provide to GetHTTPStreamingResponseBodyData to get this chunk of data
+		public uint m_cOffset;
+		
+		// Size to provide to GetHTTPStreamingResponseBodyData to get this chunk of data
+		public uint m_cBytesReceived;
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamHTTPCallbacks + 3)]
+	internal struct HTTPRequestDataReceived_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamHTTPCallbacks + 3;
+		
+		// Handle value for the request that has received data.
+		public HTTPRequestHandle m_hRequest;
+		
+		// Context value that the user defined on the request that this callback is associated with, 0 if
+		// no context value was set.
+		public ulong m_ulContextValue;
+		
+		
+		// Offset to provide to GetHTTPStreamingResponseBodyData to get this chunk of data
+		public uint m_cOffset;
+		
+		// Size to provide to GetHTTPStreamingResponseBodyData to get this chunk of data
+		public uint m_cBytesReceived;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: called when a new controller has been connected, will fire once
 	// per controller if multiple new controllers connect in the same frame
@@ -923,6 +2544,31 @@ namespace Steamworks {
 		public InputHandle_t m_ulConnectedDeviceHandle;	// Handle for device
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: called when a new controller has been connected, will fire once
+	// per controller if multiple new controllers connect in the same frame
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamControllerCallbacks + 1)]
+	internal struct SteamInputDeviceConnected_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamControllerCallbacks + 1;
+		public InputHandle_t m_ulConnectedDeviceHandle;	// Handle for device
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: called when a new controller has been connected, will fire once
+	// per controller if multiple new controllers connect in the same frame
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamControllerCallbacks + 1)]
+	internal struct SteamInputDeviceConnected_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamControllerCallbacks + 1;
+		public InputHandle_t m_ulConnectedDeviceHandle;	// Handle for device
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: called when a new controller has been connected, will fire once
 	// per controller if multiple new controllers connect in the same frame
@@ -934,6 +2580,31 @@ namespace Steamworks {
 		public InputHandle_t m_ulDisconnectedDeviceHandle;	// Handle for device
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: called when a new controller has been connected, will fire once
+	// per controller if multiple new controllers connect in the same frame
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamControllerCallbacks + 2)]
+	internal struct SteamInputDeviceDisconnected_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamControllerCallbacks + 2;
+		public InputHandle_t m_ulDisconnectedDeviceHandle;	// Handle for device
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: called when a new controller has been connected, will fire once
+	// per controller if multiple new controllers connect in the same frame
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamControllerCallbacks + 2)]
+	internal struct SteamInputDeviceDisconnected_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamControllerCallbacks + 2;
+		public InputHandle_t m_ulDisconnectedDeviceHandle;	// Handle for device
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: called when a controller configuration has been loaded, will fire once
 	// per controller per focus change for Steam Input enabled controllers
@@ -955,6 +2626,51 @@ namespace Steamworks {
 		public bool m_bUsesGamepadAPI;		// Does the configuration contain any Xinput bindings?
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: called when a controller configuration has been loaded, will fire once
+	// per controller per focus change for Steam Input enabled controllers
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamControllerCallbacks + 3)]
+	internal struct SteamInputConfigurationLoaded_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamControllerCallbacks + 3;
+		public AppId_t m_unAppID;
+		public InputHandle_t m_ulDeviceHandle;		// Handle for device
+		public CSteamID m_ulMappingCreator;		// May differ from local user when using
+												// an unmodified community or official config
+		public uint m_unMajorRevision;		// Binding revision from In-game Action File.
+												// Same value as queried by GetDeviceBindingRevision
+		public uint m_unMinorRevision;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bUsesSteamInputAPI;	// Does the configuration contain any Analog/Digital actions?
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bUsesGamepadAPI;		// Does the configuration contain any Xinput bindings?
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: called when a controller configuration has been loaded, will fire once
+	// per controller per focus change for Steam Input enabled controllers
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamControllerCallbacks + 3)]
+	internal struct SteamInputConfigurationLoaded_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamControllerCallbacks + 3;
+		public AppId_t m_unAppID;
+		public InputHandle_t m_ulDeviceHandle;		// Handle for device
+		public CSteamID m_ulMappingCreator;		// May differ from local user when using
+												// an unmodified community or official config
+		public uint m_unMajorRevision;		// Binding revision from In-game Action File.
+												// Same value as queried by GetDeviceBindingRevision
+		public uint m_unMinorRevision;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bUsesSteamInputAPI;	// Does the configuration contain any Analog/Digital actions?
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bUsesGamepadAPI;		// Does the configuration contain any Xinput bindings?
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: called when controller gamepad slots change - on Linux/macOS these
 	// slots are shared for all running apps.
@@ -970,6 +2686,39 @@ namespace Steamworks {
 		public int m_nNewGamepadSlot;		// New Gamepad Slot - can be -1 controller doesn't uses gamepad bindings
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: called when controller gamepad slots change - on Linux/macOS these
+	// slots are shared for all running apps.
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamControllerCallbacks + 4)]
+	internal struct SteamInputGamepadSlotChange_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamControllerCallbacks + 4;
+		public AppId_t m_unAppID;
+		public InputHandle_t m_ulDeviceHandle;		// Handle for device
+		public ESteamInputType m_eDeviceType;			// Type of device
+		public int m_nOldGamepadSlot;		// Previous GamepadSlot - can be -1 controller doesn't uses gamepad bindings
+		public int m_nNewGamepadSlot;		// New Gamepad Slot - can be -1 controller doesn't uses gamepad bindings
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: called when controller gamepad slots change - on Linux/macOS these
+	// slots are shared for all running apps.
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamControllerCallbacks + 4)]
+	internal struct SteamInputGamepadSlotChange_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamControllerCallbacks + 4;
+		public AppId_t m_unAppID;
+		public InputHandle_t m_ulDeviceHandle;		// Handle for device
+		public ESteamInputType m_eDeviceType;			// Type of device
+		public int m_nOldGamepadSlot;		// Previous GamepadSlot - can be -1 controller doesn't uses gamepad bindings
+		public int m_nNewGamepadSlot;		// New Gamepad Slot - can be -1 controller doesn't uses gamepad bindings
+	}
+
+	#endif
 	// SteamInventoryResultReady_t callbacks are fired whenever asynchronous
 	// results transition from "Pending" to "OK" or an error state. There will
 	// always be exactly one callback per handle.
@@ -981,6 +2730,31 @@ namespace Steamworks {
 		public EResult m_result;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// SteamInventoryResultReady_t callbacks are fired whenever asynchronous
+	// results transition from "Pending" to "OK" or an error state. There will
+	// always be exactly one callback per handle.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 0)]
+	internal struct SteamInventoryResultReady_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamInventoryCallbacks + 0;
+		public SteamInventoryResult_t m_handle;
+		public EResult m_result;
+	}
+
+
+	// SteamInventoryResultReady_t callbacks are fired whenever asynchronous
+	// results transition from "Pending" to "OK" or an error state. There will
+	// always be exactly one callback per handle.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 0)]
+	internal struct SteamInventoryResultReady_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamInventoryCallbacks + 0;
+		public SteamInventoryResult_t m_handle;
+		public EResult m_result;
+	}
+
+	#endif
 	// SteamInventoryFullUpdate_t callbacks are triggered when GetAllItems
 	// successfully returns a result which is newer / fresher than the last
 	// known result. (It will not trigger if the inventory hasn't changed,
@@ -995,6 +2769,37 @@ namespace Steamworks {
 		public SteamInventoryResult_t m_handle;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// SteamInventoryFullUpdate_t callbacks are triggered when GetAllItems
+	// successfully returns a result which is newer / fresher than the last
+	// known result. (It will not trigger if the inventory hasn't changed,
+	// or if results from two overlapping calls are reversed in flight and
+	// the earlier result is already known to be stale/out-of-date.)
+	// The normal ResultReady callback will still be triggered immediately
+	// afterwards; this is an additional notification for your convenience.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 1)]
+	internal struct SteamInventoryFullUpdate_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamInventoryCallbacks + 1;
+		public SteamInventoryResult_t m_handle;
+	}
+
+
+	// SteamInventoryFullUpdate_t callbacks are triggered when GetAllItems
+	// successfully returns a result which is newer / fresher than the last
+	// known result. (It will not trigger if the inventory hasn't changed,
+	// or if results from two overlapping calls are reversed in flight and
+	// the earlier result is already known to be stale/out-of-date.)
+	// The normal ResultReady callback will still be triggered immediately
+	// afterwards; this is an additional notification for your convenience.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 1)]
+	internal struct SteamInventoryFullUpdate_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamInventoryCallbacks + 1;
+		public SteamInventoryResult_t m_handle;
+	}
+
+	#endif
 	// A SteamInventoryDefinitionUpdate_t callback is triggered whenever
 	// item definitions have been updated, which could be in response to
 	// LoadItemDefinitions() or any other async request which required
@@ -1005,6 +2810,29 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamInventoryCallbacks + 2;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// A SteamInventoryDefinitionUpdate_t callback is triggered whenever
+	// item definitions have been updated, which could be in response to
+	// LoadItemDefinitions() or any other async request which required
+	// a definition update in order to process results from the server.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 2)]
+	internal struct SteamInventoryDefinitionUpdate_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamInventoryCallbacks + 2;
+	}
+
+
+	// A SteamInventoryDefinitionUpdate_t callback is triggered whenever
+	// item definitions have been updated, which could be in response to
+	// LoadItemDefinitions() or any other async request which required
+	// a definition update in order to process results from the server.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 2)]
+	internal struct SteamInventoryDefinitionUpdate_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamInventoryCallbacks + 2;
+	}
+
+	#endif
 	// Returned
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 3)]
@@ -1017,6 +2845,33 @@ namespace Steamworks {
 		public bool m_bCachedData;	// indicates that the data was retrieved from the cache and not the server
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// Returned
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 3)]
+	internal struct SteamInventoryEligiblePromoItemDefIDs_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamInventoryCallbacks + 3;
+		public EResult m_result;
+		public CSteamID m_steamID;
+		public int m_numEligiblePromoItemDefs;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bCachedData;	// indicates that the data was retrieved from the cache and not the server
+	}
+
+
+	// Returned
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 3)]
+	internal struct SteamInventoryEligiblePromoItemDefIDs_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamInventoryCallbacks + 3;
+		public EResult m_result;
+		public CSteamID m_steamID;
+		public int m_numEligiblePromoItemDefs;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bCachedData;	// indicates that the data was retrieved from the cache and not the server
+	}
+
+	#endif
 	// Triggered from StartPurchase call
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 4)]
@@ -1027,6 +2882,29 @@ namespace Steamworks {
 		public ulong m_ulTransID;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// Triggered from StartPurchase call
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 4)]
+	internal struct SteamInventoryStartPurchaseResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamInventoryCallbacks + 4;
+		public EResult m_result;
+		public ulong m_ulOrderID;
+		public ulong m_ulTransID;
+	}
+
+
+	// Triggered from StartPurchase call
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 4)]
+	internal struct SteamInventoryStartPurchaseResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamInventoryCallbacks + 4;
+		public EResult m_result;
+		public ulong m_ulOrderID;
+		public ulong m_ulTransID;
+	}
+
+	#endif
 	// Triggered from RequestPrices
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 5)]
@@ -1034,7 +2912,7 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamInventoryCallbacks + 5;
 		public EResult m_result;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-		private byte[] m_rgchCurrency_;
+		internal byte[] m_rgchCurrency_;
 		public string m_rgchCurrency
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchCurrency_); }
@@ -1042,6 +2920,39 @@ namespace Steamworks {
 		}
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// Triggered from RequestPrices
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 5)]
+	internal struct SteamInventoryRequestPricesResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamInventoryCallbacks + 5;
+		public EResult m_result;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
+		internal byte[] m_rgchCurrency_;
+		public string m_rgchCurrency
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchCurrency_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchCurrency_, 4); }
+		}
+	}
+
+
+	// Triggered from RequestPrices
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 5)]
+	internal struct SteamInventoryRequestPricesResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamInventoryCallbacks + 5;
+		public EResult m_result;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
+		internal byte[] m_rgchCurrency_;
+		public string m_rgchCurrency
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchCurrency_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchCurrency_, 4); }
+		}
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Callbacks for ISteamMatchmaking (which go through the regular Steam callback registration system)
 	//-----------------------------------------------------------------------------
@@ -1061,6 +2972,47 @@ namespace Steamworks {
 		public AccountID_t m_unAccountId;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Callbacks for ISteamMatchmaking (which go through the regular Steam callback registration system)
+	//-----------------------------------------------------------------------------
+	// Purpose: a server was added/removed from the favorites list, you should refresh now
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 2)]
+	internal struct FavoritesListChanged_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 2;
+		public uint m_nIP; // an IP of 0 means reload the whole list, any other value means just one server
+		public uint m_nQueryPort;
+		public uint m_nConnPort;
+		public uint m_nAppID;
+		public uint m_nFlags;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bAdd; // true if this is adding the entry, otherwise it is a remove
+		public AccountID_t m_unAccountId;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Callbacks for ISteamMatchmaking (which go through the regular Steam callback registration system)
+	//-----------------------------------------------------------------------------
+	// Purpose: a server was added/removed from the favorites list, you should refresh now
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 2)]
+	internal struct FavoritesListChanged_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 2;
+		public uint m_nIP; // an IP of 0 means reload the whole list, any other value means just one server
+		public uint m_nQueryPort;
+		public uint m_nConnPort;
+		public uint m_nAppID;
+		public uint m_nFlags;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bAdd; // true if this is adding the entry, otherwise it is a remove
+		public AccountID_t m_unAccountId;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Someone has invited you to join a Lobby
 	//			normally you don't need to do anything with this, since
@@ -1079,6 +3031,45 @@ namespace Steamworks {
 		public ulong m_ulGameID;			// GameID of the Lobby
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Someone has invited you to join a Lobby
+	//			normally you don't need to do anything with this, since
+	//			the Steam UI will also display a '<user> has invited you to the lobby, join?' dialog
+	//
+	//			if the user outside a game chooses to join, your game will be launched with the parameter "+connect_lobby <64-bit lobby id>",
+	//			or with the callback GameLobbyJoinRequested_t if they're already in-game
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 3)]
+	internal struct LobbyInvite_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 3;
+		
+		public ulong m_ulSteamIDUser;		// Steam ID of the person making the invite
+		public ulong m_ulSteamIDLobby;	// Steam ID of the Lobby
+		public ulong m_ulGameID;			// GameID of the Lobby
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Someone has invited you to join a Lobby
+	//			normally you don't need to do anything with this, since
+	//			the Steam UI will also display a '<user> has invited you to the lobby, join?' dialog
+	//
+	//			if the user outside a game chooses to join, your game will be launched with the parameter "+connect_lobby <64-bit lobby id>",
+	//			or with the callback GameLobbyJoinRequested_t if they're already in-game
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 3)]
+	internal struct LobbyInvite_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 3;
+		
+		public ulong m_ulSteamIDUser;		// Steam ID of the person making the invite
+		public ulong m_ulSteamIDLobby;	// Steam ID of the Lobby
+		public ulong m_ulGameID;			// GameID of the Lobby
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Sent on entering a lobby, or on failing to enter
 	//			m_EChatRoomEnterResponse will be set to k_EChatRoomEnterResponseSuccess on success,
@@ -1096,6 +3087,43 @@ namespace Steamworks {
 		public uint m_EChatRoomEnterResponse;	// EChatRoomEnterResponse
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Sent on entering a lobby, or on failing to enter
+	//			m_EChatRoomEnterResponse will be set to k_EChatRoomEnterResponseSuccess on success,
+	//			or a higher value on failure (see enum EChatRoomEnterResponse)
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 4)]
+	internal struct LobbyEnter_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 4;
+		
+		public ulong m_ulSteamIDLobby;							// SteamID of the Lobby you have entered
+		public uint m_rgfChatPermissions;						// Permissions of the current user
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bLocked;										// If true, then only invited users may join
+		public uint m_EChatRoomEnterResponse;	// EChatRoomEnterResponse
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Sent on entering a lobby, or on failing to enter
+	//			m_EChatRoomEnterResponse will be set to k_EChatRoomEnterResponseSuccess on success,
+	//			or a higher value on failure (see enum EChatRoomEnterResponse)
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 4)]
+	internal struct LobbyEnter_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 4;
+		
+		public ulong m_ulSteamIDLobby;							// SteamID of the Lobby you have entered
+		public uint m_rgfChatPermissions;						// Permissions of the current user
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bLocked;										// If true, then only invited users may join
+		public uint m_EChatRoomEnterResponse;	// EChatRoomEnterResponse
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The lobby metadata has changed
 	//			if m_ulSteamIDMember is the steamID of a lobby member, use GetLobbyMemberData() to access per-user details
@@ -1112,6 +3140,41 @@ namespace Steamworks {
 										// will only be false if RequestLobbyData() was called on a lobby that no longer exists
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The lobby metadata has changed
+	//			if m_ulSteamIDMember is the steamID of a lobby member, use GetLobbyMemberData() to access per-user details
+	//			if m_ulSteamIDMember == m_ulSteamIDLobby, use GetLobbyData() to access lobby metadata
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 5)]
+	internal struct LobbyDataUpdate_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 5;
+		
+		public ulong m_ulSteamIDLobby;		// steamID of the Lobby
+		public ulong m_ulSteamIDMember;		// steamID of the member whose data changed, or the room itself
+		public byte m_bSuccess;				// true if we lobby data was successfully changed;
+										// will only be false if RequestLobbyData() was called on a lobby that no longer exists
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The lobby metadata has changed
+	//			if m_ulSteamIDMember is the steamID of a lobby member, use GetLobbyMemberData() to access per-user details
+	//			if m_ulSteamIDMember == m_ulSteamIDLobby, use GetLobbyData() to access lobby metadata
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 5)]
+	internal struct LobbyDataUpdate_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 5;
+		
+		public ulong m_ulSteamIDLobby;		// steamID of the Lobby
+		public ulong m_ulSteamIDMember;		// steamID of the member whose data changed, or the room itself
+		public byte m_bSuccess;				// true if we lobby data was successfully changed;
+										// will only be false if RequestLobbyData() was called on a lobby that no longer exists
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The lobby chat room state has changed
 	//			this is usually sent when a user has joined or left the lobby
@@ -1128,6 +3191,41 @@ namespace Steamworks {
 		public uint m_rgfChatMemberStateChange;	// bitfield of EChatMemberStateChange values
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The lobby chat room state has changed
+	//			this is usually sent when a user has joined or left the lobby
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 6)]
+	internal struct LobbyChatUpdate_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 6;
+		
+		public ulong m_ulSteamIDLobby;			// Lobby ID
+		public ulong m_ulSteamIDUserChanged;		// user who's status in the lobby just changed - can be recipient
+		public ulong m_ulSteamIDMakingChange;		// Chat member who made the change (different from SteamIDUserChange if kicking, muting, etc.)
+											// for example, if one user kicks another from the lobby, this will be set to the id of the user who initiated the kick
+		public uint m_rgfChatMemberStateChange;	// bitfield of EChatMemberStateChange values
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The lobby chat room state has changed
+	//			this is usually sent when a user has joined or left the lobby
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 6)]
+	internal struct LobbyChatUpdate_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 6;
+		
+		public ulong m_ulSteamIDLobby;			// Lobby ID
+		public ulong m_ulSteamIDUserChanged;		// user who's status in the lobby just changed - can be recipient
+		public ulong m_ulSteamIDMakingChange;		// Chat member who made the change (different from SteamIDUserChange if kicking, muting, etc.)
+											// for example, if one user kicks another from the lobby, this will be set to the id of the user who initiated the kick
+		public uint m_rgfChatMemberStateChange;	// bitfield of EChatMemberStateChange values
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: A chat message for this lobby has been sent
 	//			use GetLobbyChatEntry( m_iChatID ) to retrieve the contents of this message
@@ -1143,6 +3241,39 @@ namespace Steamworks {
 		public uint m_iChatID;				// index of the chat entry to lookup
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: A chat message for this lobby has been sent
+	//			use GetLobbyChatEntry( m_iChatID ) to retrieve the contents of this message
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 7)]
+	internal struct LobbyChatMsg_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 7;
+		
+		public ulong m_ulSteamIDLobby;			// the lobby id this is in
+		public ulong m_ulSteamIDUser;			// steamID of the user who has sent this message
+		public byte m_eChatEntryType;			// type of message
+		public uint m_iChatID;				// index of the chat entry to lookup
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: A chat message for this lobby has been sent
+	//			use GetLobbyChatEntry( m_iChatID ) to retrieve the contents of this message
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 7)]
+	internal struct LobbyChatMsg_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 7;
+		
+		public ulong m_ulSteamIDLobby;			// the lobby id this is in
+		public ulong m_ulSteamIDUser;			// steamID of the user who has sent this message
+		public byte m_eChatEntryType;			// type of message
+		public uint m_iChatID;				// index of the chat entry to lookup
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: A game created a game for all the members of the lobby to join,
 	//			as triggered by a SetLobbyGameServer()
@@ -1160,6 +3291,43 @@ namespace Steamworks {
 		public ushort m_usPort;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: A game created a game for all the members of the lobby to join,
+	//			as triggered by a SetLobbyGameServer()
+	//			it's up to the individual clients to take action on this; the usual
+	//			game behavior is to leave the lobby and connect to the specified game server
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 9)]
+	internal struct LobbyGameCreated_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 9;
+		
+		public ulong m_ulSteamIDLobby;		// the lobby we were in
+		public ulong m_ulSteamIDGameServer;	// the new game server that has been created or found for the lobby members
+		public uint m_unIP;					// IP & Port of the game server (if any)
+		public ushort m_usPort;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: A game created a game for all the members of the lobby to join,
+	//			as triggered by a SetLobbyGameServer()
+	//			it's up to the individual clients to take action on this; the usual
+	//			game behavior is to leave the lobby and connect to the specified game server
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 9)]
+	internal struct LobbyGameCreated_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 9;
+		
+		public ulong m_ulSteamIDLobby;		// the lobby we were in
+		public ulong m_ulSteamIDGameServer;	// the new game server that has been created or found for the lobby members
+		public uint m_unIP;					// IP & Port of the game server (if any)
+		public ushort m_usPort;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Number of matching lobbies found
 	//			iterate the returned lobbies with GetLobbyByIndex(), from values 0 to m_nLobbiesMatching-1
@@ -1171,6 +3339,31 @@ namespace Steamworks {
 		public uint m_nLobbiesMatching;		// Number of lobbies that matched search criteria and we have SteamIDs for
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Number of matching lobbies found
+	//			iterate the returned lobbies with GetLobbyByIndex(), from values 0 to m_nLobbiesMatching-1
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 10)]
+	internal struct LobbyMatchList_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 10;
+		public uint m_nLobbiesMatching;		// Number of lobbies that matched search criteria and we have SteamIDs for
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Number of matching lobbies found
+	//			iterate the returned lobbies with GetLobbyByIndex(), from values 0 to m_nLobbiesMatching-1
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 10)]
+	internal struct LobbyMatchList_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 10;
+		public uint m_nLobbiesMatching;		// Number of lobbies that matched search criteria and we have SteamIDs for
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: posted if a user is forcefully removed from a lobby
 	//			can occur if a user loses connection to Steam
@@ -1184,6 +3377,35 @@ namespace Steamworks {
 		public byte m_bKickedDueToDisconnect;		// true if you were kicked from the lobby due to the user losing connection to Steam (currently always true)
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: posted if a user is forcefully removed from a lobby
+	//			can occur if a user loses connection to Steam
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 12)]
+	internal struct LobbyKicked_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 12;
+		public ulong m_ulSteamIDLobby;			// Lobby
+		public ulong m_ulSteamIDAdmin;			// User who kicked you - possibly the ID of the lobby itself
+		public byte m_bKickedDueToDisconnect;		// true if you were kicked from the lobby due to the user losing connection to Steam (currently always true)
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: posted if a user is forcefully removed from a lobby
+	//			can occur if a user loses connection to Steam
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 12)]
+	internal struct LobbyKicked_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 12;
+		public ulong m_ulSteamIDLobby;			// Lobby
+		public ulong m_ulSteamIDAdmin;			// User who kicked you - possibly the ID of the lobby itself
+		public byte m_bKickedDueToDisconnect;		// true if you were kicked from the lobby due to the user losing connection to Steam (currently always true)
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Result of our request to create a Lobby
 	//			m_eResult == k_EResultOK on success
@@ -1205,6 +3427,51 @@ namespace Steamworks {
 		public ulong m_ulSteamIDLobby;		// chat room, zero if failed
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Result of our request to create a Lobby
+	//			m_eResult == k_EResultOK on success
+	//			at this point, the lobby has been joined and is ready for use
+	//			a LobbyEnter_t callback will also be received (since the local user is joining their own lobby)
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 13)]
+	internal struct LobbyCreated_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 13;
+		
+		public EResult m_eResult;		// k_EResultOK - the lobby was successfully created
+								// k_EResultNoConnection - your Steam client doesn't have a connection to the back-end
+								// k_EResultTimeout - you the message to the Steam servers, but it didn't respond
+								// k_EResultFail - the server responded, but with an unknown internal error
+								// k_EResultAccessDenied - your game isn't set to allow lobbies, or your client does haven't rights to play the game
+								// k_EResultLimitExceeded - your game client has created too many lobbies
+		
+		public ulong m_ulSteamIDLobby;		// chat room, zero if failed
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Result of our request to create a Lobby
+	//			m_eResult == k_EResultOK on success
+	//			at this point, the lobby has been joined and is ready for use
+	//			a LobbyEnter_t callback will also be received (since the local user is joining their own lobby)
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 13)]
+	internal struct LobbyCreated_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 13;
+		
+		public EResult m_eResult;		// k_EResultOK - the lobby was successfully created
+								// k_EResultNoConnection - your Steam client doesn't have a connection to the back-end
+								// k_EResultTimeout - you the message to the Steam servers, but it didn't respond
+								// k_EResultFail - the server responded, but with an unknown internal error
+								// k_EResultAccessDenied - your game isn't set to allow lobbies, or your client does haven't rights to play the game
+								// k_EResultLimitExceeded - your game client has created too many lobbies
+		
+		public ulong m_ulSteamIDLobby;		// chat room, zero if failed
+	}
+
+	#endif
 	// used by now obsolete RequestFriendsLobbiesResponse_t
 	// enum { k_iCallback = k_iSteamMatchmakingCallbacks + 14 };
 	// used by now obsolete PSNGameBootInviteResult_t
@@ -1223,6 +3490,45 @@ namespace Steamworks {
 		public EResult m_eResult;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// used by now obsolete RequestFriendsLobbiesResponse_t
+	// enum { k_iCallback = k_iSteamMatchmakingCallbacks + 14 };
+	// used by now obsolete PSNGameBootInviteResult_t
+	// enum { k_iCallback = k_iSteamMatchmakingCallbacks + 15 };
+	//-----------------------------------------------------------------------------
+	// Purpose: Result of our request to create a Lobby
+	//			m_eResult == k_EResultOK on success
+	//			at this point, the lobby has been joined and is ready for use
+	//			a LobbyEnter_t callback will also be received (since the local user is joining their own lobby)
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 16)]
+	internal struct FavoritesListAccountsUpdated_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 16;
+		
+		public EResult m_eResult;
+	}
+
+
+	// used by now obsolete RequestFriendsLobbiesResponse_t
+	// enum { k_iCallback = k_iSteamMatchmakingCallbacks + 14 };
+	// used by now obsolete PSNGameBootInviteResult_t
+	// enum { k_iCallback = k_iSteamMatchmakingCallbacks + 15 };
+	//-----------------------------------------------------------------------------
+	// Purpose: Result of our request to create a Lobby
+	//			m_eResult == k_EResultOK on success
+	//			at this point, the lobby has been joined and is ready for use
+	//			a LobbyEnter_t callback will also be received (since the local user is joining their own lobby)
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 16)]
+	internal struct FavoritesListAccountsUpdated_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 16;
+		
+		public EResult m_eResult;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Callbacks for ISteamGameSearch (which go through the regular Steam callback registration system)
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -1240,6 +3546,43 @@ namespace Steamworks {
 		public int m_cPlayersSearching;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Callbacks for ISteamGameSearch (which go through the regular Steam callback registration system)
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameSearchCallbacks + 1)]
+	internal struct SearchForGameProgressCallback_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamGameSearchCallbacks + 1;
+		
+		public ulong m_ullSearchID;	// all future callbacks referencing this search will include this Search ID
+		
+		public EResult m_eResult; // if search has started this result will be k_EResultOK, any other value indicates search has failed to start or has terminated
+		public CSteamID m_lobbyID; // lobby ID if lobby search, invalid steamID otherwise
+		public CSteamID m_steamIDEndedSearch; // if search was terminated, steamID that terminated search
+		
+		public int m_nSecondsRemainingEstimate;
+		public int m_cPlayersSearching;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Callbacks for ISteamGameSearch (which go through the regular Steam callback registration system)
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameSearchCallbacks + 1)]
+	internal struct SearchForGameProgressCallback_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamGameSearchCallbacks + 1;
+		
+		public ulong m_ullSearchID;	// all future callbacks referencing this search will include this Search ID
+		
+		public EResult m_eResult; // if search has started this result will be k_EResultOK, any other value indicates search has failed to start or has terminated
+		public CSteamID m_lobbyID; // lobby ID if lobby search, invalid steamID otherwise
+		public CSteamID m_steamIDEndedSearch; // if search was terminated, steamID that terminated search
+		
+		public int m_nSecondsRemainingEstimate;
+		public int m_cPlayersSearching;
+	}
+
+	#endif
 	// notification to all players searching that a game has been found
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamGameSearchCallbacks + 2)]
@@ -1259,6 +3602,47 @@ namespace Steamworks {
 		public bool m_bFinalCallback;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// notification to all players searching that a game has been found
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameSearchCallbacks + 2)]
+	internal struct SearchForGameResultCallback_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamGameSearchCallbacks + 2;
+		
+		public ulong m_ullSearchID;
+		
+		public EResult m_eResult; // if game/host was lost this will be an error value
+		
+		// if m_bGameFound is true the following are non-zero
+		public int m_nCountPlayersInGame;
+		public int m_nCountAcceptedGame;
+		// if m_steamIDHost is valid the host has started the game
+		public CSteamID m_steamIDHost;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bFinalCallback;
+	}
+
+
+	// notification to all players searching that a game has been found
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameSearchCallbacks + 2)]
+	internal struct SearchForGameResultCallback_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamGameSearchCallbacks + 2;
+		
+		public ulong m_ullSearchID;
+		
+		public EResult m_eResult; // if game/host was lost this will be an error value
+		
+		// if m_bGameFound is true the following are non-zero
+		public int m_nCountPlayersInGame;
+		public int m_nCountAcceptedGame;
+		// if m_steamIDHost is valid the host has started the game
+		public CSteamID m_steamIDHost;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bFinalCallback;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// ISteamGameSearch : Game Host API callbacks
 	// callback from RequestPlayersForGame when the matchmaking service has started or ended search
@@ -1272,6 +3656,35 @@ namespace Steamworks {
 		public ulong m_ullSearchID; 	// all future callbacks referencing this search will include this Search ID
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// ISteamGameSearch : Game Host API callbacks
+	// callback from RequestPlayersForGame when the matchmaking service has started or ended search
+	// callback will also follow a call from CancelRequestPlayersForGame - m_bSearchInProgress will be false
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameSearchCallbacks + 11)]
+	internal struct RequestPlayersForGameProgressCallback_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamGameSearchCallbacks + 11;
+		
+		public EResult m_eResult;		// m_ullSearchID will be non-zero if this is k_EResultOK
+		public ulong m_ullSearchID; 	// all future callbacks referencing this search will include this Search ID
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// ISteamGameSearch : Game Host API callbacks
+	// callback from RequestPlayersForGame when the matchmaking service has started or ended search
+	// callback will also follow a call from CancelRequestPlayersForGame - m_bSearchInProgress will be false
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameSearchCallbacks + 11)]
+	internal struct RequestPlayersForGameProgressCallback_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamGameSearchCallbacks + 11;
+		
+		public EResult m_eResult;		// m_ullSearchID will be non-zero if this is k_EResultOK
+		public ulong m_ullSearchID; 	// all future callbacks referencing this search will include this Search ID
+	}
+
+	#endif
 	// callback from RequestPlayersForGame
 	// one of these will be sent per player
 	// followed by additional callbacks when players accept or decline the game
@@ -1293,6 +3706,51 @@ namespace Steamworks {
 		public ulong m_ullUniqueGameID;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// callback from RequestPlayersForGame
+	// one of these will be sent per player
+	// followed by additional callbacks when players accept or decline the game
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameSearchCallbacks + 12)]
+	internal struct RequestPlayersForGameResultCallback_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamGameSearchCallbacks + 12;
+		
+		public EResult m_eResult;		// m_ullSearchID will be non-zero if this is k_EResultOK
+		public ulong m_ullSearchID;
+		
+		public CSteamID m_SteamIDPlayerFound; // player steamID
+		public CSteamID m_SteamIDLobby;	// if the player is in a lobby, the lobby ID
+		public PlayerAcceptState_t m_ePlayerAcceptState;
+		public int m_nPlayerIndex;
+		public int m_nTotalPlayersFound;		// expect this many callbacks at minimum
+		public int m_nTotalPlayersAcceptedGame;
+		public int m_nSuggestedTeamIndex;
+		public ulong m_ullUniqueGameID;
+	}
+
+
+	// callback from RequestPlayersForGame
+	// one of these will be sent per player
+	// followed by additional callbacks when players accept or decline the game
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameSearchCallbacks + 12)]
+	internal struct RequestPlayersForGameResultCallback_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamGameSearchCallbacks + 12;
+		
+		public EResult m_eResult;		// m_ullSearchID will be non-zero if this is k_EResultOK
+		public ulong m_ullSearchID;
+		
+		public CSteamID m_SteamIDPlayerFound; // player steamID
+		public CSteamID m_SteamIDLobby;	// if the player is in a lobby, the lobby ID
+		public PlayerAcceptState_t m_ePlayerAcceptState;
+		public int m_nPlayerIndex;
+		public int m_nTotalPlayersFound;		// expect this many callbacks at minimum
+		public int m_nTotalPlayersAcceptedGame;
+		public int m_nSuggestedTeamIndex;
+		public ulong m_ullUniqueGameID;
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamGameSearchCallbacks + 13)]
 	public struct RequestPlayersForGameFinalResultCallback_t {
@@ -1303,6 +3761,29 @@ namespace Steamworks {
 		public ulong m_ullUniqueGameID;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameSearchCallbacks + 13)]
+	internal struct RequestPlayersForGameFinalResultCallback_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamGameSearchCallbacks + 13;
+		
+		public EResult m_eResult;
+		public ulong m_ullSearchID;
+		public ulong m_ullUniqueGameID;
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameSearchCallbacks + 13)]
+	internal struct RequestPlayersForGameFinalResultCallback_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamGameSearchCallbacks + 13;
+		
+		public EResult m_eResult;
+		public ulong m_ullSearchID;
+		public ulong m_ullUniqueGameID;
+	}
+
+	#endif
 	// this callback confirms that results were received by the matchmaking service for this player
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamGameSearchCallbacks + 14)]
@@ -1314,6 +3795,31 @@ namespace Steamworks {
 		public CSteamID steamIDPlayer;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// this callback confirms that results were received by the matchmaking service for this player
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameSearchCallbacks + 14)]
+	internal struct SubmitPlayerResultResultCallback_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamGameSearchCallbacks + 14;
+		
+		public EResult m_eResult;
+		public ulong ullUniqueGameID;
+		public CSteamID steamIDPlayer;
+	}
+
+
+	// this callback confirms that results were received by the matchmaking service for this player
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameSearchCallbacks + 14)]
+	internal struct SubmitPlayerResultResultCallback_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamGameSearchCallbacks + 14;
+		
+		public EResult m_eResult;
+		public ulong ullUniqueGameID;
+		public CSteamID steamIDPlayer;
+	}
+
+	#endif
 	// this callback confirms that the game is recorded as complete on the matchmaking service
 	// the next call to RequestPlayersForGame will generate a new unique game ID
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -1325,6 +3831,31 @@ namespace Steamworks {
 		public ulong ullUniqueGameID;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// this callback confirms that the game is recorded as complete on the matchmaking service
+	// the next call to RequestPlayersForGame will generate a new unique game ID
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameSearchCallbacks + 15)]
+	internal struct EndGameResultCallback_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamGameSearchCallbacks + 15;
+		
+		public EResult m_eResult;
+		public ulong ullUniqueGameID;
+	}
+
+
+	// this callback confirms that the game is recorded as complete on the matchmaking service
+	// the next call to RequestPlayersForGame will generate a new unique game ID
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamGameSearchCallbacks + 15)]
+	internal struct EndGameResultCallback_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamGameSearchCallbacks + 15;
+		
+		public EResult m_eResult;
+		public ulong ullUniqueGameID;
+	}
+
+	#endif
 	// Steam has responded to the user request to join a party via the given Beacon ID.
 	// If successful, the connect string contains game-specific instructions to connect
 	// to the game with that party.
@@ -1337,7 +3868,7 @@ namespace Steamworks {
 		public PartyBeaconID_t m_ulBeaconID;
 		public CSteamID m_SteamIDBeaconOwner;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-		private byte[] m_rgchConnectString_;
+		internal byte[] m_rgchConnectString_;
 		public string m_rgchConnectString
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchConnectString_); }
@@ -1345,6 +3876,49 @@ namespace Steamworks {
 		}
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// Steam has responded to the user request to join a party via the given Beacon ID.
+	// If successful, the connect string contains game-specific instructions to connect
+	// to the game with that party.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 1)]
+	internal struct JoinPartyCallback_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamPartiesCallbacks + 1;
+		
+		public EResult m_eResult;
+		public PartyBeaconID_t m_ulBeaconID;
+		public CSteamID m_SteamIDBeaconOwner;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+		internal byte[] m_rgchConnectString_;
+		public string m_rgchConnectString
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchConnectString_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchConnectString_, 256); }
+		}
+	}
+
+
+	// Steam has responded to the user request to join a party via the given Beacon ID.
+	// If successful, the connect string contains game-specific instructions to connect
+	// to the game with that party.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 1)]
+	internal struct JoinPartyCallback_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamPartiesCallbacks + 1;
+		
+		public EResult m_eResult;
+		public PartyBeaconID_t m_ulBeaconID;
+		public CSteamID m_SteamIDBeaconOwner;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+		internal byte[] m_rgchConnectString_;
+		public string m_rgchConnectString
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchConnectString_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchConnectString_, 256); }
+		}
+	}
+
+	#endif
 	// Response to CreateBeacon request. If successful, the beacon ID is provided.
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 2)]
@@ -1355,6 +3929,29 @@ namespace Steamworks {
 		public PartyBeaconID_t m_ulBeaconID;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// Response to CreateBeacon request. If successful, the beacon ID is provided.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 2)]
+	internal struct CreateBeaconCallback_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamPartiesCallbacks + 2;
+		
+		public EResult m_eResult;
+		public PartyBeaconID_t m_ulBeaconID;
+	}
+
+
+	// Response to CreateBeacon request. If successful, the beacon ID is provided.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 2)]
+	internal struct CreateBeaconCallback_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamPartiesCallbacks + 2;
+		
+		public EResult m_eResult;
+		public PartyBeaconID_t m_ulBeaconID;
+	}
+
+	#endif
 	// Someone has used the beacon to join your party - they are in-flight now
 	// and we've reserved one of the open slots for them.
 	// You should confirm when they join your party by calling OnReservationCompleted().
@@ -1368,6 +3965,35 @@ namespace Steamworks {
 		public CSteamID m_steamIDJoiner;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// Someone has used the beacon to join your party - they are in-flight now
+	// and we've reserved one of the open slots for them.
+	// You should confirm when they join your party by calling OnReservationCompleted().
+	// Otherwise, Steam may timeout their reservation eventually.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 3)]
+	internal struct ReservationNotificationCallback_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamPartiesCallbacks + 3;
+		
+		public PartyBeaconID_t m_ulBeaconID;
+		public CSteamID m_steamIDJoiner;
+	}
+
+
+	// Someone has used the beacon to join your party - they are in-flight now
+	// and we've reserved one of the open slots for them.
+	// You should confirm when they join your party by calling OnReservationCompleted().
+	// Otherwise, Steam may timeout their reservation eventually.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 3)]
+	internal struct ReservationNotificationCallback_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamPartiesCallbacks + 3;
+		
+		public PartyBeaconID_t m_ulBeaconID;
+		public CSteamID m_steamIDJoiner;
+	}
+
+	#endif
 	// Response to ChangeNumOpenSlots call
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 4)]
@@ -1377,6 +4003,27 @@ namespace Steamworks {
 		public EResult m_eResult;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// Response to ChangeNumOpenSlots call
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 4)]
+	internal struct ChangeNumOpenSlotsCallback_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamPartiesCallbacks + 4;
+		
+		public EResult m_eResult;
+	}
+
+
+	// Response to ChangeNumOpenSlots call
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 4)]
+	internal struct ChangeNumOpenSlotsCallback_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamPartiesCallbacks + 4;
+		
+		public EResult m_eResult;
+	}
+
+	#endif
 	// The list of possible Party beacon locations has changed
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 5)]
@@ -1384,6 +4031,23 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamPartiesCallbacks + 5;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// The list of possible Party beacon locations has changed
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 5)]
+	internal struct AvailableBeaconLocationsUpdated_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamPartiesCallbacks + 5;
+	}
+
+
+	// The list of possible Party beacon locations has changed
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 5)]
+	internal struct AvailableBeaconLocationsUpdated_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamPartiesCallbacks + 5;
+	}
+
+	#endif
 	// The list of active beacons may have changed
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 6)]
@@ -1391,6 +4055,23 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamPartiesCallbacks + 6;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// The list of active beacons may have changed
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 6)]
+	internal struct ActiveBeaconsUpdated_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamPartiesCallbacks + 6;
+	}
+
+
+	// The list of active beacons may have changed
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 6)]
+	internal struct ActiveBeaconsUpdated_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamPartiesCallbacks + 6;
+	}
+
+	#endif
 	// callbacks
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamMusicCallbacks + 1)]
@@ -1398,6 +4079,23 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamMusicCallbacks + 1;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// callbacks
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamMusicCallbacks + 1)]
+	internal struct PlaybackStatusHasChanged_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMusicCallbacks + 1;
+	}
+
+
+	// callbacks
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamMusicCallbacks + 1)]
+	internal struct PlaybackStatusHasChanged_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMusicCallbacks + 1;
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamMusicCallbacks + 2)]
 	public struct VolumeHasChanged_t {
@@ -1405,6 +4103,23 @@ namespace Steamworks {
 		public float m_flNewVolume;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMusicCallbacks + 2)]
+	internal struct VolumeHasChanged_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMusicCallbacks + 2;
+		public float m_flNewVolume;
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMusicCallbacks + 2)]
+	internal struct VolumeHasChanged_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMusicCallbacks + 2;
+		public float m_flNewVolume;
+	}
+
+	#endif
 	// callbacks
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 1)]
@@ -1412,48 +4127,170 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 1;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// callbacks
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 1)]
+	internal struct MusicPlayerRemoteWillActivate_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 1;
+	}
+
+
+	// callbacks
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 1)]
+	internal struct MusicPlayerRemoteWillActivate_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 1;
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 2)]
 	public struct MusicPlayerRemoteWillDeactivate_t {
 		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 2;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 2)]
+	internal struct MusicPlayerRemoteWillDeactivate_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 2;
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 2)]
+	internal struct MusicPlayerRemoteWillDeactivate_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 2;
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 3)]
 	public struct MusicPlayerRemoteToFront_t {
 		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 3;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 3)]
+	internal struct MusicPlayerRemoteToFront_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 3;
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 3)]
+	internal struct MusicPlayerRemoteToFront_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 3;
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 4)]
 	public struct MusicPlayerWillQuit_t {
 		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 4;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 4)]
+	internal struct MusicPlayerWillQuit_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 4;
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 4)]
+	internal struct MusicPlayerWillQuit_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 4;
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 5)]
 	public struct MusicPlayerWantsPlay_t {
 		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 5;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 5)]
+	internal struct MusicPlayerWantsPlay_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 5;
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 5)]
+	internal struct MusicPlayerWantsPlay_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 5;
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 6)]
 	public struct MusicPlayerWantsPause_t {
 		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 6;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 6)]
+	internal struct MusicPlayerWantsPause_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 6;
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 6)]
+	internal struct MusicPlayerWantsPause_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 6;
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 7)]
 	public struct MusicPlayerWantsPlayPrevious_t {
 		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 7;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 7)]
+	internal struct MusicPlayerWantsPlayPrevious_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 7;
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 7)]
+	internal struct MusicPlayerWantsPlayPrevious_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 7;
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 8)]
 	public struct MusicPlayerWantsPlayNext_t {
 		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 8;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 8)]
+	internal struct MusicPlayerWantsPlayNext_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 8;
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 8)]
+	internal struct MusicPlayerWantsPlayNext_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 8;
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 9)]
 	public struct MusicPlayerWantsShuffled_t {
@@ -1462,6 +4299,25 @@ namespace Steamworks {
 		public bool m_bShuffled;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 9)]
+	internal struct MusicPlayerWantsShuffled_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 9;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bShuffled;
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 9)]
+	internal struct MusicPlayerWantsShuffled_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 9;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bShuffled;
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 10)]
 	public struct MusicPlayerWantsLooped_t {
@@ -1470,6 +4326,25 @@ namespace Steamworks {
 		public bool m_bLooped;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 10)]
+	internal struct MusicPlayerWantsLooped_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 10;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bLooped;
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 10)]
+	internal struct MusicPlayerWantsLooped_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 10;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bLooped;
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamMusicCallbacks + 11)]
 	public struct MusicPlayerWantsVolume_t {
@@ -1477,6 +4352,23 @@ namespace Steamworks {
 		public float m_flNewVolume;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMusicCallbacks + 11)]
+	internal struct MusicPlayerWantsVolume_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMusicCallbacks + 11;
+		public float m_flNewVolume;
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMusicCallbacks + 11)]
+	internal struct MusicPlayerWantsVolume_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMusicCallbacks + 11;
+		public float m_flNewVolume;
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamMusicCallbacks + 12)]
 	public struct MusicPlayerSelectsQueueEntry_t {
@@ -1484,6 +4376,23 @@ namespace Steamworks {
 		public int nID;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMusicCallbacks + 12)]
+	internal struct MusicPlayerSelectsQueueEntry_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMusicCallbacks + 12;
+		public int nID;
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMusicCallbacks + 12)]
+	internal struct MusicPlayerSelectsQueueEntry_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMusicCallbacks + 12;
+		public int nID;
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamMusicCallbacks + 13)]
 	public struct MusicPlayerSelectsPlaylistEntry_t {
@@ -1491,6 +4400,23 @@ namespace Steamworks {
 		public int nID;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMusicCallbacks + 13)]
+	internal struct MusicPlayerSelectsPlaylistEntry_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMusicCallbacks + 13;
+		public int nID;
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMusicCallbacks + 13)]
+	internal struct MusicPlayerSelectsPlaylistEntry_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMusicCallbacks + 13;
+		public int nID;
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 14)]
 	public struct MusicPlayerWantsPlayingRepeatStatus_t {
@@ -1498,6 +4424,23 @@ namespace Steamworks {
 		public int m_nPlayingRepeatStatus;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 14)]
+	internal struct MusicPlayerWantsPlayingRepeatStatus_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 14;
+		public int m_nPlayingRepeatStatus;
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 14)]
+	internal struct MusicPlayerWantsPlayingRepeatStatus_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamMusicRemoteCallbacks + 14;
+		public int m_nPlayingRepeatStatus;
+	}
+
+	#endif
 	// callbacks
 	// callback notification - a user wants to talk to us over the P2P channel via the SendP2PPacket() API
 	// in response, a call to AcceptP2PPacketsFromUser() needs to be made, if you want to talk with them
@@ -1508,6 +4451,29 @@ namespace Steamworks {
 		public CSteamID m_steamIDRemote;			// user who wants to talk to us
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// callbacks
+	// callback notification - a user wants to talk to us over the P2P channel via the SendP2PPacket() API
+	// in response, a call to AcceptP2PPacketsFromUser() needs to be made, if you want to talk with them
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamNetworkingCallbacks + 2)]
+	internal struct P2PSessionRequest_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamNetworkingCallbacks + 2;
+		public CSteamID m_steamIDRemote;			// user who wants to talk to us
+	}
+
+
+	// callbacks
+	// callback notification - a user wants to talk to us over the P2P channel via the SendP2PPacket() API
+	// in response, a call to AcceptP2PPacketsFromUser() needs to be made, if you want to talk with them
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamNetworkingCallbacks + 2)]
+	internal struct P2PSessionRequest_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamNetworkingCallbacks + 2;
+		public CSteamID m_steamIDRemote;			// user who wants to talk to us
+	}
+
+	#endif
 	// callback notification - packets can't get through to the specified user via the SendP2PPacket() API
 	// all packets queued packets unsent at this point will be dropped
 	// further attempts to send will retry making the connection (but will be dropped if we fail again)
@@ -1542,6 +4508,31 @@ namespace Steamworks {
 		public SteamNetworkingIdentity m_identityRemote;			// user who wants to talk to us
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//
+	// Callbacks
+	//
+	/// Posted when a remote host is sending us a message, and we do not already have a session with them
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamNetworkingMessagesCallbacks + 1)]
+	internal struct SteamNetworkingMessagesSessionRequest_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamNetworkingMessagesCallbacks + 1;
+		public SteamNetworkingIdentity m_identityRemote;			// user who wants to talk to us
+	}
+
+
+	//
+	// Callbacks
+	//
+	/// Posted when a remote host is sending us a message, and we do not already have a session with them
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamNetworkingMessagesCallbacks + 1)]
+	internal struct SteamNetworkingMessagesSessionRequest_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamNetworkingMessagesCallbacks + 1;
+		public SteamNetworkingIdentity m_identityRemote;			// user who wants to talk to us
+	}
+
+	#endif
 	/// Posted when we fail to establish a connection, or we detect that communications
 	/// have been disrupted it an unusual way.  There is no notification when a peer proactively
 	/// closes the session.  ("Closed by peer" is not a concept of UDP-style communications, and
@@ -1564,6 +4555,53 @@ namespace Steamworks {
 		public SteamNetConnectionInfo_t m_info;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	/// Posted when we fail to establish a connection, or we detect that communications
+	/// have been disrupted it an unusual way.  There is no notification when a peer proactively
+	/// closes the session.  ("Closed by peer" is not a concept of UDP-style communications, and
+	/// SteamNetworkingMessages is primarily intended to make porting UDP code easy.)
+	///
+	/// Remember: callbacks are asynchronous.   See notes on SendMessageToUser,
+	/// and k_nSteamNetworkingSend_AutoRestartBrokenSession in particular.
+	///
+	/// Also, if a session times out due to inactivity, no callbacks will be posted.  The only
+	/// way to detect that this is happening is that querying the session state may return
+	/// none, connecting, and findingroute again.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamNetworkingMessagesCallbacks + 2)]
+	internal struct SteamNetworkingMessagesSessionFailed_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamNetworkingMessagesCallbacks + 2;
+		
+		/// Detailed info about the session that failed.
+		/// SteamNetConnectionInfo_t::m_identityRemote indicates who this session
+		/// was with.
+		public SteamNetConnectionInfo_t m_info;
+	}
+
+
+	/// Posted when we fail to establish a connection, or we detect that communications
+	/// have been disrupted it an unusual way.  There is no notification when a peer proactively
+	/// closes the session.  ("Closed by peer" is not a concept of UDP-style communications, and
+	/// SteamNetworkingMessages is primarily intended to make porting UDP code easy.)
+	///
+	/// Remember: callbacks are asynchronous.   See notes on SendMessageToUser,
+	/// and k_nSteamNetworkingSend_AutoRestartBrokenSession in particular.
+	///
+	/// Also, if a session times out due to inactivity, no callbacks will be posted.  The only
+	/// way to detect that this is happening is that querying the session state may return
+	/// none, connecting, and findingroute again.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamNetworkingMessagesCallbacks + 2)]
+	internal struct SteamNetworkingMessagesSessionFailed_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamNetworkingMessagesCallbacks + 2;
+		
+		/// Detailed info about the session that failed.
+		/// SteamNetConnectionInfo_t::m_identityRemote indicates who this session
+		/// was with.
+		public SteamNetConnectionInfo_t m_info;
+	}
+
+	#endif
 	/// Callback struct used to notify when a connection has changed state
 	/// This callback is posted whenever a connection is created, destroyed, or changes state.
 	/// The m_info field will contain a complete description of the connection at the time the
@@ -1615,6 +4653,111 @@ namespace Steamworks {
 		public ESteamNetworkingConnectionState m_eOldState;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	/// Callback struct used to notify when a connection has changed state
+	/// This callback is posted whenever a connection is created, destroyed, or changes state.
+	/// The m_info field will contain a complete description of the connection at the time the
+	/// change occurred and the callback was posted.  In particular, m_eState will have the
+	/// new connection state.
+	///
+	/// You will usually need to listen for this callback to know when:
+	/// - A new connection arrives on a listen socket.
+	///   m_info.m_hListenSocket will be set, m_eOldState = k_ESteamNetworkingConnectionState_None,
+	///   and m_info.m_eState = k_ESteamNetworkingConnectionState_Connecting.
+	///   See ISteamNetworkigSockets::AcceptConnection.
+	/// - A connection you initiated has been accepted by the remote host.
+	///   m_eOldState = k_ESteamNetworkingConnectionState_Connecting, and
+	///   m_info.m_eState = k_ESteamNetworkingConnectionState_Connected.
+	///   Some connections might transition to k_ESteamNetworkingConnectionState_FindingRoute first.
+	/// - A connection has been actively rejected or closed by the remote host.
+	///   m_eOldState = k_ESteamNetworkingConnectionState_Connecting or k_ESteamNetworkingConnectionState_Connected,
+	///   and m_info.m_eState = k_ESteamNetworkingConnectionState_ClosedByPeer.  m_info.m_eEndReason
+	///   and m_info.m_szEndDebug will have for more details.
+	///   NOTE: upon receiving this callback, you must still destroy the connection using
+	///   ISteamNetworkingSockets::CloseConnection to free up local resources.  (The details
+	///   passed to the function are not used in this case, since the connection is already closed.)
+	/// - A problem was detected with the connection, and it has been closed by the local host.
+	///   The most common failure is timeout, but other configuration or authentication failures
+	///   can cause this.  m_eOldState = k_ESteamNetworkingConnectionState_Connecting or
+	///   k_ESteamNetworkingConnectionState_Connected, and m_info.m_eState = k_ESteamNetworkingConnectionState_ProblemDetectedLocally.
+	///   m_info.m_eEndReason and m_info.m_szEndDebug will have for more details.
+	///   NOTE: upon receiving this callback, you must still destroy the connection using
+	///   ISteamNetworkingSockets::CloseConnection to free up local resources.  (The details
+	///   passed to the function are not used in this case, since the connection is already closed.)
+	///
+	/// Remember that callbacks are posted to a queue, and networking connections can
+	/// change at any time.  It is possible that the connection has already changed
+	/// state by the time you process this callback.
+	///
+	/// Also note that callbacks will be posted when connections are created and destroyed by your own API calls.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamNetworkingSocketsCallbacks + 1)]
+	internal struct SteamNetConnectionStatusChangedCallback_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamNetworkingSocketsCallbacks + 1;
+		
+		/// Connection handle
+		public HSteamNetConnection m_hConn;
+		
+		/// Full connection info
+		public SteamNetConnectionInfo_t m_info;
+		
+		/// Previous state.  (Current state is in m_info.m_eState)
+		public ESteamNetworkingConnectionState m_eOldState;
+	}
+
+
+	/// Callback struct used to notify when a connection has changed state
+	/// This callback is posted whenever a connection is created, destroyed, or changes state.
+	/// The m_info field will contain a complete description of the connection at the time the
+	/// change occurred and the callback was posted.  In particular, m_eState will have the
+	/// new connection state.
+	///
+	/// You will usually need to listen for this callback to know when:
+	/// - A new connection arrives on a listen socket.
+	///   m_info.m_hListenSocket will be set, m_eOldState = k_ESteamNetworkingConnectionState_None,
+	///   and m_info.m_eState = k_ESteamNetworkingConnectionState_Connecting.
+	///   See ISteamNetworkigSockets::AcceptConnection.
+	/// - A connection you initiated has been accepted by the remote host.
+	///   m_eOldState = k_ESteamNetworkingConnectionState_Connecting, and
+	///   m_info.m_eState = k_ESteamNetworkingConnectionState_Connected.
+	///   Some connections might transition to k_ESteamNetworkingConnectionState_FindingRoute first.
+	/// - A connection has been actively rejected or closed by the remote host.
+	///   m_eOldState = k_ESteamNetworkingConnectionState_Connecting or k_ESteamNetworkingConnectionState_Connected,
+	///   and m_info.m_eState = k_ESteamNetworkingConnectionState_ClosedByPeer.  m_info.m_eEndReason
+	///   and m_info.m_szEndDebug will have for more details.
+	///   NOTE: upon receiving this callback, you must still destroy the connection using
+	///   ISteamNetworkingSockets::CloseConnection to free up local resources.  (The details
+	///   passed to the function are not used in this case, since the connection is already closed.)
+	/// - A problem was detected with the connection, and it has been closed by the local host.
+	///   The most common failure is timeout, but other configuration or authentication failures
+	///   can cause this.  m_eOldState = k_ESteamNetworkingConnectionState_Connecting or
+	///   k_ESteamNetworkingConnectionState_Connected, and m_info.m_eState = k_ESteamNetworkingConnectionState_ProblemDetectedLocally.
+	///   m_info.m_eEndReason and m_info.m_szEndDebug will have for more details.
+	///   NOTE: upon receiving this callback, you must still destroy the connection using
+	///   ISteamNetworkingSockets::CloseConnection to free up local resources.  (The details
+	///   passed to the function are not used in this case, since the connection is already closed.)
+	///
+	/// Remember that callbacks are posted to a queue, and networking connections can
+	/// change at any time.  It is possible that the connection has already changed
+	/// state by the time you process this callback.
+	///
+	/// Also note that callbacks will be posted when connections are created and destroyed by your own API calls.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamNetworkingSocketsCallbacks + 1)]
+	internal struct SteamNetConnectionStatusChangedCallback_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamNetworkingSocketsCallbacks + 1;
+		
+		/// Connection handle
+		public HSteamNetConnection m_hConn;
+		
+		/// Full connection info
+		public SteamNetConnectionInfo_t m_info;
+		
+		/// Previous state.  (Current state is in m_info.m_eState)
+		public ESteamNetworkingConnectionState m_eOldState;
+	}
+
+	#endif
 	/// A struct used to describe our readiness to participate in authenticated,
 	/// encrypted communication.  In order to do this we need:
 	///
@@ -1634,7 +4777,7 @@ namespace Steamworks {
 		/// Non-localized English language status.  For diagnostic/debugging
 		/// purposes only.
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-		private byte[] m_debugMsg_;
+		internal byte[] m_debugMsg_;
 		public string m_debugMsg
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_debugMsg_); }
@@ -1642,6 +4785,63 @@ namespace Steamworks {
 		}
 	}
 
+	#if STEAMWORKS_ANYCPU
+	/// A struct used to describe our readiness to participate in authenticated,
+	/// encrypted communication.  In order to do this we need:
+	///
+	/// - The list of trusted CA certificates that might be relevant for this
+	///   app.
+	/// - A valid certificate issued by a CA.
+	///
+	/// This callback is posted whenever the state of our readiness changes.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamNetworkingSocketsCallbacks + 2)]
+	internal struct SteamNetAuthenticationStatus_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamNetworkingSocketsCallbacks + 2;
+		
+		/// Status
+		public ESteamNetworkingAvailability m_eAvail;
+		
+		/// Non-localized English language status.  For diagnostic/debugging
+		/// purposes only.
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+		internal byte[] m_debugMsg_;
+		public string m_debugMsg
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_debugMsg_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_debugMsg_, 256); }
+		}
+	}
+
+
+	/// A struct used to describe our readiness to participate in authenticated,
+	/// encrypted communication.  In order to do this we need:
+	///
+	/// - The list of trusted CA certificates that might be relevant for this
+	///   app.
+	/// - A valid certificate issued by a CA.
+	///
+	/// This callback is posted whenever the state of our readiness changes.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamNetworkingSocketsCallbacks + 2)]
+	internal struct SteamNetAuthenticationStatus_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamNetworkingSocketsCallbacks + 2;
+		
+		/// Status
+		public ESteamNetworkingAvailability m_eAvail;
+		
+		/// Non-localized English language status.  For diagnostic/debugging
+		/// purposes only.
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+		internal byte[] m_debugMsg_;
+		public string m_debugMsg
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_debugMsg_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_debugMsg_, 256); }
+		}
+	}
+
+	#endif
 	/// A struct used to describe our readiness to use the relay network.
 	/// To do this we first need to fetch the network configuration,
 	/// which describes what POPs are available.
@@ -1675,7 +4875,7 @@ namespace Steamworks {
 		/// Non-localized English language status.  For diagnostic/debugging
 		/// purposes only.
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-		private byte[] m_debugMsg_;
+		internal byte[] m_debugMsg_;
 		public string m_debugMsg
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_debugMsg_); }
@@ -1683,6 +4883,93 @@ namespace Steamworks {
 		}
 	}
 
+	#if STEAMWORKS_ANYCPU
+	/// A struct used to describe our readiness to use the relay network.
+	/// To do this we first need to fetch the network configuration,
+	/// which describes what POPs are available.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamNetworkingUtilsCallbacks + 1)]
+	internal struct SteamRelayNetworkStatus_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamNetworkingUtilsCallbacks + 1;
+		
+		/// Summary status.  When this is "current", initialization has
+		/// completed.  Anything else means you are not ready yet, or
+		/// there is a significant problem.
+		public ESteamNetworkingAvailability m_eAvail;
+		
+		/// Nonzero if latency measurement is in progress (or pending,
+		/// awaiting a prerequisite).
+		public int m_bPingMeasurementInProgress;
+		
+		/// Status obtaining the network config.  This is a prerequisite
+		/// for relay network access.
+		///
+		/// Failure to obtain the network config almost always indicates
+		/// a problem with the local internet connection.
+		public ESteamNetworkingAvailability m_eAvailNetworkConfig;
+		
+		/// Current ability to communicate with ANY relay.  Note that
+		/// the complete failure to communicate with any relays almost
+		/// always indicates a problem with the local Internet connection.
+		/// (However, just because you can reach a single relay doesn't
+		/// mean that the local connection is in perfect health.)
+		public ESteamNetworkingAvailability m_eAvailAnyRelay;
+		
+		/// Non-localized English language status.  For diagnostic/debugging
+		/// purposes only.
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+		internal byte[] m_debugMsg_;
+		public string m_debugMsg
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_debugMsg_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_debugMsg_, 256); }
+		}
+	}
+
+
+	/// A struct used to describe our readiness to use the relay network.
+	/// To do this we first need to fetch the network configuration,
+	/// which describes what POPs are available.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamNetworkingUtilsCallbacks + 1)]
+	internal struct SteamRelayNetworkStatus_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamNetworkingUtilsCallbacks + 1;
+		
+		/// Summary status.  When this is "current", initialization has
+		/// completed.  Anything else means you are not ready yet, or
+		/// there is a significant problem.
+		public ESteamNetworkingAvailability m_eAvail;
+		
+		/// Nonzero if latency measurement is in progress (or pending,
+		/// awaiting a prerequisite).
+		public int m_bPingMeasurementInProgress;
+		
+		/// Status obtaining the network config.  This is a prerequisite
+		/// for relay network access.
+		///
+		/// Failure to obtain the network config almost always indicates
+		/// a problem with the local internet connection.
+		public ESteamNetworkingAvailability m_eAvailNetworkConfig;
+		
+		/// Current ability to communicate with ANY relay.  Note that
+		/// the complete failure to communicate with any relays almost
+		/// always indicates a problem with the local Internet connection.
+		/// (However, just because you can reach a single relay doesn't
+		/// mean that the local connection is in perfect health.)
+		public ESteamNetworkingAvailability m_eAvailAnyRelay;
+		
+		/// Non-localized English language status.  For diagnostic/debugging
+		/// purposes only.
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+		internal byte[] m_debugMsg_;
+		public string m_debugMsg
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_debugMsg_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_debugMsg_, 256); }
+		}
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Callback for querying UGC
 	//-----------------------------------------------------------------------------
@@ -1691,6 +4978,27 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_ISteamParentalSettingsCallbacks + 1;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Callback for querying UGC
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_ISteamParentalSettingsCallbacks + 1)]
+	internal struct SteamParentalSettingsChanged_t_LargePack {
+		public const int k_iCallback = Constants.k_ISteamParentalSettingsCallbacks + 1;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Callback for querying UGC
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_ISteamParentalSettingsCallbacks + 1)]
+	internal struct SteamParentalSettingsChanged_t_SmallPack {
+		public const int k_iCallback = Constants.k_ISteamParentalSettingsCallbacks + 1;
+	}
+
+	#endif
 	// callbacks
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemotePlayCallbacks + 1)]
@@ -1699,6 +5007,25 @@ namespace Steamworks {
 		public RemotePlaySessionID_t m_unSessionID;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// callbacks
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemotePlayCallbacks + 1)]
+	internal struct SteamRemotePlaySessionConnected_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemotePlayCallbacks + 1;
+		public RemotePlaySessionID_t m_unSessionID;
+	}
+
+
+	// callbacks
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemotePlayCallbacks + 1)]
+	internal struct SteamRemotePlaySessionConnected_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemotePlayCallbacks + 1;
+		public RemotePlaySessionID_t m_unSessionID;
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemotePlayCallbacks + 2)]
 	public struct SteamRemotePlaySessionDisconnected_t {
@@ -1706,12 +5033,29 @@ namespace Steamworks {
 		public RemotePlaySessionID_t m_unSessionID;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemotePlayCallbacks + 2)]
+	internal struct SteamRemotePlaySessionDisconnected_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemotePlayCallbacks + 2;
+		public RemotePlaySessionID_t m_unSessionID;
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemotePlayCallbacks + 2)]
+	internal struct SteamRemotePlaySessionDisconnected_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemotePlayCallbacks + 2;
+		public RemotePlaySessionID_t m_unSessionID;
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemotePlayCallbacks + 3)]
 	public struct SteamRemotePlayTogetherGuestInvite_t {
 		public const int k_iCallback = Constants.k_iSteamRemotePlayCallbacks + 3;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 1024)]
-		private byte[] m_szConnectURL_;
+		internal byte[] m_szConnectURL_;
 		public string m_szConnectURL
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_szConnectURL_); }
@@ -1719,6 +5063,35 @@ namespace Steamworks {
 		}
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemotePlayCallbacks + 3)]
+	internal struct SteamRemotePlayTogetherGuestInvite_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemotePlayCallbacks + 3;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 1024)]
+		internal byte[] m_szConnectURL_;
+		public string m_szConnectURL
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_szConnectURL_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_szConnectURL_, 1024); }
+		}
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemotePlayCallbacks + 3)]
+	internal struct SteamRemotePlayTogetherGuestInvite_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemotePlayCallbacks + 3;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 1024)]
+		internal byte[] m_szConnectURL_;
+		public string m_szConnectURL
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_szConnectURL_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_szConnectURL_, 1024); }
+		}
+	}
+
+	#endif
 	// callbacks
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to FileShare()
@@ -1730,7 +5103,7 @@ namespace Steamworks {
 		public EResult m_eResult;			// The result of the operation
 		public UGCHandle_t m_hFile;		// The handle that can be shared with users and features
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
-		private byte[] m_rgchFilename_;
+		internal byte[] m_rgchFilename_;
 		public string m_rgchFilename // The name of the file that was shared
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchFilename_); }
@@ -1738,6 +5111,47 @@ namespace Steamworks {
 		}
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// callbacks
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to FileShare()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 7)]
+	internal struct RemoteStorageFileShareResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 7;
+		public EResult m_eResult;			// The result of the operation
+		public UGCHandle_t m_hFile;		// The handle that can be shared with users and features
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
+		internal byte[] m_rgchFilename_;
+		public string m_rgchFilename // The name of the file that was shared
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchFilename_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchFilename_, Constants.k_cchFilenameMax); }
+		}
+	}
+
+
+	// callbacks
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to FileShare()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 7)]
+	internal struct RemoteStorageFileShareResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 7;
+		public EResult m_eResult;			// The result of the operation
+		public UGCHandle_t m_hFile;		// The handle that can be shared with users and features
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
+		internal byte[] m_rgchFilename_;
+		public string m_rgchFilename // The name of the file that was shared
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchFilename_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchFilename_, Constants.k_cchFilenameMax); }
+		}
+	}
+
+	#endif
 	// k_iSteamRemoteStorageCallbacks + 8 is deprecated! Do not reuse
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to PublishFile()
@@ -1752,6 +5166,37 @@ namespace Steamworks {
 		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// k_iSteamRemoteStorageCallbacks + 8 is deprecated! Do not reuse
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to PublishFile()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 9)]
+	internal struct RemoteStoragePublishFileResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 9;
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
+	}
+
+
+	// k_iSteamRemoteStorageCallbacks + 8 is deprecated! Do not reuse
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to PublishFile()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 9)]
+	internal struct RemoteStoragePublishFileResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 9;
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
+	}
+
+	#endif
 	// k_iSteamRemoteStorageCallbacks + 10 is deprecated! Do not reuse
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to DeletePublishedFile()
@@ -1764,6 +5209,33 @@ namespace Steamworks {
 		public PublishedFileId_t m_nPublishedFileId;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// k_iSteamRemoteStorageCallbacks + 10 is deprecated! Do not reuse
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to DeletePublishedFile()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 11)]
+	internal struct RemoteStorageDeletePublishedFileResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 11;
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;
+	}
+
+
+	// k_iSteamRemoteStorageCallbacks + 10 is deprecated! Do not reuse
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to DeletePublishedFile()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 11)]
+	internal struct RemoteStorageDeletePublishedFileResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 11;
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to EnumerateUserPublishedFiles()
 	//-----------------------------------------------------------------------------
@@ -1778,6 +5250,37 @@ namespace Steamworks {
 		public PublishedFileId_t[] m_rgPublishedFileId;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to EnumerateUserPublishedFiles()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 12)]
+	internal struct RemoteStorageEnumerateUserPublishedFilesResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 12;
+		public EResult m_eResult;				// The result of the operation.
+		public int m_nResultsReturned;
+		public int m_nTotalResultCount;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
+		public PublishedFileId_t[] m_rgPublishedFileId;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to EnumerateUserPublishedFiles()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 12)]
+	internal struct RemoteStorageEnumerateUserPublishedFilesResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 12;
+		public EResult m_eResult;				// The result of the operation.
+		public int m_nResultsReturned;
+		public int m_nTotalResultCount;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
+		public PublishedFileId_t[] m_rgPublishedFileId;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to SubscribePublishedFile()
 	//-----------------------------------------------------------------------------
@@ -1789,6 +5292,31 @@ namespace Steamworks {
 		public PublishedFileId_t m_nPublishedFileId;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to SubscribePublishedFile()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 13)]
+	internal struct RemoteStorageSubscribePublishedFileResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 13;
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to SubscribePublishedFile()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 13)]
+	internal struct RemoteStorageSubscribePublishedFileResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 13;
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to EnumerateSubscribePublishedFiles()
 	//-----------------------------------------------------------------------------
@@ -1805,6 +5333,41 @@ namespace Steamworks {
 		public uint[] m_rgRTimeSubscribed;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to EnumerateSubscribePublishedFiles()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 14)]
+	internal struct RemoteStorageEnumerateUserSubscribedFilesResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 14;
+		public EResult m_eResult;				// The result of the operation.
+		public int m_nResultsReturned;
+		public int m_nTotalResultCount;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
+		public PublishedFileId_t[] m_rgPublishedFileId;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
+		public uint[] m_rgRTimeSubscribed;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to EnumerateSubscribePublishedFiles()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 14)]
+	internal struct RemoteStorageEnumerateUserSubscribedFilesResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 14;
+		public EResult m_eResult;				// The result of the operation.
+		public int m_nResultsReturned;
+		public int m_nTotalResultCount;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
+		public PublishedFileId_t[] m_rgPublishedFileId;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
+		public uint[] m_rgRTimeSubscribed;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to UnsubscribePublishedFile()
 	//-----------------------------------------------------------------------------
@@ -1816,6 +5379,31 @@ namespace Steamworks {
 		public PublishedFileId_t m_nPublishedFileId;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to UnsubscribePublishedFile()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 15)]
+	internal struct RemoteStorageUnsubscribePublishedFileResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 15;
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to UnsubscribePublishedFile()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 15)]
+	internal struct RemoteStorageUnsubscribePublishedFileResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 15;
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to CommitPublishedFileUpdate()
 	//-----------------------------------------------------------------------------
@@ -1829,6 +5417,35 @@ namespace Steamworks {
 		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to CommitPublishedFileUpdate()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 16)]
+	internal struct RemoteStorageUpdatePublishedFileResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 16;
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to CommitPublishedFileUpdate()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 16)]
+	internal struct RemoteStorageUpdatePublishedFileResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 16;
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to UGCDownload()
 	//-----------------------------------------------------------------------------
@@ -1841,7 +5458,7 @@ namespace Steamworks {
 		public AppId_t m_nAppID;				// ID of the app that created this file.
 		public int m_nSizeInBytes;			// The size of the file that was downloaded, in bytes.
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
-		private byte[] m_pchFileName_;
+		internal byte[] m_pchFileName_;
 		public string m_pchFileName		// The name of the file that was downloaded.
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_pchFileName_); }
@@ -1850,6 +5467,51 @@ namespace Steamworks {
 		public ulong m_ulSteamIDOwner;		// Steam ID of the user who created this content.
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to UGCDownload()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 17)]
+	internal struct RemoteStorageDownloadUGCResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 17;
+		public EResult m_eResult;				// The result of the operation.
+		public UGCHandle_t m_hFile;			// The handle to the file that was attempted to be downloaded.
+		public AppId_t m_nAppID;				// ID of the app that created this file.
+		public int m_nSizeInBytes;			// The size of the file that was downloaded, in bytes.
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
+		internal byte[] m_pchFileName_;
+		public string m_pchFileName		// The name of the file that was downloaded.
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_pchFileName_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_pchFileName_, Constants.k_cchFilenameMax); }
+		}
+		public ulong m_ulSteamIDOwner;		// Steam ID of the user who created this content.
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to UGCDownload()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 17)]
+	internal struct RemoteStorageDownloadUGCResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 17;
+		public EResult m_eResult;				// The result of the operation.
+		public UGCHandle_t m_hFile;			// The handle to the file that was attempted to be downloaded.
+		public AppId_t m_nAppID;				// ID of the app that created this file.
+		public int m_nSizeInBytes;			// The size of the file that was downloaded, in bytes.
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
+		internal byte[] m_pchFileName_;
+		public string m_pchFileName		// The name of the file that was downloaded.
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_pchFileName_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_pchFileName_, Constants.k_cchFilenameMax); }
+		}
+		public ulong m_ulSteamIDOwner;		// Steam ID of the user who created this content.
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to GetPublishedFileDetails()
 	//-----------------------------------------------------------------------------
@@ -1862,14 +5524,14 @@ namespace Steamworks {
 		public AppId_t m_nCreatorAppID;		// ID of the app that created this file.
 		public AppId_t m_nConsumerAppID;		// ID of the app that will consume this file.
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentTitleMax)]
-		private byte[] m_rgchTitle_;
+		internal byte[] m_rgchTitle_;
 		public string m_rgchTitle		// title of document
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTitle_); }
 			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchTitle_, Constants.k_cchPublishedDocumentTitleMax); }
 		}
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentDescriptionMax)]
-		private byte[] m_rgchDescription_;
+		internal byte[] m_rgchDescription_;
 		public string m_rgchDescription	// description of document
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchDescription_); }
@@ -1884,7 +5546,7 @@ namespace Steamworks {
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bBanned;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchTagListMax)]
-		private byte[] m_rgchTags_;
+		internal byte[] m_rgchTags_;
 		public string m_rgchTags	// comma separated list of all tags associated with this file
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTags_); }
@@ -1893,7 +5555,7 @@ namespace Steamworks {
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bTagsTruncated;			// whether the list of tags was too long to be returned in the provided buffer
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
-		private byte[] m_pchFileName_;
+		internal byte[] m_pchFileName_;
 		public string m_pchFileName		// The name of the primary file
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_pchFileName_); }
@@ -1902,7 +5564,7 @@ namespace Steamworks {
 		public int m_nFileSize;				// Size of the primary file
 		public int m_nPreviewFileSize;		// Size of the preview file
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedFileURLMax)]
-		private byte[] m_rgchURL_;
+		internal byte[] m_rgchURL_;
 		public string m_rgchURL	// URL (for a video or a website)
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchURL_); }
@@ -1913,6 +5575,135 @@ namespace Steamworks {
 		public bool m_bAcceptedForUse;			// developer has specifically flagged this item as accepted in the Workshop
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to GetPublishedFileDetails()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 18)]
+	internal struct RemoteStorageGetPublishedFileDetailsResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 18;
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;
+		public AppId_t m_nCreatorAppID;		// ID of the app that created this file.
+		public AppId_t m_nConsumerAppID;		// ID of the app that will consume this file.
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentTitleMax)]
+		internal byte[] m_rgchTitle_;
+		public string m_rgchTitle		// title of document
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTitle_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchTitle_, Constants.k_cchPublishedDocumentTitleMax); }
+		}
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentDescriptionMax)]
+		internal byte[] m_rgchDescription_;
+		public string m_rgchDescription	// description of document
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchDescription_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchDescription_, Constants.k_cchPublishedDocumentDescriptionMax); }
+		}
+		public UGCHandle_t m_hFile;			// The handle of the primary file
+		public UGCHandle_t m_hPreviewFile;		// The handle of the preview file
+		public ulong m_ulSteamIDOwner;		// Steam ID of the user who created this content.
+		public uint m_rtimeCreated;			// time when the published file was created
+		public uint m_rtimeUpdated;			// time when the published file was last updated
+		public ERemoteStoragePublishedFileVisibility m_eVisibility;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bBanned;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchTagListMax)]
+		internal byte[] m_rgchTags_;
+		public string m_rgchTags	// comma separated list of all tags associated with this file
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTags_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchTags_, Constants.k_cchTagListMax); }
+		}
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bTagsTruncated;			// whether the list of tags was too long to be returned in the provided buffer
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
+		internal byte[] m_pchFileName_;
+		public string m_pchFileName		// The name of the primary file
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_pchFileName_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_pchFileName_, Constants.k_cchFilenameMax); }
+		}
+		public int m_nFileSize;				// Size of the primary file
+		public int m_nPreviewFileSize;		// Size of the preview file
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedFileURLMax)]
+		internal byte[] m_rgchURL_;
+		public string m_rgchURL	// URL (for a video or a website)
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchURL_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchURL_, Constants.k_cchPublishedFileURLMax); }
+		}
+		public EWorkshopFileType m_eFileType;	// Type of the file
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bAcceptedForUse;			// developer has specifically flagged this item as accepted in the Workshop
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to GetPublishedFileDetails()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 18)]
+	internal struct RemoteStorageGetPublishedFileDetailsResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 18;
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;
+		public AppId_t m_nCreatorAppID;		// ID of the app that created this file.
+		public AppId_t m_nConsumerAppID;		// ID of the app that will consume this file.
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentTitleMax)]
+		internal byte[] m_rgchTitle_;
+		public string m_rgchTitle		// title of document
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTitle_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchTitle_, Constants.k_cchPublishedDocumentTitleMax); }
+		}
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentDescriptionMax)]
+		internal byte[] m_rgchDescription_;
+		public string m_rgchDescription	// description of document
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchDescription_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchDescription_, Constants.k_cchPublishedDocumentDescriptionMax); }
+		}
+		public UGCHandle_t m_hFile;			// The handle of the primary file
+		public UGCHandle_t m_hPreviewFile;		// The handle of the preview file
+		public ulong m_ulSteamIDOwner;		// Steam ID of the user who created this content.
+		public uint m_rtimeCreated;			// time when the published file was created
+		public uint m_rtimeUpdated;			// time when the published file was last updated
+		public ERemoteStoragePublishedFileVisibility m_eVisibility;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bBanned;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchTagListMax)]
+		internal byte[] m_rgchTags_;
+		public string m_rgchTags	// comma separated list of all tags associated with this file
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTags_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchTags_, Constants.k_cchTagListMax); }
+		}
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bTagsTruncated;			// whether the list of tags was too long to be returned in the provided buffer
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
+		internal byte[] m_pchFileName_;
+		public string m_pchFileName		// The name of the primary file
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_pchFileName_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_pchFileName_, Constants.k_cchFilenameMax); }
+		}
+		public int m_nFileSize;				// Size of the primary file
+		public int m_nPreviewFileSize;		// Size of the preview file
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedFileURLMax)]
+		internal byte[] m_rgchURL_;
+		public string m_rgchURL	// URL (for a video or a website)
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchURL_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchURL_, Constants.k_cchPublishedFileURLMax); }
+		}
+		public EWorkshopFileType m_eFileType;	// Type of the file
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bAcceptedForUse;			// developer has specifically flagged this item as accepted in the Workshop
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 19)]
 	public struct RemoteStorageEnumerateWorkshopFilesResult_t {
@@ -1928,6 +5719,39 @@ namespace Steamworks {
 		public uint m_unStartIndex;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 19)]
+	internal struct RemoteStorageEnumerateWorkshopFilesResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 19;
+		public EResult m_eResult;
+		public int m_nResultsReturned;
+		public int m_nTotalResultCount;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
+		public PublishedFileId_t[] m_rgPublishedFileId;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
+		public float[] m_rgScore;
+		public AppId_t m_nAppId;
+		public uint m_unStartIndex;
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 19)]
+	internal struct RemoteStorageEnumerateWorkshopFilesResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 19;
+		public EResult m_eResult;
+		public int m_nResultsReturned;
+		public int m_nTotalResultCount;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
+		public PublishedFileId_t[] m_rgPublishedFileId;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
+		public float[] m_rgScore;
+		public AppId_t m_nAppId;
+		public uint m_unStartIndex;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of GetPublishedItemVoteDetails
 	//-----------------------------------------------------------------------------
@@ -1943,6 +5767,39 @@ namespace Steamworks {
 		public float m_fScore;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of GetPublishedItemVoteDetails
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 20)]
+	internal struct RemoteStorageGetPublishedItemVoteDetailsResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 20;
+		public EResult m_eResult;
+		public PublishedFileId_t m_unPublishedFileId;
+		public int m_nVotesFor;
+		public int m_nVotesAgainst;
+		public int m_nReports;
+		public float m_fScore;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of GetPublishedItemVoteDetails
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 20)]
+	internal struct RemoteStorageGetPublishedItemVoteDetailsResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 20;
+		public EResult m_eResult;
+		public PublishedFileId_t m_unPublishedFileId;
+		public int m_nVotesFor;
+		public int m_nVotesAgainst;
+		public int m_nReports;
+		public float m_fScore;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: User subscribed to a file for the app (from within the app or on the web)
 	//-----------------------------------------------------------------------------
@@ -1954,6 +5811,31 @@ namespace Steamworks {
 		public AppId_t m_nAppID;						// ID of the app that will consume this file.
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: User subscribed to a file for the app (from within the app or on the web)
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 21)]
+	internal struct RemoteStoragePublishedFileSubscribed_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 21;
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id
+		public AppId_t m_nAppID;						// ID of the app that will consume this file.
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: User subscribed to a file for the app (from within the app or on the web)
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 21)]
+	internal struct RemoteStoragePublishedFileSubscribed_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 21;
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id
+		public AppId_t m_nAppID;						// ID of the app that will consume this file.
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: User unsubscribed from a file for the app (from within the app or on the web)
 	//-----------------------------------------------------------------------------
@@ -1965,6 +5847,31 @@ namespace Steamworks {
 		public AppId_t m_nAppID;						// ID of the app that will consume this file.
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: User unsubscribed from a file for the app (from within the app or on the web)
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 22)]
+	internal struct RemoteStoragePublishedFileUnsubscribed_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 22;
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id
+		public AppId_t m_nAppID;						// ID of the app that will consume this file.
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: User unsubscribed from a file for the app (from within the app or on the web)
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 22)]
+	internal struct RemoteStoragePublishedFileUnsubscribed_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 22;
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id
+		public AppId_t m_nAppID;						// ID of the app that will consume this file.
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Published file that a user owns was deleted (from within the app or the web)
 	//-----------------------------------------------------------------------------
@@ -1976,6 +5883,31 @@ namespace Steamworks {
 		public AppId_t m_nAppID;						// ID of the app that will consume this file.
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Published file that a user owns was deleted (from within the app or the web)
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 23)]
+	internal struct RemoteStoragePublishedFileDeleted_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 23;
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id
+		public AppId_t m_nAppID;						// ID of the app that will consume this file.
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Published file that a user owns was deleted (from within the app or the web)
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 23)]
+	internal struct RemoteStoragePublishedFileDeleted_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 23;
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id
+		public AppId_t m_nAppID;						// ID of the app that will consume this file.
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to UpdateUserPublishedItemVote()
 	//-----------------------------------------------------------------------------
@@ -1987,6 +5919,31 @@ namespace Steamworks {
 		public PublishedFileId_t m_nPublishedFileId;	// The published file id
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to UpdateUserPublishedItemVote()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 24)]
+	internal struct RemoteStorageUpdateUserPublishedItemVoteResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 24;
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to UpdateUserPublishedItemVote()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 24)]
+	internal struct RemoteStorageUpdateUserPublishedItemVoteResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 24;
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to GetUserPublishedItemVoteDetails()
 	//-----------------------------------------------------------------------------
@@ -1999,6 +5956,33 @@ namespace Steamworks {
 		public EWorkshopVote m_eVote;			// what the user voted
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to GetUserPublishedItemVoteDetails()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 25)]
+	internal struct RemoteStorageUserVoteDetails_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 25;
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id
+		public EWorkshopVote m_eVote;			// what the user voted
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to GetUserPublishedItemVoteDetails()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 25)]
+	internal struct RemoteStorageUserVoteDetails_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 25;
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id
+		public EWorkshopVote m_eVote;			// what the user voted
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 26)]
 	public struct RemoteStorageEnumerateUserSharedWorkshopFilesResult_t {
@@ -2010,6 +5994,31 @@ namespace Steamworks {
 		public PublishedFileId_t[] m_rgPublishedFileId;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 26)]
+	internal struct RemoteStorageEnumerateUserSharedWorkshopFilesResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 26;
+		public EResult m_eResult;				// The result of the operation.
+		public int m_nResultsReturned;
+		public int m_nTotalResultCount;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
+		public PublishedFileId_t[] m_rgPublishedFileId;
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 26)]
+	internal struct RemoteStorageEnumerateUserSharedWorkshopFilesResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 26;
+		public EResult m_eResult;				// The result of the operation.
+		public int m_nResultsReturned;
+		public int m_nTotalResultCount;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
+		public PublishedFileId_t[] m_rgPublishedFileId;
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 27)]
 	public struct RemoteStorageSetUserPublishedFileActionResult_t {
@@ -2019,6 +6028,27 @@ namespace Steamworks {
 		public EWorkshopFileAction m_eAction;	// the action that was attempted
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 27)]
+	internal struct RemoteStorageSetUserPublishedFileActionResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 27;
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id
+		public EWorkshopFileAction m_eAction;	// the action that was attempted
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 27)]
+	internal struct RemoteStorageSetUserPublishedFileActionResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 27;
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id
+		public EWorkshopFileAction m_eAction;	// the action that was attempted
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 28)]
 	public struct RemoteStorageEnumeratePublishedFilesByUserActionResult_t {
@@ -2033,6 +6063,37 @@ namespace Steamworks {
 		public uint[] m_rgRTimeUpdated;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 28)]
+	internal struct RemoteStorageEnumeratePublishedFilesByUserActionResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 28;
+		public EResult m_eResult;				// The result of the operation.
+		public EWorkshopFileAction m_eAction;	// the action that was filtered on
+		public int m_nResultsReturned;
+		public int m_nTotalResultCount;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
+		public PublishedFileId_t[] m_rgPublishedFileId;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
+		public uint[] m_rgRTimeUpdated;
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 28)]
+	internal struct RemoteStorageEnumeratePublishedFilesByUserActionResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 28;
+		public EResult m_eResult;				// The result of the operation.
+		public EWorkshopFileAction m_eAction;	// the action that was filtered on
+		public int m_nResultsReturned;
+		public int m_nTotalResultCount;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
+		public PublishedFileId_t[] m_rgPublishedFileId;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
+		public uint[] m_rgRTimeUpdated;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Called periodically while a PublishWorkshopFile is in progress
 	//-----------------------------------------------------------------------------
@@ -2045,6 +6106,33 @@ namespace Steamworks {
 		public bool m_bPreview;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Called periodically while a PublishWorkshopFile is in progress
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 29)]
+	internal struct RemoteStoragePublishFileProgress_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 29;
+		public double m_dPercentFile;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bPreview;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Called periodically while a PublishWorkshopFile is in progress
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 29)]
+	internal struct RemoteStoragePublishFileProgress_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 29;
+		public double m_dPercentFile;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bPreview;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Called when the content for a published file is updated
 	//-----------------------------------------------------------------------------
@@ -2057,6 +6145,33 @@ namespace Steamworks {
 		public ulong m_ulUnused;						// not used anymore
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Called when the content for a published file is updated
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 30)]
+	internal struct RemoteStoragePublishedFileUpdated_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 30;
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id
+		public AppId_t m_nAppID;						// ID of the app that will consume this file.
+		public ulong m_ulUnused;						// not used anymore
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Called when the content for a published file is updated
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 30)]
+	internal struct RemoteStoragePublishedFileUpdated_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 30;
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id
+		public AppId_t m_nAppID;						// ID of the app that will consume this file.
+		public ulong m_ulUnused;						// not used anymore
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Called when a FileWriteAsync completes
 	//-----------------------------------------------------------------------------
@@ -2067,6 +6182,29 @@ namespace Steamworks {
 		public EResult m_eResult;						// result
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Called when a FileWriteAsync completes
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 31)]
+	internal struct RemoteStorageFileWriteAsyncComplete_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 31;
+		public EResult m_eResult;						// result
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Called when a FileWriteAsync completes
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 31)]
+	internal struct RemoteStorageFileWriteAsyncComplete_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 31;
+		public EResult m_eResult;						// result
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Called when a FileReadAsync completes
 	//-----------------------------------------------------------------------------
@@ -2080,6 +6218,35 @@ namespace Steamworks {
 		public uint m_cubRead;						// amount read - will the <= the amount requested
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Called when a FileReadAsync completes
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 32)]
+	internal struct RemoteStorageFileReadAsyncComplete_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 32;
+		public SteamAPICall_t m_hFileReadAsync;		// call handle of the async read which was made
+		public EResult m_eResult;						// result
+		public uint m_nOffset;						// offset in the file this read was at
+		public uint m_cubRead;						// amount read - will the <= the amount requested
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Called when a FileReadAsync completes
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 32)]
+	internal struct RemoteStorageFileReadAsyncComplete_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 32;
+		public SteamAPICall_t m_hFileReadAsync;		// call handle of the async read which was made
+		public EResult m_eResult;						// result
+		public uint m_nOffset;						// offset in the file this read was at
+		public uint m_cubRead;						// amount read - will the <= the amount requested
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: one or more files for this app have changed locally after syncing
 	//			to remote session changes
@@ -2091,6 +6258,31 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 33;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: one or more files for this app have changed locally after syncing
+	//			to remote session changes
+	//			Note: only posted if this happens DURING the local app session
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 33)]
+	internal struct RemoteStorageLocalFileChange_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 33;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: one or more files for this app have changed locally after syncing
+	//			to remote session changes
+	//			Note: only posted if this happens DURING the local app session
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 33)]
+	internal struct RemoteStorageLocalFileChange_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 33;
+	}
+
+	#endif
 	// callbacks
 	//-----------------------------------------------------------------------------
 	// Purpose: Screenshot successfully written or otherwise added to the library
@@ -2104,6 +6296,35 @@ namespace Steamworks {
 		public EResult m_eResult;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// callbacks
+	//-----------------------------------------------------------------------------
+	// Purpose: Screenshot successfully written or otherwise added to the library
+	// and can now be tagged
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamScreenshotsCallbacks + 1)]
+	internal struct ScreenshotReady_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamScreenshotsCallbacks + 1;
+		public ScreenshotHandle m_hLocal;
+		public EResult m_eResult;
+	}
+
+
+	// callbacks
+	//-----------------------------------------------------------------------------
+	// Purpose: Screenshot successfully written or otherwise added to the library
+	// and can now be tagged
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamScreenshotsCallbacks + 1)]
+	internal struct ScreenshotReady_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamScreenshotsCallbacks + 1;
+		public ScreenshotHandle m_hLocal;
+		public EResult m_eResult;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Screenshot has been requested by the user.  Only sent if
 	// HookScreenshots() has been called, in which case Steam will not take
@@ -2115,6 +6336,31 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamScreenshotsCallbacks + 2;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Screenshot has been requested by the user.  Only sent if
+	// HookScreenshots() has been called, in which case Steam will not take
+	// the screenshot itself.
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamScreenshotsCallbacks + 2)]
+	internal struct ScreenshotRequested_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamScreenshotsCallbacks + 2;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Screenshot has been requested by the user.  Only sent if
+	// HookScreenshots() has been called, in which case Steam will not take
+	// the screenshot itself.
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamScreenshotsCallbacks + 2)]
+	internal struct ScreenshotRequested_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamScreenshotsCallbacks + 2;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Callback for querying UGC
 	//-----------------------------------------------------------------------------
@@ -2123,7 +6369,7 @@ namespace Steamworks {
 	public struct SteamTimelineGamePhaseRecordingExists_t {
 		public const int k_iCallback = Constants.k_iSteamTimelineCallbacks + 1;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchMaxPhaseIDLength)]
-		private byte[] m_rgchPhaseID_;
+		internal byte[] m_rgchPhaseID_;
 		public string m_rgchPhaseID
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchPhaseID_); }
@@ -2135,6 +6381,49 @@ namespace Steamworks {
 		public uint m_unScreenshotCount;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Callback for querying UGC
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamTimelineCallbacks + 1)]
+	internal struct SteamTimelineGamePhaseRecordingExists_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamTimelineCallbacks + 1;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchMaxPhaseIDLength)]
+		internal byte[] m_rgchPhaseID_;
+		public string m_rgchPhaseID
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchPhaseID_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchPhaseID_, Constants.k_cchMaxPhaseIDLength); }
+		}
+		public ulong m_ulRecordingMS;
+		public ulong m_ulLongestClipMS;
+		public uint m_unClipCount;
+		public uint m_unScreenshotCount;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Callback for querying UGC
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamTimelineCallbacks + 1)]
+	internal struct SteamTimelineGamePhaseRecordingExists_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamTimelineCallbacks + 1;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchMaxPhaseIDLength)]
+		internal byte[] m_rgchPhaseID_;
+		public string m_rgchPhaseID
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchPhaseID_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchPhaseID_, Constants.k_cchMaxPhaseIDLength); }
+		}
+		public ulong m_ulRecordingMS;
+		public ulong m_ulLongestClipMS;
+		public uint m_unClipCount;
+		public uint m_unScreenshotCount;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Callback for querying UGC
 	//-----------------------------------------------------------------------------
@@ -2147,6 +6436,33 @@ namespace Steamworks {
 		public bool m_bRecordingExists;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Callback for querying UGC
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamTimelineCallbacks + 2)]
+	internal struct SteamTimelineEventRecordingExists_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamTimelineCallbacks + 2;
+		public ulong m_ulEventID;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bRecordingExists;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Callback for querying UGC
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamTimelineCallbacks + 2)]
+	internal struct SteamTimelineEventRecordingExists_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamTimelineCallbacks + 2;
+		public ulong m_ulEventID;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bRecordingExists;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Callback for querying UGC
 	//-----------------------------------------------------------------------------
@@ -2161,7 +6477,7 @@ namespace Steamworks {
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bCachedData;	// indicates whether this data was retrieved from the local on-disk cache
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedFileURLMax)]
-		private byte[] m_rgchNextCursor_;
+		internal byte[] m_rgchNextCursor_;
 		public string m_rgchNextCursor // If a paging cursor was used, then this will be the next cursor to get the next result set.
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchNextCursor_); }
@@ -2169,6 +6485,53 @@ namespace Steamworks {
 		}
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Callback for querying UGC
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 1)]
+	internal struct SteamUGCQueryCompleted_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 1;
+		public UGCQueryHandle_t m_handle;
+		public EResult m_eResult;
+		public uint m_unNumResultsReturned;
+		public uint m_unTotalMatchingResults;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bCachedData;	// indicates whether this data was retrieved from the local on-disk cache
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedFileURLMax)]
+		internal byte[] m_rgchNextCursor_;
+		public string m_rgchNextCursor // If a paging cursor was used, then this will be the next cursor to get the next result set.
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchNextCursor_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchNextCursor_, Constants.k_cchPublishedFileURLMax); }
+		}
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Callback for querying UGC
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 1)]
+	internal struct SteamUGCQueryCompleted_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 1;
+		public UGCQueryHandle_t m_handle;
+		public EResult m_eResult;
+		public uint m_unNumResultsReturned;
+		public uint m_unTotalMatchingResults;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bCachedData;	// indicates whether this data was retrieved from the local on-disk cache
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedFileURLMax)]
+		internal byte[] m_rgchNextCursor_;
+		public string m_rgchNextCursor // If a paging cursor was used, then this will be the next cursor to get the next result set.
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchNextCursor_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchNextCursor_, Constants.k_cchPublishedFileURLMax); }
+		}
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Callback for requesting details on one piece of UGC
 	//-----------------------------------------------------------------------------
@@ -2181,6 +6544,33 @@ namespace Steamworks {
 		public bool m_bCachedData; // indicates whether this data was retrieved from the local on-disk cache
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Callback for requesting details on one piece of UGC
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 2)]
+	internal struct SteamUGCRequestUGCDetailsResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 2;
+		public SteamUGCDetails_t m_details;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bCachedData; // indicates whether this data was retrieved from the local on-disk cache
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Callback for requesting details on one piece of UGC
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 2)]
+	internal struct SteamUGCRequestUGCDetailsResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 2;
+		public SteamUGCDetails_t m_details;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bCachedData; // indicates whether this data was retrieved from the local on-disk cache
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: result for ISteamUGC::CreateItem()
 	//-----------------------------------------------------------------------------
@@ -2194,6 +6584,35 @@ namespace Steamworks {
 		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: result for ISteamUGC::CreateItem()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 3)]
+	internal struct CreateItemResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 3;
+		public EResult m_eResult;
+		public PublishedFileId_t m_nPublishedFileId; // new item got this UGC PublishFileID
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: result for ISteamUGC::CreateItem()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 3)]
+	internal struct CreateItemResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 3;
+		public EResult m_eResult;
+		public PublishedFileId_t m_nPublishedFileId; // new item got this UGC PublishFileID
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: result for ISteamUGC::SubmitItemUpdate()
 	//-----------------------------------------------------------------------------
@@ -2207,6 +6626,35 @@ namespace Steamworks {
 		public PublishedFileId_t m_nPublishedFileId;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: result for ISteamUGC::SubmitItemUpdate()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 4)]
+	internal struct SubmitItemUpdateResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 4;
+		public EResult m_eResult;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
+		public PublishedFileId_t m_nPublishedFileId;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: result for ISteamUGC::SubmitItemUpdate()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 4)]
+	internal struct SubmitItemUpdateResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 4;
+		public EResult m_eResult;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
+		public PublishedFileId_t m_nPublishedFileId;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: a Workshop item has been installed or updated
 	//-----------------------------------------------------------------------------
@@ -2220,6 +6668,35 @@ namespace Steamworks {
 		public ulong m_unManifestID;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: a Workshop item has been installed or updated
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 5)]
+	internal struct ItemInstalled_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 5;
+		public AppId_t m_unAppID;
+		public PublishedFileId_t m_nPublishedFileId;
+		public UGCHandle_t m_hLegacyContent;
+		public ulong m_unManifestID;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: a Workshop item has been installed or updated
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 5)]
+	internal struct ItemInstalled_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 5;
+		public AppId_t m_unAppID;
+		public PublishedFileId_t m_nPublishedFileId;
+		public UGCHandle_t m_hLegacyContent;
+		public ulong m_unManifestID;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: result of DownloadItem(), existing item files can be accessed again
 	//-----------------------------------------------------------------------------
@@ -2232,6 +6709,33 @@ namespace Steamworks {
 		public EResult m_eResult;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: result of DownloadItem(), existing item files can be accessed again
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 6)]
+	internal struct DownloadItemResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 6;
+		public AppId_t m_unAppID;
+		public PublishedFileId_t m_nPublishedFileId;
+		public EResult m_eResult;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: result of DownloadItem(), existing item files can be accessed again
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 6)]
+	internal struct DownloadItemResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 6;
+		public AppId_t m_unAppID;
+		public PublishedFileId_t m_nPublishedFileId;
+		public EResult m_eResult;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: result of AddItemToFavorites() or RemoveItemFromFavorites()
 	//-----------------------------------------------------------------------------
@@ -2245,6 +6749,35 @@ namespace Steamworks {
 		public bool m_bWasAddRequest;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: result of AddItemToFavorites() or RemoveItemFromFavorites()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 7)]
+	internal struct UserFavoriteItemsListChanged_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 7;
+		public PublishedFileId_t m_nPublishedFileId;
+		public EResult m_eResult;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bWasAddRequest;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: result of AddItemToFavorites() or RemoveItemFromFavorites()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 7)]
+	internal struct UserFavoriteItemsListChanged_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 7;
+		public PublishedFileId_t m_nPublishedFileId;
+		public EResult m_eResult;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bWasAddRequest;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to SetUserItemVote()
 	//-----------------------------------------------------------------------------
@@ -2258,6 +6791,35 @@ namespace Steamworks {
 		public bool m_bVoteUp;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to SetUserItemVote()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 8)]
+	internal struct SetUserItemVoteResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 8;
+		public PublishedFileId_t m_nPublishedFileId;
+		public EResult m_eResult;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bVoteUp;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to SetUserItemVote()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 8)]
+	internal struct SetUserItemVoteResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 8;
+		public PublishedFileId_t m_nPublishedFileId;
+		public EResult m_eResult;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bVoteUp;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to GetUserItemVote()
 	//-----------------------------------------------------------------------------
@@ -2275,6 +6837,43 @@ namespace Steamworks {
 		public bool m_bVoteSkipped;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to GetUserItemVote()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 9)]
+	internal struct GetUserItemVoteResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 9;
+		public PublishedFileId_t m_nPublishedFileId;
+		public EResult m_eResult;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bVotedUp;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bVotedDown;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bVoteSkipped;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to GetUserItemVote()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 9)]
+	internal struct GetUserItemVoteResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 9;
+		public PublishedFileId_t m_nPublishedFileId;
+		public EResult m_eResult;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bVotedUp;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bVotedDown;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bVoteSkipped;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to StartPlaytimeTracking()
 	//-----------------------------------------------------------------------------
@@ -2285,6 +6884,29 @@ namespace Steamworks {
 		public EResult m_eResult;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to StartPlaytimeTracking()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 10)]
+	internal struct StartPlaytimeTrackingResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 10;
+		public EResult m_eResult;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to StartPlaytimeTracking()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 10)]
+	internal struct StartPlaytimeTrackingResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 10;
+		public EResult m_eResult;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to StopPlaytimeTracking()
 	//-----------------------------------------------------------------------------
@@ -2295,6 +6917,29 @@ namespace Steamworks {
 		public EResult m_eResult;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to StopPlaytimeTracking()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 11)]
+	internal struct StopPlaytimeTrackingResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 11;
+		public EResult m_eResult;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to StopPlaytimeTracking()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 11)]
+	internal struct StopPlaytimeTrackingResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 11;
+		public EResult m_eResult;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to AddDependency
 	//-----------------------------------------------------------------------------
@@ -2307,6 +6952,33 @@ namespace Steamworks {
 		public PublishedFileId_t m_nChildPublishedFileId;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to AddDependency
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 12)]
+	internal struct AddUGCDependencyResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 12;
+		public EResult m_eResult;
+		public PublishedFileId_t m_nPublishedFileId;
+		public PublishedFileId_t m_nChildPublishedFileId;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to AddDependency
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 12)]
+	internal struct AddUGCDependencyResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 12;
+		public EResult m_eResult;
+		public PublishedFileId_t m_nPublishedFileId;
+		public PublishedFileId_t m_nChildPublishedFileId;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to RemoveDependency
 	//-----------------------------------------------------------------------------
@@ -2319,6 +6991,33 @@ namespace Steamworks {
 		public PublishedFileId_t m_nChildPublishedFileId;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to RemoveDependency
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 13)]
+	internal struct RemoveUGCDependencyResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 13;
+		public EResult m_eResult;
+		public PublishedFileId_t m_nPublishedFileId;
+		public PublishedFileId_t m_nChildPublishedFileId;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to RemoveDependency
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 13)]
+	internal struct RemoveUGCDependencyResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 13;
+		public EResult m_eResult;
+		public PublishedFileId_t m_nPublishedFileId;
+		public PublishedFileId_t m_nChildPublishedFileId;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to AddAppDependency
 	//-----------------------------------------------------------------------------
@@ -2331,6 +7030,33 @@ namespace Steamworks {
 		public AppId_t m_nAppID;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to AddAppDependency
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 14)]
+	internal struct AddAppDependencyResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 14;
+		public EResult m_eResult;
+		public PublishedFileId_t m_nPublishedFileId;
+		public AppId_t m_nAppID;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to AddAppDependency
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 14)]
+	internal struct AddAppDependencyResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 14;
+		public EResult m_eResult;
+		public PublishedFileId_t m_nPublishedFileId;
+		public AppId_t m_nAppID;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to RemoveAppDependency
 	//-----------------------------------------------------------------------------
@@ -2343,6 +7069,33 @@ namespace Steamworks {
 		public AppId_t m_nAppID;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to RemoveAppDependency
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 15)]
+	internal struct RemoveAppDependencyResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 15;
+		public EResult m_eResult;
+		public PublishedFileId_t m_nPublishedFileId;
+		public AppId_t m_nAppID;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to RemoveAppDependency
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 15)]
+	internal struct RemoveAppDependencyResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 15;
+		public EResult m_eResult;
+		public PublishedFileId_t m_nPublishedFileId;
+		public AppId_t m_nAppID;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to GetAppDependencies.  Callback may be called
 	//			multiple times until all app dependencies have been returned.
@@ -2359,6 +7112,41 @@ namespace Steamworks {
 		public uint m_nTotalNumAppDependencies;	// total found
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to GetAppDependencies.  Callback may be called
+	//			multiple times until all app dependencies have been returned.
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 16)]
+	internal struct GetAppDependenciesResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 16;
+		public EResult m_eResult;
+		public PublishedFileId_t m_nPublishedFileId;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
+		public AppId_t[] m_rgAppIDs;
+		public uint m_nNumAppDependencies;		// number returned in this struct
+		public uint m_nTotalNumAppDependencies;	// total found
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to GetAppDependencies.  Callback may be called
+	//			multiple times until all app dependencies have been returned.
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 16)]
+	internal struct GetAppDependenciesResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 16;
+		public EResult m_eResult;
+		public PublishedFileId_t m_nPublishedFileId;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
+		public AppId_t[] m_rgAppIDs;
+		public uint m_nNumAppDependencies;		// number returned in this struct
+		public uint m_nTotalNumAppDependencies;	// total found
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to DeleteItem
 	//-----------------------------------------------------------------------------
@@ -2370,6 +7158,31 @@ namespace Steamworks {
 		public PublishedFileId_t m_nPublishedFileId;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to DeleteItem
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 17)]
+	internal struct DeleteItemResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 17;
+		public EResult m_eResult;
+		public PublishedFileId_t m_nPublishedFileId;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to DeleteItem
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 17)]
+	internal struct DeleteItemResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 17;
+		public EResult m_eResult;
+		public PublishedFileId_t m_nPublishedFileId;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: signal that the list of subscribed items changed
 	//-----------------------------------------------------------------------------
@@ -2380,6 +7193,29 @@ namespace Steamworks {
 		public AppId_t m_nAppID;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: signal that the list of subscribed items changed
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 18)]
+	internal struct UserSubscribedItemsListChanged_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 18;
+		public AppId_t m_nAppID;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: signal that the list of subscribed items changed
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 18)]
+	internal struct UserSubscribedItemsListChanged_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 18;
+		public AppId_t m_nAppID;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Status of the user's acceptable/rejection of the app's specific Workshop EULA
 	//-----------------------------------------------------------------------------
@@ -2397,6 +7233,43 @@ namespace Steamworks {
 		public bool m_bNeedsAction;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Status of the user's acceptable/rejection of the app's specific Workshop EULA
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 20)]
+	internal struct WorkshopEULAStatus_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 20;
+		public EResult m_eResult;
+		public AppId_t m_nAppID;
+		public uint m_unVersion;
+		public RTime32 m_rtAction;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bAccepted;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bNeedsAction;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Status of the user's acceptable/rejection of the app's specific Workshop EULA
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 20)]
+	internal struct WorkshopEULAStatus_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 20;
+		public EResult m_eResult;
+		public AppId_t m_nAppID;
+		public uint m_unVersion;
+		public RTime32 m_rtAction;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bAccepted;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bNeedsAction;
+	}
+
+	#endif
 	// callbacks
 	//-----------------------------------------------------------------------------
 	// Purpose: Called when an authenticated connection to the Steam back-end has been established.
@@ -2411,6 +7284,37 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 1;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// callbacks
+	//-----------------------------------------------------------------------------
+	// Purpose: Called when an authenticated connection to the Steam back-end has been established.
+	//			This means the Steam client now has a working connection to the Steam servers.
+	//			Usually this will have occurred before the game has launched, and should
+	//			only be seen if the user has dropped connection due to a networking issue
+	//			or a Steam server update.
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 1)]
+	internal struct SteamServersConnected_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 1;
+	}
+
+
+	// callbacks
+	//-----------------------------------------------------------------------------
+	// Purpose: Called when an authenticated connection to the Steam back-end has been established.
+	//			This means the Steam client now has a working connection to the Steam servers.
+	//			Usually this will have occurred before the game has launched, and should
+	//			only be seen if the user has dropped connection due to a networking issue
+	//			or a Steam server update.
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 1)]
+	internal struct SteamServersConnected_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 1;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: called when a connection attempt has failed
 	//			this will occur periodically if the Steam client is not connected,
@@ -2425,6 +7329,37 @@ namespace Steamworks {
 		public bool m_bStillRetrying;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: called when a connection attempt has failed
+	//			this will occur periodically if the Steam client is not connected,
+	//			and has failed in it's retry to establish a connection
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 2)]
+	internal struct SteamServerConnectFailure_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 2;
+		public EResult m_eResult;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bStillRetrying;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: called when a connection attempt has failed
+	//			this will occur periodically if the Steam client is not connected,
+	//			and has failed in it's retry to establish a connection
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 2)]
+	internal struct SteamServerConnectFailure_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 2;
+		public EResult m_eResult;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bStillRetrying;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: called if the client has lost connection to the Steam servers
 	//			real-time services will be disabled until a matching SteamServersConnected_t has been posted
@@ -2436,6 +7371,31 @@ namespace Steamworks {
 		public EResult m_eResult;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: called if the client has lost connection to the Steam servers
+	//			real-time services will be disabled until a matching SteamServersConnected_t has been posted
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 3)]
+	internal struct SteamServersDisconnected_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 3;
+		public EResult m_eResult;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: called if the client has lost connection to the Steam servers
+	//			real-time services will be disabled until a matching SteamServersConnected_t has been posted
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 3)]
+	internal struct SteamServersDisconnected_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 3;
+		public EResult m_eResult;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Sent by the Steam server to the client telling it to disconnect from the specified game server,
 	//			which it may be in the process of or already connected to.
@@ -2454,6 +7414,45 @@ namespace Steamworks {
 		public uint m_uReason;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Sent by the Steam server to the client telling it to disconnect from the specified game server,
+	//			which it may be in the process of or already connected to.
+	//			The game client should immediately disconnect upon receiving this message.
+	//			This can usually occur if the user doesn't have rights to play on the game server.
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 13)]
+	internal struct ClientGameServerDeny_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 13;
+		
+		public uint m_uAppID;
+		public uint m_unGameServerIP;
+		public ushort m_usGameServerPort;
+		public ushort m_bSecure;
+		public uint m_uReason;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Sent by the Steam server to the client telling it to disconnect from the specified game server,
+	//			which it may be in the process of or already connected to.
+	//			The game client should immediately disconnect upon receiving this message.
+	//			This can usually occur if the user doesn't have rights to play on the game server.
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 13)]
+	internal struct ClientGameServerDeny_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 13;
+		
+		public uint m_uAppID;
+		public uint m_unGameServerIP;
+		public ushort m_usGameServerPort;
+		public ushort m_bSecure;
+		public uint m_uReason;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: called when the callback system for this client is in an error state (and has flushed pending callbacks)
 	//			When getting this message the client should disconnect from Steam, reset any stored Steam state and reconnect.
@@ -2466,6 +7465,33 @@ namespace Steamworks {
 		public byte m_eFailureType;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: called when the callback system for this client is in an error state (and has flushed pending callbacks)
+	//			When getting this message the client should disconnect from Steam, reset any stored Steam state and reconnect.
+	//			This usually occurs in the rare event the Steam client has some kind of fatal error.
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 17)]
+	internal struct IPCFailure_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 17;
+		public byte m_eFailureType;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: called when the callback system for this client is in an error state (and has flushed pending callbacks)
+	//			When getting this message the client should disconnect from Steam, reset any stored Steam state and reconnect.
+	//			This usually occurs in the rare event the Steam client has some kind of fatal error.
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 17)]
+	internal struct IPCFailure_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 17;
+		public byte m_eFailureType;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Signaled whenever licenses change
 	//-----------------------------------------------------------------------------
@@ -2475,6 +7501,27 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 25;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Signaled whenever licenses change
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 25)]
+	internal struct LicensesUpdated_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 25;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Signaled whenever licenses change
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 25)]
+	internal struct LicensesUpdated_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 25;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// callback for BeginAuthSession
 	//-----------------------------------------------------------------------------
@@ -2500,6 +7547,35 @@ namespace Steamworks {
 		public byte m_bAuthorized;		// if user authorized transaction
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: called when a user has responded to a microtransaction authorization request
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 52)]
+	internal struct MicroTxnAuthorizationResponse_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 52;
+		
+		public uint m_unAppID;			// AppID for this microtransaction
+		public ulong m_ulOrderID;			// OrderID provided for the microtransaction
+		public byte m_bAuthorized;		// if user authorized transaction
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: called when a user has responded to a microtransaction authorization request
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 52)]
+	internal struct MicroTxnAuthorizationResponse_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 52;
+		
+		public uint m_unAppID;			// AppID for this microtransaction
+		public ulong m_ulOrderID;			// OrderID provided for the microtransaction
+		public byte m_bAuthorized;		// if user authorized transaction
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Result from RequestEncryptedAppTicket
 	//-----------------------------------------------------------------------------
@@ -2511,6 +7587,31 @@ namespace Steamworks {
 		public EResult m_eResult;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Result from RequestEncryptedAppTicket
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 54)]
+	internal struct EncryptedAppTicketResponse_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 54;
+		
+		public EResult m_eResult;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Result from RequestEncryptedAppTicket
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 54)]
+	internal struct EncryptedAppTicketResponse_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 54;
+		
+		public EResult m_eResult;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// callback for GetAuthSessionTicket
 	//-----------------------------------------------------------------------------
@@ -2522,6 +7623,31 @@ namespace Steamworks {
 		public EResult m_eResult;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// callback for GetAuthSessionTicket
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 63)]
+	internal struct GetAuthSessionTicketResponse_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 63;
+		public HAuthTicket m_hAuthTicket;
+		public EResult m_eResult;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// callback for GetAuthSessionTicket
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 63)]
+	internal struct GetAuthSessionTicketResponse_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 63;
+		public HAuthTicket m_hAuthTicket;
+		public EResult m_eResult;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: sent to your game in response to a steam://gamewebcallback/ command
 	//-----------------------------------------------------------------------------
@@ -2530,7 +7656,7 @@ namespace Steamworks {
 	public struct GameWebCallback_t {
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 64;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-		private byte[] m_szURL_;
+		internal byte[] m_szURL_;
 		public string m_szURL
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_szURL_); }
@@ -2538,6 +7664,41 @@ namespace Steamworks {
 		}
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: sent to your game in response to a steam://gamewebcallback/ command
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 64)]
+	internal struct GameWebCallback_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 64;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+		internal byte[] m_szURL_;
+		public string m_szURL
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_szURL_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_szURL_, 256); }
+		}
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: sent to your game in response to a steam://gamewebcallback/ command
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 64)]
+	internal struct GameWebCallback_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 64;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+		internal byte[] m_szURL_;
+		public string m_szURL
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_szURL_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_szURL_, 256); }
+		}
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: sent to your game in response to ISteamUser::RequestStoreAuthURL
 	//-----------------------------------------------------------------------------
@@ -2546,7 +7707,7 @@ namespace Steamworks {
 	public struct StoreAuthURLResponse_t {
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 65;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 512)]
-		private byte[] m_szURL_;
+		internal byte[] m_szURL_;
 		public string m_szURL
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_szURL_); }
@@ -2554,6 +7715,41 @@ namespace Steamworks {
 		}
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: sent to your game in response to ISteamUser::RequestStoreAuthURL
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 65)]
+	internal struct StoreAuthURLResponse_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 65;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 512)]
+		internal byte[] m_szURL_;
+		public string m_szURL
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_szURL_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_szURL_, 512); }
+		}
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: sent to your game in response to ISteamUser::RequestStoreAuthURL
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 65)]
+	internal struct StoreAuthURLResponse_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 65;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 512)]
+		internal byte[] m_szURL_;
+		public string m_szURL
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_szURL_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_szURL_, 512); }
+		}
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: sent in response to ISteamUser::GetMarketEligibility
 	//-----------------------------------------------------------------------------
@@ -2570,6 +7766,41 @@ namespace Steamworks {
 		public int m_cdayNewDeviceCooldown; // The number of days after initial device authorization a user must wait before using the market on that device
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: sent in response to ISteamUser::GetMarketEligibility
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 66)]
+	internal struct MarketEligibilityResponse_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 66;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bAllowed;
+		public EMarketNotAllowedReasonFlags m_eNotAllowedReason;
+		public RTime32 m_rtAllowedAtTime;
+		
+		public int m_cdaySteamGuardRequiredDays; // The number of days any user is required to have had Steam Guard before they can use the market
+		public int m_cdayNewDeviceCooldown; // The number of days after initial device authorization a user must wait before using the market on that device
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: sent in response to ISteamUser::GetMarketEligibility
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 66)]
+	internal struct MarketEligibilityResponse_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 66;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bAllowed;
+		public EMarketNotAllowedReasonFlags m_eNotAllowedReason;
+		public RTime32 m_rtAllowedAtTime;
+		
+		public int m_cdaySteamGuardRequiredDays; // The number of days any user is required to have had Steam Guard before they can use the market
+		public int m_cdayNewDeviceCooldown; // The number of days after initial device authorization a user must wait before using the market on that device
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: sent for games with enabled anti indulgence / duration control, for
 	// enabled users. Lets the game know whether the user can keep playing or
@@ -2597,6 +7828,63 @@ namespace Steamworks {
 		public int m_csecsRemaining;						// playtime remaining until the user hits a regulatory limit
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: sent for games with enabled anti indulgence / duration control, for
+	// enabled users. Lets the game know whether the user can keep playing or
+	// whether the game should exit, and returns info about remaining gameplay time.
+	//
+	// This callback is fired asynchronously in response to timers triggering.
+	// It is also fired in response to calls to GetDurationControl().
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 67)]
+	internal struct DurationControl_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 67;
+		
+		public EResult m_eResult;								// result of call (always k_EResultOK for asynchronous timer-based notifications)
+		public AppId_t m_appid;								// appid generating playtime
+		
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bApplicable;							// is duration control applicable to user + game combination
+		public int m_csecsLast5h;							// playtime since most recent 5 hour gap in playtime, only counting up to regulatory limit of playtime, in seconds
+		
+		public EDurationControlProgress m_progress;			// recommended progress (either everything is fine, or please exit game)
+		public EDurationControlNotification m_notification;	// notification to show, if any (always k_EDurationControlNotification_None for API calls)
+		
+		public int m_csecsToday;							// playtime on current calendar day
+		public int m_csecsRemaining;						// playtime remaining until the user hits a regulatory limit
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: sent for games with enabled anti indulgence / duration control, for
+	// enabled users. Lets the game know whether the user can keep playing or
+	// whether the game should exit, and returns info about remaining gameplay time.
+	//
+	// This callback is fired asynchronously in response to timers triggering.
+	// It is also fired in response to calls to GetDurationControl().
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 67)]
+	internal struct DurationControl_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 67;
+		
+		public EResult m_eResult;								// result of call (always k_EResultOK for asynchronous timer-based notifications)
+		public AppId_t m_appid;								// appid generating playtime
+		
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bApplicable;							// is duration control applicable to user + game combination
+		public int m_csecsLast5h;							// playtime since most recent 5 hour gap in playtime, only counting up to regulatory limit of playtime, in seconds
+		
+		public EDurationControlProgress m_progress;			// recommended progress (either everything is fine, or please exit game)
+		public EDurationControlNotification m_notification;	// notification to show, if any (always k_EDurationControlNotification_None for API calls)
+		
+		public int m_csecsToday;							// playtime on current calendar day
+		public int m_csecsRemaining;						// playtime remaining until the user hits a regulatory limit
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// callback for GetTicketForWebApi
 	//-----------------------------------------------------------------------------
@@ -2611,6 +7899,37 @@ namespace Steamworks {
 		public byte[] m_rgubTicket;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// callback for GetTicketForWebApi
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 68)]
+	internal struct GetTicketForWebApiResponse_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 68;
+		public HAuthTicket m_hAuthTicket;
+		public EResult m_eResult;
+		public int m_cubTicket;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_nCubTicketMaxLength)]
+		public byte[] m_rgubTicket;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// callback for GetTicketForWebApi
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 68)]
+	internal struct GetTicketForWebApiResponse_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 68;
+		public HAuthTicket m_hAuthTicket;
+		public EResult m_eResult;
+		public int m_cubTicket;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_nCubTicketMaxLength)]
+		public byte[] m_rgubTicket;
+	}
+
+	#endif
 	// callbacks
 	//-----------------------------------------------------------------------------
 	// Purpose: called when the latests stats and achievements have been received
@@ -2639,6 +7958,31 @@ namespace Steamworks {
 		public EResult m_eResult;		// success / error
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: result of a request to store the user stats for a game
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 2)]
+	internal struct UserStatsStored_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 2;
+		public ulong m_nGameID;		// Game these stats are for
+		public EResult m_eResult;		// success / error
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: result of a request to store the user stats for a game
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 2)]
+	internal struct UserStatsStored_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 2;
+		public ulong m_nGameID;		// Game these stats are for
+		public EResult m_eResult;		// success / error
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: result of a request to store the achievements for a game, or an
 	//			"indicate progress" call. If both m_nCurProgress and m_nMaxProgress
@@ -2653,7 +7997,7 @@ namespace Steamworks {
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bGroupAchievement;	// if this is a "group" achievement
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchStatNameMax)]
-		private byte[] m_rgchAchievementName_;
+		internal byte[] m_rgchAchievementName_;
 		public string m_rgchAchievementName		// name of the achievement
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchAchievementName_); }
@@ -2663,6 +8007,57 @@ namespace Steamworks {
 		public uint m_nMaxProgress;			// "out of" this many
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: result of a request to store the achievements for a game, or an
+	//			"indicate progress" call. If both m_nCurProgress and m_nMaxProgress
+	//			are zero, that means the achievement has been fully unlocked.
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 3)]
+	internal struct UserAchievementStored_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 3;
+		
+		public ulong m_nGameID;				// Game this is for
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bGroupAchievement;	// if this is a "group" achievement
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchStatNameMax)]
+		internal byte[] m_rgchAchievementName_;
+		public string m_rgchAchievementName		// name of the achievement
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchAchievementName_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchAchievementName_, Constants.k_cchStatNameMax); }
+		}
+		public uint m_nCurProgress;			// current progress towards the achievement
+		public uint m_nMaxProgress;			// "out of" this many
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: result of a request to store the achievements for a game, or an
+	//			"indicate progress" call. If both m_nCurProgress and m_nMaxProgress
+	//			are zero, that means the achievement has been fully unlocked.
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 3)]
+	internal struct UserAchievementStored_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 3;
+		
+		public ulong m_nGameID;				// Game this is for
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bGroupAchievement;	// if this is a "group" achievement
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchStatNameMax)]
+		internal byte[] m_rgchAchievementName_;
+		public string m_rgchAchievementName		// name of the achievement
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchAchievementName_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchAchievementName_, Constants.k_cchStatNameMax); }
+		}
+		public uint m_nCurProgress;			// current progress towards the achievement
+		public uint m_nMaxProgress;			// "out of" this many
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: call result for finding a leaderboard, returned as a result of FindOrCreateLeaderboard() or FindLeaderboard()
 	//			use CCallResult<> to map this async result to a member function
@@ -2675,6 +8070,33 @@ namespace Steamworks {
 		public byte m_bLeaderboardFound;				// 0 if no leaderboard found
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: call result for finding a leaderboard, returned as a result of FindOrCreateLeaderboard() or FindLeaderboard()
+	//			use CCallResult<> to map this async result to a member function
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 4)]
+	internal struct LeaderboardFindResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 4;
+		public SteamLeaderboard_t m_hSteamLeaderboard;	// handle to the leaderboard serarched for, 0 if no leaderboard found
+		public byte m_bLeaderboardFound;				// 0 if no leaderboard found
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: call result for finding a leaderboard, returned as a result of FindOrCreateLeaderboard() or FindLeaderboard()
+	//			use CCallResult<> to map this async result to a member function
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 4)]
+	internal struct LeaderboardFindResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 4;
+		public SteamLeaderboard_t m_hSteamLeaderboard;	// handle to the leaderboard serarched for, 0 if no leaderboard found
+		public byte m_bLeaderboardFound;				// 0 if no leaderboard found
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: call result indicating scores for a leaderboard have been downloaded and are ready to be retrieved, returned as a result of DownloadLeaderboardEntries()
 	//			use CCallResult<> to map this async result to a member function
@@ -2688,6 +8110,35 @@ namespace Steamworks {
 		public int m_cEntryCount; // the number of entries downloaded
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: call result indicating scores for a leaderboard have been downloaded and are ready to be retrieved, returned as a result of DownloadLeaderboardEntries()
+	//			use CCallResult<> to map this async result to a member function
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 5)]
+	internal struct LeaderboardScoresDownloaded_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 5;
+		public SteamLeaderboard_t m_hSteamLeaderboard;
+		public SteamLeaderboardEntries_t m_hSteamLeaderboardEntries;	// the handle to pass into GetDownloadedLeaderboardEntries()
+		public int m_cEntryCount; // the number of entries downloaded
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: call result indicating scores for a leaderboard have been downloaded and are ready to be retrieved, returned as a result of DownloadLeaderboardEntries()
+	//			use CCallResult<> to map this async result to a member function
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 5)]
+	internal struct LeaderboardScoresDownloaded_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 5;
+		public SteamLeaderboard_t m_hSteamLeaderboard;
+		public SteamLeaderboardEntries_t m_hSteamLeaderboardEntries;	// the handle to pass into GetDownloadedLeaderboardEntries()
+		public int m_cEntryCount; // the number of entries downloaded
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: call result indicating scores has been uploaded, returned as a result of UploadLeaderboardScore()
 	//			use CCallResult<> to map this async result to a member function
@@ -2704,6 +8155,41 @@ namespace Steamworks {
 		public int m_nGlobalRankPrevious;	// the previous global rank of the user in this leaderboard; 0 if the user had no existing entry in the leaderboard
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: call result indicating scores has been uploaded, returned as a result of UploadLeaderboardScore()
+	//			use CCallResult<> to map this async result to a member function
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 6)]
+	internal struct LeaderboardScoreUploaded_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 6;
+		public byte m_bSuccess;			// 1 if the call was successful
+		public SteamLeaderboard_t m_hSteamLeaderboard;	// the leaderboard handle that was
+		public int m_nScore;				// the score that was attempted to set
+		public byte m_bScoreChanged;		// true if the score in the leaderboard change, false if the existing score was better
+		public int m_nGlobalRankNew;		// the new global rank of the user in this leaderboard
+		public int m_nGlobalRankPrevious;	// the previous global rank of the user in this leaderboard; 0 if the user had no existing entry in the leaderboard
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: call result indicating scores has been uploaded, returned as a result of UploadLeaderboardScore()
+	//			use CCallResult<> to map this async result to a member function
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 6)]
+	internal struct LeaderboardScoreUploaded_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 6;
+		public byte m_bSuccess;			// 1 if the call was successful
+		public SteamLeaderboard_t m_hSteamLeaderboard;	// the leaderboard handle that was
+		public int m_nScore;				// the score that was attempted to set
+		public byte m_bScoreChanged;		// true if the score in the leaderboard change, false if the existing score was better
+		public int m_nGlobalRankNew;		// the new global rank of the user in this leaderboard
+		public int m_nGlobalRankPrevious;	// the previous global rank of the user in this leaderboard; 0 if the user had no existing entry in the leaderboard
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 7)]
 	public struct NumberOfCurrentPlayers_t {
@@ -2712,6 +8198,25 @@ namespace Steamworks {
 		public int m_cPlayers;			// Number of players currently playing
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 7)]
+	internal struct NumberOfCurrentPlayers_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 7;
+		public byte m_bSuccess;			// 1 if the call was successful
+		public int m_cPlayers;			// Number of players currently playing
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 7)]
+	internal struct NumberOfCurrentPlayers_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 7;
+		public byte m_bSuccess;			// 1 if the call was successful
+		public int m_cPlayers;			// Number of players currently playing
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Callback indicating that a user's stats have been unloaded.
 	//  Call RequestUserStats again to access stats for this user
@@ -2723,6 +8228,31 @@ namespace Steamworks {
 		public CSteamID m_steamIDUser;	// User whose stats have been unloaded
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Callback indicating that a user's stats have been unloaded.
+	//  Call RequestUserStats again to access stats for this user
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 8)]
+	internal struct UserStatsUnloaded_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 8;
+		public CSteamID m_steamIDUser;	// User whose stats have been unloaded
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Callback indicating that a user's stats have been unloaded.
+	//  Call RequestUserStats again to access stats for this user
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 8)]
+	internal struct UserStatsUnloaded_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 8;
+		public CSteamID m_steamIDUser;	// User whose stats have been unloaded
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Callback indicating that an achievement icon has been fetched
 	//-----------------------------------------------------------------------------
@@ -2733,7 +8263,7 @@ namespace Steamworks {
 		
 		public CGameID m_nGameID;				// Game this is for
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchStatNameMax)]
-		private byte[] m_rgchAchievementName_;
+		internal byte[] m_rgchAchievementName_;
 		public string m_rgchAchievementName		// name of the achievement
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchAchievementName_); }
@@ -2744,6 +8274,51 @@ namespace Steamworks {
 		public int m_nIconHandle;		// Handle to the image, which can be used in SteamUtils()->GetImageRGBA(), 0 means no image is set for the achievement
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Callback indicating that an achievement icon has been fetched
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 9)]
+	internal struct UserAchievementIconFetched_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 9;
+		
+		public CGameID m_nGameID;				// Game this is for
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchStatNameMax)]
+		internal byte[] m_rgchAchievementName_;
+		public string m_rgchAchievementName		// name of the achievement
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchAchievementName_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchAchievementName_, Constants.k_cchStatNameMax); }
+		}
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bAchieved;		// Is the icon for the achieved or not achieved version?
+		public int m_nIconHandle;		// Handle to the image, which can be used in SteamUtils()->GetImageRGBA(), 0 means no image is set for the achievement
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Callback indicating that an achievement icon has been fetched
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 9)]
+	internal struct UserAchievementIconFetched_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 9;
+		
+		public CGameID m_nGameID;				// Game this is for
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchStatNameMax)]
+		internal byte[] m_rgchAchievementName_;
+		public string m_rgchAchievementName		// name of the achievement
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchAchievementName_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchAchievementName_, Constants.k_cchStatNameMax); }
+		}
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bAchieved;		// Is the icon for the achieved or not achieved version?
+		public int m_nIconHandle;		// Handle to the image, which can be used in SteamUtils()->GetImageRGBA(), 0 means no image is set for the achievement
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Callback indicating that global achievement percentages are fetched
 	//-----------------------------------------------------------------------------
@@ -2756,6 +8331,33 @@ namespace Steamworks {
 		public EResult m_eResult;				// Result of the operation
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Callback indicating that global achievement percentages are fetched
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 10)]
+	internal struct GlobalAchievementPercentagesReady_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 10;
+		
+		public ulong m_nGameID;				// Game this is for
+		public EResult m_eResult;				// Result of the operation
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Callback indicating that global achievement percentages are fetched
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 10)]
+	internal struct GlobalAchievementPercentagesReady_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 10;
+		
+		public ulong m_nGameID;				// Game this is for
+		public EResult m_eResult;				// Result of the operation
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: call result indicating UGC has been uploaded, returned as a result of SetLeaderboardUGC()
 	//-----------------------------------------------------------------------------
@@ -2767,6 +8369,31 @@ namespace Steamworks {
 		public SteamLeaderboard_t m_hSteamLeaderboard;	// the leaderboard handle that was
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: call result indicating UGC has been uploaded, returned as a result of SetLeaderboardUGC()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 11)]
+	internal struct LeaderboardUGCSet_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 11;
+		public EResult m_eResult;				// The result of the operation
+		public SteamLeaderboard_t m_hSteamLeaderboard;	// the leaderboard handle that was
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: call result indicating UGC has been uploaded, returned as a result of SetLeaderboardUGC()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 11)]
+	internal struct LeaderboardUGCSet_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 11;
+		public EResult m_eResult;				// The result of the operation
+		public SteamLeaderboard_t m_hSteamLeaderboard;	// the leaderboard handle that was
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: callback indicating global stats have been received.
 	//	Returned as a result of RequestGlobalStats()
@@ -2779,6 +8406,33 @@ namespace Steamworks {
 		public EResult m_eResult;				// The result of the request
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: callback indicating global stats have been received.
+	//	Returned as a result of RequestGlobalStats()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 12)]
+	internal struct GlobalStatsReceived_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 12;
+		public ulong m_nGameID;				// Game global stats were requested for
+		public EResult m_eResult;				// The result of the request
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: callback indicating global stats have been received.
+	//	Returned as a result of RequestGlobalStats()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 12)]
+	internal struct GlobalStatsReceived_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 12;
+		public ulong m_nGameID;				// Game global stats were requested for
+		public EResult m_eResult;				// The result of the request
+	}
+
+	#endif
 	// callbacks
 	//-----------------------------------------------------------------------------
 	// Purpose: The country of the user changed
@@ -2789,6 +8443,29 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 1;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// callbacks
+	//-----------------------------------------------------------------------------
+	// Purpose: The country of the user changed
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 1)]
+	internal struct IPCountry_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 1;
+	}
+
+
+	// callbacks
+	//-----------------------------------------------------------------------------
+	// Purpose: The country of the user changed
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 1)]
+	internal struct IPCountry_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 1;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Fired when running on a handheld PC or laptop with less than 10 minutes of battery is left, fires then every minute
 	//-----------------------------------------------------------------------------
@@ -2799,6 +8476,29 @@ namespace Steamworks {
 		public byte m_nMinutesBatteryLeft;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Fired when running on a handheld PC or laptop with less than 10 minutes of battery is left, fires then every minute
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 2)]
+	internal struct LowBatteryPower_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 2;
+		public byte m_nMinutesBatteryLeft;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Fired when running on a handheld PC or laptop with less than 10 minutes of battery is left, fires then every minute
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 2)]
+	internal struct LowBatteryPower_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 2;
+		public byte m_nMinutesBatteryLeft;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: called when a SteamAsyncCall_t has completed (or failed)
 	//-----------------------------------------------------------------------------
@@ -2811,6 +8511,33 @@ namespace Steamworks {
 		public uint m_cubParam;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: called when a SteamAsyncCall_t has completed (or failed)
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 3)]
+	internal struct SteamAPICallCompleted_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 3;
+		public SteamAPICall_t m_hAsyncCall;
+		public int m_iCallback;
+		public uint m_cubParam;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// Purpose: called when a SteamAsyncCall_t has completed (or failed)
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 3)]
+	internal struct SteamAPICallCompleted_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 3;
+		public SteamAPICall_t m_hAsyncCall;
+		public int m_iCallback;
+		public uint m_cubParam;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// called when Steam wants to shutdown
 	//-----------------------------------------------------------------------------
@@ -2820,6 +8547,27 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 4;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// called when Steam wants to shutdown
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 4)]
+	internal struct SteamShutdown_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 4;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// called when Steam wants to shutdown
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 4)]
+	internal struct SteamShutdown_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 4;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// callback for CheckFileSignature
 	//-----------------------------------------------------------------------------
@@ -2830,6 +8578,29 @@ namespace Steamworks {
 		public ECheckFileSignature m_eCheckFileSignature;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// callback for CheckFileSignature
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 5)]
+	internal struct CheckFileSignature_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 5;
+		public ECheckFileSignature m_eCheckFileSignature;
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// callback for CheckFileSignature
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 5)]
+	internal struct CheckFileSignature_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 5;
+		public ECheckFileSignature m_eCheckFileSignature;
+	}
+
+	#endif
 	// k_iSteamUtilsCallbacks + 13 is taken
 	//-----------------------------------------------------------------------------
 	// Full Screen gamepad text input has been closed
@@ -2844,6 +8615,37 @@ namespace Steamworks {
 		public AppId_t m_unAppID;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// k_iSteamUtilsCallbacks + 13 is taken
+	//-----------------------------------------------------------------------------
+	// Full Screen gamepad text input has been closed
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 14)]
+	internal struct GamepadTextInputDismissed_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 14;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bSubmitted;										// true if user entered & accepted text (Call ISteamUtils::GetEnteredGamepadTextInput() for text), false if canceled input
+		public uint m_unSubmittedText;
+		public AppId_t m_unAppID;
+	}
+
+
+	// k_iSteamUtilsCallbacks + 13 is taken
+	//-----------------------------------------------------------------------------
+	// Full Screen gamepad text input has been closed
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 14)]
+	internal struct GamepadTextInputDismissed_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 14;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bSubmitted;										// true if user entered & accepted text (Call ISteamUtils::GetEnteredGamepadTextInput() for text), false if canceled input
+		public uint m_unSubmittedText;
+		public AppId_t m_unAppID;
+	}
+
+	#endif
 	// k_iSteamUtilsCallbacks + 15 through 35 are taken
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 36)]
@@ -2851,6 +8653,23 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 36;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// k_iSteamUtilsCallbacks + 15 through 35 are taken
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 36)]
+	internal struct AppResumingFromSuspend_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 36;
+	}
+
+
+	// k_iSteamUtilsCallbacks + 15 through 35 are taken
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 36)]
+	internal struct AppResumingFromSuspend_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 36;
+	}
+
+	#endif
 	// k_iSteamUtilsCallbacks + 37 is taken
 	//-----------------------------------------------------------------------------
 	// The floating on-screen keyboard has been closed
@@ -2861,6 +8680,29 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 38;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// k_iSteamUtilsCallbacks + 37 is taken
+	//-----------------------------------------------------------------------------
+	// The floating on-screen keyboard has been closed
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 38)]
+	internal struct FloatingGamepadTextInputDismissed_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 38;
+	}
+
+
+	// k_iSteamUtilsCallbacks + 37 is taken
+	//-----------------------------------------------------------------------------
+	// The floating on-screen keyboard has been closed
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
+	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 38)]
+	internal struct FloatingGamepadTextInputDismissed_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 38;
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// The text filtering dictionary has changed
 	//-----------------------------------------------------------------------------
@@ -2871,6 +8713,29 @@ namespace Steamworks {
 		public int m_eLanguage;	// One of ELanguage, or k_LegallyRequiredFiltering
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// The text filtering dictionary has changed
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 39)]
+	internal struct FilterTextDictionaryChanged_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 39;
+		public int m_eLanguage;	// One of ELanguage, or k_LegallyRequiredFiltering
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// The text filtering dictionary has changed
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 39)]
+	internal struct FilterTextDictionaryChanged_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 39;
+		public int m_eLanguage;	// One of ELanguage, or k_LegallyRequiredFiltering
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamVideoCallbacks + 11)]
 	public struct GetVideoURLResult_t {
@@ -2878,7 +8743,7 @@ namespace Steamworks {
 		public EResult m_eResult;
 		public AppId_t m_unVideoAppID;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-		private byte[] m_rgchURL_;
+		internal byte[] m_rgchURL_;
 		public string m_rgchURL
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchURL_); }
@@ -2886,6 +8751,39 @@ namespace Steamworks {
 		}
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamVideoCallbacks + 11)]
+	internal struct GetVideoURLResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamVideoCallbacks + 11;
+		public EResult m_eResult;
+		public AppId_t m_unVideoAppID;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+		internal byte[] m_rgchURL_;
+		public string m_rgchURL
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchURL_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchURL_, 256); }
+		}
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamVideoCallbacks + 11)]
+	internal struct GetVideoURLResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamVideoCallbacks + 11;
+		public EResult m_eResult;
+		public AppId_t m_unVideoAppID;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+		internal byte[] m_rgchURL_;
+		public string m_rgchURL
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchURL_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchURL_, 256); }
+		}
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamVideoCallbacks + 24)]
 	public struct GetOPFSettingsResult_t {
@@ -2894,6 +8792,25 @@ namespace Steamworks {
 		public AppId_t m_unVideoAppID;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamVideoCallbacks + 24)]
+	internal struct GetOPFSettingsResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamVideoCallbacks + 24;
+		public EResult m_eResult;
+		public AppId_t m_unVideoAppID;
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamVideoCallbacks + 24)]
+	internal struct GetOPFSettingsResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamVideoCallbacks + 24;
+		public EResult m_eResult;
+		public AppId_t m_unVideoAppID;
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamVideoCallbacks + 4)]
 	public struct BroadcastUploadStart_t {
@@ -2902,6 +8819,25 @@ namespace Steamworks {
 		public bool m_bIsRTMP;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamVideoCallbacks + 4)]
+	internal struct BroadcastUploadStart_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamVideoCallbacks + 4;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bIsRTMP;
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamVideoCallbacks + 4)]
+	internal struct BroadcastUploadStart_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamVideoCallbacks + 4;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bIsRTMP;
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamVideoCallbacks + 5)]
 	public struct BroadcastUploadStop_t {
@@ -2909,6 +8845,23 @@ namespace Steamworks {
 		public EBroadcastUploadResult m_eResult;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamVideoCallbacks + 5)]
+	internal struct BroadcastUploadStop_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamVideoCallbacks + 5;
+		public EBroadcastUploadResult m_eResult;
+	}
+
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamVideoCallbacks + 5)]
+	internal struct BroadcastUploadStop_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamVideoCallbacks + 5;
+		public EBroadcastUploadResult m_eResult;
+	}
+
+	#endif
 	/// Callback struct used to notify when a connection has changed state
 	/// A struct used to describe a "fake IP" we have been assigned to
 	/// use as an identifier.  This callback is posted when
@@ -2948,6 +8901,87 @@ namespace Steamworks {
 		public ushort[] m_unPorts;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	/// Callback struct used to notify when a connection has changed state
+	/// A struct used to describe a "fake IP" we have been assigned to
+	/// use as an identifier.  This callback is posted when
+	/// ISteamNetworkingSoockets::BeginAsyncRequestFakeIP completes.
+	/// See also ISteamNetworkingSockets::GetFakeIP
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamNetworkingSocketsCallbacks + 3)]
+	internal struct SteamNetworkingFakeIPResult_t_LargePack {
+		public const int k_iCallback = Constants.k_iSteamNetworkingSocketsCallbacks + 3;
+		
+		/// Status/result of the allocation request.  Possible failure values are:
+		/// - k_EResultBusy - you called GetFakeIP but the request has not completed.
+		/// - k_EResultInvalidParam - you called GetFakeIP with an invalid port index
+		/// - k_EResultLimitExceeded - You asked for too many ports, or made an
+		///   additional request after one had already succeeded
+		/// - k_EResultNoMatch - GetFakeIP was called, but no request has been made
+		///
+		/// Note that, with the exception of k_EResultBusy (if you are polling),
+		/// it is highly recommended to treat all failures as fatal.
+		public EResult m_eResult;
+		
+		/// Local identity of the ISteamNetworkingSockets object that made
+		/// this request and is assigned the IP.  This is needed in the callback
+		/// in the case where there are multiple ISteamNetworkingSockets objects.
+		/// (E.g. one for the user, and another for the local gameserver).
+		public SteamNetworkingIdentity m_identity;
+		
+		/// Fake IPv4 IP address that we have been assigned.  NOTE: this
+		/// IP address is not exclusively ours!  Steam tries to avoid sharing
+		/// IP addresses, but this may not always be possible.  The IP address
+		/// may be currently in use by another host, but with different port(s).
+		/// The exact same IP:port address may have been used previously.
+		/// Steam tries to avoid reusing ports until they have not been in use for
+		/// some time, but this may not always be possible.
+		public uint m_unIP;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_nMaxReturnPorts)]
+		public ushort[] m_unPorts;
+	}
+
+
+	/// Callback struct used to notify when a connection has changed state
+	/// A struct used to describe a "fake IP" we have been assigned to
+	/// use as an identifier.  This callback is posted when
+	/// ISteamNetworkingSoockets::BeginAsyncRequestFakeIP completes.
+	/// See also ISteamNetworkingSockets::GetFakeIP
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamNetworkingSocketsCallbacks + 3)]
+	internal struct SteamNetworkingFakeIPResult_t_SmallPack {
+		public const int k_iCallback = Constants.k_iSteamNetworkingSocketsCallbacks + 3;
+		
+		/// Status/result of the allocation request.  Possible failure values are:
+		/// - k_EResultBusy - you called GetFakeIP but the request has not completed.
+		/// - k_EResultInvalidParam - you called GetFakeIP with an invalid port index
+		/// - k_EResultLimitExceeded - You asked for too many ports, or made an
+		///   additional request after one had already succeeded
+		/// - k_EResultNoMatch - GetFakeIP was called, but no request has been made
+		///
+		/// Note that, with the exception of k_EResultBusy (if you are polling),
+		/// it is highly recommended to treat all failures as fatal.
+		public EResult m_eResult;
+		
+		/// Local identity of the ISteamNetworkingSockets object that made
+		/// this request and is assigned the IP.  This is needed in the callback
+		/// in the case where there are multiple ISteamNetworkingSockets objects.
+		/// (E.g. one for the user, and another for the local gameserver).
+		public SteamNetworkingIdentity m_identity;
+		
+		/// Fake IPv4 IP address that we have been assigned.  NOTE: this
+		/// IP address is not exclusively ours!  Steam tries to avoid sharing
+		/// IP addresses, but this may not always be possible.  The IP address
+		/// may be currently in use by another host, but with different port(s).
+		/// The exact same IP:port address may have been used previously.
+		/// Steam tries to avoid reusing ports until they have not been in use for
+		/// some time, but this may not always be possible.
+		public uint m_unIP;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_nMaxReturnPorts)]
+		public ushort[] m_unPorts;
+	}
+
+	#endif
 }
 
 #endif // !DISABLESTEAMWORKS

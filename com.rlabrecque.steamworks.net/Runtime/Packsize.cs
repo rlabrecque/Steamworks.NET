@@ -9,31 +9,33 @@
 #define DISABLESTEAMWORKS
 #endif
 
+// We don't expose or use Packsize in the AnyCPU build.
 #if !DISABLESTEAMWORKS
 
 // If we're running in the Unity Editor we need the editors platform.
 #if UNITY_EDITOR_WIN
-	#define VALVE_CALLBACK_PACK_LARGE
+#define VALVE_CALLBACK_PACK_LARGE
 #elif UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX
-	#define VALVE_CALLBACK_PACK_SMALL
+#define VALVE_CALLBACK_PACK_SMALL
 
 // Otherwise we want the target platform.
 #elif UNITY_STANDALONE_WIN || STEAMWORKS_WIN
-	#define VALVE_CALLBACK_PACK_LARGE
+#define VALVE_CALLBACK_PACK_LARGE
 #elif UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_LIN_OSX
-	#define VALVE_CALLBACK_PACK_SMALL
+#define VALVE_CALLBACK_PACK_SMALL
 
 // We do not want to throw a warning when we're building in Unity but for an unsupported platform. So we'll silently let this slip by.
 // It would be nice if Unity itself would define 'UNITY' or something like that...
 #elif UNITY_3_5 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7 || UNITY_5 || UNITY_2017_1_OR_NEWER
-	#define VALVE_CALLBACK_PACK_SMALL
+#define VALVE_CALLBACK_PACK_SMALL
 
 // But we do want to be explicit on the Standalone build for XNA/Monogame.
 #else
-	#define VALVE_CALLBACK_PACK_LARGE
-	#warning You need to define STEAMWORKS_WIN, or STEAMWORKS_LIN_OSX. Refer to the readme for more details.
+#define VALVE_CALLBACK_PACK_LARGE
+#warning You need to define STEAMWORKS_WIN, or STEAMWORKS_LIN_OSX. Refer to the readme for more details.
 #endif
 
+using System;
 using System.Runtime.InteropServices;
 using IntPtr = System.IntPtr;
 
@@ -45,6 +47,7 @@ namespace Steamworks {
 		public const int value = 4;
 #endif
 
+#if !STEAMWORKS_ANYCPU
 		public static bool Test() {
 			int sentinelSize = Marshal.SizeOf(typeof(ValvePackingSentinel_t));
 			int subscribedFilesSize = Marshal.SizeOf(typeof(RemoteStorageEnumerateUserSubscribedFilesResult_t));
@@ -57,6 +60,24 @@ namespace Steamworks {
 #endif
 			return true;
 		}
+#else
+		/// <summary>
+		/// Get runtime determined value of structure pack size.
+		/// </summary>
+		public readonly static int AnyCpuRuntimeValue = InitializeRuntimeValue();
+
+		public readonly static bool IsLargePack = AnyCpuRuntimeValue == 8;
+
+		private static int InitializeRuntimeValue()
+		{
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+				return 8;
+			else
+				return 4;
+		}
+
+		public static bool Test() { return true; }
+#endif
 
 		[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 		struct ValvePackingSentinel_t {

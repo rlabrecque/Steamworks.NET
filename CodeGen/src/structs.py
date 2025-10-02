@@ -1,5 +1,6 @@
 import os
 import sys
+from copy import deepcopy
 from SteamworksParser import steamworksparser
 
 g_TypeConversionDict = {
@@ -102,11 +103,14 @@ def main(parser):
 
     lines = []
     callbacklines = []
+    
+    anyCpuConditionalMarshallerLines = [] # Contains conditional marshaller code only
+
     for f in parser.files:
         for struct in f.structs:
-            lines.extend(parse(struct))
+            lines.extend(parse(struct, True, anyCpuConditionalMarshallerLines))
         for callback in f.callbacks:
-            callbacklines.extend(parse(callback))
+            callbacklines.extend(parse(callback, True, anyCpuConditionalMarshallerLines))
 
     with open("../com.rlabrecque.steamworks.net/Runtime/autogen/SteamStructs.cs", "wb") as out:
         with open("templates/header.txt", "r") as f:
@@ -125,8 +129,23 @@ def main(parser):
             out.write(bytes(line + "\n", "utf-8"))
         out.write(bytes("}\n\n", "utf-8"))
         out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
+    
+    with open("../Standalone3.0/ConditionalMarshallerTable.g.cs", "wb") as out:
+        with open("templates/header.txt", "r") as f:
+            out.write(bytes(f.read(), "utf-8"))
+        
+        with open("templates/anycpu/ConditionalMarshallerTable.head.cs", "r") as f:
+            out.write(bytes(f.read(), "utf-8"))
+        
+        for line in anyCpuConditionalMarshallerLines:
+            out.write(bytes("\t\t\t" + line + "\n", "utf-8"))
+        
+        with open("templates/anycpu/ConditionalMarshallerTable.tail.cs", "r") as f:
+            out.write(bytes(f.read(), "utf-8"))
+        
+        out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
 
-def parse(struct):
+def parse(struct, isMainStruct, marshalTableLines: list[str]):
     if struct.name in g_SkippedStructs:
         return []
 
@@ -136,11 +155,13 @@ def parse(struct):
             continue
         lines.append("\t" + comment)
 
-    structname = struct.name
+    structname: str = struct.name
 
     packsize = g_CustomPackSize.get(structname, "Packsize.value")
+    isExplicitStruct = False
     if g_ExplicitStructs.get(structname, False):
         lines.append("\t[StructLayout(LayoutKind.Explicit, Pack = " + packsize + ")]")
+        isExplicitStruct = True
     elif struct.packsize:
         customsize = ""
         if len(struct.fields) == 0:
@@ -155,7 +176,11 @@ def parse(struct):
             lines.append("\t[StructLayout(LayoutKind.Sequential)]")
             break
 
-    lines.append("\tpublic struct " + structname + " {")
+    if isMainStruct:
+        lines.append("\tpublic struct " + structname + " {")
+    else:
+        lines.append("\tinternal struct " + structname + " {")
+        
 
     lines.extend(insert_constructors(structname))
 
@@ -163,7 +188,12 @@ def parse(struct):
         lines.append("\t\tpublic const int k_iCallback = Constants." + struct.callbackid + ";")
 
     for field in struct.fields:
-        lines.extend(parse_field(field, structname))
+        fieldHandlingStructName = structname
+        
+        if "_LargePack" in structname or "_SmallPack" in structname:
+            fieldHandlingStructName = fieldHandlingStructName[:structname.rindex("_")]
+
+        lines.extend(parse_field(field, fieldHandlingStructName))
 
     if struct.endcomments:
         for comment in struct.endcomments.rawprecomments:
@@ -172,11 +202,62 @@ def parse(struct):
             else:
                 lines.append("\t" + comment)
 
+	# Generate Any CPU marshal helper
+    if isMainStruct and packsize == "Packsize.value" and not isExplicitStruct:
+        marshalTableLines.append(f"marshallers.Add(typeof({structname}), (unmanaged) => {{")
+        marshalTableLines.append(f"\t{structname} result = default;")
+        marshalTableLines.append("")
+        marshalTableLines.append("\tif (Packsize.IsLargePack) {")
+        marshalTableLines.append(f"\t\tvar value = System.Runtime.InteropServices.Marshal.PtrToStructure<{structname}_LargePack>(unmanaged);")
+        
+        for field in struct.fields:
+            gen_fieldcopycode(field, structname, marshalTableLines)
+
+        marshalTableLines.append("\t} else {")
+        marshalTableLines.append(f"\t\tvar value = System.Runtime.InteropServices.Marshal.PtrToStructure<{structname}_SmallPack>(unmanaged);")
+        
+        for field in struct.fields:
+            gen_fieldcopycode(field, structname, marshalTableLines)
+                
+        marshalTableLines.append("\t}")
+        marshalTableLines.append("")
+        marshalTableLines.append("\treturn result;")
+        marshalTableLines.append("});")
+
+        pass
+    
     lines.append("\t}")
     lines.append("")
 
+	# Generate Any CPU struct variant for default pack-sized structs
+    if isMainStruct and packsize == "Packsize.value" and not isExplicitStruct:
+        lines.append("\t#if STEAMWORKS_ANYCPU")
+        
+        largePackStruct = struct
+        largePackStruct.name = structname + "_LargePack"
+        largePackStruct.packsize = 8
+        lines.extend(parse(largePackStruct, False, marshalTableLines))
+
+        lines.append("")
+
+        smallPackStruct = struct
+        smallPackStruct.name = structname + "_SmallPack"
+        smallPackStruct.packsize = 4
+        lines.extend(parse(smallPackStruct, False, marshalTableLines))
+        
+        lines.append("\t#endif")
+
     return lines
 
+def gen_fieldcopycode(field, structname, marshalTableLines):
+    fieldtype = g_TypeConversionDict.get(field.type, field.type)
+    fieldtype = g_SpecialFieldTypes.get(structname, dict()).get(field.name, fieldtype)
+
+    if field.arraysize and fieldtype == "string":
+        marshalTableLines.append(f"\t\tresult.{field.name}_ = value.{field.name}_;")
+    else:
+        marshalTableLines.append(f"\t\tresult.{field.name} = value.{field.name};")
+                
 def parse_field(field, structname):
     lines = []
     for comment in field.c.rawprecomments:
@@ -213,7 +294,7 @@ def parse_field(field, structname):
         lines.append("\t\t[MarshalAs(UnmanagedType.I1)]")
 
     if field.arraysize and fieldtype == "string[]":
-        lines.append("\t\tprivate byte[] " + field.name + "_;")
+        lines.append("\t\tinternal byte[] " + field.name + "_;")
         lines.append("\t\tpublic string " + field.name + comment)
         lines.append("\t\t{")
         lines.append("\t\t\tget { return InteropHelp.ByteArrayToStringUTF8(" + field.name + "_); }")
