@@ -1,7 +1,7 @@
 import os
 import sys
 from copy import deepcopy
-from SteamworksParser import steamworksparser
+from SteamworksParser.steamworksparser import BlankLine, Parser, Settings
 
 g_TypeConversionDict = {
     "uint8": "byte",
@@ -95,11 +95,13 @@ g_ExplicitStructs = {
     }
 }
 
-def main(parser):
+def main(parser: Parser):
     try:
         os.makedirs("../com.rlabrecque.steamworks.net/Runtime/autogen/")
     except OSError:
         pass
+
+    packsizeAwareStructNames = parser.packSizeAwareStructs
 
     lines = []
     callbacklines = []
@@ -108,9 +110,9 @@ def main(parser):
 
     for f in parser.files:
         for struct in f.structs:
-            lines.extend(parse(struct, True, anyCpuConditionalMarshallerLines))
+            lines.extend(parse(struct, True, anyCpuConditionalMarshallerLines, packsizeAwareStructNames))
         for callback in f.callbacks:
-            callbacklines.extend(parse(callback, True, anyCpuConditionalMarshallerLines))
+            callbacklines.extend(parse(callback, True, anyCpuConditionalMarshallerLines, packsizeAwareStructNames))
 
     with open("../com.rlabrecque.steamworks.net/Runtime/autogen/SteamStructs.cs", "wb") as out:
         with open("templates/header.txt", "r") as f:
@@ -145,24 +147,27 @@ def main(parser):
         
         out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
 
-def parse(struct, isMainStruct, marshalTableLines: list[str]):
+def parse(struct, isMainStruct, marshalTableLines: list[str], packsizeAwareStructNames: list[str]) -> list[str]:
     if struct.name in g_SkippedStructs:
         return []
 
     lines = []
     for comment in struct.c.rawprecomments:
-        if type(comment) is steamworksparser.BlankLine:
+        if type(comment) is BlankLine:
             continue
         lines.append("\t" + comment)
 
     structname: str = struct.name
-
+	# We have analyzed this struct and stored the value of its packsize,
+    # it's stored in Struct.pack, None for default packsize
+	# If the struct is packsize-aware, we generate large variants of it.
     packsize = g_CustomPackSize.get(structname, "Packsize.value")
     isExplicitStruct = False
     if g_ExplicitStructs.get(structname, False):
         lines.append("\t[StructLayout(LayoutKind.Explicit, Pack = " + packsize + ")]")
         isExplicitStruct = True
-    elif struct.packsize:
+    elif struct.packsize != "Packsize.value":
+        packsize = packsize if struct.packsize is None else str(struct.packsize)
         customsize = ""
         if len(struct.fields) == 0:
             customsize = ", Size = 1"
@@ -177,73 +182,81 @@ def parse(struct, isMainStruct, marshalTableLines: list[str]):
             break
 
     if isMainStruct:
-        lines.append("\tpublic struct " + structname + " {")
+        lines.append("\tpublic struct " + structname )
+        lines.append("\t#if STEAMWORKS_ANYCPU")
+        lines.append("\t\t: ICallbackIdentity")
+        lines.append("\t#endif")
+        lines.append("\t{")
     else:
         lines.append("\tinternal struct " + structname + " {")
         
 
     lines.extend(insert_constructors(structname))
 
-    if struct.callbackid:
+    if struct.callbackid and not isMainStruct:
         lines.append("\t\tpublic const int k_iCallback = Constants." + struct.callbackid + ";")
+        lines.append("\t\tpublic static int CallbackIdentity { get; } = Constants." + struct.callbackid + ";")
 
+    fieldHandlingStructName = structname
     for field in struct.fields:
-        fieldHandlingStructName = structname
-        
-        if "_LargePack" in structname or "_SmallPack" in structname:
+        if not isMainStruct:
             fieldHandlingStructName = fieldHandlingStructName[:structname.rindex("_")]
 
         lines.extend(parse_field(field, fieldHandlingStructName))
+        
+    if fieldHandlingStructName in packsizeAwareStructNames and not isMainStruct:
+        mainStructName = structname[:structname.rindex("_")]
+        packKind = structname[structname.rindex("_") + 1:]
+
+        lines.append("")
+        lines.append(f"\t\tpublic static implicit operator {mainStructName}({mainStructName}_{packKind} value) {{")
+        lines.append(f"\t\t\t{mainStructName} result = default;")
+        
+        for field in struct.fields:
+            gen_fieldcopycode(field, structname, lines)
+        
+        lines.append(f"\t\t\treturn result;")
+        lines.append("\t\t}")
+
+        lines.append("")
+        lines.append(f"\t\tpublic static implicit operator {mainStructName}_{packKind}({mainStructName} value) {{")
+        lines.append(f"\t\t\t{mainStructName}_{packKind} result = default;")
+        
+        for field in struct.fields:
+            gen_fieldcopycode(field, structname, lines)
+        
+        lines.append(f"\t\t\treturn result;")
+        lines.append("\t\t}")
+        pass
 
     if struct.endcomments:
         for comment in struct.endcomments.rawprecomments:
-            if type(comment) is steamworksparser.BlankLine:
+            if type(comment) is BlankLine:
                 lines.append("\t\t")
             else:
                 lines.append("\t" + comment)
 
 	# Generate Any CPU marshal helper
-    if isMainStruct and packsize == "Packsize.value" and not isExplicitStruct:
-        marshalTableLines.append(f"marshallers.Add(typeof({structname}), (unmanaged) => {{")
-        marshalTableLines.append(f"\t{structname} result = default;")
+    if isMainStruct and struct.name in packsizeAwareStructNames and not isExplicitStruct:
+        marshalTableLines.append(f"if (typeof(T) == typeof({structname}) && Packsize.IsLargePack)")
+        marshalTableLines.append(f"\tImpl<{structname}>.Marshaller = (unmanaged) =>")
+        marshalTableLines.append(f"\t\tSystem.Runtime.InteropServices.Marshal.PtrToStructure<{structname}_LargePack>(unmanaged);")
         marshalTableLines.append("")
-        marshalTableLines.append("\tif (Packsize.IsLargePack) {")
-        marshalTableLines.append(f"\t\tvar value = System.Runtime.InteropServices.Marshal.PtrToStructure<{structname}_LargePack>(unmanaged);")
         
-        for field in struct.fields:
-            gen_fieldcopycode(field, structname, marshalTableLines)
 
-        marshalTableLines.append("\t} else {")
-        marshalTableLines.append(f"\t\tvar value = System.Runtime.InteropServices.Marshal.PtrToStructure<{structname}_SmallPack>(unmanaged);")
-        
-        for field in struct.fields:
-            gen_fieldcopycode(field, structname, marshalTableLines)
-                
-        marshalTableLines.append("\t}")
-        marshalTableLines.append("")
-        marshalTableLines.append("\treturn result;")
-        marshalTableLines.append("});")
-
-        pass
+    #     pass
     
     lines.append("\t}")
     lines.append("")
 
 	# Generate Any CPU struct variant for default pack-sized structs
-    if isMainStruct and packsize == "Packsize.value" and not isExplicitStruct:
+    if isMainStruct and not isExplicitStruct and struct.name in packsizeAwareStructNames:
         lines.append("\t#if STEAMWORKS_ANYCPU")
         
-        largePackStruct = struct
+        largePackStruct = deepcopy(struct)
         largePackStruct.name = structname + "_LargePack"
         largePackStruct.packsize = 8
-        lines.extend(parse(largePackStruct, False, marshalTableLines))
-
-        lines.append("")
-
-        smallPackStruct = struct
-        smallPackStruct.name = structname + "_SmallPack"
-        smallPackStruct.packsize = 4
-        lines.extend(parse(smallPackStruct, False, marshalTableLines))
+        lines.extend(parse(largePackStruct, False, marshalTableLines, packsizeAwareStructNames))
         
         lines.append("\t#endif")
 
@@ -254,14 +267,14 @@ def gen_fieldcopycode(field, structname, marshalTableLines):
     fieldtype = g_SpecialFieldTypes.get(structname, dict()).get(field.name, fieldtype)
 
     if field.arraysize and fieldtype == "string":
-        marshalTableLines.append(f"\t\tresult.{field.name}_ = value.{field.name}_;")
+        marshalTableLines.append(f"\t\t\tresult.{field.name}_ = value.{field.name}_;")
     else:
-        marshalTableLines.append(f"\t\tresult.{field.name} = value.{field.name};")
+        marshalTableLines.append(f"\t\t\tresult.{field.name} = value.{field.name};")
                 
 def parse_field(field, structname):
     lines = []
     for comment in field.c.rawprecomments:
-        if type(comment) is steamworksparser.BlankLine:
+        if type(comment) is BlankLine:
             lines.append("\t\t")
         else:
             lines.append("\t" + comment)
@@ -321,5 +334,5 @@ if __name__ == "__main__":
         print("TODO: Usage Instructions")
         exit()
 
-    steamworksparser.Settings.fake_gameserver_interfaces = True
-    main(steamworksparser.parse(sys.argv[1]))
+    Settings.fake_gameserver_interfaces = True
+    main(parse(sys.argv[1]))
