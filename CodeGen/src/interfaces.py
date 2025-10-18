@@ -1,7 +1,7 @@
 import os
 import sys
 from collections import OrderedDict
-from SteamworksParser import steamworksparser
+from SteamworksParser.steamworksparser import Arg, Function, FunctionAttribute, Interface, Parser, Struct, ArgAttribute
 
 g_SkippedFiles = (
     # We don't currently support the following interfaces because they don't provide a factory of their own.
@@ -532,38 +532,38 @@ g_SpecialWrapperArgsDict = {
 
 g_FixedAttributeValues = {
     "ISteamInventory_GetItemsWithPrices": {
-        "pArrayItemDefs": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "unArrayLength"),
-        "pCurrentPrices": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "unArrayLength"),
-        "pBasePrices": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "unArrayLength"),
+        "pArrayItemDefs": ArgAttribute("STEAM_OUT_ARRAY_COUNT", "unArrayLength"),
+        "pCurrentPrices": ArgAttribute("STEAM_OUT_ARRAY_COUNT", "unArrayLength"),
+        "pBasePrices": ArgAttribute("STEAM_OUT_ARRAY_COUNT", "unArrayLength"),
     },
     "ISteamGameServerInventory_GetItemsWithPrices": {
-        "pArrayItemDefs": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "unArrayLength"),
-        "pCurrentPrices": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "unArrayLength"),
-        "pBasePrices": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "unArrayLength"),
+        "pArrayItemDefs": ArgAttribute("STEAM_OUT_ARRAY_COUNT", "unArrayLength"),
+        "pCurrentPrices": ArgAttribute("STEAM_OUT_ARRAY_COUNT", "unArrayLength"),
+        "pBasePrices": ArgAttribute("STEAM_OUT_ARRAY_COUNT", "unArrayLength"),
     },
     "ISteamUGC_GetQueryUGCContentDescriptors": {
-        "pvecDescriptors": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "cMaxEntries"),
+        "pvecDescriptors": ArgAttribute("STEAM_OUT_ARRAY_COUNT", "cMaxEntries"),
     },
     "ISteamGameServerUGC_GetQueryUGCContentDescriptors": {
-        "pvecDescriptors": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "cMaxEntries"),
+        "pvecDescriptors": ArgAttribute("STEAM_OUT_ARRAY_COUNT", "cMaxEntries"),
     },
     "ISteamNetworkingMessages_ReceiveMessagesOnChannel": {
-        "ppOutMessages": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "nMaxMessages"),
+        "ppOutMessages": ArgAttribute("STEAM_OUT_ARRAY_COUNT", "nMaxMessages"),
     },
     "ISteamGameServerNetworkingMessages_ReceiveMessagesOnChannel": {
-        "ppOutMessages": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "nMaxMessages"),
+        "ppOutMessages": ArgAttribute("STEAM_OUT_ARRAY_COUNT", "nMaxMessages"),
     },
     "ISteamNetworkingSockets_ReceiveMessagesOnConnection": {
-        "ppOutMessages": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "nMaxMessages"),
+        "ppOutMessages": ArgAttribute("STEAM_OUT_ARRAY_COUNT", "nMaxMessages"),
     },
     "ISteamGameServerNetworkingSockets_ReceiveMessagesOnConnection": {
-        "ppOutMessages": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "nMaxMessages"),
+        "ppOutMessages": ArgAttribute("STEAM_OUT_ARRAY_COUNT", "nMaxMessages"),
     },
     "ISteamNetworkingSockets_ReceiveMessagesOnPollGroup": {
-        "ppOutMessages": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "nMaxMessages"),
+        "ppOutMessages": ArgAttribute("STEAM_OUT_ARRAY_COUNT", "nMaxMessages"),
     },
     "ISteamGameServerNetworkingSockets_ReceiveMessagesOnPollGroup": {
-        "ppOutMessages": steamworksparser.ArgAttribute("STEAM_OUT_ARRAY_COUNT", "nMaxMessages"),
+        "ppOutMessages": ArgAttribute("STEAM_OUT_ARRAY_COUNT", "nMaxMessages"),
     },
 }
 
@@ -597,7 +597,7 @@ g_NativeMethods = []
 g_Output = []
 g_Typedefs = None
 
-def main(parser):
+def main(parser: Parser):
     try:
         os.makedirs("../com.rlabrecque.steamworks.net/Runtime/autogen/")
     except OSError:
@@ -610,7 +610,7 @@ def main(parser):
     global g_Typedefs
     g_Typedefs = parser.typedefs
     for f in parser.files:
-        parse(f)
+        parse(f, parser)
 
     with open("../com.rlabrecque.steamworks.net/Runtime/autogen/NativeMethods.cs", "wb") as out:
         #out.write(bytes(HEADER, "utf-8"))
@@ -625,7 +625,7 @@ def main(parser):
 def get_arg_attribute(strEntryPoint, arg):
     return g_FixedAttributeValues.get(strEntryPoint, dict()).get(arg.name, arg.attribute)
 
-def parse(f):
+def parse(f, parser: Parser):
     if f.name in g_SkippedFiles:
         return
 
@@ -633,7 +633,7 @@ def parse(f):
 
     del g_Output[:]
     for interface in f.interfaces:
-        parse_interface(f, interface)
+        parse_interface(f, interface, parser)
 
     if g_Output:
         with open('../com.rlabrecque.steamworks.net/Runtime/autogen/' + os.path.splitext(f.name)[0] + '.cs', 'wb') as out:
@@ -645,7 +645,7 @@ def parse(f):
             out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
 
 
-def parse_interface(f, interface):
+def parse_interface(f, interface: Interface, parser: Parser):
     if interface.name in g_SkippedInterfaces:
         return
 
@@ -686,7 +686,27 @@ def parse_interface(f, interface):
         if func.private:
             continue
 
-        parse_func(f, interface, func)
+        shouldGenerateLargePack = False
+        strEntryPoint = interface.name + '_' + func.name
+        for attr in func.attributes:
+            if attr.name == "STEAM_FLAT_NAME":
+                strEntryPoint = interface.name + '_' + attr.value
+                break
+        
+        parsed_args = parse_args(strEntryPoint, func.args)
+        parse_func_native(f, interface, func, parsed_args, strEntryPoint, False, bGameServerVersion, parser)
+        
+        # Check if any args are pack-size aware structs
+        # If so, we need to generate an alternate version of the function
+        for arg in func.args:
+            argType = parser.resolveTypeInfo(arg.type)
+            if isinstance(argType, Struct) and argType.name in parser.packSizeAwareStructs:
+                parse_func_native(f, interface, parsed_args, func, True, bGameServerVersion, parser)
+                shouldGenerateLargePack = True
+                break    
+        
+        generate_wrapper_function(f, interface, func, parsed_args, strEntryPoint, shouldGenerateLargePack)
+                
 
     # Remove last whitespace
     if not bGameServerVersion:
@@ -705,19 +725,7 @@ def parse_interface(f, interface):
 
     g_Output.append("\t}")
 
-def parse_func(f, interface, func):
-    strEntryPoint = interface.name + '_' + func.name
-
-    for attr in func.attributes:
-        if attr.name == "STEAM_FLAT_NAME":
-            strEntryPoint = interface.name + '_' + attr.value
-            break
-
-    if "GameServer" in interface.name and interface.name != "ISteamGameServer" and interface.name != "ISteamGameServerStats":
-        bGameServerVersion = True
-    else:
-        bGameServerVersion = False
-
+def parse_func_native(f, interface, func: Function, strEntryPoint: str, args, generatingLargePack: bool, bGameServerVersion: bool, parser: Parser):
     wrapperreturntype = None
     strCast = ""
     returntype = func.returntype
@@ -735,24 +743,45 @@ def parse_func(f, interface, func):
     if wrapperreturntype == None:
         wrapperreturntype = returntype
 
-    args = parse_args(strEntryPoint, func.args)
     pinvokeargs = args[0]  # TODO: NamedTuple
-    wrapperargs = args[1]
-    argnames = args[2]
-    stringargs = args[3]
-    outstringargs = args[4][0]
-    outstringsize = args[4][1]
-    args_with_explicit_count = args[5]
-
+    largePackPInvokeArgs = args[6]
     if not bGameServerVersion:
         g_NativeMethods.append("\t\t[DllImport(NativeLibraryName, EntryPoint = \"SteamAPI_{0}\", CallingConvention = CallingConvention.Cdecl)]".format(strEntryPoint))
 
         if returntype == "bool":
             g_NativeMethods.append("\t\t[return: MarshalAs(UnmanagedType.I1)]")
 
-        g_NativeMethods.append("\t\tpublic static extern {0} {1}({2});".format(returntype, strEntryPoint, pinvokeargs))
+        g_NativeMethods.append("\t\tpublic static extern {0} {1}({2});".format(returntype, strEntryPoint,
+                                                        pinvokeargs if not generatingLargePack else largePackPInvokeArgs))
         g_NativeMethods.append("")
+        pass
 
+def generate_wrapper_function(f, interface, func: Function,
+                               args: tuple[str, str, str, list[str], tuple[list[str], list[Arg]], OrderedDict, str],
+                                 strEntryPoint: str, bGameServerVersion: bool):
+    wrapperargs = args[1]
+    argnames = args[2]
+    stringargs = args[3]
+    outstringargs = args[4][0]
+    outstringsize = args[4][1]
+    args_with_explicit_count = args[5]
+    
+    strCast = ""
+    returntype = func.returntype
+    returntype = g_SpecialReturnTypeDict.get(strEntryPoint, returntype)
+    for t in g_Typedefs:
+        if t.name == returntype:
+            if t.name not in g_SkippedTypedefs:
+                wrapperreturntype = returntype
+                strCast = "(" + returntype + ")"
+                returntype = t.type
+            break
+    returntype = g_TypeDict.get(returntype, returntype)
+    returntype = g_TypeDict.get(func.returntype, returntype)
+    returntype = g_ReturnTypeDict.get(func.returntype, returntype)
+    if wrapperreturntype == None:
+        wrapperreturntype = returntype
+    
     functionBody = []
 
     if 'GameServer' in interface.name:
@@ -857,8 +886,9 @@ def parse_func(f, interface, func):
     g_Output.append("\t\t}")
     g_Output.append("")
 
-def parse_args(strEntryPoint, args):
+def parse_args(strEntryPoint: str, args: list[Arg], _: bool, parser: Parser):
     pinvokeargs = "IntPtr instancePtr, "
+    largePackPInvokeArgs = "IntPtr instancePtr, "
     wrapperargs = ""
     argnames = ""
     stringargs = []
@@ -877,12 +907,21 @@ def parse_args(strEntryPoint, args):
     getNextArgAsStringSize = False
     argNamesToAddAsStringSize = []
 
+    packsizeAware = False
+    # Scan for packsize aware parameter first, duplicated from below
+    for arg in args:
+        potentialtype = arg.type.rstrip("*").lstrip("const ").rstrip()
+        if potentialtype in parser.packSizeAwareStructs:
+            packsizeAware = True
+
     for arg in args:
         potentialtype = arg.type.rstrip("*").lstrip("const ").rstrip()
         argtype = g_TypeDict.get(arg.type, arg.type)
         if argtype.endswith("*"):
             argtype = "out " + g_TypeDict.get(potentialtype, potentialtype)
         argtype = g_SpecialArgsDict.get(strEntryPoint, dict()).get(arg.name, argtype)
+        argTypeInfo = parser.resolveTypeInfo(arg.type)
+        
 
         argattribute = get_arg_attribute(strEntryPoint, arg)
         if argattribute:
@@ -908,6 +947,9 @@ def parse_args(strEntryPoint, args):
             argtype = "[MarshalAs(UnmanagedType.I1)] " + argtype
 
         pinvokeargs += argtype + " " + arg.name + ", "
+        if packsizeAware:
+            largePackPInvokeArgs += f"{argtype}_LargePack {arg.name},"
+
 
         argtype = argtype.replace("[In, Out] ", "").replace("[MarshalAs(UnmanagedType.I1)] ", "")
         wrapperargtype = g_WrapperArgsTypeDict.get(arg.type, argtype)
@@ -969,6 +1011,7 @@ def parse_args(strEntryPoint, args):
         argnames += ", "
 
     pinvokeargs = pinvokeargs.rstrip(", ")
+    largePackPInvokeArgs = largePackPInvokeArgs.rstrip(", ")
     wrapperargs = wrapperargs.rstrip(", ")
     argnames = argnames.rstrip(", ")
     return (pinvokeargs, wrapperargs, argnames, stringargs, (outstringargs, outstringsize), args_with_explicit_count)
