@@ -181,6 +181,14 @@ namespace Steamworks {
 		public const int k_nMaxReturnPorts = 8;
 		/// Max length of diagnostic error message
 		public const int k_cchMaxSteamNetworkingErrMsg = 1024;
+		// Max length of the buffer needed to hold IP formatted using ToString, including '\0'
+		// ([0123:4567:89ab:cdef:0123:4567:89ab:cdef]:12345)
+		public const int k_cchMaxString = 48;
+		// Max sizes
+		public const int k_cchMaxString = 128; // Max length of the buffer needed to hold any identity, formatted in string format by ToString
+		public const int k_cchMaxGenericString = 32; // Max length of the string for generic string identities.  Including terminating '\0'
+		public const int k_cchMaxXboxPairwiseID = 33; // Including terminating '\0'
+		public const int k_cbMaxGenericBytes = 32;
 		/// Max length, in bytes (including null terminator) of the reason string
 		/// when a connection is closed.
 		public const int k_cchSteamNetworkingMaxConnectionCloseReason = 128;

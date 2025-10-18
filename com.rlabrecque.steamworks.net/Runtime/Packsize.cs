@@ -42,10 +42,11 @@ using IntPtr = System.IntPtr;
 namespace Steamworks {
 	public static class Packsize {
 #if VALVE_CALLBACK_PACK_LARGE
-		public const int value = 8;
+		internal const int value = 8;
 #elif VALVE_CALLBACK_PACK_SMALL
-		public const int value = 4;
+		internal const int value = 4;
 #endif
+		public static readonly int Value = value;
 
 #if !STEAMWORKS_ANYCPU
 		public static bool Test() {
@@ -68,7 +69,9 @@ namespace Steamworks {
 
 		public readonly static bool IsLargePack = AnyCpuRuntimeValue == 8;
 
-		private static int InitializeRuntimeValue()
+		public readonly static bool IsSmallPack = AnyCpuRuntimeValue == 4;
+
+        private static int InitializeRuntimeValue()
 		{
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 				return 8;

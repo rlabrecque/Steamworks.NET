@@ -17,51 +17,43 @@ using IntPtr = System.IntPtr;
 namespace Steamworks {
 	// friend game played information
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	public struct FriendGameInfo_t {
-		public CGameID m_gameID;
-		public uint m_unGameIP;
-		public ushort m_usGamePort;
-		public ushort m_usQueryPort;
-		public CSteamID m_steamIDLobby;
-	}
-
+	public struct FriendGameInfo_t
 	#if STEAMWORKS_ANYCPU
-	// friend game played information
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct FriendGameInfo_t_LargePack {
-		public CGameID m_gameID;
-		public uint m_unGameIP;
-		public ushort m_usGamePort;
-		public ushort m_usQueryPort;
-		public CSteamID m_steamIDLobby;
-	}
-
-
-	// friend game played information
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct FriendGameInfo_t_SmallPack {
-		public CGameID m_gameID;
-		public uint m_unGameIP;
-		public ushort m_usGamePort;
-		public ushort m_usQueryPort;
-		public CSteamID m_steamIDLobby;
-	}
-
+		: ICallbackIdentity
 	#endif
+	{
+		public CGameID m_gameID;
+		public uint m_unGameIP;
+		public ushort m_usGamePort;
+		public ushort m_usQueryPort;
+		public CSteamID m_steamIDLobby;
+	}
+
 	[StructLayout(LayoutKind.Sequential, Pack = 1)]
-	public struct InputAnalogActionData_t {
+	public struct InputAnalogActionData_t
+	#if STEAMWORKS_ANYCPU
+		: ICallbackIdentity
+	#endif
+	{
 		// Type of data coming from this action, this will match what got specified in the action set
 		public EInputSourceMode eMode;
 		
 		// The current state of this action; will be delta updates for mouse actions
-		public float x, y;
+		public float x;
+		
+		// The current state of this action; will be delta updates for mouse actions
+		public float y;
 		
 		// Whether or not this action is currently available to be bound in the active action set
 		public byte bActive;
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = 1)]
-	public struct InputDigitalActionData_t {
+	public struct InputDigitalActionData_t
+	#if STEAMWORKS_ANYCPU
+		: ICallbackIdentity
+	#endif
+	{
 		// The current state of this action; will be true if currently pressed
 		public byte bState;
 		
@@ -69,169 +61,118 @@ namespace Steamworks {
 		public byte bActive;
 	}
 
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	public struct InputMotionData_t {
-		// Gyro Quaternion:
-		// Absolute rotation of the controller since wakeup, using the Accelerometer reading at startup to determine the first value.
-		// This means real world "up" is know, but heading is not known.
-		// Every rotation packet is integrated using sensor time delta, and that change is used to update this quaternion.
-		// A Quaternion Identity ( x:0, y:0, z:0, w:1 ) will be sent in the first few packets while the controller's IMU is still waking up;
-		// some controllers have a short "warmup" period before these values should be used.
-		
-		// After the first time GetMotionData is called per controller handle, the IMU will be active until your app is closed.
-		// The exception is the Sony Dualshock, which will stay on until the controller has been turned off.
-		
-		// Filtering: When rotating the controller at low speeds, low level noise is filtered out without noticeable latency. High speed movement is always unfiltered.
-		// Drift: Gyroscopic "Drift" can be fixed using the Steam Input "Gyro Calibration" button. Users will have to be informed of this feature.
-		public float rotQuatX;
-		public float rotQuatY;
-		public float rotQuatZ;
-		public float rotQuatW;
-		
-		// Positional acceleration
-		// This represents only the latest hardware packet's state.
-		// Values range from -SHRT_MAX..SHRT_MAX
-		// This represents -2G..+2G along each axis
-		public float posAccelX; // +tive when controller's Right hand side is pointed toward the sky.
-		public float posAccelY; // +tive when controller's charging port (forward side of controller) is pointed toward the sky.
-		public float posAccelZ; // +tive when controller's sticks point toward the sky.
-		
-		// Angular velocity
-		// Values range from -SHRT_MAX..SHRT_MAX
-		// These values map to a real world range of -2000..+2000 degrees per second on each axis (SDL standard)
-		// This represents only the latest hardware packet's state.
-		public float rotVelX; // Local Pitch
-		public float rotVelY; // Local Roll
-		public float rotVelZ; // Local Yaw
-	}
-
+	[StructLayout(LayoutKind.Sequential, Pack = 1)]
+	public struct InputMotionData_t
 	#if STEAMWORKS_ANYCPU
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct InputMotionData_t_LargePack {
-		// Gyro Quaternion:
-		// Absolute rotation of the controller since wakeup, using the Accelerometer reading at startup to determine the first value.
-		// This means real world "up" is know, but heading is not known.
-		// Every rotation packet is integrated using sensor time delta, and that change is used to update this quaternion.
-		// A Quaternion Identity ( x:0, y:0, z:0, w:1 ) will be sent in the first few packets while the controller's IMU is still waking up;
-		// some controllers have a short "warmup" period before these values should be used.
-		
-		// After the first time GetMotionData is called per controller handle, the IMU will be active until your app is closed.
-		// The exception is the Sony Dualshock, which will stay on until the controller has been turned off.
-		
-		// Filtering: When rotating the controller at low speeds, low level noise is filtered out without noticeable latency. High speed movement is always unfiltered.
-		// Drift: Gyroscopic "Drift" can be fixed using the Steam Input "Gyro Calibration" button. Users will have to be informed of this feature.
-		public float rotQuatX;
-		public float rotQuatY;
-		public float rotQuatZ;
-		public float rotQuatW;
-		
-		// Positional acceleration
-		// This represents only the latest hardware packet's state.
-		// Values range from -SHRT_MAX..SHRT_MAX
-		// This represents -2G..+2G along each axis
-		public float posAccelX; // +tive when controller's Right hand side is pointed toward the sky.
-		public float posAccelY; // +tive when controller's charging port (forward side of controller) is pointed toward the sky.
-		public float posAccelZ; // +tive when controller's sticks point toward the sky.
-		
-		// Angular velocity
-		// Values range from -SHRT_MAX..SHRT_MAX
-		// These values map to a real world range of -2000..+2000 degrees per second on each axis (SDL standard)
-		// This represents only the latest hardware packet's state.
-		public float rotVelX; // Local Pitch
-		public float rotVelY; // Local Roll
-		public float rotVelZ; // Local Yaw
-	}
-
-
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct InputMotionData_t_SmallPack {
-		// Gyro Quaternion:
-		// Absolute rotation of the controller since wakeup, using the Accelerometer reading at startup to determine the first value.
-		// This means real world "up" is know, but heading is not known.
-		// Every rotation packet is integrated using sensor time delta, and that change is used to update this quaternion.
-		// A Quaternion Identity ( x:0, y:0, z:0, w:1 ) will be sent in the first few packets while the controller's IMU is still waking up;
-		// some controllers have a short "warmup" period before these values should be used.
-		
-		// After the first time GetMotionData is called per controller handle, the IMU will be active until your app is closed.
-		// The exception is the Sony Dualshock, which will stay on until the controller has been turned off.
-		
-		// Filtering: When rotating the controller at low speeds, low level noise is filtered out without noticeable latency. High speed movement is always unfiltered.
-		// Drift: Gyroscopic "Drift" can be fixed using the Steam Input "Gyro Calibration" button. Users will have to be informed of this feature.
-		public float rotQuatX;
-		public float rotQuatY;
-		public float rotQuatZ;
-		public float rotQuatW;
-		
-		// Positional acceleration
-		// This represents only the latest hardware packet's state.
-		// Values range from -SHRT_MAX..SHRT_MAX
-		// This represents -2G..+2G along each axis
-		public float posAccelX; // +tive when controller's Right hand side is pointed toward the sky.
-		public float posAccelY; // +tive when controller's charging port (forward side of controller) is pointed toward the sky.
-		public float posAccelZ; // +tive when controller's sticks point toward the sky.
-		
-		// Angular velocity
-		// Values range from -SHRT_MAX..SHRT_MAX
-		// These values map to a real world range of -2000..+2000 degrees per second on each axis (SDL standard)
-		// This represents only the latest hardware packet's state.
-		public float rotVelX; // Local Pitch
-		public float rotVelY; // Local Roll
-		public float rotVelZ; // Local Yaw
-	}
-
+		: ICallbackIdentity
 	#endif
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	public struct SteamItemDetails_t {
-		public SteamItemInstanceID_t m_itemId;
-		public SteamItemDef_t m_iDefinition;
-		public ushort m_unQuantity;
-		public ushort m_unFlags; // see ESteamItemFlags
+	{
+		// Gyro Quaternion:
+		// Absolute rotation of the controller since wakeup, using the Accelerometer reading at startup to determine the first value.
+		// This means real world "up" is know, but heading is not known.
+		// Every rotation packet is integrated using sensor time delta, and that change is used to update this quaternion.
+		// A Quaternion Identity ( x:0, y:0, z:0, w:1 ) will be sent in the first few packets while the controller's IMU is still waking up;
+		// some controllers have a short "warmup" period before these values should be used.
+		
+		// After the first time GetMotionData is called per controller handle, the IMU will be active until your app is closed.
+		// The exception is the Sony Dualshock, which will stay on until the controller has been turned off.
+		
+		// Filtering: When rotating the controller at low speeds, low level noise is filtered out without noticeable latency. High speed movement is always unfiltered.
+		// Drift: Gyroscopic "Drift" can be fixed using the Steam Input "Gyro Calibration" button. Users will have to be informed of this feature.
+		public float rotQuatX;
+		public float rotQuatY;
+		public float rotQuatZ;
+		public float rotQuatW;
+		
+		// Positional acceleration
+		// This represents only the latest hardware packet's state.
+		// Values range from -SHRT_MAX..SHRT_MAX
+		// This represents -2G..+2G along each axis
+		public float posAccelX; // +tive when controller's Right hand side is pointed toward the sky.
+		public float posAccelY; // +tive when controller's charging port (forward side of controller) is pointed toward the sky.
+		public float posAccelZ; // +tive when controller's sticks point toward the sky.
+		
+		// Angular velocity
+		// Values range from -SHRT_MAX..SHRT_MAX
+		// These values map to a real world range of -2000..+2000 degrees per second on each axis (SDL standard)
+		// This represents only the latest hardware packet's state.
+		public float rotVelX; // Local Pitch
+		public float rotVelY; // Local Roll
+		public float rotVelZ; // Local Yaw
 	}
 
+	[StructLayout(LayoutKind.Sequential, Pack = 1)]
+	public struct AnalogAction_t
 	#if STEAMWORKS_ANYCPU
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct SteamItemDetails_t_LargePack {
-		public SteamItemInstanceID_t m_itemId;
-		public SteamItemDef_t m_iDefinition;
-		public ushort m_unQuantity;
-		public ushort m_unFlags; // see ESteamItemFlags
-	}
-
-
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct SteamItemDetails_t_SmallPack {
-		public SteamItemInstanceID_t m_itemId;
-		public SteamItemDef_t m_iDefinition;
-		public ushort m_unQuantity;
-		public ushort m_unFlags; // see ESteamItemFlags
-	}
-
+		: ICallbackIdentity
 	#endif
+	{
+		public InputAnalogActionHandle_t actionHandle;
+		public InputAnalogActionData_t analogActionData;
+	}
+
+	[StructLayout(LayoutKind.Sequential, Pack = 1)]
+	public struct DigitalAction_t
+	#if STEAMWORKS_ANYCPU
+		: ICallbackIdentity
+	#endif
+	{
+		public InputDigitalActionHandle_t actionHandle;
+		public InputDigitalActionData_t digitalActionData;
+	}
+
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	public struct SteamPartyBeaconLocation_t {
+	public struct SteamItemDetails_t
+	#if STEAMWORKS_ANYCPU
+		: ICallbackIdentity
+	#endif
+	{
+		public SteamItemInstanceID_t m_itemId;
+		public SteamItemDef_t m_iDefinition;
+		public ushort m_unQuantity;
+		public ushort m_unFlags; // see ESteamItemFlags
+	}
+
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	public struct SteamPartyBeaconLocation_t
+	#if STEAMWORKS_ANYCPU
+		: ICallbackIdentity
+	#endif
+	{
 		public ESteamPartyBeaconLocationType m_eType;
 		public ulong m_ulLocationID;
 	}
 
 	#if STEAMWORKS_ANYCPU
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
 	internal struct SteamPartyBeaconLocation_t_LargePack {
 		public ESteamPartyBeaconLocationType m_eType;
 		public ulong m_ulLocationID;
-	}
 
+		public static implicit operator SteamPartyBeaconLocation_t(SteamPartyBeaconLocation_t_LargePack value) {
+			SteamPartyBeaconLocation_t result = default;
+			result.m_eType = value.m_eType;
+			result.m_ulLocationID = value.m_ulLocationID;
+			return result;
+		}
 
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct SteamPartyBeaconLocation_t_SmallPack {
-		public ESteamPartyBeaconLocationType m_eType;
-		public ulong m_ulLocationID;
+		public static implicit operator SteamPartyBeaconLocation_t_LargePack(SteamPartyBeaconLocation_t value) {
+			SteamPartyBeaconLocation_t_LargePack result = default;
+			result.m_eType = value.m_eType;
+			result.m_ulLocationID = value.m_ulLocationID;
+			return result;
+		}
 	}
 
 	#endif
 	// connection state to a specified user, returned by GetP2PSessionState()
 	// this is under-the-hood info about what's going on with a SendP2PPacket(), shouldn't be needed except for debuggin
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	public struct P2PSessionState_t {
+	public struct P2PSessionState_t
+	#if STEAMWORKS_ANYCPU
+		: ICallbackIdentity
+	#endif
+	{
 		public byte m_bConnectionActive;		// true if we've got an active open connection
 		public byte m_bConnecting;			// true if we're currently trying to establish a connection
 		public byte m_eP2PSessionError;		// last error recorded (see enum above)
@@ -242,40 +183,13 @@ namespace Steamworks {
 		public ushort m_nRemotePort;			// Only exists for compatibility with older authentication api's
 	}
 
-	#if STEAMWORKS_ANYCPU
-	// connection state to a specified user, returned by GetP2PSessionState()
-	// this is under-the-hood info about what's going on with a SendP2PPacket(), shouldn't be needed except for debuggin
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct P2PSessionState_t_LargePack {
-		public byte m_bConnectionActive;		// true if we've got an active open connection
-		public byte m_bConnecting;			// true if we're currently trying to establish a connection
-		public byte m_eP2PSessionError;		// last error recorded (see enum above)
-		public byte m_bUsingRelay;			// true if it's going through a relay server (TURN)
-		public int m_nBytesQueuedForSend;
-		public int m_nPacketsQueuedForSend;
-		public uint m_nRemoteIP;				// potential IP:Port of remote host. Could be TURN server.
-		public ushort m_nRemotePort;			// Only exists for compatibility with older authentication api's
-	}
-
-
-	// connection state to a specified user, returned by GetP2PSessionState()
-	// this is under-the-hood info about what's going on with a SendP2PPacket(), shouldn't be needed except for debuggin
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct P2PSessionState_t_SmallPack {
-		public byte m_bConnectionActive;		// true if we've got an active open connection
-		public byte m_bConnecting;			// true if we're currently trying to establish a connection
-		public byte m_eP2PSessionError;		// last error recorded (see enum above)
-		public byte m_bUsingRelay;			// true if it's going through a relay server (TURN)
-		public int m_nBytesQueuedForSend;
-		public int m_nPacketsQueuedForSend;
-		public uint m_nRemoteIP;				// potential IP:Port of remote host. Could be TURN server.
-		public ushort m_nRemotePort;			// Only exists for compatibility with older authentication api's
-	}
-
-	#endif
 	// Mouse motion event data, valid when m_eType is k_ERemotePlayInputMouseMotion
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	public struct RemotePlayInputMouseMotion_t {
+	public struct RemotePlayInputMouseMotion_t
+	#if STEAMWORKS_ANYCPU
+		: ICallbackIdentity
+	#endif
+	{
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bAbsolute;		// True if this is absolute mouse motion and m_flNormalizedX and m_flNormalizedY are valid
 		public float m_flNormalizedX;	// The absolute X position of the mouse, normalized to the display, if m_bAbsolute is true
@@ -284,134 +198,55 @@ namespace Steamworks {
 		public int m_nDeltaY;			// Relative mouse motion in the Y direction
 	}
 
+	// Mouse wheel event data, valid when m_eType is k_ERemotePlayInputMouseWheel
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	public struct RemotePlayInputMouseWheel_t
 	#if STEAMWORKS_ANYCPU
-	// Mouse motion event data, valid when m_eType is k_ERemotePlayInputMouseMotion
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct RemotePlayInputMouseMotion_t_LargePack {
-		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bAbsolute;		// True if this is absolute mouse motion and m_flNormalizedX and m_flNormalizedY are valid
-		public float m_flNormalizedX;	// The absolute X position of the mouse, normalized to the display, if m_bAbsolute is true
-		public float m_flNormalizedY;	// The absolute Y position of the mouse, normalized to the display, if m_bAbsolute is true
-		public int m_nDeltaX;			// Relative mouse motion in the X direction
-		public int m_nDeltaY;			// Relative mouse motion in the Y direction
-	}
-
-
-	// Mouse motion event data, valid when m_eType is k_ERemotePlayInputMouseMotion
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct RemotePlayInputMouseMotion_t_SmallPack {
-		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bAbsolute;		// True if this is absolute mouse motion and m_flNormalizedX and m_flNormalizedY are valid
-		public float m_flNormalizedX;	// The absolute X position of the mouse, normalized to the display, if m_bAbsolute is true
-		public float m_flNormalizedY;	// The absolute Y position of the mouse, normalized to the display, if m_bAbsolute is true
-		public int m_nDeltaX;			// Relative mouse motion in the X direction
-		public int m_nDeltaY;			// Relative mouse motion in the Y direction
-	}
-
+		: ICallbackIdentity
 	#endif
-	// Mouse wheel event data, valid when m_eType is k_ERemotePlayInputMouseWheel
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	public struct RemotePlayInputMouseWheel_t {
+	{
 		public ERemotePlayMouseWheelDirection m_eDirection;
 		public float m_flAmount;		// 1.0f is a single click of the wheel, 120 units on Windows
 	}
 
-	#if STEAMWORKS_ANYCPU
-	// Mouse wheel event data, valid when m_eType is k_ERemotePlayInputMouseWheel
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct RemotePlayInputMouseWheel_t_LargePack {
-		public ERemotePlayMouseWheelDirection m_eDirection;
-		public float m_flAmount;		// 1.0f is a single click of the wheel, 120 units on Windows
-	}
-
-
-	// Mouse wheel event data, valid when m_eType is k_ERemotePlayInputMouseWheel
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct RemotePlayInputMouseWheel_t_SmallPack {
-		public ERemotePlayMouseWheelDirection m_eDirection;
-		public float m_flAmount;		// 1.0f is a single click of the wheel, 120 units on Windows
-	}
-
-	#endif
 	// Key event data, valid when m_eType is k_ERemotePlayInputKeyDown or k_ERemotePlayInputKeyUp
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	public struct RemotePlayInputKey_t {
+	public struct RemotePlayInputKey_t
+	#if STEAMWORKS_ANYCPU
+		: ICallbackIdentity
+	#endif
+	{
 		public int m_eScancode;		// Keyboard scancode, common values are defined in ERemotePlayScancode
 		public uint m_unModifiers;	// Mask of ERemotePlayKeyModifier active for this key event
 		public uint m_unKeycode;		// UCS-4 character generated by the keypress, or 0 if it wasn't a character key, e.g. Delete or Left Arrow
 	}
 
+	//-----------------------------------------------------------------------------
+	// Purpose: Structure that contains an array of const char * strings and the number of those strings
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	public struct SteamParamStringArray_t
 	#if STEAMWORKS_ANYCPU
-	// Key event data, valid when m_eType is k_ERemotePlayInputKeyDown or k_ERemotePlayInputKeyUp
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct RemotePlayInputKey_t_LargePack {
-		public int m_eScancode;		// Keyboard scancode, common values are defined in ERemotePlayScancode
-		public uint m_unModifiers;	// Mask of ERemotePlayKeyModifier active for this key event
-		public uint m_unKeycode;		// UCS-4 character generated by the keypress, or 0 if it wasn't a character key, e.g. Delete or Left Arrow
-	}
-
-
-	// Key event data, valid when m_eType is k_ERemotePlayInputKeyDown or k_ERemotePlayInputKeyUp
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct RemotePlayInputKey_t_SmallPack {
-		public int m_eScancode;		// Keyboard scancode, common values are defined in ERemotePlayScancode
-		public uint m_unModifiers;	// Mask of ERemotePlayKeyModifier active for this key event
-		public uint m_unKeycode;		// UCS-4 character generated by the keypress, or 0 if it wasn't a character key, e.g. Delete or Left Arrow
-	}
-
+		: ICallbackIdentity
 	#endif
-	//-----------------------------------------------------------------------------
-	// Purpose: Structure that contains an array of const char * strings and the number of those strings
-	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	public struct SteamParamStringArray_t {
-		public IntPtr m_ppStrings;
+	{
 		public int m_nNumStrings;
 	}
 
-	#if STEAMWORKS_ANYCPU
-	//-----------------------------------------------------------------------------
-	// Purpose: Structure that contains an array of const char * strings and the number of those strings
-	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct SteamParamStringArray_t_LargePack {
-		public IntPtr m_ppStrings;
-		public int m_nNumStrings;
-	}
-
-
-	//-----------------------------------------------------------------------------
-	// Purpose: Structure that contains an array of const char * strings and the number of those strings
-	//-----------------------------------------------------------------------------
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct SteamParamStringArray_t_SmallPack {
-		public IntPtr m_ppStrings;
-		public int m_nNumStrings;
-	}
-
-	#endif
 	// Details for a single published file/UGC
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	public struct SteamUGCDetails_t {
+	public struct SteamUGCDetails_t
+	#if STEAMWORKS_ANYCPU
+		: ICallbackIdentity
+	#endif
+	{
 		public PublishedFileId_t m_nPublishedFileId;
 		public EResult m_eResult;												// The result of the operation.
 		public EWorkshopFileType m_eFileType;									// Type of the file
 		public AppId_t m_nCreatorAppID;										// ID of the app that created this file.
 		public AppId_t m_nConsumerAppID;										// ID of the app that will consume this file.
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentTitleMax)]
-		internal byte[] m_rgchTitle_;
-		public string m_rgchTitle				// title of document
-		{
-			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTitle_); }
-			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchTitle_, Constants.k_cchPublishedDocumentTitleMax); }
-		}
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentDescriptionMax)]
-		internal byte[] m_rgchDescription_;
-		public string m_rgchDescription	// description of document
-		{
-			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchDescription_); }
-			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchDescription_, Constants.k_cchPublishedDocumentDescriptionMax); }
-		}
+		public string m_rgchTitle;				// title of document
+		public string m_rgchDescription;	// description of document
 		public ulong m_ulSteamIDOwner;										// Steam ID of the user who created this content.
 		public uint m_rtimeCreated;											// time when the published file was created
 		public uint m_rtimeUpdated;											// time when the published file was last updated
@@ -423,32 +258,14 @@ namespace Steamworks {
 		public bool m_bAcceptedForUse;											// developer has specifically flagged this item as accepted in the Workshop
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bTagsTruncated;											// whether the list of tags was too long to be returned in the provided buffer
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchTagListMax)]
-		internal byte[] m_rgchTags_;
-		public string m_rgchTags								// comma separated list of all tags associated with this file
-		{
-			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTags_); }
-			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchTags_, Constants.k_cchTagListMax); }
-		}
+		public string m_rgchTags;								// comma separated list of all tags associated with this file
 		// file/url information
 		public UGCHandle_t m_hFile;											// The handle of the primary file
 		public UGCHandle_t m_hPreviewFile;										// The handle of the preview file
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
-		internal byte[] m_pchFileName_;
-		public string m_pchFileName							// The cloud filename of the primary file
-		{
-			get { return InteropHelp.ByteArrayToStringUTF8(m_pchFileName_); }
-			set { InteropHelp.StringToByteArrayUTF8(value, m_pchFileName_, Constants.k_cchFilenameMax); }
-		}
+		public string m_pchFileName;							// The cloud filename of the primary file
 		public int m_nFileSize;												// Size of the primary file (for legacy items which only support one file). This may not be accurate for non-legacy items which can be greater than 4gb in size.
 		public int m_nPreviewFileSize;										// Size of the preview file
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedFileURLMax)]
-		internal byte[] m_rgchURL_;
-		public string m_rgchURL						// URL (for a video or a website)
-		{
-			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchURL_); }
-			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchURL_, Constants.k_cchPublishedFileURLMax); }
-		}
+		public string m_rgchURL;						// URL (for a video or a website)
 		// voting information
 		public uint m_unVotesUp;												// number of votes up
 		public uint m_unVotesDown;											// number of votes down
@@ -460,27 +277,15 @@ namespace Steamworks {
 
 	#if STEAMWORKS_ANYCPU
 	// Details for a single published file/UGC
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
 	internal struct SteamUGCDetails_t_LargePack {
 		public PublishedFileId_t m_nPublishedFileId;
 		public EResult m_eResult;												// The result of the operation.
 		public EWorkshopFileType m_eFileType;									// Type of the file
 		public AppId_t m_nCreatorAppID;										// ID of the app that created this file.
 		public AppId_t m_nConsumerAppID;										// ID of the app that will consume this file.
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentTitleMax)]
-		internal byte[] m_rgchTitle_;
-		public string m_rgchTitle				// title of document
-		{
-			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTitle_); }
-			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchTitle_, Constants.k_cchPublishedDocumentTitleMax); }
-		}
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentDescriptionMax)]
-		internal byte[] m_rgchDescription_;
-		public string m_rgchDescription	// description of document
-		{
-			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchDescription_); }
-			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchDescription_, Constants.k_cchPublishedDocumentDescriptionMax); }
-		}
+		public string m_rgchTitle;				// title of document
+		public string m_rgchDescription;	// description of document
 		public ulong m_ulSteamIDOwner;										// Steam ID of the user who created this content.
 		public uint m_rtimeCreated;											// time when the published file was created
 		public uint m_rtimeUpdated;											// time when the published file was last updated
@@ -492,32 +297,14 @@ namespace Steamworks {
 		public bool m_bAcceptedForUse;											// developer has specifically flagged this item as accepted in the Workshop
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bTagsTruncated;											// whether the list of tags was too long to be returned in the provided buffer
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchTagListMax)]
-		internal byte[] m_rgchTags_;
-		public string m_rgchTags								// comma separated list of all tags associated with this file
-		{
-			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTags_); }
-			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchTags_, Constants.k_cchTagListMax); }
-		}
+		public string m_rgchTags;								// comma separated list of all tags associated with this file
 		// file/url information
 		public UGCHandle_t m_hFile;											// The handle of the primary file
 		public UGCHandle_t m_hPreviewFile;										// The handle of the preview file
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
-		internal byte[] m_pchFileName_;
-		public string m_pchFileName							// The cloud filename of the primary file
-		{
-			get { return InteropHelp.ByteArrayToStringUTF8(m_pchFileName_); }
-			set { InteropHelp.StringToByteArrayUTF8(value, m_pchFileName_, Constants.k_cchFilenameMax); }
-		}
+		public string m_pchFileName;							// The cloud filename of the primary file
 		public int m_nFileSize;												// Size of the primary file (for legacy items which only support one file). This may not be accurate for non-legacy items which can be greater than 4gb in size.
 		public int m_nPreviewFileSize;										// Size of the preview file
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedFileURLMax)]
-		internal byte[] m_rgchURL_;
-		public string m_rgchURL						// URL (for a video or a website)
-		{
-			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchURL_); }
-			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchURL_, Constants.k_cchPublishedFileURLMax); }
-		}
+		public string m_rgchURL;						// URL (for a video or a website)
 		// voting information
 		public uint m_unVotesUp;												// number of votes up
 		public uint m_unVotesDown;											// number of votes down
@@ -525,81 +312,80 @@ namespace Steamworks {
 		// collection details
 		public uint m_unNumChildren;
 		public ulong m_ulTotalFilesSize;										// Total size of all files (non-legacy), excluding the preview file
-	}
 
+		public static implicit operator SteamUGCDetails_t(SteamUGCDetails_t_LargePack value) {
+			SteamUGCDetails_t result = default;
+			result.m_nPublishedFileId = value.m_nPublishedFileId;
+			result.m_eResult = value.m_eResult;
+			result.m_eFileType = value.m_eFileType;
+			result.m_nCreatorAppID = value.m_nCreatorAppID;
+			result.m_nConsumerAppID = value.m_nConsumerAppID;
+			result.m_rgchTitle = value.m_rgchTitle;
+			result.m_rgchDescription = value.m_rgchDescription;
+			result.m_ulSteamIDOwner = value.m_ulSteamIDOwner;
+			result.m_rtimeCreated = value.m_rtimeCreated;
+			result.m_rtimeUpdated = value.m_rtimeUpdated;
+			result.m_rtimeAddedToUserList = value.m_rtimeAddedToUserList;
+			result.m_eVisibility = value.m_eVisibility;
+			result.m_bBanned = value.m_bBanned;
+			result.m_bAcceptedForUse = value.m_bAcceptedForUse;
+			result.m_bTagsTruncated = value.m_bTagsTruncated;
+			result.m_rgchTags = value.m_rgchTags;
+			result.m_hFile = value.m_hFile;
+			result.m_hPreviewFile = value.m_hPreviewFile;
+			result.m_pchFileName = value.m_pchFileName;
+			result.m_nFileSize = value.m_nFileSize;
+			result.m_nPreviewFileSize = value.m_nPreviewFileSize;
+			result.m_rgchURL = value.m_rgchURL;
+			result.m_unVotesUp = value.m_unVotesUp;
+			result.m_unVotesDown = value.m_unVotesDown;
+			result.m_flScore = value.m_flScore;
+			result.m_unNumChildren = value.m_unNumChildren;
+			result.m_ulTotalFilesSize = value.m_ulTotalFilesSize;
+			return result;
+		}
 
-	// Details for a single published file/UGC
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct SteamUGCDetails_t_SmallPack {
-		public PublishedFileId_t m_nPublishedFileId;
-		public EResult m_eResult;												// The result of the operation.
-		public EWorkshopFileType m_eFileType;									// Type of the file
-		public AppId_t m_nCreatorAppID;										// ID of the app that created this file.
-		public AppId_t m_nConsumerAppID;										// ID of the app that will consume this file.
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentTitleMax)]
-		internal byte[] m_rgchTitle_;
-		public string m_rgchTitle				// title of document
-		{
-			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTitle_); }
-			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchTitle_, Constants.k_cchPublishedDocumentTitleMax); }
+		public static implicit operator SteamUGCDetails_t_LargePack(SteamUGCDetails_t value) {
+			SteamUGCDetails_t_LargePack result = default;
+			result.m_nPublishedFileId = value.m_nPublishedFileId;
+			result.m_eResult = value.m_eResult;
+			result.m_eFileType = value.m_eFileType;
+			result.m_nCreatorAppID = value.m_nCreatorAppID;
+			result.m_nConsumerAppID = value.m_nConsumerAppID;
+			result.m_rgchTitle = value.m_rgchTitle;
+			result.m_rgchDescription = value.m_rgchDescription;
+			result.m_ulSteamIDOwner = value.m_ulSteamIDOwner;
+			result.m_rtimeCreated = value.m_rtimeCreated;
+			result.m_rtimeUpdated = value.m_rtimeUpdated;
+			result.m_rtimeAddedToUserList = value.m_rtimeAddedToUserList;
+			result.m_eVisibility = value.m_eVisibility;
+			result.m_bBanned = value.m_bBanned;
+			result.m_bAcceptedForUse = value.m_bAcceptedForUse;
+			result.m_bTagsTruncated = value.m_bTagsTruncated;
+			result.m_rgchTags = value.m_rgchTags;
+			result.m_hFile = value.m_hFile;
+			result.m_hPreviewFile = value.m_hPreviewFile;
+			result.m_pchFileName = value.m_pchFileName;
+			result.m_nFileSize = value.m_nFileSize;
+			result.m_nPreviewFileSize = value.m_nPreviewFileSize;
+			result.m_rgchURL = value.m_rgchURL;
+			result.m_unVotesUp = value.m_unVotesUp;
+			result.m_unVotesDown = value.m_unVotesDown;
+			result.m_flScore = value.m_flScore;
+			result.m_unNumChildren = value.m_unNumChildren;
+			result.m_ulTotalFilesSize = value.m_ulTotalFilesSize;
+			return result;
 		}
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentDescriptionMax)]
-		internal byte[] m_rgchDescription_;
-		public string m_rgchDescription	// description of document
-		{
-			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchDescription_); }
-			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchDescription_, Constants.k_cchPublishedDocumentDescriptionMax); }
-		}
-		public ulong m_ulSteamIDOwner;										// Steam ID of the user who created this content.
-		public uint m_rtimeCreated;											// time when the published file was created
-		public uint m_rtimeUpdated;											// time when the published file was last updated
-		public uint m_rtimeAddedToUserList;									// time when the user added the published file to their list (not always applicable)
-		public ERemoteStoragePublishedFileVisibility m_eVisibility;			// visibility
-		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bBanned;													// whether the file was banned
-		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bAcceptedForUse;											// developer has specifically flagged this item as accepted in the Workshop
-		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bTagsTruncated;											// whether the list of tags was too long to be returned in the provided buffer
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchTagListMax)]
-		internal byte[] m_rgchTags_;
-		public string m_rgchTags								// comma separated list of all tags associated with this file
-		{
-			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTags_); }
-			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchTags_, Constants.k_cchTagListMax); }
-		}
-		// file/url information
-		public UGCHandle_t m_hFile;											// The handle of the primary file
-		public UGCHandle_t m_hPreviewFile;										// The handle of the preview file
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
-		internal byte[] m_pchFileName_;
-		public string m_pchFileName							// The cloud filename of the primary file
-		{
-			get { return InteropHelp.ByteArrayToStringUTF8(m_pchFileName_); }
-			set { InteropHelp.StringToByteArrayUTF8(value, m_pchFileName_, Constants.k_cchFilenameMax); }
-		}
-		public int m_nFileSize;												// Size of the primary file (for legacy items which only support one file). This may not be accurate for non-legacy items which can be greater than 4gb in size.
-		public int m_nPreviewFileSize;										// Size of the preview file
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedFileURLMax)]
-		internal byte[] m_rgchURL_;
-		public string m_rgchURL						// URL (for a video or a website)
-		{
-			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchURL_); }
-			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchURL_, Constants.k_cchPublishedFileURLMax); }
-		}
-		// voting information
-		public uint m_unVotesUp;												// number of votes up
-		public uint m_unVotesDown;											// number of votes down
-		public float m_flScore;												// calculated score
-		// collection details
-		public uint m_unNumChildren;
-		public ulong m_ulTotalFilesSize;										// Total size of all files (non-legacy), excluding the preview file
 	}
 
 	#endif
 	// a single entry in a leaderboard, as returned by GetDownloadedLeaderboardEntry()
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	public struct LeaderboardEntry_t {
+	public struct LeaderboardEntry_t
+	#if STEAMWORKS_ANYCPU
+		: ICallbackIdentity
+	#endif
+	{
 		public CSteamID m_steamIDUser; // user with the entry - use SteamFriends()->GetFriendPersonaName() & SteamFriends()->GetFriendAvatar() to get more info
 		public int m_nGlobalRank;	// [1..N], where N is the number of users with an entry in the leaderboard
 		public int m_nScore;			// score as set in the leaderboard
@@ -609,24 +395,33 @@ namespace Steamworks {
 
 	#if STEAMWORKS_ANYCPU
 	// a single entry in a leaderboard, as returned by GetDownloadedLeaderboardEntry()
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
 	internal struct LeaderboardEntry_t_LargePack {
 		public CSteamID m_steamIDUser; // user with the entry - use SteamFriends()->GetFriendPersonaName() & SteamFriends()->GetFriendAvatar() to get more info
 		public int m_nGlobalRank;	// [1..N], where N is the number of users with an entry in the leaderboard
 		public int m_nScore;			// score as set in the leaderboard
 		public int m_cDetails;		// number of int32 details available for this entry
 		public UGCHandle_t m_hUGC;		// handle for UGC attached to the entry
-	}
 
+		public static implicit operator LeaderboardEntry_t(LeaderboardEntry_t_LargePack value) {
+			LeaderboardEntry_t result = default;
+			result.m_steamIDUser = value.m_steamIDUser;
+			result.m_nGlobalRank = value.m_nGlobalRank;
+			result.m_nScore = value.m_nScore;
+			result.m_cDetails = value.m_cDetails;
+			result.m_hUGC = value.m_hUGC;
+			return result;
+		}
 
-	// a single entry in a leaderboard, as returned by GetDownloadedLeaderboardEntry()
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct LeaderboardEntry_t_SmallPack {
-		public CSteamID m_steamIDUser; // user with the entry - use SteamFriends()->GetFriendPersonaName() & SteamFriends()->GetFriendAvatar() to get more info
-		public int m_nGlobalRank;	// [1..N], where N is the number of users with an entry in the leaderboard
-		public int m_nScore;			// score as set in the leaderboard
-		public int m_cDetails;		// number of int32 details available for this entry
-		public UGCHandle_t m_hUGC;		// handle for UGC attached to the entry
+		public static implicit operator LeaderboardEntry_t_LargePack(LeaderboardEntry_t value) {
+			LeaderboardEntry_t_LargePack result = default;
+			result.m_steamIDUser = value.m_steamIDUser;
+			result.m_nGlobalRank = value.m_nGlobalRank;
+			result.m_nScore = value.m_nScore;
+			result.m_cDetails = value.m_cDetails;
+			result.m_hUGC = value.m_hUGC;
+			return result;
+		}
 	}
 
 	#endif
@@ -635,87 +430,115 @@ namespace Steamworks {
 	/// Actually, the name Key/Value is a bit misleading.  The "key" is better
 	/// understood as "filter operation code" and the "value" is the operand to this
 	/// filter operation.  The meaning of the operand depends upon the filter.
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[StructLayout(LayoutKind.Sequential)]
-	public struct MatchMakingKeyValuePair_t {
+	public struct MatchMakingKeyValuePair_t
+	#if STEAMWORKS_ANYCPU
+		: ICallbackIdentity
+	#endif
+	{
 		MatchMakingKeyValuePair_t(string strKey, string strValue) {
 			m_szKey = strKey;
 			m_szValue = strValue;
 		}
 
-		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
 		public string m_szKey;
-		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
 		public string m_szValue;
 	}
 
+	// structure that contains client callback data
+	// see callbacks documentation for more details
+	/// Internal structure used in manual callback dispatch
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	public struct CallbackMsg_t
 	#if STEAMWORKS_ANYCPU
-	/// Store key/value pair used in matchmaking queries.
-	///
-	/// Actually, the name Key/Value is a bit misleading.  The "key" is better
-	/// understood as "filter operation code" and the "value" is the operand to this
-	/// filter operation.  The meaning of the operand depends upon the filter.
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct MatchMakingKeyValuePair_t_LargePack {
-		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-		public string m_szKey;
-		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-		public string m_szValue;
-	}
-
-
-	/// Store key/value pair used in matchmaking queries.
-	///
-	/// Actually, the name Key/Value is a bit misleading.  The "key" is better
-	/// understood as "filter operation code" and the "value" is the operand to this
-	/// filter operation.  The meaning of the operand depends upon the filter.
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct MatchMakingKeyValuePair_t_SmallPack {
-		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-		public string m_szKey;
-		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-		public string m_szValue;
-	}
-
+		: ICallbackIdentity
 	#endif
-	// structure that contains client callback data
-	// see callbacks documentation for more details
-	/// Internal structure used in manual callback dispatch
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	public struct CallbackMsg_t {
+	{
 		public int m_hSteamUser; // Specific user to whom this callback applies.
 		public int m_iCallback; // Callback identifier.  (Corresponds to the k_iCallback enum in the callback structure.)
-		public IntPtr m_pubParam; // Points to the callback structure
 		public int m_cubParam; // Size of the data pointed to by m_pubParam
 	}
 
+	[StructLayout(LayoutKind.Sequential, Pack = 1)]
+	public struct SteamIDComponent_t
 	#if STEAMWORKS_ANYCPU
-	// structure that contains client callback data
-	// see callbacks documentation for more details
-	/// Internal structure used in manual callback dispatch
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct CallbackMsg_t_LargePack {
-		public int m_hSteamUser; // Specific user to whom this callback applies.
-		public int m_iCallback; // Callback identifier.  (Corresponds to the k_iCallback enum in the callback structure.)
-		public IntPtr m_pubParam; // Points to the callback structure
-		public int m_cubParam; // Size of the data pointed to by m_pubParam
-	}
-
-
-	// structure that contains client callback data
-	// see callbacks documentation for more details
-	/// Internal structure used in manual callback dispatch
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct CallbackMsg_t_SmallPack {
-		public int m_hSteamUser; // Specific user to whom this callback applies.
-		public int m_iCallback; // Callback identifier.  (Corresponds to the k_iCallback enum in the callback structure.)
-		public IntPtr m_pubParam; // Points to the callback structure
-		public int m_cubParam; // Size of the data pointed to by m_pubParam
-	}
-
+		: ICallbackIdentity
 	#endif
+	{
+		
+		public ulong m_unAll64Bits;
+		public ulong m_unAll64Bits;
+	}
+
+			// each type has it's own invalid fixed point:
+	 // k_unMaxExpectedLocalAppId - shortcuts are pushed beyond that range
+	//
+	// Internal stuff.  Use the accessors above if possible
+	//
+	[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 1)]
+	public struct GameID_t
+	#if STEAMWORKS_ANYCPU
+		: ICallbackIdentity
+	#endif
+	{
+	}
+
+		/// RFC4038, section 4.2
+	[StructLayout(LayoutKind.Sequential, Pack = 1)]
+	public struct IPv4MappedAddress
+	#if STEAMWORKS_ANYCPU
+		: ICallbackIdentity
+	#endif
+	{
+		public ulong m_8zeros;
+		public ushort m_0000;
+		public ushort m_ffff;
+		public byte m_ip; // NOTE: As bytes, i.e. network byte order
+	}
+
+	/// Store an IP and port.  IPv6 is always used; IPv4 is represented using
+	/// "IPv4-mapped" addresses: IPv4 aa.bb.cc.dd => IPv6 ::ffff:aabb:ccdd
+	/// (RFC 4291 section 2.5.5.2.)
+	[StructLayout(LayoutKind.Sequential, Pack = 1)]
+	public struct SteamNetworkingIPAddr
+	#if STEAMWORKS_ANYCPU
+		: ICallbackIdentity
+	#endif
+	{
+		public byte m_ipv6;
+		public byte m_ipv6;
+		public IPv4MappedAddress m_ipv4;
+		public IPv4MappedAddress m_ipv4;
+	}
+
+	 // Host byte order
+		/// See if two addresses are identical
+		/// Classify address as FakeIP.  This function never returns
+		/// k_ESteamNetworkingFakeIPType_Invalid.
+		/// Return true if we are a FakeIP
+	/// An abstract way to represent the identity of a network host.  All identities can
+	/// be represented as simple string.  Furthermore, this string representation is actually
+	/// used on the wire in several places, even though it is less efficient, in order to
+	/// facilitate forward compatibility.  (Old client code can handle an identity type that
+	/// it doesn't understand.)
+	[StructLayout(LayoutKind.Sequential, Pack = 1)]
+	public struct SteamNetworkingIdentity
+	#if STEAMWORKS_ANYCPU
+		: ICallbackIdentity
+	#endif
+	{
+		/// Type of identity.
+		public ESteamNetworkingIdentityType m_eType;
+	}
+
 	/// Describe the state of a connection.
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	public struct SteamNetConnectionInfo_t {
+	public struct SteamNetConnectionInfo_t
+	#if STEAMWORKS_ANYCPU
+		: ICallbackIdentity
+	#endif
+	{
 		
 		/// Who is on the other end?  Depending on the connection type and phase of the connection, we might not know
 		public SteamNetworkingIdentity m_identityRemote;
@@ -749,13 +572,7 @@ namespace Steamworks {
 		/// termination or problem.  This is intended for debugging /
 		/// diagnostic purposes only, not to display to users.  It might
 		/// have some details specific to the issue.
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchSteamNetworkingMaxConnectionCloseReason)]
-		internal byte[] m_szEndDebug_;
-		public string m_szEndDebug
-		{
-			get { return InteropHelp.ByteArrayToStringUTF8(m_szEndDebug_); }
-			set { InteropHelp.StringToByteArrayUTF8(value, m_szEndDebug_, Constants.k_cchSteamNetworkingMaxConnectionCloseReason); }
-		}
+		public string m_szEndDebug;
 		
 		/// Debug description.  This includes the internal connection ID,
 		/// connection type (and peer information), and any name
@@ -764,25 +581,18 @@ namespace Steamworks {
 		///
 		/// Note that the connection ID *usually* matches the HSteamNetConnection
 		/// handle, but in certain cases with symmetric connections it might not.
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchSteamNetworkingMaxConnectionDescription)]
-		internal byte[] m_szConnectionDescription_;
-		public string m_szConnectionDescription
-		{
-			get { return InteropHelp.ByteArrayToStringUTF8(m_szConnectionDescription_); }
-			set { InteropHelp.StringToByteArrayUTF8(value, m_szConnectionDescription_, Constants.k_cchSteamNetworkingMaxConnectionDescription); }
-		}
+		public string m_szConnectionDescription;
 		
 		/// Misc flags.  Bitmask of k_nSteamNetworkConnectionInfoFlags_Xxxx
 		public int m_nFlags;
 		
 		/// Internal stuff, room to change API easily
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 63)]
-		public uint[] reserved;
+		public uint reserved;
 	}
 
 	#if STEAMWORKS_ANYCPU
 	/// Describe the state of a connection.
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
 	internal struct SteamNetConnectionInfo_t_LargePack {
 		
 		/// Who is on the other end?  Depending on the connection type and phase of the connection, we might not know
@@ -817,13 +627,7 @@ namespace Steamworks {
 		/// termination or problem.  This is intended for debugging /
 		/// diagnostic purposes only, not to display to users.  It might
 		/// have some details specific to the issue.
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchSteamNetworkingMaxConnectionCloseReason)]
-		internal byte[] m_szEndDebug_;
-		public string m_szEndDebug
-		{
-			get { return InteropHelp.ByteArrayToStringUTF8(m_szEndDebug_); }
-			set { InteropHelp.StringToByteArrayUTF8(value, m_szEndDebug_, Constants.k_cchSteamNetworkingMaxConnectionCloseReason); }
-		}
+		public string m_szEndDebug;
 		
 		/// Debug description.  This includes the internal connection ID,
 		/// connection type (and peer information), and any name
@@ -832,439 +636,227 @@ namespace Steamworks {
 		///
 		/// Note that the connection ID *usually* matches the HSteamNetConnection
 		/// handle, but in certain cases with symmetric connections it might not.
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchSteamNetworkingMaxConnectionDescription)]
-		internal byte[] m_szConnectionDescription_;
-		public string m_szConnectionDescription
-		{
-			get { return InteropHelp.ByteArrayToStringUTF8(m_szConnectionDescription_); }
-			set { InteropHelp.StringToByteArrayUTF8(value, m_szConnectionDescription_, Constants.k_cchSteamNetworkingMaxConnectionDescription); }
-		}
+		public string m_szConnectionDescription;
 		
 		/// Misc flags.  Bitmask of k_nSteamNetworkConnectionInfoFlags_Xxxx
 		public int m_nFlags;
 		
 		/// Internal stuff, room to change API easily
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 63)]
-		public uint[] reserved;
+		public uint reserved;
+
+		public static implicit operator SteamNetConnectionInfo_t(SteamNetConnectionInfo_t_LargePack value) {
+			SteamNetConnectionInfo_t result = default;
+			result.m_identityRemote = value.m_identityRemote;
+			result.m_nUserData = value.m_nUserData;
+			result.m_hListenSocket = value.m_hListenSocket;
+			result.m_addrRemote = value.m_addrRemote;
+			result.m__pad1 = value.m__pad1;
+			result.m_idPOPRemote = value.m_idPOPRemote;
+			result.m_idPOPRelay = value.m_idPOPRelay;
+			result.m_eState = value.m_eState;
+			result.m_eEndReason = value.m_eEndReason;
+			result.m_szEndDebug = value.m_szEndDebug;
+			result.m_szConnectionDescription = value.m_szConnectionDescription;
+			result.m_nFlags = value.m_nFlags;
+			result.reserved = value.reserved;
+			return result;
+		}
+
+		public static implicit operator SteamNetConnectionInfo_t_LargePack(SteamNetConnectionInfo_t value) {
+			SteamNetConnectionInfo_t_LargePack result = default;
+			result.m_identityRemote = value.m_identityRemote;
+			result.m_nUserData = value.m_nUserData;
+			result.m_hListenSocket = value.m_hListenSocket;
+			result.m_addrRemote = value.m_addrRemote;
+			result.m__pad1 = value.m__pad1;
+			result.m_idPOPRemote = value.m_idPOPRemote;
+			result.m_idPOPRelay = value.m_idPOPRelay;
+			result.m_eState = value.m_eState;
+			result.m_eEndReason = value.m_eEndReason;
+			result.m_szEndDebug = value.m_szEndDebug;
+			result.m_szConnectionDescription = value.m_szConnectionDescription;
+			result.m_nFlags = value.m_nFlags;
+			result.reserved = value.reserved;
+			return result;
+		}
 	}
 
-
-	/// Describe the state of a connection.
+	#endif
+	/// Quick connection state, pared down to something you could call
+	/// more frequently without it being too big of a perf hit.
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct SteamNetConnectionInfo_t_SmallPack {
+	public struct SteamNetConnectionRealTimeStatus_t
+	#if STEAMWORKS_ANYCPU
+		: ICallbackIdentity
+	#endif
+	{
 		
-		/// Who is on the other end?  Depending on the connection type and phase of the connection, we might not know
-		public SteamNetworkingIdentity m_identityRemote;
+		/// High level state of the connection
+		public ESteamNetworkingConnectionState m_eState;
 		
-		/// Arbitrary user data set by the local application code
+		/// Current ping (ms)
+		public int m_nPing;
+		
+		/// Connection quality measured locally, 0...1.  (Percentage of packets delivered
+		/// end-to-end in order).
+		public float m_flConnectionQualityLocal;
+		
+		/// Packet delivery success rate as observed from remote host
+		public float m_flConnectionQualityRemote;
+		
+		/// Current data rates from recent history.
+		public float m_flOutPacketsPerSec;
+		public float m_flOutBytesPerSec;
+		public float m_flInPacketsPerSec;
+		public float m_flInBytesPerSec;
+		
+		/// Estimate rate that we believe that we can send data to our peer.
+		/// Note that this could be significantly higher than m_flOutBytesPerSec,
+		/// meaning the capacity of the channel is higher than you are sending data.
+		/// (That's OK!)
+		public int m_nSendRateBytesPerSecond;
+		
+		/// Number of bytes pending to be sent.  This is data that you have recently
+		/// requested to be sent but has not yet actually been put on the wire.  The
+		/// reliable number ALSO includes data that was previously placed on the wire,
+		/// but has now been scheduled for re-transmission.  Thus, it's possible to
+		/// observe m_cbPendingReliable increasing between two checks, even if no
+		/// calls were made to send reliable data between the checks.  Data that is
+		/// awaiting the Nagle delay will appear in these numbers.
+		public int m_cbPendingUnreliable;
+		public int m_cbPendingReliable;
+		
+		/// Number of bytes of reliable data that has been placed the wire, but
+		/// for which we have not yet received an acknowledgment, and thus we may
+		/// have to re-transmit.
+		public int m_cbSentUnackedReliable;
+		
+		/// If you queued a message right now, approximately how long would that message
+		/// wait in the queue before we actually started putting its data on the wire in
+		/// a packet?
+		///
+		/// In general, data that is sent by the application is limited by the bandwidth
+		/// of the channel.  If you send data faster than this, it must be queued and
+		/// put on the wire at a metered rate.  Even sending a small amount of data (e.g.
+		/// a few MTU, say ~3k) will require some of the data to be delayed a bit.
+		///
+		/// Ignoring multiple lanes, the estimated delay will be approximately equal to
+		///
+		///		( m_cbPendingUnreliable+m_cbPendingReliable ) / m_nSendRateBytesPerSecond
+		///
+		/// plus or minus one MTU.  It depends on how much time has elapsed since the last
+		/// packet was put on the wire.  For example, the queue might have *just* been emptied,
+		/// and the last packet placed on the wire, and we are exactly up against the send
+		/// rate limit.  In that case we might need to wait for one packet's worth of time to
+		/// elapse before we can send again.  On the other extreme, the queue might have data
+		/// in it waiting for Nagle.  (This will always be less than one packet, because as
+		/// soon as we have a complete packet we would send it.)  In that case, we might be
+		/// ready to send data now, and this value will be 0.
+		///
+		/// This value is only valid if multiple lanes are not used.  If multiple lanes are
+		/// in use, then the queue time will be different for each lane, and you must use
+		/// the value in SteamNetConnectionRealTimeLaneStatus_t.
+		///
+		/// Nagle delay is ignored for the purposes of this calculation.
+		public SteamNetworkingMicroseconds m_usecQueueTime;
+		
+		// Internal stuff, room to change API easily
+		public uint reserved;
+	}
+
+	/// Quick status of a particular lane
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	public struct SteamNetConnectionRealTimeLaneStatus_t
+	#if STEAMWORKS_ANYCPU
+		: ICallbackIdentity
+	#endif
+	{
+		// Counters for this particular lane.  See the corresponding variables
+		// in SteamNetConnectionRealTimeStatus_t
+		public int m_cbPendingUnreliable;
+		public int m_cbPendingReliable;
+		public int m_cbSentUnackedReliable;
+		public int _reservePad1; // Reserved for future use
+		
+		/// Lane-specific queue time.  This value takes into consideration lane priorities
+		/// and weights, and how much data is queued in each lane, and attempts to predict
+		/// how any data currently queued will be sent out.
+		public SteamNetworkingMicroseconds m_usecQueueTime;
+		
+		// Internal stuff, room to change API easily
+		public uint reserved;
+	}
+
+	/// A message that has been received.
+	[StructLayout(LayoutKind.Sequential, Pack = 4)]
+	public struct SteamNetworkingMessage_t
+	#if STEAMWORKS_ANYCPU
+		: ICallbackIdentity
+	#endif
+	{
+		
+		/// Size of the payload.
+		public int m_cbSize;
+		
+		/// For messages received on connections: what connection did this come from?
+		/// For outgoing messages: what connection to send it to?
+		/// Not used when using the ISteamNetworkingMessages interface
+		public HSteamNetConnection m_conn;
+		
+		/// For inbound messages: Who sent this to us?
+		/// For outbound messages on connections: not used.
+		/// For outbound messages on the ad-hoc ISteamNetworkingMessages interface: who should we send this to?
+		public SteamNetworkingIdentity m_identityPeer;
+		
+		/// For messages received on connections, this is the user data
+		/// associated with the connection.
+		///
+		/// This is *usually* the same as calling GetConnection() and then
+		/// fetching the user data associated with that connection, but for
+		/// the following subtle differences:
+		///
+		/// - This user data will match the connection's user data at the time
+		///   is captured at the time the message is returned by the API.
+		///   If you subsequently change the userdata on the connection,
+		///   this won't be updated.
+		/// - This is an inline call, so it's *much* faster.
+		/// - You might have closed the connection, so fetching the user data
+		///   would not be possible.
+		///
+		/// Not used when sending messages.
+		public long m_nConnUserData;
+		
+		/// Local timestamp when the message was received
+		/// Not used for outbound messages.
+		public SteamNetworkingMicroseconds m_usecTimeReceived;
+		
+		/// Message number assigned by the sender.  This is not used for outbound
+		/// messages.  Note that if multiple lanes are used, each lane has its own
+		/// message numbers, which are assigned sequentially, so messages from
+		/// different lanes will share the same numbers.
+		public long m_nMessageNumber;
+		
+		/// When using ISteamNetworkingMessages, the channel number the message was received on
+		/// (Not used for messages sent or received on "connections")
+		public int m_nChannel;
+		
+		/// Bitmask of k_nSteamNetworkingSend_xxx flags.
+		/// For received messages, only the k_nSteamNetworkingSend_Reliable bit is valid.
+		/// For outbound messages, all bits are relevant
+		public int m_nFlags;
+		
+		/// Arbitrary user data that you can use when sending messages using
+		/// ISteamNetworkingUtils::AllocateMessage and ISteamNetworkingSockets::SendMessage.
+		/// (The callback you set in m_pfnFreeData might use this field.)
+		///
+		/// Not used for received messages.
 		public long m_nUserData;
 		
-		/// Handle to listen socket this was connected on, or k_HSteamListenSocket_Invalid if we initiated the connection
-		public HSteamListenSocket m_hListenSocket;
-		
-		/// Remote address.  Might be all 0's if we don't know it, or if this is N/A.
-		/// (E.g. Basically everything except direct UDP connection.)
-		public SteamNetworkingIPAddr m_addrRemote;
-		public ushort m__pad1;
-		
-		/// What data center is the remote host in?  (0 if we don't know.)
-		public SteamNetworkingPOPID m_idPOPRemote;
-		
-		/// What relay are we using to communicate with the remote host?
-		/// (0 if not applicable.)
-		public SteamNetworkingPOPID m_idPOPRelay;
-		
-		/// High level state of the connection
-		public ESteamNetworkingConnectionState m_eState;
-		
-		/// Basic cause of the connection termination or problem.
-		/// See ESteamNetConnectionEnd for the values used
-		public int m_eEndReason;
-		
-		/// Human-readable, but non-localized explanation for connection
-		/// termination or problem.  This is intended for debugging /
-		/// diagnostic purposes only, not to display to users.  It might
-		/// have some details specific to the issue.
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchSteamNetworkingMaxConnectionCloseReason)]
-		internal byte[] m_szEndDebug_;
-		public string m_szEndDebug
-		{
-			get { return InteropHelp.ByteArrayToStringUTF8(m_szEndDebug_); }
-			set { InteropHelp.StringToByteArrayUTF8(value, m_szEndDebug_, Constants.k_cchSteamNetworkingMaxConnectionCloseReason); }
-		}
-		
-		/// Debug description.  This includes the internal connection ID,
-		/// connection type (and peer information), and any name
-		/// given to the connection by the app.  This string is used in various
-		/// internal logging messages.
-		///
-		/// Note that the connection ID *usually* matches the HSteamNetConnection
-		/// handle, but in certain cases with symmetric connections it might not.
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchSteamNetworkingMaxConnectionDescription)]
-		internal byte[] m_szConnectionDescription_;
-		public string m_szConnectionDescription
-		{
-			get { return InteropHelp.ByteArrayToStringUTF8(m_szConnectionDescription_); }
-			set { InteropHelp.StringToByteArrayUTF8(value, m_szConnectionDescription_, Constants.k_cchSteamNetworkingMaxConnectionDescription); }
-		}
-		
-		/// Misc flags.  Bitmask of k_nSteamNetworkConnectionInfoFlags_Xxxx
-		public int m_nFlags;
-		
-		/// Internal stuff, room to change API easily
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 63)]
-		public uint[] reserved;
+		/// For outbound messages, which lane to use?  See ISteamNetworkingSockets::ConfigureConnectionLanes.
+		/// For inbound messages, what lane was the message received on?
+		public ushort m_idxLane;
+		public ushort _pad1__;
 	}
-
-	#endif
-	/// Quick connection state, pared down to something you could call
-	/// more frequently without it being too big of a perf hit.
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	public struct SteamNetConnectionRealTimeStatus_t {
-		
-		/// High level state of the connection
-		public ESteamNetworkingConnectionState m_eState;
-		
-		/// Current ping (ms)
-		public int m_nPing;
-		
-		/// Connection quality measured locally, 0...1.  (Percentage of packets delivered
-		/// end-to-end in order).
-		public float m_flConnectionQualityLocal;
-		
-		/// Packet delivery success rate as observed from remote host
-		public float m_flConnectionQualityRemote;
-		
-		/// Current data rates from recent history.
-		public float m_flOutPacketsPerSec;
-		public float m_flOutBytesPerSec;
-		public float m_flInPacketsPerSec;
-		public float m_flInBytesPerSec;
-		
-		/// Estimate rate that we believe that we can send data to our peer.
-		/// Note that this could be significantly higher than m_flOutBytesPerSec,
-		/// meaning the capacity of the channel is higher than you are sending data.
-		/// (That's OK!)
-		public int m_nSendRateBytesPerSecond;
-		
-		/// Number of bytes pending to be sent.  This is data that you have recently
-		/// requested to be sent but has not yet actually been put on the wire.  The
-		/// reliable number ALSO includes data that was previously placed on the wire,
-		/// but has now been scheduled for re-transmission.  Thus, it's possible to
-		/// observe m_cbPendingReliable increasing between two checks, even if no
-		/// calls were made to send reliable data between the checks.  Data that is
-		/// awaiting the Nagle delay will appear in these numbers.
-		public int m_cbPendingUnreliable;
-		public int m_cbPendingReliable;
-		
-		/// Number of bytes of reliable data that has been placed the wire, but
-		/// for which we have not yet received an acknowledgment, and thus we may
-		/// have to re-transmit.
-		public int m_cbSentUnackedReliable;
-		
-		/// If you queued a message right now, approximately how long would that message
-		/// wait in the queue before we actually started putting its data on the wire in
-		/// a packet?
-		///
-		/// In general, data that is sent by the application is limited by the bandwidth
-		/// of the channel.  If you send data faster than this, it must be queued and
-		/// put on the wire at a metered rate.  Even sending a small amount of data (e.g.
-		/// a few MTU, say ~3k) will require some of the data to be delayed a bit.
-		///
-		/// Ignoring multiple lanes, the estimated delay will be approximately equal to
-		///
-		///		( m_cbPendingUnreliable+m_cbPendingReliable ) / m_nSendRateBytesPerSecond
-		///
-		/// plus or minus one MTU.  It depends on how much time has elapsed since the last
-		/// packet was put on the wire.  For example, the queue might have *just* been emptied,
-		/// and the last packet placed on the wire, and we are exactly up against the send
-		/// rate limit.  In that case we might need to wait for one packet's worth of time to
-		/// elapse before we can send again.  On the other extreme, the queue might have data
-		/// in it waiting for Nagle.  (This will always be less than one packet, because as
-		/// soon as we have a complete packet we would send it.)  In that case, we might be
-		/// ready to send data now, and this value will be 0.
-		///
-		/// This value is only valid if multiple lanes are not used.  If multiple lanes are
-		/// in use, then the queue time will be different for each lane, and you must use
-		/// the value in SteamNetConnectionRealTimeLaneStatus_t.
-		///
-		/// Nagle delay is ignored for the purposes of this calculation.
-		public SteamNetworkingMicroseconds m_usecQueueTime;
-		
-		// Internal stuff, room to change API easily
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
-		public uint[] reserved;
-	}
-
-	#if STEAMWORKS_ANYCPU
-	/// Quick connection state, pared down to something you could call
-	/// more frequently without it being too big of a perf hit.
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct SteamNetConnectionRealTimeStatus_t_LargePack {
-		
-		/// High level state of the connection
-		public ESteamNetworkingConnectionState m_eState;
-		
-		/// Current ping (ms)
-		public int m_nPing;
-		
-		/// Connection quality measured locally, 0...1.  (Percentage of packets delivered
-		/// end-to-end in order).
-		public float m_flConnectionQualityLocal;
-		
-		/// Packet delivery success rate as observed from remote host
-		public float m_flConnectionQualityRemote;
-		
-		/// Current data rates from recent history.
-		public float m_flOutPacketsPerSec;
-		public float m_flOutBytesPerSec;
-		public float m_flInPacketsPerSec;
-		public float m_flInBytesPerSec;
-		
-		/// Estimate rate that we believe that we can send data to our peer.
-		/// Note that this could be significantly higher than m_flOutBytesPerSec,
-		/// meaning the capacity of the channel is higher than you are sending data.
-		/// (That's OK!)
-		public int m_nSendRateBytesPerSecond;
-		
-		/// Number of bytes pending to be sent.  This is data that you have recently
-		/// requested to be sent but has not yet actually been put on the wire.  The
-		/// reliable number ALSO includes data that was previously placed on the wire,
-		/// but has now been scheduled for re-transmission.  Thus, it's possible to
-		/// observe m_cbPendingReliable increasing between two checks, even if no
-		/// calls were made to send reliable data between the checks.  Data that is
-		/// awaiting the Nagle delay will appear in these numbers.
-		public int m_cbPendingUnreliable;
-		public int m_cbPendingReliable;
-		
-		/// Number of bytes of reliable data that has been placed the wire, but
-		/// for which we have not yet received an acknowledgment, and thus we may
-		/// have to re-transmit.
-		public int m_cbSentUnackedReliable;
-		
-		/// If you queued a message right now, approximately how long would that message
-		/// wait in the queue before we actually started putting its data on the wire in
-		/// a packet?
-		///
-		/// In general, data that is sent by the application is limited by the bandwidth
-		/// of the channel.  If you send data faster than this, it must be queued and
-		/// put on the wire at a metered rate.  Even sending a small amount of data (e.g.
-		/// a few MTU, say ~3k) will require some of the data to be delayed a bit.
-		///
-		/// Ignoring multiple lanes, the estimated delay will be approximately equal to
-		///
-		///		( m_cbPendingUnreliable+m_cbPendingReliable ) / m_nSendRateBytesPerSecond
-		///
-		/// plus or minus one MTU.  It depends on how much time has elapsed since the last
-		/// packet was put on the wire.  For example, the queue might have *just* been emptied,
-		/// and the last packet placed on the wire, and we are exactly up against the send
-		/// rate limit.  In that case we might need to wait for one packet's worth of time to
-		/// elapse before we can send again.  On the other extreme, the queue might have data
-		/// in it waiting for Nagle.  (This will always be less than one packet, because as
-		/// soon as we have a complete packet we would send it.)  In that case, we might be
-		/// ready to send data now, and this value will be 0.
-		///
-		/// This value is only valid if multiple lanes are not used.  If multiple lanes are
-		/// in use, then the queue time will be different for each lane, and you must use
-		/// the value in SteamNetConnectionRealTimeLaneStatus_t.
-		///
-		/// Nagle delay is ignored for the purposes of this calculation.
-		public SteamNetworkingMicroseconds m_usecQueueTime;
-		
-		// Internal stuff, room to change API easily
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
-		public uint[] reserved;
-	}
-
-
-	/// Quick connection state, pared down to something you could call
-	/// more frequently without it being too big of a perf hit.
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct SteamNetConnectionRealTimeStatus_t_SmallPack {
-		
-		/// High level state of the connection
-		public ESteamNetworkingConnectionState m_eState;
-		
-		/// Current ping (ms)
-		public int m_nPing;
-		
-		/// Connection quality measured locally, 0...1.  (Percentage of packets delivered
-		/// end-to-end in order).
-		public float m_flConnectionQualityLocal;
-		
-		/// Packet delivery success rate as observed from remote host
-		public float m_flConnectionQualityRemote;
-		
-		/// Current data rates from recent history.
-		public float m_flOutPacketsPerSec;
-		public float m_flOutBytesPerSec;
-		public float m_flInPacketsPerSec;
-		public float m_flInBytesPerSec;
-		
-		/// Estimate rate that we believe that we can send data to our peer.
-		/// Note that this could be significantly higher than m_flOutBytesPerSec,
-		/// meaning the capacity of the channel is higher than you are sending data.
-		/// (That's OK!)
-		public int m_nSendRateBytesPerSecond;
-		
-		/// Number of bytes pending to be sent.  This is data that you have recently
-		/// requested to be sent but has not yet actually been put on the wire.  The
-		/// reliable number ALSO includes data that was previously placed on the wire,
-		/// but has now been scheduled for re-transmission.  Thus, it's possible to
-		/// observe m_cbPendingReliable increasing between two checks, even if no
-		/// calls were made to send reliable data between the checks.  Data that is
-		/// awaiting the Nagle delay will appear in these numbers.
-		public int m_cbPendingUnreliable;
-		public int m_cbPendingReliable;
-		
-		/// Number of bytes of reliable data that has been placed the wire, but
-		/// for which we have not yet received an acknowledgment, and thus we may
-		/// have to re-transmit.
-		public int m_cbSentUnackedReliable;
-		
-		/// If you queued a message right now, approximately how long would that message
-		/// wait in the queue before we actually started putting its data on the wire in
-		/// a packet?
-		///
-		/// In general, data that is sent by the application is limited by the bandwidth
-		/// of the channel.  If you send data faster than this, it must be queued and
-		/// put on the wire at a metered rate.  Even sending a small amount of data (e.g.
-		/// a few MTU, say ~3k) will require some of the data to be delayed a bit.
-		///
-		/// Ignoring multiple lanes, the estimated delay will be approximately equal to
-		///
-		///		( m_cbPendingUnreliable+m_cbPendingReliable ) / m_nSendRateBytesPerSecond
-		///
-		/// plus or minus one MTU.  It depends on how much time has elapsed since the last
-		/// packet was put on the wire.  For example, the queue might have *just* been emptied,
-		/// and the last packet placed on the wire, and we are exactly up against the send
-		/// rate limit.  In that case we might need to wait for one packet's worth of time to
-		/// elapse before we can send again.  On the other extreme, the queue might have data
-		/// in it waiting for Nagle.  (This will always be less than one packet, because as
-		/// soon as we have a complete packet we would send it.)  In that case, we might be
-		/// ready to send data now, and this value will be 0.
-		///
-		/// This value is only valid if multiple lanes are not used.  If multiple lanes are
-		/// in use, then the queue time will be different for each lane, and you must use
-		/// the value in SteamNetConnectionRealTimeLaneStatus_t.
-		///
-		/// Nagle delay is ignored for the purposes of this calculation.
-		public SteamNetworkingMicroseconds m_usecQueueTime;
-		
-		// Internal stuff, room to change API easily
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
-		public uint[] reserved;
-	}
-
-	#endif
-	/// Quick status of a particular lane
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	public struct SteamNetConnectionRealTimeLaneStatus_t {
-		// Counters for this particular lane.  See the corresponding variables
-		// in SteamNetConnectionRealTimeStatus_t
-		public int m_cbPendingUnreliable;
-		public int m_cbPendingReliable;
-		public int m_cbSentUnackedReliable;
-		public int _reservePad1; // Reserved for future use
-		
-		/// Lane-specific queue time.  This value takes into consideration lane priorities
-		/// and weights, and how much data is queued in each lane, and attempts to predict
-		/// how any data currently queued will be sent out.
-		public SteamNetworkingMicroseconds m_usecQueueTime;
-		
-		// Internal stuff, room to change API easily
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
-		public uint[] reserved;
-	}
-
-	#if STEAMWORKS_ANYCPU
-	/// Quick status of a particular lane
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct SteamNetConnectionRealTimeLaneStatus_t_LargePack {
-		// Counters for this particular lane.  See the corresponding variables
-		// in SteamNetConnectionRealTimeStatus_t
-		public int m_cbPendingUnreliable;
-		public int m_cbPendingReliable;
-		public int m_cbSentUnackedReliable;
-		public int _reservePad1; // Reserved for future use
-		
-		/// Lane-specific queue time.  This value takes into consideration lane priorities
-		/// and weights, and how much data is queued in each lane, and attempts to predict
-		/// how any data currently queued will be sent out.
-		public SteamNetworkingMicroseconds m_usecQueueTime;
-		
-		// Internal stuff, room to change API easily
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
-		public uint[] reserved;
-	}
-
-
-	/// Quick status of a particular lane
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct SteamNetConnectionRealTimeLaneStatus_t_SmallPack {
-		// Counters for this particular lane.  See the corresponding variables
-		// in SteamNetConnectionRealTimeStatus_t
-		public int m_cbPendingUnreliable;
-		public int m_cbPendingReliable;
-		public int m_cbSentUnackedReliable;
-		public int _reservePad1; // Reserved for future use
-		
-		/// Lane-specific queue time.  This value takes into consideration lane priorities
-		/// and weights, and how much data is queued in each lane, and attempts to predict
-		/// how any data currently queued will be sent out.
-		public SteamNetworkingMicroseconds m_usecQueueTime;
-		
-		// Internal stuff, room to change API easily
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
-		public uint[] reserved;
-	}
-
-	#endif
-	//
-	// Ping location / measurement
-	//
-	/// Object that describes a "location" on the Internet with sufficient
-	/// detail that we can reasonably estimate an upper bound on the ping between
-	/// the two hosts, even if a direct route between the hosts is not possible,
-	/// and the connection must be routed through the Steam Datagram Relay network.
-	/// This does not contain any information that identifies the host.  Indeed,
-	/// if two hosts are in the same building or otherwise have nearly identical
-	/// networking characteristics, then it's valid to use the same location
-	/// object for both of them.
-	///
-	/// NOTE: This object should only be used in the same process!  Do not serialize it,
-	/// send it over the wire, or persist it in a file or database!  If you need
-	/// to do that, convert it to a string representation using the methods in
-	/// ISteamNetworkingUtils().
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	public struct SteamNetworkPingLocation_t {
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 512)]
-		public byte[] m_data;
-	}
-
-	#if STEAMWORKS_ANYCPU
-	//
-	// Ping location / measurement
-	//
-	/// Object that describes a "location" on the Internet with sufficient
-	/// detail that we can reasonably estimate an upper bound on the ping between
-	/// the two hosts, even if a direct route between the hosts is not possible,
-	/// and the connection must be routed through the Steam Datagram Relay network.
-	/// This does not contain any information that identifies the host.  Indeed,
-	/// if two hosts are in the same building or otherwise have nearly identical
-	/// networking characteristics, then it's valid to use the same location
-	/// object for both of them.
-	///
-	/// NOTE: This object should only be used in the same process!  Do not serialize it,
-	/// send it over the wire, or persist it in a file or database!  If you need
-	/// to do that, convert it to a string representation using the methods in
-	/// ISteamNetworkingUtils().
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct SteamNetworkPingLocation_t_LargePack {
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 512)]
-		public byte[] m_data;
-	}
-
 
 	//
 	// Ping location / measurement
@@ -1282,13 +874,45 @@ namespace Steamworks {
 	/// send it over the wire, or persist it in a file or database!  If you need
 	/// to do that, convert it to a string representation using the methods in
 	/// ISteamNetworkingUtils().
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
-	internal struct SteamNetworkPingLocation_t_SmallPack {
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 512)]
-		public byte[] m_data;
+	[StructLayout(LayoutKind.Sequential, Pack = 4)]
+	public struct SteamNetworkPingLocation_t
+	#if STEAMWORKS_ANYCPU
+		: ICallbackIdentity
+	#endif
+	{
+		public byte m_data;
 	}
 
+	/// In a few places we need to set configuration options on listen sockets and connections, and
+	/// have them take effect *before* the listen socket or connection really starts doing anything.
+	/// Creating the object and then setting the options "immediately" after creation doesn't work
+	/// completely, because network packets could be received between the time the object is created and
+	/// when the options are applied.  To set options at creation time in a reliable way, they must be
+	/// passed to the creation function.  This structure is used to pass those options.
+	///
+	/// For the meaning of these fields, see ISteamNetworkingUtils::SetConfigValue.  Basically
+	/// when the object is created, we just iterate over the list of options and call
+	/// ISteamNetworkingUtils::SetConfigValueStruct, where the scope arguments are supplied by the
+	/// object being created.
+	[StructLayout(LayoutKind.Sequential, Pack = 4)]
+	public struct SteamNetworkingConfigValue_t
+	#if STEAMWORKS_ANYCPU
+		: ICallbackIdentity
 	#endif
+	{
+		/// Which option is being set
+		public ESteamNetworkingConfigValue m_eValue;
+		
+		/// Which field below did you fill in?
+		public ESteamNetworkingConfigDataType m_eDataType;
+		public int32_t m_int32;
+		public int32_t m_int32;
+		public int64_t m_int64;
+		public int64_t m_int64;
+		public float m_float;
+		public float m_float;
+	}
+
 }
 
 #endif // !DISABLESTEAMWORKS
