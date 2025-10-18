@@ -267,19 +267,18 @@ class Struct:
         
         result = []
         current_offset = 0
-        
+
         for field in self.fields:
             pack = field.pack or defaultAlign
-            effective_field_pack = calcRealSize(pack)
-            
-            if effective_struct_pack > 0:
-                effective_field_pack = min(effective_field_pack, effective_struct_pack)
-            
+            effective_field_pack = calcRealSize(pack) 
+            effective_field_pack = min(effective_field_pack, defaultAlign)
+            padding = 0
             if effective_field_pack > 0:
                 padding = (effective_field_pack - (current_offset % effective_field_pack)) % effective_field_pack
                 current_offset += padding
             
              
+            effective_struct_pack = max(effective_struct_pack, effective_field_pack)
             field_total_size = calcRealSize(field.size) * (field.arraysize or 1)
             
             # store offset and total size into layout info
@@ -288,16 +287,15 @@ class Struct:
             current_offset += field_total_size
         
         total_size = current_offset
-        if effective_struct_pack > 0:
-            padding = (effective_struct_pack - (total_size % effective_struct_pack)) % effective_struct_pack
-            total_size += padding
+        # if effective_struct_pack > 0:
+        #     padding = (effective_struct_pack - (total_size % effective_struct_pack)) % effective_struct_pack
+        #     total_size += padding
         
         self.pack = min(
             calcRealSize(max(self.fields, key=lambda x: calcRealSize(x.size)).size),
             effective_struct_pack
         )
         self.size = total_size
-
         return result
 
 class Union:
@@ -705,8 +703,11 @@ class Parser:
             typee += " *"
             name = name[1:] 
 
-        typedef = Typedef(name, typee, s.f.name, comments,\
-                           self.resolveTypeInfo(typee).size, s.getCurrentPack())
+        aliasedType = self.resolveTypeInfo(typee)
+        size = aliasedType.size
+        pack = aliasedType.pack
+
+        typedef = Typedef(name, typee, s.f.name, comments, size, pack)
 
         self.typedefs.append(typedef)
         s.f.typedefs.append(typedef)
@@ -1356,43 +1357,23 @@ class Parser:
             unions = file.unions
             for union in unions:
                 union.calculate_offsets(defaultPack)
-
-    def populate_struct_field_sizes(self, defaultPack = 8):
-        allstructs = reduce(operator.concat, [f.structs for f in self.files])
-        allfields = reduce(operator.concat, [s.structs for s in allstructs])
-        
-        for field in allfields:
-            typeinfo = self.resolveTypeInfo(field.type)
-            field.size = typeinfo.size
-            field.pack = typeinfo.pack
-
-        pass
     
-    def populate_struct_field_layout(self, defaultPack = 8):
-        for file in self.files:
-            structs: list[Struct] = []
-            structs.extend(file.callbacks)
-            structs.extend(file.structs)
-
-            def populate_struct(struct: Struct, defaultPack):
-                for field in struct.fields:
-                    typeinfo = self.resolveTypeInfo(field.type)
-                    # check if we facing a struct which may not populated yet
-                    if isinstance(typeinfo, Struct):
-                        struct = typeinfo
-                        
-                        # we assume there will no circular references across structs
-                        if not typeinfo.size:
-                            populate_struct(typeinfo, defaultPack)
-                            typeinfo.calculate_offsets(defaultPack)
-                            
-                    field.size = typeinfo.size
-                    field.pack = typeinfo.pack or defaultPack
+    def populate_struct_field_layout(self, struct, defaultPack = 8):
+        for field in struct.fields:
+            typeinfo = self.resolveTypeInfo(field.type)
+            # check if we facing a struct which may not populated yet
+            if isinstance(typeinfo, Struct):
+                struct = typeinfo
                 
-                struct.calculate_offsets(defaultPack)
-            
-            for struct in structs:
-                populate_struct(struct, defaultPack)
+                # we assume there will no circular references across structs
+                if not typeinfo.size:
+                    self.populate_struct_field_layout(typeinfo, defaultPack)
+                    typeinfo.calculate_offsets(defaultPack)
+                    
+            field.size = typeinfo.size
+            field.pack = typeinfo.pack or defaultPack
+        
+        struct.calculate_offsets(defaultPack)
 
 
     def findout_platform_aware_structs(self):
@@ -1408,12 +1389,12 @@ class Parser:
                 if struct.packsize:
                     continue
                 
-                self.populate_struct_field_layout(8)
+                self.populate_struct_field_layout(struct, 8)
                 offsetsLargePack: list[FieldOffset] = struct.calculate_offsets(8)
                 offsetsLargePack.sort(key = lambda item: item.name)
                 sizeLarge = struct.size
 
-                self.populate_struct_field_layout(4)
+                self.populate_struct_field_layout(struct, 4)
                 offsetsSmallPack: list[FieldOffset] = struct.calculate_offsets(4)
                 offsetsSmallPack.sort(key = lambda item: item.name)
                 sizeSmall = struct.size
