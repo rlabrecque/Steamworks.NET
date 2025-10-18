@@ -38,14 +38,15 @@ g_SkippedLines = (
 
 g_SkippedStructs = (
     # steamnetworkingtypes.h
-    #"SteamNetworkingIPAddr",
-    #"SteamNetworkingIdentity",
-    #"SteamNetworkingMessage_t",
-    #"SteamNetworkingConfigValue_t",
+    "SteamNetworkingIPAddr",
+    "SteamNetworkingIdentity",
+    "SteamNetworkingMessage_t",
+    "SteamNetworkingConfigValue_t",
 
     # steamdatagram_tickets.h
-    #"SteamDatagramHostedAddress",
-    #"SteamDatagramRelayAuthTicket",
+    "SteamDatagramHostedAddress",
+    "SteamDatagramRelayAuthTicket",
+    "SteamIDComponent_t"
     
     # sync with g_SpecialStructsLP and g_SpecialStructsSP
 )
@@ -190,7 +191,7 @@ class Function:
     def __init__(self):
         self.name = ""
         self.returntype = ""
-        self.args = []  # Arg
+        self.args: list[Arg] = []  # Arg
         self.ifstatements = []
         self.comments = []
         self.linecomment = ""
@@ -200,7 +201,7 @@ class Function:
 class Interface:
     def __init__(self):
         self.name = ""
-        self.functions = []  # Function
+        self.functions: list[Function] = []  # Function
         self.c = None  # Comment
 
 class Define:
@@ -240,8 +241,6 @@ class Struct:
         self.name = name
         # keep it to remain compatibility
         self.packsize = packsize 
-        # use this property for packsize is preferred
-        self.pack = packsize 
         self.c = comments  # Comment
         self.fields: list[StructField] = []  # StructField
         self.nested_struct: list[Struct] = []  # nested structs
@@ -249,8 +248,10 @@ class Struct:
         self.scopeDepth: int = scopePath
         self.callbackid = None
         self.endcomments = None  # Comment
+        self.pack = packsize 
         self.size: int | None = None
         self.packsize_aware = False
+        self.is_skipped: bool = False
         
     def calculate_offsets(self, defaultAlign: int):
         def calcRealSize(sizelike: int | Literal['intptr']) -> int:
@@ -297,6 +298,9 @@ class Struct:
         )
         self.size = total_size
         return result
+
+    def should_not_generate(self):
+        return self.is_skipped or (self.outer_type is not None) or len(self.nested_struct) > 0
 
 class Union:
     def __init__(self, name, isUnnamed, pack):
@@ -459,9 +463,9 @@ class Parser:
                     infile = open(filepath, 'r', encoding="utf-8")
                     s.lines = infile.readlines()
                     s.lines[0] = s.lines[0][3:]
-                    
-                    if Settings.warn_utf8bom:
-                        printWarning("File contains a UTF8 BOM.", s)
+                 
+                if Settings.warn_utf8bom:
+                    printWarning("File contains a UTF8 BOM.", s)
 
                 self.parse(s)
                 
@@ -925,6 +929,8 @@ class Parser:
             s.struct = Struct(s.linesplit[1].strip(), s.getCurrentPack(),\
                               comments, s.scopeDepth)
             s.struct.outer_type = oldStruct
+            if s.linesplit[1].strip() in g_SkippedStructs:
+                s.struct.is_skipped = True
 
     def parse_struct_fields(self, s):
         comments = self.consume_comments(s)
@@ -1358,7 +1364,7 @@ class Parser:
             for union in unions:
                 union.calculate_offsets(defaultPack)
     
-    def populate_struct_field_layout(self, struct, defaultPack = 8):
+    def populate_struct_field_layout(self, struct: Struct, defaultPack = 8):
         for field in struct.fields:
             typeinfo = self.resolveTypeInfo(field.type)
             # check if we facing a struct which may not populated yet
@@ -1372,7 +1378,10 @@ class Parser:
                     
             field.size = typeinfo.size
             field.pack = typeinfo.pack or defaultPack
-        
+            if (field.arraysizeStr is not None):
+                arrsize = field.arraysizeStr
+                field.arraysize = int(arrsize) if arrsize.isdigit() else eval(self.resolveConstValue(arrsize).value)
+            
         struct.calculate_offsets(defaultPack)
 
 
