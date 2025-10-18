@@ -166,6 +166,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	public struct SteamParamStringArray_t {
+		public IntPtr m_ppStrings;
 		public int m_nNumStrings;
 	}
 
@@ -438,6 +439,7 @@ namespace Steamworks {
 	public struct CallbackMsg_t {
 		public int m_hSteamUser; // Specific user to whom this callback applies.
 		public int m_iCallback; // Callback identifier.  (Corresponds to the k_iCallback enum in the callback structure.)
+		public IntPtr m_pubParam; // Points to the callback structure
 		public int m_cubParam; // Size of the data pointed to by m_pubParam
 	}
 

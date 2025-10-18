@@ -148,7 +148,8 @@ g_SpecialStructs = {
     "CGameID": PrimitiveType("CGameID", 8, 8),
     "SteamIPAddress_t": PrimitiveType("SteamIPAddress_t", 16 + 4, 1),
     "SteamNetworkingIdentity ": PrimitiveType("SteamNetworkingIdentity", 4 + 128, 1),
-    "SteamIDComponent_t": PrimitiveType("SteamIDComponent_t", 8, 8) # Contains bit fields that size can't be represented
+    # Contains bit fields that size can't be represented as bytes count
+    "SteamIDComponent_t": PrimitiveType("SteamIDComponent_t", 8, 8)
 }
 
 
@@ -335,6 +336,7 @@ class Union:
         
         return self.size		
 
+'''Also used in Union'''
 class StructField:
     def __init__(self, name, typee, arraysize: str | None, comments):
         self.name = name
@@ -977,7 +979,7 @@ class Parser:
             # for example {type 'void' name: '(int a0, int a1)'
             if '(' in fieldname or '(' in fieldtype\
                 or ')' in fieldname or ')' in fieldtype\
-                or '*' in fieldname or '*' in fieldtype\
+                or '*' in fieldname\
             	or '{' in fieldtype or '}' in fieldtype\
             	or '{' in fieldname or '}' in fieldname:
                 return
