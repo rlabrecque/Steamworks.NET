@@ -1,17 +1,23 @@
 import os
 import sys
 from copy import deepcopy
-from SteamworksParser.steamworksparser import BlankLine, Parser, Settings
+from SteamworksParser.steamworksparser import BlankLine, FieldOffset, Parser, Settings, Struct, StructField
 
 g_TypeConversionDict = {
     "uint8": "byte",
     "uint16": "ushort",
     "uint32": "uint",
     "uint64": "ulong",
+    "uint8_t": "byte",
+    "uint16_t": "ushort",
+    "uint32_t": "uint",
+    "uint64_t": "ulong",
 
     "char": "string",
     "int32": "int",
     "int64": "long",
+    "int32_t": "int",
+    "int64_t": "long",
 
     "uint8 *": "IntPtr",
     "const char *": "string",
@@ -147,8 +153,11 @@ def main(parser: Parser):
         
         out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
 
-def parse(struct, isMainStruct, marshalTableLines: list[str], packsizeAwareStructNames: list[str]) -> list[str]:
-    if struct.name in g_SkippedStructs:
+def parse(struct: Struct, isMainStruct, marshalTableLines: list[str], packsizeAwareStructNames: list[str]) -> list[str]:
+    # ignore structs that manually defined by us
+    # ignore nested structs, they probably handled by hand
+    # ignore structs which has nested types, they probably interop by hand
+    if struct.name in g_SkippedStructs or struct.should_not_generate():
         return []
 
     lines = []
@@ -158,20 +167,27 @@ def parse(struct, isMainStruct, marshalTableLines: list[str], packsizeAwareStruc
         lines.append("\t" + comment)
 
     structname: str = struct.name
-	# We have analyzed this struct and stored the value of its packsize,
+    # We have analyzed this struct and stored the value of its packsize,
     # it's stored in Struct.pack, None for default packsize
-	# If the struct is packsize-aware, we generate large variants of it.
+    # If the struct is packsize-aware, we generate large variants of it.
     packsize = g_CustomPackSize.get(structname, "Packsize.value")
     isExplicitStruct = False
     if g_ExplicitStructs.get(structname, False):
         lines.append("\t[StructLayout(LayoutKind.Explicit, Pack = " + packsize + ")]")
         isExplicitStruct = True
-    elif struct.packsize != "Packsize.value":
-        packsize = packsize if struct.packsize is None else str(struct.packsize)
+    elif isMainStruct:
+         
+        if struct.packsize != "Packsize.value" and structname not in g_SequentialStructs:
+            customsize = ""
+            if len(struct.fields) == 0:
+                customsize = ", Size = 1"
+            lines.append("\t[StructLayout(LayoutKind.Sequential, Pack = " + packsize + customsize + ")]")
+    elif not isMainStruct:
+        packsize = str(8)
         customsize = ""
         if len(struct.fields) == 0:
-            customsize = ", Size = 1"
-        lines.append("\t[StructLayout(LayoutKind.Sequential, Pack = " + packsize + customsize + ")]")
+                customsize = ", Size = 1"
+        lines.append("\t[StructLayout(LayoutKind.Sequential, Pack = 8" + customsize + ")]")
 
     if struct.callbackid:
         lines.append("\t[CallbackIdentity(Constants." + struct.callbackid + ")]")
@@ -182,18 +198,21 @@ def parse(struct, isMainStruct, marshalTableLines: list[str], packsizeAwareStruc
             break
 
     if isMainStruct:
-        lines.append("\tpublic struct " + structname )
-        lines.append("\t#if STEAMWORKS_ANYCPU")
-        lines.append("\t\t: ICallbackIdentity")
-        lines.append("\t#endif")
-        lines.append("\t{")
+        if struct.callbackid:
+            lines.append("\tpublic struct " + structname )
+            lines.append("\t#if STEAMWORKS_ANYCPU")
+            lines.append("\t\t: ICallbackIdentity")
+            lines.append("\t#endif")
+            lines.append("\t{")
+        else:
+            lines.append("\tpublic struct " + structname + " {" )
     else:
         lines.append("\tinternal struct " + structname + " {")
         
 
     lines.extend(insert_constructors(structname))
 
-    if struct.callbackid and not isMainStruct:
+    if struct.callbackid and isMainStruct:
         lines.append("\t\tpublic const int k_iCallback = Constants." + struct.callbackid + ";")
         lines.append("\t\tpublic static int CallbackIdentity { get; } = Constants." + struct.callbackid + ";")
 
@@ -236,7 +255,7 @@ def parse(struct, isMainStruct, marshalTableLines: list[str], packsizeAwareStruc
             else:
                 lines.append("\t" + comment)
 
-	# Generate Any CPU marshal helper
+    # Generate Any CPU marshal helper
     if isMainStruct and struct.name in packsizeAwareStructNames and not isExplicitStruct:
         marshalTableLines.append(f"if (typeof(T) == typeof({structname}) && Packsize.IsLargePack)")
         marshalTableLines.append(f"\tImpl<{structname}>.Marshaller = (unmanaged) =>")
@@ -249,7 +268,7 @@ def parse(struct, isMainStruct, marshalTableLines: list[str], packsizeAwareStruc
     lines.append("\t}")
     lines.append("")
 
-	# Generate Any CPU struct variant for default pack-sized structs
+    # Generate Any CPU struct variant for default pack-sized structs
     if isMainStruct and not isExplicitStruct and struct.name in packsizeAwareStructNames:
         lines.append("\t#if STEAMWORKS_ANYCPU")
         
@@ -271,7 +290,7 @@ def gen_fieldcopycode(field, structname, marshalTableLines):
     else:
         marshalTableLines.append(f"\t\t\tresult.{field.name} = value.{field.name};")
                 
-def parse_field(field, structname):
+def parse_field(field: StructField, structname):
     lines = []
     for comment in field.c.rawprecomments:
         if type(comment) is BlankLine:
@@ -290,28 +309,29 @@ def parse_field(field, structname):
     if field.c.rawlinecomment:
         comment = field.c.rawlinecomment
 
-    if field.arraysize:
+    if field.arraysizeStr:
         constantsstr = ""
-        if not field.arraysize.isdigit():
+        if not field.arraysizeStr.isdigit():
             constantsstr = "Constants."
 
         if fieldtype == "byte[]":
-            lines.append("\t\t[MarshalAs(UnmanagedType.ByValArray, SizeConst = " + constantsstr + field.arraysize + ")]")
+            lines.append("\t\t[MarshalAs(UnmanagedType.ByValArray, SizeConst = " + constantsstr + field.arraysizeStr + ")]")
         if structname == "MatchMakingKeyValuePair_t":
-            lines.append("\t\t[MarshalAs(UnmanagedType.ByValTStr, SizeConst = " + constantsstr + field.arraysize + ")]")
+            lines.append("\t\t[MarshalAs(UnmanagedType.ByValTStr, SizeConst = " + constantsstr + field.arraysizeStr + ")]")
         else:
-            lines.append("\t\t[MarshalAs(UnmanagedType.ByValArray, SizeConst = " + constantsstr + field.arraysize + ")]")
+            lines.append("\t\t[MarshalAs(UnmanagedType.ByValArray, SizeConst = " + constantsstr + field.arraysizeStr + ")]")
             fieldtype += "[]"
 
     if fieldtype == "bool":
         lines.append("\t\t[MarshalAs(UnmanagedType.I1)]")
 
-    if field.arraysize and fieldtype == "string[]":
+	# HACK real type is `string`, `[]` is added by `fieldtype += "[]"`
+    if field.arraysizeStr and fieldtype == "string[]":
         lines.append("\t\tinternal byte[] " + field.name + "_;")
-        lines.append("\t\tpublic string " + field.name + comment)
+        lines.append("\t\tpublic string " + field.name + comment)	
         lines.append("\t\t{")
         lines.append("\t\t\tget { return InteropHelp.ByteArrayToStringUTF8(" + field.name + "_); }")
-        lines.append("\t\t\tset { InteropHelp.StringToByteArrayUTF8(value, " + field.name + "_, " + constantsstr + field.arraysize + "); }")
+        lines.append("\t\t\tset { InteropHelp.StringToByteArrayUTF8(value, " + field.name + "_, " + constantsstr + field.arraysizeStr + "); }")
         lines.append("\t\t}")
     else:
         lines.append("\t\tpublic " + fieldtype + " " + field.name + ";" + comment)

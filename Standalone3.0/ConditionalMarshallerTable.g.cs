@@ -182,10 +182,6 @@ namespace Steamworks {
 				Impl<SteamNetConnectionStatusChangedCallback_t>.Marshaller = (unmanaged) =>
 					System.Runtime.InteropServices.Marshal.PtrToStructure<SteamNetConnectionStatusChangedCallback_t_LargePack>(unmanaged);
 			
-			if (typeof(T) == typeof(SteamTimelineGamePhaseRecordingExists_t) && Packsize.IsLargePack)
-				Impl<SteamTimelineGamePhaseRecordingExists_t>.Marshaller = (unmanaged) =>
-					System.Runtime.InteropServices.Marshal.PtrToStructure<SteamTimelineGamePhaseRecordingExists_t_LargePack>(unmanaged);
-			
 			if (typeof(T) == typeof(SteamUGCDetails_t) && Packsize.IsLargePack)
 				Impl<SteamUGCDetails_t>.Marshaller = (unmanaged) =>
 					System.Runtime.InteropServices.Marshal.PtrToStructure<SteamUGCDetails_t_LargePack>(unmanaged);
