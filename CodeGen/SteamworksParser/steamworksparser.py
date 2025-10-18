@@ -444,11 +444,15 @@ class Parser:
     typedefs = []
 
     def __init__(self, folder):
-        self.files: list[SteamFile] = [SteamFile(f) for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f)) and f.endswith(".h") and f not in g_SkippedFiles]
+        self.files: list[SteamFile] = [SteamFile(f) for f in os.listdir(folder)
+                                       if os.path.isfile(os.path.join(folder, f))
+                                        and f.endswith(".h")
+                                        and f not in g_SkippedFiles]
         self.files
         self.files.sort(key=lambda f: f.name)
 
-        self.typedefs:list[Typedef] = []
+        self.typedefs:list[Typedef] = [
+		]
 
 
         for f in self.files:
