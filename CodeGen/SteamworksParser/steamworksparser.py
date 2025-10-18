@@ -814,7 +814,11 @@ class Parser:
         if "};" in s.linesplit:
             # Skips lines like: "enum { k_name1 = value, k_name2 = value };"
             # Currently only skips one enum in CCallbackBase
-            if "," in s.line:
+            #
+			# Also steamnetworkingtypes.h has
+			# two different anon enum defined same named field,
+            # broke our project. Skip it.
+            if "," in s.line or s.f.name == 'steamnetworkingtypes.h':
                 return
 
             # Skips lines in macros
