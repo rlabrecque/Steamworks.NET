@@ -1,6 +1,8 @@
 import os
+import re
 import sys
 from collections import OrderedDict
+from SteamworksParser import steamworksparser
 from SteamworksParser.steamworksparser import Arg, Function, FunctionAttribute, Interface, Parser, Struct, ArgAttribute
 
 g_SkippedFiles = (
@@ -693,19 +695,19 @@ def parse_interface(f, interface: Interface, parser: Parser):
                 strEntryPoint = interface.name + '_' + attr.value
                 break
         
-        parsed_args = parse_args(strEntryPoint, func.args)
-        parse_func_native(f, interface, func, parsed_args, strEntryPoint, False, bGameServerVersion, parser)
+        parsed_args = parse_args(strEntryPoint, func.args, None, parser)
+        parse_func_native(f, interface, func, strEntryPoint, parsed_args, False, bGameServerVersion, parser)
         
         # Check if any args are pack-size aware structs
         # If so, we need to generate an alternate version of the function
         for arg in func.args:
             argType = parser.resolveTypeInfo(arg.type)
             if isinstance(argType, Struct) and argType.name in parser.packSizeAwareStructs:
-                parse_func_native(f, interface, parsed_args, func, True, bGameServerVersion, parser)
+                parse_func_native(f, interface, func, strEntryPoint, parsed_args, True, bGameServerVersion, parser)
                 shouldGenerateLargePack = True
                 break    
         
-        generate_wrapper_function(f, interface, func, parsed_args, strEntryPoint, shouldGenerateLargePack)
+        generate_wrapper_function(f, interface, func, parsed_args, strEntryPoint, shouldGenerateLargePack, parser)
                 
 
     # Remove last whitespace
@@ -744,29 +746,42 @@ def parse_func_native(f, interface, func: Function, strEntryPoint: str, args, ge
         wrapperreturntype = returntype
 
     pinvokeargs = args[0]  # TODO: NamedTuple
-    largePackPInvokeArgs = args[6]
+    isPacksizeAware = args[6]
+    largePackPInvokeArgs = args[9]
     if not bGameServerVersion:
         g_NativeMethods.append("\t\t[DllImport(NativeLibraryName, EntryPoint = \"SteamAPI_{0}\", CallingConvention = CallingConvention.Cdecl)]".format(strEntryPoint))
 
         if returntype == "bool":
             g_NativeMethods.append("\t\t[return: MarshalAs(UnmanagedType.I1)]")
 
-        g_NativeMethods.append("\t\tpublic static extern {0} {1}({2});".format(returntype, strEntryPoint,
-                                                        pinvokeargs if not generatingLargePack else largePackPInvokeArgs))
+        g_NativeMethods.append("\t\tpublic static extern {0} {1}({2});".format(returntype, strEntryPoint, pinvokeargs))
         g_NativeMethods.append("")
+
+        if isPacksizeAware:
+            g_NativeMethods.append("\t\t[DllImport(NativeLibraryName, EntryPoint = \"SteamAPI_{0}\", CallingConvention = CallingConvention.Cdecl)]".format(strEntryPoint))
+
+            if returntype == "bool":
+                g_NativeMethods.append("\t\t[return: MarshalAs(UnmanagedType.I1)]")
+
+            g_NativeMethods.append("\t\tpublic static extern {0} {1}({2});".format(returntype, strEntryPoint, largePackPInvokeArgs))
+            g_NativeMethods.append("")
         pass
 
 def generate_wrapper_function(f, interface, func: Function,
-                               args: tuple[str, str, str, list[str], tuple[list[str], list[Arg]], OrderedDict, str],
-                                 strEntryPoint: str, bGameServerVersion: bool):
+                               args: tuple[str, str, str, list[str], tuple[list[str], list[Arg]], OrderedDict, str, bool, str],
+                                 strEntryPoint: str, bGameServerVersion: bool, parser: Parser):
     wrapperargs = args[1]
     argnames = args[2]
     stringargs = args[3]
     outstringargs = args[4][0]
     outstringsize = args[4][1]
     args_with_explicit_count = args[5]
+    isPacksizeAware = args[6]
+    largePackNativeArgs: str = args[7]
+    largePackArgTypeToName: list[(str, str)] = args[8] # (type,argname)
     
     strCast = ""
+    wrapperreturntype = None
     returntype = func.returntype
     returntype = g_SpecialReturnTypeDict.get(strEntryPoint, returntype)
     for t in g_Typedefs:
@@ -815,36 +830,67 @@ def generate_wrapper_function(f, interface, func: Function,
         if returntype != "void":
             strReturnable = returntype + " ret = "
 
-        for i, a in enumerate(outstringargs):
+        for i, argName in enumerate(outstringargs):
             if not outstringsize:
-                functionBody.append("\t\t\tIntPtr " + a + "2;")
+                functionBody.append("\t\t\tIntPtr " + argName + "2;")
                 continue
 
             cast = ""
             if outstringsize[i].type != "int":
                 cast = "(int)"
 
-            functionBody.append("\t\t\tIntPtr " + a + "2 = Marshal.AllocHGlobal(" + cast + outstringsize[i].name + ");")
+            functionBody.append("\t\t\tIntPtr " + argName + "2 = Marshal.AllocHGlobal(" + cast + outstringsize[i].name + ");")
 
+    # TODO fix `ISteamGameServerClient_CreateSteamPipe`
     indentlevel = "\t\t\t"
     if stringargs:
         indentlevel += "\t"
-        for a in stringargs:
-            functionBody.append("\t\t\tusing (var " + a + "2 = new InteropHelp.UTF8StringHandle(" + a + "))")
+        for argName in stringargs:
+            functionBody.append("\t\t\tusing (var " + argName + "2 = new InteropHelp.UTF8StringHandle(" + argName + "))")
 
         functionBody[-1] += " {"
 
     if bGameServerVersion:
-        strEntryPoint2 = interface.name.replace("GameServer", "") + '_' + func.name
+        invokingNativeFunctionName = interface.name.replace("GameServer", "") + '_' + func.name
 
         for attr in func.attributes:
             if attr.name == "STEAM_FLAT_NAME":
-                strEntryPoint2 = interface.name.replace("GameServer", "") + '_' + attr.value
+                invokingNativeFunctionName = interface.name.replace("GameServer", "") + '_' + attr.value
                 break
     else:
-        strEntryPoint2 = strEntryPoint
+        invokingNativeFunctionName = strEntryPoint
 
-    functionBody.append("{0}{1}{2}NativeMethods.{3}({4});".format(indentlevel, strReturnable, strCast, strEntryPoint2, argnames))
+    if not isPacksizeAware:
+        functionBody.append("{0}{1}{2}NativeMethods.{3}({4});".format(
+            indentlevel, strReturnable, strCast,
+             invokingNativeFunctionName, argnames))
+    else:
+        b:list[str] = []
+        invocationTemplate = "{0}{1}{2}NativeMethods.{3}({4});"
+        prebuiltInvocationExpression = invocationTemplate.format(
+            "", "" if returntype == "void" else "anyCpuResult = ", strCast,
+             invokingNativeFunctionName, argnames)
+        
+        prebuiltInvocationExpressionLargePack = invocationTemplate.format(
+            "", "" if returntype == "void" else "anyCpuResult = ", strCast,
+             invokingNativeFunctionName, largePackNativeArgs
+        )
+        
+        b.append(f"{returntype} anyCpuResult;")
+        b.append("if (!Packsize.IsLargePack) {")
+        b.append("\t" + prebuiltInvocationExpression)
+        b.append("} else {")
+        # generate large-pack byref intermediate struct variables 
+        for lpArg in largePackArgTypeToName:
+            b.append(f"\t{lpArg[0]} {lpArg[1]}_lp;")
+        b.append("\t" + prebuiltInvocationExpressionLargePack)
+        # convert large pack form to managed form
+        for lpArg in largePackArgTypeToName:
+            b.append(f"\t{lpArg[1]} = {lpArg[1]}_lp;")
+        b.append("}")
+        b.append("return anyCpuResult;")
+
+        functionBody.extend(map(lambda l: "\t\t\t" + l, b))
 
     if outstringargs:
         retcmp = "ret != 0"
@@ -853,14 +899,14 @@ def generate_wrapper_function(f, interface, func: Function,
         elif returntype == "int":
             retcmp = "ret != -1"
         retcmp = g_SpecialOutStringRetCmp.get(strEntryPoint, retcmp)
-        for a in outstringargs:
+        for argName in outstringargs:
             if returntype == "void":
-                functionBody.append(indentlevel + a + " = InteropHelp.PtrToStringUTF8(" + a + "2);")
+                functionBody.append(indentlevel + argName + " = InteropHelp.PtrToStringUTF8(" + argName + "2);")
             else:
-                functionBody.append(indentlevel + a + " = " + retcmp + " ? InteropHelp.PtrToStringUTF8(" + a + "2) : null;")
+                functionBody.append(indentlevel + argName + " = " + retcmp + " ? InteropHelp.PtrToStringUTF8(" + argName + "2) : null;")
 
             if strEntryPoint != "ISteamRemoteStorage_GetUGCDetails":
-                functionBody.append(indentlevel + "Marshal.FreeHGlobal(" + a + "2);")
+                functionBody.append(indentlevel + "Marshal.FreeHGlobal(" + argName + "2);")
 
         if returntype != "void":
             functionBody.append(indentlevel + "return ret;")
@@ -887,46 +933,61 @@ def generate_wrapper_function(f, interface, func: Function,
     g_Output.append("")
 
 def parse_args(strEntryPoint: str, args: list[Arg], _: bool, parser: Parser):
+    # Akarinnnnn: I think we should extract a result class
     pinvokeargs = "IntPtr instancePtr, "
-    largePackPInvokeArgs = "IntPtr instancePtr, "
+    pinvokeargsLargePack = pinvokeargs
     wrapperargs = ""
-    argnames = ""
+    nativeFunctionArgs = ""
+    nativeFunctionArgsLargePack = ""
     stringargs = []
     outstringargs = []
     outstringsize = []
+    isMethodPacksizeAware = False
     args_with_explicit_count = OrderedDict()
+    largePackArgTypeToName: list[(str,  str)] = []
 
     ifacename = strEntryPoint[1:strEntryPoint.index('_')]
+
+    #region init native function params string
     if "GameServer" in ifacename:
         if ifacename != "SteamGameServer" and ifacename != "SteamGameServerStats":
             ifacename = ifacename.replace("GameServer", "")
-        argnames = "CSteamGameServerAPIContext.Get" + ifacename + "(), "
+        nativeFunctionArgs = "CSteamGameServerAPIContext.Get" + ifacename + "(), "
+        nativeFunctionArgsLargePack = "CSteamGameServerAPIContext.Get" + ifacename + "(), "
     else:
-        argnames = "CSteamAPIContext.Get" + ifacename + "(), "
+        nativeFunctionArgs = "CSteamAPIContext.Get" + ifacename + "(), "
+        nativeFunctionArgsLargePack = "CSteamAPIContext.Get" + ifacename + "(), "
 
     getNextArgAsStringSize = False
     argNamesToAddAsStringSize = []
 
-    packsizeAware = False
-    # Scan for packsize aware parameter first, duplicated from below
+    #region populate PInvoke params list and wrapper args (both LP and SP)
     for arg in args:
-        potentialtype = arg.type.rstrip("*").lstrip("const ").rstrip()
-        if potentialtype in parser.packSizeAwareStructs:
-            packsizeAware = True
 
-    for arg in args:
         potentialtype = arg.type.rstrip("*").lstrip("const ").rstrip()
-        argtype = g_TypeDict.get(arg.type, arg.type)
-        if argtype.endswith("*"):
-            argtype = "out " + g_TypeDict.get(potentialtype, potentialtype)
-        argtype = g_SpecialArgsDict.get(strEntryPoint, dict()).get(arg.name, argtype)
-        argTypeInfo = parser.resolveTypeInfo(arg.type)
-        
+        isThisArgPackAware = potentialtype in parser.packSizeAwareStructs
+        isMethodPacksizeAware = True if isThisArgPackAware else isMethodPacksizeAware
+
+        pInvokeLargePackType = None
+        pInvokeArgType = g_TypeDict.get(arg.type, arg.type)
+
+        isParamArray = False
+        if pInvokeArgType.endswith("*"):
+            wrapperParamType = g_TypeDict.get(potentialtype, potentialtype)
+            pInvokeArgType = "out " + wrapperParamType
+            if isThisArgPackAware:
+                pInvokeLargePackType = "out " + wrapperParamType + "_LargePack"
+
+
+        pInvokeArgType = g_SpecialArgsDict.get(strEntryPoint, dict()).get(arg.name, pInvokeArgType)
 
         argattribute = get_arg_attribute(strEntryPoint, arg)
         if argattribute:
             if argattribute.name == "STEAM_OUT_ARRAY" or argattribute.name == "STEAM_OUT_ARRAY_CALL" or argattribute.name == "STEAM_OUT_ARRAY_COUNT" or argattribute.name == "STEAM_ARRAY_COUNT" or argattribute.name == "STEAM_ARRAY_COUNT_D":
-                argtype = g_TypeDict.get(potentialtype, potentialtype) + "[]"
+                isParamArray = True
+                pInvokeArgType = g_TypeDict.get(potentialtype, potentialtype) + "[]"
+                if pInvokeLargePackType is not None:
+                    pInvokeLargePackType = pInvokeLargePackType + "[]"
 
             if argattribute.name == "STEAM_OUT_ARRAY_COUNT":
                 commaindex = argattribute.value.find(',')
@@ -937,23 +998,29 @@ def parse_args(strEntryPoint: str, args: list[Arg], _: bool, parser: Parser):
 
 
         if arg.type == "MatchMakingKeyValuePair_t **":  # TODO: Fixme - Small Hack... We do this because MatchMakingKeyValuePair's have ARRAY_COUNT() and two **'s, things get broken :(
-            argtype = "IntPtr"
+            pInvokeArgType = "IntPtr"
 
         # We skip byte[] because it is a primitive type that C# can essentially mmap and get a great perf increase while marshalling.
         # We need to do this for other primitive types eventually but that will require more testing to make sure nothing breaks.
-        if argtype.endswith("[]") and argtype != "byte[]":
-            argtype = "[In, Out] " + argtype
-        elif argtype == "bool":
-            argtype = "[MarshalAs(UnmanagedType.I1)] " + argtype
+        if pInvokeArgType.endswith("[]") and pInvokeArgType != "byte[]":
+            pInvokeArgType = "[In, Out] " + pInvokeArgType
+        elif pInvokeArgType == "bool":
+            pInvokeArgType = "[MarshalAs(UnmanagedType.I1)] " + pInvokeArgType
 
-        pinvokeargs += argtype + " " + arg.name + ", "
-        if packsizeAware:
-            largePackPInvokeArgs += f"{argtype}_LargePack {arg.name},"
+        pinvokeargs += pInvokeArgType + " " + arg.name + ", "
+        if isThisArgPackAware:
+            if not pinvokeargsLargePack.endswith('[]'):
+                pinvokeargsLargePack += f"{pInvokeLargePackType} {arg.name}_lp, "
+            else:
+                pinvokeargsLargePack += f"{pInvokeArgType}_LargePack {arg.name}_lp, "
 
+        else:
+            pinvokeargsLargePack += pInvokeArgType + " " + arg.name + ", "
 
-        argtype = argtype.replace("[In, Out] ", "").replace("[MarshalAs(UnmanagedType.I1)] ", "")
-        wrapperargtype = g_WrapperArgsTypeDict.get(arg.type, argtype)
+        pInvokeArgType = pInvokeArgType.replace("[In, Out] ", "").replace("[MarshalAs(UnmanagedType.I1)] ", "")
+        wrapperargtype = g_WrapperArgsTypeDict.get(arg.type, pInvokeArgType)
         wrapperargtype = g_SpecialWrapperArgsDict.get(strEntryPoint, dict()).get(arg.name, wrapperargtype)
+        
         if wrapperargtype == "InteropHelp.UTF8StringHandle":
             wrapperargtype = "string"
         elif arg.type == "char *" or arg.type == "char*":
@@ -964,28 +1031,38 @@ def parse_args(strEntryPoint: str, args: list[Arg], _: bool, parser: Parser):
             if arg.default:
                 wrapperargs += " = " + g_ArgDefaultLookup.get(arg.default, arg.default)
             wrapperargs += ", "
+            
 
-        if argtype.startswith("out"):
-            argnames += "out "
+        if pInvokeArgType.startswith("out"):
+            nativeFunctionArgs += "out "
+            nativeFunctionArgsLargePack += "out "
         elif wrapperargtype.startswith("ref"):
-            argnames += "ref "
+            nativeFunctionArgs += "ref "
+            nativeFunctionArgsLargePack += "ref "
 
         if wrapperargtype == "System.Collections.Generic.IList<string>":
-            argnames += "new InteropHelp.SteamParamStringArray(" + arg.name + ")"
+            nativeFunctionArgs += "new InteropHelp.SteamParamStringArray(" + arg.name + ")"
+            nativeFunctionArgsLargePack += "new InteropHelp.SteamParamStringArray(" + arg.name + ")"
         elif wrapperargtype == "MatchMakingKeyValuePair_t[]":
-            argnames += "new MMKVPMarshaller(" + arg.name + ")"
+            nativeFunctionArgs += "new MMKVPMarshaller(" + arg.name + ")"
+            nativeFunctionArgsLargePack += "new MMKVPMarshaller(" + arg.name + ")"
         elif wrapperargtype.endswith("Response"):
-            argnames += "(IntPtr)" + arg.name
+            nativeFunctionArgs += "(IntPtr)" + arg.name
+            nativeFunctionArgsLargePack += "(IntPtr)" + arg.name
         elif arg.name.endswith("Deprecated"):
-            if argtype == "IntPtr":
-                argnames += "IntPtr.Zero"
-            elif argtype == "bool":
-                argnames += "false"
+            if pInvokeArgType == "IntPtr":
+                nativeFunctionArgs += "IntPtr.Zero"
+                nativeFunctionArgsLargePack += "IntPtr.Zero"
+            elif pInvokeArgType == "bool":
+                nativeFunctionArgs += "false"
+                nativeFunctionArgsLargePack += "false"
             else:
-                argnames += "0"
+                nativeFunctionArgs += "0"
+                nativeFunctionArgsLargePack += "0"
         else:
-            argnames += arg.name
-
+            nativeFunctionArgs += arg.name
+            nativeFunctionArgsLargePack += arg.name
+        
         if getNextArgAsStringSize:
             getNextArgAsStringSize = False
             outstringsize.append(arg)
@@ -996,10 +1073,12 @@ def parse_args(strEntryPoint: str, args: list[Arg], _: bool, parser: Parser):
 
         if wrapperargtype == "string":
             stringargs.append(arg.name)
-            argnames += "2"
+            nativeFunctionArgs += "2"
+            nativeFunctionArgsLargePack += "2"
         elif wrapperargtype == "out string":
             outstringargs.append(arg.name)
-            argnames += "2"
+            nativeFunctionArgs += "2"
+            nativeFunctionArgsLargePack += "2"
             if argattribute:
                 if argattribute.name == "STEAM_OUT_STRING_COUNT":
                     argNamesToAddAsStringSize.append(argattribute.value)
@@ -1007,14 +1086,25 @@ def parse_args(strEntryPoint: str, args: list[Arg], _: bool, parser: Parser):
                     pass
             else:
                 getNextArgAsStringSize = True
+        
 
-        argnames += ", "
+        
+        if isThisArgPackAware:
+                nativeFunctionArgsLargePack += "_lp"
+
+        nativeFunctionArgs += ", "
+        nativeFunctionArgsLargePack += ", "
+
 
     pinvokeargs = pinvokeargs.rstrip(", ")
-    largePackPInvokeArgs = largePackPInvokeArgs.rstrip(", ")
+    pinvokeargsLargePack = pinvokeargsLargePack.rstrip(", ")
+    nativeFunctionArgsLargePack = nativeFunctionArgsLargePack.rstrip(", ")
     wrapperargs = wrapperargs.rstrip(", ")
-    argnames = argnames.rstrip(", ")
-    return (pinvokeargs, wrapperargs, argnames, stringargs, (outstringargs, outstringsize), args_with_explicit_count)
+    nativeFunctionArgs = nativeFunctionArgs.rstrip(", ")
+    nativeFunctionArgsLargePack = nativeFunctionArgsLargePack.rstrip(", ")
+    return (pinvokeargs, wrapperargs, nativeFunctionArgs, stringargs, (outstringargs, outstringsize),
+             args_with_explicit_count, isMethodPacksizeAware, nativeFunctionArgsLargePack,
+             largePackArgTypeToName, pinvokeargsLargePack if isMethodPacksizeAware else None)
 
 
 if __name__ == "__main__":

@@ -11,7 +11,7 @@ def main():
     steamworksparser.Settings.fake_gameserver_interfaces = True
     ___parser = steamworksparser.parse(steam_path)
 
-    # TODO interfaces.main(___parser)
+    interfaces.main(___parser)
     constants.main(___parser)
     enums.main(___parser)
     structs.main(___parser)

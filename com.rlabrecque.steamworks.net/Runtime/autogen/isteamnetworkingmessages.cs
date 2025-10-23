@@ -134,7 +134,13 @@ namespace Steamworks {
 		/// </summary>
 		public static ESteamNetworkingConnectionState GetSessionConnectionInfo(ref SteamNetworkingIdentity identityRemote, out SteamNetConnectionInfo_t pConnectionInfo, out SteamNetConnectionRealTimeStatus_t pQuickStatus) {
 			InteropHelp.TestIfAvailableClient();
-			return NativeMethods.ISteamNetworkingMessages_GetSessionConnectionInfo(CSteamAPIContext.GetSteamNetworkingMessages(), ref identityRemote, out pConnectionInfo, out pQuickStatus);
+			ESteamNetworkingConnectionState anyCpuResult;
+			if (!Packsize.IsLargePack) {
+				anyCpuResult = NativeMethods.ISteamNetworkingMessages_GetSessionConnectionInfo(CSteamAPIContext.GetSteamNetworkingMessages(), ref identityRemote, out pConnectionInfo, out pQuickStatus);
+			} else {
+				anyCpuResult = NativeMethods.ISteamNetworkingMessages_GetSessionConnectionInfo(CSteamAPIContext.GetSteamNetworkingMessages(), ref identityRemote, out pConnectionInfo_lp, out pQuickStatus);
+			}
+			return anyCpuResult;
 		}
 	}
 }
