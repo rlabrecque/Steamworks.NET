@@ -1765,7 +1765,7 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamParties_GetAvailableBeaconLocations", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamParties_GetAvailableBeaconLocations(IntPtr instancePtr, SteamPartyBeaconLocation_t[]_LargePack pLocationList_lp, uint uMaxNumLocations);
+		public static extern bool ISteamParties_GetAvailableBeaconLocations(IntPtr instancePtr, [In, Out] SteamPartyBeaconLocation_t_LargePack[] pLocationList_lp, uint uMaxNumLocations);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamParties_CreateBeacon", CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong ISteamParties_CreateBeacon(IntPtr instancePtr, uint unOpenSlots, ref SteamPartyBeaconLocation_t pBeaconLocation, InteropHelp.UTF8StringHandle pchConnectString, InteropHelp.UTF8StringHandle pchMetadata);
@@ -1785,14 +1785,6 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamParties_DestroyBeacon", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamParties_DestroyBeacon(IntPtr instancePtr, PartyBeaconID_t ulBeacon);
-
-		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamParties_GetBeaconLocationData", CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamParties_GetBeaconLocationData(IntPtr instancePtr, SteamPartyBeaconLocation_t BeaconLocation, ESteamPartyBeaconLocationData eData, IntPtr pchDataStringOut, int cchDataStringOut);
-
-		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamParties_GetBeaconLocationData", CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamParties_GetBeaconLocationData(IntPtr instancePtr, SteamPartyBeaconLocation_t_LargePack BeaconLocation_lp, ESteamPartyBeaconLocationData eData, IntPtr pchDataStringOut, int cchDataStringOut);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamParties_GetBeaconLocationData", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
