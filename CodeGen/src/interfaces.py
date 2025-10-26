@@ -698,15 +698,6 @@ def parse_interface(f, interface: Interface, parser: Parser):
         parsed_args = parse_args(strEntryPoint, func.args, None, parser)
         parse_func_native(f, interface, func, strEntryPoint, parsed_args, False, bGameServerVersion, parser)
         
-        # Check if any args are pack-size aware structs
-        # If so, we need to generate an alternate version of the function
-        for arg in func.args:
-            argType = parser.resolveTypeInfo(arg.type)
-            if isinstance(argType, Struct) and argType.name in parser.packSizeAwareStructs:
-                parse_func_native(f, interface, func, strEntryPoint, parsed_args, True, bGameServerVersion, parser)
-                shouldGenerateLargePack = True
-                break    
-        
         generate_wrapper_function(f, interface, func, parsed_args, strEntryPoint, shouldGenerateLargePack, parser)
                 
 
@@ -968,7 +959,7 @@ def parse_args(strEntryPoint: str, args: list[Arg], _: bool, parser: Parser):
         isThisArgPackAware = potentialtype in parser.packSizeAwareStructs
         isMethodPacksizeAware = True if isThisArgPackAware else isMethodPacksizeAware
 
-        pInvokeLargePackType = None
+        pInvokeLargePackType = g_TypeDict.get(arg.type, arg.type)
         pInvokeArgType = g_TypeDict.get(arg.type, arg.type)
 
         isParamArray = False
@@ -983,11 +974,11 @@ def parse_args(strEntryPoint: str, args: list[Arg], _: bool, parser: Parser):
 
         argattribute = get_arg_attribute(strEntryPoint, arg)
         if argattribute:
-            if argattribute.name == "STEAM_OUT_ARRAY" or argattribute.name == "STEAM_OUT_ARRAY_CALL" or argattribute.name == "STEAM_OUT_ARRAY_COUNT" or argattribute.name == "STEAM_ARRAY_COUNT" or argattribute.name == "STEAM_ARRAY_COUNT_D":
+            if argattribute.name in ("STEAM_OUT_ARRAY", "STEAM_OUT_ARRAY_CALL", "STEAM_OUT_ARRAY_COUNT", "STEAM_ARRAY_COUNT","STEAM_ARRAY_COUNT_D"):
                 isParamArray = True
                 pInvokeArgType = g_TypeDict.get(potentialtype, potentialtype) + "[]"
-                if pInvokeLargePackType is not None:
-                    pInvokeLargePackType = pInvokeLargePackType + "[]"
+                if isMethodPacksizeAware:
+                    pInvokeLargePackType = g_TypeDict.get(potentialtype, potentialtype) + "_LargePack[]"
 
             if argattribute.name == "STEAM_OUT_ARRAY_COUNT":
                 commaindex = argattribute.value.find(',')
@@ -1009,8 +1000,8 @@ def parse_args(strEntryPoint: str, args: list[Arg], _: bool, parser: Parser):
 
         pinvokeargs += pInvokeArgType + " " + arg.name + ", "
         if isThisArgPackAware:
-            if not pinvokeargsLargePack.endswith('[]'):
-                pinvokeargsLargePack += f"{pInvokeLargePackType} {arg.name}_lp, "
+            if pInvokeArgType.endswith('[]'):
+                pinvokeargsLargePack += f"{pInvokeArgType[:-2]}_LargePack[] {arg.name}_lp, "
             else:
                 pinvokeargsLargePack += f"{pInvokeArgType}_LargePack {arg.name}_lp, "
 

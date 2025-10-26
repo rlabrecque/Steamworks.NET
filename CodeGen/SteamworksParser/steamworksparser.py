@@ -144,8 +144,8 @@ g_PrimitiveTypesLayout: dict[str, PrimitiveType] = {
 }
 
 g_SpecialStructs = {
-    "CSteamID": PrimitiveType("CSteamID", 8, 8),
-    "CGameID": PrimitiveType("CGameID", 8, 8),
+    "CSteamID": PrimitiveType("unsigned long long", 8, 8),
+    "CGameID": PrimitiveType("unsigned long long", 8, 8),
     "SteamIPAddress_t": PrimitiveType("SteamIPAddress_t", 16 + 4, 1),
     "SteamNetworkingIdentity ": PrimitiveType("SteamNetworkingIdentity", 4 + 128, 1),
     # Contains bit fields that size can't be represented as bytes count
@@ -907,6 +907,9 @@ class Parser:
                 if len(s.complexTypeStack) >= 2 and s.complexTypeStack[-2] == 'struct':
                     currentStruct.outer_type.nested_struct.append(currentStruct)
                 
+                if s.struct.name in g_SpecialStructs:
+                    s.struct.packsize_aware = False # HACK hope so
+
                 s.struct = currentStruct.outer_type
             else:
                 self.parse_struct_fields(s)
