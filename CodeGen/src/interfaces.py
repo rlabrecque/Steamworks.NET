@@ -698,7 +698,7 @@ def parse_interface(f, interface: Interface, parser: Parser):
         parsed_args = parse_args(strEntryPoint, func.args, None, parser)
         parse_func_native(f, interface, func, strEntryPoint, parsed_args, False, bGameServerVersion, parser)
         
-        generate_wrapper_function(f, interface, func, parsed_args, strEntryPoint, shouldGenerateLargePack, parser)
+        generate_wrapper_function(f, interface, func, parsed_args, strEntryPoint, bGameServerVersion, parser)
                 
 
     # Remove last whitespace
