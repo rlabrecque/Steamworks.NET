@@ -31,16 +31,27 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks {
 	public static class CallbackDispatcher {
+		public delegate void SteamworksExceptionHandler(Exception e);
+
 		// We catch exceptions inside callbacks and reroute them here.
 		// For some reason throwing an exception causes RunCallbacks() to break otherwise.
-		// If you have a custom ExceptionHandler in your engine you can register it here manually until we get something more elegant hooked up.
-		public static void ExceptionHandler(Exception e) {
+		// If you have a custom ExceptionHandler in your engine you can register it by setting ExceptionHandler
+		private static void DefaultExceptionHandler(Exception e) {
 #if UNITY_STANDALONE
 			UnityEngine.Debug.LogException(e);
 #elif STEAMWORKS_WIN || STEAMWORKS_LIN_OSX
 			Console.WriteLine(e.Message);
 #endif
 		}
+
+		/// <summary>
+		/// Exceptions inside callbacks are caught and routed here.
+		/// </summary>
+		/// <remarks>
+		/// By default, this is routed to <see cref="DefaultExceptionHandler(Exception)"/> but you can overrite it by setting it
+		/// to a valid <see cref="SteamworksExceptionHandler"/>.
+		/// </remarks>
+		public static SteamworksExceptionHandler ExceptionHandler = DefaultExceptionHandler;
 
 		private static Dictionary<int, List<Callback>> m_registeredCallbacks = new Dictionary<int, List<Callback>>();
 		private static Dictionary<int, List<Callback>> m_registeredGameServerCallbacks = new Dictionary<int, List<Callback>>();
