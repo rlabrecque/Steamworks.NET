@@ -27,10 +27,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Runtime.InteropServices;
-
-using Debug = System.Diagnostics.Debug;
 
 namespace Steamworks {
 	public static class CallbackDispatcher {
