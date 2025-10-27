@@ -769,7 +769,7 @@ def generate_wrapper_function(f, interface, func: Function,
     args_with_explicit_count = args[5]
     isPacksizeAware = args[6]
     largePackNativeArgs: str = args[7]
-    largePackArgTypeToName: list[(str, str)] = args[8] # (type,argname)
+    largePackMarshalInfo: list[(str, str, bool)] = args[8] # (typeName, argName, shouldAssignInput)
     
     strCast = ""
     wrapperreturntype = None
@@ -857,29 +857,33 @@ def generate_wrapper_function(f, interface, func: Function,
              invokingNativeFunctionName, argnames))
     else:
         b:list[str] = []
+
+        if returntype != "void":
+            b.append(f"{wrapperreturntype} ret;")
+
         invocationTemplate = "{0}{1}{2}NativeMethods.{3}({4});"
         prebuiltInvocationExpression = invocationTemplate.format(
-            "", "" if returntype == "void" else "anyCpuResult = ", strCast,
+            "", "" if returntype == "void" else "ret = ", strCast,
              invokingNativeFunctionName, argnames)
         
         prebuiltInvocationExpressionLargePack = invocationTemplate.format(
-            "", "" if returntype == "void" else "anyCpuResult = ", strCast,
+            "", "" if returntype == "void" else "ret = ", strCast,
              invokingNativeFunctionName, largePackNativeArgs
         )
         
-        b.append(f"{returntype} anyCpuResult;")
+        # b.append(f"{returntype} anyCpuResult;")
         b.append("if (!Packsize.IsLargePack) {")
         b.append("\t" + prebuiltInvocationExpression)
         b.append("} else {")
         # generate large-pack byref intermediate struct variables 
-        for lpArg in largePackArgTypeToName:
-            b.append(f"\t{lpArg[0]} {lpArg[1]}_lp;")
+        for lpArg in largePackMarshalInfo:
+            assignByRefManaged = "" if not lpArg[2] else f" = {lpArg[1]}"
+            b.append(f"\t{lpArg[0]} {lpArg[1]}_lp{assignByRefManaged};")
         b.append("\t" + prebuiltInvocationExpressionLargePack)
         # convert large pack form to managed form
-        for lpArg in largePackArgTypeToName:
+        for lpArg in largePackMarshalInfo:
             b.append(f"\t{lpArg[1]} = {lpArg[1]}_lp;")
         b.append("}")
-        b.append("return anyCpuResult;")
 
         functionBody.extend(map(lambda l: "\t\t\t" + l, b))
 
@@ -899,11 +903,12 @@ def generate_wrapper_function(f, interface, func: Function,
             if strEntryPoint != "ISteamRemoteStorage_GetUGCDetails":
                 functionBody.append(indentlevel + "Marshal.FreeHGlobal(" + argName + "2);")
 
-        if returntype != "void":
-            functionBody.append(indentlevel + "return ret;")
+    if (returntype != "void" and isPacksizeAware) or (returntype != "void" and outstringargs):
+        functionBody.append(indentlevel + "return ret;")
 
     if stringargs:
         functionBody.append("\t\t\t}")
+
 
     comments = func.comments
     if func.linecomment:
@@ -935,7 +940,7 @@ def parse_args(strEntryPoint: str, args: list[Arg], _: bool, parser: Parser):
     outstringsize = []
     isMethodPacksizeAware = False
     args_with_explicit_count = OrderedDict()
-    largePackArgTypeToName: list[(str,  str)] = []
+    largePackArgMarshalInfo: list[(str,  str, bool)] = []
 
     ifacename = strEntryPoint[1:strEntryPoint.index('_')]
 
@@ -952,22 +957,25 @@ def parse_args(strEntryPoint: str, args: list[Arg], _: bool, parser: Parser):
     getNextArgAsStringSize = False
     argNamesToAddAsStringSize = []
 
-    #region populate PInvoke params list and wrapper args (both LP and SP)
     for arg in args:
 
+        #region populate PInvoke params list and wrapper args (both LP and SP)
         potentialtype = arg.type.rstrip("*").lstrip("const ").rstrip()
         isThisArgPackAware = potentialtype in parser.packSizeAwareStructs
+
         isMethodPacksizeAware = True if isThisArgPackAware else isMethodPacksizeAware
 
-        pInvokeLargePackType = g_TypeDict.get(arg.type, arg.type)
         pInvokeArgType = g_TypeDict.get(arg.type, arg.type)
 
         isParamArray = False
+        largePackArgMarshalRecord = None
         if pInvokeArgType.endswith("*"):
             wrapperParamType = g_TypeDict.get(potentialtype, potentialtype)
             pInvokeArgType = "out " + wrapperParamType
-            if isThisArgPackAware:
-                pInvokeLargePackType = "out " + wrapperParamType + "_LargePack"
+            
+        if isThisArgPackAware:
+            # add this arg to marshal list
+            largePackArgMarshalRecord = (potentialtype, arg.name, True)
 
 
         pInvokeArgType = g_SpecialArgsDict.get(strEntryPoint, dict()).get(arg.name, pInvokeArgType)
@@ -1002,6 +1010,9 @@ def parse_args(strEntryPoint: str, args: list[Arg], _: bool, parser: Parser):
         if isThisArgPackAware:
             if pInvokeArgType.endswith('[]'):
                 pinvokeargsLargePack += f"{pInvokeArgType[:-2]}_LargePack[] {arg.name}_lp, "
+                if isThisArgPackAware:
+                    (t, n, b) = largePackArgMarshalRecord
+                    largePackArgMarshalRecord = (f"{t}[]", n, b)
             else:
                 pinvokeargsLargePack += f"{pInvokeArgType}_LargePack {arg.name}_lp, "
 
@@ -1027,9 +1038,16 @@ def parse_args(strEntryPoint: str, args: list[Arg], _: bool, parser: Parser):
         if pInvokeArgType.startswith("out"):
             nativeFunctionArgs += "out "
             nativeFunctionArgsLargePack += "out "
+            if isThisArgPackAware:
+                (t, n, _) = largePackArgMarshalRecord
+                largePackArgMarshalRecord = (t, n, False)
         elif wrapperargtype.startswith("ref"):
             nativeFunctionArgs += "ref "
             nativeFunctionArgsLargePack += "ref "
+            if isThisArgPackAware:
+                # make original value passing in
+                (t, n, _) = (largePackArgMarshalRecord)
+                largePackArgMarshalRecord = (t, n, True) 
 
         if wrapperargtype == "System.Collections.Generic.IList<string>":
             nativeFunctionArgs += "new InteropHelp.SteamParamStringArray(" + arg.name + ")"
@@ -1081,8 +1099,9 @@ def parse_args(strEntryPoint: str, args: list[Arg], _: bool, parser: Parser):
 
         
         if isThisArgPackAware:
-                nativeFunctionArgsLargePack += "_lp"
-
+            nativeFunctionArgsLargePack += "_lp"
+            largePackArgMarshalInfo.append(largePackArgMarshalRecord)
+        
         nativeFunctionArgs += ", "
         nativeFunctionArgsLargePack += ", "
 
@@ -1095,7 +1114,7 @@ def parse_args(strEntryPoint: str, args: list[Arg], _: bool, parser: Parser):
     nativeFunctionArgsLargePack = nativeFunctionArgsLargePack.rstrip(", ")
     return (pinvokeargs, wrapperargs, nativeFunctionArgs, stringargs, (outstringargs, outstringsize),
              args_with_explicit_count, isMethodPacksizeAware, nativeFunctionArgsLargePack,
-             largePackArgTypeToName, pinvokeargsLargePack if isMethodPacksizeAware else None)
+             largePackArgMarshalInfo, pinvokeargsLargePack if isMethodPacksizeAware else None)
 
 
 if __name__ == "__main__":
