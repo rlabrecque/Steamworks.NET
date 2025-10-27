@@ -64,7 +64,7 @@ namespace Steamworks {
 		/// </summary>
 		public static EResult SendMessageToUser(ref SteamNetworkingIdentity identityRemote, IntPtr pubData, uint cubData, int nSendFlags, int nRemoteChannel) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingMessages_SendMessageToUser(CSteamGameServerAPIContext.GetSteamNetworkingMessages(), ref identityRemote, pubData, cubData, nSendFlags, nRemoteChannel);
+			return NativeMethods.ISteamNetworkingMessages_SendMessageToUser(CSteamGameServerAPIContext.GetSteamNetworkingMessages(), ref identityRemote, pubData, cubData, nSendFlags, nRemoteChannel);
 		}
 
 		/// <summary>
@@ -78,7 +78,7 @@ namespace Steamworks {
 			if (ppOutMessages != null && ppOutMessages.Length != nMaxMessages) {
 				throw new System.ArgumentException("ppOutMessages must be the same size as nMaxMessages!");
 			}
-			return NativeMethods.ISteamGameServerNetworkingMessages_ReceiveMessagesOnChannel(CSteamGameServerAPIContext.GetSteamNetworkingMessages(), nLocalChannel, ppOutMessages, nMaxMessages);
+			return NativeMethods.ISteamNetworkingMessages_ReceiveMessagesOnChannel(CSteamGameServerAPIContext.GetSteamNetworkingMessages(), nLocalChannel, ppOutMessages, nMaxMessages);
 		}
 
 		/// <summary>
@@ -95,7 +95,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool AcceptSessionWithUser(ref SteamNetworkingIdentity identityRemote) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingMessages_AcceptSessionWithUser(CSteamGameServerAPIContext.GetSteamNetworkingMessages(), ref identityRemote);
+			return NativeMethods.ISteamNetworkingMessages_AcceptSessionWithUser(CSteamGameServerAPIContext.GetSteamNetworkingMessages(), ref identityRemote);
 		}
 
 		/// <summary>
@@ -107,7 +107,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool CloseSessionWithUser(ref SteamNetworkingIdentity identityRemote) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingMessages_CloseSessionWithUser(CSteamGameServerAPIContext.GetSteamNetworkingMessages(), ref identityRemote);
+			return NativeMethods.ISteamNetworkingMessages_CloseSessionWithUser(CSteamGameServerAPIContext.GetSteamNetworkingMessages(), ref identityRemote);
 		}
 
 		/// <summary>
@@ -118,7 +118,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool CloseChannelWithUser(ref SteamNetworkingIdentity identityRemote, int nLocalChannel) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingMessages_CloseChannelWithUser(CSteamGameServerAPIContext.GetSteamNetworkingMessages(), ref identityRemote, nLocalChannel);
+			return NativeMethods.ISteamNetworkingMessages_CloseChannelWithUser(CSteamGameServerAPIContext.GetSteamNetworkingMessages(), ref identityRemote, nLocalChannel);
 		}
 
 		/// <summary>
@@ -134,13 +134,15 @@ namespace Steamworks {
 		/// </summary>
 		public static ESteamNetworkingConnectionState GetSessionConnectionInfo(ref SteamNetworkingIdentity identityRemote, out SteamNetConnectionInfo_t pConnectionInfo, out SteamNetConnectionRealTimeStatus_t pQuickStatus) {
 			InteropHelp.TestIfAvailableGameServer();
-			ESteamNetworkingConnectionState anyCpuResult;
+			ESteamNetworkingConnectionState ret;
 			if (!Packsize.IsLargePack) {
-				anyCpuResult = NativeMethods.ISteamGameServerNetworkingMessages_GetSessionConnectionInfo(CSteamGameServerAPIContext.GetSteamNetworkingMessages(), ref identityRemote, out pConnectionInfo, out pQuickStatus);
+				ret = NativeMethods.ISteamNetworkingMessages_GetSessionConnectionInfo(CSteamGameServerAPIContext.GetSteamNetworkingMessages(), ref identityRemote, out pConnectionInfo, out pQuickStatus);
 			} else {
-				anyCpuResult = NativeMethods.ISteamGameServerNetworkingMessages_GetSessionConnectionInfo(CSteamGameServerAPIContext.GetSteamNetworkingMessages(), ref identityRemote, out pConnectionInfo_lp, out pQuickStatus);
+				SteamNetConnectionInfo_t pConnectionInfo_lp;
+				ret = NativeMethods.ISteamNetworkingMessages_GetSessionConnectionInfo(CSteamGameServerAPIContext.GetSteamNetworkingMessages(), ref identityRemote, out pConnectionInfo_lp, out pQuickStatus);
+				pConnectionInfo = pConnectionInfo_lp;
 			}
-			return anyCpuResult;
+			return ret;
 		}
 	}
 }

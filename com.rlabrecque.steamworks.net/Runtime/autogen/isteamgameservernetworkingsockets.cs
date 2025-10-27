@@ -39,7 +39,7 @@ namespace Steamworks {
 		/// </summary>
 		public static HSteamListenSocket CreateListenSocketIP(ref SteamNetworkingIPAddr localAddress, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
 			InteropHelp.TestIfAvailableGameServer();
-			return (HSteamListenSocket)NativeMethods.ISteamGameServerNetworkingSockets_CreateListenSocketIP(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), ref localAddress, nOptions, pOptions);
+			return (HSteamListenSocket)NativeMethods.ISteamNetworkingSockets_CreateListenSocketIP(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), ref localAddress, nOptions, pOptions);
 		}
 
 		/// <summary>
@@ -68,7 +68,7 @@ namespace Steamworks {
 		/// </summary>
 		public static HSteamNetConnection ConnectByIPAddress(ref SteamNetworkingIPAddr address, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
 			InteropHelp.TestIfAvailableGameServer();
-			return (HSteamNetConnection)NativeMethods.ISteamGameServerNetworkingSockets_ConnectByIPAddress(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), ref address, nOptions, pOptions);
+			return (HSteamNetConnection)NativeMethods.ISteamNetworkingSockets_ConnectByIPAddress(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), ref address, nOptions, pOptions);
 		}
 
 		/// <summary>
@@ -98,7 +98,7 @@ namespace Steamworks {
 		/// </summary>
 		public static HSteamListenSocket CreateListenSocketP2P(int nLocalVirtualPort, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
 			InteropHelp.TestIfAvailableGameServer();
-			return (HSteamListenSocket)NativeMethods.ISteamGameServerNetworkingSockets_CreateListenSocketP2P(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), nLocalVirtualPort, nOptions, pOptions);
+			return (HSteamListenSocket)NativeMethods.ISteamNetworkingSockets_CreateListenSocketP2P(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), nLocalVirtualPort, nOptions, pOptions);
 		}
 
 		/// <summary>
@@ -116,7 +116,7 @@ namespace Steamworks {
 		/// </summary>
 		public static HSteamNetConnection ConnectP2P(ref SteamNetworkingIdentity identityRemote, int nRemoteVirtualPort, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
 			InteropHelp.TestIfAvailableGameServer();
-			return (HSteamNetConnection)NativeMethods.ISteamGameServerNetworkingSockets_ConnectP2P(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), ref identityRemote, nRemoteVirtualPort, nOptions, pOptions);
+			return (HSteamNetConnection)NativeMethods.ISteamNetworkingSockets_ConnectP2P(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), ref identityRemote, nRemoteVirtualPort, nOptions, pOptions);
 		}
 
 		/// <summary>
@@ -162,7 +162,7 @@ namespace Steamworks {
 		/// </summary>
 		public static EResult AcceptConnection(HSteamNetConnection hConn) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_AcceptConnection(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn);
+			return NativeMethods.ISteamNetworkingSockets_AcceptConnection(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn);
 		}
 
 		/// <summary>
@@ -191,7 +191,7 @@ namespace Steamworks {
 		public static bool CloseConnection(HSteamNetConnection hPeer, int nReason, string pszDebug, bool bEnableLinger) {
 			InteropHelp.TestIfAvailableGameServer();
 			using (var pszDebug2 = new InteropHelp.UTF8StringHandle(pszDebug)) {
-				return NativeMethods.ISteamGameServerNetworkingSockets_CloseConnection(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hPeer, nReason, pszDebug2, bEnableLinger);
+				return NativeMethods.ISteamNetworkingSockets_CloseConnection(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hPeer, nReason, pszDebug2, bEnableLinger);
 			}
 		}
 
@@ -201,7 +201,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool CloseListenSocket(HSteamListenSocket hSocket) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_CloseListenSocket(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hSocket);
+			return NativeMethods.ISteamNetworkingSockets_CloseListenSocket(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hSocket);
 		}
 
 		/// <summary>
@@ -230,7 +230,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetConnectionUserData(HSteamNetConnection hPeer, long nUserData) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_SetConnectionUserData(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hPeer, nUserData);
+			return NativeMethods.ISteamNetworkingSockets_SetConnectionUserData(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hPeer, nUserData);
 		}
 
 		/// <summary>
@@ -239,7 +239,7 @@ namespace Steamworks {
 		/// </summary>
 		public static long GetConnectionUserData(HSteamNetConnection hPeer) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_GetConnectionUserData(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hPeer);
+			return NativeMethods.ISteamNetworkingSockets_GetConnectionUserData(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hPeer);
 		}
 
 		/// <summary>
@@ -248,7 +248,7 @@ namespace Steamworks {
 		public static void SetConnectionName(HSteamNetConnection hPeer, string pszName) {
 			InteropHelp.TestIfAvailableGameServer();
 			using (var pszName2 = new InteropHelp.UTF8StringHandle(pszName)) {
-				NativeMethods.ISteamGameServerNetworkingSockets_SetConnectionName(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hPeer, pszName2);
+				NativeMethods.ISteamNetworkingSockets_SetConnectionName(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hPeer, pszName2);
 			}
 		}
 
@@ -258,7 +258,7 @@ namespace Steamworks {
 		public static bool GetConnectionName(HSteamNetConnection hPeer, out string pszName, int nMaxLen) {
 			InteropHelp.TestIfAvailableGameServer();
 			IntPtr pszName2 = Marshal.AllocHGlobal(nMaxLen);
-			bool ret = NativeMethods.ISteamGameServerNetworkingSockets_GetConnectionName(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hPeer, pszName2, nMaxLen);
+			bool ret = NativeMethods.ISteamNetworkingSockets_GetConnectionName(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hPeer, pszName2, nMaxLen);
 			pszName = ret ? InteropHelp.PtrToStringUTF8(pszName2) : null;
 			Marshal.FreeHGlobal(pszName2);
 			return ret;
@@ -305,7 +305,7 @@ namespace Steamworks {
 		/// </summary>
 		public static EResult SendMessageToConnection(HSteamNetConnection hConn, IntPtr pData, uint cbData, int nSendFlags, out long pOutMessageNumber) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_SendMessageToConnection(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn, pData, cbData, nSendFlags, out pOutMessageNumber);
+			return NativeMethods.ISteamNetworkingSockets_SendMessageToConnection(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn, pData, cbData, nSendFlags, out pOutMessageNumber);
 		}
 
 		/// <summary>
@@ -344,7 +344,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void SendMessages(int nMessages, IntPtr[] pMessages, long[] pOutMessageNumberOrResult) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServerNetworkingSockets_SendMessages(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), nMessages, pMessages, pOutMessageNumberOrResult);
+			NativeMethods.ISteamNetworkingSockets_SendMessages(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), nMessages, pMessages, pOutMessageNumberOrResult);
 		}
 
 		/// <summary>
@@ -364,7 +364,7 @@ namespace Steamworks {
 		/// </summary>
 		public static EResult FlushMessagesOnConnection(HSteamNetConnection hConn) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_FlushMessagesOnConnection(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn);
+			return NativeMethods.ISteamNetworkingSockets_FlushMessagesOnConnection(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn);
 		}
 
 		/// <summary>
@@ -389,7 +389,7 @@ namespace Steamworks {
 			if (ppOutMessages != null && ppOutMessages.Length != nMaxMessages) {
 				throw new System.ArgumentException("ppOutMessages must be the same size as nMaxMessages!");
 			}
-			return NativeMethods.ISteamGameServerNetworkingSockets_ReceiveMessagesOnConnection(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn, ppOutMessages, nMaxMessages);
+			return NativeMethods.ISteamNetworkingSockets_ReceiveMessagesOnConnection(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn, ppOutMessages, nMaxMessages);
 		}
 
 		/// <summary>
@@ -397,13 +397,15 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetConnectionInfo(HSteamNetConnection hConn, out SteamNetConnectionInfo_t pInfo) {
 			InteropHelp.TestIfAvailableGameServer();
-			bool anyCpuResult;
+			bool ret;
 			if (!Packsize.IsLargePack) {
-				anyCpuResult = NativeMethods.ISteamGameServerNetworkingSockets_GetConnectionInfo(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn, out pInfo);
+				ret = NativeMethods.ISteamNetworkingSockets_GetConnectionInfo(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn, out pInfo);
 			} else {
-				anyCpuResult = NativeMethods.ISteamGameServerNetworkingSockets_GetConnectionInfo(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn, out pInfo_lp);
+				SteamNetConnectionInfo_t pInfo_lp;
+				ret = NativeMethods.ISteamNetworkingSockets_GetConnectionInfo(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn, out pInfo_lp);
+				pInfo = pInfo_lp;
 			}
-			return anyCpuResult;
+			return ret;
 		}
 
 		/// <summary>
@@ -424,7 +426,7 @@ namespace Steamworks {
 		/// </summary>
 		public static EResult GetConnectionRealTimeStatus(HSteamNetConnection hConn, ref SteamNetConnectionRealTimeStatus_t pStatus, int nLanes, ref SteamNetConnectionRealTimeLaneStatus_t pLanes) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_GetConnectionRealTimeStatus(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn, ref pStatus, nLanes, ref pLanes);
+			return NativeMethods.ISteamNetworkingSockets_GetConnectionRealTimeStatus(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn, ref pStatus, nLanes, ref pLanes);
 		}
 
 		/// <summary>
@@ -440,7 +442,7 @@ namespace Steamworks {
 		public static int GetDetailedConnectionStatus(HSteamNetConnection hConn, out string pszBuf, int cbBuf) {
 			InteropHelp.TestIfAvailableGameServer();
 			IntPtr pszBuf2 = Marshal.AllocHGlobal(cbBuf);
-			int ret = NativeMethods.ISteamGameServerNetworkingSockets_GetDetailedConnectionStatus(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn, pszBuf2, cbBuf);
+			int ret = NativeMethods.ISteamNetworkingSockets_GetDetailedConnectionStatus(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn, pszBuf2, cbBuf);
 			pszBuf = ret != -1 ? InteropHelp.PtrToStringUTF8(pszBuf2) : null;
 			Marshal.FreeHGlobal(pszBuf2);
 			return ret;
@@ -454,7 +456,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetListenSocketAddress(HSteamListenSocket hSocket, out SteamNetworkingIPAddr address) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_GetListenSocketAddress(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hSocket, out address);
+			return NativeMethods.ISteamNetworkingSockets_GetListenSocketAddress(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hSocket, out address);
 		}
 
 		/// <summary>
@@ -481,7 +483,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool CreateSocketPair(out HSteamNetConnection pOutConnection1, out HSteamNetConnection pOutConnection2, bool bUseNetworkLoopback, ref SteamNetworkingIdentity pIdentity1, ref SteamNetworkingIdentity pIdentity2) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_CreateSocketPair(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), out pOutConnection1, out pOutConnection2, bUseNetworkLoopback, ref pIdentity1, ref pIdentity2);
+			return NativeMethods.ISteamNetworkingSockets_CreateSocketPair(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), out pOutConnection1, out pOutConnection2, bUseNetworkLoopback, ref pIdentity1, ref pIdentity2);
 		}
 
 		/// <summary>
@@ -555,7 +557,7 @@ namespace Steamworks {
 		/// </summary>
 		public static EResult ConfigureConnectionLanes(HSteamNetConnection hConn, int nNumLanes, int[] pLanePriorities, ushort[] pLaneWeights) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_ConfigureConnectionLanes(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn, nNumLanes, pLanePriorities, pLaneWeights);
+			return NativeMethods.ISteamNetworkingSockets_ConfigureConnectionLanes(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn, nNumLanes, pLanePriorities, pLaneWeights);
 		}
 
 		/// <summary>
@@ -568,7 +570,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetIdentity(out SteamNetworkingIdentity pIdentity) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_GetIdentity(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), out pIdentity);
+			return NativeMethods.ISteamNetworkingSockets_GetIdentity(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), out pIdentity);
 		}
 
 		/// <summary>
@@ -598,7 +600,7 @@ namespace Steamworks {
 		/// </summary>
 		public static ESteamNetworkingAvailability InitAuthentication() {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_InitAuthentication(CSteamGameServerAPIContext.GetSteamNetworkingSockets());
+			return NativeMethods.ISteamNetworkingSockets_InitAuthentication(CSteamGameServerAPIContext.GetSteamNetworkingSockets());
 		}
 
 		/// <summary>
@@ -612,7 +614,7 @@ namespace Steamworks {
 		/// </summary>
 		public static ESteamNetworkingAvailability GetAuthenticationStatus(out SteamNetAuthenticationStatus_t pDetails) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_GetAuthenticationStatus(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), out pDetails);
+			return NativeMethods.ISteamNetworkingSockets_GetAuthenticationStatus(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), out pDetails);
 		}
 
 		/// <summary>
@@ -625,7 +627,7 @@ namespace Steamworks {
 		/// </summary>
 		public static HSteamNetPollGroup CreatePollGroup() {
 			InteropHelp.TestIfAvailableGameServer();
-			return (HSteamNetPollGroup)NativeMethods.ISteamGameServerNetworkingSockets_CreatePollGroup(CSteamGameServerAPIContext.GetSteamNetworkingSockets());
+			return (HSteamNetPollGroup)NativeMethods.ISteamNetworkingSockets_CreatePollGroup(CSteamGameServerAPIContext.GetSteamNetworkingSockets());
 		}
 
 		/// <summary>
@@ -637,7 +639,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool DestroyPollGroup(HSteamNetPollGroup hPollGroup) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_DestroyPollGroup(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hPollGroup);
+			return NativeMethods.ISteamNetworkingSockets_DestroyPollGroup(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hPollGroup);
 		}
 
 		/// <summary>
@@ -658,7 +660,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetConnectionPollGroup(HSteamNetConnection hConn, HSteamNetPollGroup hPollGroup) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_SetConnectionPollGroup(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn, hPollGroup);
+			return NativeMethods.ISteamNetworkingSockets_SetConnectionPollGroup(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn, hPollGroup);
 		}
 
 		/// <summary>
@@ -683,7 +685,7 @@ namespace Steamworks {
 			if (ppOutMessages != null && ppOutMessages.Length != nMaxMessages) {
 				throw new System.ArgumentException("ppOutMessages must be the same size as nMaxMessages!");
 			}
-			return NativeMethods.ISteamGameServerNetworkingSockets_ReceiveMessagesOnPollGroup(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hPollGroup, ppOutMessages, nMaxMessages);
+			return NativeMethods.ISteamNetworkingSockets_ReceiveMessagesOnPollGroup(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hPollGroup, ppOutMessages, nMaxMessages);
 		}
 
 		/// <summary>
@@ -698,7 +700,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool ReceivedRelayAuthTicket(IntPtr pvTicket, int cbTicket, out SteamDatagramRelayAuthTicket pOutParsedTicket) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_ReceivedRelayAuthTicket(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), pvTicket, cbTicket, out pOutParsedTicket);
+			return NativeMethods.ISteamNetworkingSockets_ReceivedRelayAuthTicket(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), pvTicket, cbTicket, out pOutParsedTicket);
 		}
 
 		/// <summary>
@@ -711,7 +713,7 @@ namespace Steamworks {
 		/// </summary>
 		public static int FindRelayAuthTicketForServer(ref SteamNetworkingIdentity identityGameServer, int nRemoteVirtualPort, out SteamDatagramRelayAuthTicket pOutParsedTicket) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_FindRelayAuthTicketForServer(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), ref identityGameServer, nRemoteVirtualPort, out pOutParsedTicket);
+			return NativeMethods.ISteamNetworkingSockets_FindRelayAuthTicketForServer(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), ref identityGameServer, nRemoteVirtualPort, out pOutParsedTicket);
 		}
 
 		/// <summary>
@@ -734,7 +736,7 @@ namespace Steamworks {
 		/// </summary>
 		public static HSteamNetConnection ConnectToHostedDedicatedServer(ref SteamNetworkingIdentity identityTarget, int nRemoteVirtualPort, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
 			InteropHelp.TestIfAvailableGameServer();
-			return (HSteamNetConnection)NativeMethods.ISteamGameServerNetworkingSockets_ConnectToHostedDedicatedServer(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), ref identityTarget, nRemoteVirtualPort, nOptions, pOptions);
+			return (HSteamNetConnection)NativeMethods.ISteamNetworkingSockets_ConnectToHostedDedicatedServer(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), ref identityTarget, nRemoteVirtualPort, nOptions, pOptions);
 		}
 
 		/// <summary>
@@ -749,7 +751,7 @@ namespace Steamworks {
 		/// </summary>
 		public static ushort GetHostedDedicatedServerPort() {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_GetHostedDedicatedServerPort(CSteamGameServerAPIContext.GetSteamNetworkingSockets());
+			return NativeMethods.ISteamNetworkingSockets_GetHostedDedicatedServerPort(CSteamGameServerAPIContext.GetSteamNetworkingSockets());
 		}
 
 		/// <summary>
@@ -758,7 +760,7 @@ namespace Steamworks {
 		/// </summary>
 		public static SteamNetworkingPOPID GetHostedDedicatedServerPOPID() {
 			InteropHelp.TestIfAvailableGameServer();
-			return (SteamNetworkingPOPID)NativeMethods.ISteamGameServerNetworkingSockets_GetHostedDedicatedServerPOPID(CSteamGameServerAPIContext.GetSteamNetworkingSockets());
+			return (SteamNetworkingPOPID)NativeMethods.ISteamNetworkingSockets_GetHostedDedicatedServerPOPID(CSteamGameServerAPIContext.GetSteamNetworkingSockets());
 		}
 
 		/// <summary>
@@ -791,7 +793,7 @@ namespace Steamworks {
 		/// </summary>
 		public static EResult GetHostedDedicatedServerAddress(out SteamDatagramHostedAddress pRouting) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_GetHostedDedicatedServerAddress(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), out pRouting);
+			return NativeMethods.ISteamNetworkingSockets_GetHostedDedicatedServerAddress(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), out pRouting);
 		}
 
 		/// <summary>
@@ -811,7 +813,7 @@ namespace Steamworks {
 		/// </summary>
 		public static HSteamListenSocket CreateHostedDedicatedServerListenSocket(int nLocalVirtualPort, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
 			InteropHelp.TestIfAvailableGameServer();
-			return (HSteamListenSocket)NativeMethods.ISteamGameServerNetworkingSockets_CreateHostedDedicatedServerListenSocket(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), nLocalVirtualPort, nOptions, pOptions);
+			return (HSteamListenSocket)NativeMethods.ISteamNetworkingSockets_CreateHostedDedicatedServerListenSocket(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), nLocalVirtualPort, nOptions, pOptions);
 		}
 
 		/// <summary>
@@ -848,7 +850,7 @@ namespace Steamworks {
 		/// </summary>
 		public static EResult GetGameCoordinatorServerLogin(IntPtr pLoginInfo, out int pcbSignedBlob, IntPtr pBlob) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_GetGameCoordinatorServerLogin(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), pLoginInfo, out pcbSignedBlob, pBlob);
+			return NativeMethods.ISteamNetworkingSockets_GetGameCoordinatorServerLogin(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), pLoginInfo, out pcbSignedBlob, pBlob);
 		}
 
 		/// <summary>
@@ -891,7 +893,7 @@ namespace Steamworks {
 		/// </summary>
 		public static HSteamNetConnection ConnectP2PCustomSignaling(out ISteamNetworkingConnectionSignaling pSignaling, ref SteamNetworkingIdentity pPeerIdentity, int nRemoteVirtualPort, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
 			InteropHelp.TestIfAvailableGameServer();
-			return (HSteamNetConnection)NativeMethods.ISteamGameServerNetworkingSockets_ConnectP2PCustomSignaling(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), out pSignaling, ref pPeerIdentity, nRemoteVirtualPort, nOptions, pOptions);
+			return (HSteamNetConnection)NativeMethods.ISteamNetworkingSockets_ConnectP2PCustomSignaling(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), out pSignaling, ref pPeerIdentity, nRemoteVirtualPort, nOptions, pOptions);
 		}
 
 		/// <summary>
@@ -927,7 +929,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool ReceivedP2PCustomSignal(IntPtr pMsg, int cbMsg, out ISteamNetworkingSignalingRecvContext pContext) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_ReceivedP2PCustomSignal(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), pMsg, cbMsg, out pContext);
+			return NativeMethods.ISteamNetworkingSockets_ReceivedP2PCustomSignal(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), pMsg, cbMsg, out pContext);
 		}
 
 		/// <summary>
@@ -942,7 +944,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetCertificateRequest(out int pcbBlob, IntPtr pBlob, out SteamNetworkingErrMsg errMsg) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_GetCertificateRequest(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), out pcbBlob, pBlob, out errMsg);
+			return NativeMethods.ISteamNetworkingSockets_GetCertificateRequest(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), out pcbBlob, pBlob, out errMsg);
 		}
 
 		/// <summary>
@@ -951,7 +953,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool SetCertificate(IntPtr pCertificate, int cbCertificate, out SteamNetworkingErrMsg errMsg) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_SetCertificate(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), pCertificate, cbCertificate, out errMsg);
+			return NativeMethods.ISteamNetworkingSockets_SetCertificate(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), pCertificate, cbCertificate, out errMsg);
 		}
 
 		/// <summary>
@@ -966,7 +968,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void ResetIdentity(ref SteamNetworkingIdentity pIdentity) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServerNetworkingSockets_ResetIdentity(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), ref pIdentity);
+			NativeMethods.ISteamNetworkingSockets_ResetIdentity(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), ref pIdentity);
 		}
 
 		/// <summary>
@@ -979,7 +981,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void RunCallbacks() {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServerNetworkingSockets_RunCallbacks(CSteamGameServerAPIContext.GetSteamNetworkingSockets());
+			NativeMethods.ISteamNetworkingSockets_RunCallbacks(CSteamGameServerAPIContext.GetSteamNetworkingSockets());
 		}
 
 		/// <summary>
@@ -1041,7 +1043,7 @@ namespace Steamworks {
 		/// </summary>
 		public static bool BeginAsyncRequestFakeIP(int nNumPorts) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_BeginAsyncRequestFakeIP(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), nNumPorts);
+			return NativeMethods.ISteamNetworkingSockets_BeginAsyncRequestFakeIP(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), nNumPorts);
 		}
 
 		/// <summary>
@@ -1051,7 +1053,7 @@ namespace Steamworks {
 		/// </summary>
 		public static void GetFakeIP(int idxFirstPort, out SteamNetworkingFakeIPResult_t pInfo) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamGameServerNetworkingSockets_GetFakeIP(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), idxFirstPort, out pInfo);
+			NativeMethods.ISteamNetworkingSockets_GetFakeIP(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), idxFirstPort, out pInfo);
 		}
 
 		/// <summary>
@@ -1067,7 +1069,7 @@ namespace Steamworks {
 		/// </summary>
 		public static HSteamListenSocket CreateListenSocketP2PFakeIP(int idxFakePort, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
 			InteropHelp.TestIfAvailableGameServer();
-			return (HSteamListenSocket)NativeMethods.ISteamGameServerNetworkingSockets_CreateListenSocketP2PFakeIP(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), idxFakePort, nOptions, pOptions);
+			return (HSteamListenSocket)NativeMethods.ISteamNetworkingSockets_CreateListenSocketP2PFakeIP(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), idxFakePort, nOptions, pOptions);
 		}
 
 		/// <summary>
@@ -1089,7 +1091,7 @@ namespace Steamworks {
 		/// </summary>
 		public static EResult GetRemoteFakeIPForConnection(HSteamNetConnection hConn, out SteamNetworkingIPAddr pOutAddr) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_GetRemoteFakeIPForConnection(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn, out pOutAddr);
+			return NativeMethods.ISteamNetworkingSockets_GetRemoteFakeIPForConnection(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn, out pOutAddr);
 		}
 
 		/// <summary>
@@ -1113,7 +1115,7 @@ namespace Steamworks {
 		/// </summary>
 		public static IntPtr CreateFakeUDPPort(int idxFakeServerPort) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamGameServerNetworkingSockets_CreateFakeUDPPort(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), idxFakeServerPort);
+			return NativeMethods.ISteamNetworkingSockets_CreateFakeUDPPort(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), idxFakeServerPort);
 		}
 	}
 }

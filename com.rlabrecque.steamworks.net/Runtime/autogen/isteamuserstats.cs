@@ -317,13 +317,15 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetDownloadedLeaderboardEntry(SteamLeaderboardEntries_t hSteamLeaderboardEntries, int index, out LeaderboardEntry_t pLeaderboardEntry, int[] pDetails, int cDetailsMax) {
 			InteropHelp.TestIfAvailableClient();
-			bool anyCpuResult;
+			bool ret;
 			if (!Packsize.IsLargePack) {
-				anyCpuResult = NativeMethods.ISteamUserStats_GetDownloadedLeaderboardEntry(CSteamAPIContext.GetSteamUserStats(), hSteamLeaderboardEntries, index, out pLeaderboardEntry, pDetails, cDetailsMax);
+				ret = NativeMethods.ISteamUserStats_GetDownloadedLeaderboardEntry(CSteamAPIContext.GetSteamUserStats(), hSteamLeaderboardEntries, index, out pLeaderboardEntry, pDetails, cDetailsMax);
 			} else {
-				anyCpuResult = NativeMethods.ISteamUserStats_GetDownloadedLeaderboardEntry(CSteamAPIContext.GetSteamUserStats(), hSteamLeaderboardEntries, index, out pLeaderboardEntry_lp, pDetails, cDetailsMax);
+				LeaderboardEntry_t pLeaderboardEntry_lp;
+				ret = NativeMethods.ISteamUserStats_GetDownloadedLeaderboardEntry(CSteamAPIContext.GetSteamUserStats(), hSteamLeaderboardEntries, index, out pLeaderboardEntry_lp, pDetails, cDetailsMax);
+				pLeaderboardEntry = pLeaderboardEntry_lp;
 			}
-			return anyCpuResult;
+			return ret;
 		}
 
 		/// <summary>

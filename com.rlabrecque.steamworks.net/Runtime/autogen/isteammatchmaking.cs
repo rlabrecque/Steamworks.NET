@@ -783,13 +783,14 @@ namespace Steamworks {
 		public static bool GetBeaconDetails(PartyBeaconID_t ulBeaconID, out CSteamID pSteamIDBeaconOwner, out SteamPartyBeaconLocation_t pLocation, out string pchMetadata, int cchMetadata) {
 			InteropHelp.TestIfAvailableClient();
 			IntPtr pchMetadata2 = Marshal.AllocHGlobal(cchMetadata);
-			bool anyCpuResult;
+			bool ret;
 			if (!Packsize.IsLargePack) {
-				anyCpuResult = NativeMethods.ISteamParties_GetBeaconDetails(CSteamAPIContext.GetSteamParties(), ulBeaconID, out pSteamIDBeaconOwner, out pLocation, pchMetadata2, cchMetadata);
+				ret = NativeMethods.ISteamParties_GetBeaconDetails(CSteamAPIContext.GetSteamParties(), ulBeaconID, out pSteamIDBeaconOwner, out pLocation, pchMetadata2, cchMetadata);
 			} else {
-				anyCpuResult = NativeMethods.ISteamParties_GetBeaconDetails(CSteamAPIContext.GetSteamParties(), ulBeaconID, out pSteamIDBeaconOwner, out pLocation_lp, pchMetadata2, cchMetadata);
+				SteamPartyBeaconLocation_t pLocation_lp;
+				ret = NativeMethods.ISteamParties_GetBeaconDetails(CSteamAPIContext.GetSteamParties(), ulBeaconID, out pSteamIDBeaconOwner, out pLocation_lp, pchMetadata2, cchMetadata);
+				pLocation = pLocation_lp;
 			}
-			return anyCpuResult;
 			pchMetadata = ret ? InteropHelp.PtrToStringUTF8(pchMetadata2) : null;
 			Marshal.FreeHGlobal(pchMetadata2);
 			return ret;
@@ -816,13 +817,15 @@ namespace Steamworks {
 
 		public static bool GetAvailableBeaconLocations(SteamPartyBeaconLocation_t[] pLocationList, uint uMaxNumLocations) {
 			InteropHelp.TestIfAvailableClient();
-			bool anyCpuResult;
+			bool ret;
 			if (!Packsize.IsLargePack) {
-				anyCpuResult = NativeMethods.ISteamParties_GetAvailableBeaconLocations(CSteamAPIContext.GetSteamParties(), pLocationList, uMaxNumLocations);
+				ret = NativeMethods.ISteamParties_GetAvailableBeaconLocations(CSteamAPIContext.GetSteamParties(), pLocationList, uMaxNumLocations);
 			} else {
-				anyCpuResult = NativeMethods.ISteamParties_GetAvailableBeaconLocations(CSteamAPIContext.GetSteamParties(), pLocationList_lp, uMaxNumLocations);
+				SteamPartyBeaconLocation_t[] pLocationList_lp = pLocationList;
+				ret = NativeMethods.ISteamParties_GetAvailableBeaconLocations(CSteamAPIContext.GetSteamParties(), pLocationList_lp, uMaxNumLocations);
+				pLocationList = pLocationList_lp;
 			}
-			return anyCpuResult;
+			return ret;
 		}
 
 		/// <summary>
@@ -835,13 +838,15 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			using (var pchConnectString2 = new InteropHelp.UTF8StringHandle(pchConnectString))
 			using (var pchMetadata2 = new InteropHelp.UTF8StringHandle(pchMetadata)) {
-			ulong anyCpuResult;
+			SteamAPICall_t ret;
 			if (!Packsize.IsLargePack) {
-				anyCpuResult = (SteamAPICall_t)NativeMethods.ISteamParties_CreateBeacon(CSteamAPIContext.GetSteamParties(), unOpenSlots, ref pBeaconLocation, pchConnectString2, pchMetadata2);
+				ret = (SteamAPICall_t)NativeMethods.ISteamParties_CreateBeacon(CSteamAPIContext.GetSteamParties(), unOpenSlots, ref pBeaconLocation, pchConnectString2, pchMetadata2);
 			} else {
-				anyCpuResult = (SteamAPICall_t)NativeMethods.ISteamParties_CreateBeacon(CSteamAPIContext.GetSteamParties(), unOpenSlots, ref pBeaconLocation_lp, pchConnectString2, pchMetadata2);
+				SteamPartyBeaconLocation_t pBeaconLocation_lp = pBeaconLocation;
+				ret = (SteamAPICall_t)NativeMethods.ISteamParties_CreateBeacon(CSteamAPIContext.GetSteamParties(), unOpenSlots, ref pBeaconLocation_lp, pchConnectString2, pchMetadata2);
+				pBeaconLocation = pBeaconLocation_lp;
 			}
-			return anyCpuResult;
+				return ret;
 			}
 		}
 
@@ -888,13 +893,14 @@ namespace Steamworks {
 		public static bool GetBeaconLocationData(SteamPartyBeaconLocation_t BeaconLocation, ESteamPartyBeaconLocationData eData, out string pchDataStringOut, int cchDataStringOut) {
 			InteropHelp.TestIfAvailableClient();
 			IntPtr pchDataStringOut2 = Marshal.AllocHGlobal(cchDataStringOut);
-			bool anyCpuResult;
+			bool ret;
 			if (!Packsize.IsLargePack) {
-				anyCpuResult = NativeMethods.ISteamParties_GetBeaconLocationData(CSteamAPIContext.GetSteamParties(), BeaconLocation, eData, pchDataStringOut2, cchDataStringOut);
+				ret = NativeMethods.ISteamParties_GetBeaconLocationData(CSteamAPIContext.GetSteamParties(), BeaconLocation, eData, pchDataStringOut2, cchDataStringOut);
 			} else {
-				anyCpuResult = NativeMethods.ISteamParties_GetBeaconLocationData(CSteamAPIContext.GetSteamParties(), BeaconLocation_lp, eData, pchDataStringOut2, cchDataStringOut);
+				SteamPartyBeaconLocation_t BeaconLocation_lp = BeaconLocation;
+				ret = NativeMethods.ISteamParties_GetBeaconLocationData(CSteamAPIContext.GetSteamParties(), BeaconLocation_lp, eData, pchDataStringOut2, cchDataStringOut);
+				BeaconLocation = BeaconLocation_lp;
 			}
-			return anyCpuResult;
 			pchDataStringOut = ret ? InteropHelp.PtrToStringUTF8(pchDataStringOut2) : null;
 			Marshal.FreeHGlobal(pchDataStringOut2);
 			return ret;
