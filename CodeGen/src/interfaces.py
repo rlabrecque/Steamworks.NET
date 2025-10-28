@@ -769,7 +769,7 @@ def generate_wrapper_function(f, interface, func: Function,
     args_with_explicit_count = args[5]
     isPacksizeAware = args[6]
     largePackNativeArgs: str = args[7]
-    largePackMarshalInfo: list[(str, str, bool)] = args[8] # (typeName, argName, shouldAssignInput)
+    largePackByrefArgs: list[(str, str, bool)] = args[8] # (typeName, argName, shouldAssignInput)
     
     strCast = ""
     wrapperreturntype = None
@@ -875,14 +875,26 @@ def generate_wrapper_function(f, interface, func: Function,
         b.append("if (!Packsize.IsLargePack) {")
         b.append("\t" + prebuiltInvocationExpression)
         b.append("} else {")
+
         # generate large-pack byref intermediate struct variables 
-        for lpArg in largePackMarshalInfo:
-            assignByRefManaged = "" if not lpArg[2] else f" = {lpArg[1]}"
-            b.append(f"\t{lpArg[0]} {lpArg[1]}_lp{assignByRefManaged};")
+        for lpArg in largePackByrefArgs:
+            if not lpArg[0].endswith("[]"):
+                assignByRefManaged = "" if not lpArg[2] else f" = {lpArg[1]}"
+                b.append(f"\t{lpArg[0]} {lpArg[1]}_lp{assignByRefManaged};")
+            else:
+                b.append(f"\t{lpArg[0][:-2]}_LargePack[] {lpArg[1]}_lp = new {lpArg[0][:-2]}_LargePack[{lpArg[1]}.Length];")
+                b.append(f"\tfor (int i = 0; i < {lpArg[1]}.Length; i++)")
+                b.append(f"\t\t{lpArg[1]}_lp[i] = {lpArg[1]}[i];")
+
         b.append("\t" + prebuiltInvocationExpressionLargePack)
         # convert large pack form to managed form
-        for lpArg in largePackMarshalInfo:
-            b.append(f"\t{lpArg[1]} = {lpArg[1]}_lp;")
+        for lpArg in largePackByrefArgs:
+            if not lpArg[0].endswith('[]'):
+                b.append(f"\t{lpArg[1]} = {lpArg[1]}_lp;")
+            else:
+                b.append(f"\tfor (int i = 0; i < {lpArg[1]}.Length; i++)")
+                b.append(f"\t\t{lpArg[1]}[i] = {lpArg[1]}_lp[i];")
+
         b.append("}")
 
         functionBody.extend(map(lambda l: "\t\t\t" + l, b))
@@ -995,6 +1007,9 @@ def parse_args(strEntryPoint: str, args: list[Arg], _: bool, parser: Parser):
                 else:
                     args_with_explicit_count[arg.name] = argattribute.value
 
+        if isParamArray and isThisArgPackAware  :
+            (t, n, byref) = largePackArgMarshalRecord
+            largePackArgMarshalRecord = (t + "[]", n, byref)
 
         if arg.type == "MatchMakingKeyValuePair_t **":  # TODO: Fixme - Small Hack... We do this because MatchMakingKeyValuePair's have ARRAY_COUNT() and two **'s, things get broken :(
             pInvokeArgType = "IntPtr"

@@ -821,9 +821,12 @@ namespace Steamworks {
 			if (!Packsize.IsLargePack) {
 				ret = NativeMethods.ISteamParties_GetAvailableBeaconLocations(CSteamAPIContext.GetSteamParties(), pLocationList, uMaxNumLocations);
 			} else {
-				SteamPartyBeaconLocation_t[] pLocationList_lp = pLocationList;
+				SteamPartyBeaconLocation_t_LargePack[] pLocationList_lp = new SteamPartyBeaconLocation_t_LargePack[pLocationList.Length];
+				for (int i = 0; i < pLocationList.Length; i++)
+					pLocationList_lp[i] = pLocationList[i];
 				ret = NativeMethods.ISteamParties_GetAvailableBeaconLocations(CSteamAPIContext.GetSteamParties(), pLocationList_lp, uMaxNumLocations);
-				pLocationList = pLocationList_lp;
+				for (int i = 0; i < pLocationList.Length; i++)
+					pLocationList[i] = pLocationList_lp[i];
 			}
 			return ret;
 		}
