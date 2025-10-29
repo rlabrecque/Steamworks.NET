@@ -1,4 +1,4 @@
-name: Build & Publish Package
+name: Build & Publish Steamworks.NET.AnyCPU
 on:
   workflow_dispatch:
     inputs:
