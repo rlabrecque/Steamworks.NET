@@ -1,0 +1,50 @@
+name: Build & Publish Package
+on:
+  workflow_dispatch:
+
+# Uncomment to enable OIDC authentication for nuget publishing
+# permissions:
+#   id-token: write   # Required for OIDC authentication
+#   contents: read    # Required to checkout code
+
+jobs:
+  restore_build_pack_and_publish:
+    name: Restore, Build, Pack and Publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Set up .net
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+
+      - name: restore, build, pack Steamworks.NET.AnyCPU
+        run: |
+          dotnet pack ./Standalone3.0/Steamworks.NET.csproj \
+            --configuration Release 
+
+      # Upload the NuGet package as an artifact
+      - name: Upload NuGet package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-package
+          path: ./Standalone3.0/bin/Release/*.nupkg
+          retention-days: 30
+
+    # Uncomment the following steps to enable publishing to NuGet.org
+    # Get a short-lived NuGet API key
+    #   - name: NuGet login (OIDC → temp API key)
+    #     uses: NuGet/login@v1
+    #     id: login
+    #     with:
+    #       user: vars.NUGET_USER # Set this variable in workflows > vars
+      
+    #   # Push the package
+    #   - name: NuGet push
+    #     run: dotnet nuget push ./Standalone3.0/bin/Release/*.nupkg --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
