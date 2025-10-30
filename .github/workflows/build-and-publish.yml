@@ -1,0 +1,92 @@
+name: Build & Publish Steamworks.NET.AnyCPU
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Package version (e.g., 2025.162.1)"
+        required: false
+        type: string
+  push:
+    tags:
+      - "[0-9][0-9][0-9][0-9].[0-9]*.[0-9]*" # Matches YYYY.*.* format like 2025.162.5
+      - "[0-9][0-9][0-9][0-9].[0-9]*.[0-9]*-*" # Matches YYYY.*.*-* format like 2025.162.5-beta1
+
+permissions:
+  id-token: write # Required for OIDC authentication
+  contents: read # Required to checkout code
+
+jobs:
+  build:
+    name: Pack and create artifact
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+
+      - name: Determine version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+            echo "Using manual version: $VERSION"
+          elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/}
+            echo "Using tag version: $VERSION"
+          else
+            VERSION=""
+          fi
+          
+          # Set default version if empty
+          if [ -z "$VERSION" ] || [ "$VERSION" = "" ]; then
+            VERSION="0.0.0"
+            echo "Version was empty, using default: $VERSION"
+          fi
+          
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Pack Steamworks.NET.AnyCPU
+        run: |
+          dotnet pack ./Standalone3.0/Steamworks.NET.csproj \
+            --configuration Release \
+            -p:Version=${{ steps.version.outputs.version }}
+
+      - name: Upload NuGet package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-package
+          path: ./Standalone3.0/bin/Release/*.nupkg
+          retention-days: 30
+
+  publish:
+    name: Publish ${{ needs.build.outputs.version }} to nuget.org
+    runs-on: ubuntu-latest
+    environment: prod
+    needs: build
+    if: needs.build.outputs.version != '0.0.0'
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: nuget-package
+          path: ./packages
+
+      - name: NuGet login
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ vars.NUGET_USER }} # Set this variable in workflows > vars
+
+      - name: NuGet push
+        run: |
+          dotnet nuget push ./packages/*.nupkg --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
