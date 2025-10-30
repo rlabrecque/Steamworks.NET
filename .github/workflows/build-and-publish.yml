@@ -46,6 +46,13 @@ jobs:
             VERSION=${GITHUB_REF#refs/tags/}
             echo "Using tag version: $VERSION"
           fi
+          
+          # Set default version if empty
+          if [ -z "$VERSION" ] || [ "$VERSION" = "" ]; then
+            VERSION="0.0.0"
+            echo "Version was empty, using default: $VERSION"
+          fi
+          
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Pack Steamworks.NET.AnyCPU
@@ -66,7 +73,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: prod
     needs: build
-    if: needs.build.outputs.version != ''
+    if: needs.build.outputs.version != '0.0.0'
 
     steps:
       - name: Download artifact
