@@ -3,23 +3,27 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Package version (e.g., 2025.162.1)'
-        required: true
-        type: string
-      publish:
-        description: 'Publish to nuget.org?'
+        description: "Package version (e.g., 2025.162.1)"
         required: false
-        type: boolean
+        type: string
+  push:
+    branches:
+      - main
+      - anycpu-2
+    tags:
+      - "[0-9][0-9][0-9][0-9].[0-9]*.[0-9]*" # Matches YYYY.*.* format like 2025.162.5
+      - "[0-9][0-9][0-9][0-9].[0-9]*.[0-9]*-*" # Matches YYYY.*.*-* format like 2025.162.5-beta1
 
 permissions:
-  id-token: write   # Required for OIDC authentication
-  contents: read    # Required to checkout code
+  id-token: write # Required for OIDC authentication
+  contents: read # Required to checkout code
 
 jobs:
   build:
     name: Pack and create artifact
     runs-on: ubuntu-latest
-    
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -32,11 +36,23 @@ jobs:
           dotnet-version: |
             8.0.x
 
+      - name: Determine version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+            echo "Using manual version: $VERSION"
+          else
+            VERSION=${GITHUB_REF#refs/tags/}
+            echo "Using tag version: $VERSION"
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
       - name: Pack Steamworks.NET.AnyCPU
         run: |
           dotnet pack ./Standalone3.0/Steamworks.NET.csproj \
             --configuration Release \
-            -p:Version=${{ github.event.inputs.version }}
+            -p:Version=${{ steps.version.outputs.version }}
 
       - name: Upload NuGet package artifact
         uses: actions/upload-artifact@v4
@@ -46,11 +62,12 @@ jobs:
           retention-days: 30
 
   publish:
-    name: Publish to nuget.org
+    name: Publish ${{ needs.build.outputs.version }} to nuget.org
     runs-on: ubuntu-latest
+    environment: prod
     needs: build
-    if: ${{ github.event.inputs.publish == 'true' }}
-    
+    if: needs.build.outputs.version != ''
+
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
@@ -63,6 +80,7 @@ jobs:
         id: login
         with:
           user: vars.NUGET_USER # Set this variable in workflows > vars
-      
+
       - name: NuGet push
-        run: dotnet nuget push ./packages/*.nupkg --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
+        run: |
+          dotnet nuget push ./packages/*.nupkg --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
