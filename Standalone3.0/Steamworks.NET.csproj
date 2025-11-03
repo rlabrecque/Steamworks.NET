@@ -4,7 +4,7 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<RootNamespace>Steamworks</RootNamespace>
 		<RepositoryType>git</RepositoryType>
-		<DefineConstants>STEAMWORKS_LIN_OSX;STEAMWORKS_X64;STEAMWORKS_ANYCPU</DefineConstants>
+		<DefineConstants>STEAMWORKS_WIN;STEAMWORKS_LIN_OSX;STEAMWORKS_X64;STEAMWORKS_ANYCPU</DefineConstants>
 	</PropertyGroup>
 
 	<PropertyGroup Label="Nuget PM">
