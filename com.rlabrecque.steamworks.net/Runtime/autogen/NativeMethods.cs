@@ -45,25 +45,35 @@ namespace Steamworks {
 
 		private static IntPtr DllImportResolver(string libraryName, System.Reflection.Assembly assembly, DllImportSearchPath? searchPath)
 		{
-			// Only handle steam_api libraries
-			if (libraryName != "steam_api" && libraryName != "steam_api64" && 
-			    libraryName != "sdkencryptedappticket" && libraryName != "sdkencryptedappticket64")
+			// check is requesting library name matches steam native
+			// we don't check requester here because we want to ensure we are the first loader of steam native
+			// otherwise other libraries may have already loaded steam native with wrong architecture
+			if ((libraryName == NativeLibraryName || libraryName == NativeLibrary_SDKEncryptedAppTicket)
+				// check are we on win64, the special case we are going to handle
+				&& RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && System.Environment.Is64BitProcess)
 			{
-				return IntPtr.Zero;
-			}
-
-			// On Windows x64, use steam_api64
-			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && System.Environment.Is64BitProcess)
-			{
-				string libName = libraryName.Contains("encrypted") ? "sdkencryptedappticket64" : "steam_api64";
-				if (NativeLibrary.TryLoad(libName, assembly, searchPath, out IntPtr handle))
+				// check who is requesting steam native
+				if (assembly.GetName().Name != "Steamworks.NET")
 				{
-					return handle;
+					// Unmanaged libraries(steam native dll) will be cached(probably by name),
+					// we warn developers here the steam native will be cached for any later loads, this is a potentional pollution.
+					System.Diagnostics.Debug.WriteLine(
+						$"[Warning] Assembly {assembly.GetName().Name} is requesting Steam native by it's original name, " +
+						$"but Steamworks.NET.AnyCPU want to load x64 version of steam library \"{libraryName}\". The loaded Steam native will be cached " +
+						$"and may potentially break it.\n" +
+						$"Affected assembly's full name: {assembly.FullName}");
+
+					return 0;
 				}
+
+				// platform specific suffix is not needed, to reuse default unmanaged dependencies resolve logic
+				string x64LibName = $"{libraryName}64";
+				// we don't care failed load, let next handler manage it
+				NativeLibrary.TryLoad(x64LibName, assembly, searchPath, out nint lib);
+				return lib;
 			}
 
-			// For all other platforms, let .NET's default RID-based resolution handle it
-			return IntPtr.Zero;
+			return 0;
 		}
 #endif
 
