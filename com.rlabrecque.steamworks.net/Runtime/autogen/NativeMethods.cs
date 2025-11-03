@@ -37,6 +37,36 @@ using IntPtr = System.IntPtr;
 namespace Steamworks {
 	[System.Security.SuppressUnmanagedCodeSecurity()]
 	internal static class NativeMethods {
+#if STEAMWORKS_ANYCPU
+		static NativeMethods()
+		{
+			NativeLibrary.SetDllImportResolver(typeof(NativeMethods).Assembly, DllImportResolver);
+		}
+
+		private static IntPtr DllImportResolver(string libraryName, System.Reflection.Assembly assembly, DllImportSearchPath? searchPath)
+		{
+			// Only handle steam_api libraries
+			if (libraryName != "steam_api" && libraryName != "steam_api64" && 
+			    libraryName != "sdkencryptedappticket" && libraryName != "sdkencryptedappticket64")
+			{
+				return IntPtr.Zero;
+			}
+
+			// On Windows x64, use steam_api64
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && System.Environment.Is64BitProcess)
+			{
+				string libName = libraryName.Contains("encrypted") ? "sdkencryptedappticket64" : "steam_api64";
+				if (NativeLibrary.TryLoad(libName, assembly, searchPath, out IntPtr handle))
+				{
+					return handle;
+				}
+			}
+
+			// For all other platforms, let .NET's default RID-based resolution handle it
+			return IntPtr.Zero;
+		}
+#endif
+
 #if STEAMWORKS_WIN && STEAMWORKS_X64
 		internal const string NativeLibraryName = "steam_api64";
 		internal const string NativeLibrary_SDKEncryptedAppTicket = "sdkencryptedappticket64";
