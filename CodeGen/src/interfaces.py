@@ -749,12 +749,14 @@ def parse_func_native(f, interface, func: Function, strEntryPoint: str, args, ge
         g_NativeMethods.append("")
 
         if isPacksizeAware:
+            g_NativeMethods.append("\t#if STEAMWORKS_ANYCPU")
             g_NativeMethods.append("\t\t[DllImport(NativeLibraryName, EntryPoint = \"SteamAPI_{0}\", CallingConvention = CallingConvention.Cdecl)]".format(strEntryPoint))
 
             if returntype == "bool":
                 g_NativeMethods.append("\t\t[return: MarshalAs(UnmanagedType.I1)]")
 
             g_NativeMethods.append("\t\tpublic static extern {0} {1}({2});".format(returntype, strEntryPoint, largePackPInvokeArgs))
+            g_NativeMethods.append("\t#endif")
             g_NativeMethods.append("")
         pass
 
