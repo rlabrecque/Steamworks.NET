@@ -762,7 +762,7 @@ def parse_func_native(f, interface, func: Function, strEntryPoint: str, args, ge
 
 def generate_wrapper_function(f, interface, func: Function,
                                args: tuple[str, str, str, list[str], tuple[list[str], list[Arg]], OrderedDict, str, bool, str],
-                                 strEntryPoint: str, bGameServerVersion: bool, parser: Parser):
+                                 strEntryPoint: str, bGameServerVersion: bool, _):
     wrapperargs = args[1]
     argnames = args[2]
     stringargs = args[3]
@@ -860,6 +860,7 @@ def generate_wrapper_function(f, interface, func: Function,
     else:
         b:list[str] = []
 
+        b.append("#if STEAMWORKS_ANYCPU")
         if returntype != "void":
             b.append(f"{wrapperreturntype} ret;")
 
@@ -896,8 +897,13 @@ def generate_wrapper_function(f, interface, func: Function,
             else:
                 b.append(f"\tfor (int i = 0; i < {lpArg[1]}.Length; i++)")
                 b.append(f"\t\t{lpArg[1]}[i] = {lpArg[1]}_lp[i];")
-
         b.append("}")
+
+        b.append("#else")
+        b.append("{0}{1}{2}NativeMethods.{3}({4});".format(
+            "", strReturnable, strCast,
+             invokingNativeFunctionName, argnames))
+        b.append("#endif")
 
         functionBody.extend(map(lambda l: "\t\t\t" + l, b))
 
@@ -917,8 +923,17 @@ def generate_wrapper_function(f, interface, func: Function,
             if strEntryPoint != "ISteamRemoteStorage_GetUGCDetails":
                 functionBody.append(indentlevel + "Marshal.FreeHGlobal(" + argName + "2);")
 
-    if (returntype != "void" and isPacksizeAware) or (returntype != "void" and outstringargs):
+    if (returntype != "void" and (isPacksizeAware)):
+        if not outstringargs:
+            functionBody.append(indentlevel + "#if STEAMWORKS_ANYCPU")
         functionBody.append(indentlevel + "return ret;")
+        if not outstringargs:
+            functionBody.append(indentlevel + "#endif")
+    elif returntype != 'void' and outstringargs:
+        functionBody.append(indentlevel + "return ret;")
+    elif returntype != "void" and not isPacksizeAware:
+        pass
+
 
     if stringargs:
         functionBody.append("\t\t\t}")
