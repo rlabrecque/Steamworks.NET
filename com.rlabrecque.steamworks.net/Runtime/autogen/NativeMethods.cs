@@ -37,24 +37,20 @@ using IntPtr = System.IntPtr;
 namespace Steamworks {
 	[System.Security.SuppressUnmanagedCodeSecurity()]
 	internal static class NativeMethods {
-#if STEAMWORKS_ANYCPU
-		static NativeMethods()
-		{
+	#if STEAMWORKS_ANYCPU
+		static NativeMethods() {
 			NativeLibrary.SetDllImportResolver(typeof(NativeMethods).Assembly, DllImportResolver);
 		}
 
-		private static IntPtr DllImportResolver(string libraryName, System.Reflection.Assembly assembly, DllImportSearchPath? searchPath)
-		{
+		private static IntPtr DllImportResolver(string libraryName, System.Reflection.Assembly assembly, DllImportSearchPath? searchPath) {
 			// check is requesting library name matches steam native
 			// we don't check requester here because we want to ensure we are the first loader of steam native
 			// otherwise other libraries may have already loaded steam native with wrong architecture
 			if ((libraryName == NativeLibraryName || libraryName == NativeLibrary_SDKEncryptedAppTicket)
 				// check are we on win64, the special case we are going to handle
-				&& RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && System.Environment.Is64BitProcess)
-			{
+				&& RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && System.Environment.Is64BitProcess) {
 				// check who is requesting steam native
-				if (assembly.GetName().Name != "Steamworks.NET")
-				{
+				if (assembly.GetName().Name != "Steamworks.NET") {
 					// Unmanaged libraries(steam native dll) will be cached(probably by name),
 					// we warn developers here the steam native will be cached for any later loads, this is a potentional pollution.
 					System.Diagnostics.Debug.WriteLine(
