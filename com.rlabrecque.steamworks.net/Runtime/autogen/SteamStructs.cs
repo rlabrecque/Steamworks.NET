@@ -453,9 +453,13 @@ namespace Steamworks {
 	}
 
 	/// Describe the state of a connection.
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	#else
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	#endif
 	public struct SteamNetConnectionInfo_t {
-		
+
 		/// Who is on the other end?  Depending on the connection type and phase of the connection, we might not know
 		public SteamNetworkingIdentity m_identityRemote;
 		
