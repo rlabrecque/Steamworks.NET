@@ -455,7 +455,7 @@ namespace Steamworks {
 	/// Describe the state of a connection.
 	[StructLayout(LayoutKind.Sequential)]
 	public struct SteamNetConnectionInfo_t {
-
+		
 		/// Who is on the other end?  Depending on the connection type and phase of the connection, we might not know
 		public SteamNetworkingIdentity m_identityRemote;
 		

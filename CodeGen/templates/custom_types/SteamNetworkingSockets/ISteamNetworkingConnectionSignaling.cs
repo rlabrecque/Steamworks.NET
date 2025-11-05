@@ -27,7 +27,15 @@ namespace Steamworks
 		/// You can assume that the same value of hConn will be used
 		/// every time.
 		public bool SendSignal(HSteamNetConnection hConn, ref SteamNetConnectionInfo_t info, IntPtr pMsg, int cbMsg) {
-			return NativeMethods.SteamAPI_ISteamNetworkingConnectionSignaling_SendSignal(ref this, hConn, ref info, pMsg, cbMsg);
+			bool ret;
+			if (!Packsize.IsLargePack) {
+				ret = NativeMethods.SteamAPI_ISteamNetworkingConnectionSignaling_SendSignal(ref this, hConn, ref info, pMsg, cbMsg);
+			} else {
+				SteamNetConnectionInfo_t info_lp = info;
+				ret = NativeMethods.SteamAPI_ISteamNetworkingConnectionSignaling_SendSignal(ref this, hConn, ref info_lp, pMsg, cbMsg);
+				info = info_lp;
+			}
+			return ret;
 		}
 
 		/// Called when the connection no longer needs to send signals.
