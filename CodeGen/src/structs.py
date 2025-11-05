@@ -116,9 +116,9 @@ def main(parser: Parser):
 
     for f in parser.files:
         for struct in f.structs:
-            lines.extend(parse(struct, True, anyCpuConditionalMarshallerLines, packsizeAwareStructNames))
+            lines.extend(parse(struct, True, anyCpuConditionalMarshallerLines, packsizeAwareStructNames, parser))
         for callback in f.callbacks:
-            callbacklines.extend(parse(callback, True, anyCpuConditionalMarshallerLines, packsizeAwareStructNames))
+            callbacklines.extend(parse(callback, True, anyCpuConditionalMarshallerLines, packsizeAwareStructNames, parser))
 
     with open("../com.rlabrecque.steamworks.net/Runtime/autogen/SteamStructs.cs", "wb") as out:
         with open("templates/header.txt", "r") as f:
@@ -153,7 +153,7 @@ def main(parser: Parser):
         
         out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
 
-def parse(struct: Struct, isMainStruct, marshalTableLines: list[str], packsizeAwareStructNames: list[str]) -> list[str]:
+def parse(struct: Struct, isMainStruct, marshalTableLines: list[str], packsizeAwareStructNames: list[str], parser: Parser) -> list[str]:
     # ignore structs that manually defined by us
     # ignore nested structs, they probably handled by hand
     # ignore structs which has nested types, they probably interop by hand
@@ -221,7 +221,7 @@ def parse(struct: Struct, isMainStruct, marshalTableLines: list[str], packsizeAw
         if not isMainStruct:
             fieldHandlingStructName = fieldHandlingStructName[:structname.rindex("_")]
 
-        lines.extend(parse_field(field, fieldHandlingStructName))
+        lines.extend(parse_field(field, fieldHandlingStructName, isMainStruct, parser))
         
     if fieldHandlingStructName in packsizeAwareStructNames and not isMainStruct:
         mainStructName = structname[:structname.rindex("_")]
@@ -275,7 +275,7 @@ def parse(struct: Struct, isMainStruct, marshalTableLines: list[str], packsizeAw
         largePackStruct = deepcopy(struct)
         largePackStruct.name = structname + "_LargePack"
         largePackStruct.packsize = 8
-        lines.extend(parse(largePackStruct, False, marshalTableLines, packsizeAwareStructNames))
+        lines.extend(parse(largePackStruct, False, marshalTableLines, packsizeAwareStructNames, parser))
         
         lines.append("\t#endif")
 
@@ -290,7 +290,7 @@ def gen_fieldcopycode(field, structname, marshalTableLines):
     else:
         marshalTableLines.append(f"\t\t\tresult.{field.name} = value.{field.name};")
                 
-def parse_field(field: StructField, structname):
+def parse_field(field: StructField, structname: str, isMainStruct: bool, parser: Parser):
     lines = []
     for comment in field.c.rawprecomments:
         if type(comment) is BlankLine:
@@ -334,6 +334,11 @@ def parse_field(field: StructField, structname):
         lines.append("\t\t\tset { InteropHelp.StringToByteArrayUTF8(value, " + field.name + "_, " + constantsstr + field.arraysizeStr + "); }")
         lines.append("\t\t}")
     else:
+        if not isMainStruct:
+           typeInfo = parser.resolveTypeInfo(fieldtype)
+           if isinstance(typeInfo, Struct) and typeInfo.packsize_aware:
+               fieldtype = fieldtype + "_LargePack"
+
         lines.append("\t\tpublic " + fieldtype + " " + field.name + ";" + comment)
 
     return lines

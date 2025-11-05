@@ -3446,7 +3446,7 @@ namespace Steamworks {
 		public HSteamNetConnection m_hConn;
 		
 		/// Full connection info
-		public SteamNetConnectionInfo_t m_info;
+		public SteamNetConnectionInfo_t_LargePack m_info;
 		
 		/// Previous state.  (Current state is in m_info.m_eState)
 		public ESteamNetworkingConnectionState m_eOldState;

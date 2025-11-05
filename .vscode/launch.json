@@ -12,6 +12,15 @@
 			"cwd": "${workspaceFolder}/CodeGen/",
 			"console": "integratedTerminal",
 			"justMyCode": true
+		},
+		{
+			"name": "Debug parser",
+			"type": "debugpy",
+			"request": "launch",
+			"program": "${workspaceFolder}/CodeGen/SteamworksParser/debug_entrypoint.py",
+			"console": "integratedTerminal",
+			"cwd": "${workspaceFolder}/CodeGen/SteamworksParser/",
+			"justMyCode": true
 		}
 	]
 }
