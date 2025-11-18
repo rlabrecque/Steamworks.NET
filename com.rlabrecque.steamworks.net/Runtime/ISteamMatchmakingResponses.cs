@@ -54,7 +54,7 @@ namespace Steamworks {
 		private VTable m_VTable;
 		private IntPtr m_pVTable;
 		private GCHandle m_pGCHandle;
-		private IntPtr m_instancePtr;
+		private IntPtr m_pInstance;
 		private ServerResponded m_ServerResponded;
 		private ServerFailedToRespond m_ServerFailedToRespond;
 		private RefreshComplete m_RefreshComplete;
@@ -77,9 +77,9 @@ namespace Steamworks {
 			Marshal.StructureToPtr(m_VTable, m_pVTable, false);
 
 			m_pGCHandle = GCHandle.Alloc(m_pVTable, GCHandleType.Pinned);
-			m_instancePtr = m_pGCHandle.AddrOfPinnedObject();
+			m_pInstance = m_pGCHandle.AddrOfPinnedObject();
 			lock (m_Instances) {
-				m_Instances[m_instancePtr] = this;
+				m_Instances[m_pInstance] = this;
 			}
 		}
 
@@ -222,7 +222,7 @@ namespace Steamworks {
 		private VTable m_VTable;
 		private IntPtr m_pVTable;
 		private GCHandle m_pGCHandle;
-		private IntPtr m_instancePtr;
+		private IntPtr m_pInstance;
 		private ServerResponded m_ServerResponded;
 		private ServerFailedToRespond m_ServerFailedToRespond;
 		private static readonly Dictionary<IntPtr, ISteamMatchmakingPingResponse> m_Instances = new Dictionary<IntPtr, ISteamMatchmakingPingResponse>();
@@ -242,9 +242,9 @@ namespace Steamworks {
 			Marshal.StructureToPtr(m_VTable, m_pVTable, false);
 
 			m_pGCHandle = GCHandle.Alloc(m_pVTable, GCHandleType.Pinned);
-			m_instancePtr = m_pGCHandle.AddrOfPinnedObject();
+			m_pInstance = m_pGCHandle.AddrOfPinnedObject();
 			lock (m_Instances) {
-				m_Instances[m_instancePtr] = this;
+				m_Instances[m_pInstance] = this;
 			}
 		}
 
@@ -333,7 +333,7 @@ namespace Steamworks {
 		private VTable m_VTable;
 		private IntPtr m_pVTable;
 		private GCHandle m_pGCHandle;
-		private IntPtr m_instancePtr;
+		private IntPtr m_pInstance;
 		private AddPlayerToList m_AddPlayerToList;
 		private PlayersFailedToRespond m_PlayersFailedToRespond;
 		private PlayersRefreshComplete m_PlayersRefreshComplete;
@@ -356,9 +356,9 @@ namespace Steamworks {
 			Marshal.StructureToPtr(m_VTable, m_pVTable, false);
 
 			m_pGCHandle = GCHandle.Alloc(m_pVTable, GCHandleType.Pinned);
-			m_instancePtr = m_pGCHandle.AddrOfPinnedObject();
+			m_pInstance = m_pGCHandle.AddrOfPinnedObject();
 			lock (m_Instances) {
-				m_Instances[m_instancePtr] = this;
+				m_Instances[m_pInstance] = this;
 			}
 		}
 
@@ -464,7 +464,7 @@ namespace Steamworks {
 		private VTable m_VTable;
 		private IntPtr m_pVTable;
 		private GCHandle m_pGCHandle;
-		private IntPtr m_instancePtr;
+		private IntPtr m_pInstance;
 		private RulesResponded m_RulesResponded;
 		private RulesFailedToRespond m_RulesFailedToRespond;
 		private RulesRefreshComplete m_RulesRefreshComplete;
@@ -487,9 +487,9 @@ namespace Steamworks {
 			Marshal.StructureToPtr(m_VTable, m_pVTable, false);
 
 			m_pGCHandle = GCHandle.Alloc(m_pVTable, GCHandleType.Pinned);
-			m_instancePtr = m_pGCHandle.AddrOfPinnedObject();
+			m_pInstance = m_pGCHandle.AddrOfPinnedObject();
 			lock (m_Instances) {
-				m_Instances[m_instancePtr] = this;
+				m_Instances[m_pInstance] = this;
 			}
 		}
 
