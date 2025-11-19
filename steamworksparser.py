@@ -504,7 +504,7 @@ class Parser:
         if "=" not in s.linesplit:
             return
 
-        result = re.match(".*const\s+(.*)\s+(\w+)\s+=\s+(.*);$", s.line)
+        result = re.match(r".*const\s+(.*)\s+(\w+)\s+=\s+(.*);$", s.line)
 
         if not result:
             return
@@ -571,7 +571,7 @@ class Parser:
         s.enum = Enum(s.linesplit[1], comments)
 
     def parse_enumfields(self, s):
-        result = re.match("^(\w+,?)([ \t]*)=?([ \t]*)(.*)$", s.line)
+        result = re.match(r"^(\w+,?)([ \t]*)=?([ \t]*)(.*)$", s.line)
         comments = self.consume_comments(s)
 
         # HACK: This is a hack for multiline fields :(
@@ -649,9 +649,9 @@ class Parser:
             return
 
         fieldarraysize = None
-        result = re.match("^([^=.]*\s\**)(\w+);$", s.line)
+        result = re.match(r"^([^=.]*\s\**)(\w+);$", s.line)
         if result is None:
-            result = re.match("^(.*\s\*?)(\w+)\[\s*(\w+)?\s*\];$", s.line)
+            result = re.match(r"^(.*\s\*?)(\w+)\[\s*(\w+)?\s*\];$", s.line)
             if result is None:
                 return
 
@@ -669,7 +669,7 @@ class Parser:
                 s.f.callbacks.append(s.callbackmacro)
                 s.callbackmacro = None
             elif s.line.startswith("STEAM_CALLBACK_MEMBER_ARRAY"):
-                result = re.match("^STEAM_CALLBACK_MEMBER_ARRAY\(.*,\s+(.*?)\s*,\s*(\w*)\s*,\s*(\d*)\s*\)", s.line)
+                result = re.match(r"^STEAM_CALLBACK_MEMBER_ARRAY\(.*,\s+(.*?)\s*,\s*(\w*)\s*,\s*(\d*)\s*\)", s.line)
 
                 fieldtype = result.group(1)
                 fieldname = result.group(2)
@@ -677,7 +677,7 @@ class Parser:
 
                 s.callbackmacro.fields.append(StructField(fieldname, fieldtype, fieldarraysize, comments))
             elif s.line.startswith("STEAM_CALLBACK_MEMBER"):
-                result = re.match("^STEAM_CALLBACK_MEMBER\(.*,\s+(.*?)\s*,\s*(\w*)\[?(\d+)?\]?\s*\)", s.line)
+                result = re.match(r"^STEAM_CALLBACK_MEMBER\(.*,\s+(.*?)\s*,\s*(\w*)\[?(\d+)?\]?\s*\)", s.line)
 
                 fieldtype = result.group(1)
                 fieldname = result.group(2)
@@ -695,7 +695,7 @@ class Parser:
 
         comments = self.consume_comments(s)
 
-        result = re.match("^STEAM_CALLBACK_BEGIN\(\s?(\w+),\s?(.*?)\s*\)", s.line)
+        result = re.match(r"^STEAM_CALLBACK_BEGIN\(\s?(\w+),\s?(.*?)\s*\)", s.line)
 
         s.callbackmacro = Struct(result.group(1), s.packsize, comments)
         s.callbackmacro.callbackid = result.group(2)
