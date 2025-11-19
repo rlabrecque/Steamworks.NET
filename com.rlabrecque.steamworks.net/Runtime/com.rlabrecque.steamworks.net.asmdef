@@ -14,7 +14,9 @@
     "overrideReferences": true,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
+    "defineConstraints": [
+        "UNITY_EDITOR || STEAMWORKS_NET"
+    ],
     "versionDefines": [],
     "noEngineReferences": false
 }
