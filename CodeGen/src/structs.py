@@ -71,6 +71,7 @@ g_SkippedStructs = (
 
 g_SequentialStructs = (
     "MatchMakingKeyValuePair_t",
+    "SteamNetConnectionInfo_t"
 )
 
 g_SpecialFieldTypes = {
