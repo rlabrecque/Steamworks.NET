@@ -739,7 +739,7 @@ namespace Steamworks {
 	/// send it over the wire, or persist it in a file or database!  If you need
 	/// to do that, convert it to a string representation using the methods in
 	/// ISteamNetworkingUtils().
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential)]
 	public struct SteamNetworkPingLocation_t {
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 512)]
 		public byte[] m_data;

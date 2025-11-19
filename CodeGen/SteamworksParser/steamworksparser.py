@@ -160,6 +160,7 @@ class Settings:
     print_unuseddefines = False
     print_skippedtypedefs = False
     fake_gameserver_interfaces = False
+    print_debug = False
 
 class BlankLine(object):
     pass # linenum?
@@ -238,7 +239,7 @@ class Enum:
         self.pack = 4
 
 class Struct:
-    def __init__(self, name, packsize: int | None, comments, scopePath):
+    def __init__(self, name, packsize: int | Literal["PlatformABIDefault"] | None, comments, scopePath):
         self.name = name
         # keep it to remain compatibility
         self.packsize = packsize 
@@ -253,6 +254,7 @@ class Struct:
         self.size: int | None = None
         self.packsize_aware = False
         self.is_skipped: bool = False
+        self.is_sequential = packsize == "PlatformABIDefault"
         
     def calculate_offsets(self, defaultAlign: int):
         def calcRealSize(sizelike: int | Literal['intptr']) -> int:
@@ -428,15 +430,21 @@ class ParserState:
     def endComplexType(self):
         self.complexTypeStack.pop()
         
-    def getCurrentPack(self) -> int | None:
+    def getCurrentPack(self) -> int | Literal['PlatformABIDefault'] | None:
         # pack size is default value
         # our parser can't evaluate #ifdefs, so in the situlation of 
 		# using default pack, the self.packsize will be [4, 8]
-        if self.packsize != [4, 8]:
-            return self.packsize[-1] if len(self.packsize) > 0 else None
-        else:
+        if self.packsize == [4, 8]:
             # default pack
             return None
+        elif self.packsize == [4]:
+            # we can't eval #ifdefs, so all push will be recorded without
+            # checking if it is really sets pack value
+            # one of [4, 8] is not used by #ifdef, if code pops in this state
+            # it means platform ABI default pack is restored
+            return 'PlatformABIDefault'
+        else:
+            return self.packsize[-1] if len(self.packsize) > 0 else None
         
     def getCurrentComplexType(self) -> Literal['struct', 'union', 'enum'] | None:
         return self.complexTypeStack[-1] if len(self.complexTypeStack) > 0 else None
@@ -470,8 +478,8 @@ class Parser:
                     s.lines = infile.readlines()
                     s.lines[0] = s.lines[0][3:]
                  
-                if Settings.warn_utf8bom:
-                    printWarning("File contains a UTF8 BOM.", s)
+                    if Settings.warn_utf8bom:
+                        printWarning("File contains a UTF8 BOM.", s)
 
                 self.parse(s)
                 
@@ -1408,9 +1416,13 @@ class Parser:
             structs.extend(file.structs)
             
             for struct in structs:
-                if struct.packsize:
+                if type(struct.packsize) == int:
                     continue
                 
+                if struct.is_sequential:
+                    printDebugPostParse(f"Struct {struct.name} is aligns by platform ABI default, means sequential")
+                    continue
+
                 self.populate_struct_field_layout(struct, 8)
                 offsetsLargePack: list[FieldOffset] = struct.calculate_offsets(8)
                 offsetsLargePack.sort(key = lambda item: item.name)
@@ -1422,12 +1434,15 @@ class Parser:
                 sizeSmall = struct.size
                 
                 if offsetsLargePack != offsetsSmallPack or sizeLarge != sizeSmall:
-                    print(f"Found packsize aware struct '{struct.name}'")
+                    printDebugPostParse(f"Found packsize aware struct '{struct.name}'")
                     struct.packsize_aware = True
                     self.packSizeAwareStructs.append(struct.name)
 
         pass
 
+def printDebugPostParse(string: str):
+    if Settings.print_debug:
+        print(f"[DEBUG][PostParse] {string}")
 
 def printWarning(string, s):
     print("[WARNING] " + string + " - In File: " + s.f.name + " - On Line " + str(s.linenum) + " - " + s.line)

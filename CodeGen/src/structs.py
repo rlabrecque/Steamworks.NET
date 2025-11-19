@@ -160,6 +160,9 @@ def parse(struct: Struct, isMainStruct, marshalTableLines: list[str], packsizeAw
     if struct.name in g_SkippedStructs or struct.should_not_generate():
         return []
 
+    if struct.is_sequential and not isMainStruct:
+        return []
+
     lines = []
     for comment in struct.c.rawprecomments:
         if type(comment) is BlankLine:
@@ -175,7 +178,7 @@ def parse(struct: Struct, isMainStruct, marshalTableLines: list[str], packsizeAw
     if g_ExplicitStructs.get(structname, False):
         lines.append("\t[StructLayout(LayoutKind.Explicit, Pack = " + packsize + ")]")
         isExplicitStruct = True
-    elif isMainStruct:
+    elif isMainStruct and not struct.is_sequential:
          
         if struct.packsize != "Packsize.value" and structname not in g_SequentialStructs:
             customsize = ""
@@ -192,8 +195,9 @@ def parse(struct: Struct, isMainStruct, marshalTableLines: list[str], packsizeAw
     if struct.callbackid:
         lines.append("\t[CallbackIdentity(Constants." + struct.callbackid + ")]")
 
-    for name in g_SequentialStructs:
-        if name == structname:
+    # use pack-size sematic for sequential
+    for name in g_SequentialStructs or struct.is_sequential:
+        if name == structname or struct.is_sequential:
             lines.append("\t[StructLayout(LayoutKind.Sequential)]")
             break
 
