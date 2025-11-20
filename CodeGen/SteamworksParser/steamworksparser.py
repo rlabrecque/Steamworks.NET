@@ -384,7 +384,7 @@ class ParserState:
         self.lines = []
         self.line: str = ""
         self.originalline = ""
-        self.linesplit = []
+        self.linesplit: list[str] = []
         """
         linenum is Zero based
         """
@@ -411,7 +411,8 @@ class ParserState:
         self.bInMultilineComment = False
         self.bInMultilineMacro = False
         self.bInPrivate = False
-        self.callbackid = None
+        self.callbackid: int | None = None
+        self.isClassLikeStruct: bool | None = None
         self.functionAttributes: list[FunctionAttribute] = [] # FunctionAttribute
         
         self.currentSpecialStruct: PrimitiveType = None
@@ -899,6 +900,7 @@ class Parser:
                 else:
                     s.f.structs.append(s.struct)
                 
+                s.isClassLikeStruct = None
                 s.endComplexType()
 
                 currentStruct: Struct = s.struct
@@ -914,13 +916,20 @@ class Parser:
             else:
                 self.parse_struct_fields(s)
         else:
-            if s.linesplit[0] != "struct":
+            if s.linesplit[0] not in ("struct", "class")\
+                or (len(s.linesplit) > 2\
+                and not s.linesplit[1].startswith("ISteam")):
                 return
 
             # Skip Forward Declares
             if s.linesplit[1].endswith(";"):
                 return
             
+            if s.linesplit[0] == "class":
+                s.isClassLikeStruct = True
+            else:
+                s.isClassLikeStruct = False
+
 			# special structs
             typeNameCandidate = s.linesplit[1]
             if typeNameCandidate in g_SpecialStructs.keys():
@@ -938,10 +947,10 @@ class Parser:
             s.beginStruct()
             comments = self.consume_comments(s)
 
-            oldStruct = s.struct
+            outerTypeCandidate = s.struct
             s.struct = Struct(s.linesplit[1].strip(), s.getCurrentPack(),\
                               comments, s.scopeDepth)
-            s.struct.outer_type = oldStruct
+            s.struct.outer_type = outerTypeCandidate
             if s.linesplit[1].strip() in g_SkippedStructs:
                 s.struct.is_skipped = True
 
@@ -949,6 +958,9 @@ class Parser:
         comments = self.consume_comments(s)
 
         if s.line.startswith("enum"):
+            return
+        
+        if s.line.startswith('friend '): # in classes
             return
 
         if s.line == "{":
@@ -1291,7 +1303,7 @@ class Parser:
                     attr.value += token
                 continue
 
-    def parse_classes(self, s):
+    def parse_classes(self, s: ParserState):
         if s.linesplit[0] != "class":
             return
 
@@ -1299,8 +1311,6 @@ class Parser:
             return
 
         self.consume_comments(s)
-
-        #print("Skipped class: " + s.line)
 
     def parse_scope(self, s):
         if "{" in s.line:
