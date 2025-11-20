@@ -202,16 +202,6 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> game search</para>
-		/// </summary>
-		public static IntPtr GetISteamGameSearch(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
-			InteropHelp.TestIfAvailableGameServer();
-			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
-				return NativeMethods.ISteamClient_GetISteamGameSearch(CSteamGameServerAPIContext.GetSteamClient(), hSteamuser, hSteamPipe, pchVersion2);
-			}
-		}
-
-		/// <summary>
 		/// <para> returns the number of IPC calls made since the last time this function was called</para>
 		/// <para> Used for perf debugging so you can understand how many IPC calls your game makes per frame</para>
 		/// <para> Every IPC call is at minimum a thread context switch if not a process one so you want to rate</para>
@@ -278,16 +268,6 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableGameServer();
 			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
 				return NativeMethods.ISteamClient_GetISteamMusic(CSteamGameServerAPIContext.GetSteamClient(), hSteamuser, hSteamPipe, pchVersion2);
-			}
-		}
-
-		/// <summary>
-		/// <para> Music Player Remote</para>
-		/// </summary>
-		public static IntPtr GetISteamMusicRemote(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
-			InteropHelp.TestIfAvailableGameServer();
-			using (var pchVersion2 = new InteropHelp.UTF8StringHandle(pchVersion)) {
-				return NativeMethods.ISteamClient_GetISteamMusicRemote(CSteamGameServerAPIContext.GetSteamClient(), hSteamuser, hSteamPipe, pchVersion2);
 			}
 		}
 
