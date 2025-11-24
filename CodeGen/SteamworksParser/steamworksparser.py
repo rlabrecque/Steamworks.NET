@@ -86,6 +86,15 @@ g_GameServerInterfaces = (
     'isteamutils.h',
 )
 
+class ClassSpecialRBracket:
+    def __init__(self, lineZB: int, action: Literal['EndStruct'] | Literal['ContniueStruct']):
+        self.lineZeroBased = lineZB
+        self.action: Literal['EndStruct'] | Literal['ContniueStruct'] = action
+
+g_ClassSpecialRBracket = {
+    "CSteamID" : ClassSpecialRBracket(850, 'ContniueStruct')
+}
+
 class PrimitiveType:
     def __init__(self, name: str, size: int, pack: int):
         self.name = name
@@ -281,6 +290,8 @@ class Struct:
                 padding = (effective_field_pack - (current_offset % effective_field_pack)) % effective_field_pack
                 current_offset += padding
             
+            if field.size is None: # For classes with typedef inside
+                return []
              
             effective_struct_pack = max(effective_struct_pack, effective_field_pack)
             field_total_size = calcRealSize(field.size) * (field.arraysize or 1)
@@ -413,6 +424,7 @@ class ParserState:
         self.bInMultilineComment = False
         self.bInMultilineMacro = False
         self.bInPrivate = False
+        self.isInlineMethodDeclared = False
         self.callbackid: int | None = None
         self.isClassLikeStruct: bool | None = None
         self.functionAttributes: list[FunctionAttribute] = [] # FunctionAttribute
@@ -453,6 +465,7 @@ class ParserState:
 class Parser:
     files = None
     typedefs = []
+    ignoredStructs: list[Struct] = []
 
     def __init__(self, folder):
         self.files: list[SteamFile] = [SteamFile(f) for f in os.listdir(folder)
@@ -899,6 +912,13 @@ class Parser:
 
         if s.struct and s.linesplit[0] != "struct":
             if s.line == "};":
+                if s.struct.name in g_ClassSpecialRBracket:
+                    special = g_ClassSpecialRBracket[s.struct.name]
+                    if special.lineZeroBased == s.line\
+                    and special.action == 'ContniueStruct':
+                        return
+                    
+
                 s.struct.endcomments = self.consume_comments(s)
 
                 if s.callbackid:
@@ -924,22 +944,22 @@ class Parser:
             else:
                 self.parse_struct_fields(s)
         else:
-            if s.linesplit[0] not in ("struct", "class")\
-                or (len(s.linesplit) > 2\
-                and not s.linesplit[1].startswith("ISteam")):
+            if s.linesplit[0] not in ("struct", "class"):
+                return
+
+            if len(s.linesplit) > 1 and s.linesplit[1].startswith("ISteam"):
                 return
 
             # Skip Forward Declares
             if s.linesplit[1].endswith(";"):
                 return
-            
-            if s.linesplit[0] == "class":
-                s.isClassLikeStruct = True
-            else:
-                s.isClassLikeStruct = False
 
 			# special structs
             typeNameCandidate = s.linesplit[1]
+            if (typeNameCandidate in ("CCallResult", "CCallback", "CCallbackBase", "CCallbackImpl", "CCallbackManual")):
+                self.ignoredStructs.append(Struct(typeNameCandidate, 8, None, ""))
+                return
+
             if typeNameCandidate in g_SpecialStructs.keys():
                 if s.linesplit[0] == 'struct':
                     s.currentSpecialStruct = g_SpecialStructs[typeNameCandidate]
@@ -953,6 +973,12 @@ class Parser:
                     return
 
             s.beginStruct()
+           
+            if s.linesplit[0] == "class":
+                s.isClassLikeStruct = True
+            else:
+                s.isClassLikeStruct = False
+            
             comments = self.consume_comments(s)
 
             outerTypeCandidate = s.struct
@@ -961,6 +987,170 @@ class Parser:
             s.struct.outer_type = outerTypeCandidate
             if s.linesplit[1].strip() in g_SkippedStructs:
                 s.struct.is_skipped = True
+
+    def visit_inline_method(self, s: ParserState):
+        if s.struct:
+            if s.function == None:
+                s.function = Function()
+                if len(s.ifstatements) > 1:
+                    s.function.ifstatements = s.ifstatements[-1]
+                s.function.comments = s.comments
+                s.function.linecomment = s.linecomment
+                s.function.private = True
+                s.function.attributes = s.functionAttributes
+                s.functionAttributes = []
+                self.consume_comments(s)
+
+            linesplit_iter = iter(enumerate(s.linesplit))
+            for i, token in linesplit_iter:
+                if s.funcState == 0:  # Return Value
+                    if token == "virtual" or token == "inline":
+                        continue
+
+                    if token.startswith("*"):
+                        s.function.returntype += "*"
+                        token = token[1:]
+                        s.funcState = 1
+                    elif "(" in token:
+                        s.function.returntype = s.function.returntype.strip()
+                        s.funcState = 1
+                    else:
+                        s.function.returntype += token + " "
+                        continue
+
+                if s.funcState == 1:  # Method Name
+                    s.function.name = token.split("(", 1)[0]
+
+                    if token[-1] == ")":
+                        s.funcState = 3
+                    elif token[-1] == ";":
+                        s.funcState = 0
+                        s.interface.functions.append(s.function)
+                        s.function = None
+                        break
+                    elif token[-1] != "(":  # Like f(void arg )
+                        if Settings.warn_spacing:
+                            printWarning("Function is missing whitespace between the opening parentheses and first arg.", s)
+                        token = token.split("(")[1]
+                        s.funcState = 2
+                    else:
+                        s.funcState = 2
+                        continue
+
+                if s.funcState == 2:  # Args
+                    # Strip clang attributes
+                    bIsAttrib = False
+                    for a in g_ArgAttribs:
+                        if token.startswith(a):
+                            attr = ArgAttribute()
+                            bIsAttrib = True
+                            break
+                    if bIsAttrib:
+                        openparen_index = token.index("(")
+                        attr.name = token[:openparen_index]
+                        if len(token) > openparen_index+1:
+                            if token.endswith(")"):
+                                attr.value = token[openparen_index+1:-1]
+                                continue
+                            else:
+                                attr.value = token[openparen_index+1:]
+                        s.funcState = 4
+                        continue
+
+                    if token.startswith("**"):
+                        args += token[:2]
+                        token = token[2:]
+                    elif token.startswith("*") or token.startswith("&"):
+                        args += token[0]
+                        token = token[1:]
+
+                    if len(token) == 0:
+                        continue
+
+                    if token.startswith(")"):  # Like f( void arg ")"
+                        if args:
+                            TEST = 1
+                            TEST2 = 0  # TODO: Cleanup, I don't even know what the fuck is going on here anymore.
+                            if "**" in s.linesplit[i-1]:
+                                TEST -= 2
+                                TEST2 += 2
+                            elif "*" in s.linesplit[i-1] or "&" in s.linesplit[i-1]:
+                                TEST -= 1
+                                TEST2 += 1
+
+                            arg = Arg()
+                            arg.type = args[:-len(s.linesplit[i-1]) - TEST].strip()
+                            arg.name = s.linesplit[i-1][TEST2:]
+                            arg.attribute = attr
+                            s.function.args.append(arg)
+                            args = ""
+                            attr = None
+                        s.funcState = 3
+                    elif token.endswith(")"):  # Like f( void "arg)"
+                        if Settings.warn_spacing:
+                            printWarning("Function is missing whitespace between the closing parentheses and first arg.", s)
+
+                        arg = Arg()
+                        arg.type = args.strip()
+                        arg.name = token[:-1]
+                        arg.attribute = attr
+                        s.function.args.append(arg)
+                        args = ""
+                        attr = None
+                        s.funcState = 3
+                    elif token[-1] == ",":  # Like f( void "arg," void arg2 )
+                        TEST2 = 0
+                        if "*" in token[:-1] or "&" in token[:-1]:
+                            TEST2 += 1
+
+                        arg = Arg()
+                        arg.type = args.strip()
+                        arg.name = token[:-1][TEST2:]
+                        arg.attribute = attr
+                        s.function.args.append(arg)
+                        args = ""
+                        attr = None
+                    elif token == "=":
+                        # Copied from ")" above
+                        TEST = 1
+                        TEST2 = 0  # TODO: Cleanup, I don't even know what the fuck is going on here anymore.
+                        if "*" in s.linesplit[i-1] or "&" in s.linesplit[i-1]:
+                            TEST -= 1
+                            TEST2 += 1
+
+                        arg = Arg()
+                        arg.type = args[:-len(s.linesplit[i-1]) - TEST].strip()
+                        arg.name = s.linesplit[i-1][TEST2:]
+                        arg.default = s.linesplit[i+1].rstrip(",")
+                        arg.attribute = attr
+                        s.function.args.append(arg)
+                        args = ""
+                        attr = None
+                        next(linesplit_iter, None)
+                    else:
+                        args += token + " "
+
+                    continue
+
+                if s.funcState == 3:  # = 0; or line
+                    if token.endswith(";"):
+                        s.funcState = 0
+                        s.interface.functions.append(s.function)
+                        s.function = None
+                        break
+                    continue
+
+                if s.funcState == 4:  # ATTRIBS
+                    if token.endswith(")"):
+                        attr.value += token[:-1]
+                        s.funcState = 2
+                    else:
+                        attr.value += token
+                    continue
+
+            s.isInlineMethodDeclared = True
+            return
+
 
     def parse_struct_fields(self, s):
         comments = self.consume_comments(s)
@@ -1398,6 +1588,13 @@ class Parser:
     def populate_struct_field_layout(self, struct: Struct, defaultPack = 8):
         for field in struct.fields:
             typeinfo = self.resolveTypeInfo(field.type)
+
+            if typeinfo is None:
+                # this usually means typedef is used inside a class,
+                # but reminder we treat classes as struct
+                self.ignoredStructs.append(struct)
+                return []
+
             # check if we facing a struct which may not populated yet
             if isinstance(typeinfo, Struct):
                 struct = typeinfo

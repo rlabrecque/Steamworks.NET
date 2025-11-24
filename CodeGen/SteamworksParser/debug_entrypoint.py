@@ -14,6 +14,7 @@ with open("bin/pack-size-test.cpp", "w", encoding="utf-8") as f:
     f.write("#include \"steam_api.h\"\n")
     f.write("#include \"steam_gameserver.h\"\n")
     f.write("#include \"isteamgamecoordinator.h\"\n")
+    f.write("#include \"steamnetworkingfakeip.h\"\n")
 
     f.write("int main() {\n")
     structInspectionTemplate = "std::cout << \"{0}\" << '\t' << sizeof({0}) << '\\t' << alignof({0}) << '\\n';\n"
