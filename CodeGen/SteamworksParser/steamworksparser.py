@@ -257,7 +257,7 @@ class Struct:
         self.nested_struct: list[Struct] = []  # nested structs
         self.outer_type: Struct | Union | None = None
         self.scopeDepth: int = scopePath
-        self.callbackid = None
+        self.callbackid: str | None = None
         self.endcomments = None  # Comment
         self.pack = packsize 
         self.size: int | None = None
@@ -352,7 +352,7 @@ class Union:
 '''Also used in Union'''
 class StructField:
     def __init__(self, name, typee, arraysize: str | None, comments):
-        self.name = name
+        self.name: str = name
         self.type = typee
         self.arraysizeStr = arraysize
         self.arraysize: int | None = None
@@ -425,7 +425,7 @@ class ParserState:
         self.bInMultilineMacro = False
         self.bInPrivate = False
         self.isInlineMethodDeclared = False
-        self.callbackid: int | None = None
+        self.callbackid: str | None = None
         self.isClassLikeStruct: bool | None = None
         self.functionAttributes: list[FunctionAttribute] = [] # FunctionAttribute
         

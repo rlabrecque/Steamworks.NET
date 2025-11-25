@@ -4,12 +4,22 @@
 	// 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
 	"version": "0.2.0",
 	"configurations": [
+		
 		{
 			"name": "Debug generator",
 			"type": "debugpy",
 			"request": "launch",
 			"program": "${workspaceFolder}/CodeGen/Steamworks.NET_CodeGen.py",
 			"cwd": "${workspaceFolder}/CodeGen/",
+			"console": "integratedTerminal",
+			"justMyCode": true
+		},
+		{
+			"name": "Debug comparer",
+			"type": "debugpy",
+			"request": "launch",
+			"program": "${workspaceFolder}/CodeGen/SteamworksParser/compare_with_official.py",
+			"cwd": "${workspaceFolder}/CodeGen/SteamworksParser/",
 			"console": "integratedTerminal",
 			"justMyCode": true
 		},
