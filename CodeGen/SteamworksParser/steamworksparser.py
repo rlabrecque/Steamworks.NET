@@ -944,7 +944,7 @@ class Parser:
             else:
                 self.parse_struct_fields(s)
         else:
-            if s.linesplit[0] not in ("struct", "class"):
+            if s.linesplit[0] != "struct":
                 return
 
             if len(s.linesplit) > 1 and s.linesplit[1].startswith("ISteam"):
@@ -1538,6 +1538,8 @@ class Parser:
         s.linecomment = None
         return c
     
+    # I initially choose camel case by my habit, but keep this name here
+    # for hinting it this is an external available API is also useful
     def resolveTypeInfo(self, typeName):
         # search order: primitive, pointer, enum, typedef, struct. no callbacks
         result = g_PrimitiveTypesLayout.get(typeName)
@@ -1597,18 +1599,16 @@ class Parser:
 
             # check if we facing a struct which may not populated yet
             if isinstance(typeinfo, Struct):
-                struct = typeinfo
-                
                 # we assume there will no circular references across structs
                 if not typeinfo.size:
                     self.populate_struct_field_layout(typeinfo, defaultPack)
                     typeinfo.calculate_offsets(defaultPack)
                     
             field.size = typeinfo.size
-            field.pack = typeinfo.pack or defaultPack
+            field.pack = typeinfo.pack or struct.pack or defaultPack
             if (field.arraysizeStr is not None):
                 arrsize = field.arraysizeStr
-                field.arraysize = int(arrsize) if arrsize.isdigit() else eval(self.resolveConstValue(arrsize).value)
+                field.arraysize = int(arrsize) if arrsize.isdigit() else eval(self.resolveConstValue(arrsize).value, {}, )
             
         struct.calculate_offsets(defaultPack)
 
@@ -1623,11 +1623,8 @@ class Parser:
             structs.extend(file.structs)
             
             for struct in structs:
-                if type(struct.packsize) == int:
-                    continue
-                
                 if struct.is_sequential:
-                    printDebugPostParse(f"Struct {struct.name} is aligns by platform ABI default, means sequential")
+                    print_debug(f"Struct {struct.name} is aligns by platform ABI default, means sequential")
                     continue
 
                 self.populate_struct_field_layout(struct, 8)
@@ -1641,13 +1638,13 @@ class Parser:
                 sizeSmall = struct.size
                 
                 if offsetsLargePack != offsetsSmallPack or sizeLarge != sizeSmall:
-                    printDebugPostParse(f"Found packsize aware struct '{struct.name}'")
+                    print_debug(f"Found packsize aware struct '{struct.name}'")
                     struct.packsize_aware = True
                     self.packSizeAwareStructs.append(struct.name)
 
         pass
 
-def printDebugPostParse(string: str):
+def print_debug(string: str):
     if Settings.print_debug:
         print(f"[DEBUG][PostParse] {string}")
 
