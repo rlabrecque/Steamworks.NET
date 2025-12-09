@@ -69,6 +69,7 @@ public sealed class EditorSteamworksNETSettingsElement : VisualElement
         var sectionHeader = new Label { text = title };
         sectionHeader.AddToClassList("steamworks-section__header");
 
+#if UNITY_2021_1_OR_NEWER
         var helpBox = new HelpBox();
         helpBox.AddToClassList("steamworks-section__description");
         var helpBoxIcon = new VisualElement();
@@ -78,6 +79,10 @@ public sealed class EditorSteamworksNETSettingsElement : VisualElement
         helpBoxLabel.AddToClassList("unity-help-box__label");
         helpBox.Add(helpBoxIcon);
         helpBox.Add(helpBoxLabel);
+#else
+        var helpBox = new Label { text = description };
+        helpBox.AddToClassList("steamworks-section__description");
+#endif
 
         content.AddToClassList("steamworks-section__content");
 
