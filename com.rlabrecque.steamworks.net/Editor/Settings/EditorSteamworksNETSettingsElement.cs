@@ -8,11 +8,13 @@ public sealed class EditorSteamworksNETSettingsElement : VisualElement
 
     private const string UssFilePath =
         "Packages/com.rlabrecque.steamworks.net/Editor/Settings/EditorSteamworksNETSettingsStyleSheet.uss";
+    private const string UssFileGuid = "fcba6a16ac8056e418e5f791a8bbb67c";
 
     public EditorSteamworksNETSettingsElement()
     {
         _settings = EditorSteamworksNETSettings.Instance;
-        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(UssFilePath);
+        //var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(UssFilePath);
+        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(AssetDatabase.GUIDToAssetPath(UssFileGuid));
 
         if (styleSheet)
         {
