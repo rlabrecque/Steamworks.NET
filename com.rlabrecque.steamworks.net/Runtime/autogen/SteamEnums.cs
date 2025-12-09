@@ -662,6 +662,93 @@ namespace Steamworks {
 		k_EInputActionOrigin_Horipad_L4,
 		k_EInputActionOrigin_Horipad_R4,
 
+		k_EInputActionOrigin_LenovoLegionGo_A,
+		k_EInputActionOrigin_LenovoLegionGo_B,
+		k_EInputActionOrigin_LenovoLegionGo_X,
+		k_EInputActionOrigin_LenovoLegionGo_Y,
+		k_EInputActionOrigin_LenovoLegionGo_LB,
+		k_EInputActionOrigin_LenovoLegionGo_RB,
+		k_EInputActionOrigin_LenovoLegionGo_Menu,
+		k_EInputActionOrigin_LenovoLegionGo_View,
+		k_EInputActionOrigin_LenovoLegionGo_LeftPad_Touch, // Left pad is only present on the original Legion Go
+		k_EInputActionOrigin_LenovoLegionGo_LeftPad_Swipe,
+		k_EInputActionOrigin_LenovoLegionGo_LeftPad_Click,
+		k_EInputActionOrigin_LenovoLegionGo_LeftPad_DPadNorth,
+		k_EInputActionOrigin_LenovoLegionGo_LeftPad_DPadSouth,
+		k_EInputActionOrigin_LenovoLegionGo_LeftPad_DPadWest,
+		k_EInputActionOrigin_LenovoLegionGo_LeftPad_DPadEast,
+		k_EInputActionOrigin_LenovoLegionGo_RightPad_Touch,
+		k_EInputActionOrigin_LenovoLegionGo_RightPad_Swipe,
+		k_EInputActionOrigin_LenovoLegionGo_RightPad_Click,
+		k_EInputActionOrigin_LenovoLegionGo_RightPad_DPadNorth,
+		k_EInputActionOrigin_LenovoLegionGo_RightPad_DPadSouth,
+		k_EInputActionOrigin_LenovoLegionGo_RightPad_DPadWest,
+		k_EInputActionOrigin_LenovoLegionGo_RightPad_DPadEast,
+		k_EInputActionOrigin_LenovoLegionGo_LT_SoftPull,
+		k_EInputActionOrigin_LenovoLegionGo_LT,
+		k_EInputActionOrigin_LenovoLegionGo_RT_SoftPull,
+		k_EInputActionOrigin_LenovoLegionGo_RT,
+		k_EInputActionOrigin_LenovoLegionGo_LeftStick_Move,
+		k_EInputActionOrigin_LenovoLegionGo_LS,
+		k_EInputActionOrigin_LenovoLegionGo_LeftStick_DPadNorth,
+		k_EInputActionOrigin_LenovoLegionGo_LeftStick_DPadSouth,
+		k_EInputActionOrigin_LenovoLegionGo_LeftStick_DPadWest,
+		k_EInputActionOrigin_LenovoLegionGo_LeftStick_DPadEast,
+		k_EInputActionOrigin_LenovoLegionGo_RightStick_Move,
+		k_EInputActionOrigin_LenovoLegionGo_RS,
+		k_EInputActionOrigin_LenovoLegionGo_RightStick_DPadNorth,
+		k_EInputActionOrigin_LenovoLegionGo_RightStick_DPadSouth,
+		k_EInputActionOrigin_LenovoLegionGo_RightStick_DPadWest,
+		k_EInputActionOrigin_LenovoLegionGo_RightStick_DPadEast,
+		k_EInputActionOrigin_LenovoLegionGo_Y1,
+		k_EInputActionOrigin_LenovoLegionGo_Y2,
+		k_EInputActionOrigin_LenovoLegionGo_DPad_Move,
+		k_EInputActionOrigin_LenovoLegionGo_DPad_North,
+		k_EInputActionOrigin_LenovoLegionGo_DPad_South,
+		k_EInputActionOrigin_LenovoLegionGo_DPad_West,
+		k_EInputActionOrigin_LenovoLegionGo_DPad_East,
+		k_EInputActionOrigin_LenovoLegionGo_Gyro_Move,
+		k_EInputActionOrigin_LenovoLegionGo_Gyro_Pitch,
+		k_EInputActionOrigin_LenovoLegionGo_Gyro_Yaw,
+		k_EInputActionOrigin_LenovoLegionGo_Gyro_Roll,
+		k_EInputActionOrigin_LenovoLegionGo_Reserved1,
+		k_EInputActionOrigin_LenovoLegionGo_Reserved2,
+		k_EInputActionOrigin_LenovoLegionGo_Reserved3,
+		k_EInputActionOrigin_LenovoLegionGo_Reserved4,
+		k_EInputActionOrigin_LenovoLegionGo_Reserved5,
+		k_EInputActionOrigin_LenovoLegionGo_Reserved6,
+		k_EInputActionOrigin_LenovoLegionGo_Reserved7,
+		k_EInputActionOrigin_LenovoLegionGo_Reserved8,
+		k_EInputActionOrigin_LenovoLegionGo_Reserved9,
+		k_EInputActionOrigin_LenovoLegionGo_Reserved10,
+		k_EInputActionOrigin_LenovoLegionGo_Reserved11,
+		k_EInputActionOrigin_LenovoLegionGo_Reserved12,
+		k_EInputActionOrigin_LenovoLegionGo_Reserved13,
+		k_EInputActionOrigin_LenovoLegionGo_Reserved14,
+		k_EInputActionOrigin_LenovoLegionGo_Reserved15,
+		k_EInputActionOrigin_LenovoLegionGo_Reserved16,
+		k_EInputActionOrigin_LenovoLegionGo_Reserved17,
+		k_EInputActionOrigin_LenovoLegionGo_Reserved18,
+		k_EInputActionOrigin_LenovoLegionGo_Reserved19,
+		k_EInputActionOrigin_LenovoLegionGo_Reserved20,
+
+		k_EInputActionOrigin_Generic_L4,
+		k_EInputActionOrigin_Generic_R4,
+		k_EInputActionOrigin_Generic_L5,
+		k_EInputActionOrigin_Generic_R5,
+		k_EInputActionOrigin_Generic_PL,
+		k_EInputActionOrigin_Generic_PR,
+		k_EInputActionOrigin_Generic_C,
+		k_EInputActionOrigin_Generic_Z,
+		k_EInputActionOrigin_Generic_MISC1,
+		k_EInputActionOrigin_Generic_MISC2,
+		k_EInputActionOrigin_Generic_MISC3,
+		k_EInputActionOrigin_Generic_MISC4,
+		k_EInputActionOrigin_Generic_MISC5,
+		k_EInputActionOrigin_Generic_MISC6,
+		k_EInputActionOrigin_Generic_MISC7,
+		k_EInputActionOrigin_Generic_MISC8,
+
 		k_EInputActionOrigin_Count, // If Steam has added support for new controllers origins will go here.
 		k_EInputActionOrigin_MaximumPossibleValue = 32767, // Origins are currently a maximum of 16 bits.
 	}
@@ -795,7 +882,7 @@ namespace Steamworks {
 	// lobby type description
 	public enum ELobbyType : int {
 		k_ELobbyTypePrivate = 0,		// only way to join the lobby is to invite to someone else
-		k_ELobbyTypeFriendsOnly = 1,	// shows for friends or invitees, but not in lobby list
+		k_ELobbyTypeFriendsOnly = 1,	// shows for friends or invitees, but not in public lobby list, allows those who join to invite their own friends
 		k_ELobbyTypePublic = 2,			// visible for friends and in lobby list
 		k_ELobbyTypeInvisible = 3,		// returned by search, but not visible to other friends
 										//    useful if you want a user in two lobbies, for example matching groups together
@@ -852,12 +939,6 @@ namespace Steamworks {
 		k_ESteamPartyBeaconLocationDataIconURLSmall = 2,
 		k_ESteamPartyBeaconLocationDataIconURLMedium = 3,
 		k_ESteamPartyBeaconLocationDataIconURLLarge = 4,
-	}
-
-	public enum PlayerAcceptState_t : int {
-		k_EStateUnknown = 0,
-		k_EStatePlayerAccepted = 1,
-		k_EStatePlayerDeclined = 2,
 	}
 
 	//-----------------------------------------------------------------------------
@@ -1101,6 +1182,23 @@ namespace Steamworks {
 		k_ERemotePlayScancodeLeft = 80,
 		k_ERemotePlayScancodeDown = 81,
 		k_ERemotePlayScancodeUp = 82,
+
+		k_ERemotePlayScancodeKeypadDivide = 84,
+		k_ERemotePlayScancodeKeypadMultiply = 85,
+		k_ERemotePlayScancodeKeypadMinus = 86,
+		k_ERemotePlayScancodeKeypadPlus = 87,
+		k_ERemotePlayScancodeKeypadEnter = 88,
+		k_ERemotePlayScancodeKeypad1 = 89,
+		k_ERemotePlayScancodeKeypad2 = 90,
+		k_ERemotePlayScancodeKeypad3 = 91,
+		k_ERemotePlayScancodeKeypad4 = 92,
+		k_ERemotePlayScancodeKeypad5 = 93,
+		k_ERemotePlayScancodeKeypad6 = 94,
+		k_ERemotePlayScancodeKeypad7 = 95,
+		k_ERemotePlayScancodeKeypad8 = 96,
+		k_ERemotePlayScancodeKeypad9 = 97,
+		k_ERemotePlayScancodeKeypad0 = 98,
+		k_ERemotePlayScancodeKeypadPeriod = 99,
 
 		k_ERemotePlayScancodeLeftControl = 224,
 		k_ERemotePlayScancodeLeftShift = 225,
@@ -1646,6 +1744,7 @@ namespace Steamworks {
 		k_EResultNotSupported = 128,				// The data being accessed is not supported by this API
 		k_EResultFamilySizeLimitExceeded = 129,		// Reached the maximum size of the family
 		k_EResultOfflineAppCacheInvalid = 130,		// The local data for the offline mode cache is insufficient to login
+		k_EResultTryLater = 131,					// retry the operation later
 	}
 
 	// Error codes for use with the voice functions
@@ -1887,6 +1986,9 @@ namespace Steamworks {
 
 		// User accepted a wallet gift that was recently purchased
 		k_EMarketNotAllowedReason_AcceptedWalletGift = (1 << 15),
+
+		// User did something that triggered a trade cooldown (like reversing trades)
+		k_EMarketNotAllowedReason_TradeCooldown = (1 << 16),
 	}
 
 	//
@@ -1941,26 +2043,6 @@ namespace Steamworks {
 		k_EBetaBranch_Installed		= 16,	// this is the currently installed branch (mounted)
 	}
 
-	public enum EGameSearchErrorCode_t : int {
-		k_EGameSearchErrorCode_OK = 1,
-		k_EGameSearchErrorCode_Failed_Search_Already_In_Progress = 2,
-		k_EGameSearchErrorCode_Failed_No_Search_In_Progress = 3,
-		k_EGameSearchErrorCode_Failed_Not_Lobby_Leader = 4, // if not the lobby leader can not call SearchForGameWithLobby
-		k_EGameSearchErrorCode_Failed_No_Host_Available = 5, // no host is available that matches those search params
-		k_EGameSearchErrorCode_Failed_Search_Params_Invalid = 6, // search params are invalid
-		k_EGameSearchErrorCode_Failed_Offline = 7, // offline, could not communicate with server
-		k_EGameSearchErrorCode_Failed_NotAuthorized = 8, // either the user or the application does not have priveledges to do this
-		k_EGameSearchErrorCode_Failed_Unknown_Error = 9, // unknown error
-	}
-
-	public enum EPlayerResult_t : int {
-		k_EPlayerResultFailedToConnect = 1, // failed to connect after confirming
-		k_EPlayerResultAbandoned = 2,		// quit game without completing it
-		k_EPlayerResultKicked = 3,			// kicked by other players/moderator/server rules
-		k_EPlayerResultIncomplete = 4,		// player stayed to end but game did not conclude successfully ( nofault to player )
-		k_EPlayerResultCompleted = 5,		// player completed game
-	}
-
 	public enum ESteamIPv6ConnectivityProtocol : int {
 		k_ESteamIPv6ConnectivityProtocol_Invalid = 0,
 		k_ESteamIPv6ConnectivityProtocol_HTTP = 1,		// because a proxy may make this different than other protocols
@@ -1997,62 +2079,76 @@ namespace Steamworks {
 	// of each of these.
 	public enum EHTTPStatusCode : int {
 		// Invalid status code (this isn't defined in HTTP, used to indicate unset in our code)
-		k_EHTTPStatusCodeInvalid =					0,
+		k_EHTTPStatusCodeInvalid = 0,
 
 		// Informational codes
-		k_EHTTPStatusCode100Continue =				100,
-		k_EHTTPStatusCode101SwitchingProtocols =	101,
+		k_EHTTPStatusCode100Continue = 100,
+		k_EHTTPStatusCode101SwitchingProtocols = 101,
 
 		// Success codes
-		k_EHTTPStatusCode200OK =					200,
-		k_EHTTPStatusCode201Created =				201,
-		k_EHTTPStatusCode202Accepted =				202,
-		k_EHTTPStatusCode203NonAuthoritative =		203,
-		k_EHTTPStatusCode204NoContent =				204,
-		k_EHTTPStatusCode205ResetContent =			205,
-		k_EHTTPStatusCode206PartialContent =		206,
+		k_EHTTPStatusCode200OK = 200,
+		k_EHTTPStatusCode201Created = 201,
+		k_EHTTPStatusCode202Accepted = 202,
+		k_EHTTPStatusCode203NonAuthoritative = 203,
+		k_EHTTPStatusCode204NoContent = 204,
+		k_EHTTPStatusCode205ResetContent = 205,
+		k_EHTTPStatusCode206PartialContent = 206,
 
 		// Redirection codes
-		k_EHTTPStatusCode300MultipleChoices =		300,
-		k_EHTTPStatusCode301MovedPermanently =		301,
-		k_EHTTPStatusCode302Found =					302,
-		k_EHTTPStatusCode303SeeOther =				303,
-		k_EHTTPStatusCode304NotModified =			304,
-		k_EHTTPStatusCode305UseProxy =				305,
+		k_EHTTPStatusCode300MultipleChoices = 300,
+		k_EHTTPStatusCode301MovedPermanently = 301,
+		k_EHTTPStatusCode302Found = 302,
+		k_EHTTPStatusCode303SeeOther = 303,
+		k_EHTTPStatusCode304NotModified = 304,
+		k_EHTTPStatusCode305UseProxy = 305,
 		//k_EHTTPStatusCode306Unused =				306, (used in old HTTP spec, now unused in 1.1)
-		k_EHTTPStatusCode307TemporaryRedirect =		307,
-		k_EHTTPStatusCode308PermanentRedirect =		308,
+		k_EHTTPStatusCode307TemporaryRedirect = 307,
+		k_EHTTPStatusCode308PermanentRedirect = 308,
 
 		// Error codes
-		k_EHTTPStatusCode400BadRequest =			400,
-		k_EHTTPStatusCode401Unauthorized =			401, // You probably want 403 or something else. 401 implies you're sending a WWW-Authenticate header and the client can sent an Authorization header in response.
-		k_EHTTPStatusCode402PaymentRequired =		402, // This is reserved for future HTTP specs, not really supported by clients
-		k_EHTTPStatusCode403Forbidden =				403,
-		k_EHTTPStatusCode404NotFound =				404,
-		k_EHTTPStatusCode405MethodNotAllowed =		405,
-		k_EHTTPStatusCode406NotAcceptable =			406,
-		k_EHTTPStatusCode407ProxyAuthRequired =		407,
-		k_EHTTPStatusCode408RequestTimeout =		408,
-		k_EHTTPStatusCode409Conflict =				409,
-		k_EHTTPStatusCode410Gone =					410,
-		k_EHTTPStatusCode411LengthRequired =		411,
-		k_EHTTPStatusCode412PreconditionFailed =	412,
-		k_EHTTPStatusCode413RequestEntityTooLarge =	413,
-		k_EHTTPStatusCode414RequestURITooLong =		414,
-		k_EHTTPStatusCode415UnsupportedMediaType =	415,
+		k_EHTTPStatusCode400BadRequest = 400,
+		k_EHTTPStatusCode401Unauthorized = 401, // You probably want 403 or something else. 401 implies you're sending a WWW-Authenticate header and the client can sent an Authorization header in response.
+		k_EHTTPStatusCode402PaymentRequired = 402, // This is reserved for future HTTP specs, not really supported by clients
+		k_EHTTPStatusCode403Forbidden = 403,
+		k_EHTTPStatusCode404NotFound = 404,
+		k_EHTTPStatusCode405MethodNotAllowed = 405,
+		k_EHTTPStatusCode406NotAcceptable = 406,
+		k_EHTTPStatusCode407ProxyAuthRequired = 407,
+		k_EHTTPStatusCode408RequestTimeout = 408,
+		k_EHTTPStatusCode409Conflict = 409,
+		k_EHTTPStatusCode410Gone = 410,
+		k_EHTTPStatusCode411LengthRequired = 411,
+		k_EHTTPStatusCode412PreconditionFailed = 412,
+		k_EHTTPStatusCode413RequestEntityTooLarge = 413,
+		k_EHTTPStatusCode414RequestURITooLong = 414,
+		k_EHTTPStatusCode415UnsupportedMediaType = 415,
 		k_EHTTPStatusCode416RequestedRangeNotSatisfiable = 416,
-		k_EHTTPStatusCode417ExpectationFailed =		417,
-		k_EHTTPStatusCode4xxUnknown = 				418, // 418 is reserved, so we'll use it to mean unknown
-		k_EHTTPStatusCode429TooManyRequests	=		429,
-		k_EHTTPStatusCode444ConnectionClosed =		444, // nginx only?
+		k_EHTTPStatusCode417ExpectationFailed = 417,
+		k_EHTTPStatusCode4xxUnknown = 418, // 418 is reserved, so we'll use it to mean unknown
+		k_EHTTPStatusCode421MisdirectedRequest = 421,
+		k_EHTTPStatusCode422UnprocessableContent = 422,
+		k_EHTTPStatusCode423Locked = 423,
+		k_EHTTPStatusCode424FailedDependency = 424,
+		k_EHTTPStatusCode425TooEarly = 425,
+		k_EHTTPStatusCode426UpgradeRequired = 426,
+		k_EHTTPStatusCode428PreconditionRequired = 428,
+		k_EHTTPStatusCode429TooManyRequests = 429,
+		k_EHTTPStatusCode431RequestHeaderFieldsTooLarge = 431,
+		k_EHTTPStatusCode444ConnectionClosed = 444, // nginx only?
+		k_EHTTPStatusCode451UnavailableForLegalReasons = 451,
 
 		// Server error codes
-		k_EHTTPStatusCode500InternalServerError =	500,
-		k_EHTTPStatusCode501NotImplemented =		501,
-		k_EHTTPStatusCode502BadGateway =			502,
-		k_EHTTPStatusCode503ServiceUnavailable =	503,
-		k_EHTTPStatusCode504GatewayTimeout =		504,
+		k_EHTTPStatusCode500InternalServerError = 500,
+		k_EHTTPStatusCode501NotImplemented = 501,
+		k_EHTTPStatusCode502BadGateway = 502,
+		k_EHTTPStatusCode503ServiceUnavailable = 503,
+		k_EHTTPStatusCode504GatewayTimeout = 504,
 		k_EHTTPStatusCode505HTTPVersionNotSupported = 505,
+		k_EHTTPStatusCode506VariantAlsoNegotiates = 506,
+		k_EHTTPStatusCode507InsufficientStorage = 507,
+		k_EHTTPStatusCode508LoopDetected = 508,
+		k_EHTTPStatusCode510NotExtended = 510,
+		k_EHTTPStatusCode511NetworkAuthenticationRequired = 511,
 		k_EHTTPStatusCode5xxUnknown =				599,
 	}
 

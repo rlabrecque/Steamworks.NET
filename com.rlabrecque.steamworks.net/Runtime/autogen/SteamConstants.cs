@@ -18,7 +18,7 @@ namespace Steamworks {
 	public static class Constants {
 		public const string STEAMAPPS_INTERFACE_VERSION = "STEAMAPPS_INTERFACE_VERSION008";
 		public const string STEAMAPPTICKET_INTERFACE_VERSION = "STEAMAPPTICKET_INTERFACE_VERSION001";
-		public const string STEAMCLIENT_INTERFACE_VERSION = "SteamClient021";
+		public const string STEAMCLIENT_INTERFACE_VERSION = "SteamClient023";
 		public const string STEAMFRIENDS_INTERFACE_VERSION = "SteamFriends018";
 		public const string STEAMGAMECOORDINATOR_INTERFACE_VERSION = "SteamGameCoordinator001";
 		public const string STEAMGAMESERVER_INTERFACE_VERSION = "SteamGameServer015";
@@ -29,10 +29,8 @@ namespace Steamworks {
 		public const string STEAMINVENTORY_INTERFACE_VERSION = "STEAMINVENTORY_INTERFACE_V003";
 		public const string STEAMMATCHMAKING_INTERFACE_VERSION = "SteamMatchMaking009";
 		public const string STEAMMATCHMAKINGSERVERS_INTERFACE_VERSION = "SteamMatchMakingServers002";
-		public const string STEAMGAMESEARCH_INTERFACE_VERSION = "SteamMatchGameSearch001";
 		public const string STEAMPARTIES_INTERFACE_VERSION = "SteamParties002";
 		public const string STEAMMUSIC_INTERFACE_VERSION = "STEAMMUSIC_INTERFACE_VERSION001";
-		public const string STEAMMUSICREMOTE_INTERFACE_VERSION = "STEAMMUSICREMOTE_INTERFACE_VERSION001";
 		public const string STEAMNETWORKING_INTERFACE_VERSION = "SteamNetworking006";
 		public const string STEAMNETWORKINGMESSAGES_INTERFACE_VERSION = "SteamNetworkingMessages002";
 		// Silence some warnings
@@ -150,7 +148,6 @@ namespace Steamworks {
 		public const int k_iSteamUGCCallbacks = 3400;
 		public const int k_iSteamStreamClientCallbacks = 3500;
 		public const int k_iSteamMusicCallbacks = 4000;
-		public const int k_iSteamMusicRemoteCallbacks = 4100;
 		public const int k_iSteamGameNotificationCallbacks = 4400;
 		public const int k_iSteamHTMLSurfaceCallbacks = 4500;
 		public const int k_iSteamVideoCallbacks = 4600;
@@ -332,8 +329,6 @@ namespace Steamworks {
 		public const float STEAM_INPUT_MAX_ANALOG_ACTION_DATA = 1.0f;
 		// maximum number of characters a lobby metadata key can be
 		public const byte k_nMaxLobbyKeyLength = 255;
-		public const int k_SteamMusicNameMaxLength = 255;
-		public const int k_SteamMusicPNGMaxLength = 65535;
 	}
 }
 

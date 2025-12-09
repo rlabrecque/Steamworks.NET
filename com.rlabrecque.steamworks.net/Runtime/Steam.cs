@@ -64,14 +64,12 @@ namespace Steamworks {
 			pszInternalCheckInterfaceVersions.Append(Constants.STEAMAPPS_INTERFACE_VERSION).Append("\0");
 			//pszInternalCheckInterfaceVersions.Append(Constants.STEAMCONTROLLER_INTERFACE_VERSION).Append("\0"); // ISteamController is deprecated in favor of ISteamInput.
 			pszInternalCheckInterfaceVersions.Append(Constants.STEAMFRIENDS_INTERFACE_VERSION).Append("\0");
-			pszInternalCheckInterfaceVersions.Append(Constants.STEAMGAMESEARCH_INTERFACE_VERSION).Append("\0");
 			pszInternalCheckInterfaceVersions.Append(Constants.STEAMHTMLSURFACE_INTERFACE_VERSION).Append("\0");
 			pszInternalCheckInterfaceVersions.Append(Constants.STEAMHTTP_INTERFACE_VERSION).Append("\0");
 			pszInternalCheckInterfaceVersions.Append(Constants.STEAMINPUT_INTERFACE_VERSION).Append("\0");
 			pszInternalCheckInterfaceVersions.Append(Constants.STEAMINVENTORY_INTERFACE_VERSION).Append("\0");
 			pszInternalCheckInterfaceVersions.Append(Constants.STEAMMATCHMAKINGSERVERS_INTERFACE_VERSION).Append("\0");
 			pszInternalCheckInterfaceVersions.Append(Constants.STEAMMATCHMAKING_INTERFACE_VERSION).Append("\0");
-			pszInternalCheckInterfaceVersions.Append(Constants.STEAMMUSICREMOTE_INTERFACE_VERSION).Append("\0");
 			pszInternalCheckInterfaceVersions.Append(Constants.STEAMMUSIC_INTERFACE_VERSION).Append("\0");
 			pszInternalCheckInterfaceVersions.Append(Constants.STEAMNETWORKINGMESSAGES_INTERFACE_VERSION).Append("\0");
 			pszInternalCheckInterfaceVersions.Append(Constants.STEAMNETWORKINGSOCKETS_INTERFACE_VERSION).Append("\0");
@@ -384,12 +382,10 @@ namespace Steamworks {
 			m_pSteamRemoteStorage = IntPtr.Zero;
 			m_pSteamHTTP = IntPtr.Zero;
 			m_pSteamScreenshots = IntPtr.Zero;
-			m_pSteamGameSearch = IntPtr.Zero;
 			m_pSteamMusic = IntPtr.Zero;
 			m_pController = IntPtr.Zero;
 			m_pSteamUGC = IntPtr.Zero;
 			m_pSteamMusic = IntPtr.Zero;
-			m_pSteamMusicRemote = IntPtr.Zero;
 			m_pSteamHTMLSurface = IntPtr.Zero;
 			m_pSteamInventory = IntPtr.Zero;
 			m_pSteamVideo = IntPtr.Zero;
@@ -444,9 +440,6 @@ namespace Steamworks {
 			m_pSteamScreenshots = SteamClient.GetISteamScreenshots(hSteamUser, hSteamPipe, Constants.STEAMSCREENSHOTS_INTERFACE_VERSION);
 			if (m_pSteamScreenshots == IntPtr.Zero) { return false; }
 
-			m_pSteamGameSearch = SteamClient.GetISteamGameSearch(hSteamUser, hSteamPipe, Constants.STEAMGAMESEARCH_INTERFACE_VERSION);
-			if (m_pSteamGameSearch == IntPtr.Zero) { return false; }
-
 			m_pSteamHTTP = SteamClient.GetISteamHTTP(hSteamUser, hSteamPipe, Constants.STEAMHTTP_INTERFACE_VERSION);
 			if (m_pSteamHTTP == IntPtr.Zero) { return false; }
 
@@ -455,9 +448,6 @@ namespace Steamworks {
 
 			m_pSteamMusic = SteamClient.GetISteamMusic(hSteamUser, hSteamPipe, Constants.STEAMMUSIC_INTERFACE_VERSION);
 			if (m_pSteamMusic == IntPtr.Zero) { return false; }
-
-			m_pSteamMusicRemote = SteamClient.GetISteamMusicRemote(hSteamUser, hSteamPipe, Constants.STEAMMUSICREMOTE_INTERFACE_VERSION);
-			if (m_pSteamMusicRemote == IntPtr.Zero) { return false; }
 
 			m_pSteamHTMLSurface = SteamClient.GetISteamHTMLSurface(hSteamUser, hSteamPipe, Constants.STEAMHTMLSURFACE_INTERFACE_VERSION);
 			if (m_pSteamHTMLSurface == IntPtr.Zero) { return false; }
@@ -521,12 +511,10 @@ namespace Steamworks {
 		internal static IntPtr GetSteamNetworking() { return m_pSteamNetworking; }
 		internal static IntPtr GetSteamRemoteStorage() { return m_pSteamRemoteStorage; }
 		internal static IntPtr GetSteamScreenshots() { return m_pSteamScreenshots; }
-		internal static IntPtr GetSteamGameSearch() { return m_pSteamGameSearch; }
 		internal static IntPtr GetSteamHTTP() { return m_pSteamHTTP; }
 		internal static IntPtr GetSteamController() { return m_pController; }
 		internal static IntPtr GetSteamUGC() { return m_pSteamUGC; }
 		internal static IntPtr GetSteamMusic() { return m_pSteamMusic; }
-		internal static IntPtr GetSteamMusicRemote() { return m_pSteamMusicRemote; }
 		internal static IntPtr GetSteamHTMLSurface() { return m_pSteamHTMLSurface; }
 		internal static IntPtr GetSteamInventory() { return m_pSteamInventory; }
 		internal static IntPtr GetSteamVideo() { return m_pSteamVideo; }
@@ -550,12 +538,10 @@ namespace Steamworks {
 		private static IntPtr m_pSteamNetworking;
 		private static IntPtr m_pSteamRemoteStorage;
 		private static IntPtr m_pSteamScreenshots;
-		private static IntPtr m_pSteamGameSearch;
 		private static IntPtr m_pSteamHTTP;
 		private static IntPtr m_pController;
 		private static IntPtr m_pSteamUGC;
 		private static IntPtr m_pSteamMusic;
-		private static IntPtr m_pSteamMusicRemote;
 		private static IntPtr m_pSteamHTMLSurface;
 		private static IntPtr m_pSteamInventory;
 		private static IntPtr m_pSteamVideo;
