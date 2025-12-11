@@ -6,21 +6,24 @@ public sealed class EditorSteamworksNETSettingsElement : VisualElement
 {
     private readonly EditorSteamworksNETSettings _settings;
 
-    private const string UssFilePath =
-        "Packages/com.rlabrecque.steamworks.net/Editor/Settings/EditorSteamworksNETSettingsStyleSheet.uss";
+    // This represents the GUID for com.rlabrecque.steamworks.net/Editor/Settings/EditorSteamworksNETSettingsStyleSheet.uss
+    // If this changes, update this value to match.
+    private const string UssFileGuid = "fcba6a16ac8056e418e5f791a8bbb67c";
 
     public EditorSteamworksNETSettingsElement()
     {
         _settings = EditorSteamworksNETSettings.Instance;
-        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(UssFilePath);
-
+        
+        string ussFilePath = AssetDatabase.GUIDToAssetPath(UssFileGuid);
+        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(ussFilePath);
+        
         if (styleSheet)
         {
             styleSheets.Add(styleSheet);
         }
         else
         {
-            throw new FileNotFoundException($"File not found: {UssFilePath}");
+            throw new FileNotFoundException($"File not found: {ussFilePath}");
         }
 
         var root = new VisualElement();
