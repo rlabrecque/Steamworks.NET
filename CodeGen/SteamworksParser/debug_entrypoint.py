@@ -9,8 +9,8 @@ Settings.print_debug = True
 
 parser = parse("./steamtest") # put steam headers inside
 
-os.makedirs("bin/compare-official")
-os.makedirs("bin/native")
+os.makedirs("bin/compare-official", exist_ok=True)
+os.makedirs("bin/native", exist_ok=True)
 
 with open("bin/native/pack-size-test.cpp", "w", encoding="utf-8") as f:
     f.write("#include <iostream>\n")
