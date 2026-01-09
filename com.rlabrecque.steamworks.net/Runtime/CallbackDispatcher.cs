@@ -208,10 +208,7 @@ namespace Steamworks {
 		internal abstract void SetUnregistered();
 	}
 
-	public sealed class Callback<
-        [System.Diagnostics.CodeAnalysis.DynamicallyAccessedMembers(System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.NonPublicConstructors | System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.PublicConstructors)]
-		T
-		> : Callback, IDisposable {
+	public sealed class Callback<T> : Callback, IDisposable {
 		public delegate void DispatchDelegate(T param);
 		private event DispatchDelegate m_Func;
 
@@ -309,10 +306,7 @@ namespace Steamworks {
 		internal abstract void SetUnregistered();
 	}
 
-	public sealed class CallResult<
-		[System.Diagnostics.CodeAnalysis.DynamicallyAccessedMembers(System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.NonPublicConstructors | System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.PublicConstructors)]
-		T
-		> : CallResult, IDisposable {
+	public sealed class CallResult<T> : CallResult, IDisposable {
 		public delegate void APIDispatchDelegate(T param, bool bIOFailure);
 		private event APIDispatchDelegate m_Func;
 
