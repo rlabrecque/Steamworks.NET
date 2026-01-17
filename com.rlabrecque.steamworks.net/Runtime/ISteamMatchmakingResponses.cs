@@ -73,7 +73,7 @@ namespace Steamworks {
 				m_VTServerFailedToRespond = InternalOnServerFailedToRespond,
 				m_VTRefreshComplete = InternalOnRefreshComplete
 			};
-			m_pVTable = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(VTable)));
+			m_pVTable = Marshal.AllocHGlobal(Marshal.SizeOf<VTable>());
 			Marshal.StructureToPtr(m_VTable, m_pVTable, false);
 
 			m_pGCHandle = GCHandle.Alloc(m_pVTable, GCHandleType.Pinned);
@@ -238,7 +238,7 @@ namespace Steamworks {
 				m_VTServerResponded = InternalOnServerResponded,
 				m_VTServerFailedToRespond = InternalOnServerFailedToRespond,
 			};
-			m_pVTable = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(VTable)));
+			m_pVTable = Marshal.AllocHGlobal(Marshal.SizeOf<VTable>());
 			Marshal.StructureToPtr(m_VTable, m_pVTable, false);
 
 			m_pGCHandle = GCHandle.Alloc(m_pVTable, GCHandleType.Pinned);
@@ -352,7 +352,7 @@ namespace Steamworks {
 				m_VTPlayersFailedToRespond = InternalOnPlayersFailedToRespond,
 				m_VTPlayersRefreshComplete = InternalOnPlayersRefreshComplete
 			};
-			m_pVTable = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(VTable)));
+			m_pVTable = Marshal.AllocHGlobal(Marshal.SizeOf<VTable>());
 			Marshal.StructureToPtr(m_VTable, m_pVTable, false);
 
 			m_pGCHandle = GCHandle.Alloc(m_pVTable, GCHandleType.Pinned);
@@ -483,7 +483,7 @@ namespace Steamworks {
 				m_VTRulesFailedToRespond = InternalOnRulesFailedToRespond,
 				m_VTRulesRefreshComplete = InternalOnRulesRefreshComplete
 			};
-			m_pVTable = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(VTable)));
+			m_pVTable = Marshal.AllocHGlobal(Marshal.SizeOf<VTable>());
 			Marshal.StructureToPtr(m_VTable, m_pVTable, false);
 
 			m_pGCHandle = GCHandle.Alloc(m_pVTable, GCHandleType.Pinned);

@@ -137,14 +137,14 @@ namespace Steamworks {
 					Marshal.Copy(strbuf, 0, m_Strings[i], strbuf.Length);
 				}
 
-				m_ptrStrings = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(IntPtr)) * m_Strings.Length);
+				m_ptrStrings = Marshal.AllocHGlobal(Marshal.SizeOf<IntPtr>() * m_Strings.Length);
 				SteamParamStringArray_t stringArray = new SteamParamStringArray_t() {
 					m_ppStrings = m_ptrStrings,
 					m_nNumStrings = m_Strings.Length
 				};
 				Marshal.Copy(m_Strings, 0, stringArray.m_ppStrings, m_Strings.Length);
 
-				m_pSteamParamStringArray = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(SteamParamStringArray_t)));
+				m_pSteamParamStringArray = Marshal.AllocHGlobal(Marshal.SizeOf<SteamParamStringArray_t>());
 				Marshal.StructureToPtr(stringArray, m_pSteamParamStringArray, false);
 			}
 
@@ -181,9 +181,9 @@ namespace Steamworks {
 				return;
 			}
 
-			int sizeOfMMKVP = Marshal.SizeOf(typeof(MatchMakingKeyValuePair_t));
+			int sizeOfMMKVP = Marshal.SizeOf<MatchMakingKeyValuePair_t>();
 
-			m_pNativeArray = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(IntPtr)) * filters.Length);
+			m_pNativeArray = Marshal.AllocHGlobal(Marshal.SizeOf<IntPtr>() * filters.Length);
 			m_pArrayEntries = Marshal.AllocHGlobal(sizeOfMMKVP * filters.Length);
 			for (int i = 0; i < filters.Length; ++i) {
 				Marshal.StructureToPtr(filters[i], new IntPtr(m_pArrayEntries.ToInt64() + (i * sizeOfMMKVP)), false);
