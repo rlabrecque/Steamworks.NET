@@ -777,7 +777,7 @@ def parse_func(f, interface, func):
     elif func.returntype == "gameserveritem_t *":
         wrapperreturntype = "gameserveritem_t"
         strReturnable += "Marshal.PtrToStructure<gameserveritem_t>("
-        argnames += "))"
+        argnames += ")"
     elif func.returntype == "CSteamID":
         wrapperreturntype = "CSteamID"
         strReturnable += "(CSteamID)"
