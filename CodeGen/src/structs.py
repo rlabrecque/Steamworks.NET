@@ -155,7 +155,13 @@ def parse(struct):
             lines.append("\t[StructLayout(LayoutKind.Sequential)]")
             break
 
-    lines.append("\tpublic struct " + structname + " {")
+	# make struct implement an "ICallResultStruct" or something simliar, if
+	# this is a callback struct
+    strPotentialAsyncMarker = ""
+    if struct.asyncMarkerInterfaceName:
+        strPotentialAsyncMarker = f": {struct.asyncMarkerInterfaceName}"
+
+    lines.append("\tpublic struct " + structname + strPotentialAsyncMarker + " {")
 
     lines.extend(insert_constructors(structname))
 
