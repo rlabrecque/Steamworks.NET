@@ -48,7 +48,8 @@ g_SkippedStructs = (
     "SteamDatagramRelayAuthTicket",
     "SteamIDComponent_t"
     
-    # sync with g_SpecialStructsLP and g_SpecialStructsSP
+    # steamclientpublic.h nested struct
+    "GameID_t"
 )
 
 g_FuncAttribs = (
@@ -314,7 +315,7 @@ class Struct:
         return result
 
     def should_not_generate(self):
-        return self.is_skipped or (self.outer_type is not None) or len(self.nested_struct) > 0
+        return self.name in g_SkippedStructs or self.is_skipped or (self.outer_type is not None) or len(self.nested_struct) > 0
 
 class Union:
     def __init__(self, name, isUnnamed, pack):

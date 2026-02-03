@@ -24,6 +24,15 @@
 			"justMyCode": true
 		},
 		{
+			"name": "Test pack size",
+			"type": "debugpy",
+			"request": "launch",
+			"program": "${workspaceFolder}/CodeGen/SteamworksParser/test_pack_size.py",
+			"cwd": "${workspaceFolder}/CodeGen/SteamworksParser/",
+			"console": "integratedTerminal",
+			"justMyCode": true
+		},
+		{
 			"name": "Debug parser",
 			"type": "debugpy",
 			"request": "launch",
