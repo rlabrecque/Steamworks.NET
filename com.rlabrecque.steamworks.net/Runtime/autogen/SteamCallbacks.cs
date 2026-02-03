@@ -420,6 +420,32 @@ namespace Steamworks {
 		public int m_nCount;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 44)]
+	internal struct FriendsGetFollowerCount_t_LargePack {
+		public EResult m_eResult;
+		public CSteamID m_steamID;
+		public int m_nCount;
+
+		public static implicit operator FriendsGetFollowerCount_t(FriendsGetFollowerCount_t_LargePack value) {
+			FriendsGetFollowerCount_t result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_steamID = value.m_steamID;
+			result.m_nCount = value.m_nCount;
+			return result;
+		}
+
+		public static implicit operator FriendsGetFollowerCount_t_LargePack(FriendsGetFollowerCount_t value) {
+			FriendsGetFollowerCount_t_LargePack result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_steamID = value.m_steamID;
+			result.m_nCount = value.m_nCount;
+			return result;
+		}
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 45)]
 	public struct FriendsIsFollowing_t
@@ -435,6 +461,33 @@ namespace Steamworks {
 		public bool m_bIsFollowing;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 45)]
+	internal struct FriendsIsFollowing_t_LargePack {
+		public EResult m_eResult;
+		public CSteamID m_steamID;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bIsFollowing;
+
+		public static implicit operator FriendsIsFollowing_t(FriendsIsFollowing_t_LargePack value) {
+			FriendsIsFollowing_t result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_steamID = value.m_steamID;
+			result.m_bIsFollowing = value.m_bIsFollowing;
+			return result;
+		}
+
+		public static implicit operator FriendsIsFollowing_t_LargePack(FriendsIsFollowing_t value) {
+			FriendsIsFollowing_t_LargePack result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_steamID = value.m_steamID;
+			result.m_bIsFollowing = value.m_bIsFollowing;
+			return result;
+		}
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 46)]
 	public struct FriendsEnumerateFollowingList_t
@@ -451,6 +504,36 @@ namespace Steamworks {
 		public int m_nTotalResultCount;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 46)]
+	internal struct FriendsEnumerateFollowingList_t_LargePack {
+		public EResult m_eResult;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cEnumerateFollowersMax)]
+		public CSteamID[] m_rgSteamID;
+		public int m_nResultsReturned;
+		public int m_nTotalResultCount;
+
+		public static implicit operator FriendsEnumerateFollowingList_t(FriendsEnumerateFollowingList_t_LargePack value) {
+			FriendsEnumerateFollowingList_t result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_rgSteamID = value.m_rgSteamID;
+			result.m_nResultsReturned = value.m_nResultsReturned;
+			result.m_nTotalResultCount = value.m_nTotalResultCount;
+			return result;
+		}
+
+		public static implicit operator FriendsEnumerateFollowingList_t_LargePack(FriendsEnumerateFollowingList_t value) {
+			FriendsEnumerateFollowingList_t_LargePack result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_rgSteamID = value.m_rgSteamID;
+			result.m_nResultsReturned = value.m_nResultsReturned;
+			result.m_nTotalResultCount = value.m_nTotalResultCount;
+			return result;
+		}
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Invoked when the status of unread messages changes
 	//-----------------------------------------------------------------------------
@@ -529,6 +612,56 @@ namespace Steamworks {
 		public bool m_bFromCache;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose:
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 51)]
+	internal struct EquippedProfileItems_t_LargePack {
+		public EResult m_eResult;
+		public CSteamID m_steamID;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bHasAnimatedAvatar;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bHasAvatarFrame;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bHasProfileModifier;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bHasProfileBackground;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bHasMiniProfileBackground;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bFromCache;
+
+		public static implicit operator EquippedProfileItems_t(EquippedProfileItems_t_LargePack value) {
+			EquippedProfileItems_t result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_steamID = value.m_steamID;
+			result.m_bHasAnimatedAvatar = value.m_bHasAnimatedAvatar;
+			result.m_bHasAvatarFrame = value.m_bHasAvatarFrame;
+			result.m_bHasProfileModifier = value.m_bHasProfileModifier;
+			result.m_bHasProfileBackground = value.m_bHasProfileBackground;
+			result.m_bHasMiniProfileBackground = value.m_bHasMiniProfileBackground;
+			result.m_bFromCache = value.m_bFromCache;
+			return result;
+		}
+
+		public static implicit operator EquippedProfileItems_t_LargePack(EquippedProfileItems_t value) {
+			EquippedProfileItems_t_LargePack result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_steamID = value.m_steamID;
+			result.m_bHasAnimatedAvatar = value.m_bHasAnimatedAvatar;
+			result.m_bHasAvatarFrame = value.m_bHasAvatarFrame;
+			result.m_bHasProfileModifier = value.m_bHasProfileModifier;
+			result.m_bHasProfileBackground = value.m_bHasProfileBackground;
+			result.m_bHasMiniProfileBackground = value.m_bHasMiniProfileBackground;
+			result.m_bFromCache = value.m_bFromCache;
+			return result;
+		}
+	}
+
+	#endif
 	// callbacks
 	// callback notification - A new message is available for reading from the message queue
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -3629,6 +3762,42 @@ namespace Steamworks {
 		}
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// callbacks
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to FileShare()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 7)]
+	internal struct RemoteStorageFileShareResult_t_LargePack {
+		public EResult m_eResult;			// The result of the operation
+		public UGCHandle_t m_hFile;		// The handle that can be shared with users and features
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
+		internal byte[] m_rgchFilename_;
+		public string m_rgchFilename // The name of the file that was shared
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchFilename_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchFilename_, Constants.k_cchFilenameMax); }
+		}
+
+		public static implicit operator RemoteStorageFileShareResult_t(RemoteStorageFileShareResult_t_LargePack value) {
+			RemoteStorageFileShareResult_t result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_hFile = value.m_hFile;
+			result.m_rgchFilename_ = value.m_rgchFilename_;
+			return result;
+		}
+
+		public static implicit operator RemoteStorageFileShareResult_t_LargePack(RemoteStorageFileShareResult_t value) {
+			RemoteStorageFileShareResult_t_LargePack result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_hFile = value.m_hFile;
+			result.m_rgchFilename_ = value.m_rgchFilename_;
+			return result;
+		}
+	}
+
+	#endif
 	// k_iSteamRemoteStorageCallbacks + 8 is deprecated! Do not reuse
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to PublishFile()
@@ -3648,6 +3817,37 @@ namespace Steamworks {
 		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// k_iSteamRemoteStorageCallbacks + 8 is deprecated! Do not reuse
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to PublishFile()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 9)]
+	internal struct RemoteStoragePublishFileResult_t_LargePack {
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
+
+		public static implicit operator RemoteStoragePublishFileResult_t(RemoteStoragePublishFileResult_t_LargePack value) {
+			RemoteStoragePublishFileResult_t result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nPublishedFileId = value.m_nPublishedFileId;
+			result.m_bUserNeedsToAcceptWorkshopLegalAgreement = value.m_bUserNeedsToAcceptWorkshopLegalAgreement;
+			return result;
+		}
+
+		public static implicit operator RemoteStoragePublishFileResult_t_LargePack(RemoteStoragePublishFileResult_t value) {
+			RemoteStoragePublishFileResult_t_LargePack result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nPublishedFileId = value.m_nPublishedFileId;
+			result.m_bUserNeedsToAcceptWorkshopLegalAgreement = value.m_bUserNeedsToAcceptWorkshopLegalAgreement;
+			return result;
+		}
+	}
+
+	#endif
 	// k_iSteamRemoteStorageCallbacks + 10 is deprecated! Do not reuse
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to DeletePublishedFile()
@@ -3665,6 +3865,33 @@ namespace Steamworks {
 		public PublishedFileId_t m_nPublishedFileId;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// k_iSteamRemoteStorageCallbacks + 10 is deprecated! Do not reuse
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to DeletePublishedFile()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 11)]
+	internal struct RemoteStorageDeletePublishedFileResult_t_LargePack {
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;
+
+		public static implicit operator RemoteStorageDeletePublishedFileResult_t(RemoteStorageDeletePublishedFileResult_t_LargePack value) {
+			RemoteStorageDeletePublishedFileResult_t result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nPublishedFileId = value.m_nPublishedFileId;
+			return result;
+		}
+
+		public static implicit operator RemoteStorageDeletePublishedFileResult_t_LargePack(RemoteStorageDeletePublishedFileResult_t value) {
+			RemoteStorageDeletePublishedFileResult_t_LargePack result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nPublishedFileId = value.m_nPublishedFileId;
+			return result;
+		}
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to EnumerateUserPublishedFiles()
 	//-----------------------------------------------------------------------------
@@ -3684,6 +3911,39 @@ namespace Steamworks {
 		public PublishedFileId_t[] m_rgPublishedFileId;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to EnumerateUserPublishedFiles()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 12)]
+	internal struct RemoteStorageEnumerateUserPublishedFilesResult_t_LargePack {
+		public EResult m_eResult;				// The result of the operation.
+		public int m_nResultsReturned;
+		public int m_nTotalResultCount;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
+		public PublishedFileId_t[] m_rgPublishedFileId;
+
+		public static implicit operator RemoteStorageEnumerateUserPublishedFilesResult_t(RemoteStorageEnumerateUserPublishedFilesResult_t_LargePack value) {
+			RemoteStorageEnumerateUserPublishedFilesResult_t result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nResultsReturned = value.m_nResultsReturned;
+			result.m_nTotalResultCount = value.m_nTotalResultCount;
+			result.m_rgPublishedFileId = value.m_rgPublishedFileId;
+			return result;
+		}
+
+		public static implicit operator RemoteStorageEnumerateUserPublishedFilesResult_t_LargePack(RemoteStorageEnumerateUserPublishedFilesResult_t value) {
+			RemoteStorageEnumerateUserPublishedFilesResult_t_LargePack result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nResultsReturned = value.m_nResultsReturned;
+			result.m_nTotalResultCount = value.m_nTotalResultCount;
+			result.m_rgPublishedFileId = value.m_rgPublishedFileId;
+			return result;
+		}
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to SubscribePublishedFile()
 	//-----------------------------------------------------------------------------
@@ -3700,6 +3960,32 @@ namespace Steamworks {
 		public PublishedFileId_t m_nPublishedFileId;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to SubscribePublishedFile()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 13)]
+	internal struct RemoteStorageSubscribePublishedFileResult_t_LargePack {
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;
+
+		public static implicit operator RemoteStorageSubscribePublishedFileResult_t(RemoteStorageSubscribePublishedFileResult_t_LargePack value) {
+			RemoteStorageSubscribePublishedFileResult_t result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nPublishedFileId = value.m_nPublishedFileId;
+			return result;
+		}
+
+		public static implicit operator RemoteStorageSubscribePublishedFileResult_t_LargePack(RemoteStorageSubscribePublishedFileResult_t value) {
+			RemoteStorageSubscribePublishedFileResult_t_LargePack result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nPublishedFileId = value.m_nPublishedFileId;
+			return result;
+		}
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to EnumerateSubscribePublishedFiles()
 	//-----------------------------------------------------------------------------
@@ -3721,6 +4007,43 @@ namespace Steamworks {
 		public uint[] m_rgRTimeSubscribed;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to EnumerateSubscribePublishedFiles()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 14)]
+	internal struct RemoteStorageEnumerateUserSubscribedFilesResult_t_LargePack {
+		public EResult m_eResult;				// The result of the operation.
+		public int m_nResultsReturned;
+		public int m_nTotalResultCount;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
+		public PublishedFileId_t[] m_rgPublishedFileId;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
+		public uint[] m_rgRTimeSubscribed;
+
+		public static implicit operator RemoteStorageEnumerateUserSubscribedFilesResult_t(RemoteStorageEnumerateUserSubscribedFilesResult_t_LargePack value) {
+			RemoteStorageEnumerateUserSubscribedFilesResult_t result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nResultsReturned = value.m_nResultsReturned;
+			result.m_nTotalResultCount = value.m_nTotalResultCount;
+			result.m_rgPublishedFileId = value.m_rgPublishedFileId;
+			result.m_rgRTimeSubscribed = value.m_rgRTimeSubscribed;
+			return result;
+		}
+
+		public static implicit operator RemoteStorageEnumerateUserSubscribedFilesResult_t_LargePack(RemoteStorageEnumerateUserSubscribedFilesResult_t value) {
+			RemoteStorageEnumerateUserSubscribedFilesResult_t_LargePack result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nResultsReturned = value.m_nResultsReturned;
+			result.m_nTotalResultCount = value.m_nTotalResultCount;
+			result.m_rgPublishedFileId = value.m_rgPublishedFileId;
+			result.m_rgRTimeSubscribed = value.m_rgRTimeSubscribed;
+			return result;
+		}
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to UnsubscribePublishedFile()
 	//-----------------------------------------------------------------------------
@@ -3737,6 +4060,32 @@ namespace Steamworks {
 		public PublishedFileId_t m_nPublishedFileId;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to UnsubscribePublishedFile()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 15)]
+	internal struct RemoteStorageUnsubscribePublishedFileResult_t_LargePack {
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;
+
+		public static implicit operator RemoteStorageUnsubscribePublishedFileResult_t(RemoteStorageUnsubscribePublishedFileResult_t_LargePack value) {
+			RemoteStorageUnsubscribePublishedFileResult_t result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nPublishedFileId = value.m_nPublishedFileId;
+			return result;
+		}
+
+		public static implicit operator RemoteStorageUnsubscribePublishedFileResult_t_LargePack(RemoteStorageUnsubscribePublishedFileResult_t value) {
+			RemoteStorageUnsubscribePublishedFileResult_t_LargePack result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nPublishedFileId = value.m_nPublishedFileId;
+			return result;
+		}
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to CommitPublishedFileUpdate()
 	//-----------------------------------------------------------------------------
@@ -3755,6 +4104,36 @@ namespace Steamworks {
 		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to CommitPublishedFileUpdate()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 16)]
+	internal struct RemoteStorageUpdatePublishedFileResult_t_LargePack {
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
+
+		public static implicit operator RemoteStorageUpdatePublishedFileResult_t(RemoteStorageUpdatePublishedFileResult_t_LargePack value) {
+			RemoteStorageUpdatePublishedFileResult_t result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nPublishedFileId = value.m_nPublishedFileId;
+			result.m_bUserNeedsToAcceptWorkshopLegalAgreement = value.m_bUserNeedsToAcceptWorkshopLegalAgreement;
+			return result;
+		}
+
+		public static implicit operator RemoteStorageUpdatePublishedFileResult_t_LargePack(RemoteStorageUpdatePublishedFileResult_t value) {
+			RemoteStorageUpdatePublishedFileResult_t_LargePack result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nPublishedFileId = value.m_nPublishedFileId;
+			result.m_bUserNeedsToAcceptWorkshopLegalAgreement = value.m_bUserNeedsToAcceptWorkshopLegalAgreement;
+			return result;
+		}
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to UGCDownload()
 	//-----------------------------------------------------------------------------
@@ -3781,6 +4160,50 @@ namespace Steamworks {
 		public ulong m_ulSteamIDOwner;		// Steam ID of the user who created this content.
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to UGCDownload()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 17)]
+	internal struct RemoteStorageDownloadUGCResult_t_LargePack {
+		public EResult m_eResult;				// The result of the operation.
+		public UGCHandle_t m_hFile;			// The handle to the file that was attempted to be downloaded.
+		public AppId_t m_nAppID;				// ID of the app that created this file.
+		public int m_nSizeInBytes;			// The size of the file that was downloaded, in bytes.
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
+		internal byte[] m_pchFileName_;
+		public string m_pchFileName		// The name of the file that was downloaded.
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_pchFileName_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_pchFileName_, Constants.k_cchFilenameMax); }
+		}
+		public ulong m_ulSteamIDOwner;		// Steam ID of the user who created this content.
+
+		public static implicit operator RemoteStorageDownloadUGCResult_t(RemoteStorageDownloadUGCResult_t_LargePack value) {
+			RemoteStorageDownloadUGCResult_t result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_hFile = value.m_hFile;
+			result.m_nAppID = value.m_nAppID;
+			result.m_nSizeInBytes = value.m_nSizeInBytes;
+			result.m_pchFileName_ = value.m_pchFileName_;
+			result.m_ulSteamIDOwner = value.m_ulSteamIDOwner;
+			return result;
+		}
+
+		public static implicit operator RemoteStorageDownloadUGCResult_t_LargePack(RemoteStorageDownloadUGCResult_t value) {
+			RemoteStorageDownloadUGCResult_t_LargePack result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_hFile = value.m_hFile;
+			result.m_nAppID = value.m_nAppID;
+			result.m_nSizeInBytes = value.m_nSizeInBytes;
+			result.m_pchFileName_ = value.m_pchFileName_;
+			result.m_ulSteamIDOwner = value.m_ulSteamIDOwner;
+			return result;
+		}
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to GetPublishedFileDetails()
 	//-----------------------------------------------------------------------------
@@ -3849,6 +4272,122 @@ namespace Steamworks {
 		public bool m_bAcceptedForUse;			// developer has specifically flagged this item as accepted in the Workshop
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to GetPublishedFileDetails()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 18)]
+	internal struct RemoteStorageGetPublishedFileDetailsResult_t_LargePack {
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;
+		public AppId_t m_nCreatorAppID;		// ID of the app that created this file.
+		public AppId_t m_nConsumerAppID;		// ID of the app that will consume this file.
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentTitleMax)]
+		internal byte[] m_rgchTitle_;
+		public string m_rgchTitle		// title of document
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTitle_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchTitle_, Constants.k_cchPublishedDocumentTitleMax); }
+		}
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentDescriptionMax)]
+		internal byte[] m_rgchDescription_;
+		public string m_rgchDescription	// description of document
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchDescription_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchDescription_, Constants.k_cchPublishedDocumentDescriptionMax); }
+		}
+		public UGCHandle_t m_hFile;			// The handle of the primary file
+		public UGCHandle_t m_hPreviewFile;		// The handle of the preview file
+		public ulong m_ulSteamIDOwner;		// Steam ID of the user who created this content.
+		public uint m_rtimeCreated;			// time when the published file was created
+		public uint m_rtimeUpdated;			// time when the published file was last updated
+		public ERemoteStoragePublishedFileVisibility m_eVisibility;
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bBanned;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchTagListMax)]
+		internal byte[] m_rgchTags_;
+		public string m_rgchTags	// comma separated list of all tags associated with this file
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTags_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchTags_, Constants.k_cchTagListMax); }
+		}
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bTagsTruncated;			// whether the list of tags was too long to be returned in the provided buffer
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
+		internal byte[] m_pchFileName_;
+		public string m_pchFileName		// The name of the primary file
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_pchFileName_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_pchFileName_, Constants.k_cchFilenameMax); }
+		}
+		public int m_nFileSize;				// Size of the primary file
+		public int m_nPreviewFileSize;		// Size of the preview file
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedFileURLMax)]
+		internal byte[] m_rgchURL_;
+		public string m_rgchURL	// URL (for a video or a website)
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchURL_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchURL_, Constants.k_cchPublishedFileURLMax); }
+		}
+		public EWorkshopFileType m_eFileType;	// Type of the file
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bAcceptedForUse;			// developer has specifically flagged this item as accepted in the Workshop
+
+		public static implicit operator RemoteStorageGetPublishedFileDetailsResult_t(RemoteStorageGetPublishedFileDetailsResult_t_LargePack value) {
+			RemoteStorageGetPublishedFileDetailsResult_t result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nPublishedFileId = value.m_nPublishedFileId;
+			result.m_nCreatorAppID = value.m_nCreatorAppID;
+			result.m_nConsumerAppID = value.m_nConsumerAppID;
+			result.m_rgchTitle_ = value.m_rgchTitle_;
+			result.m_rgchDescription_ = value.m_rgchDescription_;
+			result.m_hFile = value.m_hFile;
+			result.m_hPreviewFile = value.m_hPreviewFile;
+			result.m_ulSteamIDOwner = value.m_ulSteamIDOwner;
+			result.m_rtimeCreated = value.m_rtimeCreated;
+			result.m_rtimeUpdated = value.m_rtimeUpdated;
+			result.m_eVisibility = value.m_eVisibility;
+			result.m_bBanned = value.m_bBanned;
+			result.m_rgchTags_ = value.m_rgchTags_;
+			result.m_bTagsTruncated = value.m_bTagsTruncated;
+			result.m_pchFileName_ = value.m_pchFileName_;
+			result.m_nFileSize = value.m_nFileSize;
+			result.m_nPreviewFileSize = value.m_nPreviewFileSize;
+			result.m_rgchURL_ = value.m_rgchURL_;
+			result.m_eFileType = value.m_eFileType;
+			result.m_bAcceptedForUse = value.m_bAcceptedForUse;
+			return result;
+		}
+
+		public static implicit operator RemoteStorageGetPublishedFileDetailsResult_t_LargePack(RemoteStorageGetPublishedFileDetailsResult_t value) {
+			RemoteStorageGetPublishedFileDetailsResult_t_LargePack result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nPublishedFileId = value.m_nPublishedFileId;
+			result.m_nCreatorAppID = value.m_nCreatorAppID;
+			result.m_nConsumerAppID = value.m_nConsumerAppID;
+			result.m_rgchTitle_ = value.m_rgchTitle_;
+			result.m_rgchDescription_ = value.m_rgchDescription_;
+			result.m_hFile = value.m_hFile;
+			result.m_hPreviewFile = value.m_hPreviewFile;
+			result.m_ulSteamIDOwner = value.m_ulSteamIDOwner;
+			result.m_rtimeCreated = value.m_rtimeCreated;
+			result.m_rtimeUpdated = value.m_rtimeUpdated;
+			result.m_eVisibility = value.m_eVisibility;
+			result.m_bBanned = value.m_bBanned;
+			result.m_rgchTags_ = value.m_rgchTags_;
+			result.m_bTagsTruncated = value.m_bTagsTruncated;
+			result.m_pchFileName_ = value.m_pchFileName_;
+			result.m_nFileSize = value.m_nFileSize;
+			result.m_nPreviewFileSize = value.m_nPreviewFileSize;
+			result.m_rgchURL_ = value.m_rgchURL_;
+			result.m_eFileType = value.m_eFileType;
+			result.m_bAcceptedForUse = value.m_bAcceptedForUse;
+			return result;
+		}
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 19)]
 	public struct RemoteStorageEnumerateWorkshopFilesResult_t
@@ -3869,6 +4408,46 @@ namespace Steamworks {
 		public uint m_unStartIndex;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 19)]
+	internal struct RemoteStorageEnumerateWorkshopFilesResult_t_LargePack {
+		public EResult m_eResult;
+		public int m_nResultsReturned;
+		public int m_nTotalResultCount;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
+		public PublishedFileId_t[] m_rgPublishedFileId;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
+		public float[] m_rgScore;
+		public AppId_t m_nAppId;
+		public uint m_unStartIndex;
+
+		public static implicit operator RemoteStorageEnumerateWorkshopFilesResult_t(RemoteStorageEnumerateWorkshopFilesResult_t_LargePack value) {
+			RemoteStorageEnumerateWorkshopFilesResult_t result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nResultsReturned = value.m_nResultsReturned;
+			result.m_nTotalResultCount = value.m_nTotalResultCount;
+			result.m_rgPublishedFileId = value.m_rgPublishedFileId;
+			result.m_rgScore = value.m_rgScore;
+			result.m_nAppId = value.m_nAppId;
+			result.m_unStartIndex = value.m_unStartIndex;
+			return result;
+		}
+
+		public static implicit operator RemoteStorageEnumerateWorkshopFilesResult_t_LargePack(RemoteStorageEnumerateWorkshopFilesResult_t value) {
+			RemoteStorageEnumerateWorkshopFilesResult_t_LargePack result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nResultsReturned = value.m_nResultsReturned;
+			result.m_nTotalResultCount = value.m_nTotalResultCount;
+			result.m_rgPublishedFileId = value.m_rgPublishedFileId;
+			result.m_rgScore = value.m_rgScore;
+			result.m_nAppId = value.m_nAppId;
+			result.m_unStartIndex = value.m_unStartIndex;
+			return result;
+		}
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of GetPublishedItemVoteDetails
 	//-----------------------------------------------------------------------------
@@ -3889,6 +4468,44 @@ namespace Steamworks {
 		public float m_fScore;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of GetPublishedItemVoteDetails
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 20)]
+	internal struct RemoteStorageGetPublishedItemVoteDetailsResult_t_LargePack {
+		public EResult m_eResult;
+		public PublishedFileId_t m_unPublishedFileId;
+		public int m_nVotesFor;
+		public int m_nVotesAgainst;
+		public int m_nReports;
+		public float m_fScore;
+
+		public static implicit operator RemoteStorageGetPublishedItemVoteDetailsResult_t(RemoteStorageGetPublishedItemVoteDetailsResult_t_LargePack value) {
+			RemoteStorageGetPublishedItemVoteDetailsResult_t result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_unPublishedFileId = value.m_unPublishedFileId;
+			result.m_nVotesFor = value.m_nVotesFor;
+			result.m_nVotesAgainst = value.m_nVotesAgainst;
+			result.m_nReports = value.m_nReports;
+			result.m_fScore = value.m_fScore;
+			return result;
+		}
+
+		public static implicit operator RemoteStorageGetPublishedItemVoteDetailsResult_t_LargePack(RemoteStorageGetPublishedItemVoteDetailsResult_t value) {
+			RemoteStorageGetPublishedItemVoteDetailsResult_t_LargePack result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_unPublishedFileId = value.m_unPublishedFileId;
+			result.m_nVotesFor = value.m_nVotesFor;
+			result.m_nVotesAgainst = value.m_nVotesAgainst;
+			result.m_nReports = value.m_nReports;
+			result.m_fScore = value.m_fScore;
+			return result;
+		}
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: User subscribed to a file for the app (from within the app or on the web)
 	//-----------------------------------------------------------------------------
@@ -3953,6 +4570,32 @@ namespace Steamworks {
 		public PublishedFileId_t m_nPublishedFileId;	// The published file id
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to UpdateUserPublishedItemVote()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 24)]
+	internal struct RemoteStorageUpdateUserPublishedItemVoteResult_t_LargePack {
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id
+
+		public static implicit operator RemoteStorageUpdateUserPublishedItemVoteResult_t(RemoteStorageUpdateUserPublishedItemVoteResult_t_LargePack value) {
+			RemoteStorageUpdateUserPublishedItemVoteResult_t result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nPublishedFileId = value.m_nPublishedFileId;
+			return result;
+		}
+
+		public static implicit operator RemoteStorageUpdateUserPublishedItemVoteResult_t_LargePack(RemoteStorageUpdateUserPublishedItemVoteResult_t value) {
+			RemoteStorageUpdateUserPublishedItemVoteResult_t_LargePack result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nPublishedFileId = value.m_nPublishedFileId;
+			return result;
+		}
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to GetUserPublishedItemVoteDetails()
 	//-----------------------------------------------------------------------------
@@ -3970,6 +4613,35 @@ namespace Steamworks {
 		public EWorkshopVote m_eVote;			// what the user voted
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to GetUserPublishedItemVoteDetails()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 25)]
+	internal struct RemoteStorageUserVoteDetails_t_LargePack {
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id
+		public EWorkshopVote m_eVote;			// what the user voted
+
+		public static implicit operator RemoteStorageUserVoteDetails_t(RemoteStorageUserVoteDetails_t_LargePack value) {
+			RemoteStorageUserVoteDetails_t result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nPublishedFileId = value.m_nPublishedFileId;
+			result.m_eVote = value.m_eVote;
+			return result;
+		}
+
+		public static implicit operator RemoteStorageUserVoteDetails_t_LargePack(RemoteStorageUserVoteDetails_t value) {
+			RemoteStorageUserVoteDetails_t_LargePack result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nPublishedFileId = value.m_nPublishedFileId;
+			result.m_eVote = value.m_eVote;
+			return result;
+		}
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 26)]
 	public struct RemoteStorageEnumerateUserSharedWorkshopFilesResult_t
@@ -3986,6 +4658,36 @@ namespace Steamworks {
 		public PublishedFileId_t[] m_rgPublishedFileId;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 26)]
+	internal struct RemoteStorageEnumerateUserSharedWorkshopFilesResult_t_LargePack {
+		public EResult m_eResult;				// The result of the operation.
+		public int m_nResultsReturned;
+		public int m_nTotalResultCount;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
+		public PublishedFileId_t[] m_rgPublishedFileId;
+
+		public static implicit operator RemoteStorageEnumerateUserSharedWorkshopFilesResult_t(RemoteStorageEnumerateUserSharedWorkshopFilesResult_t_LargePack value) {
+			RemoteStorageEnumerateUserSharedWorkshopFilesResult_t result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nResultsReturned = value.m_nResultsReturned;
+			result.m_nTotalResultCount = value.m_nTotalResultCount;
+			result.m_rgPublishedFileId = value.m_rgPublishedFileId;
+			return result;
+		}
+
+		public static implicit operator RemoteStorageEnumerateUserSharedWorkshopFilesResult_t_LargePack(RemoteStorageEnumerateUserSharedWorkshopFilesResult_t value) {
+			RemoteStorageEnumerateUserSharedWorkshopFilesResult_t_LargePack result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nResultsReturned = value.m_nResultsReturned;
+			result.m_nTotalResultCount = value.m_nTotalResultCount;
+			result.m_rgPublishedFileId = value.m_rgPublishedFileId;
+			return result;
+		}
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 27)]
 	public struct RemoteStorageSetUserPublishedFileActionResult_t
@@ -4000,6 +4702,32 @@ namespace Steamworks {
 		public EWorkshopFileAction m_eAction;	// the action that was attempted
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 27)]
+	internal struct RemoteStorageSetUserPublishedFileActionResult_t_LargePack {
+		public EResult m_eResult;				// The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id
+		public EWorkshopFileAction m_eAction;	// the action that was attempted
+
+		public static implicit operator RemoteStorageSetUserPublishedFileActionResult_t(RemoteStorageSetUserPublishedFileActionResult_t_LargePack value) {
+			RemoteStorageSetUserPublishedFileActionResult_t result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nPublishedFileId = value.m_nPublishedFileId;
+			result.m_eAction = value.m_eAction;
+			return result;
+		}
+
+		public static implicit operator RemoteStorageSetUserPublishedFileActionResult_t_LargePack(RemoteStorageSetUserPublishedFileActionResult_t value) {
+			RemoteStorageSetUserPublishedFileActionResult_t_LargePack result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_nPublishedFileId = value.m_nPublishedFileId;
+			result.m_eAction = value.m_eAction;
+			return result;
+		}
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 28)]
 	public struct RemoteStorageEnumeratePublishedFilesByUserActionResult_t
@@ -4053,6 +4781,35 @@ namespace Steamworks {
 		public ulong m_ulUnused;						// not used anymore
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: Called when the content for a published file is updated
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 30)]
+	internal struct RemoteStoragePublishedFileUpdated_t_LargePack {
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id
+		public AppId_t m_nAppID;						// ID of the app that will consume this file.
+		public ulong m_ulUnused;						// not used anymore
+
+		public static implicit operator RemoteStoragePublishedFileUpdated_t(RemoteStoragePublishedFileUpdated_t_LargePack value) {
+			RemoteStoragePublishedFileUpdated_t result = default;
+			result.m_nPublishedFileId = value.m_nPublishedFileId;
+			result.m_nAppID = value.m_nAppID;
+			result.m_ulUnused = value.m_ulUnused;
+			return result;
+		}
+
+		public static implicit operator RemoteStoragePublishedFileUpdated_t_LargePack(RemoteStoragePublishedFileUpdated_t value) {
+			RemoteStoragePublishedFileUpdated_t_LargePack result = default;
+			result.m_nPublishedFileId = value.m_nPublishedFileId;
+			result.m_nAppID = value.m_nAppID;
+			result.m_ulUnused = value.m_ulUnused;
+			return result;
+		}
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: Called when a FileWriteAsync completes
 	//-----------------------------------------------------------------------------
@@ -5263,6 +6020,45 @@ namespace Steamworks {
 		public int m_nGlobalRankPrevious;	// the previous global rank of the user in this leaderboard; 0 if the user had no existing entry in the leaderboard
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: call result indicating scores has been uploaded, returned as a result of UploadLeaderboardScore()
+	//			use CCallResult<> to map this async result to a member function
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 6)]
+	internal struct LeaderboardScoreUploaded_t_LargePack {
+		public byte m_bSuccess;			// 1 if the call was successful
+		public SteamLeaderboard_t m_hSteamLeaderboard;	// the leaderboard handle that was
+		public int m_nScore;				// the score that was attempted to set
+		public byte m_bScoreChanged;		// true if the score in the leaderboard change, false if the existing score was better
+		public int m_nGlobalRankNew;		// the new global rank of the user in this leaderboard
+		public int m_nGlobalRankPrevious;	// the previous global rank of the user in this leaderboard; 0 if the user had no existing entry in the leaderboard
+
+		public static implicit operator LeaderboardScoreUploaded_t(LeaderboardScoreUploaded_t_LargePack value) {
+			LeaderboardScoreUploaded_t result = default;
+			result.m_bSuccess = value.m_bSuccess;
+			result.m_hSteamLeaderboard = value.m_hSteamLeaderboard;
+			result.m_nScore = value.m_nScore;
+			result.m_bScoreChanged = value.m_bScoreChanged;
+			result.m_nGlobalRankNew = value.m_nGlobalRankNew;
+			result.m_nGlobalRankPrevious = value.m_nGlobalRankPrevious;
+			return result;
+		}
+
+		public static implicit operator LeaderboardScoreUploaded_t_LargePack(LeaderboardScoreUploaded_t value) {
+			LeaderboardScoreUploaded_t_LargePack result = default;
+			result.m_bSuccess = value.m_bSuccess;
+			result.m_hSteamLeaderboard = value.m_hSteamLeaderboard;
+			result.m_nScore = value.m_nScore;
+			result.m_bScoreChanged = value.m_bScoreChanged;
+			result.m_nGlobalRankNew = value.m_nGlobalRankNew;
+			result.m_nGlobalRankPrevious = value.m_nGlobalRankPrevious;
+			return result;
+		}
+	}
+
+	#endif
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 7)]
 	public struct NumberOfCurrentPlayers_t
@@ -5351,6 +6147,32 @@ namespace Steamworks {
 		public SteamLeaderboard_t m_hSteamLeaderboard;	// the leaderboard handle that was
 	}
 
+	#if STEAMWORKS_ANYCPU
+	//-----------------------------------------------------------------------------
+	// Purpose: call result indicating UGC has been uploaded, returned as a result of SetLeaderboardUGC()
+	//-----------------------------------------------------------------------------
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 11)]
+	internal struct LeaderboardUGCSet_t_LargePack {
+		public EResult m_eResult;				// The result of the operation
+		public SteamLeaderboard_t m_hSteamLeaderboard;	// the leaderboard handle that was
+
+		public static implicit operator LeaderboardUGCSet_t(LeaderboardUGCSet_t_LargePack value) {
+			LeaderboardUGCSet_t result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_hSteamLeaderboard = value.m_hSteamLeaderboard;
+			return result;
+		}
+
+		public static implicit operator LeaderboardUGCSet_t_LargePack(LeaderboardUGCSet_t value) {
+			LeaderboardUGCSet_t_LargePack result = default;
+			result.m_eResult = value.m_eResult;
+			result.m_hSteamLeaderboard = value.m_hSteamLeaderboard;
+			return result;
+		}
+	}
+
+	#endif
 	//-----------------------------------------------------------------------------
 	// Purpose: callback indicating global stats have been received.
 	//	Returned as a result of RequestGlobalStats()

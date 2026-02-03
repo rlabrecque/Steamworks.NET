@@ -9,8 +9,8 @@ Settings.print_debug = True
 
 parser = parse("./steamtest") # put steam headers inside
 
-os.makedirs("bin/compare-official")
-os.makedirs("bin/native")
+os.makedirs("bin/compare-official", exist_ok=True)
+os.makedirs("bin/native", exist_ok=True)
 
 with open("bin/native/pack-size-test.cpp", "w", encoding="utf-8") as f:
     f.write("#include <iostream>\n")
@@ -39,3 +39,11 @@ with open("bin/native/pack-size-test.cpp", "w", encoding="utf-8") as f:
     f.write('}')
 
     # generated file still need some fix at 25/11/19
+
+with open("bin/pack-aware-structs.txt", "wb") as fp:
+    for structName in parser.packSizeAwareStructs:
+        fp.write(bytes(structName + "\n", "utf-8"))
+
+# if you want to generate a detailed diff file, 
+# you can see parser.resolveTypeInfo() and parser.populate_struct_field_layout()
+# latter is used to calculate size by passing different platform default pack size 

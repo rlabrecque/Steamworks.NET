@@ -38,6 +38,22 @@ namespace Steamworks {
 				Impl<FileDetailsResult_t>.Marshaller = (unmanaged) =>
 					System.Runtime.InteropServices.Marshal.PtrToStructure<FileDetailsResult_t_LargePack>(unmanaged);
 			
+			if (typeof(T) == typeof(FriendsGetFollowerCount_t) && Packsize.IsLargePack)
+				Impl<FriendsGetFollowerCount_t>.Marshaller = (unmanaged) =>
+					System.Runtime.InteropServices.Marshal.PtrToStructure<FriendsGetFollowerCount_t_LargePack>(unmanaged);
+			
+			if (typeof(T) == typeof(FriendsIsFollowing_t) && Packsize.IsLargePack)
+				Impl<FriendsIsFollowing_t>.Marshaller = (unmanaged) =>
+					System.Runtime.InteropServices.Marshal.PtrToStructure<FriendsIsFollowing_t_LargePack>(unmanaged);
+			
+			if (typeof(T) == typeof(FriendsEnumerateFollowingList_t) && Packsize.IsLargePack)
+				Impl<FriendsEnumerateFollowingList_t>.Marshaller = (unmanaged) =>
+					System.Runtime.InteropServices.Marshal.PtrToStructure<FriendsEnumerateFollowingList_t_LargePack>(unmanaged);
+			
+			if (typeof(T) == typeof(EquippedProfileItems_t) && Packsize.IsLargePack)
+				Impl<EquippedProfileItems_t>.Marshaller = (unmanaged) =>
+					System.Runtime.InteropServices.Marshal.PtrToStructure<EquippedProfileItems_t_LargePack>(unmanaged);
+			
 			if (typeof(T) == typeof(GSReputation_t) && Packsize.IsLargePack)
 				Impl<GSReputation_t>.Marshaller = (unmanaged) =>
 					System.Runtime.InteropServices.Marshal.PtrToStructure<GSReputation_t_LargePack>(unmanaged);
@@ -182,6 +198,74 @@ namespace Steamworks {
 				Impl<SteamNetConnectionStatusChangedCallback_t>.Marshaller = (unmanaged) =>
 					System.Runtime.InteropServices.Marshal.PtrToStructure<SteamNetConnectionStatusChangedCallback_t_LargePack>(unmanaged);
 			
+			if (typeof(T) == typeof(RemoteStorageFileShareResult_t) && Packsize.IsLargePack)
+				Impl<RemoteStorageFileShareResult_t>.Marshaller = (unmanaged) =>
+					System.Runtime.InteropServices.Marshal.PtrToStructure<RemoteStorageFileShareResult_t_LargePack>(unmanaged);
+			
+			if (typeof(T) == typeof(RemoteStoragePublishFileResult_t) && Packsize.IsLargePack)
+				Impl<RemoteStoragePublishFileResult_t>.Marshaller = (unmanaged) =>
+					System.Runtime.InteropServices.Marshal.PtrToStructure<RemoteStoragePublishFileResult_t_LargePack>(unmanaged);
+			
+			if (typeof(T) == typeof(RemoteStorageDeletePublishedFileResult_t) && Packsize.IsLargePack)
+				Impl<RemoteStorageDeletePublishedFileResult_t>.Marshaller = (unmanaged) =>
+					System.Runtime.InteropServices.Marshal.PtrToStructure<RemoteStorageDeletePublishedFileResult_t_LargePack>(unmanaged);
+			
+			if (typeof(T) == typeof(RemoteStorageEnumerateUserPublishedFilesResult_t) && Packsize.IsLargePack)
+				Impl<RemoteStorageEnumerateUserPublishedFilesResult_t>.Marshaller = (unmanaged) =>
+					System.Runtime.InteropServices.Marshal.PtrToStructure<RemoteStorageEnumerateUserPublishedFilesResult_t_LargePack>(unmanaged);
+			
+			if (typeof(T) == typeof(RemoteStorageSubscribePublishedFileResult_t) && Packsize.IsLargePack)
+				Impl<RemoteStorageSubscribePublishedFileResult_t>.Marshaller = (unmanaged) =>
+					System.Runtime.InteropServices.Marshal.PtrToStructure<RemoteStorageSubscribePublishedFileResult_t_LargePack>(unmanaged);
+			
+			if (typeof(T) == typeof(RemoteStorageEnumerateUserSubscribedFilesResult_t) && Packsize.IsLargePack)
+				Impl<RemoteStorageEnumerateUserSubscribedFilesResult_t>.Marshaller = (unmanaged) =>
+					System.Runtime.InteropServices.Marshal.PtrToStructure<RemoteStorageEnumerateUserSubscribedFilesResult_t_LargePack>(unmanaged);
+			
+			if (typeof(T) == typeof(RemoteStorageUnsubscribePublishedFileResult_t) && Packsize.IsLargePack)
+				Impl<RemoteStorageUnsubscribePublishedFileResult_t>.Marshaller = (unmanaged) =>
+					System.Runtime.InteropServices.Marshal.PtrToStructure<RemoteStorageUnsubscribePublishedFileResult_t_LargePack>(unmanaged);
+			
+			if (typeof(T) == typeof(RemoteStorageUpdatePublishedFileResult_t) && Packsize.IsLargePack)
+				Impl<RemoteStorageUpdatePublishedFileResult_t>.Marshaller = (unmanaged) =>
+					System.Runtime.InteropServices.Marshal.PtrToStructure<RemoteStorageUpdatePublishedFileResult_t_LargePack>(unmanaged);
+			
+			if (typeof(T) == typeof(RemoteStorageDownloadUGCResult_t) && Packsize.IsLargePack)
+				Impl<RemoteStorageDownloadUGCResult_t>.Marshaller = (unmanaged) =>
+					System.Runtime.InteropServices.Marshal.PtrToStructure<RemoteStorageDownloadUGCResult_t_LargePack>(unmanaged);
+			
+			if (typeof(T) == typeof(RemoteStorageGetPublishedFileDetailsResult_t) && Packsize.IsLargePack)
+				Impl<RemoteStorageGetPublishedFileDetailsResult_t>.Marshaller = (unmanaged) =>
+					System.Runtime.InteropServices.Marshal.PtrToStructure<RemoteStorageGetPublishedFileDetailsResult_t_LargePack>(unmanaged);
+			
+			if (typeof(T) == typeof(RemoteStorageEnumerateWorkshopFilesResult_t) && Packsize.IsLargePack)
+				Impl<RemoteStorageEnumerateWorkshopFilesResult_t>.Marshaller = (unmanaged) =>
+					System.Runtime.InteropServices.Marshal.PtrToStructure<RemoteStorageEnumerateWorkshopFilesResult_t_LargePack>(unmanaged);
+			
+			if (typeof(T) == typeof(RemoteStorageGetPublishedItemVoteDetailsResult_t) && Packsize.IsLargePack)
+				Impl<RemoteStorageGetPublishedItemVoteDetailsResult_t>.Marshaller = (unmanaged) =>
+					System.Runtime.InteropServices.Marshal.PtrToStructure<RemoteStorageGetPublishedItemVoteDetailsResult_t_LargePack>(unmanaged);
+			
+			if (typeof(T) == typeof(RemoteStorageUpdateUserPublishedItemVoteResult_t) && Packsize.IsLargePack)
+				Impl<RemoteStorageUpdateUserPublishedItemVoteResult_t>.Marshaller = (unmanaged) =>
+					System.Runtime.InteropServices.Marshal.PtrToStructure<RemoteStorageUpdateUserPublishedItemVoteResult_t_LargePack>(unmanaged);
+			
+			if (typeof(T) == typeof(RemoteStorageUserVoteDetails_t) && Packsize.IsLargePack)
+				Impl<RemoteStorageUserVoteDetails_t>.Marshaller = (unmanaged) =>
+					System.Runtime.InteropServices.Marshal.PtrToStructure<RemoteStorageUserVoteDetails_t_LargePack>(unmanaged);
+			
+			if (typeof(T) == typeof(RemoteStorageEnumerateUserSharedWorkshopFilesResult_t) && Packsize.IsLargePack)
+				Impl<RemoteStorageEnumerateUserSharedWorkshopFilesResult_t>.Marshaller = (unmanaged) =>
+					System.Runtime.InteropServices.Marshal.PtrToStructure<RemoteStorageEnumerateUserSharedWorkshopFilesResult_t_LargePack>(unmanaged);
+			
+			if (typeof(T) == typeof(RemoteStorageSetUserPublishedFileActionResult_t) && Packsize.IsLargePack)
+				Impl<RemoteStorageSetUserPublishedFileActionResult_t>.Marshaller = (unmanaged) =>
+					System.Runtime.InteropServices.Marshal.PtrToStructure<RemoteStorageSetUserPublishedFileActionResult_t_LargePack>(unmanaged);
+			
+			if (typeof(T) == typeof(RemoteStoragePublishedFileUpdated_t) && Packsize.IsLargePack)
+				Impl<RemoteStoragePublishedFileUpdated_t>.Marshaller = (unmanaged) =>
+					System.Runtime.InteropServices.Marshal.PtrToStructure<RemoteStoragePublishedFileUpdated_t_LargePack>(unmanaged);
+			
 			if (typeof(T) == typeof(SteamUGCDetails_t) && Packsize.IsLargePack)
 				Impl<SteamUGCDetails_t>.Marshaller = (unmanaged) =>
 					System.Runtime.InteropServices.Marshal.PtrToStructure<SteamUGCDetails_t_LargePack>(unmanaged);
@@ -233,6 +317,14 @@ namespace Steamworks {
 			if (typeof(T) == typeof(LeaderboardEntry_t) && Packsize.IsLargePack)
 				Impl<LeaderboardEntry_t>.Marshaller = (unmanaged) =>
 					System.Runtime.InteropServices.Marshal.PtrToStructure<LeaderboardEntry_t_LargePack>(unmanaged);
+			
+			if (typeof(T) == typeof(LeaderboardScoreUploaded_t) && Packsize.IsLargePack)
+				Impl<LeaderboardScoreUploaded_t>.Marshaller = (unmanaged) =>
+					System.Runtime.InteropServices.Marshal.PtrToStructure<LeaderboardScoreUploaded_t_LargePack>(unmanaged);
+			
+			if (typeof(T) == typeof(LeaderboardUGCSet_t) && Packsize.IsLargePack)
+				Impl<LeaderboardUGCSet_t>.Marshaller = (unmanaged) =>
+					System.Runtime.InteropServices.Marshal.PtrToStructure<LeaderboardUGCSet_t_LargePack>(unmanaged);
 			
 			if (typeof(T) == typeof(SteamNetConnectionInfo_t) && Packsize.IsLargePack)
 				Impl<SteamNetConnectionInfo_t>.Marshaller = (unmanaged) =>
