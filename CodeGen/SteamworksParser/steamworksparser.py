@@ -387,6 +387,7 @@ class SteamFile:
         self.constants: list[Constant] = []  # Constant
         self.enums: list[Enum] = []  # Enum
         self.structs: list[Struct] = []  # Struct
+        self.unions: list[Union] = []  # Struct
         self.callbacks: list[Struct] = [] # Struct
         self.interfaces: list[Interface] = []  # Interface
         self.typedefs:list[Typedef] = []  # Typedef
@@ -431,7 +432,19 @@ class ParserState:
         self.functionAttributes: list[FunctionAttribute] = [] # FunctionAttribute
         
         self.currentSpecialStruct: PrimitiveType = None
-        
+    
+    def getIndentLevel(self) -> int:
+        return self.originalline.count('\t', 0, len(self.originalline) - len(self.line))
+
+    # Types that are defined but skipped, tuple of (type name, indent level)
+    SkippedTypeDefinitions: dict[str, tuple[str, int]] = {
+            "union__steamclientpublic_803": ("SteamID_t", 1) # nested union in class CSteamID, too complex to parse
+        }
+
+    def isSkipBlock(self) -> bool:
+        return (self.struct is not None and self.struct.name in self.SkippedTypeDefinitions.keys() and self.getIndentLevel() != self.SkippedTypeDefinitions[self.struct.name][1]) or\
+                (self.union is not None and self.union.name in self.SkippedTypeDefinitions.keys() and self.getIndentLevel() != self.SkippedTypeDefinitions[self.union.name][1])
+
     def beginUnion(self):
         self.complexTypeStack.append('union')
     
@@ -442,7 +455,7 @@ class ParserState:
         self.complexTypeStack.append('enum')
 
     def endComplexType(self):
-        self.complexTypeStack.pop()
+        len(self.complexTypeStack) > 0 and self.complexTypeStack.pop()
         
     def getCurrentPack(self) -> int | Literal['PlatformABIDefault'] | None:
         # pack size is default value
@@ -816,7 +829,7 @@ class Parser:
             if s.line == "{":
                 return
 
-            if s.line.endswith("};"):
+            if (s.line.endswith("};") or re.match(r"^}\s*[\w_]*;$", s.line)) and (len(s.complexTypeStack) == 0 or s.complexTypeStack[-1] == 'enum'):
                 # Hack to get comments between the last field and }; :(
                 s.enum.endcomments = self.consume_comments(s)
                 # Don't append unnamed (constant) enums
@@ -908,17 +921,17 @@ class Parser:
         s.enum.fields.append(field)
 
     def parse_structs(self, s: ParserState):
-        if s.enum:
+        if s.enum or s.isSkipBlock():
             return
 
         if s.struct and s.linesplit[0] != "struct":
-            if s.line == "};":
+            if (s.line == "};" or re.match(r"^}\s*[\w_]*;$", s.line)) and (len(s.complexTypeStack) == 0 or s.complexTypeStack[-1] == 'struct'):
                 if s.struct.name in g_ClassSpecialRBracket:
                     special = g_ClassSpecialRBracket[s.struct.name]
-                    if special.lineZeroBased == s.line\
-                    and special.action == 'ContniueStruct':
+                    if special.lineZeroBased == s.line and special.action == 'ContniueStruct':
                         return
-                    
+                
+            
 
                 s.struct.endcomments = self.consume_comments(s)
 
@@ -947,6 +960,8 @@ class Parser:
         else:
             if s.linesplit[0] != "struct":
                 return
+
+            
 
             if len(s.linesplit) > 1 and s.linesplit[1].startswith("ISteam"):
                 return
@@ -982,7 +997,7 @@ class Parser:
             
             comments = self.consume_comments(s)
 
-            outerTypeCandidate = s.struct
+            outerTypeCandidate = s.struct or s.union
             s.struct = Struct(s.linesplit[1].strip(), s.getCurrentPack(),\
                               comments, s.scopeDepth)
             s.struct.outer_type = outerTypeCandidate
@@ -990,168 +1005,7 @@ class Parser:
                 s.struct.is_skipped = True
 
     def visit_inline_method(self, s: ParserState):
-        if s.struct:
-            if s.function == None:
-                s.function = Function()
-                if len(s.ifstatements) > 1:
-                    s.function.ifstatements = s.ifstatements[-1]
-                s.function.comments = s.comments
-                s.function.linecomment = s.linecomment
-                s.function.private = True
-                s.function.attributes = s.functionAttributes
-                s.functionAttributes = []
-                self.consume_comments(s)
-
-            linesplit_iter = iter(enumerate(s.linesplit))
-            for i, token in linesplit_iter:
-                if s.funcState == 0:  # Return Value
-                    if token == "virtual" or token == "inline":
-                        continue
-
-                    if token.startswith("*"):
-                        s.function.returntype += "*"
-                        token = token[1:]
-                        s.funcState = 1
-                    elif "(" in token:
-                        s.function.returntype = s.function.returntype.strip()
-                        s.funcState = 1
-                    else:
-                        s.function.returntype += token + " "
-                        continue
-
-                if s.funcState == 1:  # Method Name
-                    s.function.name = token.split("(", 1)[0]
-
-                    if token[-1] == ")":
-                        s.funcState = 3
-                    elif token[-1] == ";":
-                        s.funcState = 0
-                        s.interface.functions.append(s.function)
-                        s.function = None
-                        break
-                    elif token[-1] != "(":  # Like f(void arg )
-                        if Settings.warn_spacing:
-                            printWarning("Function is missing whitespace between the opening parentheses and first arg.", s)
-                        token = token.split("(")[1]
-                        s.funcState = 2
-                    else:
-                        s.funcState = 2
-                        continue
-
-                if s.funcState == 2:  # Args
-                    # Strip clang attributes
-                    bIsAttrib = False
-                    for a in g_ArgAttribs:
-                        if token.startswith(a):
-                            attr = ArgAttribute()
-                            bIsAttrib = True
-                            break
-                    if bIsAttrib:
-                        openparen_index = token.index("(")
-                        attr.name = token[:openparen_index]
-                        if len(token) > openparen_index+1:
-                            if token.endswith(")"):
-                                attr.value = token[openparen_index+1:-1]
-                                continue
-                            else:
-                                attr.value = token[openparen_index+1:]
-                        s.funcState = 4
-                        continue
-
-                    if token.startswith("**"):
-                        args += token[:2]
-                        token = token[2:]
-                    elif token.startswith("*") or token.startswith("&"):
-                        args += token[0]
-                        token = token[1:]
-
-                    if len(token) == 0:
-                        continue
-
-                    if token.startswith(")"):  # Like f( void arg ")"
-                        if args:
-                            TEST = 1
-                            TEST2 = 0  # TODO: Cleanup, I don't even know what the fuck is going on here anymore.
-                            if "**" in s.linesplit[i-1]:
-                                TEST -= 2
-                                TEST2 += 2
-                            elif "*" in s.linesplit[i-1] or "&" in s.linesplit[i-1]:
-                                TEST -= 1
-                                TEST2 += 1
-
-                            arg = Arg()
-                            arg.type = args[:-len(s.linesplit[i-1]) - TEST].strip()
-                            arg.name = s.linesplit[i-1][TEST2:]
-                            arg.attribute = attr
-                            s.function.args.append(arg)
-                            args = ""
-                            attr = None
-                        s.funcState = 3
-                    elif token.endswith(")"):  # Like f( void "arg)"
-                        if Settings.warn_spacing:
-                            printWarning("Function is missing whitespace between the closing parentheses and first arg.", s)
-
-                        arg = Arg()
-                        arg.type = args.strip()
-                        arg.name = token[:-1]
-                        arg.attribute = attr
-                        s.function.args.append(arg)
-                        args = ""
-                        attr = None
-                        s.funcState = 3
-                    elif token[-1] == ",":  # Like f( void "arg," void arg2 )
-                        TEST2 = 0
-                        if "*" in token[:-1] or "&" in token[:-1]:
-                            TEST2 += 1
-
-                        arg = Arg()
-                        arg.type = args.strip()
-                        arg.name = token[:-1][TEST2:]
-                        arg.attribute = attr
-                        s.function.args.append(arg)
-                        args = ""
-                        attr = None
-                    elif token == "=":
-                        # Copied from ")" above
-                        TEST = 1
-                        TEST2 = 0  # TODO: Cleanup, I don't even know what the fuck is going on here anymore.
-                        if "*" in s.linesplit[i-1] or "&" in s.linesplit[i-1]:
-                            TEST -= 1
-                            TEST2 += 1
-
-                        arg = Arg()
-                        arg.type = args[:-len(s.linesplit[i-1]) - TEST].strip()
-                        arg.name = s.linesplit[i-1][TEST2:]
-                        arg.default = s.linesplit[i+1].rstrip(",")
-                        arg.attribute = attr
-                        s.function.args.append(arg)
-                        args = ""
-                        attr = None
-                        next(linesplit_iter, None)
-                    else:
-                        args += token + " "
-
-                    continue
-
-                if s.funcState == 3:  # = 0; or line
-                    if token.endswith(";"):
-                        s.funcState = 0
-                        s.interface.functions.append(s.function)
-                        s.function = None
-                        break
-                    continue
-
-                if s.funcState == 4:  # ATTRIBS
-                    if token.endswith(")"):
-                        attr.value += token[:-1]
-                        s.funcState = 2
-                    else:
-                        attr.value += token
-                    continue
-
-            s.isInlineMethodDeclared = True
-            return
-
+        pass
 
     def parse_struct_fields(self, s):
         comments = self.consume_comments(s)
@@ -1216,7 +1070,7 @@ class Parser:
             try_match(s.line, s)
 
     def visit_union(self, s: ParserState):
-        if s.enum:
+        if s.enum or s.isSkipBlock():
             return
         
         if s.union and s.linesplit[0] != "union":
@@ -1224,7 +1078,7 @@ class Parser:
                 # some unions put open brace at next line
                 return
             
-            if s.line == "};":
+            if (s.line == "};" or re.match(r"^}\s*[\w_]*;$", s.line)) and (len(s.complexTypeStack) == 0 or s.complexTypeStack[-1] == 'union'):
                 s.union.endcomments = self.consume_comments(s)
                 s.f.unions.append(s.union)
                 s.endComplexType()

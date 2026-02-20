@@ -68,7 +68,7 @@ namespace Steamworks {
 			if (!Packsize.IsLargePack) {
 				ret = NativeMethods.ISteamUGC_GetQueryUGCResult(CSteamGameServerAPIContext.GetSteamUGC(), handle, index, out pDetails);
 			} else {
-				SteamUGCDetails_t pDetails_lp;
+				SteamUGCDetails_t_LargePack pDetails_lp;
 				ret = NativeMethods.ISteamUGC_GetQueryUGCResult(CSteamGameServerAPIContext.GetSteamUGC(), handle, index, out pDetails_lp);
 				pDetails = pDetails_lp;
 			}

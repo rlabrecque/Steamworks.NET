@@ -788,7 +788,7 @@ namespace Steamworks {
 			if (!Packsize.IsLargePack) {
 				ret = NativeMethods.ISteamParties_GetBeaconDetails(CSteamAPIContext.GetSteamParties(), ulBeaconID, out pSteamIDBeaconOwner, out pLocation, pchMetadata2, cchMetadata);
 			} else {
-				SteamPartyBeaconLocation_t pLocation_lp;
+				SteamPartyBeaconLocation_t_LargePack pLocation_lp;
 				ret = NativeMethods.ISteamParties_GetBeaconDetails(CSteamAPIContext.GetSteamParties(), ulBeaconID, out pSteamIDBeaconOwner, out pLocation_lp, pchMetadata2, cchMetadata);
 				pLocation = pLocation_lp;
 			}
@@ -856,7 +856,7 @@ namespace Steamworks {
 			if (!Packsize.IsLargePack) {
 				ret = (SteamAPICall_t)NativeMethods.ISteamParties_CreateBeacon(CSteamAPIContext.GetSteamParties(), unOpenSlots, ref pBeaconLocation, pchConnectString2, pchMetadata2);
 			} else {
-				SteamPartyBeaconLocation_t pBeaconLocation_lp = pBeaconLocation;
+				SteamPartyBeaconLocation_t_LargePack pBeaconLocation_lp = pBeaconLocation;
 				ret = (SteamAPICall_t)NativeMethods.ISteamParties_CreateBeacon(CSteamAPIContext.GetSteamParties(), unOpenSlots, ref pBeaconLocation_lp, pchConnectString2, pchMetadata2);
 				pBeaconLocation = pBeaconLocation_lp;
 			}
@@ -917,7 +917,7 @@ namespace Steamworks {
 			if (!Packsize.IsLargePack) {
 				ret = NativeMethods.ISteamParties_GetBeaconLocationData(CSteamAPIContext.GetSteamParties(), BeaconLocation, eData, pchDataStringOut2, cchDataStringOut);
 			} else {
-				SteamPartyBeaconLocation_t BeaconLocation_lp = BeaconLocation;
+				SteamPartyBeaconLocation_t_LargePack BeaconLocation_lp = BeaconLocation;
 				ret = NativeMethods.ISteamParties_GetBeaconLocationData(CSteamAPIContext.GetSteamParties(), BeaconLocation_lp, eData, pchDataStringOut2, cchDataStringOut);
 				BeaconLocation = BeaconLocation_lp;
 			}

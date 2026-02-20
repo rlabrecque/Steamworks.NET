@@ -6,32 +6,31 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 #if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
-#define DISABLESTEAMWORKS
+	#define DISABLESTEAMWORKS
 #endif
 
 #if !DISABLESTEAMWORKS
 
 #if UNITY_EDITOR_64 || (UNITY_STANDALONE && !UNITY_EDITOR && UNITY_64)
-#define STEAMWORKS_X64
+	#define STEAMWORKS_X64
 #elif UNITY_EDITOR_32 || (UNITY_STANDALONE && !UNITY_EDITOR && !UNITY_64)
-#define STEAMWORKS_X86
+	#define STEAMWORKS_X86
 #endif
 
 #if UNITY_EDITOR_WIN
-#define STEAMWORKS_WIN
+	#define STEAMWORKS_WIN
 #elif UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX
-#define STEAMWORKS_LIN_OSX
+	#define STEAMWORKS_LIN_OSX
 #elif UNITY_STANDALONE_WIN
-#define STEAMWORKS_WIN
+	#define STEAMWORKS_WIN
 #elif UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX
-#define STEAMWORKS_LIN_OSX
+	#define STEAMWORKS_LIN_OSX
 #endif
 
 #if !STEAMWORKS_WIN && !STEAMWORKS_LIN_OSX
-#error You must define STEAMWORKS_WIN or STEAMWORKS_LIN_OSX if you're not using Unity.
+	#error You must define STEAMWORKS_WIN or STEAMWORKS_LIN_OSX if you're not using Unity.
 #endif
 
-using System;
 using System.Runtime.InteropServices;
 using IntPtr = System.IntPtr;
 using SysPath = System.IO.Path;
@@ -39,7 +38,7 @@ using SysPath = System.IO.Path;
 namespace Steamworks {
 	[System.Security.SuppressUnmanagedCodeSecurity()]
 	internal static class NativeMethods {
-	#if STEAMWORKS_ANYCPU
+#if STEAMWORKS_ANYCPU
 		static NativeMethods() {
 			NativeLibrary.SetDllImportResolver(typeof(NativeMethods).Assembly, DllImportResolver);
 		}
@@ -70,35 +69,35 @@ namespace Steamworks {
 
 					return lib;
 				}
-                else {
-                    // first chance search, if failed or specified, check the assembly directory for steam natives
-                    if (searchPath is DllImportSearchPath.AssemblyDirectory || !NativeLibrary.TryLoad(libraryName, assembly, searchPath, out nint lib)) {
-                        // in case of first chance search failed, build the full path of steam native, include extension name,
-                        // and try load again, this is for the case when steam native is not in default `dlopen()` search path
-                        // but in the same directory as the assembly.
-                        string extension;
-                        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                            extension = ".dylib";
-                        else
-                            extension = ".so"; // I can't imagine what else platforms other than linux that
-                                               // Steamworks.NET.AnyCPU will run on, but let's be future proof
+				else {
+					// first chance search, if failed or specified, check the assembly directory for steam natives
+					if (searchPath is DllImportSearchPath.AssemblyDirectory || !NativeLibrary.TryLoad(libraryName, assembly, searchPath, out nint lib)) {
+						// in case of first chance search failed, build the full path of steam native, include extension name,
+						// and try load again, this is for the case when steam native is not in default `dlopen()` search path
+						// but in the same directory as the assembly.
+						string extension;
+						if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+							extension = ".dylib";
+						else
+							extension = ".so"; // I can't imagine what else platforms other than linux that
+											   // Steamworks.NET.AnyCPU will run on, but let's be future proof
 
-                        string assemblyLocation = assembly.Location;
+						string assemblyLocation = assembly.Location;
 
-                        if (assemblyLocation == "") {
-                            System.Diagnostics.Debug.WriteLine("It seems you are loading Steamworks.NET.AnyCPU from memory," +
-                                " auto-detect steam native location is not possible," +
-                                " please manually load steam natives into correct ALC.");
-                        }
+						if (assemblyLocation == "") {
+							System.Diagnostics.Debug.WriteLine("It seems you are loading Steamworks.NET.AnyCPU from memory," +
+								" auto-detect steam native location is not possible," +
+								" please manually load steam natives into correct ALC.");
+						}
 
-                        string path = SysPath.Combine(assemblyLocation, SysPath.ChangeExtension(libraryName, extension));
+						string path = SysPath.Combine(assemblyLocation, SysPath.ChangeExtension(libraryName, extension));
 
-                        // second chance or user specified behavior search, not caring failures anymore
-                        NativeLibrary.TryLoad(path, assembly, searchPath, out lib);
-                    }
+						// second chance or user specified behavior search, not caring failures anymore
+						NativeLibrary.TryLoad(path, assembly, searchPath, out lib);
+					}
 
-                    return lib;
-                }
+					return lib;
+				}
 			}
 			return 0;
 		}

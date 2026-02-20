@@ -139,7 +139,7 @@ namespace Steamworks {
 			if (!Packsize.IsLargePack) {
 				ret = NativeMethods.ISteamNetworkingMessages_GetSessionConnectionInfo(CSteamGameServerAPIContext.GetSteamNetworkingMessages(), ref identityRemote, out pConnectionInfo, out pQuickStatus);
 			} else {
-				SteamNetConnectionInfo_t pConnectionInfo_lp;
+				SteamNetConnectionInfo_t_LargePack pConnectionInfo_lp;
 				ret = NativeMethods.ISteamNetworkingMessages_GetSessionConnectionInfo(CSteamGameServerAPIContext.GetSteamNetworkingMessages(), ref identityRemote, out pConnectionInfo_lp, out pQuickStatus);
 				pConnectionInfo = pConnectionInfo_lp;
 			}

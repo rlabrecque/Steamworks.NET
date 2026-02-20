@@ -402,7 +402,7 @@ namespace Steamworks {
 			if (!Packsize.IsLargePack) {
 				ret = NativeMethods.ISteamNetworkingSockets_GetConnectionInfo(CSteamAPIContext.GetSteamNetworkingSockets(), hConn, out pInfo);
 			} else {
-				SteamNetConnectionInfo_t pInfo_lp;
+				SteamNetConnectionInfo_t_LargePack pInfo_lp;
 				ret = NativeMethods.ISteamNetworkingSockets_GetConnectionInfo(CSteamAPIContext.GetSteamNetworkingSockets(), hConn, out pInfo_lp);
 				pInfo = pInfo_lp;
 			}

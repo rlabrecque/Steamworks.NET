@@ -605,7 +605,7 @@ def main(parser: Parser):
     except OSError:
         pass
 
-    with open("templates/header.txt", "r") as f:
+    with open("templates/header.txt", "r", encoding="utf-8") as f:
         global HEADER
         HEADER = f.read()
 
@@ -616,7 +616,7 @@ def main(parser: Parser):
 
     with open("../com.rlabrecque.steamworks.net/Runtime/autogen/NativeMethods.cs", "wb") as out:
         #out.write(bytes(HEADER, "utf-8"))
-        with open("templates/nativemethods.txt", "r") as f:
+        with open("templates/nativemethods.txt", "r", encoding="utf-8") as f:
             out.write(bytes(f.read(), "utf-8"))
         for line in g_NativeMethods:
             out.write(bytes(line + "\n", "utf-8"))
@@ -688,7 +688,6 @@ def parse_interface(f, interface: Interface, parser: Parser):
         if func.private:
             continue
 
-        shouldGenerateLargePack = False
         strEntryPoint = interface.name + '_' + func.name
         for attr in func.attributes:
             if attr.name == "STEAM_FLAT_NAME":
@@ -883,7 +882,7 @@ def generate_wrapper_function(f, interface, func: Function,
         for lpArg in largePackByrefArgs:
             if not lpArg[0].endswith("[]"):
                 assignByRefManaged = "" if not lpArg[2] else f" = {lpArg[1]}"
-                b.append(f"\t{lpArg[0]} {lpArg[1]}_lp{assignByRefManaged};")
+                b.append(f"\t{lpArg[0]}_LargePack {lpArg[1]}_lp{assignByRefManaged};")
             else:
                 b.append(f"\t{lpArg[0][:-2]}_LargePack[] {lpArg[1]}_lp = new {lpArg[0][:-2]}_LargePack[{lpArg[1]}.Length];")
                 b.append(f"\tfor (int i = 0; i < {lpArg[1]}.Length; i++)")

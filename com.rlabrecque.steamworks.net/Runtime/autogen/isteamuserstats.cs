@@ -322,7 +322,7 @@ namespace Steamworks {
 			if (!Packsize.IsLargePack) {
 				ret = NativeMethods.ISteamUserStats_GetDownloadedLeaderboardEntry(CSteamAPIContext.GetSteamUserStats(), hSteamLeaderboardEntries, index, out pLeaderboardEntry, pDetails, cDetailsMax);
 			} else {
-				LeaderboardEntry_t pLeaderboardEntry_lp;
+				LeaderboardEntry_t_LargePack pLeaderboardEntry_lp;
 				ret = NativeMethods.ISteamUserStats_GetDownloadedLeaderboardEntry(CSteamAPIContext.GetSteamUserStats(), hSteamLeaderboardEntries, index, out pLeaderboardEntry_lp, pDetails, cDetailsMax);
 				pLeaderboardEntry = pLeaderboardEntry_lp;
 			}
