@@ -326,7 +326,7 @@ namespace Steamworks {
 #if !STEAMWORKS_ANYCPU
 				m_Func((T)Marshal.PtrToStructure(pvParam, typeof(T))); 
 #else
-				m_Func(ConditionalMarshallerTable.Marshal<T>(pvParam));
+				m_Func(SteamMarshallerTable.Marshal<T>(pvParam));
 #endif
             }
 			catch (Exception e) {
@@ -430,7 +430,7 @@ namespace Steamworks {
 #if !STEAMWORKS_ANYCPU
 					result = (T)Marshal.PtrToStructure(pvParam, typeof(T));
 #else
-					result = ConditionalMarshallerTable.Marshal<T>(pvParam);
+					result = SteamMarshallerTable.Marshal<T>(pvParam);
 #endif
                     m_Func(result, bFailed);
 				}

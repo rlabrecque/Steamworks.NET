@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Steamworks
 {
-	internal static partial class ConditionalMarshallerTable
+	public static partial class SteamMarshallerTable
 	{
 		// private static readonly FrozenDictionary<Type, Func<IntPtr, object>> s_marshallerLookupTable;
 

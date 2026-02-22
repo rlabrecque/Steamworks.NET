@@ -139,17 +139,17 @@ def main(parser: Parser):
         out.write(bytes("}\n\n", "utf-8"))
         out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
     
-    with open("../Standalone3.0/ConditionalMarshallerTable.g.cs", "wb") as out:
+    with open("../Standalone3.0/SteamMarshallerTable.g.cs", "wb") as out:
         with open("templates/header.txt", "r") as f:
             out.write(bytes(f.read(), "utf-8"))
         
-        with open("templates/anycpu/ConditionalMarshallerTable.head.cs", "r") as f:
+        with open("templates/anycpu/SteamMarshallerTable.head.cs", "r") as f:
             out.write(bytes(f.read(), "utf-8"))
         
         for line in anyCpuConditionalMarshallerLines:
-            out.write(bytes("\t\t\t" + line + "\n", "utf-8"))
+            out.write(bytes("\t\t\t\t" + line + "\n", "utf-8"))
         
-        with open("templates/anycpu/ConditionalMarshallerTable.tail.cs", "r") as f:
+        with open("templates/anycpu/SteamMarshallerTable.tail.cs", "r") as f:
             out.write(bytes(f.read(), "utf-8"))
         
         out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
