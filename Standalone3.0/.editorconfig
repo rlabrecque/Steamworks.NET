@@ -216,9 +216,13 @@ dotnet_naming_rule.types_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.types_should_be_pascal_case.symbols = types
 dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
 
-dotnet_naming_rule.non_field_members_should_be_underscore_camel_case.severity = suggestion
-dotnet_naming_rule.non_field_members_should_be_underscore_camel_case.symbols = non_field_members
-dotnet_naming_rule.non_field_members_should_be_underscore_camel_case.style = underscore_camel_case
+dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
+dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
+dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
+
+dotnet_naming_rule.fields_should_be_underscore_camel_case.severity = suggestion
+dotnet_naming_rule.fields_should_be_underscore_camel_case.symbols = fields
+dotnet_naming_rule.fields_should_be_underscore_camel_case.style = underscore_camel_case
 
 # 符号规范
 
@@ -233,6 +237,10 @@ dotnet_naming_symbols.types.required_modifiers =
 dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, method
 dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
 dotnet_naming_symbols.non_field_members.required_modifiers = 
+
+dotnet_naming_symbols.fields.applicable_kinds = field
+dotnet_naming_symbols.fields.applicable_accessibilities = private
+dotnet_naming_symbols.fields.required_modifiers = 
 
 # 命名样式
 
