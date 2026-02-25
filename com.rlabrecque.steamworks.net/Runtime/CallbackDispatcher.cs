@@ -323,8 +323,12 @@ namespace Steamworks {
 
 		internal override void OnRunCallback(IntPtr pvParam) {
 			try {
-				m_Func((T)Marshal.PtrToStructure(pvParam, typeof(T)));
-			}
+#if !STEAMWORKS_ANYCPU
+				m_Func((T)Marshal.PtrToStructure(pvParam, typeof(T))); 
+#else
+				m_Func(SteamMarshallerTable.Marshal<T>(pvParam));
+#endif
+            }
 			catch (Exception e) {
 				CallbackDispatcher.ExceptionHandler(e);
 			}
@@ -423,10 +427,10 @@ namespace Steamworks {
 			if (hSteamAPICall == m_hAPICall) {
 				try {
 					T result;
-#if STEAMWORKS_ANYCPU
-					result = ConditionalMarshallerTable.Marshal<T>(pvParam);
-#else
+#if !STEAMWORKS_ANYCPU
 					result = (T)Marshal.PtrToStructure(pvParam, typeof(T));
+#else
+					result = SteamMarshallerTable.Marshal<T>(pvParam);
 #endif
                     m_Func(result, bFailed);
 				}

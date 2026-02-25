@@ -49,4 +49,10 @@
 			<PackagePath>runtimes/osx-arm64/native</PackagePath>
 		</Content>
 	</ItemGroup>
+	<ItemGroup>
+	  <EditorConfigFiles Remove=".editorconfig" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Include=".editorconfig" />
+	</ItemGroup>
 </Project>

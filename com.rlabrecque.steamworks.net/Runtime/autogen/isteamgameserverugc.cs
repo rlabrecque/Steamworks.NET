@@ -63,7 +63,21 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetQueryUGCResult(UGCQueryHandle_t handle, uint index, out SteamUGCDetails_t pDetails) {
 			InteropHelp.TestIfAvailableGameServer();
+			#if STEAMWORKS_ANYCPU
+			bool ret;
+			if (!Packsize.IsLargePack) {
+				ret = NativeMethods.ISteamUGC_GetQueryUGCResult(CSteamGameServerAPIContext.GetSteamUGC(), handle, index, out pDetails);
+			} else {
+				SteamUGCDetails_t_LargePack pDetails_lp;
+				ret = NativeMethods.ISteamUGC_GetQueryUGCResult(CSteamGameServerAPIContext.GetSteamUGC(), handle, index, out pDetails_lp);
+				pDetails = pDetails_lp;
+			}
+			#else
 			return NativeMethods.ISteamUGC_GetQueryUGCResult(CSteamGameServerAPIContext.GetSteamUGC(), handle, index, out pDetails);
+			#endif
+			#if STEAMWORKS_ANYCPU
+			return ret;
+			#endif
 		}
 
 		public static uint GetQueryUGCNumTags(UGCQueryHandle_t handle, uint index) {

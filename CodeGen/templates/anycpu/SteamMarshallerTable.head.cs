@@ -13,7 +13,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Steamworks {
-	internal static partial class ConditionalMarshallerTable {
-		static ConditionalMarshallerTable() {
-			Dictionary<Type, Func<IntPtr, object>> marshallers = new();
-
+	public static partial class SteamMarshallerTable {
+		private static partial class Impl<T> {
+			static Impl() {
