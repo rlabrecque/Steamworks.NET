@@ -51,15 +51,19 @@ namespace Steamworks
 							extension = ".so"; // I can't imagine what else platforms other than linux that
 											   // Steamworks.NET.AnyCPU will run on, but let's be future proof
 
-						string assemblyLocation = assembly.Location;
+						string searchDirectory = Path.GetDirectoryName(assembly.Location);
 
-						if (assemblyLocation == "") {
+						if (string.IsNullOrEmpty(searchDirectory)) {
 							System.Diagnostics.Debug.WriteLine("It seems you are loading Steamworks.NET.AnyCPU from memory," +
 								" auto-detect steam native location is not possible," +
-								" please manually load steam natives into correct ALC.");
+								" now trying to load from AppDomain.BaseDirectory." +
+								" If still fails, please call" +
+								" NativeLibrary.SetDllImporterResplver(typeof(Steamworks.SteamAPI).Assembly, YourResolver) manually.");
+
+							searchDirectory = AppDomain.CurrentDomain.BaseDirectory;
 						}
 
-						string path = Path.Combine(assemblyLocation, Path.ChangeExtension(nixPrefix + libraryName, extension));
+						string path = Path.Combine(searchDirectory, Path.ChangeExtension(nixPrefix + libraryName, extension));
 
 						// second chance or user specified behavior search, not caring failures anymore
 						NativeLibrary.TryLoad(path, assembly, searchPath, out lib);
