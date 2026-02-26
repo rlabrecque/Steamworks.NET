@@ -340,7 +340,7 @@ def parse_field(field: StructField, structname: str, isMainStruct: bool, parser:
         lines.append("\t\t}")
     else:
         if not isMainStruct:
-           typeInfo = parser.resolveTypeInfo(fieldtype)
+           typeInfo = parser.resolveTypeInfo(field.type)
            if isinstance(typeInfo, Struct) and typeInfo.packsize_aware:
                fieldtype = fieldtype + "_LargePack"
 

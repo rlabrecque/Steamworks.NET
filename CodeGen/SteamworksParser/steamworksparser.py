@@ -156,10 +156,12 @@ g_PrimitiveTypesLayout: dict[str, PrimitiveType] = {
 g_SpecialStructs = {
     "CSteamID": PrimitiveType("unsigned long long", 8, 8),
     "CGameID": PrimitiveType("unsigned long long", 8, 8),
+    "GameID_t": PrimitiveType("unsigned long long", 8, 8),
     "SteamIPAddress_t": PrimitiveType("SteamIPAddress_t", 16 + 4, 1),
-    "SteamNetworkingIdentity ": PrimitiveType("SteamNetworkingIdentity", 4 + 128, 1),
+    "SteamNetworkingIdentity": PrimitiveType("SteamNetworkingIdentity", 4 + 128, 1),
+    "SteamNetworkingIPAddr": PrimitiveType("SteamNetworkingIPAddr", 20, 1), # Why this is not CLASS??????????
     # Contains bit fields that size can't be represented as bytes count
-    "SteamIDComponent_t": PrimitiveType("SteamIDComponent_t", 8, 8)
+    "SteamIDComponent_t": PrimitiveType("SteamIDComponent_t", 8, 8),
 }
 
 
@@ -387,11 +389,10 @@ class SteamFile:
         self.constants: list[Constant] = []  # Constant
         self.enums: list[Enum] = []  # Enum
         self.structs: list[Struct] = []  # Struct
-        self.unions: list[Union] = []  # Struct
+        self.unions: list[Union] = []  # Union
         self.callbacks: list[Struct] = [] # Struct
         self.interfaces: list[Interface] = []  # Interface
         self.typedefs:list[Typedef] = []  # Typedef
-        self.unions: list[Union] = []
 
 class ParserState:
     def __init__(self, file):
@@ -921,7 +922,7 @@ class Parser:
         s.enum.fields.append(field)
 
     def parse_structs(self, s: ParserState):
-        if s.enum or s.isSkipBlock():
+        if s.enum or s.isSkipBlock() or s.currentSpecialStruct:
             return
 
         if s.struct and s.linesplit[0] != "struct":
@@ -930,9 +931,7 @@ class Parser:
                     special = g_ClassSpecialRBracket[s.struct.name]
                     if special.lineZeroBased == s.line and special.action == 'ContniueStruct':
                         return
-                
             
-
                 s.struct.endcomments = self.consume_comments(s)
 
                 if s.callbackid:
@@ -940,7 +939,12 @@ class Parser:
                     s.f.callbacks.append(s.struct)
                     s.callbackid = None
                 else:
-                    s.f.structs.append(s.struct)
+                    if isinstance(s.struct, Struct):
+                        s.f.structs.append(s.struct)
+                    elif isinstance(s.struct, Union):
+                        return
+                    else:
+                        printUnhandled("unknown ComplexType appears in s.struct", s)
                 
                 s.isClassLikeStruct = None
                 s.endComplexType()
@@ -954,9 +958,20 @@ class Parser:
                 if s.struct.name in g_SpecialStructs:
                     s.struct.packsize_aware = False # HACK hope so
 
-                s.struct = currentStruct.outer_type
+
+                outertype = currentStruct.outer_type
+                if isinstance(outertype, Struct):
+                    s.struct = outertype
+                    s.union = None
+                elif isinstance(outertype, Union):
+                    s.union = outertype
+                    s.struct = None
+                else:
+                    s.struct = None
+                    s.union = None
+
             else:
-                self.parse_struct_fields(s)
+                self.parse_complextype_fields(s)
         else:
             if s.linesplit[0] != "struct":
                 return
@@ -972,20 +987,18 @@ class Parser:
 
 			# special structs
             typeNameCandidate = s.linesplit[1]
-            if (typeNameCandidate in ("CCallResult", "CCallback", "CCallbackBase", "CCallbackImpl", "CCallbackManual")):
-                self.ignoredStructs.append(Struct(typeNameCandidate, 8, None, ""))
-                return
-
             if typeNameCandidate in g_SpecialStructs.keys():
                 if s.linesplit[0] == 'struct':
                     s.currentSpecialStruct = g_SpecialStructs[typeNameCandidate]
 
-                self.parse_scope(s)
-                
-                if s.line.startswith('}'):
-                    varNameMatchResult = re.match(r"^}\s*(\w*);$", s.line)
-                    if varNameMatchResult != None:
-                        s.struct.outer_type.fields.append(StructField(varNameMatchResult.group(1), typeNameCandidate, None, ""))
+                    self.parse_scope(s)
+                    
+                    if s.line.startswith('}'):
+                        varNameMatchResult = re.match(r"^}\s*(\w*);$", s.line)
+                        if varNameMatchResult != None:
+                            s.struct.outer_type.fields.append(StructField(varNameMatchResult.group(1), typeNameCandidate, None, ""))
+                        
+                    s.currentSpecialStruct = None
                     return
 
             s.beginStruct()
@@ -1007,7 +1020,10 @@ class Parser:
     def visit_inline_method(self, s: ParserState):
         pass
 
-    def parse_struct_fields(self, s):
+    def parse_complextype_fields(self, s: ParserState):
+        if  s.struct and s.isSkipBlock() or s.currentSpecialStruct:
+            return
+
         comments = self.consume_comments(s)
 
         if s.line.startswith("enum"):
@@ -1020,7 +1036,7 @@ class Parser:
             return
 
         def try_match(line, s: ParserState):
-            if ':' in line:
+            if ':' in line and s.struct:
                 # Contains bitfield that can't be represented
                 printWarning(f"{s.struct.name} contains bitfield, skipping", s)
                 self.parse_scope(s)
@@ -1030,7 +1046,7 @@ class Parser:
 
             fieldarraysizeText = None
         
-            result = re.match(r"^([^=.]*\s\**)(\w+);$", line)
+            result = re.match(r"^(?!\s*(?:typedef|struct|union|enum|return)\b)([^=.]*\s\**)(\w+);$", line)
             if result is None:
                 result = re.match(r"^(.*\s\*?)(\w+)\[\s*(\w+)?\s*\];$", line)
                 if result is not None:
@@ -1082,7 +1098,7 @@ class Parser:
                 s.endComplexType()
                 s.union = None
             else:
-                self.parse_struct_fields(s)
+                self.parse_complextype_fields(s)
             pass
         elif s.union == None:
             if s.linesplit[0] != "union":
@@ -1420,8 +1436,7 @@ class Parser:
             result = next((struct for struct in allstructs if struct.name == typeName), None)
 
         if not result:
-            print(f"[WARNING] typename {typeName} not found across primitive,\
- struct and typedef, maybe it is a nested type.")
+            print(f"[WARNING] typename {typeName} not found across primitive, struct and typedef, maybe it is a nested type.")
         
         return result
 

@@ -161,6 +161,23 @@ enum ERemotePlayScancode
 	k_ERemotePlayScancodeDown = 81,
 	k_ERemotePlayScancodeUp = 82,
 
+	k_ERemotePlayScancodeKeypadDivide = 84,
+	k_ERemotePlayScancodeKeypadMultiply = 85,
+	k_ERemotePlayScancodeKeypadMinus = 86,
+	k_ERemotePlayScancodeKeypadPlus = 87,
+	k_ERemotePlayScancodeKeypadEnter = 88,
+	k_ERemotePlayScancodeKeypad1 = 89,
+	k_ERemotePlayScancodeKeypad2 = 90,
+	k_ERemotePlayScancodeKeypad3 = 91,
+	k_ERemotePlayScancodeKeypad4 = 92,
+	k_ERemotePlayScancodeKeypad5 = 93,
+	k_ERemotePlayScancodeKeypad6 = 94,
+	k_ERemotePlayScancodeKeypad7 = 95,
+	k_ERemotePlayScancodeKeypad8 = 96,
+	k_ERemotePlayScancodeKeypad9 = 97,
+	k_ERemotePlayScancodeKeypad0 = 98,
+	k_ERemotePlayScancodeKeypadPeriod = 99,
+
 	k_ERemotePlayScancodeLeftControl = 224,
 	k_ERemotePlayScancodeLeftShift = 225,
 	k_ERemotePlayScancodeLeftAlt = 226,
@@ -283,8 +300,7 @@ public:
 	// This returns false if your game is not configured for Remote Play Together
 	virtual bool ShowRemotePlayTogetherUI() = 0;
 
-	// Invite a friend to Remote Play Together, or create a guest invite if steamIDFriend is empty
-	// This will automatically start Remote Play Together if it hasn't already been started
+	// Invite a friend to Remote Play Together, or create a guest invite if steamIDFriend is CSteamID()
 	// This returns false if the invite can't be sent or your game is not configured for Remote Play Together
 	virtual bool BSendRemotePlayTogetherInvite( CSteamID steamIDFriend ) = 0;
 

@@ -477,91 +477,6 @@
       "struct": "FavoritesListAccountsUpdated_t"
     },
     {
-      "callback_id": 5201,
-      "fields": [
-        { "fieldname":"m_ullSearchID", "fieldtype":"uint64" },
-        { "fieldname":"m_eResult", "fieldtype":"EResult" },
-        { "fieldname":"m_lobbyID", "fieldtype":"CSteamID" },
-        { "fieldname":"m_steamIDEndedSearch", "fieldtype":"CSteamID" },
-        { "fieldname":"m_nSecondsRemainingEstimate", "fieldtype":"int32" },
-        { "fieldname":"m_cPlayersSearching", "fieldtype":"int32" }
-      ],
-      "struct": "SearchForGameProgressCallback_t"
-    },
-    {
-      "callback_id": 5202,
-      "fields": [
-        { "fieldname":"m_ullSearchID", "fieldtype":"uint64" },
-        { "fieldname":"m_eResult", "fieldtype":"EResult" },
-        { "fieldname":"m_nCountPlayersInGame", "fieldtype":"int32" },
-        { "fieldname":"m_nCountAcceptedGame", "fieldtype":"int32" },
-        { "fieldname":"m_steamIDHost", "fieldtype":"CSteamID" },
-        { "fieldname":"m_bFinalCallback", "fieldtype":"bool" }
-      ],
-      "struct": "SearchForGameResultCallback_t"
-    },
-    {
-      "callback_id": 5211,
-      "fields": [
-        { "fieldname":"m_eResult", "fieldtype":"EResult" },
-        { "fieldname":"m_ullSearchID", "fieldtype":"uint64" }
-      ],
-      "struct": "RequestPlayersForGameProgressCallback_t"
-    },
-    {
-      "callback_id": 5212,
-      "enums": [
-        {
-          "enumname": "PlayerAcceptState_t",
-          "fqname": "RequestPlayersForGameResultCallback_t::PlayerAcceptState_t",
-          "values": [
-            { "name":"k_EStateUnknown", "value":"0" },
-            { "name":"k_EStatePlayerAccepted", "value":"1" },
-            { "name":"k_EStatePlayerDeclined", "value":"2" }
-          ]
-        }
-      ],
-      "fields": [
-        { "fieldname":"m_eResult", "fieldtype":"EResult" },
-        { "fieldname":"m_ullSearchID", "fieldtype":"uint64" },
-        { "fieldname":"m_SteamIDPlayerFound", "fieldtype":"CSteamID" },
-        { "fieldname":"m_SteamIDLobby", "fieldtype":"CSteamID" },
-        { "fieldname":"m_ePlayerAcceptState", "fieldtype":"RequestPlayersForGameResultCallback_t::PlayerAcceptState_t" },
-        { "fieldname":"m_nPlayerIndex", "fieldtype":"int32" },
-        { "fieldname":"m_nTotalPlayersFound", "fieldtype":"int32" },
-        { "fieldname":"m_nTotalPlayersAcceptedGame", "fieldtype":"int32" },
-        { "fieldname":"m_nSuggestedTeamIndex", "fieldtype":"int32" },
-        { "fieldname":"m_ullUniqueGameID", "fieldtype":"uint64" }
-      ],
-      "struct": "RequestPlayersForGameResultCallback_t"
-    },
-    {
-      "callback_id": 5213,
-      "fields": [
-        { "fieldname":"m_eResult", "fieldtype":"EResult" },
-        { "fieldname":"m_ullSearchID", "fieldtype":"uint64" },
-        { "fieldname":"m_ullUniqueGameID", "fieldtype":"uint64" }
-      ],
-      "struct": "RequestPlayersForGameFinalResultCallback_t"
-    },
-    {
-      "callback_id": 5214,
-      "fields": [
-        { "fieldname":"m_eResult", "fieldtype":"EResult" },
-        { "fieldname":"ullUniqueGameID", "fieldtype":"uint64" },
-        { "fieldname":"steamIDPlayer", "fieldtype":"CSteamID" }
-      ],
-      "struct": "SubmitPlayerResultResultCallback_t"
-    },
-    {
-      "callback_id": 5215,
-      "fields": [
-        { "fieldname":"m_eResult", "fieldtype":"EResult" },
-        { "fieldname":"ullUniqueGameID", "fieldtype":"uint64" }
-      ],
-      "struct": "EndGameResultCallback_t"
-    },
-    {
       "callback_id": 5301,
       "fields": [
         { "fieldname":"m_eResult", "fieldtype":"EResult" },
@@ -1048,88 +963,6 @@
         { "fieldname":"m_flNewVolume", "fieldtype":"float" }
       ],
       "struct": "VolumeHasChanged_t"
-    },
-    {
-      "callback_id": 4101,
-      "fields": [],
-      "struct": "MusicPlayerRemoteWillActivate_t"
-    },
-    {
-      "callback_id": 4102,
-      "fields": [],
-      "struct": "MusicPlayerRemoteWillDeactivate_t"
-    },
-    {
-      "callback_id": 4103,
-      "fields": [],
-      "struct": "MusicPlayerRemoteToFront_t"
-    },
-    {
-      "callback_id": 4104,
-      "fields": [],
-      "struct": "MusicPlayerWillQuit_t"
-    },
-    {
-      "callback_id": 4105,
-      "fields": [],
-      "struct": "MusicPlayerWantsPlay_t"
-    },
-    {
-      "callback_id": 4106,
-      "fields": [],
-      "struct": "MusicPlayerWantsPause_t"
-    },
-    {
-      "callback_id": 4107,
-      "fields": [],
-      "struct": "MusicPlayerWantsPlayPrevious_t"
-    },
-    {
-      "callback_id": 4108,
-      "fields": [],
-      "struct": "MusicPlayerWantsPlayNext_t"
-    },
-    {
-      "callback_id": 4109,
-      "fields": [
-        { "fieldname":"m_bShuffled", "fieldtype":"bool" }
-      ],
-      "struct": "MusicPlayerWantsShuffled_t"
-    },
-    {
-      "callback_id": 4110,
-      "fields": [
-        { "fieldname":"m_bLooped", "fieldtype":"bool" }
-      ],
-      "struct": "MusicPlayerWantsLooped_t"
-    },
-    {
-      "callback_id": 4011,
-      "fields": [
-        { "fieldname":"m_flNewVolume", "fieldtype":"float" }
-      ],
-      "struct": "MusicPlayerWantsVolume_t"
-    },
-    {
-      "callback_id": 4012,
-      "fields": [
-        { "fieldname":"nID", "fieldtype":"int" }
-      ],
-      "struct": "MusicPlayerSelectsQueueEntry_t"
-    },
-    {
-      "callback_id": 4013,
-      "fields": [
-        { "fieldname":"nID", "fieldtype":"int" }
-      ],
-      "struct": "MusicPlayerSelectsPlaylistEntry_t"
-    },
-    {
-      "callback_id": 4114,
-      "fields": [
-        { "fieldname":"m_nPlayingRepeatStatus", "fieldtype":"int" }
-      ],
-      "struct": "MusicPlayerWantsPlayingRepeatStatus_t"
     },
     {
       "callback_id": 2101,
@@ -2136,7 +1969,8 @@
         { "name":"K_EResultPhoneNumberIsVOIP", "value":"127" },
         { "name":"k_EResultNotSupported", "value":"128" },
         { "name":"k_EResultFamilySizeLimitExceeded", "value":"129" },
-        { "name":"k_EResultOfflineAppCacheInvalid", "value":"130" }
+        { "name":"k_EResultOfflineAppCacheInvalid", "value":"130" },
+        { "name":"k_EResultTryLater", "value":"131" }
       ]
     },
     {
@@ -2328,7 +2162,8 @@
         { "name":"k_EMarketNotAllowedReason_RecentSelfRefund", "value":"4096" },
         { "name":"k_EMarketNotAllowedReason_NewPaymentMethodCannotBeVerified", "value":"8192" },
         { "name":"k_EMarketNotAllowedReason_NoRecentPurchases", "value":"16384" },
-        { "name":"k_EMarketNotAllowedReason_AcceptedWalletGift", "value":"32768" }
+        { "name":"k_EMarketNotAllowedReason_AcceptedWalletGift", "value":"32768" },
+        { "name":"k_EMarketNotAllowedReason_TradeCooldown", "value":"65536" }
       ]
     },
     {
@@ -2373,30 +2208,6 @@
         { "name":"k_EBetaBranch_Private", "value":"4" },
         { "name":"k_EBetaBranch_Selected", "value":"8" },
         { "name":"k_EBetaBranch_Installed", "value":"16" }
-      ]
-    },
-    {
-      "enumname": "EGameSearchErrorCode_t",
-      "values": [
-        { "name":"k_EGameSearchErrorCode_OK", "value":"1" },
-        { "name":"k_EGameSearchErrorCode_Failed_Search_Already_In_Progress", "value":"2" },
-        { "name":"k_EGameSearchErrorCode_Failed_No_Search_In_Progress", "value":"3" },
-        { "name":"k_EGameSearchErrorCode_Failed_Not_Lobby_Leader", "value":"4" },
-        { "name":"k_EGameSearchErrorCode_Failed_No_Host_Available", "value":"5" },
-        { "name":"k_EGameSearchErrorCode_Failed_Search_Params_Invalid", "value":"6" },
-        { "name":"k_EGameSearchErrorCode_Failed_Offline", "value":"7" },
-        { "name":"k_EGameSearchErrorCode_Failed_NotAuthorized", "value":"8" },
-        { "name":"k_EGameSearchErrorCode_Failed_Unknown_Error", "value":"9" }
-      ]
-    },
-    {
-      "enumname": "EPlayerResult_t",
-      "values": [
-        { "name":"k_EPlayerResultFailedToConnect", "value":"1" },
-        { "name":"k_EPlayerResultAbandoned", "value":"2" },
-        { "name":"k_EPlayerResultKicked", "value":"3" },
-        { "name":"k_EPlayerResultIncomplete", "value":"4" },
-        { "name":"k_EPlayerResultCompleted", "value":"5" }
       ]
     },
     {
@@ -2897,14 +2708,28 @@
         { "name":"k_EHTTPStatusCode416RequestedRangeNotSatisfiable", "value":"416" },
         { "name":"k_EHTTPStatusCode417ExpectationFailed", "value":"417" },
         { "name":"k_EHTTPStatusCode4xxUnknown", "value":"418" },
+        { "name":"k_EHTTPStatusCode421MisdirectedRequest", "value":"421" },
+        { "name":"k_EHTTPStatusCode422UnprocessableContent", "value":"422" },
+        { "name":"k_EHTTPStatusCode423Locked", "value":"423" },
+        { "name":"k_EHTTPStatusCode424FailedDependency", "value":"424" },
+        { "name":"k_EHTTPStatusCode425TooEarly", "value":"425" },
+        { "name":"k_EHTTPStatusCode426UpgradeRequired", "value":"426" },
+        { "name":"k_EHTTPStatusCode428PreconditionRequired", "value":"428" },
         { "name":"k_EHTTPStatusCode429TooManyRequests", "value":"429" },
+        { "name":"k_EHTTPStatusCode431RequestHeaderFieldsTooLarge", "value":"431" },
         { "name":"k_EHTTPStatusCode444ConnectionClosed", "value":"444" },
+        { "name":"k_EHTTPStatusCode451UnavailableForLegalReasons", "value":"451" },
         { "name":"k_EHTTPStatusCode500InternalServerError", "value":"500" },
         { "name":"k_EHTTPStatusCode501NotImplemented", "value":"501" },
         { "name":"k_EHTTPStatusCode502BadGateway", "value":"502" },
         { "name":"k_EHTTPStatusCode503ServiceUnavailable", "value":"503" },
         { "name":"k_EHTTPStatusCode504GatewayTimeout", "value":"504" },
         { "name":"k_EHTTPStatusCode505HTTPVersionNotSupported", "value":"505" },
+        { "name":"k_EHTTPStatusCode506VariantAlsoNegotiates", "value":"506" },
+        { "name":"k_EHTTPStatusCode507InsufficientStorage", "value":"507" },
+        { "name":"k_EHTTPStatusCode508LoopDetected", "value":"508" },
+        { "name":"k_EHTTPStatusCode510NotExtended", "value":"510" },
+        { "name":"k_EHTTPStatusCode511NetworkAuthenticationRequired", "value":"511" },
         { "name":"k_EHTTPStatusCode5xxUnknown", "value":"599" }
       ]
     },
@@ -3343,7 +3168,92 @@
         { "name":"k_EInputActionOrigin_Horipad_M2", "value":"407" },
         { "name":"k_EInputActionOrigin_Horipad_L4", "value":"408" },
         { "name":"k_EInputActionOrigin_Horipad_R4", "value":"409" },
-        { "name":"k_EInputActionOrigin_Count", "value":"410" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_A", "value":"410" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_B", "value":"411" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_X", "value":"412" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Y", "value":"413" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_LB", "value":"414" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_RB", "value":"415" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Menu", "value":"416" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_View", "value":"417" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_LeftPad_Touch", "value":"418" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_LeftPad_Swipe", "value":"419" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_LeftPad_Click", "value":"420" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_LeftPad_DPadNorth", "value":"421" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_LeftPad_DPadSouth", "value":"422" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_LeftPad_DPadWest", "value":"423" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_LeftPad_DPadEast", "value":"424" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_RightPad_Touch", "value":"425" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_RightPad_Swipe", "value":"426" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_RightPad_Click", "value":"427" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_RightPad_DPadNorth", "value":"428" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_RightPad_DPadSouth", "value":"429" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_RightPad_DPadWest", "value":"430" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_RightPad_DPadEast", "value":"431" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_LT_SoftPull", "value":"432" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_LT", "value":"433" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_RT_SoftPull", "value":"434" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_RT", "value":"435" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_LeftStick_Move", "value":"436" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_LS", "value":"437" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_LeftStick_DPadNorth", "value":"438" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_LeftStick_DPadSouth", "value":"439" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_LeftStick_DPadWest", "value":"440" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_LeftStick_DPadEast", "value":"441" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_RightStick_Move", "value":"442" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_RS", "value":"443" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_RightStick_DPadNorth", "value":"444" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_RightStick_DPadSouth", "value":"445" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_RightStick_DPadWest", "value":"446" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_RightStick_DPadEast", "value":"447" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Y1", "value":"448" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Y2", "value":"449" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_DPad_Move", "value":"450" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_DPad_North", "value":"451" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_DPad_South", "value":"452" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_DPad_West", "value":"453" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_DPad_East", "value":"454" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Gyro_Move", "value":"455" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Gyro_Pitch", "value":"456" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Gyro_Yaw", "value":"457" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Gyro_Roll", "value":"458" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Reserved1", "value":"459" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Reserved2", "value":"460" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Reserved3", "value":"461" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Reserved4", "value":"462" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Reserved5", "value":"463" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Reserved6", "value":"464" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Reserved7", "value":"465" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Reserved8", "value":"466" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Reserved9", "value":"467" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Reserved10", "value":"468" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Reserved11", "value":"469" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Reserved12", "value":"470" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Reserved13", "value":"471" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Reserved14", "value":"472" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Reserved15", "value":"473" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Reserved16", "value":"474" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Reserved17", "value":"475" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Reserved18", "value":"476" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Reserved19", "value":"477" },
+        { "name":"k_EInputActionOrigin_LenovoLegionGo_Reserved20", "value":"478" },
+        { "name":"k_EInputActionOrigin_Generic_L4", "value":"479" },
+        { "name":"k_EInputActionOrigin_Generic_R4", "value":"480" },
+        { "name":"k_EInputActionOrigin_Generic_L5", "value":"481" },
+        { "name":"k_EInputActionOrigin_Generic_R5", "value":"482" },
+        { "name":"k_EInputActionOrigin_Generic_PL", "value":"483" },
+        { "name":"k_EInputActionOrigin_Generic_PR", "value":"484" },
+        { "name":"k_EInputActionOrigin_Generic_C", "value":"485" },
+        { "name":"k_EInputActionOrigin_Generic_Z", "value":"486" },
+        { "name":"k_EInputActionOrigin_Generic_MISC1", "value":"487" },
+        { "name":"k_EInputActionOrigin_Generic_MISC2", "value":"488" },
+        { "name":"k_EInputActionOrigin_Generic_MISC3", "value":"489" },
+        { "name":"k_EInputActionOrigin_Generic_MISC4", "value":"490" },
+        { "name":"k_EInputActionOrigin_Generic_MISC5", "value":"491" },
+        { "name":"k_EInputActionOrigin_Generic_MISC6", "value":"492" },
+        { "name":"k_EInputActionOrigin_Generic_MISC7", "value":"493" },
+        { "name":"k_EInputActionOrigin_Generic_MISC8", "value":"494" },
+        { "name":"k_EInputActionOrigin_Count", "value":"495" },
         { "name":"k_EInputActionOrigin_MaximumPossibleValue", "value":"32767" }
       ]
     },
@@ -3862,7 +3772,92 @@
         { "name":"k_EControllerActionOrigin_Horipad_M2", "value":"387" },
         { "name":"k_EControllerActionOrigin_Horipad_L4", "value":"388" },
         { "name":"k_EControllerActionOrigin_Horipad_R4", "value":"389" },
-        { "name":"k_EControllerActionOrigin_Count", "value":"390" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_A", "value":"390" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_B", "value":"391" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_X", "value":"392" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Y", "value":"393" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_LB", "value":"394" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_RB", "value":"395" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Menu", "value":"396" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_View", "value":"397" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_LeftPad_Touch", "value":"398" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_LeftPad_Swipe", "value":"399" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_LeftPad_Click", "value":"400" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_LeftPad_DPadNorth", "value":"401" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_LeftPad_DPadSouth", "value":"402" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_LeftPad_DPadWest", "value":"403" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_LeftPad_DPadEast", "value":"404" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_RightPad_Touch", "value":"405" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_RightPad_Swipe", "value":"406" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_RightPad_Click", "value":"407" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_RightPad_DPadNorth", "value":"408" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_RightPad_DPadSouth", "value":"409" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_RightPad_DPadWest", "value":"410" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_RightPad_DPadEast", "value":"411" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_LT_SoftPull", "value":"412" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_LT", "value":"413" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_RT_SoftPull", "value":"414" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_RT", "value":"415" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_LeftStick_Move", "value":"416" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_LS", "value":"417" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_LeftStick_DPadNorth", "value":"418" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_LeftStick_DPadSouth", "value":"419" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_LeftStick_DPadWest", "value":"420" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_LeftStick_DPadEast", "value":"421" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_RightStick_Move", "value":"422" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_RS", "value":"423" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_RightStick_DPadNorth", "value":"424" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_RightStick_DPadSouth", "value":"425" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_RightStick_DPadWest", "value":"426" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_RightStick_DPadEast", "value":"427" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Y1", "value":"428" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Y2", "value":"429" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_DPad_Move", "value":"430" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_DPad_North", "value":"431" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_DPad_South", "value":"432" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_DPad_West", "value":"433" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_DPad_East", "value":"434" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Gyro_Move", "value":"435" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Gyro_Pitch", "value":"436" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Gyro_Yaw", "value":"437" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Gyro_Roll", "value":"438" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Reserved1", "value":"439" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Reserved2", "value":"440" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Reserved3", "value":"441" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Reserved4", "value":"442" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Reserved5", "value":"443" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Reserved6", "value":"444" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Reserved7", "value":"445" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Reserved8", "value":"446" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Reserved9", "value":"447" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Reserved10", "value":"448" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Reserved11", "value":"449" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Reserved12", "value":"450" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Reserved13", "value":"451" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Reserved14", "value":"452" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Reserved15", "value":"453" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Reserved16", "value":"454" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Reserved17", "value":"455" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Reserved18", "value":"456" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Reserved19", "value":"457" },
+        { "name":"k_EControllerActionOrigin_LenovoLegionGo_Reserved20", "value":"458" },
+        { "name":"k_EControllerActionOrigin_Generic_L4", "value":"459" },
+        { "name":"k_EControllerActionOrigin_Generic_R4", "value":"460" },
+        { "name":"k_EControllerActionOrigin_Generic_L5", "value":"461" },
+        { "name":"k_EControllerActionOrigin_Generic_R5", "value":"462" },
+        { "name":"k_EControllerActionOrigin_Generic_PL", "value":"463" },
+        { "name":"k_EControllerActionOrigin_Generic_PR", "value":"464" },
+        { "name":"k_EControllerActionOrigin_Generic_C", "value":"465" },
+        { "name":"k_EControllerActionOrigin_Generic_Z", "value":"466" },
+        { "name":"k_EControllerActionOrigin_Generic_MISC1", "value":"467" },
+        { "name":"k_EControllerActionOrigin_Generic_MISC2", "value":"468" },
+        { "name":"k_EControllerActionOrigin_Generic_MISC3", "value":"469" },
+        { "name":"k_EControllerActionOrigin_Generic_MISC4", "value":"470" },
+        { "name":"k_EControllerActionOrigin_Generic_MISC5", "value":"471" },
+        { "name":"k_EControllerActionOrigin_Generic_MISC6", "value":"472" },
+        { "name":"k_EControllerActionOrigin_Generic_MISC7", "value":"473" },
+        { "name":"k_EControllerActionOrigin_Generic_MISC8", "value":"474" },
+        { "name":"k_EControllerActionOrigin_Count", "value":"475" },
         { "name":"k_EControllerActionOrigin_MaximumPossibleValue", "value":"32767" }
       ]
     },
@@ -4178,6 +4173,22 @@
         { "name":"k_ERemotePlayScancodeLeft", "value":"80" },
         { "name":"k_ERemotePlayScancodeDown", "value":"81" },
         { "name":"k_ERemotePlayScancodeUp", "value":"82" },
+        { "name":"k_ERemotePlayScancodeKeypadDivide", "value":"84" },
+        { "name":"k_ERemotePlayScancodeKeypadMultiply", "value":"85" },
+        { "name":"k_ERemotePlayScancodeKeypadMinus", "value":"86" },
+        { "name":"k_ERemotePlayScancodeKeypadPlus", "value":"87" },
+        { "name":"k_ERemotePlayScancodeKeypadEnter", "value":"88" },
+        { "name":"k_ERemotePlayScancodeKeypad1", "value":"89" },
+        { "name":"k_ERemotePlayScancodeKeypad2", "value":"90" },
+        { "name":"k_ERemotePlayScancodeKeypad3", "value":"91" },
+        { "name":"k_ERemotePlayScancodeKeypad4", "value":"92" },
+        { "name":"k_ERemotePlayScancodeKeypad5", "value":"93" },
+        { "name":"k_ERemotePlayScancodeKeypad6", "value":"94" },
+        { "name":"k_ERemotePlayScancodeKeypad7", "value":"95" },
+        { "name":"k_ERemotePlayScancodeKeypad8", "value":"96" },
+        { "name":"k_ERemotePlayScancodeKeypad9", "value":"97" },
+        { "name":"k_ERemotePlayScancodeKeypad0", "value":"98" },
+        { "name":"k_ERemotePlayScancodeKeypadPeriod", "value":"99" },
         { "name":"k_ERemotePlayScancodeLeftControl", "value":"224" },
         { "name":"k_ERemotePlayScancodeLeftShift", "value":"225" },
         { "name":"k_ERemotePlayScancodeLeftAlt", "value":"226" },
@@ -4629,16 +4640,6 @@
           "returntype": "ISteamScreenshots *"
         },
         {
-          "methodname": "GetISteamGameSearch",
-          "methodname_flat": "SteamAPI_ISteamClient_GetISteamGameSearch",
-          "params": [
-            { "paramname":"hSteamuser", "paramtype":"HSteamUser" },
-            { "paramname":"hSteamPipe", "paramtype":"HSteamPipe" },
-            { "paramname":"pchVersion", "paramtype":"const char *" }
-          ],
-          "returntype": "ISteamGameSearch *"
-        },
-        {
           "methodname": "GetIPCCallCount",
           "methodname_flat": "SteamAPI_ISteamClient_GetIPCCallCount",
           "params": [],
@@ -4697,16 +4698,6 @@
             { "paramname":"pchVersion", "paramtype":"const char *" }
           ],
           "returntype": "ISteamMusic *"
-        },
-        {
-          "methodname": "GetISteamMusicRemote",
-          "methodname_flat": "SteamAPI_ISteamClient_GetISteamMusicRemote",
-          "params": [
-            { "paramname":"hSteamuser", "paramtype":"HSteamUser" },
-            { "paramname":"hSteamPipe", "paramtype":"HSteamPipe" },
-            { "paramname":"pchVersion", "paramtype":"const char *" }
-          ],
-          "returntype": "ISteamMusicRemote *"
         },
         {
           "methodname": "GetISteamHTMLSurface",
@@ -6752,136 +6743,6 @@
       "accessors": [
         {
           "kind": "user",
-          "name": "SteamGameSearch",
-          "name_flat": "SteamAPI_SteamGameSearch_v001"
-        }
-      ],
-      "classname": "ISteamGameSearch",
-      "fields": [],
-      "methods": [
-        {
-          "methodname": "AddGameSearchParams",
-          "methodname_flat": "SteamAPI_ISteamGameSearch_AddGameSearchParams",
-          "params": [
-            { "paramname":"pchKeyToFind", "paramtype":"const char *" },
-            { "paramname":"pchValuesToFind", "paramtype":"const char *" }
-          ],
-          "returntype": "EGameSearchErrorCode_t"
-        },
-        {
-          "methodname": "SearchForGameWithLobby",
-          "methodname_flat": "SteamAPI_ISteamGameSearch_SearchForGameWithLobby",
-          "params": [
-            { "paramname":"steamIDLobby", "paramtype":"CSteamID", "paramtype_flat":"uint64_steamid" },
-            { "paramname":"nPlayerMin", "paramtype":"int" },
-            { "paramname":"nPlayerMax", "paramtype":"int" }
-          ],
-          "returntype": "EGameSearchErrorCode_t"
-        },
-        {
-          "methodname": "SearchForGameSolo",
-          "methodname_flat": "SteamAPI_ISteamGameSearch_SearchForGameSolo",
-          "params": [
-            { "paramname":"nPlayerMin", "paramtype":"int" },
-            { "paramname":"nPlayerMax", "paramtype":"int" }
-          ],
-          "returntype": "EGameSearchErrorCode_t"
-        },
-        {
-          "methodname": "AcceptGame",
-          "methodname_flat": "SteamAPI_ISteamGameSearch_AcceptGame",
-          "params": [],
-          "returntype": "EGameSearchErrorCode_t"
-        },
-        {
-          "methodname": "DeclineGame",
-          "methodname_flat": "SteamAPI_ISteamGameSearch_DeclineGame",
-          "params": [],
-          "returntype": "EGameSearchErrorCode_t"
-        },
-        {
-          "methodname": "RetrieveConnectionDetails",
-          "methodname_flat": "SteamAPI_ISteamGameSearch_RetrieveConnectionDetails",
-          "params": [
-            { "paramname":"steamIDHost", "paramtype":"CSteamID", "paramtype_flat":"uint64_steamid" },
-            { "paramname":"pchConnectionDetails", "paramtype":"char *" },
-            { "paramname":"cubConnectionDetails", "paramtype":"int" }
-          ],
-          "returntype": "EGameSearchErrorCode_t"
-        },
-        {
-          "methodname": "EndGameSearch",
-          "methodname_flat": "SteamAPI_ISteamGameSearch_EndGameSearch",
-          "params": [],
-          "returntype": "EGameSearchErrorCode_t"
-        },
-        {
-          "methodname": "SetGameHostParams",
-          "methodname_flat": "SteamAPI_ISteamGameSearch_SetGameHostParams",
-          "params": [
-            { "paramname":"pchKey", "paramtype":"const char *" },
-            { "paramname":"pchValue", "paramtype":"const char *" }
-          ],
-          "returntype": "EGameSearchErrorCode_t"
-        },
-        {
-          "methodname": "SetConnectionDetails",
-          "methodname_flat": "SteamAPI_ISteamGameSearch_SetConnectionDetails",
-          "params": [
-            { "paramname":"pchConnectionDetails", "paramtype":"const char *" },
-            { "paramname":"cubConnectionDetails", "paramtype":"int" }
-          ],
-          "returntype": "EGameSearchErrorCode_t"
-        },
-        {
-          "methodname": "RequestPlayersForGame",
-          "methodname_flat": "SteamAPI_ISteamGameSearch_RequestPlayersForGame",
-          "params": [
-            { "paramname":"nPlayerMin", "paramtype":"int" },
-            { "paramname":"nPlayerMax", "paramtype":"int" },
-            { "paramname":"nMaxTeamSize", "paramtype":"int" }
-          ],
-          "returntype": "EGameSearchErrorCode_t"
-        },
-        {
-          "methodname": "HostConfirmGameStart",
-          "methodname_flat": "SteamAPI_ISteamGameSearch_HostConfirmGameStart",
-          "params": [
-            { "paramname":"ullUniqueGameID", "paramtype":"uint64" }
-          ],
-          "returntype": "EGameSearchErrorCode_t"
-        },
-        {
-          "methodname": "CancelRequestPlayersForGame",
-          "methodname_flat": "SteamAPI_ISteamGameSearch_CancelRequestPlayersForGame",
-          "params": [],
-          "returntype": "EGameSearchErrorCode_t"
-        },
-        {
-          "methodname": "SubmitPlayerResult",
-          "methodname_flat": "SteamAPI_ISteamGameSearch_SubmitPlayerResult",
-          "params": [
-            { "paramname":"ullUniqueGameID", "paramtype":"uint64" },
-            { "paramname":"steamIDPlayer", "paramtype":"CSteamID", "paramtype_flat":"uint64_steamid" },
-            { "paramname":"EPlayerResult", "paramtype":"EPlayerResult_t" }
-          ],
-          "returntype": "EGameSearchErrorCode_t"
-        },
-        {
-          "methodname": "EndGame",
-          "methodname_flat": "SteamAPI_ISteamGameSearch_EndGame",
-          "params": [
-            { "paramname":"ullUniqueGameID", "paramtype":"uint64" }
-          ],
-          "returntype": "EGameSearchErrorCode_t"
-        }
-      ],
-      "version_string": "SteamMatchGameSearch001"
-    },
-    {
-      "accessors": [
-        {
-          "kind": "user",
           "name": "SteamParties",
           "name_flat": "SteamAPI_SteamParties_v002"
         }
@@ -8689,262 +8550,6 @@
         }
       ],
       "version_string": "STEAMMUSIC_INTERFACE_VERSION001"
-    },
-    {
-      "accessors": [
-        {
-          "kind": "user",
-          "name": "SteamMusicRemote",
-          "name_flat": "SteamAPI_SteamMusicRemote_v001"
-        }
-      ],
-      "classname": "ISteamMusicRemote",
-      "fields": [],
-      "methods": [
-        {
-          "methodname": "RegisterSteamMusicRemote",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_RegisterSteamMusicRemote",
-          "params": [
-            { "paramname":"pchName", "paramtype":"const char *" }
-          ],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "DeregisterSteamMusicRemote",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_DeregisterSteamMusicRemote",
-          "params": [],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "BIsCurrentMusicRemote",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_BIsCurrentMusicRemote",
-          "params": [],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "BActivationSuccess",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_BActivationSuccess",
-          "params": [
-            { "paramname":"bValue", "paramtype":"bool" }
-          ],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "SetDisplayName",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_SetDisplayName",
-          "params": [
-            { "paramname":"pchDisplayName", "paramtype":"const char *" }
-          ],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "SetPNGIcon_64x64",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_SetPNGIcon_64x64",
-          "params": [
-            { "paramname":"pvBuffer", "paramtype":"void *" },
-            { "paramname":"cbBufferLength", "paramtype":"uint32" }
-          ],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "EnablePlayPrevious",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_EnablePlayPrevious",
-          "params": [
-            { "paramname":"bValue", "paramtype":"bool" }
-          ],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "EnablePlayNext",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_EnablePlayNext",
-          "params": [
-            { "paramname":"bValue", "paramtype":"bool" }
-          ],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "EnableShuffled",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_EnableShuffled",
-          "params": [
-            { "paramname":"bValue", "paramtype":"bool" }
-          ],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "EnableLooped",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_EnableLooped",
-          "params": [
-            { "paramname":"bValue", "paramtype":"bool" }
-          ],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "EnableQueue",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_EnableQueue",
-          "params": [
-            { "paramname":"bValue", "paramtype":"bool" }
-          ],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "EnablePlaylists",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_EnablePlaylists",
-          "params": [
-            { "paramname":"bValue", "paramtype":"bool" }
-          ],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "UpdatePlaybackStatus",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_UpdatePlaybackStatus",
-          "params": [
-            { "paramname":"nStatus", "paramtype":"AudioPlayback_Status" }
-          ],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "UpdateShuffled",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_UpdateShuffled",
-          "params": [
-            { "paramname":"bValue", "paramtype":"bool" }
-          ],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "UpdateLooped",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_UpdateLooped",
-          "params": [
-            { "paramname":"bValue", "paramtype":"bool" }
-          ],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "UpdateVolume",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_UpdateVolume",
-          "params": [
-            { "paramname":"flValue", "paramtype":"float" }
-          ],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "CurrentEntryWillChange",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_CurrentEntryWillChange",
-          "params": [],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "CurrentEntryIsAvailable",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_CurrentEntryIsAvailable",
-          "params": [
-            { "paramname":"bAvailable", "paramtype":"bool" }
-          ],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "UpdateCurrentEntryText",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_UpdateCurrentEntryText",
-          "params": [
-            { "paramname":"pchText", "paramtype":"const char *" }
-          ],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "UpdateCurrentEntryElapsedSeconds",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_UpdateCurrentEntryElapsedSeconds",
-          "params": [
-            { "paramname":"nValue", "paramtype":"int" }
-          ],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "UpdateCurrentEntryCoverArt",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_UpdateCurrentEntryCoverArt",
-          "params": [
-            { "paramname":"pvBuffer", "paramtype":"void *" },
-            { "paramname":"cbBufferLength", "paramtype":"uint32" }
-          ],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "CurrentEntryDidChange",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_CurrentEntryDidChange",
-          "params": [],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "QueueWillChange",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_QueueWillChange",
-          "params": [],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "ResetQueueEntries",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_ResetQueueEntries",
-          "params": [],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "SetQueueEntry",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_SetQueueEntry",
-          "params": [
-            { "paramname":"nID", "paramtype":"int" },
-            { "paramname":"nPosition", "paramtype":"int" },
-            { "paramname":"pchEntryText", "paramtype":"const char *" }
-          ],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "SetCurrentQueueEntry",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_SetCurrentQueueEntry",
-          "params": [
-            { "paramname":"nID", "paramtype":"int" }
-          ],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "QueueDidChange",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_QueueDidChange",
-          "params": [],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "PlaylistWillChange",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_PlaylistWillChange",
-          "params": [],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "ResetPlaylistEntries",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_ResetPlaylistEntries",
-          "params": [],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "SetPlaylistEntry",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_SetPlaylistEntry",
-          "params": [
-            { "paramname":"nID", "paramtype":"int" },
-            { "paramname":"nPosition", "paramtype":"int" },
-            { "paramname":"pchEntryText", "paramtype":"const char *" }
-          ],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "SetCurrentPlaylistEntry",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_SetCurrentPlaylistEntry",
-          "params": [
-            { "paramname":"nID", "paramtype":"int" }
-          ],
-          "returntype": "bool"
-        },
-        {
-          "methodname": "PlaylistDidChange",
-          "methodname_flat": "SteamAPI_ISteamMusicRemote_PlaylistDidChange",
-          "params": [],
-          "returntype": "bool"
-        }
-      ],
-      "version_string": "STEAMMUSICREMOTE_INTERFACE_VERSION001"
     },
     {
       "accessors": [

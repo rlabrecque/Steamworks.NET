@@ -144,6 +144,7 @@ enum EResult
 	k_EResultNotSupported = 128,				// The data being accessed is not supported by this API
 	k_EResultFamilySizeLimitExceeded = 129,		// Reached the maximum size of the family
 	k_EResultOfflineAppCacheInvalid = 130,		// The local data for the offline mode cache is insufficient to login
+	k_EResultTryLater = 131,					// retry the operation later
 };
 
 // Error codes for use with the voice functions
@@ -411,6 +412,9 @@ enum EMarketNotAllowedReasonFlags
 
 	// User accepted a wallet gift that was recently purchased
 	k_EMarketNotAllowedReason_AcceptedWalletGift = (1 << 15),
+
+	// User did something that triggered a trade cooldown (like reversing trades)
+	k_EMarketNotAllowedReason_TradeCooldown = (1 << 16),
 };
 
 
@@ -1115,28 +1119,6 @@ const int k_cchGameExtraInfoMax = 64;
 //  just before minidump file is captured after a crash has occurred.  (Allows app to append additional comment data to the dump, etc.)
 //-----------------------------------------------------------------------------
 typedef void (*PFNPreMinidumpCallback)(void *context);
-
-enum EGameSearchErrorCode_t
-{
-	k_EGameSearchErrorCode_OK = 1,
-	k_EGameSearchErrorCode_Failed_Search_Already_In_Progress = 2,
-	k_EGameSearchErrorCode_Failed_No_Search_In_Progress = 3,
-	k_EGameSearchErrorCode_Failed_Not_Lobby_Leader = 4, // if not the lobby leader can not call SearchForGameWithLobby
-	k_EGameSearchErrorCode_Failed_No_Host_Available = 5, // no host is available that matches those search params
-	k_EGameSearchErrorCode_Failed_Search_Params_Invalid = 6, // search params are invalid
-	k_EGameSearchErrorCode_Failed_Offline = 7, // offline, could not communicate with server
-	k_EGameSearchErrorCode_Failed_NotAuthorized = 8, // either the user or the application does not have priveledges to do this
-	k_EGameSearchErrorCode_Failed_Unknown_Error = 9, // unknown error
-};
-
-enum EPlayerResult_t
-{
-	k_EPlayerResultFailedToConnect = 1, // failed to connect after confirming
-	k_EPlayerResultAbandoned = 2,		// quit game without completing it
-	k_EPlayerResultKicked = 3,			// kicked by other players/moderator/server rules
-	k_EPlayerResultIncomplete = 4,		// player stayed to end but game did not conclude successfully ( nofault to player )
-	k_EPlayerResultCompleted = 5,		// player completed game
-};
 
 
 enum ESteamIPv6ConnectivityProtocol

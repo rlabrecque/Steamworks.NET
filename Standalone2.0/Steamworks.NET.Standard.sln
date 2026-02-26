@@ -13,6 +13,7 @@ Global
 		OSX-Linux|Any CPU = OSX-Linux|Any CPU
 		OSX-Linux|x64 = OSX-Linux|x64
 		OSX-Linux|x86 = OSX-Linux|x86
+		OSX-Linux|arm64 = OSX-Linux|arm64
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
@@ -32,6 +33,8 @@ Global
 		{F34F403D-1D4D-4DC6-BBAE-DA31190EC88C}.OSX-Linux|x64.Build.0 = OSX-Linux|x64
 		{F34F403D-1D4D-4DC6-BBAE-DA31190EC88C}.OSX-Linux|x86.ActiveCfg = OSX-Linux|x86
 		{F34F403D-1D4D-4DC6-BBAE-DA31190EC88C}.OSX-Linux|x86.Build.0 = OSX-Linux|x86
+		{F34F403D-1D4D-4DC6-BBAE-DA31190EC88C}.OSX-Linux|arm64.ActiveCfg = OSX-Linux|arm64
+		{F34F403D-1D4D-4DC6-BBAE-DA31190EC88C}.OSX-Linux|arm64.Build.0 = OSX-Linux|arm64
 		{F34F403D-1D4D-4DC6-BBAE-DA31190EC88C}.Release|Any CPU.ActiveCfg = Windows|x86
 		{F34F403D-1D4D-4DC6-BBAE-DA31190EC88C}.Release|Any CPU.Build.0 = Windows|x86
 		{F34F403D-1D4D-4DC6-BBAE-DA31190EC88C}.Release|x64.ActiveCfg = Windows|x64

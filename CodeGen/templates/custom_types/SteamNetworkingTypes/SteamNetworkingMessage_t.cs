@@ -100,7 +100,7 @@ namespace Steamworks
 		/// Convert an IntPtr received from ISteamNetworkingSockets.ReceiveMessagesOnPollGroup into our structure.
 		/// This is a Steamworks.NET extension.
 		public static SteamNetworkingMessage_t FromIntPtr(IntPtr pointer) {
-			return (SteamNetworkingMessage_t)Marshal.PtrToStructure(pointer, typeof(SteamNetworkingMessage_t));
+			return Marshal.PtrToStructure<SteamNetworkingMessage_t>(pointer);
 		}
 	}
 }
