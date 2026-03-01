@@ -11,14 +11,14 @@
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<!-- Once Any CPU get merged, remove next line to restore package ID to Steamworks.NET. -->
 		<PackageId>Steamworks.NET.AnyCPU</PackageId>
-		<Authors>rlabrecque</Authors>
+		<Authors>rlabrecque Fa鸽</Authors>
 		<!--
 		Version is specified by build commandline, -p:Version=2025.8.18 
 		<PackageVersion>15.0.1</PackageVersion>
 		-->
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/rlabrecque/Steamworks.NET</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/rlabrecque/Steamworks.NET.git</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/Akarinnnnn/Steamworks.NET.AnyCPU</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Akarinnnnn/Steamworks.NET.AnyCPU.git</RepositoryUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -40,6 +40,12 @@
 		</Content>
 		<Content Include="../com.rlabrecque.steamworks.net/Plugins/libsteam_api.so" Pack="true" LinkBase="native">
 			<PackagePath>runtimes/linux-x64/native</PackagePath>
+		</Content>
+		<Content Include="../com.rlabrecque.steamworks.net/Plugins/androidarm64/libsteam_api.so" Pack="true" LinkBase="native" Link="android-arm64/libsteam_api.so">
+			<PackagePath>runtimes/android-arm64/native</PackagePath>
+		</Content>
+		<Content Include="../com.rlabrecque.steamworks.net/Plugins/linuxarm64/libsteam_api.so" Pack="true" LinkBase="native" Link="linux-arm64/libsteam_api.so">
+			<PackagePath>runtimes/linux-arm64/native</PackagePath>
 		</Content>
 		<!-- In fact there is a linux-x86 version, but it's filename is conflict with linux-x64 version. Therefore this repo didn't include it. -->
 		<Content Include="../com.rlabrecque.steamworks.net/Plugins/steam_api.bundle/Contents/MacOS/libsteam_api.dylib" Pack="true" LinkBase="native">
