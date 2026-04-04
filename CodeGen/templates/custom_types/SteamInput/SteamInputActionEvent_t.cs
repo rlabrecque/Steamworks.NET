@@ -5,15 +5,15 @@ namespace Steamworks
 	// state changes
 	//-----------------------------------------------------------------------------
 	[System.Serializable]
-	[StructLayout(LayoutKind.Sequential)]
+	[StructLayout(LayoutKind.Explicit)]
 	public struct SteamInputActionEvent_t
 	{
-		public InputHandle_t controllerHandle;
-
-		public ESteamInputActionEventType eEventType;
-
-		/// Option value
-		public OptionValue m_val;
+		[FieldOffset(0)]
+    	public InputHandle_t controllerHandle;
+    	[FieldOffset(8)]
+    	public ESteamInputActionEventType eEventType;
+    	[FieldOffset(12)]
+    	public OptionValue m_val;
 
 		[System.Serializable]
 		[StructLayout(LayoutKind.Sequential)]
@@ -44,6 +44,7 @@ namespace Steamworks
 			public DigitalAction_t digitalAction;
 		}
 	}
+	
 }
 
 #endif // !DISABLESTEAMWORKS
