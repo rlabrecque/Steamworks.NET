@@ -9,11 +9,14 @@ namespace Steamworks
 	public struct SteamInputActionEvent_t
 	{
 		[FieldOffset(0)]
-    	public InputHandle_t controllerHandle;
-    	[FieldOffset(8)]
-    	public ESteamInputActionEventType eEventType;
-    	[FieldOffset(12)]
-    	public OptionValue m_val;
+		public InputHandle_t controllerHandle;
+
+		[FieldOffset(8)]
+		public ESteamInputActionEventType eEventType;
+
+		/// Option value
+		[FieldOffset(12)]
+		public OptionValue m_val;
 
 		[System.Serializable]
 		[StructLayout(LayoutKind.Sequential)]
@@ -44,7 +47,6 @@ namespace Steamworks
 			public DigitalAction_t digitalAction;
 		}
 	}
-	
 }
 
 #endif // !DISABLESTEAMWORKS
