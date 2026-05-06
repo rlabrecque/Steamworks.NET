@@ -25,6 +25,8 @@ public class RedistCopy {
 		CopyDebugInfo(target, pathToBuiltProject);
 
 		DeleteOldSteamApiDlls(target, pathToBuiltProject);
+
+		WriteSteamAppIdTxtFile(target, pathToBuiltProject);
 	}
 
 	static void CopyDebugInfo(BuildTarget target, string pathToBuiltProject) {
@@ -69,6 +71,31 @@ public class RedistCopy {
 				Debug.LogWarning($"[Steamworks.NET] Attempted to delete an old copy of 'steam_api64.dll' in the following location: '{strDll64Path}', but could not due to the following exception:");
 				Debug.LogException(e);
 			}
+		}
+	}
+
+	static void WriteSteamAppIdTxtFile(BuildTarget target, string pathToBuiltProject)
+	{
+		string basePath = Path.GetDirectoryName(pathToBuiltProject);
+		string strSteamAppIdPath = Path.Combine(basePath, "steam_appid.txt");
+
+		// If the steam_appid.txt file already exists, then there's nothing to do.
+		if (File.Exists(strSteamAppIdPath)) {
+			return;
+		}
+
+		Debug.Log("[Steamworks.NET] 'steam_appid.txt' is not present in the project root. Writing...");
+
+		try {
+			StreamWriter appIdFile = File.CreateText(strSteamAppIdPath);
+			appIdFile.Write("480");
+			appIdFile.Close();
+
+			Debug.Log("[Steamworks.NET] Successfully copied 'steam_appid.txt' into the project root.");
+		}
+		catch (System.Exception e) {
+			Debug.LogWarning("[Steamworks.NET] Could not copy 'steam_appid.txt' into the project root. Please place 'steam_appid.txt' into the project root manually.");
+			Debug.LogException(e);
 		}
 	}
 }
