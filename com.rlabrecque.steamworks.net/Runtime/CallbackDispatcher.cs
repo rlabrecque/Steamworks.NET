@@ -12,17 +12,17 @@
 #if !DISABLESTEAMWORKS
 
 #if UNITY_3_5 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6
-	#error Unsupported Unity platform. Steamworks.NET requires Unity 4.7 or higher.
+#error Unsupported Unity platform. Steamworks.NET requires Unity 4.7 or higher.
 #elif UNITY_4_7 || UNITY_5 || UNITY_2017 || UNITY_2017_1_OR_NEWER
-	#if UNITY_EDITOR_WIN || (UNITY_STANDALONE_WIN && !UNITY_EDITOR)
-		#define WINDOWS_BUILD
-	#endif
+#if UNITY_EDITOR_WIN || (UNITY_STANDALONE_WIN && !UNITY_EDITOR)
+#define WINDOWS_BUILD
+#endif
 #elif STEAMWORKS_WIN
-	#define WINDOWS_BUILD
+#define WINDOWS_BUILD
 #elif STEAMWORKS_LIN_OSX
 	// So that we don't enter the else block below.
 #else
-	#error You need to define STEAMWORKS_WIN, or STEAMWORKS_LIN_OSX. Refer to the readme for more details.
+#error You need to define STEAMWORKS_WIN, or STEAMWORKS_LIN_OSX. Refer to the readme for more details.
 #endif
 
 using System;
@@ -61,14 +61,14 @@ namespace Steamworks {
 		private static IntPtr m_pCallbackMsg;
 		private static int m_initCount;
 
-		#if UNITY_2019_3_OR_NEWER
+#if UNITY_2019_3_OR_NEWER
 		// In case of disabled Domain Reload, reset static members before entering Play Mode.
 		[UnityEngine.RuntimeInitializeOnLoadMethod(UnityEngine.RuntimeInitializeLoadType.SubsystemRegistration)]
 		private static void InitOnPlayMode()
 		{
 			m_initCount = 0;
 		}
-		#endif
+#endif
 
 		public static bool IsInitialized {
 			get { return m_initCount > 0; }
@@ -321,8 +321,12 @@ namespace Steamworks {
 
 		internal override void OnRunCallback(IntPtr pvParam) {
 			try {
+#if !STEAMWORKS_ANYCPU
 				m_Func(Marshal.PtrToStructure<T>(pvParam));
-			}
+#else
+				m_Func(SteamMarshallerTable.Marshal<T>(pvParam));
+#endif
+            }
 			catch (Exception e) {
 				CallbackDispatcher.ExceptionHandler(e);
 			}
@@ -420,7 +424,13 @@ namespace Steamworks {
 			SteamAPICall_t hSteamAPICall = (SteamAPICall_t)hSteamAPICall_;
 			if (hSteamAPICall == m_hAPICall) {
 				try {
-					m_Func(Marshal.PtrToStructure<T>(pvParam), bFailed);
+					T result;
+#if !STEAMWORKS_ANYCPU
+					result = Marshal.PtrToStructure<T>(pvParam));
+#else
+					result = SteamMarshallerTable.Marshal<T>(pvParam);
+#endif
+                    m_Func(result, bFailed);
 				}
 				catch (Exception e) {
 					CallbackDispatcher.ExceptionHandler(e);

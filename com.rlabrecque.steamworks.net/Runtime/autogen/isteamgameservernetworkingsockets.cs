@@ -397,7 +397,21 @@ namespace Steamworks {
 		/// </summary>
 		public static bool GetConnectionInfo(HSteamNetConnection hConn, out SteamNetConnectionInfo_t pInfo) {
 			InteropHelp.TestIfAvailableGameServer();
+			#if STEAMWORKS_ANYCPU
+			bool ret;
+			if (!Packsize.IsLargePack) {
+				ret = NativeMethods.ISteamNetworkingSockets_GetConnectionInfo(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn, out pInfo);
+			} else {
+				SteamNetConnectionInfo_t_LargePack pInfo_lp;
+				ret = NativeMethods.ISteamNetworkingSockets_GetConnectionInfo(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn, out pInfo_lp);
+				pInfo = pInfo_lp;
+			}
+			#else
 			return NativeMethods.ISteamNetworkingSockets_GetConnectionInfo(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), hConn, out pInfo);
+			#endif
+			#if STEAMWORKS_ANYCPU
+			return ret;
+			#endif
 		}
 
 		/// <summary>

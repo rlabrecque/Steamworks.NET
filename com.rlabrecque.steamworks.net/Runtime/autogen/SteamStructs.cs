@@ -31,7 +31,10 @@ namespace Steamworks {
 		public EInputSourceMode eMode;
 		
 		// The current state of this action; will be delta updates for mouse actions
-		public float x, y;
+		public float x;
+		
+		// The current state of this action; will be delta updates for mouse actions
+		public float y;
 		
 		// Whether or not this action is currently available to be bound in the active action set
 		public byte bActive;
@@ -96,6 +99,28 @@ namespace Steamworks {
 		public ulong m_ulLocationID;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	internal struct SteamPartyBeaconLocation_t_LargePack {
+		public ESteamPartyBeaconLocationType m_eType;
+		public ulong m_ulLocationID;
+
+		public static implicit operator SteamPartyBeaconLocation_t(SteamPartyBeaconLocation_t_LargePack value) {
+			SteamPartyBeaconLocation_t result = default;
+			result.m_eType = value.m_eType;
+			result.m_ulLocationID = value.m_ulLocationID;
+			return result;
+		}
+
+		public static implicit operator SteamPartyBeaconLocation_t_LargePack(SteamPartyBeaconLocation_t value) {
+			SteamPartyBeaconLocation_t_LargePack result = default;
+			result.m_eType = value.m_eType;
+			result.m_ulLocationID = value.m_ulLocationID;
+			return result;
+		}
+	}
+
+	#endif
 	// connection state to a specified user, returned by GetP2PSessionState()
 	// this is under-the-hood info about what's going on with a SendP2PPacket(), shouldn't be needed except for debuggin
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -154,14 +179,14 @@ namespace Steamworks {
 		public AppId_t m_nCreatorAppID;										// ID of the app that created this file.
 		public AppId_t m_nConsumerAppID;										// ID of the app that will consume this file.
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentTitleMax)]
-		private byte[] m_rgchTitle_;
+		internal byte[] m_rgchTitle_;
 		public string m_rgchTitle				// title of document
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTitle_); }
 			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchTitle_, Constants.k_cchPublishedDocumentTitleMax); }
 		}
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentDescriptionMax)]
-		private byte[] m_rgchDescription_;
+		internal byte[] m_rgchDescription_;
 		public string m_rgchDescription	// description of document
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchDescription_); }
@@ -179,7 +204,7 @@ namespace Steamworks {
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bTagsTruncated;											// whether the list of tags was too long to be returned in the provided buffer
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchTagListMax)]
-		private byte[] m_rgchTags_;
+		internal byte[] m_rgchTags_;
 		public string m_rgchTags								// comma separated list of all tags associated with this file
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTags_); }
@@ -189,7 +214,7 @@ namespace Steamworks {
 		public UGCHandle_t m_hFile;											// The handle of the primary file
 		public UGCHandle_t m_hPreviewFile;										// The handle of the preview file
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
-		private byte[] m_pchFileName_;
+		internal byte[] m_pchFileName_;
 		public string m_pchFileName							// The cloud filename of the primary file
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_pchFileName_); }
@@ -198,7 +223,7 @@ namespace Steamworks {
 		public int m_nFileSize;												// Size of the primary file (for legacy items which only support one file). This may not be accurate for non-legacy items which can be greater than 4gb in size.
 		public int m_nPreviewFileSize;										// Size of the preview file
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedFileURLMax)]
-		private byte[] m_rgchURL_;
+		internal byte[] m_rgchURL_;
 		public string m_rgchURL						// URL (for a video or a website)
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchURL_); }
@@ -213,6 +238,140 @@ namespace Steamworks {
 		public ulong m_ulTotalFilesSize;										// Total size of all files (non-legacy), excluding the preview file
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// Details for a single published file/UGC
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	internal struct SteamUGCDetails_t_LargePack {
+		public PublishedFileId_t m_nPublishedFileId;
+		public EResult m_eResult;												// The result of the operation.
+		public EWorkshopFileType m_eFileType;									// Type of the file
+		public AppId_t m_nCreatorAppID;										// ID of the app that created this file.
+		public AppId_t m_nConsumerAppID;										// ID of the app that will consume this file.
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentTitleMax)]
+		internal byte[] m_rgchTitle_;
+		public string m_rgchTitle				// title of document
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTitle_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchTitle_, Constants.k_cchPublishedDocumentTitleMax); }
+		}
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentDescriptionMax)]
+		internal byte[] m_rgchDescription_;
+		public string m_rgchDescription	// description of document
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchDescription_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchDescription_, Constants.k_cchPublishedDocumentDescriptionMax); }
+		}
+		public ulong m_ulSteamIDOwner;										// Steam ID of the user who created this content.
+		public uint m_rtimeCreated;											// time when the published file was created
+		public uint m_rtimeUpdated;											// time when the published file was last updated
+		public uint m_rtimeAddedToUserList;									// time when the user added the published file to their list (not always applicable)
+		public ERemoteStoragePublishedFileVisibility m_eVisibility;			// visibility
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bBanned;													// whether the file was banned
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bAcceptedForUse;											// developer has specifically flagged this item as accepted in the Workshop
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bTagsTruncated;											// whether the list of tags was too long to be returned in the provided buffer
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchTagListMax)]
+		internal byte[] m_rgchTags_;
+		public string m_rgchTags								// comma separated list of all tags associated with this file
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTags_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchTags_, Constants.k_cchTagListMax); }
+		}
+		// file/url information
+		public UGCHandle_t m_hFile;											// The handle of the primary file
+		public UGCHandle_t m_hPreviewFile;										// The handle of the preview file
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
+		internal byte[] m_pchFileName_;
+		public string m_pchFileName							// The cloud filename of the primary file
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_pchFileName_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_pchFileName_, Constants.k_cchFilenameMax); }
+		}
+		public int m_nFileSize;												// Size of the primary file (for legacy items which only support one file). This may not be accurate for non-legacy items which can be greater than 4gb in size.
+		public int m_nPreviewFileSize;										// Size of the preview file
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedFileURLMax)]
+		internal byte[] m_rgchURL_;
+		public string m_rgchURL						// URL (for a video or a website)
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchURL_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchURL_, Constants.k_cchPublishedFileURLMax); }
+		}
+		// voting information
+		public uint m_unVotesUp;												// number of votes up
+		public uint m_unVotesDown;											// number of votes down
+		public float m_flScore;												// calculated score
+		// collection details
+		public uint m_unNumChildren;
+		public ulong m_ulTotalFilesSize;										// Total size of all files (non-legacy), excluding the preview file
+
+		public static implicit operator SteamUGCDetails_t(SteamUGCDetails_t_LargePack value) {
+			SteamUGCDetails_t result = default;
+			result.m_nPublishedFileId = value.m_nPublishedFileId;
+			result.m_eResult = value.m_eResult;
+			result.m_eFileType = value.m_eFileType;
+			result.m_nCreatorAppID = value.m_nCreatorAppID;
+			result.m_nConsumerAppID = value.m_nConsumerAppID;
+			result.m_rgchTitle_ = value.m_rgchTitle_;
+			result.m_rgchDescription_ = value.m_rgchDescription_;
+			result.m_ulSteamIDOwner = value.m_ulSteamIDOwner;
+			result.m_rtimeCreated = value.m_rtimeCreated;
+			result.m_rtimeUpdated = value.m_rtimeUpdated;
+			result.m_rtimeAddedToUserList = value.m_rtimeAddedToUserList;
+			result.m_eVisibility = value.m_eVisibility;
+			result.m_bBanned = value.m_bBanned;
+			result.m_bAcceptedForUse = value.m_bAcceptedForUse;
+			result.m_bTagsTruncated = value.m_bTagsTruncated;
+			result.m_rgchTags_ = value.m_rgchTags_;
+			result.m_hFile = value.m_hFile;
+			result.m_hPreviewFile = value.m_hPreviewFile;
+			result.m_pchFileName_ = value.m_pchFileName_;
+			result.m_nFileSize = value.m_nFileSize;
+			result.m_nPreviewFileSize = value.m_nPreviewFileSize;
+			result.m_rgchURL_ = value.m_rgchURL_;
+			result.m_unVotesUp = value.m_unVotesUp;
+			result.m_unVotesDown = value.m_unVotesDown;
+			result.m_flScore = value.m_flScore;
+			result.m_unNumChildren = value.m_unNumChildren;
+			result.m_ulTotalFilesSize = value.m_ulTotalFilesSize;
+			return result;
+		}
+
+		public static implicit operator SteamUGCDetails_t_LargePack(SteamUGCDetails_t value) {
+			SteamUGCDetails_t_LargePack result = default;
+			result.m_nPublishedFileId = value.m_nPublishedFileId;
+			result.m_eResult = value.m_eResult;
+			result.m_eFileType = value.m_eFileType;
+			result.m_nCreatorAppID = value.m_nCreatorAppID;
+			result.m_nConsumerAppID = value.m_nConsumerAppID;
+			result.m_rgchTitle_ = value.m_rgchTitle_;
+			result.m_rgchDescription_ = value.m_rgchDescription_;
+			result.m_ulSteamIDOwner = value.m_ulSteamIDOwner;
+			result.m_rtimeCreated = value.m_rtimeCreated;
+			result.m_rtimeUpdated = value.m_rtimeUpdated;
+			result.m_rtimeAddedToUserList = value.m_rtimeAddedToUserList;
+			result.m_eVisibility = value.m_eVisibility;
+			result.m_bBanned = value.m_bBanned;
+			result.m_bAcceptedForUse = value.m_bAcceptedForUse;
+			result.m_bTagsTruncated = value.m_bTagsTruncated;
+			result.m_rgchTags_ = value.m_rgchTags_;
+			result.m_hFile = value.m_hFile;
+			result.m_hPreviewFile = value.m_hPreviewFile;
+			result.m_pchFileName_ = value.m_pchFileName_;
+			result.m_nFileSize = value.m_nFileSize;
+			result.m_nPreviewFileSize = value.m_nPreviewFileSize;
+			result.m_rgchURL_ = value.m_rgchURL_;
+			result.m_unVotesUp = value.m_unVotesUp;
+			result.m_unVotesDown = value.m_unVotesDown;
+			result.m_flScore = value.m_flScore;
+			result.m_unNumChildren = value.m_unNumChildren;
+			result.m_ulTotalFilesSize = value.m_ulTotalFilesSize;
+			return result;
+		}
+	}
+
+	#endif
 	// a single entry in a leaderboard, as returned by GetDownloadedLeaderboardEntry()
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	public struct LeaderboardEntry_t {
@@ -223,6 +382,38 @@ namespace Steamworks {
 		public UGCHandle_t m_hUGC;		// handle for UGC attached to the entry
 	}
 
+	#if STEAMWORKS_ANYCPU
+	// a single entry in a leaderboard, as returned by GetDownloadedLeaderboardEntry()
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	internal struct LeaderboardEntry_t_LargePack {
+		public CSteamID m_steamIDUser; // user with the entry - use SteamFriends()->GetFriendPersonaName() & SteamFriends()->GetFriendAvatar() to get more info
+		public int m_nGlobalRank;	// [1..N], where N is the number of users with an entry in the leaderboard
+		public int m_nScore;			// score as set in the leaderboard
+		public int m_cDetails;		// number of int32 details available for this entry
+		public UGCHandle_t m_hUGC;		// handle for UGC attached to the entry
+
+		public static implicit operator LeaderboardEntry_t(LeaderboardEntry_t_LargePack value) {
+			LeaderboardEntry_t result = default;
+			result.m_steamIDUser = value.m_steamIDUser;
+			result.m_nGlobalRank = value.m_nGlobalRank;
+			result.m_nScore = value.m_nScore;
+			result.m_cDetails = value.m_cDetails;
+			result.m_hUGC = value.m_hUGC;
+			return result;
+		}
+
+		public static implicit operator LeaderboardEntry_t_LargePack(LeaderboardEntry_t value) {
+			LeaderboardEntry_t_LargePack result = default;
+			result.m_steamIDUser = value.m_steamIDUser;
+			result.m_nGlobalRank = value.m_nGlobalRank;
+			result.m_nScore = value.m_nScore;
+			result.m_cDetails = value.m_cDetails;
+			result.m_hUGC = value.m_hUGC;
+			return result;
+		}
+	}
+
+	#endif
 	/// Store key/value pair used in matchmaking queries.
 	///
 	/// Actually, the name Key/Value is a bit misleading.  The "key" is better
@@ -252,8 +443,18 @@ namespace Steamworks {
 		public int m_cubParam; // Size of the data pointed to by m_pubParam
 	}
 
-	/// Describe the state of a connection.
+		/// RFC4038, section 4.2
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	public struct IPv4MappedAddress {
+		public ulong m_8zeros;
+		public ushort m_0000;
+		public ushort m_ffff;
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
+		public byte[] m_ip; // NOTE: As bytes, i.e. network byte order
+	}
+
+	/// Describe the state of a connection.
+	[StructLayout(LayoutKind.Sequential)]
 	public struct SteamNetConnectionInfo_t {
 		
 		/// Who is on the other end?  Depending on the connection type and phase of the connection, we might not know
@@ -289,7 +490,7 @@ namespace Steamworks {
 		/// diagnostic purposes only, not to display to users.  It might
 		/// have some details specific to the issue.
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchSteamNetworkingMaxConnectionCloseReason)]
-		private byte[] m_szEndDebug_;
+		internal byte[] m_szEndDebug_;
 		public string m_szEndDebug
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_szEndDebug_); }
@@ -304,7 +505,7 @@ namespace Steamworks {
 		/// Note that the connection ID *usually* matches the HSteamNetConnection
 		/// handle, but in certain cases with symmetric connections it might not.
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchSteamNetworkingMaxConnectionDescription)]
-		private byte[] m_szConnectionDescription_;
+		internal byte[] m_szConnectionDescription_;
 		public string m_szConnectionDescription
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_szConnectionDescription_); }
@@ -319,6 +520,111 @@ namespace Steamworks {
 		public uint[] reserved;
 	}
 
+	#if STEAMWORKS_ANYCPU
+	/// Describe the state of a connection.
+	[StructLayout(LayoutKind.Sequential, Pack = 8)]
+	internal struct SteamNetConnectionInfo_t_LargePack {
+		
+		/// Who is on the other end?  Depending on the connection type and phase of the connection, we might not know
+		public SteamNetworkingIdentity m_identityRemote;
+		
+		/// Arbitrary user data set by the local application code
+		public long m_nUserData;
+		
+		/// Handle to listen socket this was connected on, or k_HSteamListenSocket_Invalid if we initiated the connection
+		public HSteamListenSocket m_hListenSocket;
+		
+		/// Remote address.  Might be all 0's if we don't know it, or if this is N/A.
+		/// (E.g. Basically everything except direct UDP connection.)
+		public SteamNetworkingIPAddr m_addrRemote;
+		public ushort m__pad1;
+		
+		/// What data center is the remote host in?  (0 if we don't know.)
+		public SteamNetworkingPOPID m_idPOPRemote;
+		
+		/// What relay are we using to communicate with the remote host?
+		/// (0 if not applicable.)
+		public SteamNetworkingPOPID m_idPOPRelay;
+		
+		/// High level state of the connection
+		public ESteamNetworkingConnectionState m_eState;
+		
+		/// Basic cause of the connection termination or problem.
+		/// See ESteamNetConnectionEnd for the values used
+		public int m_eEndReason;
+		
+		/// Human-readable, but non-localized explanation for connection
+		/// termination or problem.  This is intended for debugging /
+		/// diagnostic purposes only, not to display to users.  It might
+		/// have some details specific to the issue.
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchSteamNetworkingMaxConnectionCloseReason)]
+		internal byte[] m_szEndDebug_;
+		public string m_szEndDebug
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_szEndDebug_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_szEndDebug_, Constants.k_cchSteamNetworkingMaxConnectionCloseReason); }
+		}
+		
+		/// Debug description.  This includes the internal connection ID,
+		/// connection type (and peer information), and any name
+		/// given to the connection by the app.  This string is used in various
+		/// internal logging messages.
+		///
+		/// Note that the connection ID *usually* matches the HSteamNetConnection
+		/// handle, but in certain cases with symmetric connections it might not.
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchSteamNetworkingMaxConnectionDescription)]
+		internal byte[] m_szConnectionDescription_;
+		public string m_szConnectionDescription
+		{
+			get { return InteropHelp.ByteArrayToStringUTF8(m_szConnectionDescription_); }
+			set { InteropHelp.StringToByteArrayUTF8(value, m_szConnectionDescription_, Constants.k_cchSteamNetworkingMaxConnectionDescription); }
+		}
+		
+		/// Misc flags.  Bitmask of k_nSteamNetworkConnectionInfoFlags_Xxxx
+		public int m_nFlags;
+		
+		/// Internal stuff, room to change API easily
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 63)]
+		public uint[] reserved;
+
+		public static implicit operator SteamNetConnectionInfo_t(SteamNetConnectionInfo_t_LargePack value) {
+			SteamNetConnectionInfo_t result = default;
+			result.m_identityRemote = value.m_identityRemote;
+			result.m_nUserData = value.m_nUserData;
+			result.m_hListenSocket = value.m_hListenSocket;
+			result.m_addrRemote = value.m_addrRemote;
+			result.m__pad1 = value.m__pad1;
+			result.m_idPOPRemote = value.m_idPOPRemote;
+			result.m_idPOPRelay = value.m_idPOPRelay;
+			result.m_eState = value.m_eState;
+			result.m_eEndReason = value.m_eEndReason;
+			result.m_szEndDebug_ = value.m_szEndDebug_;
+			result.m_szConnectionDescription_ = value.m_szConnectionDescription_;
+			result.m_nFlags = value.m_nFlags;
+			result.reserved = value.reserved;
+			return result;
+		}
+
+		public static implicit operator SteamNetConnectionInfo_t_LargePack(SteamNetConnectionInfo_t value) {
+			SteamNetConnectionInfo_t_LargePack result = default;
+			result.m_identityRemote = value.m_identityRemote;
+			result.m_nUserData = value.m_nUserData;
+			result.m_hListenSocket = value.m_hListenSocket;
+			result.m_addrRemote = value.m_addrRemote;
+			result.m__pad1 = value.m__pad1;
+			result.m_idPOPRemote = value.m_idPOPRemote;
+			result.m_idPOPRelay = value.m_idPOPRelay;
+			result.m_eState = value.m_eState;
+			result.m_eEndReason = value.m_eEndReason;
+			result.m_szEndDebug_ = value.m_szEndDebug_;
+			result.m_szConnectionDescription_ = value.m_szConnectionDescription_;
+			result.m_nFlags = value.m_nFlags;
+			result.reserved = value.reserved;
+			return result;
+		}
+	}
+
+	#endif
 	/// Quick connection state, pared down to something you could call
 	/// more frequently without it being too big of a perf hit.
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -443,7 +749,7 @@ namespace Steamworks {
 	/// send it over the wire, or persist it in a file or database!  If you need
 	/// to do that, convert it to a string representation using the methods in
 	/// ISteamNetworkingUtils().
-	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[StructLayout(LayoutKind.Sequential)]
 	public struct SteamNetworkPingLocation_t {
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 512)]
 		public byte[] m_data;

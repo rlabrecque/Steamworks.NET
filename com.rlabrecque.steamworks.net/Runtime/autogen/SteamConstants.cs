@@ -178,6 +178,23 @@ namespace Steamworks {
 		public const int k_nMaxReturnPorts = 8;
 		/// Max length of diagnostic error message
 		public const int k_cchMaxSteamNetworkingErrMsg = 1024;
+		/// See if two identities are identical
+		/// Print to a human-readable string.  This is suitable for debug messages
+		/// or any other time you need to encode the identity as a string.  It has a
+		/// URL-like format (type:<type-data>).  Your buffer should be at least
+		/// k_cchMaxString bytes big to avoid truncation.
+		///
+		/// See also SteamNetworkingIPAddrRender
+		/// Parse back a string that was generated using ToString.  If we don't understand the
+		/// string, but it looks "reasonable" (it matches the pattern type:<type-data> and doesn't
+		/// have any funky characters, etc), then we will return true, and the type is set to
+		/// k_ESteamNetworkingIdentityType_UnknownType.  false will only be returned if the string
+		/// looks invalid.
+		// Max sizes
+		public const int k_cchMaxString = 128; // Max length of the buffer needed to hold any identity, formatted in string format by ToString
+		public const int k_cchMaxGenericString = 32; // Max length of the string for generic string identities.  Including terminating '\0'
+		public const int k_cchMaxXboxPairwiseID = 33; // Including terminating '\0'
+		public const int k_cbMaxGenericBytes = 32;
 		/// Max length, in bytes (including null terminator) of the reason string
 		/// when a connection is closed.
 		public const int k_cchSteamNetworkingMaxConnectionCloseReason = 128;
