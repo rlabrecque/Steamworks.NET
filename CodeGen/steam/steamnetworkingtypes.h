@@ -797,8 +797,17 @@ struct SteamNetConnectionRealTimeStatus_t
 	/// Nagle delay is ignored for the purposes of this calculation.
 	SteamNetworkingMicroseconds m_usecQueueTime;
 
+	/// Highest packet jitter experienced, since the last time this information
+	/// was returned.  (The high water mark is cleared each time you fetch the info.)
+	/// 
+	/// - The units are microseconds, although the measurement precision is usually
+	///   not nearly this precise.
+	/// - A negative value means "no data available".
+	/// - Not all connections are able to measure jitter.
+	int32 m_usecMaxJitter;
+
 	// Internal stuff, room to change API easily
-	uint32 reserved[16];
+	uint32 reserved[15];
 };
 
 /// Quick status of a particular lane
@@ -1688,12 +1697,24 @@ enum ESteamNetworkingConfigValue
 	k_ESteamNetworkingConfig_LogLevel_P2PRendezvous = 17, // [connection int32] P2P rendezvous messages
 	k_ESteamNetworkingConfig_LogLevel_SDRRelayPings = 18, // [global int32] Ping relays
 
-	// Experimental.  Set the ECN header field on all outbound UDP packets
-	// -1 = the default, and means "don't set anything".
-	// 0..3 = set that value.  (Even though 0 is the default UDP ECN value, a 0 here means "explicitly set a 0".)
+//
+// Experimental values.  These are subject to be deleted or change at any time,
+// do not set them, except as a result of an explicit and advanced user opt-in,
+// and do not write anything that depends on them existing, or have any particular
+// behaviour.
+//
+	// [global int32] ECN value to send in every packet.
+	// -1 = The default, and means "auto".  We will set ECN=1, if it appears that the local internet connection appears to understand it and there may be some benefit.
+	// 0..2 = use that value.
 	k_ESteamNetworkingConfig_ECN = 999,
 
-	// Deleted, do not use
+	// [global int32] If true, send and request different TOS values in probes to relays
+	// to try to deduce if there is any bleaching or mutating of the TOS field in either direction
+	k_ESteamNetworkingConfig_SDRClient_EnableTOSProbes = 998,
+
+//
+// Deleted, do not use
+//
 	k_ESteamNetworkingConfig_DELETED_EnumerateDevVars = 35,
 
 	k_ESteamNetworkingConfigValue__Force32Bit = 0x7fffffff

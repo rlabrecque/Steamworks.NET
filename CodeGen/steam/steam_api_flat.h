@@ -453,9 +453,9 @@ S_API bool SteamAPI_ISteamUserStats_GetAchievementProgressLimitsFloat( ISteamUse
 // ISteamApps
 
 // A versioned accessor is exported by the library
-S_API ISteamApps *SteamAPI_SteamApps_v008();
+S_API ISteamApps *SteamAPI_SteamApps_v009();
 // Inline, unversioned accessor to get the current version.  Essentially the same as SteamApps(), but using this ensures that you are using a matching library.
-inline ISteamApps *SteamAPI_SteamApps() { return SteamAPI_SteamApps_v008(); }
+inline ISteamApps *SteamAPI_SteamApps() { return SteamAPI_SteamApps_v009(); }
 S_API bool SteamAPI_ISteamApps_BIsSubscribed( ISteamApps* self );
 S_API bool SteamAPI_ISteamApps_BIsLowViolence( ISteamApps* self );
 S_API bool SteamAPI_ISteamApps_BIsCybercafe( ISteamApps* self );
@@ -487,7 +487,7 @@ S_API bool SteamAPI_ISteamApps_BIsSubscribedFromFamilySharing( ISteamApps* self 
 S_API bool SteamAPI_ISteamApps_BIsTimedTrial( ISteamApps* self, uint32 * punSecondsAllowed, uint32 * punSecondsPlayed );
 S_API bool SteamAPI_ISteamApps_SetDlcContext( ISteamApps* self, AppId_t nAppID );
 S_API int SteamAPI_ISteamApps_GetNumBetas( ISteamApps* self, int * pnAvailable, int * pnPrivate );
-S_API bool SteamAPI_ISteamApps_GetBetaInfo( ISteamApps* self, int iBetaIndex, uint32 * punFlags, uint32 * punBuildID, char * pchBetaName, int cchBetaName, char * pchDescription, int cchDescription );
+S_API bool SteamAPI_ISteamApps_GetBetaInfo( ISteamApps* self, int iBetaIndex, uint32 * punFlags, uint32 * punBuildID, char * pchBetaName, int cchBetaName, char * pchDescription, int cchDescription, uint32 * punLastUpdated );
 S_API bool SteamAPI_ISteamApps_SetActiveBeta( ISteamApps* self, const char * pchBetaName );
 
 // ISteamNetworking
@@ -796,6 +796,9 @@ S_API SteamAPICall_t SteamAPI_ISteamUGC_GetWorkshopEULAStatus( ISteamUGC* self )
 S_API uint32 SteamAPI_ISteamUGC_GetUserContentDescriptorPreferences( ISteamUGC* self, EUGCContentDescriptorID * pvecDescriptors, uint32 cMaxEntries );
 S_API bool SteamAPI_ISteamUGC_SetItemsDisabledLocally( ISteamUGC* self, PublishedFileId_t * pvecPublishedFileIDs, uint32 unNumPublishedFileIDs, bool bDisabledLocally );
 S_API bool SteamAPI_ISteamUGC_SetSubscriptionsLoadOrder( ISteamUGC* self, PublishedFileId_t * pvecPublishedFileIDs, uint32 unNumPublishedFileIDs );
+S_API bool SteamAPI_ISteamUGC_MarkDownloadedItemAsUnused( ISteamUGC* self, PublishedFileId_t nPublishedFileID );
+S_API uint32 SteamAPI_ISteamUGC_GetNumDownloadedItems( ISteamUGC* self );
+S_API uint32 SteamAPI_ISteamUGC_GetDownloadedItems( ISteamUGC* self, PublishedFileId_t * pvecPublishedFileIDs, uint32 cMaxEntries );
 
 // ISteamHTMLSurface
 
@@ -943,12 +946,17 @@ S_API bool SteamAPI_ISteamParentalSettings_BIsFeatureInBlockList( ISteamParental
 // ISteamRemotePlay
 
 // A versioned accessor is exported by the library
-S_API ISteamRemotePlay *SteamAPI_SteamRemotePlay_v003();
+S_API ISteamRemotePlay *SteamAPI_SteamRemotePlay_v004();
 // Inline, unversioned accessor to get the current version.  Essentially the same as SteamRemotePlay(), but using this ensures that you are using a matching library.
-inline ISteamRemotePlay *SteamAPI_SteamRemotePlay() { return SteamAPI_SteamRemotePlay_v003(); }
+inline ISteamRemotePlay *SteamAPI_SteamRemotePlay() { return SteamAPI_SteamRemotePlay_v004(); }
 S_API uint32 SteamAPI_ISteamRemotePlay_GetSessionCount( ISteamRemotePlay* self );
 S_API RemotePlaySessionID_t SteamAPI_ISteamRemotePlay_GetSessionID( ISteamRemotePlay* self, int iSessionIndex );
+S_API bool SteamAPI_ISteamRemotePlay_BSessionRemotePlayTogether( ISteamRemotePlay* self, RemotePlaySessionID_t unSessionID );
 S_API uint64_steamid SteamAPI_ISteamRemotePlay_GetSessionSteamID( ISteamRemotePlay* self, RemotePlaySessionID_t unSessionID );
+S_API uint32 SteamAPI_ISteamRemotePlay_GetSessionGuestID( ISteamRemotePlay* self, RemotePlaySessionID_t unSessionID );
+S_API int SteamAPI_ISteamRemotePlay_GetSmallSessionAvatar( ISteamRemotePlay* self, RemotePlaySessionID_t unSessionID );
+S_API int SteamAPI_ISteamRemotePlay_GetMediumSessionAvatar( ISteamRemotePlay* self, RemotePlaySessionID_t unSessionID );
+S_API int SteamAPI_ISteamRemotePlay_GetLargeSessionAvatar( ISteamRemotePlay* self, RemotePlaySessionID_t unSessionID );
 S_API const char * SteamAPI_ISteamRemotePlay_GetSessionClientName( ISteamRemotePlay* self, RemotePlaySessionID_t unSessionID );
 S_API ESteamDeviceFormFactor SteamAPI_ISteamRemotePlay_GetSessionClientFormFactor( ISteamRemotePlay* self, RemotePlaySessionID_t unSessionID );
 S_API bool SteamAPI_ISteamRemotePlay_BGetSessionClientResolution( ISteamRemotePlay* self, RemotePlaySessionID_t unSessionID, int * pnResolutionX, int * pnResolutionY );

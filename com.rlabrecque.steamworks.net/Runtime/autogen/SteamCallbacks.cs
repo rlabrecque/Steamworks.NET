@@ -3217,6 +3217,16 @@ namespace Steamworks {
 		}
 	}
 
+	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
+	[CallbackIdentity(Constants.k_iSteamRemotePlayCallbacks + 4)]
+	public struct SteamRemotePlaySessionAvatarLoaded_t {
+		public const int k_iCallback = Constants.k_iSteamRemotePlayCallbacks + 4;
+		public RemotePlaySessionID_t m_unSessionID; // sessionID the avatar has been loaded for
+		public int m_iImage; // the image index of the now loaded image
+		public int m_iWide; // width of the loaded image
+		public int m_iTall; // height of the loaded image
+	}
+
 	// callbacks
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to FileShare()
@@ -5431,7 +5441,7 @@ namespace Steamworks {
 		
 		public ulong m_nGameID;				// Game this is for
 		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bGroupAchievement;	// if this is a "group" achievement
+		public bool m_bGroupAchievement;	// unused. if this is a "group" achievement
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchStatNameMax)]
 		internal byte[] m_rgchAchievementName_;
 		public string m_rgchAchievementName		// name of the achievement

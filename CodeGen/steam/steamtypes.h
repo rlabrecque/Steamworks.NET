@@ -86,7 +86,7 @@ typedef uint32 DepotId_t;
 const DepotId_t k_uDepotIdInvalid = 0x0;
 
 // RTime32.  Seconds elapsed since Jan 1 1970, i.e. unix timestamp.
-// It's the same as time_t, but it is always 32-bit and unsigned.  
+// It's the same as time_t, but it is always 32-bit and unsigned.
 typedef uint32 RTime32;
 
 // handle to a Steam API call

@@ -33,11 +33,55 @@ namespace Steamworks {
 		}
 
 		/// <summary>
+		/// <para> Return true if the session has joined using a Remote Play Together invitation</para>
+		/// </summary>
+		public static bool BSessionRemotePlayTogether(RemotePlaySessionID_t unSessionID) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamRemotePlay_BSessionRemotePlayTogether(CSteamAPIContext.GetSteamRemotePlay(), unSessionID);
+		}
+
+		/// <summary>
 		/// <para> Get the SteamID of the connected user</para>
 		/// </summary>
 		public static CSteamID GetSessionSteamID(RemotePlaySessionID_t unSessionID) {
 			InteropHelp.TestIfAvailableClient();
 			return (CSteamID)NativeMethods.ISteamRemotePlay_GetSessionSteamID(CSteamAPIContext.GetSteamRemotePlay(), unSessionID);
+		}
+
+		/// <summary>
+		/// <para> Get the guest ID of the connected user if they are a Remote Play Together guest</para>
+		/// <para> This returns 0 if the sessionID isn't valid or the session isn't a Remote Play Together guest</para>
+		/// </summary>
+		public static uint GetSessionGuestID(RemotePlaySessionID_t unSessionID) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamRemotePlay_GetSessionGuestID(CSteamAPIContext.GetSteamRemotePlay(), unSessionID);
+		}
+
+		/// <summary>
+		/// <para> gets the small (32x32) avatar of the connected user, which is a handle to be used in IClientUtils::GetImageRGBA(), or 0 if the sessionID isn't valid</para>
+		/// <para> returns -1 if this image has yet to be loaded, in this case wait for a RemotePlaySessionAvatarLoaded_t callback and then call this again</para>
+		/// </summary>
+		public static int GetSmallSessionAvatar(RemotePlaySessionID_t unSessionID) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamRemotePlay_GetSmallSessionAvatar(CSteamAPIContext.GetSteamRemotePlay(), unSessionID);
+		}
+
+		/// <summary>
+		/// <para> gets the medium (64x64) avatar of the connected user, which is a handle to be used in IClientUtils::GetImageRGBA(), or 0 if the sessionID isn't valid</para>
+		/// <para> returns -1 if this image has yet to be loaded, in this case wait for a RemotePlaySessionAvatarLoaded_t callback and then call this again</para>
+		/// </summary>
+		public static int GetMediumSessionAvatar(RemotePlaySessionID_t unSessionID) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamRemotePlay_GetMediumSessionAvatar(CSteamAPIContext.GetSteamRemotePlay(), unSessionID);
+		}
+
+		/// <summary>
+		/// <para> gets the large (184x184) avatar of the connected user, which is a handle to be used in IClientUtils::GetImageRGBA(), or 0 if the sessionID isn't valid</para>
+		/// <para> returns -1 if this image has yet to be loaded, in this case wait for a RemotePlaySessionAvatarLoaded_t callback and then call this again</para>
+		/// </summary>
+		public static int GetLargeSessionAvatar(RemotePlaySessionID_t unSessionID) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamRemotePlay_GetLargeSessionAvatar(CSteamAPIContext.GetSteamRemotePlay(), unSessionID);
 		}
 
 		/// <summary>
@@ -139,7 +183,7 @@ namespace Steamworks {
 		/// <para> nHeight - The height of the cursor, in pixels</para>
 		/// <para> nHotX - The X coordinate of the cursor hot spot in pixels, offset from the left of the cursor</para>
 		/// <para> nHotY - The Y coordinate of the cursor hot spot in pixels, offset from the top of the cursor</para>
-		/// <para> pBGRA - A pointer to the cursor pixels, with the color channels in red, green, blue, alpha order</para>
+		/// <para> pBGRA - A pointer to the cursor pixels, with 8-bit color channels in red, green, blue, alpha order</para>
 		/// <para> nPitch - The distance between pixel rows in bytes, defaults to nWidth * 4</para>
 		/// </summary>
 		public static RemotePlayCursorID_t CreateMouseCursor(int nWidth, int nHeight, int nHotX, int nHotY, IntPtr pBGRA, int nPitch = 0) {

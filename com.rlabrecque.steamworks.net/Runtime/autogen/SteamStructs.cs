@@ -699,8 +699,17 @@ namespace Steamworks {
 		/// Nagle delay is ignored for the purposes of this calculation.
 		public SteamNetworkingMicroseconds m_usecQueueTime;
 		
+		/// Highest packet jitter experienced, since the last time this information
+		/// was returned.  (The high water mark is cleared each time you fetch the info.)
+		///
+		/// - The units are microseconds, although the measurement precision is usually
+		///   not nearly this precise.
+		/// - A negative value means "no data available".
+		/// - Not all connections are able to measure jitter.
+		public int m_usecMaxJitter;
+		
 		// Internal stuff, room to change API easily
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 15)]
 		public uint[] reserved;
 	}
 

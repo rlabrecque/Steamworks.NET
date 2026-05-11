@@ -5,14 +5,17 @@ namespace Steamworks
 	// state changes
 	//-----------------------------------------------------------------------------
 	[System.Serializable]
-	[StructLayout(LayoutKind.Sequential)]
+	[StructLayout(LayoutKind.Explicit)]
 	public struct SteamInputActionEvent_t
 	{
+		[FieldOffset(0)]
 		public InputHandle_t controllerHandle;
 
+		[FieldOffset(8)]
 		public ESteamInputActionEventType eEventType;
 
 		/// Option value
+		[FieldOffset(12)]
 		public OptionValue m_val;
 
 		[System.Serializable]
