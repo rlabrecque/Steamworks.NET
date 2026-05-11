@@ -470,7 +470,7 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamApps_GetBetaInfo", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool ISteamApps_GetBetaInfo(IntPtr instancePtr, int iBetaIndex, out uint punFlags, out uint punBuildID, IntPtr pchBetaName, int cchBetaName, IntPtr pchDescription, int cchDescription);
+		public static extern bool ISteamApps_GetBetaInfo(IntPtr instancePtr, int iBetaIndex, out uint punFlags, out uint punBuildID, IntPtr pchBetaName, int cchBetaName, IntPtr pchDescription, int cchDescription, out uint punLastUpdated);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamApps_SetActiveBeta", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
@@ -2182,8 +2182,24 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_GetSessionID", CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint ISteamRemotePlay_GetSessionID(IntPtr instancePtr, int iSessionIndex);
 
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_BSessionRemotePlayTogether", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamRemotePlay_BSessionRemotePlayTogether(IntPtr instancePtr, RemotePlaySessionID_t unSessionID);
+
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_GetSessionSteamID", CallingConvention = CallingConvention.Cdecl)]
 		public static extern ulong ISteamRemotePlay_GetSessionSteamID(IntPtr instancePtr, RemotePlaySessionID_t unSessionID);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_GetSessionGuestID", CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint ISteamRemotePlay_GetSessionGuestID(IntPtr instancePtr, RemotePlaySessionID_t unSessionID);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_GetSmallSessionAvatar", CallingConvention = CallingConvention.Cdecl)]
+		public static extern int ISteamRemotePlay_GetSmallSessionAvatar(IntPtr instancePtr, RemotePlaySessionID_t unSessionID);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_GetMediumSessionAvatar", CallingConvention = CallingConvention.Cdecl)]
+		public static extern int ISteamRemotePlay_GetMediumSessionAvatar(IntPtr instancePtr, RemotePlaySessionID_t unSessionID);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_GetLargeSessionAvatar", CallingConvention = CallingConvention.Cdecl)]
+		public static extern int ISteamRemotePlay_GetLargeSessionAvatar(IntPtr instancePtr, RemotePlaySessionID_t unSessionID);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamRemotePlay_GetSessionClientName", CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr ISteamRemotePlay_GetSessionClientName(IntPtr instancePtr, RemotePlaySessionID_t unSessionID);
@@ -2868,6 +2884,16 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_SetSubscriptionsLoadOrder", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool ISteamUGC_SetSubscriptionsLoadOrder(IntPtr instancePtr, [In, Out] PublishedFileId_t[] pvecPublishedFileIDs, uint unNumPublishedFileIDs);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_MarkDownloadedItemAsUnused", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool ISteamUGC_MarkDownloadedItemAsUnused(IntPtr instancePtr, PublishedFileId_t nPublishedFileID);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_GetNumDownloadedItems", CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint ISteamUGC_GetNumDownloadedItems(IntPtr instancePtr);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUGC_GetDownloadedItems", CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint ISteamUGC_GetDownloadedItems(IntPtr instancePtr, out PublishedFileId_t pvecPublishedFileIDs, uint cMaxEntries);
 #endregion
 #region SteamUser
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamUser_GetHSteamUser", CallingConvention = CallingConvention.Cdecl)]

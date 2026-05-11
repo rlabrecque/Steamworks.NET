@@ -400,6 +400,15 @@ public:
 
 	// Set the local load order for these items. If there are any items not in the given list, they will sort by the time subscribed.
 	virtual bool SetSubscriptionsLoadOrder( PublishedFileId_t *pvecPublishedFileIDs, uint32 unNumPublishedFileIDs ) = 0;
+
+	// Tells the client to no longer try to keep the item in its local cache, unless it was subscribed to by other users on this machine
+	virtual bool MarkDownloadedItemAsUnused( PublishedFileId_t nPublishedFileID ) = 0;
+
+	// Returns the number of items actually downloaded locally
+	virtual uint32 GetNumDownloadedItems() = 0;
+
+	// Returns the ids of the items downloaded
+	virtual uint32 GetDownloadedItems( PublishedFileId_t *pvecPublishedFileIDs, uint32 cMaxEntries ) = 0;
 };
 
 #define STEAMUGC_INTERFACE_VERSION "STEAMUGC_INTERFACE_VERSION021"

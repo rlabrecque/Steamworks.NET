@@ -284,11 +284,11 @@ namespace Steamworks {
 		/// <para> return beta branch details, name, description, current BuildID and state flags (EBetaBranchFlags)</para>
 		/// <para> iterate through</para>
 		/// </summary>
-		public static bool GetBetaInfo(int iBetaIndex, out uint punFlags, out uint punBuildID, out string pchBetaName, int cchBetaName, out string pchDescription, int cchDescription) {
+		public static bool GetBetaInfo(int iBetaIndex, out uint punFlags, out uint punBuildID, out string pchBetaName, int cchBetaName, out string pchDescription, int cchDescription, out uint punLastUpdated) {
 			InteropHelp.TestIfAvailableClient();
 			IntPtr pchBetaName2 = Marshal.AllocHGlobal(cchBetaName);
 			IntPtr pchDescription2 = Marshal.AllocHGlobal(cchDescription);
-			bool ret = NativeMethods.ISteamApps_GetBetaInfo(CSteamAPIContext.GetSteamApps(), iBetaIndex, out punFlags, out punBuildID, pchBetaName2, cchBetaName, pchDescription2, cchDescription);
+			bool ret = NativeMethods.ISteamApps_GetBetaInfo(CSteamAPIContext.GetSteamApps(), iBetaIndex, out punFlags, out punBuildID, pchBetaName2, cchBetaName, pchDescription2, cchDescription, out punLastUpdated);
 			pchBetaName = ret ? InteropHelp.PtrToStringUTF8(pchBetaName2) : null;
 			Marshal.FreeHGlobal(pchBetaName2);
 			pchDescription = ret ? InteropHelp.PtrToStringUTF8(pchDescription2) : null;

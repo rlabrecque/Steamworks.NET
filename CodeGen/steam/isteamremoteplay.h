@@ -282,8 +282,27 @@ public:
 	// Get the currently connected Steam Remote Play session ID at the specified index. Returns zero if index is out of bounds.
 	virtual RemotePlaySessionID_t GetSessionID( int iSessionIndex ) = 0;
 
+	// Return true if the session has joined using a Remote Play Together invitation
+	virtual bool BSessionRemotePlayTogether( RemotePlaySessionID_t unSessionID ) = 0;
+
 	// Get the SteamID of the connected user
 	virtual CSteamID GetSessionSteamID( RemotePlaySessionID_t unSessionID ) = 0;
+
+	// Get the guest ID of the connected user if they are a Remote Play Together guest
+	// This returns 0 if the sessionID isn't valid or the session isn't a Remote Play Together guest
+	virtual uint32 GetSessionGuestID( RemotePlaySessionID_t unSessionID ) = 0;
+
+	// gets the small (32x32) avatar of the connected user, which is a handle to be used in IClientUtils::GetImageRGBA(), or 0 if the sessionID isn't valid
+	// returns -1 if this image has yet to be loaded, in this case wait for a RemotePlaySessionAvatarLoaded_t callback and then call this again
+	virtual int GetSmallSessionAvatar( RemotePlaySessionID_t unSessionID ) = 0;
+
+	// gets the medium (64x64) avatar of the connected user, which is a handle to be used in IClientUtils::GetImageRGBA(), or 0 if the sessionID isn't valid
+	// returns -1 if this image has yet to be loaded, in this case wait for a RemotePlaySessionAvatarLoaded_t callback and then call this again
+	virtual int GetMediumSessionAvatar( RemotePlaySessionID_t unSessionID ) = 0;
+
+	// gets the large (184x184) avatar of the connected user, which is a handle to be used in IClientUtils::GetImageRGBA(), or 0 if the sessionID isn't valid
+	// returns -1 if this image has yet to be loaded, in this case wait for a RemotePlaySessionAvatarLoaded_t callback and then call this again
+	virtual int GetLargeSessionAvatar( RemotePlaySessionID_t unSessionID ) = 0;
 
 	// Get the name of the session client device
 	// This returns NULL if the sessionID is not valid
@@ -337,8 +356,8 @@ public:
 	// nHeight - The height of the cursor, in pixels
 	// nHotX - The X coordinate of the cursor hot spot in pixels, offset from the left of the cursor
 	// nHotY - The Y coordinate of the cursor hot spot in pixels, offset from the top of the cursor
-	// pBGRA - A pointer to the cursor pixels, with the color channels in red, green, blue, alpha order
-	// nPitch - The distance between pixel rows in bytes, defaults to nWidth * 4 
+	// pBGRA - A pointer to the cursor pixels, with 8-bit color channels in red, green, blue, alpha order
+	// nPitch - The distance between pixel rows in bytes, defaults to nWidth * 4
 	virtual RemotePlayCursorID_t CreateMouseCursor( int nWidth, int nHeight, int nHotX, int nHotY, const void *pBGRA, int nPitch = 0 ) = 0;
 
 	// Set the mouse cursor for a remote player
@@ -348,7 +367,7 @@ public:
 	virtual void SetMouseCursor( RemotePlaySessionID_t unSessionID, RemotePlayCursorID_t unCursorID ) = 0;
 };
 
-#define STEAMREMOTEPLAY_INTERFACE_VERSION "STEAMREMOTEPLAY_INTERFACE_VERSION003"
+#define STEAMREMOTEPLAY_INTERFACE_VERSION "STEAMREMOTEPLAY_INTERFACE_VERSION004"
 
 // Global interface accessor
 inline ISteamRemotePlay *SteamRemotePlay();
@@ -366,17 +385,25 @@ STEAM_DEFINE_USER_INTERFACE_ACCESSOR( ISteamRemotePlay *, SteamRemotePlay, STEAM
 
 STEAM_CALLBACK_BEGIN( SteamRemotePlaySessionConnected_t, k_iSteamRemotePlayCallbacks + 1 )
 	STEAM_CALLBACK_MEMBER( 0, RemotePlaySessionID_t, m_unSessionID )
-STEAM_CALLBACK_END( 0 )
+STEAM_CALLBACK_END( 1 )
 
 
 STEAM_CALLBACK_BEGIN( SteamRemotePlaySessionDisconnected_t, k_iSteamRemotePlayCallbacks + 2 )
 	STEAM_CALLBACK_MEMBER( 0, RemotePlaySessionID_t, m_unSessionID )
-STEAM_CALLBACK_END( 0 )
+STEAM_CALLBACK_END( 1 )
 
 
 STEAM_CALLBACK_BEGIN( SteamRemotePlayTogetherGuestInvite_t, k_iSteamRemotePlayCallbacks + 3 )
 	STEAM_CALLBACK_MEMBER_ARRAY( 0, char, m_szConnectURL, 1024 )
-STEAM_CALLBACK_END( 0 )
+STEAM_CALLBACK_END( 1 )
+
+
+STEAM_CALLBACK_BEGIN( SteamRemotePlaySessionAvatarLoaded_t, k_iSteamRemotePlayCallbacks + 4 )
+	STEAM_CALLBACK_MEMBER( 0, RemotePlaySessionID_t, m_unSessionID ) // sessionID the avatar has been loaded for
+	STEAM_CALLBACK_MEMBER( 1, int, m_iImage ) // the image index of the now loaded image
+	STEAM_CALLBACK_MEMBER( 2, int, m_iWide ) // width of the loaded image
+	STEAM_CALLBACK_MEMBER( 3, int, m_iTall ) // height of the loaded image
+STEAM_CALLBACK_END( 4 )
 
 
 #pragma pack( pop )

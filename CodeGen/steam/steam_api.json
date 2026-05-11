@@ -1548,6 +1548,16 @@
       "struct": "SteamRemotePlayTogetherGuestInvite_t"
     },
     {
+      "callback_id": 5704,
+      "fields": [
+        { "fieldname":"m_unSessionID", "fieldtype":"RemotePlaySessionID_t" },
+        { "fieldname":"m_iImage", "fieldtype":"int" },
+        { "fieldname":"m_iWide", "fieldtype":"int" },
+        { "fieldname":"m_iTall", "fieldtype":"int" }
+      ],
+      "struct": "SteamRemotePlaySessionAvatarLoaded_t"
+    },
+    {
       "callback_id": 1251,
       "fields": [
         { "fieldname":"m_identityRemote", "fieldtype":"SteamNetworkingIdentity" }
@@ -4049,7 +4059,8 @@
         { "name":"k_EFeatureSiteLicense", "value":"13" },
         { "name":"k_EFeatureKioskMode_Deprecated", "value":"14" },
         { "name":"k_EFeatureBlockAlways", "value":"15" },
-        { "name":"k_EFeatureMax", "value":"16" }
+        { "name":"k_EFeatureDesktop", "value":"16" },
+        { "name":"k_EFeatureMax", "value":"17" }
       ]
     },
     {
@@ -4407,6 +4418,7 @@
         { "name":"k_ESteamNetworkingConfig_LogLevel_P2PRendezvous", "value":"17" },
         { "name":"k_ESteamNetworkingConfig_LogLevel_SDRRelayPings", "value":"18" },
         { "name":"k_ESteamNetworkingConfig_ECN", "value":"999" },
+        { "name":"k_ESteamNetworkingConfig_SDRClient_EnableTOSProbes", "value":"998" },
         { "name":"k_ESteamNetworkingConfig_DELETED_EnumerateDevVars", "value":"35" },
         { "name":"k_ESteamNetworkingConfigValue__Force32Bit", "value":"2147483647" }
       ]
@@ -7882,7 +7894,7 @@
         {
           "kind": "user",
           "name": "SteamApps",
-          "name_flat": "SteamAPI_SteamApps_v008"
+          "name_flat": "SteamAPI_SteamApps_v009"
         }
       ],
       "classname": "ISteamApps",
@@ -8138,7 +8150,8 @@
             { "paramname":"pchBetaName", "paramtype":"char *" },
             { "paramname":"cchBetaName", "paramtype":"int" },
             { "paramname":"pchDescription", "paramtype":"char *" },
-            { "paramname":"cchDescription", "paramtype":"int" }
+            { "paramname":"cchDescription", "paramtype":"int" },
+            { "paramname":"punLastUpdated", "paramtype":"uint32 *" }
           ],
           "returntype": "bool"
         },
@@ -8151,7 +8164,7 @@
           "returntype": "bool"
         }
       ],
-      "version_string": "STEAMAPPS_INTERFACE_VERSION008"
+      "version_string": "STEAMAPPS_INTERFACE_VERSION009"
     },
     {
       "accessors": [
@@ -10577,6 +10590,29 @@
             { "paramname":"unNumPublishedFileIDs", "paramtype":"uint32" }
           ],
           "returntype": "bool"
+        },
+        {
+          "methodname": "MarkDownloadedItemAsUnused",
+          "methodname_flat": "SteamAPI_ISteamUGC_MarkDownloadedItemAsUnused",
+          "params": [
+            { "paramname":"nPublishedFileID", "paramtype":"PublishedFileId_t" }
+          ],
+          "returntype": "bool"
+        },
+        {
+          "methodname": "GetNumDownloadedItems",
+          "methodname_flat": "SteamAPI_ISteamUGC_GetNumDownloadedItems",
+          "params": [],
+          "returntype": "uint32"
+        },
+        {
+          "methodname": "GetDownloadedItems",
+          "methodname_flat": "SteamAPI_ISteamUGC_GetDownloadedItems",
+          "params": [
+            { "paramname":"pvecPublishedFileIDs", "paramtype":"PublishedFileId_t *" },
+            { "paramname":"cMaxEntries", "paramtype":"uint32" }
+          ],
+          "returntype": "uint32"
         }
       ],
       "version_string": "STEAMUGC_INTERFACE_VERSION021"
@@ -11795,7 +11831,7 @@
         {
           "kind": "user",
           "name": "SteamRemotePlay",
-          "name_flat": "SteamAPI_SteamRemotePlay_v003"
+          "name_flat": "SteamAPI_SteamRemotePlay_v004"
         }
       ],
       "classname": "ISteamRemotePlay",
@@ -11816,6 +11852,14 @@
           "returntype": "RemotePlaySessionID_t"
         },
         {
+          "methodname": "BSessionRemotePlayTogether",
+          "methodname_flat": "SteamAPI_ISteamRemotePlay_BSessionRemotePlayTogether",
+          "params": [
+            { "paramname":"unSessionID", "paramtype":"RemotePlaySessionID_t" }
+          ],
+          "returntype": "bool"
+        },
+        {
           "methodname": "GetSessionSteamID",
           "methodname_flat": "SteamAPI_ISteamRemotePlay_GetSessionSteamID",
           "params": [
@@ -11823,6 +11867,38 @@
           ],
           "returntype": "CSteamID",
           "returntype_flat": "uint64_steamid"
+        },
+        {
+          "methodname": "GetSessionGuestID",
+          "methodname_flat": "SteamAPI_ISteamRemotePlay_GetSessionGuestID",
+          "params": [
+            { "paramname":"unSessionID", "paramtype":"RemotePlaySessionID_t" }
+          ],
+          "returntype": "uint32"
+        },
+        {
+          "methodname": "GetSmallSessionAvatar",
+          "methodname_flat": "SteamAPI_ISteamRemotePlay_GetSmallSessionAvatar",
+          "params": [
+            { "paramname":"unSessionID", "paramtype":"RemotePlaySessionID_t" }
+          ],
+          "returntype": "int"
+        },
+        {
+          "methodname": "GetMediumSessionAvatar",
+          "methodname_flat": "SteamAPI_ISteamRemotePlay_GetMediumSessionAvatar",
+          "params": [
+            { "paramname":"unSessionID", "paramtype":"RemotePlaySessionID_t" }
+          ],
+          "returntype": "int"
+        },
+        {
+          "methodname": "GetLargeSessionAvatar",
+          "methodname_flat": "SteamAPI_ISteamRemotePlay_GetLargeSessionAvatar",
+          "params": [
+            { "paramname":"unSessionID", "paramtype":"RemotePlaySessionID_t" }
+          ],
+          "returntype": "int"
         },
         {
           "methodname": "GetSessionClientName",
@@ -11927,7 +12003,7 @@
           "returntype": "void"
         }
       ],
-      "version_string": "STEAMREMOTEPLAY_INTERFACE_VERSION003"
+      "version_string": "STEAMREMOTEPLAY_INTERFACE_VERSION004"
     },
     {
       "accessors": [
@@ -14008,7 +14084,8 @@
         { "fieldname":"m_cbPendingReliable", "fieldtype":"int" },
         { "fieldname":"m_cbSentUnackedReliable", "fieldtype":"int" },
         { "fieldname":"m_usecQueueTime", "fieldtype":"SteamNetworkingMicroseconds" },
-        { "fieldname":"reserved", "fieldtype":"uint32 [16]" }
+        { "fieldname":"m_usecMaxJitter", "fieldtype":"int32" },
+        { "fieldname":"reserved", "fieldtype":"uint32 [15]" }
       ],
       "struct": "SteamNetConnectionRealTimeStatus_t"
     },

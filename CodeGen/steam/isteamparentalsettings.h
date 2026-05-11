@@ -13,6 +13,8 @@
 #include "steam_api_common.h"
 
 // Feature types for parental settings
+// These end up in a 32-bit bitfield so we're
+// limited on how many we can have.
 enum EParentalFeature
 {
 	k_EFeatureInvalid = 0,
@@ -31,6 +33,7 @@ enum EParentalFeature
 	k_EFeatureSiteLicense = 13,
 	k_EFeatureKioskMode_Deprecated = 14,
 	k_EFeatureBlockAlways = 15,
+	k_EFeatureDesktop = 16,
 	k_EFeatureMax
 };
 

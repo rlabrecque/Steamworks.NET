@@ -783,6 +783,30 @@ namespace Steamworks {
 			InteropHelp.TestIfAvailableClient();
 			return NativeMethods.ISteamUGC_SetSubscriptionsLoadOrder(CSteamAPIContext.GetSteamUGC(), pvecPublishedFileIDs, unNumPublishedFileIDs);
 		}
+
+		/// <summary>
+		/// <para> Tells the client to no longer try to keep the item in its local cache, unless it was subscribed to by other users on this machine</para>
+		/// </summary>
+		public static bool MarkDownloadedItemAsUnused(PublishedFileId_t nPublishedFileID) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_MarkDownloadedItemAsUnused(CSteamAPIContext.GetSteamUGC(), nPublishedFileID);
+		}
+
+		/// <summary>
+		/// <para> Returns the number of items actually downloaded locally</para>
+		/// </summary>
+		public static uint GetNumDownloadedItems() {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_GetNumDownloadedItems(CSteamAPIContext.GetSteamUGC());
+		}
+
+		/// <summary>
+		/// <para> Returns the ids of the items downloaded</para>
+		/// </summary>
+		public static uint GetDownloadedItems(out PublishedFileId_t pvecPublishedFileIDs, uint cMaxEntries) {
+			InteropHelp.TestIfAvailableClient();
+			return NativeMethods.ISteamUGC_GetDownloadedItems(CSteamAPIContext.GetSteamUGC(), out pvecPublishedFileIDs, cMaxEntries);
+		}
 	}
 }
 
