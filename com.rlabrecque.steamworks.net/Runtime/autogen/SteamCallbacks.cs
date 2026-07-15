@@ -23,7 +23,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 5)]
 	public struct DlcInstalled_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 5;
@@ -41,7 +41,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 14)]
 	public struct NewUrlLaunchParameters_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 14;
@@ -56,7 +56,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 21)]
 	public struct AppProofOfPurchaseKeyResponse_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 21;
@@ -80,7 +80,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 23)]
 	public struct FileDetailsResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 23;
@@ -132,7 +132,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 30)]
 	public struct TimedTrialStatus_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 30;
@@ -152,7 +152,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 4)]
 	public struct PersonaStateChange_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 4;
@@ -170,7 +170,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 31)]
 	public struct GameOverlayActivated_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 31;
@@ -190,7 +190,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 32)]
 	public struct GameServerChangeRequested_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 32;
@@ -219,7 +219,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 33)]
 	public struct GameLobbyJoinRequested_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 33;
@@ -238,7 +238,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 34)]
 	public struct AvatarImageLoaded_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 34;
@@ -256,7 +256,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 35)]
 	public struct ClanOfficerListResponse_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 35;
@@ -273,7 +273,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 36)]
 	public struct FriendRichPresenceUpdate_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 36;
@@ -290,7 +290,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 37)]
 	public struct GameRichPresenceJoinRequested_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 37;
@@ -312,7 +312,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 38)]
 	public struct GameConnectedClanChatMsg_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 38;
@@ -329,7 +329,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 39)]
 	public struct GameConnectedChatJoin_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 39;
@@ -345,7 +345,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 40)]
 	public struct GameConnectedChatLeave_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 40;
@@ -365,7 +365,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 41)]
 	public struct DownloadClanActivityCountsResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 41;
@@ -381,7 +381,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 42)]
 	public struct JoinClanChatRoomCompletionResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 42;
@@ -397,7 +397,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 43)]
 	public struct GameConnectedFriendChatMsg_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 43;
@@ -410,7 +410,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 44)]
 	public struct FriendsGetFollowerCount_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 44;
@@ -450,7 +450,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 45)]
 	public struct FriendsIsFollowing_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 45;
@@ -492,7 +492,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 46)]
 	public struct FriendsEnumerateFollowingList_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 46;
@@ -541,7 +541,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 48)]
 	public struct UnreadChatMessagesChanged_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 48;
@@ -555,7 +555,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 49)]
 	public struct OverlayBrowserProtocolNavigation_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 49;
@@ -576,7 +576,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 50)]
 	public struct EquippedProfileItemsChanged_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 50;
@@ -591,7 +591,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 51)]
 	public struct EquippedProfileItems_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 51;
@@ -668,7 +668,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamGameCoordinatorCallbacks + 1)]
 	public struct GCMessageAvailable_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamGameCoordinatorCallbacks + 1;
@@ -681,7 +681,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamGameCoordinatorCallbacks + 2)]
 	public struct GCMessageFailed_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamGameCoordinatorCallbacks + 2;
@@ -694,7 +694,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 1)]
 	public struct GSClientApprove_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 1;
@@ -708,7 +708,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 2)]
 	public struct GSClientDeny_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 2;
@@ -729,7 +729,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 3)]
 	public struct GSClientKick_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 3;
@@ -745,7 +745,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 6)]
 	public struct GSClientAchievementStatus_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 6;
@@ -768,7 +768,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 15)]
 	public struct GSPolicyResponse_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 15;
@@ -781,7 +781,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 7)]
 	public struct GSGameplayStats_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 7;
@@ -797,7 +797,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 8)]
 	public struct GSClientGroupStatus_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 8;
@@ -815,7 +815,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 9)]
 	public struct GSReputation_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 9;
@@ -889,7 +889,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 10)]
 	public struct AssociateWithClanResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 10;
@@ -902,7 +902,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 11)]
 	public struct ComputeNewPlayerCompatibilityResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 11;
@@ -923,7 +923,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamGameServerStatsCallbacks)]
 	public struct GSStatsReceived_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamGameServerStatsCallbacks;
@@ -967,7 +967,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamGameServerStatsCallbacks + 1)]
 	public struct GSStatsStored_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamGameServerStatsCallbacks + 1;
@@ -1010,7 +1010,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 8)]
 	public struct GSStatsUnloaded_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 8;
@@ -1026,7 +1026,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 1)]
 	public struct HTML_BrowserReady_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 1;
@@ -1041,7 +1041,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 2)]
 	public struct HTML_NeedsPaint_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 2;
@@ -1124,7 +1124,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 3)]
 	public struct HTML_StartRequest_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 3;
@@ -1181,7 +1181,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 4)]
 	public struct HTML_CloseBrowser_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 4;
@@ -1196,7 +1196,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 5)]
 	public struct HTML_URLChanged_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 5;
@@ -1258,7 +1258,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 6)]
 	public struct HTML_FinishedRequest_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 6;
@@ -1304,7 +1304,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 7)]
 	public struct HTML_OpenLinkInNewTab_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 7;
@@ -1346,7 +1346,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 8)]
 	public struct HTML_ChangedTitle_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 8;
@@ -1388,7 +1388,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 9)]
 	public struct HTML_SearchResults_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 9;
@@ -1405,7 +1405,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 10)]
 	public struct HTML_CanGoBackAndForward_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 10;
@@ -1424,7 +1424,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 11)]
 	public struct HTML_HorizontalScroll_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 11;
@@ -1445,7 +1445,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 12)]
 	public struct HTML_VerticalScroll_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 12;
@@ -1466,7 +1466,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 13)]
 	public struct HTML_LinkAtPosition_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 13;
@@ -1529,7 +1529,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 14)]
 	public struct HTML_JSAlert_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 14;
@@ -1573,7 +1573,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 15)]
 	public struct HTML_JSConfirm_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 15;
@@ -1617,7 +1617,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 16)]
 	public struct HTML_FileOpenDialog_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 16;
@@ -1670,7 +1670,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 21)]
 	public struct HTML_NewWindow_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 21;
@@ -1738,7 +1738,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 22)]
 	public struct HTML_SetCursor_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 22;
@@ -1754,7 +1754,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 23)]
 	public struct HTML_StatusText_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 23;
@@ -1796,7 +1796,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 24)]
 	public struct HTML_ShowToolTip_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 24;
@@ -1838,7 +1838,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 25)]
 	public struct HTML_UpdateToolTip_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 25;
@@ -1880,7 +1880,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 26)]
 	public struct HTML_HideToolTip_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 26;
@@ -1895,7 +1895,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 27)]
 	public struct HTML_BrowserRestarted_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 27;
@@ -1909,7 +1909,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTTPCallbacks + 1)]
 	public struct HTTPRequestCompleted_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTTPCallbacks + 1;
@@ -1984,7 +1984,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTTPCallbacks + 2)]
 	public struct HTTPRequestHeadersReceived_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTTPCallbacks + 2;
@@ -2030,7 +2030,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamHTTPCallbacks + 3)]
 	public struct HTTPRequestDataReceived_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamHTTPCallbacks + 3;
@@ -2098,7 +2098,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamControllerCallbacks + 1)]
 	public struct SteamInputDeviceConnected_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamControllerCallbacks + 1;
@@ -2114,7 +2114,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamControllerCallbacks + 2)]
 	public struct SteamInputDeviceDisconnected_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamControllerCallbacks + 2;
@@ -2130,7 +2130,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamControllerCallbacks + 3)]
 	public struct SteamInputConfigurationLoaded_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamControllerCallbacks + 3;
@@ -2202,7 +2202,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamControllerCallbacks + 4)]
 	public struct SteamInputGamepadSlotChange_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamControllerCallbacks + 4;
@@ -2257,7 +2257,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 0)]
 	public struct SteamInventoryResultReady_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamInventoryCallbacks + 0;
@@ -2277,7 +2277,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 1)]
 	public struct SteamInventoryFullUpdate_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamInventoryCallbacks + 1;
@@ -2293,7 +2293,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 2)]
 	public struct SteamInventoryDefinitionUpdate_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamInventoryCallbacks + 2;
@@ -2305,7 +2305,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 3)]
 	public struct SteamInventoryEligiblePromoItemDefIDs_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamInventoryCallbacks + 3;
@@ -2353,7 +2353,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 4)]
 	public struct SteamInventoryStartPurchaseResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamInventoryCallbacks + 4;
@@ -2395,7 +2395,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 5)]
 	public struct SteamInventoryRequestPricesResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamInventoryCallbacks + 5;
@@ -2419,7 +2419,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 2)]
 	public struct FavoritesListChanged_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 2;
@@ -2446,7 +2446,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 3)]
 	public struct LobbyInvite_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 3;
@@ -2466,7 +2466,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 4)]
 	public struct LobbyEnter_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 4;
@@ -2488,7 +2488,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 5)]
 	public struct LobbyDataUpdate_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 5;
@@ -2508,7 +2508,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 6)]
 	public struct LobbyChatUpdate_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 6;
@@ -2529,7 +2529,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 7)]
 	public struct LobbyChatMsg_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 7;
@@ -2551,7 +2551,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 9)]
 	public struct LobbyGameCreated_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 9;
@@ -2571,7 +2571,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 10)]
 	public struct LobbyMatchList_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 10;
@@ -2587,7 +2587,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 12)]
 	public struct LobbyKicked_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 12;
@@ -2607,7 +2607,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 13)]
 	public struct LobbyCreated_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 13;
@@ -2673,7 +2673,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 16)]
 	public struct FavoritesListAccountsUpdated_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 16;
@@ -2689,7 +2689,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 1)]
 	public struct JoinPartyCallback_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamPartiesCallbacks + 1;
@@ -2751,7 +2751,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 2)]
 	public struct CreateBeaconCallback_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamPartiesCallbacks + 2;
@@ -2794,7 +2794,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 3)]
 	public struct ReservationNotificationCallback_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamPartiesCallbacks + 3;
@@ -2809,7 +2809,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 4)]
 	public struct ChangeNumOpenSlotsCallback_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamPartiesCallbacks + 4;
@@ -2823,7 +2823,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 5)]
 	public struct AvailableBeaconLocationsUpdated_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamPartiesCallbacks + 5;
@@ -2835,7 +2835,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 6)]
 	public struct ActiveBeaconsUpdated_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamPartiesCallbacks + 6;
@@ -2847,7 +2847,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamMusicCallbacks + 1)]
 	public struct PlaybackStatusHasChanged_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamMusicCallbacks + 1;
@@ -2858,7 +2858,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamMusicCallbacks + 2)]
 	public struct VolumeHasChanged_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamMusicCallbacks + 2;
@@ -2873,7 +2873,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamNetworkingCallbacks + 2)]
 	public struct P2PSessionRequest_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamNetworkingCallbacks + 2;
@@ -2888,7 +2888,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamNetworkingCallbacks + 3)]
 	public struct P2PSessionConnectFail_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamNetworkingCallbacks + 3;
@@ -2903,7 +2903,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamNetworkingCallbacks + 1)]
 	public struct SocketStatusCallback_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamNetworkingCallbacks + 1;
@@ -2922,7 +2922,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamNetworkingMessagesCallbacks + 1)]
 	public struct SteamNetworkingMessagesSessionRequest_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamNetworkingMessagesCallbacks + 1;
@@ -2945,7 +2945,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamNetworkingMessagesCallbacks + 2)]
 	public struct SteamNetworkingMessagesSessionFailed_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamNetworkingMessagesCallbacks + 2;
@@ -2997,7 +2997,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamNetworkingSocketsCallbacks + 1)]
 	public struct SteamNetConnectionStatusChangedCallback_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamNetworkingSocketsCallbacks + 1;
@@ -3093,7 +3093,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamNetworkingSocketsCallbacks + 2)]
 	public struct SteamNetAuthenticationStatus_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamNetworkingSocketsCallbacks + 2;
@@ -3120,7 +3120,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamNetworkingUtilsCallbacks + 1)]
 	public struct SteamRelayNetworkStatus_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamNetworkingUtilsCallbacks + 1;
@@ -3167,7 +3167,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_ISteamParentalSettingsCallbacks + 1)]
 	public struct SteamParentalSettingsChanged_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_ISteamParentalSettingsCallbacks + 1;
@@ -3179,7 +3179,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemotePlayCallbacks + 1)]
 	public struct SteamRemotePlaySessionConnected_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemotePlayCallbacks + 1;
@@ -3191,7 +3191,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemotePlayCallbacks + 2)]
 	public struct SteamRemotePlaySessionDisconnected_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemotePlayCallbacks + 2;
@@ -3203,7 +3203,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemotePlayCallbacks + 3)]
 	public struct SteamRemotePlayTogetherGuestInvite_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemotePlayCallbacks + 3;
@@ -3219,8 +3219,13 @@ namespace Steamworks {
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemotePlayCallbacks + 4)]
-	public struct SteamRemotePlaySessionAvatarLoaded_t {
+	public struct SteamRemotePlaySessionAvatarLoaded_t
+	#if STEAMWORKS_ANYCPU
+		: ISteamCallbackIdentity
+	#endif
+	{
 		public const int k_iCallback = Constants.k_iSteamRemotePlayCallbacks + 4;
+		public static int CallbackIdentity { get; } = Constants.k_iSteamRemotePlayCallbacks + 4;
 		public RemotePlaySessionID_t m_unSessionID; // sessionID the avatar has been loaded for
 		public int m_iImage; // the image index of the now loaded image
 		public int m_iWide; // width of the loaded image
@@ -3235,7 +3240,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 7)]
 	public struct RemoteStorageFileShareResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 7;
@@ -3295,7 +3300,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 9)]
 	public struct RemoteStoragePublishFileResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 9;
@@ -3345,7 +3350,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 11)]
 	public struct RemoteStorageDeletePublishedFileResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 11;
@@ -3388,7 +3393,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 12)]
 	public struct RemoteStorageEnumerateUserPublishedFilesResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 12;
@@ -3440,7 +3445,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 13)]
 	public struct RemoteStorageSubscribePublishedFileResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 13;
@@ -3482,7 +3487,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 14)]
 	public struct RemoteStorageEnumerateUserSubscribedFilesResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 14;
@@ -3540,7 +3545,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 15)]
 	public struct RemoteStorageUnsubscribePublishedFileResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 15;
@@ -3582,7 +3587,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 16)]
 	public struct RemoteStorageUpdatePublishedFileResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 16;
@@ -3630,7 +3635,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 17)]
 	public struct RemoteStorageDownloadUGCResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 17;
@@ -3700,7 +3705,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 18)]
 	public struct RemoteStorageGetPublishedFileDetailsResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 18;
@@ -3881,7 +3886,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 19)]
 	public struct RemoteStorageEnumerateWorkshopFilesResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 19;
@@ -3944,7 +3949,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 20)]
 	public struct RemoteStorageGetPublishedItemVoteDetailsResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 20;
@@ -4002,7 +4007,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 21)]
 	public struct RemoteStoragePublishedFileSubscribed_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 21;
@@ -4018,7 +4023,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 22)]
 	public struct RemoteStoragePublishedFileUnsubscribed_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 22;
@@ -4034,7 +4039,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 23)]
 	public struct RemoteStoragePublishedFileDeleted_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 23;
@@ -4050,7 +4055,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 24)]
 	public struct RemoteStorageUpdateUserPublishedItemVoteResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 24;
@@ -4092,7 +4097,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 25)]
 	public struct RemoteStorageUserVoteDetails_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 25;
@@ -4135,7 +4140,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 26)]
 	public struct RemoteStorageEnumerateUserSharedWorkshopFilesResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 26;
@@ -4181,7 +4186,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 27)]
 	public struct RemoteStorageSetUserPublishedFileActionResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 27;
@@ -4221,7 +4226,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 28)]
 	public struct RemoteStorageEnumeratePublishedFilesByUserActionResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 28;
@@ -4243,7 +4248,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 29)]
 	public struct RemoteStoragePublishFileProgress_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 29;
@@ -4260,7 +4265,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 30)]
 	public struct RemoteStoragePublishedFileUpdated_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 30;
@@ -4306,7 +4311,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 31)]
 	public struct RemoteStorageFileWriteAsyncComplete_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 31;
@@ -4321,7 +4326,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 32)]
 	public struct RemoteStorageFileReadAsyncComplete_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 32;
@@ -4341,7 +4346,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 33)]
 	public struct RemoteStorageLocalFileChange_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 33;
@@ -4357,7 +4362,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamScreenshotsCallbacks + 1)]
 	public struct ScreenshotReady_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamScreenshotsCallbacks + 1;
@@ -4375,7 +4380,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamScreenshotsCallbacks + 2)]
 	public struct ScreenshotRequested_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamScreenshotsCallbacks + 2;
@@ -4389,7 +4394,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamTimelineCallbacks + 1)]
 	public struct SteamTimelineGamePhaseRecordingExists_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamTimelineCallbacks + 1;
@@ -4414,7 +4419,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamTimelineCallbacks + 2)]
 	public struct SteamTimelineEventRecordingExists_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamTimelineCallbacks + 2;
@@ -4431,7 +4436,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 1)]
 	public struct SteamUGCQueryCompleted_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 1;
@@ -4458,7 +4463,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 2)]
 	public struct SteamUGCRequestUGCDetailsResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 2;
@@ -4475,7 +4480,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 3)]
 	public struct CreateItemResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 3;
@@ -4523,7 +4528,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 4)]
 	public struct SubmitItemUpdateResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 4;
@@ -4541,7 +4546,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 5)]
 	public struct ItemInstalled_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 5;
@@ -4591,7 +4596,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 6)]
 	public struct DownloadItemResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 6;
@@ -4637,7 +4642,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 7)]
 	public struct UserFavoriteItemsListChanged_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 7;
@@ -4655,7 +4660,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 8)]
 	public struct SetUserItemVoteResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 8;
@@ -4673,7 +4678,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 9)]
 	public struct GetUserItemVoteResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 9;
@@ -4695,7 +4700,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 10)]
 	public struct StartPlaytimeTrackingResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 10;
@@ -4710,7 +4715,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 11)]
 	public struct StopPlaytimeTrackingResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 11;
@@ -4725,7 +4730,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 12)]
 	public struct AddUGCDependencyResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 12;
@@ -4771,7 +4776,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 13)]
 	public struct RemoveUGCDependencyResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 13;
@@ -4817,7 +4822,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 14)]
 	public struct AddAppDependencyResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 14;
@@ -4863,7 +4868,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 15)]
 	public struct RemoveAppDependencyResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 15;
@@ -4910,7 +4915,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 16)]
 	public struct GetAppDependenciesResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 16;
@@ -4967,7 +4972,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 17)]
 	public struct DeleteItemResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 17;
@@ -5009,7 +5014,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 18)]
 	public struct UserSubscribedItemsListChanged_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 18;
@@ -5024,7 +5029,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 20)]
 	public struct WorkshopEULAStatus_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 20;
@@ -5051,7 +5056,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 1)]
 	public struct SteamServersConnected_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 1;
@@ -5067,7 +5072,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 2)]
 	public struct SteamServerConnectFailure_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 2;
@@ -5085,7 +5090,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 3)]
 	public struct SteamServersDisconnected_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 3;
@@ -5103,7 +5108,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 13)]
 	public struct ClientGameServerDeny_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 13;
@@ -5125,7 +5130,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 17)]
 	public struct IPCFailure_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 17;
@@ -5139,7 +5144,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 25)]
 	public struct LicensesUpdated_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 25;
@@ -5153,7 +5158,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 43)]
 	public struct ValidateAuthTicketResponse_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 43;
@@ -5199,7 +5204,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 52)]
 	public struct MicroTxnAuthorizationResponse_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 52;
@@ -5247,7 +5252,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 54)]
 	public struct EncryptedAppTicketResponse_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 54;
@@ -5263,7 +5268,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 63)]
 	public struct GetAuthSessionTicketResponse_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 63;
@@ -5279,7 +5284,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 64)]
 	public struct GameWebCallback_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 64;
@@ -5300,7 +5305,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 65)]
 	public struct StoreAuthURLResponse_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 65;
@@ -5321,7 +5326,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 66)]
 	public struct MarketEligibilityResponse_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 66;
@@ -5347,7 +5352,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 67)]
 	public struct DurationControl_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 67;
@@ -5374,7 +5379,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 68)]
 	public struct GetTicketForWebApiResponse_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 68;
@@ -5395,7 +5400,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 1)]
 	public struct UserStatsReceived_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 1;
@@ -5415,7 +5420,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 2)]
 	public struct UserStatsStored_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 2;
@@ -5433,7 +5438,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 3)]
 	public struct UserAchievementStored_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 3;
@@ -5461,7 +5466,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 4)]
 	public struct LeaderboardFindResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 4;
@@ -5478,7 +5483,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 5)]
 	public struct LeaderboardScoresDownloaded_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 5;
@@ -5496,7 +5501,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 6)]
 	public struct LeaderboardScoreUploaded_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 6;
@@ -5552,7 +5557,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 7)]
 	public struct NumberOfCurrentPlayers_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 7;
@@ -5569,7 +5574,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 8)]
 	public struct UserStatsUnloaded_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 8;
@@ -5584,7 +5589,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 9)]
 	public struct UserAchievementIconFetched_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 9;
@@ -5610,7 +5615,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 10)]
 	public struct GlobalAchievementPercentagesReady_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 10;
@@ -5627,7 +5632,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 11)]
 	public struct LeaderboardUGCSet_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 11;
@@ -5670,7 +5675,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 12)]
 	public struct GlobalStatsReceived_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 12;
@@ -5687,7 +5692,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 1)]
 	public struct IPCountry_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 1;
@@ -5701,7 +5706,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 2)]
 	public struct LowBatteryPower_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 2;
@@ -5716,7 +5721,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 3)]
 	public struct SteamAPICallCompleted_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 3;
@@ -5733,7 +5738,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 4)]
 	public struct SteamShutdown_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 4;
@@ -5747,7 +5752,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 5)]
 	public struct CheckFileSignature_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 5;
@@ -5763,7 +5768,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 14)]
 	public struct GamepadTextInputDismissed_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 14;
@@ -5779,7 +5784,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 36)]
 	public struct AppResumingFromSuspend_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 36;
@@ -5794,7 +5799,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 38)]
 	public struct FloatingGamepadTextInputDismissed_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 38;
@@ -5808,7 +5813,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 39)]
 	public struct FilterTextDictionaryChanged_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 39;
@@ -5820,7 +5825,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamVideoCallbacks + 11)]
 	public struct GetVideoURLResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamVideoCallbacks + 11;
@@ -5840,7 +5845,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamVideoCallbacks + 24)]
 	public struct GetOPFSettingsResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamVideoCallbacks + 24;
@@ -5853,7 +5858,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamVideoCallbacks + 4)]
 	public struct BroadcastUploadStart_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamVideoCallbacks + 4;
@@ -5866,7 +5871,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamVideoCallbacks + 5)]
 	public struct BroadcastUploadStop_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamVideoCallbacks + 5;
@@ -5883,7 +5888,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamNetworkingSocketsCallbacks + 3)]
 	public struct SteamNetworkingFakeIPResult_t
 	#if STEAMWORKS_ANYCPU
-		: ICallbackIdentity
+		: ISteamCallbackIdentity
 	#endif
 	{
 		public const int k_iCallback = Constants.k_iSteamNetworkingSocketsCallbacks + 3;

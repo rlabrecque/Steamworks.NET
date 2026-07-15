@@ -11,8 +11,13 @@
 
 #if !DISABLESTEAMWORKS
 
+using System;
+
 namespace Steamworks {
 	class CallbackIdentities {
+#if STEAMWORKS_ANYCPU
+		[Obsolete("For Steamworks.NET.AnyCPU, use static property TCallback.CallbackIdentity for non reflection scenario.", DiagnosticId = "SNETACPU1001")]
+#endif
 		public static int GetCallbackIdentity(System.Type callbackStruct) {
 #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_ANDROID || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX
 			foreach (CallbackIdentityAttribute attribute in callbackStruct.GetCustomAttributes(typeof(CallbackIdentityAttribute), false)) {

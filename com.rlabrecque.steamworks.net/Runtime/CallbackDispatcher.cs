@@ -31,6 +31,9 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 
 namespace Steamworks {
+	/// <summary>
+	/// Steamworks manual callback dispatcher
+	/// </summary>
 	public static class CallbackDispatcher {
 		public delegate void SteamworksExceptionHandler(Exception e);
 
@@ -41,7 +44,7 @@ namespace Steamworks {
 #if UNITY_STANDALONE || UNITY_ANDROID
 			UnityEngine.Debug.LogException(e);
 #elif STEAMWORKS_WIN || STEAMWORKS_LIN_OSX
-			Console.WriteLine(e.Message);
+			System.Diagnostics.Debug.WriteLine(e.ToString());
 #endif
 		}
 
@@ -70,6 +73,9 @@ namespace Steamworks {
 		}
 #endif
 
+		/// <summary>
+		/// Get a value indicates whether Steamworks manual callback dispatcher is initialized.
+		/// </summary>
 		public static bool IsInitialized {
 			get { return m_initCount > 0; }
 		}
@@ -96,7 +102,7 @@ namespace Steamworks {
 		}
 
 		internal static void Register(Callback cb) {
-			int iCallback = CallbackIdentities.GetCallbackIdentity(cb.GetCallbackType());
+			int iCallback = cb.CallbackIdentity;
 			var callbacksRegistry = cb.IsGameServer ? m_registeredGameServerCallbacks : m_registeredCallbacks;
 			lock (m_sync) {
 				List<Callback> callbacksList;
@@ -126,7 +132,7 @@ namespace Steamworks {
 		}
 
 		internal static void Unregister(Callback cb) {
-			int iCallback = CallbackIdentities.GetCallbackIdentity(cb.GetCallbackType());
+			int iCallback = cb.CallbackIdentity;
 			var callbacksRegistry = cb.IsGameServer ? m_registeredGameServerCallbacks : m_registeredCallbacks;
 			lock (m_sync) {
 				List<Callback> callbacksList;
@@ -235,14 +241,22 @@ namespace Steamworks {
 	/// </summary>
 	[EditorBrowsable(EditorBrowsableState.Never)] // hide this class from intellisense
 	public abstract class Callback {
-		public abstract bool IsGameServer { get; }
+#pragma warning disable SNETACPU1001 // Member is obsolete
+        internal protected virtual int CallbackIdentity { get => CallbackIdentities.GetCallbackIdentity(GetCallbackType()); }
+#pragma warning restore SNETACPU1001 // Reflection usage is good
+
+        public abstract bool IsGameServer { get; }
 		internal abstract Type GetCallbackType();
 		internal abstract void OnRunCallback(IntPtr pvParam);
 		internal abstract void SetUnregistered();
 	}
 
-	public sealed class Callback<T> : Callback, IDisposable {
-		public delegate void DispatchDelegate(T param);
+	public sealed class Callback<T> : Callback, IDisposable
+#if STEAMWORKS_ANYCPU
+		where T: struct, ISteamCallbackIdentity
+#endif
+	{
+        public delegate void DispatchDelegate(T param);
 		private event DispatchDelegate m_Func;
 
 		private bool m_bGameServer;
@@ -250,12 +264,17 @@ namespace Steamworks {
 
 		private bool m_bDisposed = false;
 
-		/// <summary>
-		/// Creates a new Callback. You must be calling SteamAPI.RunCallbacks() to retrieve the callbacks.
-		/// <para>Returns a handle to the Callback.</para>
-		/// <para>This MUST be assigned to a member variable to prevent the GC from cleaning it up.</para>
-		/// </summary>
-		public static Callback<T> Create(DispatchDelegate func) {
+#if STEAMWORKS_ANYCPU
+		/// <inheritdoc/>
+        internal protected sealed override int CallbackIdentity => T.CallbackIdentity;
+#endif
+
+        /// <summary>
+        /// Creates a new Callback. You must be calling SteamAPI.RunCallbacks() to retrieve the callbacks.
+        /// <para>Returns a handle to the Callback.</para>
+        /// <para>This MUST be assigned to a member variable to prevent the GC from cleaning it up.</para>
+        /// </summary>
+        public static Callback<T> Create(DispatchDelegate func) {
 			return new Callback<T>(func, bGameServer: false);
 		}
 
@@ -311,7 +330,8 @@ namespace Steamworks {
 			m_bIsRegistered = false;
 		}
 
-		public override bool IsGameServer {
+        /// <inheritdoc/>
+        public override bool IsGameServer {
 			get { return m_bGameServer; }
 		}
 
@@ -342,12 +362,18 @@ namespace Steamworks {
 	/// </summary>
 	[EditorBrowsable(EditorBrowsableState.Never)] // hide this class from intellisense
 	public abstract class CallResult {
-		internal protected abstract Type GetCallbackType();
+#pragma warning disable SNETACPU1001 // Member is obsolete
+        /// <inheritdoc/>
+        internal protected virtual int CallbackIdentity { get => CallbackIdentities.GetCallbackIdentity(GetCallbackType()); }
+#pragma warning restore SNETACPU1001 // Reflection usage is good
+        internal protected abstract Type GetCallbackType();
 		internal protected abstract void OnRunCallResult(IntPtr pvParam, bool bFailed, ulong hSteamAPICall);
 		internal protected abstract void SetUnregistered();
 	}
 
-	public sealed class CallResult<T> : CallResult, IDisposable {
+	public sealed class CallResult<T> : CallResult, IDisposable
+		where T: struct, ISteamCallbackIdentity
+	{
 		public delegate void APIDispatchDelegate(T param, bool bIOFailure);
 		private event APIDispatchDelegate m_Func;
 
@@ -356,12 +382,17 @@ namespace Steamworks {
 
 		private bool m_bDisposed = false;
 
-		/// <summary>
-		/// Creates a new async CallResult. You must be calling SteamAPI.RunCallbacks() to retrieve the callback.
-		/// <para>Returns a handle to the CallResult.</para>
-		/// <para>This MUST be assigned to a member variable to prevent the GC from cleaning it up.</para>
-		/// </summary>
-		public static CallResult<T> Create(APIDispatchDelegate func = null) {
+#if STEAMWORKS_ANYCPU
+        /// <inheritdoc/>
+        internal protected sealed override int CallbackIdentity => T.CallbackIdentity;
+#endif
+
+        /// <summary>
+        /// Creates a new async CallResult. You must be calling SteamAPI.RunCallbacks() to retrieve the callback.
+        /// <para>Returns a handle to the CallResult.</para>
+        /// <para>This MUST be assigned to a member variable to prevent the GC from cleaning it up.</para>
+        /// </summary>
+        public static CallResult<T> Create(APIDispatchDelegate func = null) {
 			return new CallResult<T>(func);
 		}
 
