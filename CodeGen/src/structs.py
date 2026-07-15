@@ -139,7 +139,7 @@ def main(parser: Parser):
         out.write(bytes("}\n\n", "utf-8"))
         out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
     
-    with open("../Standalone3.0/SteamMarshallerTable.g.cs", "wb") as out:
+    with open("../Standalone3.0/anycpu/autogen/SteamMarshallerTable.g.cs", "wb") as out:
         with open("templates/header.txt", "r") as f:
             out.write(bytes(f.read(), "utf-8"))
         
@@ -206,7 +206,7 @@ def parse(struct: Struct, isMainStruct, marshalTableLines: list[str], packsizeAw
         if struct.callbackid:
             lines.append("\tpublic struct " + structname )
             lines.append("\t#if STEAMWORKS_ANYCPU")
-            lines.append("\t\t: ICallbackIdentity")
+            lines.append("\t\t: ISteamCallbackIdentity")
             lines.append("\t#endif")
             lines.append("\t{")
         else:
