@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -33,10 +33,11 @@
 
 using System.Runtime.InteropServices;
 using IntPtr = System.IntPtr;
+using SysPath = System.IO.Path;
 
 namespace Steamworks {
 	[System.Security.SuppressUnmanagedCodeSecurity()]
-	internal static class NativeMethods {
+	internal static partial class NativeMethods {
 #if STEAMWORKS_WIN && STEAMWORKS_X64
 		internal const string NativeLibraryName = "steam_api64";
 		internal const string NativeLibrary_SDKEncryptedAppTicket = "sdkencryptedappticket64";
@@ -302,6 +303,10 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworkingConnectionSignaling_SendSignal", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool SteamAPI_ISteamNetworkingConnectionSignaling_SendSignal(ref ISteamNetworkingConnectionSignaling self, HSteamNetConnection hConn, ref SteamNetConnectionInfo_t info, IntPtr pMsg, int cbMsg);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworkingConnectionSignaling_SendSignal", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool SteamAPI_ISteamNetworkingConnectionSignaling_SendSignal(ref ISteamNetworkingConnectionSignaling self, HSteamNetConnection hConn, ref SteamNetConnectionInfo_t_LargePack info_lp, IntPtr pMsg, int cbMsg);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworkingConnectionSignaling_Release", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_ISteamNetworkingConnectionSignaling_Release(ref ISteamNetworkingConnectionSignaling self);
