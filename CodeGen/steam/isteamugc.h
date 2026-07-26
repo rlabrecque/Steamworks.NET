@@ -100,6 +100,8 @@ enum EUGCQuery
 	k_EUGCQuery_RankedByPlaytimeSessionsTrend				  = 17,
 	k_EUGCQuery_RankedByLifetimePlaytimeSessions			  = 18,
 	k_EUGCQuery_RankedByLastUpdatedDate						  = 19,
+	k_EUGCQuery_RankedByNumParentItems						  = 20,
+	k_EUGCQuery_RankedByNumParentCollections				  = 21,
 };
 
 enum EItemUpdateStatus
@@ -169,7 +171,7 @@ enum EUGCContentDescriptorID
 };
 
 const uint32 kNumUGCResultsPerPage = 50;
-const uint32 k_cchDeveloperMetadataMax = 5000;
+const uint32 k_cchDeveloperMetadataMax = 10000;
 
 // Details for a single published file/UGC
 struct SteamUGCDetails_t

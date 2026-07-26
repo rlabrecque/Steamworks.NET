@@ -180,14 +180,14 @@ S_API uint32 SteamAPI_ISteamFriends_GetProfileItemPropertyUint( ISteamFriends* s
 // ISteamUtils
 
 // A versioned accessor is exported by the library
-S_API ISteamUtils *SteamAPI_SteamUtils_v010();
+S_API ISteamUtils *SteamAPI_SteamUtils_v011();
 // Inline, unversioned accessor to get the current version.  Essentially the same as SteamUtils(), but using this ensures that you are using a matching library.
-inline ISteamUtils *SteamAPI_SteamUtils() { return SteamAPI_SteamUtils_v010(); }
+inline ISteamUtils *SteamAPI_SteamUtils() { return SteamAPI_SteamUtils_v011(); }
 
 // A versioned accessor is exported by the library
-S_API ISteamUtils *SteamAPI_SteamGameServerUtils_v010();
+S_API ISteamUtils *SteamAPI_SteamGameServerUtils_v011();
 // Inline, unversioned accessor to get the current version.  Essentially the same as SteamGameServerUtils(), but using this ensures that you are using a matching library.
-inline ISteamUtils *SteamAPI_SteamGameServerUtils() { return SteamAPI_SteamGameServerUtils_v010(); }
+inline ISteamUtils *SteamAPI_SteamGameServerUtils() { return SteamAPI_SteamGameServerUtils_v011(); }
 S_API uint32 SteamAPI_ISteamUtils_GetSecondsSinceAppActive( ISteamUtils* self );
 S_API uint32 SteamAPI_ISteamUtils_GetSecondsSinceComputerActive( ISteamUtils* self );
 S_API EUniverse SteamAPI_ISteamUtils_GetConnectedUniverse( ISteamUtils* self );
@@ -220,11 +220,13 @@ S_API bool SteamAPI_ISteamUtils_IsSteamChinaLauncher( ISteamUtils* self );
 S_API bool SteamAPI_ISteamUtils_InitFilterText( ISteamUtils* self, uint32 unFilterOptions );
 S_API int SteamAPI_ISteamUtils_FilterText( ISteamUtils* self, ETextFilteringContext eContext, uint64_steamid sourceSteamID, const char * pchInputMessage, char * pchOutFilteredText, uint32 nByteSizeOutFilteredText );
 S_API ESteamIPv6ConnectivityState SteamAPI_ISteamUtils_GetIPv6ConnectivityState( ISteamUtils* self, ESteamIPv6ConnectivityProtocol eProtocol );
-S_API bool SteamAPI_ISteamUtils_IsSteamRunningOnSteamDeck( ISteamUtils* self );
 S_API bool SteamAPI_ISteamUtils_ShowFloatingGamepadTextInput( ISteamUtils* self, EFloatingGamepadTextInputMode eKeyboardMode, int nTextFieldXPosition, int nTextFieldYPosition, int nTextFieldWidth, int nTextFieldHeight );
 S_API void SteamAPI_ISteamUtils_SetGameLauncherMode( ISteamUtils* self, bool bLauncherMode );
 S_API bool SteamAPI_ISteamUtils_DismissFloatingGamepadTextInput( ISteamUtils* self );
 S_API bool SteamAPI_ISteamUtils_DismissGamepadTextInput( ISteamUtils* self );
+S_API ESteamHardwareType SteamAPI_ISteamUtils_IsRunningOnSteamHardware( ISteamUtils* self );
+S_API ESteamHardwareDefaultConfig SteamAPI_ISteamUtils_GetSteamHardwareDefaultConfig( ISteamUtils* self );
+S_API bool SteamAPI_ISteamUtils_IsRunningUnderProton( ISteamUtils* self );
 
 // ISteamMatchmaking
 
@@ -290,12 +292,17 @@ S_API void SteamAPI_ISteamMatchmakingRulesResponse_RulesResponded( ISteamMatchma
 S_API void SteamAPI_ISteamMatchmakingRulesResponse_RulesFailedToRespond( ISteamMatchmakingRulesResponse* self );
 S_API void SteamAPI_ISteamMatchmakingRulesResponse_RulesRefreshComplete( ISteamMatchmakingRulesResponse* self );
 
+// ISteamMatchmakingServerFriendsResponse
+S_API void SteamAPI_ISteamMatchmakingServerFriendsResponse_AddFriendToList( ISteamMatchmakingServerFriendsResponse* self, uint64_steamid steamID, const char * pchName, bool bCurrentlyConnected );
+S_API void SteamAPI_ISteamMatchmakingServerFriendsResponse_FriendsFailedToRespond( ISteamMatchmakingServerFriendsResponse* self );
+S_API void SteamAPI_ISteamMatchmakingServerFriendsResponse_FriendsRefreshComplete( ISteamMatchmakingServerFriendsResponse* self );
+
 // ISteamMatchmakingServers
 
 // A versioned accessor is exported by the library
-S_API ISteamMatchmakingServers *SteamAPI_SteamMatchmakingServers_v002();
+S_API ISteamMatchmakingServers *SteamAPI_SteamMatchmakingServers_v003();
 // Inline, unversioned accessor to get the current version.  Essentially the same as SteamMatchmakingServers(), but using this ensures that you are using a matching library.
-inline ISteamMatchmakingServers *SteamAPI_SteamMatchmakingServers() { return SteamAPI_SteamMatchmakingServers_v002(); }
+inline ISteamMatchmakingServers *SteamAPI_SteamMatchmakingServers() { return SteamAPI_SteamMatchmakingServers_v003(); }
 S_API HServerListRequest SteamAPI_ISteamMatchmakingServers_RequestInternetServerList( ISteamMatchmakingServers* self, AppId_t iApp, MatchMakingKeyValuePair_t ** ppchFilters, uint32 nFilters, ISteamMatchmakingServerListResponse * pRequestServersResponse );
 S_API HServerListRequest SteamAPI_ISteamMatchmakingServers_RequestLANServerList( ISteamMatchmakingServers* self, AppId_t iApp, ISteamMatchmakingServerListResponse * pRequestServersResponse );
 S_API HServerListRequest SteamAPI_ISteamMatchmakingServers_RequestFriendsServerList( ISteamMatchmakingServers* self, AppId_t iApp, MatchMakingKeyValuePair_t ** ppchFilters, uint32 nFilters, ISteamMatchmakingServerListResponse * pRequestServersResponse );
@@ -312,6 +319,7 @@ S_API void SteamAPI_ISteamMatchmakingServers_RefreshServer( ISteamMatchmakingSer
 S_API HServerQuery SteamAPI_ISteamMatchmakingServers_PingServer( ISteamMatchmakingServers* self, uint32 unIP, uint16 usPort, ISteamMatchmakingPingResponse * pRequestServersResponse );
 S_API HServerQuery SteamAPI_ISteamMatchmakingServers_PlayerDetails( ISteamMatchmakingServers* self, uint32 unIP, uint16 usPort, ISteamMatchmakingPlayersResponse * pRequestServersResponse );
 S_API HServerQuery SteamAPI_ISteamMatchmakingServers_ServerRules( ISteamMatchmakingServers* self, uint32 unIP, uint16 usPort, ISteamMatchmakingRulesResponse * pRequestServersResponse );
+S_API HServerQuery SteamAPI_ISteamMatchmakingServers_ServerFriends( ISteamMatchmakingServers* self, uint32 unIP, uint16 usPort, ISteamMatchmakingServerFriendsResponse * pRequestServersResponse );
 S_API void SteamAPI_ISteamMatchmakingServers_CancelServerQuery( ISteamMatchmakingServers* self, HServerQuery hServerQuery );
 
 // ISteamParties
@@ -489,6 +497,8 @@ S_API bool SteamAPI_ISteamApps_SetDlcContext( ISteamApps* self, AppId_t nAppID )
 S_API int SteamAPI_ISteamApps_GetNumBetas( ISteamApps* self, int * pnAvailable, int * pnPrivate );
 S_API bool SteamAPI_ISteamApps_GetBetaInfo( ISteamApps* self, int iBetaIndex, uint32 * punFlags, uint32 * punBuildID, char * pchBetaName, int cchBetaName, char * pchDescription, int cchDescription, uint32 * punLastUpdated );
 S_API bool SteamAPI_ISteamApps_SetActiveBeta( ISteamApps* self, const char * pchBetaName );
+S_API void SteamAPI_ISteamApps_SetGamePerformanceSetting( ISteamApps* self, EGamePerformanceSetting setting );
+S_API void SteamAPI_ISteamApps_SetGameRenderResolution( ISteamApps* self, uint32 unWidth, uint32 unHeight );
 
 // ISteamNetworking
 
@@ -596,9 +606,9 @@ S_API bool SteamAPI_ISteamHTTP_GetHTTPRequestWasTimedOut( ISteamHTTP* self, HTTP
 // ISteamInput
 
 // A versioned accessor is exported by the library
-S_API ISteamInput *SteamAPI_SteamInput_v006();
+S_API ISteamInput *SteamAPI_SteamInput_v007();
 // Inline, unversioned accessor to get the current version.  Essentially the same as SteamInput(), but using this ensures that you are using a matching library.
-inline ISteamInput *SteamAPI_SteamInput() { return SteamAPI_SteamInput_v006(); }
+inline ISteamInput *SteamAPI_SteamInput() { return SteamAPI_SteamInput_v007(); }
 S_API bool SteamAPI_ISteamInput_Init( ISteamInput* self, bool bExplicitlyCallRunFrame );
 S_API bool SteamAPI_ISteamInput_Shutdown( ISteamInput* self );
 S_API bool SteamAPI_ISteamInput_SetInputActionManifestFilePath( ISteamInput* self, const char * pchInputActionManifestAbsolutePath );
@@ -991,14 +1001,14 @@ S_API ESteamNetworkingConnectionState SteamAPI_ISteamNetworkingMessages_GetSessi
 // ISteamNetworkingSockets
 
 // A versioned accessor is exported by the library
-S_API ISteamNetworkingSockets *SteamAPI_SteamNetworkingSockets_SteamAPI_v012();
+S_API ISteamNetworkingSockets *SteamAPI_SteamNetworkingSockets_SteamAPI_v013();
 // Inline, unversioned accessor to get the current version.  Essentially the same as SteamNetworkingSockets_SteamAPI(), but using this ensures that you are using a matching library.
-inline ISteamNetworkingSockets *SteamAPI_SteamNetworkingSockets_SteamAPI() { return SteamAPI_SteamNetworkingSockets_SteamAPI_v012(); }
+inline ISteamNetworkingSockets *SteamAPI_SteamNetworkingSockets_SteamAPI() { return SteamAPI_SteamNetworkingSockets_SteamAPI_v013(); }
 
 // A versioned accessor is exported by the library
-S_API ISteamNetworkingSockets *SteamAPI_SteamGameServerNetworkingSockets_SteamAPI_v012();
+S_API ISteamNetworkingSockets *SteamAPI_SteamGameServerNetworkingSockets_SteamAPI_v013();
 // Inline, unversioned accessor to get the current version.  Essentially the same as SteamGameServerNetworkingSockets_SteamAPI(), but using this ensures that you are using a matching library.
-inline ISteamNetworkingSockets *SteamAPI_SteamGameServerNetworkingSockets_SteamAPI() { return SteamAPI_SteamGameServerNetworkingSockets_SteamAPI_v012(); }
+inline ISteamNetworkingSockets *SteamAPI_SteamGameServerNetworkingSockets_SteamAPI() { return SteamAPI_SteamGameServerNetworkingSockets_SteamAPI_v013(); }
 S_API HSteamListenSocket SteamAPI_ISteamNetworkingSockets_CreateListenSocketIP( ISteamNetworkingSockets* self, const SteamNetworkingIPAddr & localAddress, int nOptions, const SteamNetworkingConfigValue_t * pOptions );
 S_API HSteamNetConnection SteamAPI_ISteamNetworkingSockets_ConnectByIPAddress( ISteamNetworkingSockets* self, const SteamNetworkingIPAddr & address, int nOptions, const SteamNetworkingConfigValue_t * pOptions );
 S_API HSteamListenSocket SteamAPI_ISteamNetworkingSockets_CreateListenSocketP2P( ISteamNetworkingSockets* self, int nLocalVirtualPort, int nOptions, const SteamNetworkingConfigValue_t * pOptions );
@@ -1011,14 +1021,14 @@ S_API int64 SteamAPI_ISteamNetworkingSockets_GetConnectionUserData( ISteamNetwor
 S_API void SteamAPI_ISteamNetworkingSockets_SetConnectionName( ISteamNetworkingSockets* self, HSteamNetConnection hPeer, const char * pszName );
 S_API bool SteamAPI_ISteamNetworkingSockets_GetConnectionName( ISteamNetworkingSockets* self, HSteamNetConnection hPeer, char * pszName, int nMaxLen );
 S_API EResult SteamAPI_ISteamNetworkingSockets_SendMessageToConnection( ISteamNetworkingSockets* self, HSteamNetConnection hConn, const void * pData, uint32 cbData, int nSendFlags, int64 * pOutMessageNumber );
-S_API void SteamAPI_ISteamNetworkingSockets_SendMessages( ISteamNetworkingSockets* self, int nMessages, SteamNetworkingMessage_t *const * pMessages, int64 * pOutMessageNumberOrResult );
+S_API void SteamAPI_ISteamNetworkingSockets_SendMessages( ISteamNetworkingSockets* self, int nMessages, SteamNetworkingMessage_t ** pMessages, int64 * pOutMessageNumberOrResult, bool bDeleteFailedMessages );
 S_API EResult SteamAPI_ISteamNetworkingSockets_FlushMessagesOnConnection( ISteamNetworkingSockets* self, HSteamNetConnection hConn );
 S_API int SteamAPI_ISteamNetworkingSockets_ReceiveMessagesOnConnection( ISteamNetworkingSockets* self, HSteamNetConnection hConn, SteamNetworkingMessage_t ** ppOutMessages, int nMaxMessages );
 S_API bool SteamAPI_ISteamNetworkingSockets_GetConnectionInfo( ISteamNetworkingSockets* self, HSteamNetConnection hConn, SteamNetConnectionInfo_t * pInfo );
 S_API EResult SteamAPI_ISteamNetworkingSockets_GetConnectionRealTimeStatus( ISteamNetworkingSockets* self, HSteamNetConnection hConn, SteamNetConnectionRealTimeStatus_t * pStatus, int nLanes, SteamNetConnectionRealTimeLaneStatus_t * pLanes );
 S_API int SteamAPI_ISteamNetworkingSockets_GetDetailedConnectionStatus( ISteamNetworkingSockets* self, HSteamNetConnection hConn, char * pszBuf, int cbBuf );
 S_API bool SteamAPI_ISteamNetworkingSockets_GetListenSocketAddress( ISteamNetworkingSockets* self, HSteamListenSocket hSocket, SteamNetworkingIPAddr * address );
-S_API bool SteamAPI_ISteamNetworkingSockets_CreateSocketPair( ISteamNetworkingSockets* self, HSteamNetConnection * pOutConnection1, HSteamNetConnection * pOutConnection2, bool bUseNetworkLoopback, const SteamNetworkingIdentity * pIdentity1, const SteamNetworkingIdentity * pIdentity2 );
+S_API bool SteamAPI_ISteamNetworkingSockets_CreateSocketPair( ISteamNetworkingSockets* self, HSteamNetConnection * pOutConnection1, HSteamNetConnection * pOutConnection2, bool bUseNetworkLoopback, const SteamNetworkingIdentity * pPeerIdentity1, const SteamNetworkingIdentity * pPeerIdentity2 );
 S_API EResult SteamAPI_ISteamNetworkingSockets_ConfigureConnectionLanes( ISteamNetworkingSockets* self, HSteamNetConnection hConn, int nNumLanes, const int * pLanePriorities, const uint16 * pLaneWeights );
 S_API bool SteamAPI_ISteamNetworkingSockets_GetIdentity( ISteamNetworkingSockets* self, SteamNetworkingIdentity * pIdentity );
 S_API ESteamNetworkingAvailability SteamAPI_ISteamNetworkingSockets_InitAuthentication( ISteamNetworkingSockets* self );
@@ -1185,11 +1195,13 @@ S_API const char * SteamAPI_servernetadr_t_GetConnectionAddressString( servernet
 S_API const char * SteamAPI_servernetadr_t_GetQueryAddressString( servernetadr_t* self );
 S_API bool SteamAPI_servernetadr_t_IsLessThan( servernetadr_t* self, const servernetadr_t & netadr );
 S_API void SteamAPI_servernetadr_t_Assign( servernetadr_t* self, const servernetadr_t & that );
+S_API bool SteamAPI_servernetadr_t_IsEqualTo( servernetadr_t* self, const servernetadr_t & rhs );
 
 // gameserveritem_t
 S_API void SteamAPI_gameserveritem_t_Construct( gameserveritem_t* self );
 S_API const char * SteamAPI_gameserveritem_t_GetName( gameserveritem_t* self );
 S_API void SteamAPI_gameserveritem_t_SetName( gameserveritem_t* self, const char * pName );
+S_API bool SteamAPI_gameserveritem_t_IsEqualTo( gameserveritem_t* self, const gameserveritem_t & rhs );
 
 // SteamNetworkingIPAddr
 S_API void SteamAPI_SteamNetworkingIPAddr_Clear( SteamNetworkingIPAddr* self );

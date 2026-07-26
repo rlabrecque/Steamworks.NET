@@ -372,6 +372,33 @@ public:
 
 
 //-----------------------------------------------------------------------------
+// Purpose: Callback interface for receiving responses after requesting details on
+// friends who have played on this server.
+//
+// These callbacks all occur in response to querying an individual server
+// via the ISteamMatchmakingServers()->ServerFriends() call below.  If you are 
+// destructing an object that implements this interface then you should call 
+// ISteamMatchmakingServers()->CancelServerQuery() passing in the handle to the query
+// which is in progress.  Failure to cancel in progress queries when destructing
+// a callback handler may result in a crash when a callback later occurs.
+//-----------------------------------------------------------------------------
+class ISteamMatchmakingServerFriendsResponse
+{
+public:
+	// Got data on a friend who has played on the server -- you'll get this callback once per player
+	// on the server which you have requested player data on.
+	virtual void AddFriendToList( CSteamID steamID, const char *pchName, bool bCurrentlyConnected ) = 0;
+
+	// The server failed to respond to the request for player details
+	virtual void FriendsFailedToRespond() = 0;
+
+	// The server has finished responding to the player details request 
+	// (ie, you won't get anymore AddPlayerToList callbacks)
+	virtual void FriendsRefreshComplete() = 0;
+};
+
+
+//-----------------------------------------------------------------------------
 // Typedef for handle type you will receive when querying details on an individual server.
 //-----------------------------------------------------------------------------
 typedef int HServerQuery;
@@ -465,6 +492,10 @@ public:
 			- Server passes the filter if it doesn't have any players.
 		"linux"
 			- Server passes the filter if it's a linux server
+		"popularamongfriends"
+			- Server passes the filter it is popular among friends whose profiles are not private, the game is not private and friends state is not offline/invisible during play
+			- server must not also have set the tag "nofriendshare"
+			- and the game must not be opted out of saving/showing coplay data
 	*/
 
 	// Get details on a given server in the list, you can get the valid range of index
@@ -510,12 +541,15 @@ public:
 	// Request the list of rules that the server is running (See ISteamGameServer::SetKeyValue() to set the rules server side)
 	virtual HServerQuery ServerRules( uint32 unIP, uint16 usPort, ISteamMatchmakingRulesResponse *pRequestServersResponse ) = 0; 
 
+	// Request the list of friends that have played on this server
+	virtual HServerQuery ServerFriends( uint32 unIP, uint16 usPort, ISteamMatchmakingServerFriendsResponse *pRequestServersResponse ) = 0;
+	
 	// Cancel an outstanding Ping/Players/Rules query from above.  You should call this to cancel
 	// any in-progress requests before destructing a callback object that may have been passed 
 	// to one of the above calls to avoid crashing when callbacks occur.
 	virtual void CancelServerQuery( HServerQuery hServerQuery ) = 0; 
 };
-#define STEAMMATCHMAKINGSERVERS_INTERFACE_VERSION "SteamMatchMakingServers002"
+#define STEAMMATCHMAKINGSERVERS_INTERFACE_VERSION "SteamMatchMakingServers003"
 
 // Global interface accessor
 inline ISteamMatchmakingServers *SteamMatchmakingServers();

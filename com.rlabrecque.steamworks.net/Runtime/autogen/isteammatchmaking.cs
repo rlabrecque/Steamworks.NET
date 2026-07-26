@@ -530,6 +530,10 @@ namespace Steamworks {
 		/// <para>			- Server passes the filter if it doesn't have any players.</para>
 		/// <para>		"linux"</para>
 		/// <para>			- Server passes the filter if it's a linux server</para>
+		/// <para>		"popularamongfriends"</para>
+		/// <para>			- Server passes the filter it is popular among friends whose profiles are not private, the game is not private and friends state is not offline/invisible during play</para>
+		/// <para>			- server must not also have set the tag "nofriendshare"</para>
+		/// <para>			- and the game must not be opted out of saving/showing coplay data</para>
 		/// <para> Get details on a given server in the list, you can get the valid range of index</para>
 		/// <para> values by calling GetServerCount().  You will also receive index values in</para>
 		/// <para> ISteamMatchmakingServerListResponse::ServerResponded() callbacks</para>
@@ -613,6 +617,14 @@ namespace Steamworks {
 		public static HServerQuery ServerRules(uint unIP, ushort usPort, ISteamMatchmakingRulesResponse pRequestServersResponse) {
 			InteropHelp.TestIfAvailableClient();
 			return (HServerQuery)NativeMethods.ISteamMatchmakingServers_ServerRules(CSteamAPIContext.GetSteamMatchmakingServers(), unIP, usPort, (IntPtr)pRequestServersResponse);
+		}
+
+		/// <summary>
+		/// <para> Request the list of friends that have played on this server</para>
+		/// </summary>
+		public static HServerQuery ServerFriends(uint unIP, ushort usPort, IntPtr pRequestServersResponse) {
+			InteropHelp.TestIfAvailableClient();
+			return (HServerQuery)NativeMethods.ISteamMatchmakingServers_ServerFriends(CSteamAPIContext.GetSteamMatchmakingServers(), unIP, usPort, pRequestServersResponse);
 		}
 
 		/// <summary>

@@ -311,7 +311,7 @@ public:
 	// requests information about a user - persona name & avatar
 	// if bRequireNameOnly is set, then the avatar of a user isn't downloaded 
 	// - it's a lot slower to download avatars and churns the local cache, so if you don't need avatars, don't request them
-	// if returns true, it means that data is being requested, and a PersonaStateChanged_t callback will be posted when it's retrieved
+	// if returns true, it means that data is being requested, and a PersonaStateChange_t callback will be posted when it's retrieved
 	// if returns false, it means that we already have all the details about that user, and functions can be called immediately
 	virtual bool RequestUserInformation( CSteamID steamIDUser, bool bRequireNameOnly ) = 0;
 

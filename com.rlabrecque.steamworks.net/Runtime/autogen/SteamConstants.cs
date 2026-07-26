@@ -25,16 +25,16 @@ namespace Steamworks {
 		public const string STEAMGAMESERVERSTATS_INTERFACE_VERSION = "SteamGameServerStats001";
 		public const string STEAMHTMLSURFACE_INTERFACE_VERSION = "STEAMHTMLSURFACE_INTERFACE_VERSION_005";
 		public const string STEAMHTTP_INTERFACE_VERSION = "STEAMHTTP_INTERFACE_VERSION003";
-		public const string STEAMINPUT_INTERFACE_VERSION = "SteamInput006";
+		public const string STEAMINPUT_INTERFACE_VERSION = "SteamInput007";
 		public const string STEAMINVENTORY_INTERFACE_VERSION = "STEAMINVENTORY_INTERFACE_V003";
 		public const string STEAMMATCHMAKING_INTERFACE_VERSION = "SteamMatchMaking009";
-		public const string STEAMMATCHMAKINGSERVERS_INTERFACE_VERSION = "SteamMatchMakingServers002";
+		public const string STEAMMATCHMAKINGSERVERS_INTERFACE_VERSION = "SteamMatchMakingServers003";
 		public const string STEAMPARTIES_INTERFACE_VERSION = "SteamParties002";
 		public const string STEAMMUSIC_INTERFACE_VERSION = "STEAMMUSIC_INTERFACE_VERSION001";
 		public const string STEAMNETWORKING_INTERFACE_VERSION = "SteamNetworking006";
 		public const string STEAMNETWORKINGMESSAGES_INTERFACE_VERSION = "SteamNetworkingMessages002";
 		// Silence some warnings
-		public const string STEAMNETWORKINGSOCKETS_INTERFACE_VERSION = "SteamNetworkingSockets012";
+		public const string STEAMNETWORKINGSOCKETS_INTERFACE_VERSION = "SteamNetworkingSockets013";
 		// Silence some warnings
 		public const string STEAMNETWORKINGUTILS_INTERFACE_VERSION = "SteamNetworkingUtils004";
 		public const string STEAMPARENTALSETTINGS_INTERFACE_VERSION = "STEAMPARENTALSETTINGS_INTERFACE_VERSION001";
@@ -45,7 +45,7 @@ namespace Steamworks {
 		public const string STEAMUGC_INTERFACE_VERSION = "STEAMUGC_INTERFACE_VERSION021";
 		public const string STEAMUSER_INTERFACE_VERSION = "SteamUser023";
 		public const string STEAMUSERSTATS_INTERFACE_VERSION = "STEAMUSERSTATS_INTERFACE_VERSION013";
-		public const string STEAMUTILS_INTERFACE_VERSION = "SteamUtils010";
+		public const string STEAMUTILS_INTERFACE_VERSION = "SteamUtils011";
 		public const string STEAMVIDEO_INTERFACE_VERSION = "STEAMVIDEO_INTERFACE_V007";
 		public const int k_cubAppProofOfPurchaseKeyMax = 240; // max supported length of a legacy cd key
 		// maximum length of friend group name (not including terminating nul!)
@@ -95,7 +95,7 @@ namespace Steamworks {
 		public const float k_flMaxTimelineEventDuration = 600.0f;
 		public const int k_cchMaxPhaseIDLength = 64;
 		public const int kNumUGCResultsPerPage = 50;
-		public const int k_cchDeveloperMetadataMax = 5000;
+		public const int k_cchDeveloperMetadataMax = 10000;
 		public const int k_nCubTicketMaxLength = 2560;
 		// size limit on stat or achievement name (UTF-8 encoded)
 		public const int k_cchStatNameMax = 128;

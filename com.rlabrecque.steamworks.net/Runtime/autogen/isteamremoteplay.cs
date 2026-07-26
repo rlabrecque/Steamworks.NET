@@ -58,8 +58,8 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> gets the small (32x32) avatar of the connected user, which is a handle to be used in IClientUtils::GetImageRGBA(), or 0 if the sessionID isn't valid</para>
-		/// <para> returns -1 if this image has yet to be loaded, in this case wait for a RemotePlaySessionAvatarLoaded_t callback and then call this again</para>
+		/// <para> gets the small (32x32) avatar of the connected user, which is a handle to be used in ISteamUtils::GetImageRGBA(), or 0 if the sessionID isn't valid</para>
+		/// <para> returns -1 if this image has yet to be loaded, in this case wait for a SteamRemotePlaySessionAvatarLoaded_t callback and then call this again</para>
 		/// </summary>
 		public static int GetSmallSessionAvatar(RemotePlaySessionID_t unSessionID) {
 			InteropHelp.TestIfAvailableClient();
@@ -67,8 +67,8 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> gets the medium (64x64) avatar of the connected user, which is a handle to be used in IClientUtils::GetImageRGBA(), or 0 if the sessionID isn't valid</para>
-		/// <para> returns -1 if this image has yet to be loaded, in this case wait for a RemotePlaySessionAvatarLoaded_t callback and then call this again</para>
+		/// <para> gets the medium (64x64) avatar of the connected user, which is a handle to be used in ISteamUtils::GetImageRGBA(), or 0 if the sessionID isn't valid</para>
+		/// <para> returns -1 if this image has yet to be loaded, in this case wait for a SteamRemotePlaySessionAvatarLoaded_t callback and then call this again</para>
 		/// </summary>
 		public static int GetMediumSessionAvatar(RemotePlaySessionID_t unSessionID) {
 			InteropHelp.TestIfAvailableClient();
@@ -76,8 +76,8 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> gets the large (184x184) avatar of the connected user, which is a handle to be used in IClientUtils::GetImageRGBA(), or 0 if the sessionID isn't valid</para>
-		/// <para> returns -1 if this image has yet to be loaded, in this case wait for a RemotePlaySessionAvatarLoaded_t callback and then call this again</para>
+		/// <para> gets the large (184x184) avatar of the connected user, which is a handle to be used in ISteamUtils::GetImageRGBA(), or 0 if the sessionID isn't valid</para>
+		/// <para> returns -1 if this image has yet to be loaded, in this case wait for a SteamRemotePlaySessionAvatarLoaded_t callback and then call this again</para>
 		/// </summary>
 		public static int GetLargeSessionAvatar(RemotePlaySessionID_t unSessionID) {
 			InteropHelp.TestIfAvailableClient();

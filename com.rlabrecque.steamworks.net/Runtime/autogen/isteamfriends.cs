@@ -335,7 +335,7 @@ namespace Steamworks {
 		/// <para> requests information about a user - persona name &amp; avatar</para>
 		/// <para> if bRequireNameOnly is set, then the avatar of a user isn't downloaded</para>
 		/// <para> - it's a lot slower to download avatars and churns the local cache, so if you don't need avatars, don't request them</para>
-		/// <para> if returns true, it means that data is being requested, and a PersonaStateChanged_t callback will be posted when it's retrieved</para>
+		/// <para> if returns true, it means that data is being requested, and a PersonaStateChange_t callback will be posted when it's retrieved</para>
 		/// <para> if returns false, it means that we already have all the details about that user, and functions can be called immediately</para>
 		/// </summary>
 		public static bool RequestUserInformation(CSteamID steamIDUser, bool bRequireNameOnly) {

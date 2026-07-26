@@ -50,12 +50,37 @@ enum EFloatingGamepadTextInputMode
 // The context where text filtering is being done
 enum ETextFilteringContext
 {
-	k_ETextFilteringContextUnknown = 0,	// Unknown context
-	k_ETextFilteringContextGameContent = 1,	// Game content, only legally required filtering is performed
-	k_ETextFilteringContextChat = 2,	// Chat from another player
-	k_ETextFilteringContextName = 3,	// Character or item name
+	k_ETextFilteringContextUnknown = 0,			// Unknown context
+	k_ETextFilteringContextGameContent = 1,		// Game content, only legally required filtering is performed
+	k_ETextFilteringContextChat = 2,			// Chat from another player
+	k_ETextFilteringContextName = 3,			// Character or item name
 };
 
+// Steam device list
+enum ESteamHardwareType
+{
+	k_ESteamHardwareTypeNone = 0,				// Not playing on a Steam hardware device
+	k_ESteamHardwareTypeSteamDeck = 1,
+	k_ESteamHardwareTypeSteamMachine = 2,
+	k_ESteamHardwareTypeSteamFrame = 3,
+};
+
+// Default game settings profile
+enum ESteamHardwareDefaultConfig
+{
+	k_ESteamHardwareDefaultConfigNone = 0,
+
+	// map these general values to user presets. See GetSteamHardwareDefaultConfig() for more info.
+	k_ESteamHardwareDefaultConfigLow = 1,
+	k_ESteamHardwareDefaultConfigMedium = 2,
+	k_ESteamHardwareDefaultConfigHigh = 3,
+	k_ESteamHardwareDefaultConfigMax = 4,
+
+	// machine specific configurations
+	k_ESteamHardwareDefaultConfigSteamDeck = 5,
+	k_ESteamHardwareDefaultConfigSteamMachine = 6,
+	k_ESteamHardwareDefaultConfigSteamFrame = 7,
+};
 
 //-----------------------------------------------------------------------------
 // Purpose: interface to user independent utility functions
@@ -84,9 +109,6 @@ public:
 	// results are returned in RGBA format
 	// the destination buffer size should be 4 * height * width * sizeof(char)
 	virtual bool GetImageRGBA( int iImage, uint8 *pubDest, int nDestBufferSize ) = 0;
-
-	// Deprecated.  Do not call this.
-	STEAM_PRIVATE_API( virtual bool GetCSERIPPort( uint32 *unIP, uint16 *usPort ) = 0; )
 
 	// return the amount of battery power left in the current system in % [0..100], 255 for being on AC power
 	virtual uint8 GetCurrentBatteryPower() = 0;
@@ -161,9 +183,11 @@ public:
 	// Sets the inset of the overlay notification from the corner specified by SetOverlayNotificationPosition.
 	virtual void SetOverlayNotificationInset( int nHorizontalInset, int nVerticalInset ) = 0;
 
-	// returns true if Steam & the Steam Overlay are running in Big Picture mode
-	// Games much be launched through the Steam client to enable the Big Picture overlay. During development,
-	// a game can be added as a non-steam game to the developers library to test this feature
+	// Returns true if Steam & the Steam Overlay are running in Big Picture mode, where the user is most likely using
+	// a gamepad to control the device in a living room like setting or at an increased viewing distance from the TV.
+	// 
+	// Games must be launched through the Steam client to enable the Big Picture overlay. During development,
+	// a game can be added as a non-steam game to the developers library to test this feature.
 	virtual bool IsSteamInBigPictureMode() = 0;
 
 	// ask SteamUI to create and render its OpenVR dashboard
@@ -203,9 +227,6 @@ public:
 	// This does NOT tell you if the Steam client is currently connected to Steam via ipv6.
 	virtual ESteamIPv6ConnectivityState GetIPv6ConnectivityState( ESteamIPv6ConnectivityProtocol eProtocol ) = 0;
 
-	// returns true if currently running on the Steam Deck device
-	virtual bool IsSteamRunningOnSteamDeck() = 0;
-
 	// Opens a floating keyboard over the game content and sends OS keyboard keys directly to the game.
 	// The text field position is specified in pixels relative the origin of the game window and is used to position the floating keyboard in a way that doesn't cover the text field
 	virtual bool ShowFloatingGamepadTextInput( EFloatingGamepadTextInputMode eKeyboardMode, int nTextFieldXPosition, int nTextFieldYPosition, int nTextFieldWidth, int nTextFieldHeight ) = 0;
@@ -218,9 +239,57 @@ public:
 
 	// Dismisses the full-screen text input dialog.
 	virtual bool DismissGamepadTextInput() = 0;
+
+	// Returns if your process is running on a Steam Deck, Machine, Frame or other hardware.
+	// 
+	// This method is intended to be used for usage analytics, support, diagnostic and other non-functional decisions. If your process
+	// needs to make a feature or device capability related decision, the Steamworks SDK exposes a set of other methods. Using one of these
+	// alternate methods will enable your game to run correctly on future versions of Steam hardware where this method would return a
+	// hardware type not present in old SDK versions.
+	//
+	// Some alternate methods include:
+	// - ISteamUtils::GetSteamHardwareDefaultConfig()
+	// - ISteamUtils::IsSteamInBigPictureMode()
+	// - ISteamUtils::IsRunningUnderProton()
+	// - ISteamUtils::IsSteamRunningInVR()
+	// - ISteamUtils::GetCurrentBatteryPower()
+	// - ISteamUtils::GetConnectedControllers()
+	virtual ESteamHardwareType IsRunningOnSteamHardware() = 0;
+
+	// Use this method to help choose default game settings (video and other) that you have tuned for specific Steam hardware. It also enables
+	// changing your default game settings on future Steam hardware without needing to recompile your game.
+	//
+	// This method returns an ESteamHardwareDefaultConfig, which has two categories of values:
+	// - Machine specific values: Map each of these values to a setting configuration tuned for that device.
+	// - General values (low, medium, high, max): Map these values to one of your game's user selectable setting presets. If your game has less
+	//   than 4 presets, it is expected that multiple values might map to the same preset. For example, a game with 3 presets might map high and
+	//   max to the game's 'high' user preset. For games that only have 1 preset and run great on any device, low, medium, high and max might all
+	//   be mapped to that single preset.
+	// 
+	// By default, this method will return a value corresponding to the device type returned by ISteamUtils::IsRunningOnSteamHardware(), such
+	// as returning k_ESteamHardwareDefaultConfigSteamDeck when running on a Steam Deck. It may also return a configuration value for 3rd party
+	// hardware that has similar performance characteristics to Steam hardware, such as returning k_ESteamHardwareDefaultConfigSteamDeck when
+	// running on a Legion Go S.
+	//
+	// You can also change what value the Steam Client returns per device through the Steamworks Partner Site. This allows you to customize the
+	// default configuration used on future Steam hardware without recompiling your game. For example, if your game runs well on Steam Machine
+	// using your 'high' user preset, but was released before that device became available, you could configure this method to return
+	// k_ESteamHardwareDefaultConfigHigh when run on those devices. Similarly if your game was released before Steam Frame, you could configure
+	// this method to return k_ESteamHardwareDefaultConfigSteamDeck so that when your game is run in 2d mode, it uses your tuned Steam Deck
+	// presets.
+	//
+	// The following example covers a common approach to choosing default settings when running on Steam hardware:
+	// 1. Call GetSteamHardwareDefaultConfig()
+	// 2. If the returned value is for hardware that you have a known configuration for, use a tuned matching configuration
+	// 3. If the returned value is low, medium, high or max, use a matching user preset
+	// 4. If the returned value had no match, fall back to your default setting heuristics
+	virtual ESteamHardwareDefaultConfig GetSteamHardwareDefaultConfig() = 0;
+
+	// Returns true if running under the Proton compatibility layer
+	virtual bool IsRunningUnderProton() = 0;
 };
 
-#define STEAMUTILS_INTERFACE_VERSION "SteamUtils010"
+#define STEAMUTILS_INTERFACE_VERSION "SteamUtils011"
 
 // Global interface accessor
 inline ISteamUtils *SteamUtils();

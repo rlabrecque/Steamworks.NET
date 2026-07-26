@@ -14,6 +14,17 @@
 
 const int k_cubAppProofOfPurchaseKeyMax = 240;			// max supported length of a legacy cd key 
 
+// Games can specify what settings the user has selected or has been selected by default based
+// on the user's machine.
+enum EGamePerformanceSetting
+{
+	k_EGamePerformanceSetting_NotSet	= 0,
+	k_EGamePerformanceSetting_Low		= 1,
+	k_EGamePerformanceSetting_Medium	= 2,
+	k_EGamePerformanceSetting_High		= 3,
+	k_EGamePerformanceSetting_Ultra		= 4,
+	k_EGamePerformanceSetting_Custom	= 5,
+};
 
 //-----------------------------------------------------------------------------
 // Purpose: interface to app data
@@ -120,6 +131,10 @@ public:
 
 	// select this beta branch for this app as active, might need the game to restart so Steam can update to that branch
 	virtual bool SetActiveBeta( const char *pchBetaName ) = 0;
+
+	// game performance settings
+	virtual void SetGamePerformanceSetting( EGamePerformanceSetting setting ) = 0;
+	virtual void SetGameRenderResolution( uint32 unWidth, uint32 unHeight ) = 0;
 };
 
 #define STEAMAPPS_INTERFACE_VERSION "STEAMAPPS_INTERFACE_VERSION009"
