@@ -61,14 +61,19 @@ namespace Steamworks {
 		private static IntPtr m_pCallbackMsg;
 		private static int m_initCount;
 
-		#if UNITY_2019_3_OR_NEWER
-		// In case of disabled Domain Reload, reset static members before entering Play Mode.
-		[UnityEngine.RuntimeInitializeOnLoadMethod(UnityEngine.RuntimeInitializeLoadType.SubsystemRegistration)]
-		private static void InitOnPlayMode()
-		{
-			m_initCount = 0;
-		}
-		#endif
+        #if UNITY_2019_3_OR_NEWER && UNITY_EDITOR
+        // In case of disabled Domain Reload, reset static members before entering Play Mode.
+        [UnityEngine.RuntimeInitializeOnLoadMethod(UnityEngine.RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void InitOnPlayMode()
+        {
+            var hasDomainReloadDisabled = UnityEditor.EditorSettings.enterPlayModeOptionsEnabled &&
+                                          UnityEditor.EditorSettings.enterPlayModeOptions.HasFlag(UnityEditor.EnterPlayModeOptions.DisableDomainReload);
+            if (hasDomainReloadDisabled)
+            {
+                m_initCount = 0;
+            }
+        }
+        #endif
 
 		public static bool IsInitialized {
 			get { return m_initCount > 0; }
