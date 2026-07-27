@@ -23,7 +23,6 @@ namespace Steamworks {
 			k_EGameIDTypeApp = 0,
 			k_EGameIDTypeGameMod = 1,
 			k_EGameIDTypeShortcut = 2,
-			k_EGameIDTypeP2P = 3,
 		};
 
 		public CGameID(ulong GameID) {
@@ -42,6 +41,33 @@ namespace Steamworks {
 			SetModID(nModID);
 		}
 
+		// Not validating anything .. use IsValid()
+		public CGameID(AppId_t nAppID, uint nModID, EGameIDType nType)
+		{
+			m_GameID = 0;
+			SetAppID(nAppID);
+			SetType(nType);
+			SetModID(nModID);
+		}
+
+		// Not validating anything .. use IsValid()
+		// Only for apps and shortcuts
+		public CGameID(AppId_t nID, EGameIDType nType)
+		{
+			m_GameID = 0;
+
+			if (nType == EGameIDType.k_EGameIDTypeApp)
+			{
+				SetType(nType);
+				SetAppID(nID);
+			}
+			else if (nType == EGameIDType.k_EGameIDTypeShortcut)
+			{
+				SetType(nType);
+				SetModID((uint)nID);
+			}
+		}
+
 		public bool IsSteamApp() {
 			return Type() == EGameIDType.k_EGameIDTypeApp;
 		}
@@ -54,12 +80,8 @@ namespace Steamworks {
 			return Type() == EGameIDType.k_EGameIDTypeShortcut;
 		}
 
-		public bool IsP2PFile() {
-			return Type() == EGameIDType.k_EGameIDTypeP2P;
-		}
-
 		public AppId_t AppID() {
-			return new AppId_t((uint)(m_GameID & 0xFFFFFFul));
+			return new AppId_t(( Type() == EGameIDType.k_EGameIDTypeShortcut ) ? (uint)((m_GameID >> 32) & 0xFFFFFFFFul) : (uint)(m_GameID & 0xFFFFFFul));
 		}
 
 		public EGameIDType Type() {
@@ -67,7 +89,7 @@ namespace Steamworks {
 		}
 
 		public uint ModID() {
-			return (uint)((m_GameID >> 32) & 0xFFFFFFFFul);
+			return (Type() == EGameIDType.k_EGameIDTypeShortcut) ? 0 : (uint)((m_GameID >> 32) & 0xFFFFFFFFul);
 		}
 
 		public bool IsValid() {
@@ -81,9 +103,6 @@ namespace Steamworks {
 
 				case EGameIDType.k_EGameIDTypeShortcut:
 					return (ModID() & 0x80000000) != 0;
-
-				case EGameIDType.k_EGameIDTypeP2P:
-					return AppID() == AppId_t.Invalid && (ModID() & 0x80000000) != 0;
 
 				default:
 					return false;

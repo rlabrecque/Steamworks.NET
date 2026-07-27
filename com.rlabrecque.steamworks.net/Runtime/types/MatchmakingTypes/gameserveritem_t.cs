@@ -67,6 +67,30 @@ namespace Steamworks {
 			m_szGameTags = Encoding.UTF8.GetBytes(tags + '\0');
 		}
 
+		public override bool Equals(object other) {
+			return other is gameserveritem_t && this == (gameserveritem_t)other;
+		}
+
+		public override int GetHashCode() {
+			return m_NetAdr.GetHashCode();
+		}
+
+		public static bool operator ==(gameserveritem_t x, gameserveritem_t y) {
+			return (x.m_NetAdr == y.m_NetAdr);
+		}
+
+		public static bool operator !=(gameserveritem_t x, gameserveritem_t y) {
+			return !(x == y);
+		}
+
+		public bool Equals(gameserveritem_t other) {
+			return m_NetAdr.Equals(other.m_NetAdr);
+		}
+
+		public int CompareTo(gameserveritem_t other) {
+			return m_NetAdr.CompareTo(other.m_NetAdr);
+		}
+
 		public servernetadr_t m_NetAdr;										///< IP/Query Port/Connection Port for this server
 		public int m_nPing;													///< current ping time in milliseconds
 		[MarshalAs(UnmanagedType.I1)]
@@ -100,6 +124,8 @@ namespace Steamworks {
 
 		// steamID of the game server - invalid if it's doesn't have one (old server, or not connected to Steam)
 		public CSteamID m_steamID;
+		public int m_nCurrentFriendCount;									///< count of friends currently on server
+		public int m_nTotalFriendCount;										///< total count of friends who have played on server
 	}
 }
 

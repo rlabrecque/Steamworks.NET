@@ -568,6 +568,137 @@ namespace Steamworks {
 			return that.m_pGCHandle.AddrOfPinnedObject();
 		}
 	};
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Callback interface for receiving responses after requesting details on
+	// friends who have played on this server.
+	//
+	// These callbacks all occur in response to querying an individual server
+	// via the ISteamMatchmakingServers()->ServerFriends() call below.  If you are
+	// destructing an object that implements this interface then you should call
+	// ISteamMatchmakingServers()->CancelServerQuery() passing in the handle to the query
+	// which is in progress.  Failure to cancel in progress queries when destructing
+	// a callback handler may result in a crash when a callback later occurs.
+	//-----------------------------------------------------------------------------
+	public class ISteamMatchmakingServerFriendsResponse {
+		// Got data on a friend who has played on the server -- you'll get this callback once per player
+		// on the server which you have requested player data on.
+		public delegate void AddFriendToList(CSteamID steamID, string pchName, bool bCurrentlyConnected);
+
+		// The server failed to respond to the request for player details
+		public delegate void FriendsFailedToRespond();
+
+		// The server has finished responding to the player details request
+		// (ie, you won't get anymore AddFriendToList callbacks)
+		public delegate void FriendsRefreshComplete();
+
+		private VTable m_VTable;
+		private IntPtr m_pVTable;
+		private GCHandle m_pGCHandle;
+		private IntPtr m_pInstance;
+		private AddFriendToList m_AddFriendToList;
+		private FriendsFailedToRespond m_FriendsFailedToRespond;
+		private FriendsRefreshComplete m_FriendsRefreshComplete;
+		private static readonly Dictionary<IntPtr, ISteamMatchmakingServerFriendsResponse> m_Instances = new Dictionary<IntPtr, ISteamMatchmakingServerFriendsResponse>();
+
+		public ISteamMatchmakingServerFriendsResponse(AddFriendToList onAddFriendToList, FriendsFailedToRespond onFriendsFailedToRespond, FriendsRefreshComplete onFriendsRefreshComplete) {
+			if (onAddFriendToList == null || onFriendsFailedToRespond == null || onFriendsRefreshComplete == null) {
+				throw new ArgumentNullException();
+			}
+			m_AddFriendToList = onAddFriendToList;
+			m_FriendsFailedToRespond = onFriendsFailedToRespond;
+			m_FriendsRefreshComplete = onFriendsRefreshComplete;
+
+			m_VTable = new VTable() {
+				m_VTAddFriendToList = InternalOnAddFriendToList,
+				m_VTFriendsFailedToRespond = InternalOnFriendsFailedToRespond,
+				m_VTFriendsRefreshComplete = InternalOnFriendsRefreshComplete
+			};
+			m_pVTable = Marshal.AllocHGlobal(Marshal.SizeOf<VTable>());
+			Marshal.StructureToPtr(m_VTable, m_pVTable, false);
+
+			m_pGCHandle = GCHandle.Alloc(m_pVTable, GCHandleType.Pinned);
+			m_pInstance = m_pGCHandle.AddrOfPinnedObject();
+			lock (m_Instances) {
+				m_Instances[m_pInstance] = this;
+			}
+		}
+
+		~ISteamMatchmakingServerFriendsResponse() {
+			lock (m_Instances) {
+				m_Instances.Remove(m_pVTable);
+			}
+			if (m_pVTable != IntPtr.Zero) {
+				Marshal.FreeHGlobal(m_pVTable);
+			}
+
+			if (m_pGCHandle.IsAllocated) {
+				m_pGCHandle.Free();
+			}
+		}
+
+#if NOTHISPTR
+		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+		public delegate void InternalAddFriendToList(CSteamID steamID, IntPtr pchName, bool bCurrentlyConnected);
+		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+		public delegate void InternalFriendsFailedToRespond();
+		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+		public delegate void InternalFriendsRefreshComplete();
+		private void InternalOnAddFriendToList(CSteamID steamID, IntPtr pchName, bool bCurrentlyConnected) {
+			m_AddFriendToList(steamID, InteropHelp.PtrToStringUTF8(pchName), bCurrentlyConnected);
+		}
+		private void InternalOnFriendsFailedToRespond() {
+			m_FriendsFailedToRespond();
+		}
+		private void InternalOnFriendsRefreshComplete() {
+			m_FriendsRefreshComplete();
+		}
+#else
+		[UnmanagedFunctionPointer(CallingConvention.ThisCall)]
+		public delegate void InternalAddFriendToList(IntPtr thisptr, CSteamID steamID, IntPtr pchName, bool bCurrentlyConnected);
+		[UnmanagedFunctionPointer(CallingConvention.ThisCall)]
+		public delegate void InternalFriendsFailedToRespond(IntPtr thisptr);
+		[UnmanagedFunctionPointer(CallingConvention.ThisCall)]
+		public delegate void InternalFriendsRefreshComplete(IntPtr thisptr);
+		[MonoPInvokeCallback(typeof(InternalAddFriendToList))]
+		private static void InternalOnAddFriendToList(IntPtr thisptr, CSteamID steamID, IntPtr pchName, bool bCurrentlyConnected) {
+			if (m_Instances.TryGetValue(thisptr, out ISteamMatchmakingServerFriendsResponse instance)) {
+				instance.m_AddFriendToList(steamID, InteropHelp.PtrToStringUTF8(pchName), bCurrentlyConnected);
+			}
+		}
+		[MonoPInvokeCallback(typeof(InternalFriendsFailedToRespond))]
+		private static void InternalOnFriendsFailedToRespond(IntPtr thisptr) {
+			if (m_Instances.TryGetValue(thisptr, out ISteamMatchmakingServerFriendsResponse instance)) {
+				instance.m_FriendsFailedToRespond();
+			}
+		}
+		[MonoPInvokeCallback(typeof(InternalFriendsRefreshComplete))]
+		private static void InternalOnFriendsRefreshComplete(IntPtr thisptr) {
+			if (m_Instances.TryGetValue(thisptr, out ISteamMatchmakingServerFriendsResponse instance)) {
+				instance.m_FriendsRefreshComplete();
+			}
+		}
+#endif
+
+		[StructLayout(LayoutKind.Sequential)]
+		private class VTable {
+			[NonSerialized]
+			[MarshalAs(UnmanagedType.FunctionPtr)]
+			public InternalAddFriendToList m_VTAddFriendToList;
+
+			[NonSerialized]
+			[MarshalAs(UnmanagedType.FunctionPtr)]
+			public InternalFriendsFailedToRespond m_VTFriendsFailedToRespond;
+
+			[NonSerialized]
+			[MarshalAs(UnmanagedType.FunctionPtr)]
+			public InternalFriendsRefreshComplete m_VTFriendsRefreshComplete;
+		}
+
+		public static explicit operator System.IntPtr(ISteamMatchmakingServerFriendsResponse that) {
+			return that.m_pGCHandle.AddrOfPinnedObject();
+		}
+	}
 }
 
 #endif // !DISABLESTEAMWORKS

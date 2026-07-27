@@ -83,6 +83,13 @@ public:
 		m_usQueryPort = that.m_usQueryPort;
 		m_unIP = that.m_unIP;
 	}
+	bool operator==( const servernetadr_t &rhs ) const
+	{
+		return
+			m_usConnectionPort == rhs.m_usConnectionPort &&
+			m_usQueryPort == rhs.m_usQueryPort &&
+			m_unIP == rhs.m_unIP;
+	}
 
 	
 private:
@@ -196,11 +203,18 @@ private:
 
 	// For data added after SteamMatchMaking001 add it here
 public:
+	bool operator==( const gameserveritem_t &rhs ) const
+	{
+		return m_NetAdr == rhs.m_NetAdr;
+	}
+
 	/// the tags this server exposes
 	char m_szGameTags[k_cbMaxGameServerTags];
 
 	/// steamID of the game server - invalid if it's doesn't have one (old server, or not connected to Steam)
 	CSteamID m_steamID;
+	int m_nCurrentFriendCount;									///< count of friends currently on server
+	int m_nTotalFriendCount;									///< total count of friends who have played on server
 };
 
 
@@ -209,6 +223,8 @@ inline gameserveritem_t::gameserveritem_t()
 	m_szGameDir[0] = m_szMap[0] = m_szGameDescription[0] = m_szServerName[0] = 0;
 	m_bHadSuccessfulResponse = m_bDoNotRefresh = m_bPassword = m_bSecure = false;
 	m_nPing = m_nAppID = m_nPlayers = m_nMaxPlayers = m_nBotPlayers = m_ulTimeLastPlayed = m_nServerVersion = 0;
+	m_nTotalFriendCount = 0;
+	m_nCurrentFriendCount = 0;
 	m_szGameTags[0] = 0;
 }
 

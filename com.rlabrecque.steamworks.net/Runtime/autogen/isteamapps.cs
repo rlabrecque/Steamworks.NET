@@ -305,6 +305,19 @@ namespace Steamworks {
 				return NativeMethods.ISteamApps_SetActiveBeta(CSteamAPIContext.GetSteamApps(), pchBetaName2);
 			}
 		}
+
+		/// <summary>
+		/// <para> game performance settings</para>
+		/// </summary>
+		public static void SetGamePerformanceSetting(EGamePerformanceSetting setting) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamApps_SetGamePerformanceSetting(CSteamAPIContext.GetSteamApps(), setting);
+		}
+
+		public static void SetGameRenderResolution(uint unWidth, uint unHeight) {
+			InteropHelp.TestIfAvailableClient();
+			NativeMethods.ISteamApps_SetGameRenderResolution(CSteamAPIContext.GetSteamApps(), unWidth, unHeight);
+		}
 	}
 }
 

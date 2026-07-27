@@ -292,16 +292,16 @@ public:
 	// This returns 0 if the sessionID isn't valid or the session isn't a Remote Play Together guest
 	virtual uint32 GetSessionGuestID( RemotePlaySessionID_t unSessionID ) = 0;
 
-	// gets the small (32x32) avatar of the connected user, which is a handle to be used in IClientUtils::GetImageRGBA(), or 0 if the sessionID isn't valid
-	// returns -1 if this image has yet to be loaded, in this case wait for a RemotePlaySessionAvatarLoaded_t callback and then call this again
+	// gets the small (32x32) avatar of the connected user, which is a handle to be used in ISteamUtils::GetImageRGBA(), or 0 if the sessionID isn't valid
+	// returns -1 if this image has yet to be loaded, in this case wait for a SteamRemotePlaySessionAvatarLoaded_t callback and then call this again
 	virtual int GetSmallSessionAvatar( RemotePlaySessionID_t unSessionID ) = 0;
 
-	// gets the medium (64x64) avatar of the connected user, which is a handle to be used in IClientUtils::GetImageRGBA(), or 0 if the sessionID isn't valid
-	// returns -1 if this image has yet to be loaded, in this case wait for a RemotePlaySessionAvatarLoaded_t callback and then call this again
+	// gets the medium (64x64) avatar of the connected user, which is a handle to be used in ISteamUtils::GetImageRGBA(), or 0 if the sessionID isn't valid
+	// returns -1 if this image has yet to be loaded, in this case wait for a SteamRemotePlaySessionAvatarLoaded_t callback and then call this again
 	virtual int GetMediumSessionAvatar( RemotePlaySessionID_t unSessionID ) = 0;
 
-	// gets the large (184x184) avatar of the connected user, which is a handle to be used in IClientUtils::GetImageRGBA(), or 0 if the sessionID isn't valid
-	// returns -1 if this image has yet to be loaded, in this case wait for a RemotePlaySessionAvatarLoaded_t callback and then call this again
+	// gets the large (184x184) avatar of the connected user, which is a handle to be used in ISteamUtils::GetImageRGBA(), or 0 if the sessionID isn't valid
+	// returns -1 if this image has yet to be loaded, in this case wait for a SteamRemotePlaySessionAvatarLoaded_t callback and then call this again
 	virtual int GetLargeSessionAvatar( RemotePlaySessionID_t unSessionID ) = 0;
 
 	// Get the name of the session client device

@@ -327,12 +327,11 @@ namespace Steamworks {
 		/// <para>/ You MUST also fill in:</para>
 		/// <para>/ - m_conn - the handle of the connection to send the message to</para>
 		/// <para>/ - m_nFlags - bitmask of k_nSteamNetworkingSend_xxx flags.</para>
+		/// <para>/ - m_idxLane - the lane to send the message on.  AllocateMessage</para>
+		/// <para>/   will set this to zero, so you can ignore this if you are not using</para>
+		/// <para>/   multiple lanes.</para>
 		/// <para>/</para>
 		/// <para>/ All other fields are currently reserved and should not be modified.</para>
-		/// <para>/</para>
-		/// <para>/ The library will take ownership of the message structures.  They may</para>
-		/// <para>/ be modified or become invalid at any time, so you must not read them</para>
-		/// <para>/ after passing them to this function.</para>
 		/// <para>/</para>
 		/// <para>/ pOutMessageNumberOrResult is an optional array that will receive,</para>
 		/// <para>/ for each message, the message number that was assigned to the message</para>
@@ -341,10 +340,31 @@ namespace Steamworks {
 		/// <para>/ -k_EResultInvalidState if the connection was in an invalid state.</para>
 		/// <para>/ See ISteamNetworkingSockets::SendMessageToConnection for possible</para>
 		/// <para>/ failure codes.</para>
+		/// <para>/</para>
+		/// <para>/ Once a message fails to send on a connection, any further messages</para>
+		/// <para>/ in the array going to the same connection will not be attempted.  The</para>
+		/// <para>/ pOutMessageNumberOrResult for such message will always be set to 0.</para>
+		/// <para>/ (Note that 0 is never used as a message number.)</para>
+		/// <para>/</para>
+		/// <para>/ bDeleteFailedMessages determines what happens to messages that</para>
+		/// <para>/ fail to send:</para>
+		/// <para>/</para>
+		/// <para>/ - false: Your pointer array will be modified, and the pointers</para>
+		/// <para>/     to messages that were successfully queued will be replaced with</para>
+		/// <para>/     nullptr.  The library has taken ownership and you must not access</para>
+		/// <para>/     them.  They will be released by the library when they are no longer</para>
+		/// <para>/     needed.</para>
+		/// <para>/     Any messages that were not queued (either failed to send, or were</para>
+		/// <para>/     not attempted because an earlier message for the same connection failed)</para>
+		/// <para>/     will be left in place.  You can release these messages or try to send</para>
+		/// <para>/     them later.</para>
+		/// <para>/ - true: The caller's pointer array is not modified, and the library assumes</para>
+		/// <para>/     ownership of all messages.  Messages that fail or are not attempted due</para>
+		/// <para>/     to earlier failure on the same connection will be released immediately.</para>
 		/// </summary>
-		public static void SendMessages(int nMessages, IntPtr[] pMessages, long[] pOutMessageNumberOrResult) {
+		public static void SendMessages(int nMessages, IntPtr[] pMessages, long[] pOutMessageNumberOrResult, bool bDeleteFailedMessages) {
 			InteropHelp.TestIfAvailableGameServer();
-			NativeMethods.ISteamNetworkingSockets_SendMessages(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), nMessages, pMessages, pOutMessageNumberOrResult);
+			NativeMethods.ISteamNetworkingSockets_SendMessages(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), nMessages, pMessages, pOutMessageNumberOrResult, bDeleteFailedMessages);
 		}
 
 		/// <summary>
@@ -472,10 +492,15 @@ namespace Steamworks {
 		/// <para>/ identity.  Otherwise, if you pass nullptr, the respective connection will assume a generic</para>
 		/// <para>/ "localhost" identity.  If you use real network loopback, this might be translated to the</para>
 		/// <para>/ actual bound loopback port.  Otherwise, the port will be zero.</para>
+		/// <para>/</para>
+		/// <para>/ NOTE: For historical reasons, each identity refers to the *remote* identity that the</para>
+		/// <para>/ corresponding connection will observe in connection state callbacks and GetConnectionInfo:</para>
+		/// <para>/ - pPeerIdentity1: remote identity observed by connection 1, local identity of connection 2</para>
+		/// <para>/ - pPeerIdentity2: remote identity observed by connection 2, local identity of connection 1</para>
 		/// </summary>
-		public static bool CreateSocketPair(out HSteamNetConnection pOutConnection1, out HSteamNetConnection pOutConnection2, bool bUseNetworkLoopback, ref SteamNetworkingIdentity pIdentity1, ref SteamNetworkingIdentity pIdentity2) {
+		public static bool CreateSocketPair(out HSteamNetConnection pOutConnection1, out HSteamNetConnection pOutConnection2, bool bUseNetworkLoopback, ref SteamNetworkingIdentity pPeerIdentity1, ref SteamNetworkingIdentity pPeerIdentity2) {
 			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamNetworkingSockets_CreateSocketPair(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), out pOutConnection1, out pOutConnection2, bUseNetworkLoopback, ref pIdentity1, ref pIdentity2);
+			return NativeMethods.ISteamNetworkingSockets_CreateSocketPair(CSteamGameServerAPIContext.GetSteamNetworkingSockets(), out pOutConnection1, out pOutConnection2, bUseNetworkLoopback, ref pPeerIdentity1, ref pPeerIdentity2);
 		}
 
 		/// <summary>
@@ -529,7 +554,7 @@ namespace Steamworks {
 		/// <para>/   exchanging a few messages.</para>
 		/// <para>/ - To assign all lanes the same priority, you may use pLanePriorities=NULL.</para>
 		/// <para>/ - If you wish all lanes with the same priority to share bandwidth equally (or</para>
-		/// <para>/   if no two lanes have the same priority value, and thus priority values are</para>
+		/// <para>/   if no two lanes have the same priority value, and thus weight values are</para>
 		/// <para>/   irrelevant), you may use pLaneWeights=NULL</para>
 		/// <para>/ - Priorities and weights determine the order that messages are SENT on the wire.</para>
 		/// <para>/   There are NO GUARANTEES on the order that messages are RECEIVED!  Due to packet</para>

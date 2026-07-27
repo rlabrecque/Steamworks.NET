@@ -232,9 +232,10 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> returns true if Steam &amp; the Steam Overlay are running in Big Picture mode</para>
-		/// <para> Games much be launched through the Steam client to enable the Big Picture overlay. During development,</para>
-		/// <para> a game can be added as a non-steam game to the developers library to test this feature</para>
+		/// <para> Returns true if Steam &amp; the Steam Overlay are running in Big Picture mode, where the user is most likely using</para>
+		/// <para> a gamepad to control the device in a living room like setting or at an increased viewing distance from the TV.</para>
+		/// <para> Games must be launched through the Steam client to enable the Big Picture overlay. During development,</para>
+		/// <para> a game can be added as a non-steam game to the developers library to test this feature.</para>
 		/// </summary>
 		public static bool IsSteamInBigPictureMode() {
 			InteropHelp.TestIfAvailableGameServer();
@@ -319,14 +320,6 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para> returns true if currently running on the Steam Deck device</para>
-		/// </summary>
-		public static bool IsSteamRunningOnSteamDeck() {
-			InteropHelp.TestIfAvailableGameServer();
-			return NativeMethods.ISteamUtils_IsSteamRunningOnSteamDeck(CSteamGameServerAPIContext.GetSteamUtils());
-		}
-
-		/// <summary>
 		/// <para> Opens a floating keyboard over the game content and sends OS keyboard keys directly to the game.</para>
 		/// <para> The text field position is specified in pixels relative the origin of the game window and is used to position the floating keyboard in a way that doesn't cover the text field</para>
 		/// </summary>
@@ -357,6 +350,63 @@ namespace Steamworks {
 		public static bool DismissGamepadTextInput() {
 			InteropHelp.TestIfAvailableGameServer();
 			return NativeMethods.ISteamUtils_DismissGamepadTextInput(CSteamGameServerAPIContext.GetSteamUtils());
+		}
+
+		/// <summary>
+		/// <para> Returns if your process is running on a Steam Deck, Machine, Frame or other hardware.</para>
+		/// <para> This method is intended to be used for usage analytics, support, diagnostic and other non-functional decisions. If your process</para>
+		/// <para> needs to make a feature or device capability related decision, the Steamworks SDK exposes a set of other methods. Using one of these</para>
+		/// <para> alternate methods will enable your game to run correctly on future versions of Steam hardware where this method would return a</para>
+		/// <para> hardware type not present in old SDK versions.</para>
+		/// <para> Some alternate methods include:</para>
+		/// <para> - ISteamUtils::GetSteamHardwareDefaultConfig()</para>
+		/// <para> - ISteamUtils::IsSteamInBigPictureMode()</para>
+		/// <para> - ISteamUtils::IsRunningUnderProton()</para>
+		/// <para> - ISteamUtils::IsSteamRunningInVR()</para>
+		/// <para> - ISteamUtils::GetCurrentBatteryPower()</para>
+		/// <para> - ISteamUtils::GetConnectedControllers()</para>
+		/// </summary>
+		public static ESteamHardwareType IsRunningOnSteamHardware() {
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamUtils_IsRunningOnSteamHardware(CSteamGameServerAPIContext.GetSteamUtils());
+		}
+
+		/// <summary>
+		/// <para> Use this method to help choose default game settings (video and other) that you have tuned for specific Steam hardware. It also enables</para>
+		/// <para> changing your default game settings on future Steam hardware without needing to recompile your game.</para>
+		/// <para> This method returns an ESteamHardwareDefaultConfig, which has two categories of values:</para>
+		/// <para> - Machine specific values: Map each of these values to a setting configuration tuned for that device.</para>
+		/// <para> - General values (low, medium, high, max): Map these values to one of your game's user selectable setting presets. If your game has less</para>
+		/// <para>   than 4 presets, it is expected that multiple values might map to the same preset. For example, a game with 3 presets might map high and</para>
+		/// <para>   max to the game's 'high' user preset. For games that only have 1 preset and run great on any device, low, medium, high and max might all</para>
+		/// <para>   be mapped to that single preset.</para>
+		/// <para> By default, this method will return a value corresponding to the device type returned by ISteamUtils::IsRunningOnSteamHardware(), such</para>
+		/// <para> as returning k_ESteamHardwareDefaultConfigSteamDeck when running on a Steam Deck. It may also return a configuration value for 3rd party</para>
+		/// <para> hardware that has similar performance characteristics to Steam hardware, such as returning k_ESteamHardwareDefaultConfigSteamDeck when</para>
+		/// <para> running on a Legion Go S.</para>
+		/// <para> You can also change what value the Steam Client returns per device through the Steamworks Partner Site. This allows you to customize the</para>
+		/// <para> default configuration used on future Steam hardware without recompiling your game. For example, if your game runs well on Steam Machine</para>
+		/// <para> using your 'high' user preset, but was released before that device became available, you could configure this method to return</para>
+		/// <para> k_ESteamHardwareDefaultConfigHigh when run on those devices. Similarly if your game was released before Steam Frame, you could configure</para>
+		/// <para> this method to return k_ESteamHardwareDefaultConfigSteamDeck so that when your game is run in 2d mode, it uses your tuned Steam Deck</para>
+		/// <para> presets.</para>
+		/// <para> The following example covers a common approach to choosing default settings when running on Steam hardware:</para>
+		/// <para> 1. Call GetSteamHardwareDefaultConfig()</para>
+		/// <para> 2. If the returned value is for hardware that you have a known configuration for, use a tuned matching configuration</para>
+		/// <para> 3. If the returned value is low, medium, high or max, use a matching user preset</para>
+		/// <para> 4. If the returned value had no match, fall back to your default setting heuristics</para>
+		/// </summary>
+		public static ESteamHardwareDefaultConfig GetSteamHardwareDefaultConfig() {
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamUtils_GetSteamHardwareDefaultConfig(CSteamGameServerAPIContext.GetSteamUtils());
+		}
+
+		/// <summary>
+		/// <para> Returns true if running under the Proton compatibility layer</para>
+		/// </summary>
+		public static bool IsRunningUnderProton() {
+			InteropHelp.TestIfAvailableGameServer();
+			return NativeMethods.ISteamUtils_IsRunningUnderProton(CSteamGameServerAPIContext.GetSteamUtils());
 		}
 	}
 }
