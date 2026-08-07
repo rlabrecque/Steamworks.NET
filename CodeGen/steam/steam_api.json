@@ -1778,7 +1778,7 @@
     { "constname":"k_UGCQueryHandleInvalid", "consttype":"UGCQueryHandle_t", "constval":"0xffffffffffffffffull" },
     { "constname":"k_UGCUpdateHandleInvalid", "consttype":"UGCUpdateHandle_t", "constval":"0xffffffffffffffffull" },
     { "constname":"kNumUGCResultsPerPage", "consttype":"uint32", "constval":"50" },
-    { "constname":"k_cchDeveloperMetadataMax", "consttype":"uint32", "constval":"5000" },
+    { "constname":"k_cchDeveloperMetadataMax", "consttype":"uint32", "constval":"10000" },
     { "constname":"INVALID_HTMLBROWSER", "consttype":"uint32", "constval":"0" },
     { "constname":"k_SteamItemInstanceIDInvalid", "consttype":"SteamItemInstanceID_t", "constval":"( SteamItemInstanceID_t ) ~ 0" },
     { "constname":"k_SteamInventoryResultInvalid", "consttype":"SteamInventoryResult_t", "constval":"- 1" },
@@ -2383,6 +2383,28 @@
         { "name":"k_ETextFilteringContextGameContent", "value":"1" },
         { "name":"k_ETextFilteringContextChat", "value":"2" },
         { "name":"k_ETextFilteringContextName", "value":"3" }
+      ]
+    },
+    {
+      "enumname": "ESteamHardwareType",
+      "values": [
+        { "name":"k_ESteamHardwareTypeNone", "value":"0" },
+        { "name":"k_ESteamHardwareTypeSteamDeck", "value":"1" },
+        { "name":"k_ESteamHardwareTypeSteamMachine", "value":"2" },
+        { "name":"k_ESteamHardwareTypeSteamFrame", "value":"3" }
+      ]
+    },
+    {
+      "enumname": "ESteamHardwareDefaultConfig",
+      "values": [
+        { "name":"k_ESteamHardwareDefaultConfigNone", "value":"0" },
+        { "name":"k_ESteamHardwareDefaultConfigLow", "value":"1" },
+        { "name":"k_ESteamHardwareDefaultConfigMedium", "value":"2" },
+        { "name":"k_ESteamHardwareDefaultConfigHigh", "value":"3" },
+        { "name":"k_ESteamHardwareDefaultConfigMax", "value":"4" },
+        { "name":"k_ESteamHardwareDefaultConfigSteamDeck", "value":"5" },
+        { "name":"k_ESteamHardwareDefaultConfigSteamMachine", "value":"6" },
+        { "name":"k_ESteamHardwareDefaultConfigSteamFrame", "value":"7" }
       ]
     },
     {
@@ -6194,12 +6216,12 @@
         {
           "kind": "user",
           "name": "SteamUtils",
-          "name_flat": "SteamAPI_SteamUtils_v010"
+          "name_flat": "SteamAPI_SteamUtils_v011"
         },
         {
           "kind": "gameserver",
           "name": "SteamGameServerUtils",
-          "name_flat": "SteamAPI_SteamGameServerUtils_v010"
+          "name_flat": "SteamAPI_SteamGameServerUtils_v011"
         }
       ],
       "classname": "ISteamUtils",
@@ -6448,12 +6470,6 @@
           "returntype": "ESteamIPv6ConnectivityState"
         },
         {
-          "methodname": "IsSteamRunningOnSteamDeck",
-          "methodname_flat": "SteamAPI_ISteamUtils_IsSteamRunningOnSteamDeck",
-          "params": [],
-          "returntype": "bool"
-        },
-        {
           "methodname": "ShowFloatingGamepadTextInput",
           "methodname_flat": "SteamAPI_ISteamUtils_ShowFloatingGamepadTextInput",
           "params": [
@@ -6486,13 +6502,25 @@
           "returntype": "bool"
         },
         {
+          "methodname": "IsRunningOnSteamHardware",
+          "methodname_flat": "SteamAPI_ISteamUtils_IsRunningOnSteamHardware",
+          "params": [],
+          "returntype": "ESteamHardwareType"
+        },
+        {
+          "methodname": "GetSteamHardwareDefaultConfig",
+          "methodname_flat": "SteamAPI_ISteamUtils_GetSteamHardwareDefaultConfig",
+          "params": [],
+          "returntype": "ESteamHardwareDefaultConfig"
+        },
+        {
           "methodname": "IsRunningUnderProton",
           "methodname_flat": "SteamAPI_ISteamUtils_IsRunningUnderProton",
           "params": [],
           "returntype": "bool"
         }
       ],
-      "version_string": "SteamUtils010"
+      "version_string": "SteamUtils011"
     },
     {
       "accessors": [
@@ -6985,11 +7013,39 @@
       ]
     },
     {
+      "classname": "ISteamMatchmakingServerFriendsResponse",
+      "fields": [],
+      "methods": [
+        {
+          "methodname": "AddFriendToList",
+          "methodname_flat": "SteamAPI_ISteamMatchmakingServerFriendsResponse_AddFriendToList",
+          "params": [
+            { "paramname":"steamID", "paramtype":"CSteamID", "paramtype_flat":"uint64_steamid" },
+            { "paramname":"pchName", "paramtype":"const char *" },
+            { "paramname":"bCurrentlyConnected", "paramtype":"bool" }
+          ],
+          "returntype": "void"
+        },
+        {
+          "methodname": "FriendsFailedToRespond",
+          "methodname_flat": "SteamAPI_ISteamMatchmakingServerFriendsResponse_FriendsFailedToRespond",
+          "params": [],
+          "returntype": "void"
+        },
+        {
+          "methodname": "FriendsRefreshComplete",
+          "methodname_flat": "SteamAPI_ISteamMatchmakingServerFriendsResponse_FriendsRefreshComplete",
+          "params": [],
+          "returntype": "void"
+        }
+      ]
+    },
+    {
       "accessors": [
         {
           "kind": "user",
           "name": "SteamMatchmakingServers",
-          "name_flat": "SteamAPI_SteamMatchmakingServers_v002"
+          "name_flat": "SteamAPI_SteamMatchmakingServers_v003"
         }
       ],
       "classname": "ISteamMatchmakingServers",
@@ -7168,6 +7224,16 @@
           "returntype": "HServerQuery"
         },
         {
+          "methodname": "ServerFriends",
+          "methodname_flat": "SteamAPI_ISteamMatchmakingServers_ServerFriends",
+          "params": [
+            { "paramname":"unIP", "paramtype":"uint32" },
+            { "paramname":"usPort", "paramtype":"uint16" },
+            { "paramname":"pRequestServersResponse", "paramtype":"ISteamMatchmakingServerFriendsResponse *" }
+          ],
+          "returntype": "HServerQuery"
+        },
+        {
           "methodname": "CancelServerQuery",
           "methodname_flat": "SteamAPI_ISteamMatchmakingServers_CancelServerQuery",
           "params": [
@@ -7176,7 +7242,7 @@
           "returntype": "void"
         }
       ],
-      "version_string": "SteamMatchMakingServers002"
+      "version_string": "SteamMatchMakingServers003"
     },
     {
       "accessors": [
@@ -13993,6 +14059,14 @@
             { "paramname":"that", "paramtype":"const servernetadr_t &" }
           ],
           "returntype": "void"
+        },
+        {
+          "methodname": "operator==",
+          "methodname_flat": "SteamAPI_servernetadr_t_IsEqualTo",
+          "params": [
+            { "paramname":"rhs", "paramtype":"const servernetadr_t &" }
+          ],
+          "returntype": "bool"
         }
       ],
       "struct": "servernetadr_t"
@@ -14020,7 +14094,9 @@
           "private": true
         },
         { "fieldname":"m_szGameTags", "fieldtype":"char [128]" },
-        { "fieldname":"m_steamID", "fieldtype":"CSteamID" }
+        { "fieldname":"m_steamID", "fieldtype":"CSteamID" },
+        { "fieldname":"m_nCurrentFriendCount", "fieldtype":"int" },
+        { "fieldname":"m_nTotalFriendCount", "fieldtype":"int" }
       ],
       "methods": [
         {
@@ -14042,6 +14118,14 @@
             { "paramname":"pName", "paramtype":"const char *" }
           ],
           "returntype": "void"
+        },
+        {
+          "methodname": "operator==",
+          "methodname_flat": "SteamAPI_gameserveritem_t_IsEqualTo",
+          "params": [
+            { "paramname":"rhs", "paramtype":"const gameserveritem_t &" }
+          ],
+          "returntype": "bool"
         }
       ],
       "struct": "gameserveritem_t"
