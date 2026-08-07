@@ -56,6 +56,7 @@ namespace Steamworks {
 		// Returns true on success
 		public static ESteamAPIInitResult InitEx(out string OutSteamErrMsg)
 		{
+			OutSteamErrMsg = "";
 			InteropHelp.TestIfPlatformSupported();
 
 			var pszInternalCheckInterfaceVersions = new System.Text.StringBuilder();
@@ -258,7 +259,10 @@ namespace Steamworks {
 					}
 					else {
 						initResult = ESteamAPIInitResult.k_ESteamAPIInitResult_FailedGeneric;
-						OutSteamErrMsg = "[Steamworks.NET] Failed to initialize CSteamAPIContext";
+						if(!string.IsNullOrEmpty(OutSteamErrMsg))
+							OutSteamErrMsg = $"[Steamworks.NET] Failed to initialize CSteamAPIContext: {OutSteamErrMsg}";
+						else
+							OutSteamErrMsg = "[Steamworks.NET] Failed to initialize CSteamAPIContext";
 					}
 				}
 
