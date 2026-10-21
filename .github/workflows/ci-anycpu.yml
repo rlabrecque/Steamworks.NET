@@ -38,7 +38,7 @@ jobs:
           lfs: true
 
       - name: Set up .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json
 
@@ -63,13 +63,20 @@ jobs:
         with:
           lfs: true
 
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v4
+      - name: Set up .NET x64
+        uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json
+          architecture: x64
 
       - name: Run dotnet test on x64
         run: dotnet test -c Release -r win-x64
+
+      - name: Set up .NET x86
+        uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+          architecture: x86
 
       - name: Run dotnet test on x86
         run: dotnet test -c Release -r win-x86
@@ -92,7 +99,7 @@ jobs:
           lfs: true
 
       - name: Set up .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json
 

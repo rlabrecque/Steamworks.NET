@@ -76,8 +76,8 @@ namespace Steamworks.AnyCPU.Tests
 				Assert.Multiple([
 					() => Assert.Equal("steam_api", ResolvePlatformBinarySimpleFileName(NativeLibraryName)),
 					() => Assert.Equal("sdkencryptedappticket", ResolvePlatformBinarySimpleFileName(NativeLibrary_SDKEncryptedAppTicket)),
-					() => Assert.Equal("libsteam_api.so", ResolvePlatformBinaryFileName(NativeLibraryName)),
-					() => Assert.Equal("libsdkencryptedappticket.so", ResolvePlatformBinaryFileName(NativeLibrary_SDKEncryptedAppTicket)),
+					() => Assert.Equal("libsteam_api.dylib", ResolvePlatformBinaryFileName(NativeLibraryName)),
+					() => Assert.Equal("libsdkencryptedappticket.dylib", ResolvePlatformBinaryFileName(NativeLibrary_SDKEncryptedAppTicket)),
 					() => Assert.Throws<ArgumentException>(() => ResolvePlatformBinarySimpleFileName("libc"), (ex) => ex.Message.StartsWith(
 						"Attempt to request arbitrary native library or directory name was included."
 						) ? null : ex.ToString())
