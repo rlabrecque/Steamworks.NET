@@ -126,25 +126,19 @@ namespace Steamworks.AnyCPU
 		/// <returns>Simple module name that P/Invoke can use for first-chance search.</returns>
 		/// <exception cref="ArgumentException">Attempt to request arbitrary native library.</exception>
 		public static string ResolvePlatformBinarySimpleFileName(string requestedSteamBinaryPInvokeName) {
-			if (!requestedSteamBinaryPInvokeName.AsSpan(0, NativeMethods.AnyCPUPrefix.Length).SequenceEqual(NativeMethods.AnyCPUPrefix)) {
-				Debug.Assert(false, "requestedSteamBinaryName does not start with AnyCPU prefix, this is unexpected.");
+			if (requestedSteamBinaryPInvokeName != NativeMethods.NativeLibraryName && requestedSteamBinaryPInvokeName != NativeMethods.NativeLibrary_SDKEncryptedAppTicket) {
 				throw new ArgumentException($"Attempt to request arbitrary native library or directory name was included. " +
 					$"Only P/Invoke library names from {nameof(Steamworks)}.{nameof(NativeMethods)} are allowed.", nameof(requestedSteamBinaryPInvokeName));
 			}
 
-			if (requestedSteamBinaryPInvokeName == NativeMethods.NativeLibraryName || requestedSteamBinaryPInvokeName == NativeMethods.NativeLibrary_SDKEncryptedAppTicket) {
-				// check are we on win64, the special case we are going to handle
-				if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && Environment.Is64BitProcess) {
-					// modify library name to x64 version
-					requestedSteamBinaryPInvokeName = $"{requestedSteamBinaryPInvokeName.AsSpan(NativeMethods.AnyCPUPrefix.Length)}64";
-				}
+			// strip the synthetic prefix on every platform
+			string simpleName = requestedSteamBinaryPInvokeName.Substring(NativeMethods.AnyCPUPrefix.Length);
 
-			} else {
-				throw new ArgumentException($"Attempt to request arbitrary native library or directory name was included. " +
-					$"Only P/Invoke library names from {nameof(Steamworks)}.{nameof(NativeMethods)} are allowed.", nameof(requestedSteamBinaryPInvokeName));
-			}
+			// only win64 binaries carry the "64" suffix
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && Environment.Is64BitProcess)
+				simpleName += "64";
 
-			return requestedSteamBinaryPInvokeName;
+			return simpleName;
 		}
 
 		/// <summary>
