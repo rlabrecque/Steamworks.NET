@@ -88,4 +88,7 @@
 		<EditorConfigFiles Remove=".editorconfig" />
 		<None Include=".editorconfig" />
 	</ItemGroup>
+	<ItemGroup Label="Testing">
+		<InternalsVisibleTo Include="Steamworks.NET.AnyCPU.Tests"/>
+	</ItemGroup>
 </Project>
