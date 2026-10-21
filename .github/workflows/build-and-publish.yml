@@ -16,22 +16,29 @@ permissions:
   contents: read # Required to checkout code
 
 jobs:
+  run-tests:
+    name: Run pre-packing tests
+    uses: $/.github/workflows/ci-anycpu.yml
+
   build:
     name: Pack and create artifact
     runs-on: ubuntu-latest
+    needs:
+      - run-tests
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           lfs: true
 
       - name: Set up .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
-            8.0.x
+            10.0.x
+          global-json-file: global.json
 
       - name: Determine version
         id: version
