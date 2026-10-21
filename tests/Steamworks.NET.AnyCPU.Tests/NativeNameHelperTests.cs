@@ -12,21 +12,24 @@ namespace Steamworks.AnyCPU.Tests
 		[SupportedOSPlatform("windows")]
 		public void Win_64Bit()
 		{
-			if (Environment.Is64BitProcess)
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 			{
-				Assert.Multiple([
-					() => Assert.Equal("steam_api64", ResolvePlatformBinarySimpleFileName(NativeLibraryName)),
-					() => Assert.Equal("sdkencryptedappticket64", ResolvePlatformBinarySimpleFileName(NativeLibrary_SDKEncryptedAppTicket)),
-					() => Assert.Equal("steam_api64.dll", ResolvePlatformBinaryFileName(NativeLibraryName)),
-					() => Assert.Equal("sdkencryptedappticket64.dll", ResolvePlatformBinaryFileName(NativeLibrary_SDKEncryptedAppTicket)),
-					() => Assert.Throws<ArgumentException>(() => ResolvePlatformBinarySimpleFileName("KERNEL32"), (ex) => ex.Message.StartsWith(
-						"Attempt to request arbitrary native library or directory name was included."
-						) ? null : ex.ToString())
-				]);
-			}
-			else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-			{
-				Assert.Skip("Skipped on win-x86");
+				if (Environment.Is64BitProcess)
+				{
+					Assert.Multiple([
+						() => Assert.Equal("steam_api64", ResolvePlatformBinarySimpleFileName(NativeLibraryName)),
+						() => Assert.Equal("sdkencryptedappticket64", ResolvePlatformBinarySimpleFileName(NativeLibrary_SDKEncryptedAppTicket)),
+						() => Assert.Equal("steam_api64.dll", ResolvePlatformBinaryFileName(NativeLibraryName)),
+						() => Assert.Equal("sdkencryptedappticket64.dll", ResolvePlatformBinaryFileName(NativeLibrary_SDKEncryptedAppTicket)),
+						() => Assert.Throws<ArgumentException>(() => ResolvePlatformBinarySimpleFileName("KERNEL32"), (ex) => ex.Message.StartsWith(
+							"Attempt to request arbitrary native library or directory name was included."
+							) ? null : ex.ToString())
+					]);
+				}
+				else
+				{
+					Assert.Skip("Skipped on win-x86");
+				}
 			}
 			else
 			{
@@ -38,21 +41,25 @@ namespace Steamworks.AnyCPU.Tests
 		[SupportedOSPlatform("windows")]
 		public void Win_x86()
 		{
-			if (!Environment.Is64BitProcess)
+
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 			{
-				Assert.Multiple([
-					() => Assert.Equal("steam_api", ResolvePlatformBinarySimpleFileName(NativeLibraryName)),
-					() => Assert.Equal("sdkencryptedappticket", ResolvePlatformBinarySimpleFileName(NativeLibrary_SDKEncryptedAppTicket)),
-					() => Assert.Equal("steam_api.dll", ResolvePlatformBinaryFileName(NativeLibraryName)),
-					() => Assert.Equal("sdkencryptedappticket.dll", ResolvePlatformBinaryFileName(NativeLibrary_SDKEncryptedAppTicket)),
-					() => Assert.Throws<ArgumentException>(() => ResolvePlatformBinarySimpleFileName("KERNEL32"), (ex) => ex.Message.StartsWith(
-						"Attempt to request arbitrary native library or directory name was included."
-						) ? null : ex.ToString())
-				]);
-			}
-			else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-			{
-				Assert.Skip("Skipped on win-x64");
+				if (!Environment.Is64BitProcess)
+				{
+					Assert.Multiple([
+						() => Assert.Equal("steam_api", ResolvePlatformBinarySimpleFileName(NativeLibraryName)),
+						() => Assert.Equal("sdkencryptedappticket", ResolvePlatformBinarySimpleFileName(NativeLibrary_SDKEncryptedAppTicket)),
+						() => Assert.Equal("steam_api.dll", ResolvePlatformBinaryFileName(NativeLibraryName)),
+						() => Assert.Equal("sdkencryptedappticket.dll", ResolvePlatformBinaryFileName(NativeLibrary_SDKEncryptedAppTicket)),
+						() => Assert.Throws<ArgumentException>(() => ResolvePlatformBinarySimpleFileName("KERNEL32"), (ex) => ex.Message.StartsWith(
+							"Attempt to request arbitrary native library or directory name was included."
+							) ? null : ex.ToString())
+					]);
+				}
+				else
+				{
+					Assert.Skip("Skipped on win-x64");
+				}
 			}
 			else
 			{
