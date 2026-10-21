@@ -39,7 +39,7 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v4
         with:
-          global-json-file: ../../global.json
+          global-json-file: global.json
 
       - name: Run dotnet test
         run: dotnet test -c Release -r linux-x64
@@ -65,7 +65,7 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v4
         with:
-          global-json-file: ../../global.json
+          global-json-file: global.json
 
       - name: Run dotnet test on x64
         run: dotnet test -c Release -r win-x64
@@ -93,7 +93,7 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v4
         with:
-          global-json-file: ../../global.json
+          global-json-file: global.json
 
       - name: Run dotnet test
         run: dotnet test -c Release
