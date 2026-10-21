@@ -14,6 +14,7 @@ on:
       - "Standalone3.0/**.csproj"
       - "tests/Steamworks.NET.AnyCPU.Tests/**.cs"
       - "tests/Steamworks.NET.AnyCPU.Tests/**.csproj"
+      - ".github/workflows/**.yml"
 
 permissions:
   contents: read # Required to checkout code
