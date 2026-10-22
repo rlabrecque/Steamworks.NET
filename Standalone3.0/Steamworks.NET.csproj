@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<LangVersion>12</LangVersion>
 		
 		<RootNamespace>Steamworks</RootNamespace>
@@ -87,5 +87,8 @@
 	<ItemGroup Label="Visual Studio Hacks" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
 		<EditorConfigFiles Remove=".editorconfig" />
 		<None Include=".editorconfig" />
+	</ItemGroup>
+	<ItemGroup Label="Testing">
+		<InternalsVisibleTo Include="Steamworks.NET.AnyCPU.Tests"/>
 	</ItemGroup>
 </Project>

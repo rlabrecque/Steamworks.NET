@@ -1,0 +1,116 @@
+name: "Run Steamworks.NET.AnyCPU.Tests"
+
+on:
+  pull_request_target:
+    types: [crated, edited]
+    branches: 
+      - "anycpu-2"
+      - "anycpu-dev"
+  push: 
+    branches: ["anycpu-dev"]
+    paths: 
+      - "com.rlabrecque.steamworks.net/Runtime/**.cs"
+      - "Standalone3.0/**.cs"
+      - "Standalone3.0/**.csproj"
+      - "tests/Steamworks.NET.AnyCPU.Tests/**.cs"
+      - "tests/Steamworks.NET.AnyCPU.Tests/**.csproj"
+      - ".github/workflows/**.yml"
+  workflow_call: 
+
+permissions:
+  contents: read # Required to checkout code
+
+defaults:
+  run:
+    working-directory: "tests/Steamworks.NET.AnyCPU.Tests/"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-anycpu-ubuntu:
+    name: Run Steamworks.NET.AnyCPU.Tests on ubuntu-latest
+    runs-on: ubuntu-slim
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          lfs: true
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - name: Run dotnet test
+        run: dotnet test -c Release -r linux-x64
+      
+      - name: Upload dotnet test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: dotnet-results-ubuntu-slim
+          path: TestResults
+        # Use always() to always run this step to publish test results when there are test failures
+        if: ${{ always() }}
+
+  test-anycpu-windows:
+    name: Run Steamworks.NET.AnyCPU.Tests on windows-latest
+    runs-on: windows-latest
+    container: 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          lfs: true
+
+      - name: Set up .NET x64
+        uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+          architecture: x64
+
+      - name: Run dotnet test on x64
+        run: dotnet test -c Release -r win-x64
+
+      - name: Set up .NET x86
+        uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+          architecture: x86
+
+      - name: Run dotnet test on x86
+        run: dotnet test -c Release -r win-x86
+        
+      - name: Upload dotnet test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: dotnet-results-windows-latest
+          path: TestResults
+        # Use always() to always run this step to publish test results when there are test failures
+        if: ${{ always() }}
+
+  test-anycpu-osx:
+    name: Run Steamworks.NET.AnyCPU.Tests on macos-latest
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          lfs: true
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - name: Run dotnet test
+        run: dotnet test -c Release
+
+      - name: Upload dotnet test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: dotnet-results-macos-latest
+          path: TestResults
+        # Use always() to always run this step to publish test results when there are test failures
+        if: ${{ always() }}
