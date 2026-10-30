@@ -1,0 +1,45 @@
+{
+	// 使用 IntelliSense 了解相关属性。 
+	// 悬停以查看现有属性的描述。
+	// 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		
+		{
+			"name": "Debug generator",
+			"type": "debugpy",
+			"request": "launch",
+			"program": "${workspaceFolder}/CodeGen/Steamworks.NET_CodeGen.py",
+			"cwd": "${workspaceFolder}/CodeGen/",
+			"console": "integratedTerminal",
+			"justMyCode": true
+		},
+		{
+			"name": "Debug comparer",
+			"type": "debugpy",
+			"request": "launch",
+			"program": "${workspaceFolder}/CodeGen/SteamworksParser/compare_with_official.py",
+			"cwd": "${workspaceFolder}/CodeGen/SteamworksParser/",
+			"console": "integratedTerminal",
+			"justMyCode": true
+		},
+		{
+			"name": "Test pack size",
+			"type": "debugpy",
+			"request": "launch",
+			"program": "${workspaceFolder}/CodeGen/SteamworksParser/test_pack_size.py",
+			"cwd": "${workspaceFolder}/CodeGen/SteamworksParser/",
+			"console": "integratedTerminal",
+			"justMyCode": true
+		},
+		{
+			"name": "Debug parser",
+			"type": "debugpy",
+			"request": "launch",
+			"program": "${workspaceFolder}/CodeGen/SteamworksParser/debug_entrypoint.py",
+			"console": "integratedTerminal",
+			"cwd": "${workspaceFolder}/CodeGen/SteamworksParser/",
+			"justMyCode": true
+		}
+	]
+}

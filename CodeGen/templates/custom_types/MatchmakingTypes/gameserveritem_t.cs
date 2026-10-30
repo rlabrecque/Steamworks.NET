@@ -1,5 +1,7 @@
 using System.Text;
 
+#pragma warning disable CS1587 // suppress XML 注释没有放在有效语言元素上
+
 namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: Data describing a single server

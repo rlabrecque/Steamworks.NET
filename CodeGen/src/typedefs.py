@@ -166,7 +166,7 @@ def main(parser):
 
             with open(os.path.join(outputdir, filename), "wb") as out:
                 out.write(bytes(HEADER, "utf-8"))
-                with open(os.path.join(root, filename), "r") as customType:
+                with open(os.path.join(root, filename), "r", encoding="utf-8") as customType:
                     out.write(bytes(customType.read(), "utf-8"))
 
     for t in parser.typedefs:

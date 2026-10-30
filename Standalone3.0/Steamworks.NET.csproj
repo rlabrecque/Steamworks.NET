@@ -1,0 +1,94 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<LangVersion>12</LangVersion>
+		
+		<RootNamespace>Steamworks</RootNamespace>
+		<RepositoryType>git</RepositoryType>
+		<DefineConstants>STEAMWORKS_LIN_OSX;STEAMWORKS_X64;STEAMWORKS_ANYCPU</DefineConstants>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Nuget PM">
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<PackageId>Steamworks.NET.AnyCPU</PackageId>
+		<Authors>rlabrecque Fa鸽</Authors>
+		<!--
+			Prpoerty $(Version) is specified on-demand by
+			- dotnet build commandline parameter, `-p:Version=2025.8.18`
+			- or EnvVar `$env:Version = "2025.8.18"`
+		-->
+		<PackageVersion Condition="'$(Version)' == '' and '$(PackageVersion)' == ''">0.0.0-a.do.not.publish</PackageVersion>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/Akarinnnnn/Steamworks.NET.AnyCPU</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
+
+	<PropertyGroup Label="SourceLink">
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="../com.rlabrecque.steamworks.net/Runtime/**/*.cs" LinkBase="src" />
+	</ItemGroup>
+	<ItemGroup Label="Docs and GitHub Actions">
+		<None Include="../Standalone/README.md" Link="README-standalone.md" Pack="true" PackagePath="docs/README-standalone.md" />
+		<None Include="../README.md" Link="README.md" Pack="true" PackagePath="README.md" />
+		<None Include="$(MSBuildThisFileDirectory)../.github/**" Pack="false" LinkBase=".github/" />
+		<None Update="$(MSBuildThisFileDirectory)docs/**/*.md" Pack="true" PackagePath="docs/anycpu/%(Filename)%(Extension)" />
+	</ItemGroup>
+	<ItemGroup>
+		<!--
+			Copy runtime assets to the developer output directory for development purposes.
+			If this behavior blow up your output especially on CI or non-windows systems,
+			set $(DisableSNetDevelopmentAssets) to true by commandline or environment variable
+		-->
+		<None Include="../com.rlabrecque.steamworks.net/Plugins/steam_api.dll" Pack="true" LinkBase="native/win-x86">
+			<PackagePath>runtimes/win-x86/native</PackagePath>
+			<CopyToOutputDirectory Condition="'$(DisableSNetDevelopmentAssets)' == ''">PreserveNewest</CopyToOutputDirectory>
+			<TargetPath>steam_api.dll</TargetPath>
+		</None>
+		<None Include="../com.rlabrecque.steamworks.net/Plugins/steam_api64.dll" Pack="true" LinkBase="native/win-x64">
+			<PackagePath>runtimes/win-x64/native</PackagePath>
+			<CopyToOutputDirectory Condition="'$(DisableSNetDevelopmentAssets)' == ''">PreserveNewest</CopyToOutputDirectory>
+			<TargetPath>steam_api64.dll</TargetPath>
+		</None>
+		<None Include="../com.rlabrecque.steamworks.net/Plugins/libsteam_api.so" Pack="true" LinkBase="native/linux-x64">
+			<PackagePath>runtimes/linux-x64/native</PackagePath>
+			<CopyToOutputDirectory Condition="'$(DisableSNetDevelopmentAssets)' == ''">PreserveNewest</CopyToOutputDirectory>
+			<TargetPath>runtimes/linux-x64/libsteam_api.so</TargetPath>
+		</None>
+		<None Include="../com.rlabrecque.steamworks.net/Plugins/androidarm64/libsteam_api.so" Pack="true" LinkBase="native/android-arm64/">
+			<PackagePath>runtimes/android-arm64/native</PackagePath>
+			<CopyToOutputDirectory Condition="'$(DisableSNetDevelopmentAssets)' == ''">PreserveNewest</CopyToOutputDirectory>
+			<TargetPath>runtimes/android-arm64/libsteam_api.so</TargetPath>
+		</None>
+		<None Include="../com.rlabrecque.steamworks.net/Plugins/linuxarm64/libsteam_api.so" Pack="true" LinkBase="native/linux-arm64/">
+			<PackagePath>runtimes/linux-arm64/native</PackagePath>
+			<CopyToOutputDirectory Condition="'$(DisableSNetDevelopmentAssets)' == ''">PreserveNewest</CopyToOutputDirectory>
+			<TargetPath>runtimes/linux-arm64/libsteam_api.so</TargetPath>
+		</None>
+		<!-- In fact there is a linux-x86 version, but it's filename is conflict with linux-x64 version due to historical reasons. Therefore this repo didn't include it. -->
+		<None Include="../com.rlabrecque.steamworks.net/Plugins/steam_api.bundle/Contents/MacOS/libsteam_api.dylib" Pack="true" LinkBase="native/osx-x64">
+			<PackagePath>runtimes/osx-x64/native</PackagePath>
+			<CopyToOutputDirectory Condition="'$(DisableSNetDevelopmentAssets)' == ''">PreserveNewest</CopyToOutputDirectory>
+			<TargetPath>runtimes/osx-x64/libsteam_api.dylib</TargetPath>
+		</None>
+		<None Include="../com.rlabrecque.steamworks.net/Plugins/steam_api.bundle/Contents/MacOS/libsteam_api.dylib" Pack="true" LinkBase="native/osx-arm64">
+			<PackagePath>runtimes/osx-arm64/native</PackagePath>
+			<CopyToOutputDirectory Condition="'$(DisableSNetDevelopmentAssets)' == ''">PreserveNewest</CopyToOutputDirectory>
+			<TargetPath>runtimes/osx-arm64/libsteam_api.dylib</TargetPath>
+		</None>
+	</ItemGroup>
+	<ItemGroup Label="Visual Studio Hacks" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+		<EditorConfigFiles Remove=".editorconfig" />
+		<None Include=".editorconfig" />
+	</ItemGroup>
+	<ItemGroup Label="Testing">
+		<InternalsVisibleTo Include="Steamworks.NET.AnyCPU.Tests"/>
+	</ItemGroup>
+</Project>

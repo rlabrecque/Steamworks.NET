@@ -1,0 +1,14 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Debug parser",
+			"type": "debugpy",
+			"request": "launch",
+			"program": "${workspaceFolder}/debug_entrypoint.py",
+			"console": "integratedTerminal",
+			"cwd": "${workspaceFolder}",
+			"justMyCode": true
+		}
+	]
+}
